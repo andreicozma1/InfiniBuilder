@@ -24,8 +24,7 @@ public class MainExecution extends Application {
         window.setPlayer(player);
 
         envir.setLighting(new AmbientLight());
-        envir.generateChunks();
-
+        envir.generateChunks(0,0);
 
         // MAIN GAME LOOP
         AnimationTimer timer = new AnimationTimer() {

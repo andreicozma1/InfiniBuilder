@@ -33,9 +33,11 @@ public class EnvironmentUtil {
         return environment_group;
     }
 
-    public static void generateChunks(){
-        for(int i = 0; i < 100; i++){
-            environment_group.getChildren().add(create_playform(0,0,i));
+    public static void generateChunks(int playerx, int playery){
+        for(int i = 0; i < 1; i++){
+            for(int j = -50; j < 50; j++){
+                environment_group.getChildren().add(create_playform(i,0,j));
+            }
         }
     }
 
