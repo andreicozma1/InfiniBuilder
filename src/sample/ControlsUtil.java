@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -18,18 +19,22 @@ public class ControlsUtil {
 
     ControlsUtil() {
         pressed = new ArrayList<>();
-        MainExecution.game_scene.setOnMousePressed(event->{
+
+    }
+
+    public void apply(Scene game_scene){
+        game_scene.setOnMousePressed(event->{
             rotating = true;
         });
-        MainExecution.game_scene.setOnMouseReleased(event->{
+        game_scene.setOnMouseReleased(event->{
             rotating = false;
         });
-        MainExecution.game_scene.setOnMouseClicked(event -> {
+        game_scene.setOnMouseClicked(event -> {
             last_mouse_x = event.getSceneX();
             last_mouse_y = event.getSceneY();
         });
 
-        MainExecution.game_scene.setOnMouseDragged(event -> {
+        game_scene.setOnMouseDragged(event -> {
             double differencex = event.getSceneX() - last_mouse_x;
             double differencey = last_mouse_y - event.getSceneY();
 
@@ -39,41 +44,41 @@ public class ControlsUtil {
             CameraUtil.rotateY(differencex/20);
         });
 
-        MainExecution.game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+        game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (!pressed.contains(event.getCode())) {
                 pressed.add(event.getCode());
             }
 
             switch(event.getCode()){
                 case SPACE:
-                    Player.isFlying = true;
+                    PlayerUtil.isFlying = true;
                     break;
             }
 
         });
 
-        MainExecution.game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+        game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             pressed.remove(event.getCode());
 
             switch(event.getCode()){
                 case SPACE:
-                    Player.isFlying = false;
+                    PlayerUtil.isFlying = false;
                     break;
             }
         });
     }
 
     public static void handleMovement(Group environment) {
-        environment.setTranslateX(-Player.x);
-        environment.setTranslateY(Player.y);
-        environment.setTranslateZ(-Player.z);
+        environment.setTranslateX(-PlayerUtil.x);
+        environment.setTranslateY(PlayerUtil.y);
+        environment.setTranslateZ(-PlayerUtil.z);
 
-        Player.isAboveGround();
+        PlayerUtil.isAboveGround();
 
 
-        if(Player.onGround){
-            Player.rotx.setAngle(-Player.z);
-            Player.rotz.setAngle(Player.x*2);
+        if(PlayerUtil.onGround){
+            PlayerUtil.rotx.setAngle(-PlayerUtil.z);
+            PlayerUtil.rotz.setAngle(PlayerUtil.x*2);
         } else{
 
         }
@@ -85,24 +90,24 @@ public class ControlsUtil {
                 case E:
                     break;
                 case W:
-                    Player.moveForward(Player.speedForward);
+                    PlayerUtil.moveForward(PlayerUtil.speedForward);
                     break;
                 case A:
-                    Player.moveLeft(Player.speedSide);
+                    PlayerUtil.moveLeft(PlayerUtil.speedSide);
                     break;
                 case S:
-                    Player.moveBackward(Player.speedBackward);
+                    PlayerUtil.moveBackward(PlayerUtil.speedBackward);
                     break;
                 case D:
-                    Player.moveRight(Player.speedSide);
+                    PlayerUtil.moveRight(PlayerUtil.speedSide);
                     break;
                 case SPACE:
-                    Player.moveUp(Player.speedFly);
+                    PlayerUtil.moveUp(PlayerUtil.speedFly);
 
                     break;
                 case SHIFT:
 
-                    Player.moveDown(Player.speedFly);
+                    PlayerUtil.moveDown(PlayerUtil.speedFly);
                     break;
                 case R:
                     MainExecution.reset();

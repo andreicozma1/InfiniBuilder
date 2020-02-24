@@ -3,72 +3,54 @@ package sample;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 
-;
 
 public class MainExecution extends Application {
 
-    public static Scene game_scene;
-    public static Group game_group;
-
-    int WIDTH = 800;
-    int HEIGHT = 600;
-
-    int GRAVITY = 4;
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Stage window = primaryStage;
         MaterialsUtil materials = new MaterialsUtil();
 
-        game_group = new Group();
-        game_scene = new Scene(game_group, WIDTH, HEIGHT);
-
+        WindowUtil window = new WindowUtil();
         CameraUtil camera = new CameraUtil();
-        game_scene.setCamera(camera.getCamera());
-
         ControlsUtil controls = new ControlsUtil();
-
+        PlayerUtil player = new PlayerUtil();
         EnvironmentUtil envir = new EnvironmentUtil();
-        Player player = new Player();
+
+        window.setCamera(camera);
+        window.setControls(controls);
+        window.setEnvironment(envir);
+        window.setPlayer(player);
+
+        envir.setLighting(new AmbientLight());
+        envir.generateChunks();
 
 
+        // MAIN GAME LOOP
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-//                System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
-
-//                System.out.println(controls.pressed.toString());
-
+                // System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
                 controls.handleMovement(envir.getGroup());
 
-
-                if (!Player.isFlying) {
-                    player.moveDown(GRAVITY);
+                if (!PlayerUtil.isFlying) {
+                    player.moveDown(Physics.GRAVITY);
                 }
-
-
                 camera.resetCenter();
-
-
-                game_group.getChildren().setAll(envir.getGroup(), player.getGroup(), new AmbientLight());
             }
         };
         timer.start();
 
-
-        window.setScene(game_scene);
-        window.setTitle("Game Menu");
-        window.show();
+        primaryStage.setScene(window.scene);
+        primaryStage.setTitle("307FinalProject");
+        primaryStage.show();
     }
 
     public static void reset() {
-        Player.x = 0;
-        Player.y = 0;
-        Player.z = 0;
+        PlayerUtil.x = 0;
+        PlayerUtil.y = 0;
+        PlayerUtil.z = 0;
         CameraUtil.rotateX(0);
         CameraUtil.rotateY(0);
     }

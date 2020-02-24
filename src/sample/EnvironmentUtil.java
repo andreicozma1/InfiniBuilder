@@ -1,8 +1,12 @@
 package sample;
 
 import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
+import javafx.scene.AmbientLight;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.effect.Light;
+import javafx.scene.effect.Lighting;
 import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 
@@ -23,10 +27,6 @@ public class EnvironmentUtil {
 
     EnvironmentUtil() {
         environment_group = new Group();
-
-        create_chunk(0,0);
-
-        generateChunks();
     }
 
     public Group getGroup() {
@@ -34,12 +34,12 @@ public class EnvironmentUtil {
     }
 
     public static void generateChunks(){
-        for(int i = 1; i < 100; i++){
-            create_chunk(0,i);
+        for(int i = 0; i < 100; i++){
+            environment_group.getChildren().add(create_playform(0,0,i));
         }
     }
 
-    public static Box create_chunk(double x ,double z) {
+    public static Box create_playform(double x, double y, double z) {
         chunks.add(new Point2D(x,z));
         Box box = new Box();
         box.setWidth(chunk_width);
@@ -51,8 +51,11 @@ public class EnvironmentUtil {
         box.setTranslateX(x * chunk_depth);
         box.setTranslateZ(z * chunk_width);
 
-        environment_group.getChildren().add(box);
-
         return box;
+    }
+
+
+    public void setLighting(Node node){
+        environment_group.getChildren().add(node);
     }
 }

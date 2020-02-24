@@ -5,11 +5,8 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 
-import javax.swing.*;
-
-public class Player {
+public class PlayerUtil {
     public static Group player_group;
     public static Sphere model;
 
@@ -32,62 +29,48 @@ public class Player {
     public static boolean onGround = true;
     public static boolean aboveGround = true;
 
-    Player() {
+    PlayerUtil() {
         player_group = new Group();
 
+        model = new Sphere(radius);
+        model.setMaterial(MaterialsUtil.stone);
+        model.setTranslateY(-radius);
         rotx = new Rotate(0, new Point3D(1, 0, 0));
         roty = new Rotate(0, new Point3D(0, 1, 0));
         rotz = new Rotate(0, new Point3D(0, 0, 1));
-
-        model = new Sphere(radius);
-        player_group.getChildren().setAll(model);
         model.getTransforms().setAll(rotx, roty, rotz);
-        model.setMaterial(MaterialsUtil.stone);
-        model.setTranslateY(-radius);
 
-        MainExecution.game_group.getChildren().add(player_group);
+        player_group.getChildren().setAll(model);
     }
-
 
     public static Group getGroup() {
         return player_group;
     }
 
-    public static Sphere getModel() {
-        return model;
-    }
-
-
     public static void moveForward(int val) {
 //        System.out.println("Move Forward");
-        Player.z += val;
-
+        PlayerUtil.z += val;
     }
 
     public static void moveBackward(int val) {
 //        System.out.println("Move Backward");
-        Player.z -= val;
-
+        PlayerUtil.z -= val;
     }
 
     public static void moveLeft(int val) {
 //        System.out.println("Move Left");
-        Player.x -= val;
+        PlayerUtil.x -= val;
     }
 
     public static void moveRight(int val) {
 //        System.out.println("Move Right");
-
-        Player.x += val;
+        PlayerUtil.x += val;
     }
 
     public static void moveUp(int val) {
 //        System.out.println("Move Up");
-
-
-        Player.y += val;
+        PlayerUtil.y += val;
         onGround = false;
-
     }
 
     public static void moveDown(int val) {
@@ -96,8 +79,6 @@ public class Player {
         if (!aboveGround || y > 0) {
             y -= val;
         }
-
-
     }
 
     public static boolean isAboveGround() {
@@ -105,20 +86,16 @@ public class Player {
 //        System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
         boolean result = false;
         if (y > 0) {
-            double curr_chunk_x = Math.floor((Player.x + EnvironmentUtil.chunk_width / 2) / EnvironmentUtil.chunk_width);
-            double curr_chunk_z = Math.floor((Player.z + EnvironmentUtil.chunk_depth / 2) / EnvironmentUtil.chunk_depth);
+            double curr_chunk_x = Math.floor((PlayerUtil.x + EnvironmentUtil.chunk_width / 2) / EnvironmentUtil.chunk_width);
+            double curr_chunk_z = Math.floor((PlayerUtil.z + EnvironmentUtil.chunk_depth / 2) / EnvironmentUtil.chunk_depth);
             if (EnvironmentUtil.chunks.contains(new Point2D(curr_chunk_x, curr_chunk_z))) {
                 System.out.println("ON GROUND");
                 aboveGround = true;
             } else {
                 System.out.println("NOT ON GROUND");
-
                 aboveGround = false;
             }
         }
         return result;
-
     }
-
-
 }
