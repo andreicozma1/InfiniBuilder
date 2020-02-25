@@ -3,6 +3,10 @@ package sample;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
@@ -13,10 +17,10 @@ public class MenuUtil {
     float menu_h = 600;
     float menu_x = 0;
     float menu_y = 0;
-    public static Scene scene;
-    public static boolean isOnMenu;
-    public static Stage primaryStage;
-    public static Pane menuLayout;
+    public Scene scene;
+    public boolean isOnMenu;
+    public Stage primaryStage;
+    public Pane menuLayout;
 
     MenuUtil(Stage primaryStage) {
 
@@ -25,7 +29,6 @@ public class MenuUtil {
         menuLayout = new Pane();
 
         scene =  new Scene(menuLayout,menu_w,menu_h);
-
     }
     public void setMenu(Stage primaryStage, float x, float y, float w, float h , boolean state){
         this.primaryStage = primaryStage;
@@ -45,10 +48,7 @@ public class MenuUtil {
     public float getMenuHeight(){ return menu_h; }
     public void setPrimaryStage(Stage primaryStage){ this.primaryStage = primaryStage; }
     public Stage getPrimaryStage(){ return primaryStage; }
-    public void setState(boolean state){
-        isOnMenu = state;
-        if(state = true) primaryStage.setScene(scene);
-    }
+    public void setState(boolean state){ isOnMenu = state; }
     public boolean getState(){ return isOnMenu; }
     public Pane getPane(){ return menuLayout; }
     public void getPane(Pane pane){ menuLayout = pane; }
@@ -125,6 +125,12 @@ public class MenuUtil {
         message.setLayoutY(y);
         menuLayout.getChildren().add(message);
         return message;
+    }
+
+    public Background drawBackground(BackgroundFill[] fills, BackgroundImage[] images){
+        Background background = new Background(fills, images);
+        menuLayout.setBackground(background);
+        return background;
     }
 
     public Shape createShape(Shape shapes[]){

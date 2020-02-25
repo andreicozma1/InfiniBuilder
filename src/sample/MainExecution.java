@@ -14,7 +14,7 @@ public class MainExecution extends Application {
     public void start(Stage primaryStage) throws Exception {
         MaterialsUtil materials = new MaterialsUtil();
 
-        DrawMainMenu dmm = new DrawMainMenu();
+        DrawMenu dmm = new DrawMenu(primaryStage);
         WindowUtil window = new WindowUtil();
         CameraUtil camera = new CameraUtil();
         ControlsUtil controls = new ControlsUtil();
@@ -25,31 +25,50 @@ public class MainExecution extends Application {
         window.setControls(controls);
         window.setEnvironment(envir);
         window.setPlayer(player);
-        dmm.drawMainMenu(primaryStage,window.scene,true);
         envir.setLighting(new AmbientLight());
         envir.generateChunks(0,0);
 
-        // MAIN GAME LOOP
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                if(primaryStage.getScene()==dmm.menu.scene){
+        dmm.mainMenu.setState(true);
+        dmm.highScoreMenu.setState(false);
+        dmm.drawMainMenu(primaryStage, window.scene, dmm.mainMenu.getState());
+        dmm.drawHighScoreMenu(primaryStage,window.scene, dmm.highScoreMenu.getState());
 
-                }
-                else if(primaryStage.getScene()==window.scene) {
-                    // System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
-                    controls.handleMovement(envir.getGroup());
+//        if(dmm.mainMenu.getState() == true) {
+//            System.out.println("main menu state = true");
+//            dmm.drawMainMenu(primaryStage, window.scene, dmm.mainMenu.getState());
+//        }else{
+//            System.out.println("main menu state = false");
 
-                    if (!PlayerUtil.isFlying) {
-                        player.moveDown(Physics.GRAVITY);
-                    }
-                    camera.resetCenter();
-                }
-            }
-        };
-        timer.start();
+//        }
+//        if(dmm.highScoreMenu.getState() == true) {
+//            System.out.println("high score menu state = true");
+//            dmm.drawHighScoreMenu(primaryStage, window.scene, dmm.highScoreMenu.getState());
+//        }else{
+//            System.out.println("high score menu state = false");
+//        }
+//        // MAIN GAME LOOP
+//        AnimationTimer timer = new AnimationTimer() {
+//            @Override
+//            public void handle(long now) {
+//
+//                if(primaryStage.getScene()==dmm.mainMenu.scene){
+//
+//                }
+//                else if(primaryStage.getScene()==dmm.highScoreMenu.scene){
+//                }
+//                else if(primaryStage.getScene()==window.scene) {
+//                    // System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
+//                    controls.handleMovement(envir.getGroup());
+//
+//                    if (!PlayerUtil.isFlying) {
+//                        player.moveDown(Physics.GRAVITY);
+//                    }
+//                    camera.resetCenter();
+//                }
+//            }
+//        };
+//        timer.start();
 
-//        primaryStage.setScene(window.scene);
         primaryStage.setTitle("307FinalProject");
         primaryStage.show();
     }
