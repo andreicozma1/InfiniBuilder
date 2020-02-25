@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import java.util.HashMap;
 
 public class ScreenController {
-    private HashMap<String, Pane> screenMap = new HashMap<>();
+    public HashMap<String, Pane> screenMap = new HashMap<>();
     private Scene main;
 
     public ScreenController(Scene main) {

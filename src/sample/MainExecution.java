@@ -2,24 +2,35 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.*;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Material;
+import javafx.scene.shape.Box;
+import javafx.scene.transform.Rotate;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import java.awt.*;
 
 
 public class MainExecution extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        MaterialsUtil materials = new MaterialsUtil();
+        Scene scene = new Scene(new Pane(),600,600);
+        ScreenController controller = new ScreenController(scene);
 
-        DrawMenu dmm = new DrawMenu(primaryStage);
+        MaterialsUtil materials = new MaterialsUtil();
         WindowUtil window = new WindowUtil();
         CameraUtil camera = new CameraUtil();
         ControlsUtil controls = new ControlsUtil();
         PlayerUtil player = new PlayerUtil();
         EnvironmentUtil envir = new EnvironmentUtil();
+
+        BuildMenuPanes menu = new BuildMenuPanes(controller);
+
 
         window.setCamera(camera);
         window.setControls(controls);
@@ -28,14 +39,10 @@ public class MainExecution extends Application {
         envir.setLighting(new AmbientLight());
         envir.generateChunks(0,0);
 
-        dmm.mainMenu.setState(true);
-        dmm.highScoreMenu.setState(false);
-        dmm.drawMainMenu(primaryStage, window.scene, dmm.mainMenu.getState());
-        dmm.drawHighScoreMenu(primaryStage,window.scene, dmm.highScoreMenu.getState());
 
+        controller.activate("MainMenu");
 //        if(dmm.mainMenu.getState() == true) {
 //            System.out.println("main menu state = true");
-//            dmm.drawMainMenu(primaryStage, window.scene, dmm.mainMenu.getState());
 //        }else{
 //            System.out.println("main menu state = false");
 
@@ -68,7 +75,7 @@ public class MainExecution extends Application {
 //            }
 //        };
 //        timer.start();
-
+        primaryStage.setScene(scene);
         primaryStage.setTitle("307FinalProject");
         primaryStage.show();
     }
