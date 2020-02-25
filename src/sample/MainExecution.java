@@ -5,6 +5,8 @@ import javafx.application.Application;
 import javafx.scene.*;
 import javafx.stage.Stage;
 
+import java.awt.*;
+
 
 public class MainExecution extends Application {
 
@@ -12,6 +14,7 @@ public class MainExecution extends Application {
     public void start(Stage primaryStage) throws Exception {
         MaterialsUtil materials = new MaterialsUtil();
 
+        DrawMainMenu dmm = new DrawMainMenu();
         WindowUtil window = new WindowUtil();
         CameraUtil camera = new CameraUtil();
         ControlsUtil controls = new ControlsUtil();
@@ -22,7 +25,7 @@ public class MainExecution extends Application {
         window.setControls(controls);
         window.setEnvironment(envir);
         window.setPlayer(player);
-
+        dmm.drawMainMenu(primaryStage,window.scene,true);
         envir.setLighting(new AmbientLight());
         envir.generateChunks(0,0);
 
@@ -30,18 +33,23 @@ public class MainExecution extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                // System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
-                controls.handleMovement(envir.getGroup());
+                if(primaryStage.getScene()==dmm.menu.scene){
 
-                if (!PlayerUtil.isFlying) {
-                    player.moveDown(Physics.GRAVITY);
                 }
-                camera.resetCenter();
+                else if(primaryStage.getScene()==window.scene) {
+                    // System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
+                    controls.handleMovement(envir.getGroup());
+
+                    if (!PlayerUtil.isFlying) {
+                        player.moveDown(Physics.GRAVITY);
+                    }
+                    camera.resetCenter();
+                }
             }
         };
         timer.start();
 
-        primaryStage.setScene(window.scene);
+//        primaryStage.setScene(window.scene);
         primaryStage.setTitle("307FinalProject");
         primaryStage.show();
     }
