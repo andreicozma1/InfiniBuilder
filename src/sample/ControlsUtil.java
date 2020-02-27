@@ -19,7 +19,6 @@ public class ControlsUtil {
 
     ControlsUtil() {
         pressed = new ArrayList<>();
-
     }
 
     public void apply(Scene game_scene){
