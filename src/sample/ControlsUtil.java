@@ -4,11 +4,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Window;
 
 import java.util.ArrayList;
 
 public class ControlsUtil {
-
+private WindowUtil context;
     double last_mouse_x;
     double last_mouse_y;
 
@@ -17,7 +18,8 @@ public class ControlsUtil {
 
     public static boolean rotating = false;
 
-    ControlsUtil() {
+    ControlsUtil(WindowUtil ctx) {
+        context = ctx;
         pressed = new ArrayList<>();
     }
 
@@ -67,7 +69,7 @@ public class ControlsUtil {
         });
     }
 
-    public static void handleMovement(Group environment) {
+    public void handleKeyboard(Group environment) {
         environment.setTranslateX(-PlayerUtil.x);
         environment.setTranslateY(PlayerUtil.y);
         environment.setTranslateZ(-PlayerUtil.z);
@@ -111,6 +113,9 @@ public class ControlsUtil {
                 case R:
                     MainExecution.reset();
 
+                    break;
+                case ESCAPE:
+                    context.show(context.SCENE_MENU);
                     break;
             }
         }

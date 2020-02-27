@@ -7,6 +7,7 @@ import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 
 public class PlayerUtil {
+    private WindowUtil context;
     public static Group player_group;
     public static Sphere model;
 
@@ -29,7 +30,8 @@ public class PlayerUtil {
     public static boolean onGround = true;
     public static boolean aboveGround = true;
 
-    PlayerUtil() {
+    PlayerUtil(WindowUtil ctx) {
+        context = ctx;
         player_group = new Group();
 
         model = new Sphere(radius);

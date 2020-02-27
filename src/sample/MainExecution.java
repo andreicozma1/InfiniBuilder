@@ -15,10 +15,10 @@ public class MainExecution extends Application {
         System.out.println("MainExecution");
         MaterialsUtil materials = new MaterialsUtil();
         WindowUtil window = new WindowUtil(primaryStage,800,600);
-        CameraUtil camera = new CameraUtil();
-        ControlsUtil controls = new ControlsUtil();
-        PlayerUtil player = new PlayerUtil();
-        EnvironmentUtil envir = new EnvironmentUtil();
+        CameraUtil camera = new CameraUtil(window);
+        ControlsUtil controls = new ControlsUtil(window);
+        PlayerUtil player = new PlayerUtil(window);
+        EnvironmentUtil envir = new EnvironmentUtil(window);
 
         window.buildMenu();
         window.setCamera(camera);
@@ -27,16 +27,16 @@ public class MainExecution extends Application {
         window.setPlayer(player);
         envir.setLighting(new AmbientLight());
         EnvironmentUtil.generateChunks(0,0);
-        window.show(WindowUtil.SCENE_MENU);
+        window.show(window.SCENE_MENU);
 
         // MAIN GAME LOOP
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                     if(window.getCurrentScene()== WindowUtil.SCENE_GAME){
+                     if(window.getCurrentScene()== window.SCENE_GAME){
                          System.out.println("Player X: " + PlayerUtil.x + " Y: " + PlayerUtil.y + " Z: " + PlayerUtil.z + " isFlying: " + PlayerUtil.isFlying + " onGround: " + PlayerUtil.onGround);
 
-                         ControlsUtil.handleMovement(envir.getGroup());
+                         controls.handleKeyboard(envir.getGroup());
 
                        if (!PlayerUtil.isFlying) {
                            PlayerUtil.moveDown(Physics.GRAVITY);

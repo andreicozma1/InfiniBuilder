@@ -16,7 +16,7 @@ import javafx.scene.transform.Rotate;
 
 public class MenuUtil {
     Scene menuScene;
-    WindowUtil window;
+    WindowUtil context;
     GroupBuilder mainMenu;
     GroupBuilder highScoreMenu;
     GroupBuilder optionsMenu;
@@ -30,26 +30,26 @@ public class MenuUtil {
 
 
 
-    MenuUtil(WindowUtil win) {
-        window = win;
+    MenuUtil(WindowUtil ctx) {
+        context = ctx;
         mainMenu = new GroupBuilder();
         highScoreMenu = new GroupBuilder();
         optionsMenu = new GroupBuilder();
         aboutMenu = new GroupBuilder();
 
-        menuScene = new Scene(mainMenu.getGroup(),win.WIDTH,win.HEIGHT);
+        menuScene = new Scene(mainMenu.getGroup(),context.WIDTH,context.HEIGHT);
         buildMainMenu();
         buildHighScoreMenu();
         buildOptionsMenu();
         buildAboutMenu();
 
 
-        window.addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
-        window.addGroup(GROUP_HIGH_SCORES, highScoreMenu.getGroup());
-        window.addGroup(GROUP_OPTIONS, optionsMenu.getGroup());
-        window.addGroup(GROUP_ABOUT, aboutMenu.getGroup());
+        context.addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
+        context.addGroup(GROUP_HIGH_SCORES, highScoreMenu.getGroup());
+        context.addGroup(GROUP_OPTIONS, optionsMenu.getGroup());
+        context.addGroup(GROUP_ABOUT, aboutMenu.getGroup());
 
-        WindowUtil.SCENE_MENU = menuScene;
+        context.SCENE_MENU = menuScene;
     }
 
 
@@ -77,12 +77,12 @@ public class MenuUtil {
         Rectangle gotoGame = mainMenu.drawRectangle(-20, 200, 200, 50, 20, 20, Color.LIGHTBLUE);
         gotoGame.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { window.show(WindowUtil.SCENE_GAME); }
+                    public void handle(MouseEvent me) { context.show(context.SCENE_GAME); }
                 });
         Text gameText = mainMenu.drawText("Start Game", 20, 230, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         gameText.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { window.show(WindowUtil.SCENE_GAME); }
+                    public void handle(MouseEvent me) { context.show(context.SCENE_GAME); }
                 });
 
         // go to high score button
@@ -90,14 +90,14 @@ public class MenuUtil {
         gotoHighScoreMenu.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        window.activateGroup(GROUP_HIGH_SCORES);
+                        context.activateGroup(GROUP_HIGH_SCORES);
                     }
                 });
         Text highScoreText = mainMenu.drawText("High Score", 20, 290, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         highScoreText.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        window.activateGroup(GROUP_HIGH_SCORES);
+                        context.activateGroup(GROUP_HIGH_SCORES);
                     }
                 });
 
@@ -106,14 +106,14 @@ public class MenuUtil {
         gotoOptionsMenu.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        window.activateGroup(GROUP_OPTIONS);
+                        context.activateGroup(GROUP_OPTIONS);
                     }
                 });
         Text optionsText = mainMenu.drawText("Options", 20, 350, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         optionsText.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        window.activateGroup(GROUP_OPTIONS);
+                        context.activateGroup(GROUP_OPTIONS);
                     }
                 });
 
@@ -122,14 +122,14 @@ public class MenuUtil {
         gotoAboutMenu.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        window.activateGroup(GROUP_ABOUT);
+                        context.activateGroup(GROUP_ABOUT);
                     }
                 });
         Text aboutText = mainMenu.drawText("About", 20, 410, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         aboutText.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        window.activateGroup(GROUP_ABOUT);
+                        context.activateGroup(GROUP_ABOUT);
                     }
                 });
 
@@ -151,7 +151,7 @@ public class MenuUtil {
         // create button to add to GROUP
         Button gotoMainMenu = new Button("Exit to Main Menu");
         gotoMainMenu.setOnAction(e -> {
-            window.activateGroup(GROUP_MAIN_MENU);
+            context.activateGroup(GROUP_MAIN_MENU);
         });
         // add it to the high score menu
         highScoreMenu.drawButton(gotoMainMenu, 400, 300);
@@ -164,7 +164,7 @@ public class MenuUtil {
         // create button to add to GROUP
         Button gotoMainMenu = new Button("Exit to Main Menu");
         gotoMainMenu.setOnAction(e -> {
-            window.activateGroup(GROUP_MAIN_MENU);
+            context.activateGroup(GROUP_MAIN_MENU);
         });
         // add it to the high score menu
         optionsMenu.drawButton(gotoMainMenu, 100, 100);
@@ -173,7 +173,7 @@ public class MenuUtil {
     public void buildAboutMenu() {
         Button gotoMainMenu = new Button("Exit to Main Menu");
         gotoMainMenu.setOnAction(e -> {
-            window.activateGroup(GROUP_MAIN_MENU);
+            context.activateGroup(GROUP_MAIN_MENU);
         });
         // add it to the high score menu
         aboutMenu.drawButton(gotoMainMenu, 100, 100);

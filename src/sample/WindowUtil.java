@@ -13,8 +13,8 @@ public class WindowUtil {
 
     int WIDTH;
     int HEIGHT;
-    public static Scene SCENE_GAME;
-    public static Scene SCENE_MENU;
+    public Scene SCENE_GAME;
+    public Scene SCENE_MENU;
 
     public Scene SCENE_CURRENT;
     String currentGroup;
@@ -35,8 +35,8 @@ public class WindowUtil {
         group = new Group();
         SCENE_GAME = new Scene(group, WIDTH, HEIGHT);
 
-        setCamera(new CameraUtil());
-        setControls(new ControlsUtil());
+        setCamera(new CameraUtil(this));
+        setControls(new ControlsUtil(this));
     }
 
     public void setCamera(CameraUtil cam){
@@ -78,7 +78,7 @@ public class WindowUtil {
         SCENE_MENU.setRoot(menuGroupMap.get(name));
     }
 
-    public void show(Scene NEXT_SCENE){
+    public  void show(Scene NEXT_SCENE){
         SCENE_CURRENT = NEXT_SCENE;
         stage.setScene(NEXT_SCENE);
         stage.setTitle("307FinalProject");

@@ -9,10 +9,12 @@ import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Window;
 
 import java.util.ArrayList;
 
 public class EnvironmentUtil {
+    private WindowUtil context;
     public static Group environment_group;
 
     public static Rotate rotx;
@@ -25,7 +27,8 @@ public class EnvironmentUtil {
 
    public static ArrayList<Point2D> chunks = new ArrayList<>();
 
-    EnvironmentUtil() {
+    EnvironmentUtil(WindowUtil ctx) {
+        context = ctx;
         environment_group = new Group();
     }
 
