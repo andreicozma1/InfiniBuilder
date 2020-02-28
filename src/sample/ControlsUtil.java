@@ -104,15 +104,12 @@ private WindowUtil context;
                     break;
                 case SPACE:
                     PlayerUtil.moveUp(PlayerUtil.speedFly);
-
                     break;
                 case SHIFT:
-
                     PlayerUtil.moveDown(PlayerUtil.speedFly);
                     break;
                 case R:
                     MainExecution.reset();
-
                     break;
                 case ESCAPE:
                     context.show(context.SCENE_MENU);

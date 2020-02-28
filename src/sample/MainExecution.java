@@ -3,6 +3,7 @@ package sample;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.AmbientLight;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -35,7 +36,7 @@ public class MainExecution extends Application {
             public void handle(long now) {
                      if(window.getCurrentScene()== window.SCENE_GAME){
                          System.out.println("Player X: " + PlayerUtil.x + " Y: " + PlayerUtil.y + " Z: " + PlayerUtil.z + " isFlying: " + PlayerUtil.isFlying + " onGround: " + PlayerUtil.onGround);
-
+//                         window.moveCursor((int)Screen.getPrimary().getBounds().getWidth()/2,(int)Screen.getPrimary().getBounds().getHeight()/2);
                          controls.handleKeyboard(envir.getGroup());
 
                        if (!PlayerUtil.isFlying) {

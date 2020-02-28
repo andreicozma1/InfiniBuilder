@@ -1,10 +1,14 @@
 package sample;
 
+import javafx.application.Platform;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.HashMap;
 
 public class WindowUtil {
@@ -13,19 +17,17 @@ public class WindowUtil {
 
     int WIDTH;
     int HEIGHT;
+    String currentGroup;
+
+
     public Scene SCENE_GAME;
     public Scene SCENE_MENU;
-
     public Scene SCENE_CURRENT;
-    String currentGroup;
 
     public  Stage stage;
     private Group group;
 
     public  MenuUtil menu_util;
-
-//    static final int SCENE_MENU = 0;
-//    static final int SCENE_GAME = 1;
 
     WindowUtil(Stage stg,int w,int h) {
         System.out.println("WindowUtil");
@@ -78,8 +80,27 @@ public class WindowUtil {
         SCENE_MENU.setRoot(menuGroupMap.get(name));
     }
 
+    public void moveCursor(int screenX, int screenY) {
+        Platform.runLater(() -> {
+            Robot robot = new Robot();
+            robot.mouseMove(screenX, screenY);
+//            SCENE_GAME.setCursor(Cursor.NONE);
+
+        });
+    }
+
+
     public  void show(Scene NEXT_SCENE){
         SCENE_CURRENT = NEXT_SCENE;
+
+//        if (SCENE_CURRENT==SCENE_GAME){
+//            SCENE_GAME.setCursor(Cursor.NONE);
+//        }
+//        if (SCENE_CURRENT==SCENE_MENU){
+//            SCENE_GAME.setCursor(Cursor.DEFAULT);
+//        }
+
+
         stage.setScene(NEXT_SCENE);
         stage.setTitle("307FinalProject");
         stage.show();
