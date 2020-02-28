@@ -85,8 +85,8 @@ public class MenuUtil {
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { context.show(context.SCENE_GAME); }
                 });
-//        gotoGame.setCursor(Cursor.HAND);
-//        gameText.setCursor(Cursor.OPEN_HAND);
+        gotoGame.setCursor(Cursor.HAND);
+        gameText.setCursor(Cursor.HAND);
 
         // go to high score button
         Rectangle gotoHighScoreMenu = mainMenu.drawRectangle(-20, 260, 200, 50, 20, 20, Color.LIGHTBLUE);
@@ -103,6 +103,8 @@ public class MenuUtil {
                         context.activateGroup(GROUP_HIGH_SCORES);
                     }
                 });
+        gotoHighScoreMenu.setCursor(Cursor.HAND);
+        highScoreText.setCursor(Cursor.HAND);
 
         // go to settings button
         Rectangle gotoOptionsMenu = mainMenu.drawRectangle(-20, 320, 200, 50, 20, 20, Color.LIGHTBLUE);
@@ -119,6 +121,8 @@ public class MenuUtil {
                         context.activateGroup(GROUP_OPTIONS);
                     }
                 });
+        gotoOptionsMenu.setCursor(Cursor.HAND);
+        optionsText.setCursor(Cursor.HAND);
 
         // go to settings button
         Rectangle gotoAboutMenu = mainMenu.drawRectangle(-20, 380, 200, 50, 20, 20, Color.LIGHTBLUE);
@@ -135,7 +139,8 @@ public class MenuUtil {
                         context.activateGroup(GROUP_ABOUT);
                     }
                 });
-
+        gotoAboutMenu.setCursor(Cursor.HAND);
+        aboutText .setCursor(Cursor.HAND);
 
 
         // add it to the main menu pain

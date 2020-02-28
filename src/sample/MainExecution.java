@@ -3,6 +3,7 @@ package sample;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.AmbientLight;
+import javafx.scene.Cursor;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -34,16 +35,16 @@ public class MainExecution extends Application {
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                     if(window.getCurrentScene()== window.SCENE_GAME){
-                         System.out.println("Player X: " + PlayerUtil.x + " Y: " + PlayerUtil.y + " Z: " + PlayerUtil.z + " isFlying: " + PlayerUtil.isFlying + " onGround: " + PlayerUtil.onGround);
-                         window.moveCursor((int)primaryStage.getX()+(window.WIDTH/2),(int)primaryStage.getY()+(window.HEIGHT/2));
-                         controls.handleKeyboard(envir.getGroup());
-
-                       if (!PlayerUtil.isFlying) {
-                           PlayerUtil.moveDown(Physics.GRAVITY);
-                       }
-                       CameraUtil.resetCenter();
-                   }
+             if(window.getCurrentScene()== window.SCENE_GAME){
+                 System.out.println("Player X: " + PlayerUtil.x + " Y: " + PlayerUtil.y + " Z: " + PlayerUtil.z + " isFlying: " + PlayerUtil.isFlying + " onGround: " + PlayerUtil.onGround);
+                 window.moveCursor((int)primaryStage.getX()+(window.WIDTH/2),(int)primaryStage.getY()+(window.HEIGHT/2));
+                 window.SCENE_GAME.setCursor(Cursor.NONE);
+                 controls.handleKeyboard(envir.getGroup());
+                 if (!PlayerUtil.isFlying) {
+                   PlayerUtil.moveDown(Physics.GRAVITY);
+                 }
+                 CameraUtil.resetCenter();
+             }
             }
         };
         timer.start();
