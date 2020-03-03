@@ -1,0 +1,8 @@
+To Do List:
+- moving and rotating the camera instead of the terrain
+- map mouse movement. Find deltaX and deltaY on mouse movement to find
+  mouse acceleration. Use this to find the amount the camera/player needs to rotate
+- generate terrain
+- movement physics
+- add player hud pane/group to screen with health, ...
+-
