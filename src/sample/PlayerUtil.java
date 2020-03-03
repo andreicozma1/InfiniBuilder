@@ -3,6 +3,8 @@ package sample;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.Cylinder;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 
@@ -10,6 +12,14 @@ public class PlayerUtil {
     private WindowUtil context;
     public static Group player_group;
     public static Sphere model;
+    public static Sphere playerHead;
+    public static Cylinder playerNeck;
+    public static Cylinder playerBody;
+    public static Cylinder playerLeftArm;
+    public static Cylinder playerRightArm;
+    public static Cylinder playerLeftLeg;
+    public static Cylinder playerRightLeg;
+
 
     private int radius = 15;
 
@@ -34,15 +44,61 @@ public class PlayerUtil {
         context = ctx;
         player_group = new Group();
 
-        model = new Sphere(radius);
-        model.setMaterial(MaterialsUtil.stone);
-        model.setTranslateY(-radius);
+        // draw player head
+        playerHead = new Sphere(6.5);
+        playerHead.setMaterial(MaterialsUtil.blue);
+        playerHead.setTranslateY(-38);
+
+        // draw player neck
+        playerNeck = new Cylinder(2.0,2);
+        playerNeck.setMaterial(MaterialsUtil.purple);
+        playerNeck.setTranslateY(-31);
+
+        // draw player body
+        playerBody = new Cylinder(7.5,20);
+        playerBody.setMaterial(MaterialsUtil.red);
+        playerBody.setTranslateY(-20);
+
+
+        // draw player left arm
+        playerLeftArm = new Cylinder(2.25,8);
+        playerLeftArm.setMaterial(MaterialsUtil.purple);
+        playerLeftArm.setRotationAxis(Rotate.Z_AXIS);
+        playerLeftArm.setRotate(90);
+        playerLeftArm.setTranslateY(-25);
+        playerLeftArm.setTranslateX(-11);
+
+        // draw player right arm
+        playerRightArm = new Cylinder(2.25,8);
+        playerRightArm.setMaterial(MaterialsUtil.purple);
+        playerRightArm.setRotationAxis(Rotate.Z_AXIS);
+        playerRightArm.setRotate(90);
+        playerRightArm.setTranslateY(-25);
+        playerRightArm.setTranslateX(11);
+
+
+        // draw player left leg
+        playerLeftLeg = new Cylinder(2.5,10);
+        playerLeftLeg.setMaterial(MaterialsUtil.purple);
+        playerLeftLeg.setTranslateY(-5);
+        playerLeftLeg.setTranslateX(-5);
+
+        // draw player right leg
+        playerRightLeg = new Cylinder(2.5,10);
+        playerRightLeg.setMaterial(MaterialsUtil.purple);
+        playerRightLeg.setTranslateY(-5);
+        playerRightLeg.setTranslateX(5);
+
+//        model = new Sphere(radius);
+//        model.setMaterial(MaterialsUtil.stone);
+//        model.setTranslateY(-radius);
         rotx = new Rotate(0, new Point3D(1, 0, 0));
         roty = new Rotate(0, new Point3D(0, 1, 0));
         rotz = new Rotate(0, new Point3D(0, 0, 1));
-        model.getTransforms().setAll(rotx, roty, rotz);
+//        model.getTransforms().setAll(rotx, roty, rotz);
+//        player_group.getChildren().setAll(model);
 
-        player_group.getChildren().setAll(model);
+        player_group.getChildren().setAll(playerBody,playerRightLeg,playerLeftLeg,playerRightArm,playerLeftArm,playerNeck,playerHead);
     }
 
     public static Group getGroup() {
@@ -101,3 +157,4 @@ public class PlayerUtil {
         return result;
     }
 }
+
