@@ -48,13 +48,13 @@ public class WindowUtil {
         SCENE_GAME.setCamera(cam.getCamera());
     }
 
-    public Camera getCamera(){
-        return cam_util.getCamera();
+    public CameraUtil getCamera(){
+        return cam_util;
     }
 
     public void setControls(ControlsUtil ctrls) {
         ctrls_util = ctrls;
-//        ctrls_util.apply(SCENE_GAME);
+        ctrls_util.apply(SCENE_GAME);
     }
 
     public ControlsUtil getControls(){

@@ -49,14 +49,13 @@ public class CameraUtil {
     }
 
     public static void resetCenter(){
-
         if(!ControlsUtil.rotating){
             rotx.setAngle(rotx.getAngle() -rotx.getAngle()/recenterSpeed);
             roty.setAngle(roty.getAngle() -roty.getAngle()/recenterSpeed);
         }
     }
 
-    public void rotateCamera(double newx, double newy) {
+    public void setRotate(double newx, double newy) {
         rotateX(newx);
         rotateY(newy);
     }

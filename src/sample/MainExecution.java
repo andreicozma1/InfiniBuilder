@@ -27,11 +27,13 @@ public class MainExecution extends Application {
         window.setPlayer(player);
 
         // close window on menu if ESC is pressed
+
         controls.getControllerForScene(window.SCENE_MENU).setOnKeyPressed(event -> {
             if(event.getCode() == KeyCode.ESCAPE){
                 window.closeWindow();
             }
         });
+
 
         player.showModel(true);
         envir.setLighting(new AmbientLight());
@@ -52,7 +54,7 @@ public class MainExecution extends Application {
                     // IF THE PLAYER IS PLAYING THE GAME
                     if (window.getCurrentScene() == window.SCENE_GAME) {
 //                        System.out.println("Player X: " + PlayerUtil.x + " Y: " + PlayerUtil.y + " Z: " + PlayerUtil.z + " isFlying: " + PlayerUtil.isFlying + " onGround: " + PlayerUtil.onGround);
-                        window.lockCursor(true);
+//                        window.lockCursor(true);
                         controls.handleKeyboard(envir.getGroup());
                         if (!PlayerUtil.isFlying) {
                             player.moveDown(Physics.GRAVITY);

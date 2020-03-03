@@ -49,6 +49,7 @@ public class ControlsUtil {
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            System.out.println("Pressed " + event.getCharacter().toUpperCase());
             if (!pressed.contains(event.getCode())) {
                 pressed.add(event.getCode());
             }
@@ -58,15 +59,18 @@ public class ControlsUtil {
                     PlayerUtil.isFlying = true;
                     break;
             }
-
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             pressed.remove(event.getCode());
+            System.out.println("Released " + event.getCharacter().toUpperCase());
 
             switch (event.getCode()) {
                 case SPACE:
-                    PlayerUtil.isFlying = false;
+                    context.getPlayer().isFlying = false;
+                    break;
+                case ESCAPE:
+                    context.showScene(context.SCENE_MENU);
                     break;
             }
         });
@@ -77,6 +81,8 @@ public class ControlsUtil {
     }
 
     public void handleKeyboard(Group environment) {
+
+        System.out.println(pressed);
         environment.setTranslateX(-PlayerUtil.x);
         environment.setTranslateY(PlayerUtil.y);
         environment.setTranslateZ(-PlayerUtil.z);
@@ -116,11 +122,10 @@ public class ControlsUtil {
                     context.getPlayer().moveDown(PlayerUtil.speedFly);
                     break;
                 case R:
-                    MainExecution.reset();
+                    context.getPlayer().setPosition(0,0,0);
+                    context.getCamera().setRotate(0,0);
                     break;
-                case ESCAPE:
-                        context.showScene(context.SCENE_MENU);
-                    break;
+
             }
         }
 

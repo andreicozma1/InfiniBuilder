@@ -140,7 +140,7 @@ public class PlayerUtil {
     }
 
     public void moveDown(int val) {
-        System.out.println("Move Down");
+//        System.out.println("Move Down");
 
         if (!aboveGround || y > 0) {
             y -= val;
@@ -166,7 +166,7 @@ public class PlayerUtil {
         return result;
     }
 
-    public void moveTo(double newx, double newy, double newz) {
+    public void setPosition(double newx, double newy, double newz) {
         x = newx;
         y = newy;
         z = newz;
