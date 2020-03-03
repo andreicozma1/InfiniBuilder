@@ -13,7 +13,6 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
-import javafx.stage.Window;
 
 
 public class MenuUtil {
@@ -83,12 +82,12 @@ public class MenuUtil {
         Rectangle gotoGame = mainMenu.drawRectangle(-20, 200, 200, 50, 20, 20, Color.LIGHTBLUE);
         gotoGame.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.show(context.SCENE_GAME); }
+                    public void handle(MouseEvent me) { context.showScene(context.SCENE_GAME); }
                 });
         Text gameText = mainMenu.drawText("Start Game", 20, 230, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         gameText.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.show(context.SCENE_GAME); }
+                    public void handle(MouseEvent me) { context.showScene(context.SCENE_GAME); }
                 });
         gotoGame.setCursor(Cursor.HAND);
         gameText.setCursor(Cursor.HAND);

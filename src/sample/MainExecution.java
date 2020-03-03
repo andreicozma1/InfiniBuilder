@@ -3,8 +3,6 @@ package sample;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.AmbientLight;
-import javafx.scene.Cursor;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -29,21 +27,27 @@ public class MainExecution extends Application {
         window.setPlayer(player);
         envir.setLighting(new AmbientLight());
         EnvironmentUtil.generateChunks(0,0);
-        window.show(window.SCENE_MENU);
+        window.showScene(window.SCENE_MENU);
 
         // MAIN GAME LOOP
+
         AnimationTimer timer = new AnimationTimer() {
+            long last = 0;
             @Override
             public void handle(long now) {
-             if(window.getCurrentScene()== window.SCENE_GAME){
-                 System.out.println("Player X: " + PlayerUtil.x + " Y: " + PlayerUtil.y + " Z: " + PlayerUtil.z + " isFlying: " + PlayerUtil.isFlying + " onGround: " + PlayerUtil.onGround);
-                 window.lockCursor(true);
-                 controls.handleKeyboard(envir.getGroup());
-                 if (!PlayerUtil.isFlying) {
-                   PlayerUtil.moveDown(Physics.GRAVITY);
-                 }
-                 CameraUtil.resetCenter();
-             }
+                if((now - last) > (1/60)){
+                    if(window.getCurrentScene()== window.SCENE_GAME){
+                        System.out.println("Player X: " + PlayerUtil.x + " Y: " + PlayerUtil.y + " Z: " + PlayerUtil.z + " isFlying: " + PlayerUtil.isFlying + " onGround: " + PlayerUtil.onGround);
+                        window.lockCursor(true);
+                        controls.handleKeyboard(envir.getGroup());
+                        if (!PlayerUtil.isFlying) {
+                            PlayerUtil.moveDown(Physics.GRAVITY);
+                        }
+                        CameraUtil.resetCenter();
+                    }
+
+                    last = now;
+                }
             }
         };
         timer.start();

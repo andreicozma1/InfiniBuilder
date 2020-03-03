@@ -4,7 +4,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Window;
 
 import java.util.ArrayList;
 
@@ -116,7 +115,7 @@ private WindowUtil context;
                     MainExecution.reset();
                     break;
                 case ESCAPE:
-                    context.show(context.SCENE_MENU);
+                    context.showScene(context.SCENE_MENU);
                     break;
             }
         }

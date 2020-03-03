@@ -112,12 +112,8 @@ public class WindowUtil {
     }
 
 
-    public void show(Scene NEXT_SCENE) {
+    public void showScene(Scene NEXT_SCENE) {
         SCENE_CURRENT = NEXT_SCENE;
-
-//        if (SCENE_CURRENT==SCENE_GAME){
-//            SCENE_GAME.setCursor(Cursor.NONE);
-//        }
 
         if(SCENE_CURRENT == SCENE_GAME){
             hideCursor();
