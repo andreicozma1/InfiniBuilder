@@ -3,6 +3,7 @@ package sample;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.Cursor;
+import javafx.scene.control.Control;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 
@@ -28,6 +29,7 @@ public class WindowUtil {
     private CameraUtil cam_util;
     private EnvironmentUtil env_util;
     private PlayerUtil player_util;
+    private ControlsUtil ctrls_util;
 
     WindowUtil(Stage stg, int w, int h) {
         System.out.println("WindowUtil");
@@ -51,7 +53,12 @@ public class WindowUtil {
     }
 
     public void setControls(ControlsUtil ctrls) {
-        ctrls.apply(SCENE_GAME);
+        ctrls_util = ctrls;
+//        ctrls_util.apply(SCENE_GAME);
+    }
+
+    public ControlsUtil getControls(){
+        return ctrls_util;
     }
 
     public void setPlayer(PlayerUtil player) {
@@ -130,9 +137,11 @@ public class WindowUtil {
         SCENE_CURRENT = NEXT_SCENE;
 
         if(SCENE_CURRENT == SCENE_GAME){
+            System.out.println("Switched to Game Scene");
             hideCursor();
         }
         if(SCENE_CURRENT == SCENE_MENU) {
+            System.out.println("Switched to Menu Scene");
             showCursor(Cursor.DEFAULT);
         }
 

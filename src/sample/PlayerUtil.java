@@ -12,7 +12,6 @@ public class PlayerUtil {
     public WindowUtil context;
     public static Group player_group;
 
-
     public static Sphere playerHead;
     public static Cylinder playerNeck;
     public static Cylinder playerBody;
