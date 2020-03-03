@@ -24,7 +24,7 @@ public class WindowUtil {
     public Scene SCENE_MENU;
     public Scene SCENE_CURRENT;
 
-    public  Stage stage;
+    public Stage stage;
     private Group group;
 
     public  MenuUtil menu_util;
@@ -64,6 +64,10 @@ public class WindowUtil {
     public void buildMenu() {
         menu_util = new MenuUtil(this);
         SCENE_MENU = menu_util.menuScene;
+    }
+
+    public Stage getStage(){
+        return stage;
     }
 
 

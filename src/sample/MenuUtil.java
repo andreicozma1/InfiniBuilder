@@ -13,6 +13,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Window;
 
 
 public class MenuUtil {
@@ -22,12 +23,14 @@ public class MenuUtil {
     GroupBuilder highScoreMenu;
     GroupBuilder optionsMenu;
     GroupBuilder aboutMenu;
+    GroupBuilder exitButton;
 
 
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_HIGH_SCORES = "GROUP_HIGH_SCORES";
     public static String GROUP_OPTIONS = "GROUP_OPTIONS";
     public static String GROUP_ABOUT = "GROUP_ABOUT";
+    public static String GROUP_EXIT = "GROUP_EXIT";
 
 
 
@@ -37,6 +40,7 @@ public class MenuUtil {
         highScoreMenu = new GroupBuilder();
         optionsMenu = new GroupBuilder();
         aboutMenu = new GroupBuilder();
+        exitButton = new GroupBuilder();
 
         menuScene = new Scene(mainMenu.getGroup(),context.WIDTH,context.HEIGHT);
         buildMainMenu();
@@ -49,6 +53,7 @@ public class MenuUtil {
         context.addGroup(GROUP_HIGH_SCORES, highScoreMenu.getGroup());
         context.addGroup(GROUP_OPTIONS, optionsMenu.getGroup());
         context.addGroup(GROUP_ABOUT, aboutMenu.getGroup());
+        context.addGroup(GROUP_EXIT, exitButton.getGroup());
 
         context.SCENE_MENU = menuScene;
     }
@@ -72,7 +77,7 @@ public class MenuUtil {
         b.setWidth(50);
         mainMenu.drawBox(b, 350, 250);
 
-        mainMenu.drawRectangle(-20,180,250,270,20,20,Color.DARKBLUE);
+        mainMenu.drawRectangle(-20,180,250,330,20,20,Color.DARKBLUE);
 
         // go to game button
         Rectangle gotoGame = mainMenu.drawRectangle(-20, 200, 200, 50, 20, 20, Color.LIGHTBLUE);
@@ -140,7 +145,24 @@ public class MenuUtil {
                     }
                 });
         gotoAboutMenu.setCursor(Cursor.HAND);
-        aboutText .setCursor(Cursor.HAND);
+        aboutText.setCursor(Cursor.HAND);
+
+        Rectangle gotoExitButton = mainMenu.drawRectangle(-20, 440, 200, 50, 20, 20, Color.LIGHTBLUE);
+        gotoExitButton.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        context.getStage().close();
+                    }
+                });
+        Text exitText = mainMenu.drawText("Exit", 20, 470, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        exitText.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        context.getStage().close();
+                    }
+                });
+        gotoExitButton.setCursor(Cursor.HAND);
+        exitText.setCursor(Cursor.HAND);
 
 
         // add it to the main menu pain
@@ -148,7 +170,6 @@ public class MenuUtil {
         // create button to add to GROUP
 
         // add it to the main menu pain
-
 
     }
 
