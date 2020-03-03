@@ -27,9 +27,9 @@ public class WindowUtil {
     public Stage stage;
     private Group group;
 
-    public  MenuUtil menu_util;
+    public MenuUtil menu_util;
 
-    WindowUtil(Stage stg,int w,int h) {
+    WindowUtil(Stage stg, int w, int h) {
         System.out.println("WindowUtil");
         stage = stg;
         WIDTH = w;
@@ -41,23 +41,23 @@ public class WindowUtil {
         setControls(new ControlsUtil(this));
     }
 
-    public void setCamera(CameraUtil cam){
+    public void setCamera(CameraUtil cam) {
         SCENE_GAME.setCamera(cam.getCamera());
     }
 
-    public void setControls(ControlsUtil ctrls){
+    public void setControls(ControlsUtil ctrls) {
         ctrls.apply(SCENE_GAME);
     }
 
-    public void setPlayer(PlayerUtil player){
+    public void setPlayer(PlayerUtil player) {
         group.getChildren().add(PlayerUtil.player_group);
     }
 
-    public void setEnvironment(EnvironmentUtil env){
+    public void setEnvironment(EnvironmentUtil env) {
         group.getChildren().add(EnvironmentUtil.environment_group);
     }
 
-    public Scene getCurrentScene(){
+    public Scene getCurrentScene() {
         return SCENE_CURRENT;
     }
 
@@ -66,7 +66,7 @@ public class WindowUtil {
         SCENE_MENU = menu_util.menuScene;
     }
 
-    public Stage getStage(){
+    public Stage getStage() {
         return stage;
     }
 
@@ -84,33 +84,54 @@ public class WindowUtil {
         SCENE_MENU.setRoot(menuGroupMap.get(name));
     }
 
+
     public void moveCursor(int screenX, int screenY) {
         Platform.runLater(() -> {
             Robot robot = new Robot();
             robot.mouseMove(screenX, screenY);
-//            SCENE_GAME.setCursor(Cursor.NONE);
-
         });
     }
 
+    public void centerCursor() {
+        moveCursor((int) stage.getX() + WIDTH / 2, (int) stage.getY() + HEIGHT / 2);
+    }
 
-    public  void show(Scene NEXT_SCENE){
+    public void hideCursor() {
+        getCurrentScene().setCursor(Cursor.NONE);
+    }
+
+    public void showCursor(Cursor c) {
+        getCurrentScene().setCursor(c);
+    }
+
+    public void lockCursor(boolean state) {
+        if (state) {
+            centerCursor();
+            hideCursor();
+        }
+    }
+
+
+    public void show(Scene NEXT_SCENE) {
         SCENE_CURRENT = NEXT_SCENE;
 
 //        if (SCENE_CURRENT==SCENE_GAME){
 //            SCENE_GAME.setCursor(Cursor.NONE);
 //        }
-//        if (SCENE_CURRENT==SCENE_MENU){
-//            SCENE_GAME.setCursor(Cursor.DEFAULT);
-//        }
 
+        if(SCENE_CURRENT == SCENE_GAME){
+            hideCursor();
+        }
+        if(SCENE_CURRENT == SCENE_MENU) {
+            showCursor(Cursor.DEFAULT);
+        }
 
         stage.setScene(NEXT_SCENE);
         stage.setTitle("307FinalProject");
         stage.show();
     }
 
-    public void close(){
+    public void close() {
         stage.close();
     }
 

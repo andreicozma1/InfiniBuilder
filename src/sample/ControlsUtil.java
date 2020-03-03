@@ -35,6 +35,10 @@ private WindowUtil context;
             last_mouse_y = event.getSceneY();
         });
 
+        game_scene.setOnMouseMoved(event ->{
+
+        });
+
         game_scene.setOnMouseDragged(event -> {
             double differencex = event.getSceneX() - last_mouse_x;
             double differencey = last_mouse_y - event.getSceneY();
