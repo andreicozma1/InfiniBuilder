@@ -68,13 +68,7 @@ public class MainExecution extends Application {
 
     }
 
-    public static void reset() {
-        PlayerUtil.x = 0;
-        PlayerUtil.y = 0;
-        PlayerUtil.z = 0;
-        CameraUtil.rotateX(0);
-        CameraUtil.rotateY(0);
-    }
+
 
     public static void main(String[] args) {
         launch(args);

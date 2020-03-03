@@ -42,33 +42,33 @@ public class PlayerUtil {
         player_group = new Group();
     }
 
-    public void showModel(boolean state){
-        if(state){
+    public void showModel(boolean state) {
+        if (state) {
             addModelComponents();
-        }else{
+        } else {
             player_group.getChildren().removeAll();
         }
     }
 
-    private void addModelComponents(){
+    private void addModelComponents() {
         // draw player head
         playerHead = new Sphere(6.5);
         playerHead.setMaterial(MaterialsUtil.blue);
         playerHead.setTranslateY(-38);
 
         // draw player neck
-        playerNeck = new Cylinder(2.0,2);
+        playerNeck = new Cylinder(2.0, 2);
         playerNeck.setMaterial(MaterialsUtil.purple);
         playerNeck.setTranslateY(-31);
 
         // draw player body
-        playerBody = new Cylinder(7.5,20);
+        playerBody = new Cylinder(7.5, 20);
         playerBody.setMaterial(MaterialsUtil.red);
         playerBody.setTranslateY(-20);
 
 
         // draw player left arm
-        playerLeftArm = new Cylinder(2.25,8);
+        playerLeftArm = new Cylinder(2.25, 8);
         playerLeftArm.setMaterial(MaterialsUtil.purple);
         playerLeftArm.setRotationAxis(Rotate.Z_AXIS);
         playerLeftArm.setRotate(90);
@@ -76,7 +76,7 @@ public class PlayerUtil {
         playerLeftArm.setTranslateX(-11);
 
         // draw player right arm
-        playerRightArm = new Cylinder(2.25,8);
+        playerRightArm = new Cylinder(2.25, 8);
         playerRightArm.setMaterial(MaterialsUtil.purple);
         playerRightArm.setRotationAxis(Rotate.Z_AXIS);
         playerRightArm.setRotate(90);
@@ -85,13 +85,13 @@ public class PlayerUtil {
 
 
         // draw player left leg
-        playerLeftLeg = new Cylinder(2.5,10);
+        playerLeftLeg = new Cylinder(2.5, 10);
         playerLeftLeg.setMaterial(MaterialsUtil.purple);
         playerLeftLeg.setTranslateY(-5);
         playerLeftLeg.setTranslateX(-5);
 
         // draw player right leg
-        playerRightLeg = new Cylinder(2.5,10);
+        playerRightLeg = new Cylinder(2.5, 10);
         playerRightLeg.setMaterial(MaterialsUtil.purple);
         playerRightLeg.setTranslateY(-5);
         playerRightLeg.setTranslateX(5);
@@ -105,7 +105,7 @@ public class PlayerUtil {
 //        model.getTransforms().setAll(rotx, roty, rotz);
 //        player_group.getChildren().setAll(model);
 
-        player_group.getChildren().setAll(playerBody,playerRightLeg,playerLeftLeg,playerRightArm,playerLeftArm,playerNeck,playerHead);
+        player_group.getChildren().setAll(playerBody, playerRightLeg, playerLeftLeg, playerRightArm, playerLeftArm, playerNeck, playerHead);
 
     }
 
@@ -165,5 +165,12 @@ public class PlayerUtil {
         }
         return result;
     }
+
+    public void moveTo(double newx, double newy, double newz) {
+        x = newx;
+        y = newy;
+        z = newz;
+    }
+
 }
 
