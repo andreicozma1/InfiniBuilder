@@ -25,8 +25,10 @@ public class MainExecution extends Application {
         window.setControls(controls);
         window.setEnvironment(envir);
         window.setPlayer(player);
+
+        player.showModel(true);
         envir.setLighting(new AmbientLight());
-        EnvironmentUtil.generateChunks(0,0);
+        envir.generateChunks(0,0);
         window.showScene(window.SCENE_MENU);
 
         // MAIN GAME LOOP
@@ -35,13 +37,15 @@ public class MainExecution extends Application {
             long last = 0;
             @Override
             public void handle(long now) {
+
                 if((now - last) > (1/60)){
+                    System.out.println(now-last);
                     if(window.getCurrentScene()== window.SCENE_GAME){
                         System.out.println("Player X: " + PlayerUtil.x + " Y: " + PlayerUtil.y + " Z: " + PlayerUtil.z + " isFlying: " + PlayerUtil.isFlying + " onGround: " + PlayerUtil.onGround);
                         window.lockCursor(true);
                         controls.handleKeyboard(envir.getGroup());
                         if (!PlayerUtil.isFlying) {
-                            PlayerUtil.moveDown(Physics.GRAVITY);
+                            player.moveDown(Physics.GRAVITY);
                         }
                         CameraUtil.resetCenter();
                     }

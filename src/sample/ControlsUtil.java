@@ -77,12 +77,12 @@ private WindowUtil context;
         environment.setTranslateY(PlayerUtil.y);
         environment.setTranslateZ(-PlayerUtil.z);
 
-        PlayerUtil.isAboveGround();
+        context.getPlayer().isAboveGround();
 
 
         if(PlayerUtil.onGround){
-            PlayerUtil.rotx.setAngle(-PlayerUtil.z);
-            PlayerUtil.rotz.setAngle(PlayerUtil.x*2);
+            context.getPlayer().rotx.setAngle(-PlayerUtil.z);
+            context.getPlayer().rotz.setAngle(PlayerUtil.x*2);
         } else{
 
         }
@@ -94,27 +94,30 @@ private WindowUtil context;
                 case E:
                     break;
                 case W:
-                    PlayerUtil.moveForward(PlayerUtil.speedForward);
+                    context.getPlayer().moveForward(PlayerUtil.speedForward);
                     break;
                 case A:
-                    PlayerUtil.moveLeft(PlayerUtil.speedSide);
+                    context.getPlayer().moveLeft(PlayerUtil.speedSide);
                     break;
                 case S:
-                    PlayerUtil.moveBackward(PlayerUtil.speedBackward);
+                    context.getPlayer().moveBackward(PlayerUtil.speedBackward);
                     break;
                 case D:
-                    PlayerUtil.moveRight(PlayerUtil.speedSide);
+                    context.getPlayer().moveRight(PlayerUtil.speedSide);
                     break;
                 case SPACE:
-                    PlayerUtil.moveUp(PlayerUtil.speedFly);
+                    context.getPlayer().moveUp(PlayerUtil.speedFly);
                     break;
                 case SHIFT:
-                    PlayerUtil.moveDown(PlayerUtil.speedFly);
+                    context.getPlayer().moveDown(PlayerUtil.speedFly);
                     break;
                 case R:
                     MainExecution.reset();
                     break;
                 case ESCAPE:
+                    if(context.getCurrentScene() == context.SCENE_MENU){
+                        context.closeWindow();
+                    }
                     context.showScene(context.SCENE_MENU);
                     break;
             }

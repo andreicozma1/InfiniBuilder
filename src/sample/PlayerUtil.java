@@ -9,9 +9,10 @@ import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 
 public class PlayerUtil {
-    private WindowUtil context;
+    public WindowUtil context;
     public static Group player_group;
-    public static Sphere model;
+
+
     public static Sphere playerHead;
     public static Cylinder playerNeck;
     public static Cylinder playerBody;
@@ -19,9 +20,6 @@ public class PlayerUtil {
     public static Cylinder playerRightArm;
     public static Cylinder playerLeftLeg;
     public static Cylinder playerRightLeg;
-
-
-    private int radius = 15;
 
     public static double x = 0;
     public static double y = 0;
@@ -43,7 +41,17 @@ public class PlayerUtil {
     PlayerUtil(WindowUtil ctx) {
         context = ctx;
         player_group = new Group();
+    }
 
+    public void showModel(boolean state){
+        if(state){
+            addModelComponents();
+        }else{
+            player_group.getChildren().removeAll();
+        }
+    }
+
+    private void addModelComponents(){
         // draw player head
         playerHead = new Sphere(6.5);
         playerHead.setMaterial(MaterialsUtil.blue);
@@ -99,39 +107,40 @@ public class PlayerUtil {
 //        player_group.getChildren().setAll(model);
 
         player_group.getChildren().setAll(playerBody,playerRightLeg,playerLeftLeg,playerRightArm,playerLeftArm,playerNeck,playerHead);
+
     }
 
-    public static Group getGroup() {
+    public Group getGroup() {
         return player_group;
     }
 
-    public static void moveForward(int val) {
+    public void moveForward(int val) {
 //        System.out.println("Move Forward");
         PlayerUtil.z += val;
     }
 
-    public static void moveBackward(int val) {
+    public void moveBackward(int val) {
 //        System.out.println("Move Backward");
         PlayerUtil.z -= val;
     }
 
-    public static void moveLeft(int val) {
+    public void moveLeft(int val) {
 //        System.out.println("Move Left");
         PlayerUtil.x -= val;
     }
 
-    public static void moveRight(int val) {
+    public void moveRight(int val) {
 //        System.out.println("Move Right");
         PlayerUtil.x += val;
     }
 
-    public static void moveUp(int val) {
+    public void moveUp(int val) {
 //        System.out.println("Move Up");
         PlayerUtil.y += val;
         onGround = false;
     }
 
-    public static void moveDown(int val) {
+    public void moveDown(int val) {
         System.out.println("Move Down");
 
         if (!aboveGround || y > 0) {
@@ -139,14 +148,15 @@ public class PlayerUtil {
         }
     }
 
-    public static boolean isAboveGround() {
+    public boolean isAboveGround() {
 //        System.out.println(EnvironmentUtil.chunks.toString());
 //        System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
+
         boolean result = false;
         if (y > 0) {
-            double curr_chunk_x = Math.floor((PlayerUtil.x + EnvironmentUtil.chunk_width / 2) / EnvironmentUtil.chunk_width);
-            double curr_chunk_z = Math.floor((PlayerUtil.z + EnvironmentUtil.chunk_depth / 2) / EnvironmentUtil.chunk_depth);
-            if (EnvironmentUtil.chunks.contains(new Point2D(curr_chunk_x, curr_chunk_z))) {
+            double curr_chunk_x = Math.floor((PlayerUtil.x + context.getEnvironment().chunk_width / 2) / context.getEnvironment().chunk_width);
+            double curr_chunk_z = Math.floor((PlayerUtil.z + context.getEnvironment().chunk_depth / 2) / context.getEnvironment().chunk_depth);
+            if (context.getEnvironment().getChunks().contains(new Point2D(curr_chunk_x, curr_chunk_z))) {
                 System.out.println("ON GROUND");
                 aboveGround = true;
             } else {

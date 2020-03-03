@@ -1,14 +1,11 @@
 package sample;
 
 import javafx.application.Platform;
+import javafx.scene.*;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.util.HashMap;
 
 public class WindowUtil {
@@ -25,24 +22,32 @@ public class WindowUtil {
     public Scene SCENE_CURRENT;
 
     public Stage stage;
-    private Group group;
+    private Group window_group;
 
-    public MenuUtil menu_util;
+    private MenuUtil menu_util;
+    private CameraUtil cam_util;
+    private EnvironmentUtil env_util;
+    private PlayerUtil player_util;
 
     WindowUtil(Stage stg, int w, int h) {
         System.out.println("WindowUtil");
         stage = stg;
         WIDTH = w;
         HEIGHT = h;
-        group = new Group();
-        SCENE_GAME = new Scene(group, WIDTH, HEIGHT);
+        window_group = new Group();
+        SCENE_GAME = new Scene(window_group, WIDTH, HEIGHT);
 
         setCamera(new CameraUtil(this));
         setControls(new ControlsUtil(this));
     }
 
     public void setCamera(CameraUtil cam) {
+        cam_util = cam;
         SCENE_GAME.setCamera(cam.getCamera());
+    }
+
+    public Camera getCamera(){
+        return cam_util.getCamera();
     }
 
     public void setControls(ControlsUtil ctrls) {
@@ -50,11 +55,20 @@ public class WindowUtil {
     }
 
     public void setPlayer(PlayerUtil player) {
-        group.getChildren().add(PlayerUtil.player_group);
+        player_util = player;
+        window_group.getChildren().add(player_util.getGroup());
+    }
+
+    public PlayerUtil getPlayer(){
+        return player_util;
     }
 
     public void setEnvironment(EnvironmentUtil env) {
-        group.getChildren().add(EnvironmentUtil.environment_group);
+        env_util = env;
+        window_group.getChildren().add(env_util.getGroup());
+    }
+    public EnvironmentUtil getEnvironment(){
+        return env_util;
     }
 
     public Scene getCurrentScene() {
@@ -127,7 +141,7 @@ public class WindowUtil {
         stage.show();
     }
 
-    public void close() {
+    public void closeWindow() {
         stage.close();
     }
 
