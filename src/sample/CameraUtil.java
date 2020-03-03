@@ -56,4 +56,8 @@ public class CameraUtil {
         }
     }
 
+    public void rotateCamera(double newx, double newy) {
+        rotateX(newx);
+        rotateY(newy);
+    }
 }
