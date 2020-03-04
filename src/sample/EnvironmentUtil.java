@@ -46,6 +46,7 @@ public class EnvironmentUtil {
                 environment_group.getChildren().add(create_playform(i,0,j));
             }
         }
+
     }
 
     public Box create_playform(double x, double y, double z) {

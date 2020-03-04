@@ -19,6 +19,7 @@ public class MainExecution extends Application {
         ControlsUtil controls = new ControlsUtil(window);
         PlayerUtil player = new PlayerUtil(window);
         EnvironmentUtil envir = new EnvironmentUtil(window);
+        DrawCube cube = new DrawCube(envir);
 
         window.buildMenu();
         window.setCamera(camera);
@@ -30,6 +31,15 @@ public class MainExecution extends Application {
         envir.setLighting(new AmbientLight());
         envir.generateChunks(0,0);
         window.showScene(window.SCENE_MENU);
+
+        cube.setX(100);
+        cube.setY(-100);
+        cube.setZ(100);
+        cube.setWidth(100);
+        cube.setHeight(100);
+        cube.setDepth(100);
+        cube.setMaterial(MaterialsUtil.blue);
+        cube.show(true);
 
         // MAIN GAME LOOP
 
