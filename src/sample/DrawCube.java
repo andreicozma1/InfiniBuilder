@@ -2,7 +2,6 @@ package sample;
 
 import javafx.scene.paint.Material;
 import javafx.scene.shape.Box;
-import javafx.scene.shape.Shape;
 
 public class DrawCube extends ObjectBuilder {
     public double width = 0;

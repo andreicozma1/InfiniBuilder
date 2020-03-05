@@ -1,9 +1,6 @@
 package sample;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.shape.Box;
-import javafx.scene.shape.Shape;
 
 public class ObjectBuilder {
     public double x = 0;
@@ -12,7 +9,7 @@ public class ObjectBuilder {
     public Group group;
     public EnvironmentUtil environmentUtil;
 
-    public ObjectBuilder( EnvironmentUtil environmentUtil){
+    public ObjectBuilder( EnvironmentUtil environmentUtil ){
         this.environmentUtil = environmentUtil;
         group = new Group();
     }

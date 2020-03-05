@@ -8,7 +8,7 @@ import javafx.scene.input.KeyEvent;
 import java.util.ArrayList;
 
 public class ControlsUtil {
-private WindowUtil context;
+    private WindowUtil context;
     double last_mouse_x;
     double last_mouse_y;
 
@@ -22,11 +22,11 @@ private WindowUtil context;
         pressed = new ArrayList<>();
     }
 
-    public void apply(Scene game_scene){
-        game_scene.setOnMousePressed(event->{
+    public void apply(Scene game_scene) {
+        game_scene.setOnMousePressed(event -> {
             rotating = true;
         });
-        game_scene.setOnMouseReleased(event->{
+        game_scene.setOnMouseReleased(event -> {
             rotating = false;
         });
         game_scene.setOnMouseClicked(event -> {
@@ -34,7 +34,7 @@ private WindowUtil context;
             last_mouse_y = event.getSceneY();
         });
 
-        game_scene.setOnMouseMoved(event ->{
+        game_scene.setOnMouseMoved(event -> {
 
         });
 
@@ -42,37 +42,47 @@ private WindowUtil context;
             double differencex = event.getSceneX() - last_mouse_x;
             double differencey = last_mouse_y - event.getSceneY();
 
-            System.out.println("X: " + differencex + " Y: "+ differencey);
+            System.out.println("X: " + differencex + " Y: " + differencey);
 
-            CameraUtil.rotateX(differencey/20);
-            CameraUtil.rotateY(differencex/20);
+            CameraUtil.rotateX(differencey / 20);
+            CameraUtil.rotateY(differencex / 20);
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            System.out.println("Pressed " + event.getCharacter().toUpperCase());
             if (!pressed.contains(event.getCode())) {
                 pressed.add(event.getCode());
             }
 
-            switch(event.getCode()){
+            switch (event.getCode()) {
                 case SPACE:
                     PlayerUtil.isFlying = true;
                     break;
             }
-
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             pressed.remove(event.getCode());
+            System.out.println("Released " + event.getCharacter().toUpperCase());
 
-            switch(event.getCode()){
+            switch (event.getCode()) {
                 case SPACE:
-                    PlayerUtil.isFlying = false;
+                    context.getPlayer().isFlying = false;
+                    break;
+                case ESCAPE:
+                    context.showScene(context.SCENE_MENU);
                     break;
             }
         });
     }
 
+    public Scene getControllerForScene(Scene scn){
+        return scn;
+    }
+
     public void handleKeyboard(Group environment) {
+
+        System.out.println(pressed);
         environment.setTranslateX(-PlayerUtil.x);
         environment.setTranslateY(PlayerUtil.y);
         environment.setTranslateZ(-PlayerUtil.z);
@@ -80,10 +90,10 @@ private WindowUtil context;
         context.getPlayer().isAboveGround();
 
 
-        if(PlayerUtil.onGround){
+        if (PlayerUtil.onGround) {
             context.getPlayer().rotx.setAngle(-PlayerUtil.z);
-            context.getPlayer().rotz.setAngle(PlayerUtil.x*2);
-        } else{
+            context.getPlayer().rotz.setAngle(PlayerUtil.x * 2);
+        } else {
 
         }
 
@@ -112,14 +122,10 @@ private WindowUtil context;
                     context.getPlayer().moveDown(PlayerUtil.speedFly);
                     break;
                 case R:
-                    MainExecution.reset();
+                    context.getPlayer().setPosition(0,0,0);
+                    context.getCamera().setRotate(0,0);
                     break;
-                case ESCAPE:
-                    if(context.getCurrentScene() == context.SCENE_MENU){
-                        context.closeWindow();
-                    }
-                    context.showScene(context.SCENE_MENU);
-                    break;
+
             }
         }
 

@@ -1,15 +1,14 @@
 package sample;
 
 import javafx.geometry.Point2D;
-import javafx.scene.AmbientLight;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Window;
+import sample.MaterialsUtil;
+import sample.WindowUtil;
 
 import java.util.ArrayList;
 
@@ -65,7 +64,7 @@ public class EnvironmentUtil {
     }
 
 
-    public void setLighting(Node node){
+    public void setLighting(LightBase node){
         environment_group.getChildren().add(node);
     }
 }
