@@ -2,7 +2,8 @@ To Do List:
 - moving and rotating the camera instead of the terrain
 - map mouse movement. Find deltaX and deltaY on mouse movement to find
   mouse acceleration. Use this to find the amount the camera/player needs to rotate
-- generate terrain
-- movement physics
+- generate terrain functions in EnvironmentUtil
+- movement physics to player
 - add player hud pane/group to screen with health, ...
-- set physics function with the physics class part of the object class
+- set physics function with the physics class part of the object class.
+    This affects all members of the environment that should be affected by physics

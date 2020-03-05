@@ -3,35 +3,55 @@ package sample;
 import javafx.scene.Group;
 
 public class ObjectBuilder {
-    public double x = 0;
-    public double y = 0;
-    public double z = 0;
-    public Group group;
-    public EnvironmentUtil environmentUtil;
+    private double x = 0;
+    private double y = 0;
+    private double z = 0;
+    private double width = 1;
+    private double height = 1;
+    private double depth = 1;
+    private Group group;
+    private EnvironmentUtil environmentUtil;
 
-    public ObjectBuilder( EnvironmentUtil environmentUtil ){
-        this.environmentUtil = environmentUtil;
+    public ObjectBuilder(float x,float y,float z){
         group = new Group();
     }
 
-    public void show(boolean state){
-        if(state){
-            draw();
-        } else {
-            environmentUtil.environment_group.getChildren().remove(group);
-        }
+    public Group getGroup(){
+        return group;
     }
 
-    public void draw(){
-        environmentUtil.environment_group.getChildren().add(group);
+    public void setX(double x) {
+        this.x = x;
+        group.setTranslateX(x);
     }
-
-    public void setX(double x) { this.x = x; }
-    public void setY(double y) { this.y = y; }
-    public void setZ(double z) { this.z = z; }
+    public void setY(double y) {
+        this.y = y;
+        group.setTranslateY(y);
+    }
+    public void setZ(double z) {
+        this.z = z;
+        group.setTranslateZ(z);
+    }
 
     public double getX() { return x; }
     public double getY() { return y; }
     public double getZ() { return z; }
+
+    public void setWidth(double width) {
+        this.width = width;
+        group.setScaleX(width);
+    }
+    public void setHeight(double height) {
+        this.height = height;
+        group.setScaleY(width);
+    }
+    public void setDepth(double depth) {
+        this.depth = depth;
+        group.setScaleZ(depth);
+    }
+
+    public double getWidth() { return width; }
+    public double getHeight() { return height; }
+    public double getDepth() { return depth; }
 }
 

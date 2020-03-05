@@ -4,16 +4,20 @@ import javafx.scene.paint.Material;
 import javafx.scene.shape.Box;
 
 public class DrawCube extends ObjectBuilder {
-    public double width = 0;
-    public double height = 0;
-    public double depth = 0;
-    public Material material;
-    public Box box;
+    private double width = 0;
+    private double height = 0;
+    private double depth = 0;
 
-    public DrawCube(EnvironmentUtil environmentUtil) {
-        super(environmentUtil);
-        box = new Box(width, height, depth);
-        group.getChildren().add(box);
+    private Box box;
+    private Material material;
+
+    public DrawCube(float width, float height, float depth) {
+        super(0,0,0);
+        box = new Box(1, 1, 1);
+        super.getGroup().getChildren().add(box);
+        super.getGroup().setScaleX(width);
+        super.getGroup().setScaleY(height);
+        super.getGroup().setScaleZ(depth);
     }
 
     public void setMaterial(Material material){
@@ -21,34 +25,5 @@ public class DrawCube extends ObjectBuilder {
         box.setMaterial(material);
     }
 
-    public void setX(double x) {
-        this.x = x;
-        box.setTranslateX(x);
-    }
-    public void setY(double y) {
-        this.y = y;
-        box.setTranslateY(y);
-    }
-    public void setZ(double z) {
-        this.z = z;
-        box.setTranslateZ(z);
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-        box.setWidth(width);
-    }
-    public void setHeight(double height) {
-        this.height = height;
-        box.setHeight(width);
-    }
-    public void setDepth(double depth) {
-        this.depth = depth;
-        box.setDepth(depth);
-    }
-
-    public double getWidth() { return width; }
-    public double getHeight() { return height; }
-    public double getDepth() { return depth; }
     public Material getMaterial() { return material; }
 }

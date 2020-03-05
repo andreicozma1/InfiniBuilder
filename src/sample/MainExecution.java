@@ -19,7 +19,7 @@ public class MainExecution extends Application {
         ControlsUtil controls = new ControlsUtil(window);
         PlayerUtil player = new PlayerUtil(window);
         EnvironmentUtil envir = new EnvironmentUtil(window);
-        DrawCube cube = new DrawCube(envir);
+        DrawCube cube = new DrawCube(100,100,100);
 
         window.buildMenu();
         window.setCamera(camera);
@@ -44,11 +44,8 @@ public class MainExecution extends Application {
         cube.setX(100);
         cube.setY(-100);
         cube.setZ(100);
-        cube.setWidth(100);
-        cube.setHeight(100);
-        cube.setDepth(100);
         cube.setMaterial(MaterialsUtil.blue);
-        cube.show(true);
+        envir.addMember(cube);
 
         // MAIN GAME LOOP
         AnimationTimer timer = new AnimationTimer() {

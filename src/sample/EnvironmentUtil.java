@@ -67,4 +67,11 @@ public class EnvironmentUtil {
     public void setLighting(LightBase node){
         environment_group.getChildren().add(node);
     }
+
+    public void addMember(ObjectBuilder member){
+        environment_group.getChildren().add(member.getGroup());
+    }
+    public void removeMember(ObjectBuilder member){
+        environment_group.getChildren().remove(member.getGroup());
+    }
 }

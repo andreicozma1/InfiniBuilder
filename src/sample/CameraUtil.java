@@ -16,6 +16,10 @@ public class CameraUtil {
     public static boolean isCentered = true;
     private static double recenterSpeed = 50;
 
+    /**
+     * This is a Constructor
+     * @param ctx
+     */
     CameraUtil(WindowUtil ctx) {
         context = ctx;
         rotx = new Rotate(0, new Point3D(1, 0, 0));
