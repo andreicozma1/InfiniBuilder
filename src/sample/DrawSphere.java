@@ -1,16 +1,22 @@
 package sample;
 
 import javafx.scene.paint.Material;
-import javafx.scene.shape.Box;
+import javafx.scene.shape.Sphere;
 
-public class DrawCube extends ObjectBuilder {
-    private Box box;
+public class DrawSphere extends ObjectBuilder {
+    private Sphere sphere;
     private Material material;
 
-    public DrawCube(float width, float height, float depth) {
+    public DrawSphere(float radius){
         super(0,0,0);
-        box = new Box(1, 1, 1);
-        super.getGroup().getChildren().add(box);
+        sphere = new Sphere(radius);
+        super.getGroup().getChildren().add(sphere);
+    }
+
+    public DrawSphere(float radius, float width, float height, float depth) {
+        super(0,0,0);
+        sphere = new Sphere(radius);
+        super.getGroup().getChildren().add(sphere);
         super.setWidth(width);
         super.setHeight(height);
         super.setDepth(depth);
@@ -21,7 +27,7 @@ public class DrawCube extends ObjectBuilder {
 
     public void setMaterial(Material material){
         this.material = material;
-        box.setMaterial(material);
+        sphere.setMaterial(material);
     }
 
     public Material getMaterial() { return material; }

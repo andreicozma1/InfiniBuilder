@@ -20,6 +20,13 @@ public class ObjectBuilder {
         return group;
     }
 
+
+    public void setPos(double x, double y, double z){
+        setX(x);
+        setY(y);
+        setZ(z);
+    }
+
     public void setX(double x) {
         this.x = x;
         group.setTranslateX(x);
@@ -53,5 +60,7 @@ public class ObjectBuilder {
     public double getWidth() { return width; }
     public double getHeight() { return height; }
     public double getDepth() { return depth; }
+
+
 }
 

@@ -105,7 +105,7 @@ public class PlayerUtil {
 //        model.getTransforms().setAll(rotx, roty, rotz);
 //        player_group.getChildren().setAll(model);
 
-        player_group.getChildren().setAll(playerBody, playerRightLeg, playerLeftLeg, playerRightArm, playerLeftArm, playerNeck, playerHead);
+        player_group.getChildren().setAll(playerRightLeg, playerLeftLeg, playerRightArm, playerLeftArm, playerNeck, playerBody, playerHead);
 
     }
 
