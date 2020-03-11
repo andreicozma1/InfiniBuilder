@@ -28,10 +28,10 @@ public class PlayerUtil {
     public Rotate roty;
     public Rotate rotz;
 
-    public int speedForward = 10;
-    public int speedBackward = 10;
-    public int speedSide = 2;
-    public int speedFly = 5;
+    public int speedForward = 100;
+    public int speedBackward = 100;
+    public int speedSide = 50;
+    public int speedFly = 50;
 
     private boolean onGround = true;
     private boolean aboveGround = true;

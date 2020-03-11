@@ -36,11 +36,13 @@ public class ControlsUtil {
 
         game_scene.setOnMouseMoved(event -> {
             double differencex = event.getSceneX() - last_mouse_x;
-            double differencey = last_mouse_y - event.getSceneY();
+            double differencey = event.getSceneY() - last_mouse_y;
 
-            System.out.println("X: " + differencex + " Y: " + differencey);
+            System.out.println("diffX: " + differencex + " diffY: " + differencey);
 
 //            context.getCamera().setRotate(context.getCamera().getRotateX() + differencey, context.getCamera().getRotateY() + differencex);
+            context.getCamera().rotateX(differencex);
+            context.getCamera().rotateY(-differencey);
 
             last_mouse_x = event.getSceneX();
             last_mouse_y = event.getSceneY();
@@ -72,16 +74,16 @@ public class ControlsUtil {
         });
     }
 
-    public Scene getControllerForScene(Scene scn){
+    public Scene getControllerForScene(Scene scn) {
         return scn;
     }
 
     public void handleKeyboard(Group environment) {
 
 //        System.out.println(pressed);
-        context.getCamera().getCamera().setTranslateX(context.getPlayer().x);
-        context.getCamera().getCamera().setTranslateY(-context.getPlayer().y);
-        context.getCamera().getCamera().setTranslateZ(context.getPlayer().z);
+//        context.getCamera().getCamera().setTranslateX(context.getPlayer().x);
+//        context.getCamera().getCamera().setTranslateY(-context.getPlayer().y);
+//        context.getCamera().getCamera().setTranslateZ(context.getPlayer().z);
 
 //        context.getPlayer().isAboveGround();
 
@@ -118,8 +120,10 @@ public class ControlsUtil {
                     context.getPlayer().moveDown(context.getPlayer().speedFly);
                     break;
                 case R:
-                    context.getPlayer().setPosition(0,0,0);
-                    context.getCamera().setRotate(0,0);
+                    context.getPlayer().setPosition(0, 0, 0);
+                    context.getCamera().rotx = 0;
+                    context.getCamera().roty = 0;
+//                    context.getCamera().setRotate(0,0);
                     break;
 
             }

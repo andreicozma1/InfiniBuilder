@@ -117,7 +117,7 @@ public class WindowUtil {
     }
 
     public void hideCursor() {
-        getCurrentScene().setCursor(Cursor.NONE);
+//        getCurrentScene().setCursor(Cursor.NONE);
     }
 
     public void showCursor(Cursor c) {
