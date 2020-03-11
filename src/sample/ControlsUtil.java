@@ -38,7 +38,7 @@ public class ControlsUtil {
             double differencex = event.getSceneX() - last_mouse_x;
             double differencey = event.getSceneY() - last_mouse_y;
 
-            System.out.println("diffX: " + differencex + " diffY: " + differencey);
+//            System.out.println("diffX: " + differencex + " diffY: " + differencey);
 
 //            context.getCamera().setRotate(context.getCamera().getRotateX() + differencey, context.getCamera().getRotateY() + differencex);
             context.getCamera().rotateX(differencex);
@@ -121,7 +121,7 @@ public class ControlsUtil {
                     break;
                 case R:
                     context.getPlayer().setPosition(0, 0, 0);
-                    context.getCamera().rotx = 0;
+                    context.getCamera().rotx = 90;
                     context.getCamera().roty = 0;
 //                    context.getCamera().setRotate(0,0);
                     break;

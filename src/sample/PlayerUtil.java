@@ -113,23 +113,27 @@ public class PlayerUtil {
     }
 
     public void moveForward(int val) {
-//        System.out.println("Move Forward");
-        this.z += val;
+        System.out.println("x: " + Math.cos(context.getCamera().rotx/57.3) + " y: " + Math.sin(context.getCamera().rotx/57.3) );
+        this.z += Math.cos(context.getCamera().rotx/57.3) * val;
+        this.x += Math.sin(context.getCamera().rotx/57.3) * val;
     }
 
     public void moveBackward(int val) {
 //        System.out.println("Move Backward");
-        this.z -= val;
+        this.z -= Math.cos(context.getCamera().rotx/57.3) * val;
+        this.x -= Math.sin(context.getCamera().rotx/57.3) * val;
     }
 
     public void moveLeft(int val) {
 //        System.out.println("Move Left");
-        this.x -= val;
+        this.x -= Math.cos(context.getCamera().rotx/57.3) * val;
+        this.z += Math.sin(context.getCamera().rotx/57.3) * val;
     }
 
     public void moveRight(int val) {
 //        System.out.println("Move Right");
-        this.x += val;
+        this.x += Math.cos(context.getCamera().rotx/57.3) * val;
+        this.z -= Math.sin(context.getCamera().rotx/57.3) * val;
     }
 
     public void moveUp(int val) {

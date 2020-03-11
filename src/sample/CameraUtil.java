@@ -42,7 +42,7 @@ public class CameraUtil {
     }
 
     void handle() {
-        System.out.println("x: " + rotx%360 + " y: "  + roty + " rotY " + (roty%180) );
+//        System.out.println("x: " + rotx%360 + " y: "  + roty + " rotY " + (roty%180) );
         cam.getTransforms().clear();
         cam.getTransforms().add(new Translate(0 + context.getPlayer().getX(), -50, context.getPlayer().getZ()));
         cam.getTransforms().add(new Rotate(rotx%360, Rotate.Y_AXIS));
@@ -61,8 +61,8 @@ public class CameraUtil {
 
     public void rotateY(double val) {
         double newroty = roty + val;
+        // camera bounds
         if((newroty % 180) < -35 || (newroty % 180) > 60 ){
-            System.out.println( ((-newroty+360)%180));
            return;
         }
         roty = newroty;
