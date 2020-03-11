@@ -63,12 +63,10 @@ public class MainExecution extends Application {
 
                     // IF THE PLAYER IS PLAYING THE GAME
                     if (window.getCurrentScene() == window.SCENE_GAME) {
-                        System.out.println("Player X: " + player.getX() + " Y: " +player.getY() + " Z: " + player.getZ()  + " onGround: " + player.isOnGround() + " aboveGround: " + player.isAboveGround());
-
 
                         controls.handleKeyboard(envir.getGroup());
-                        camera.handle();
-                        player.moveDown(Physics.GRAVITY);
+
+                        player.handle();
 
                     }
 

@@ -24,21 +24,126 @@ public class PlayerUtil {
     public double y = 0;
     public double z = 0;
 
-    public Rotate rotx;
-    public Rotate roty;
-    public Rotate rotz;
-
     public int speedForward = 5;
     public int speedBackward = 5;
     public int speedSide = 2;
     public int speedFly = 2;
 
+    private int jumpHeight = 30;
+    public boolean canJump = true;
+    public boolean isJumping = false;
+
     private boolean onGround = true;
     private boolean aboveGround = true;
+
 
     PlayerUtil(WindowUtil ctx) {
         context = ctx;
         player_group = new Group();
+    }
+
+    public void handle() {
+//        System.out.println("Player X: " + getX() + " Y: " + getY() + " Z: " + getZ()  + " onGround: " +  isOnGround() + " aboveGround: " + isAboveGround());
+        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
+        context.getCamera().handle();
+
+        if (isJumping && y < context.getEnvironment().getHeightAt(x, z) + jumpHeight) {
+            moveUp(speedFly);
+        } else {
+            isJumping = false;
+            moveDown(speedFly);
+        }
+
+    }
+
+    public void jump() {
+        isJumping = true;
+        canJump = false;
+    }
+
+
+    public Group getGroup() {
+        return player_group;
+    }
+
+    public void moveForward(int val) {
+//        System.out.println("x: " + Math.cos(context.getCamera().rotx/57.3) + " y: " + Math.sin(context.getCamera().rotx/57.3) );
+        this.z += Math.cos(context.getCamera().rotx / 57.3) * val;
+        this.x += Math.sin(context.getCamera().rotx / 57.3) * val;
+    }
+
+    public void moveBackward(int val) {
+//        System.out.println("Move Backward");
+        this.z -= Math.cos(context.getCamera().rotx / 57.3) * val;
+        this.x -= Math.sin(context.getCamera().rotx / 57.3) * val;
+    }
+
+    public void moveLeft(int val) {
+//        System.out.println("Move Left");
+        this.x -= Math.cos(context.getCamera().rotx / 57.3) * val;
+        this.z += Math.sin(context.getCamera().rotx / 57.3) * val;
+    }
+
+    public void moveRight(int val) {
+//        System.out.println("Move Right");
+        this.x += Math.cos(context.getCamera().rotx / 57.3) * val;
+        this.z -= Math.sin(context.getCamera().rotx / 57.3) * val;
+    }
+
+    public void moveUp(int val) {
+//        System.out.println("Move Up");
+        this.y += val;
+        onGround = false;
+    }
+
+    public void moveDown(int val) {
+        EnvironmentUtil env = context.getEnvironment();
+//        System.out.println(env.getSimplexHeight(context.getPlayer().x / env.chunk_width, context.getPlayer().z / env.chunk_depth) * 20);
+        if (y > 0) {
+            y -= val;
+        } else {
+            onGround = true;
+        }
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+
+    public boolean isOnGround() {
+        return onGround;
+    }
+
+    public boolean isAboveGround() {
+//        System.out.println(EnvironmentUtil.chunks.toString());
+//        System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
+
+        boolean result = false;
+        if (y > 0) {
+            double curr_chunk_x = Math.floor((this.x + context.getEnvironment().chunk_width / 2) / context.getEnvironment().chunk_width);
+            double curr_chunk_z = Math.floor((this.z + context.getEnvironment().chunk_depth / 2) / context.getEnvironment().chunk_depth);
+            if (context.getEnvironment().getChunks().contains(new Point2D(curr_chunk_x, curr_chunk_z))) {
+                aboveGround = true;
+            } else {
+                aboveGround = false;
+            }
+        }
+        return result;
+    }
+
+    public void setPosition(double newx, double newy, double newz) {
+        x = newx;
+        y = newy;
+        z = newz;
     }
 
     public void showModel(boolean state) {
@@ -95,103 +200,10 @@ public class PlayerUtil {
         playerRightLeg.setTranslateY(-5);
         playerRightLeg.setTranslateX(5);
 
-//        model = new Sphere(radius);
-//        model.setMaterial(MaterialsUtil.stone);
-//        model.setTranslateY(-radius);
-        rotx = new Rotate(0, new Point3D(1, 0, 0));
-        roty = new Rotate(0, new Point3D(0, 1, 0));
-        rotz = new Rotate(0, new Point3D(0, 0, 1));
-//        model.getTransforms().setAll(rotx, roty, rotz);
-//        player_group.getChildren().setAll(model);
-
         player_group.getChildren().setAll(playerRightLeg, playerLeftLeg, playerRightArm, playerLeftArm, playerNeck, playerBody, playerHead);
 
     }
 
-    public Group getGroup() {
-        return player_group;
-    }
-
-    public void moveForward(int val) {
-//        System.out.println("x: " + Math.cos(context.getCamera().rotx/57.3) + " y: " + Math.sin(context.getCamera().rotx/57.3) );
-        this.z += Math.cos(context.getCamera().rotx/57.3) * val;
-        this.x += Math.sin(context.getCamera().rotx/57.3) * val;
-    }
-
-    public void moveBackward(int val) {
-//        System.out.println("Move Backward");
-        this.z -= Math.cos(context.getCamera().rotx/57.3) * val;
-        this.x -= Math.sin(context.getCamera().rotx/57.3) * val;
-    }
-
-    public void moveLeft(int val) {
-//        System.out.println("Move Left");
-        this.x -= Math.cos(context.getCamera().rotx/57.3) * val;
-        this.z += Math.sin(context.getCamera().rotx/57.3) * val;
-    }
-
-    public void moveRight(int val) {
-//        System.out.println("Move Right");
-        this.x += Math.cos(context.getCamera().rotx/57.3) * val;
-        this.z -= Math.sin(context.getCamera().rotx/57.3) * val;
-    }
-
-    public void moveUp(int val) {
-//        System.out.println("Move Up");
-        this.y += val;
-        onGround = false;
-    }
-
-    public void moveDown(int val) {
-        EnvironmentUtil env = context.getEnvironment();
-
-//        System.out.println(env.getSimplexHeight(context.getPlayer().x / env.chunk_width, context.getPlayer().z / env.chunk_depth) * 20);
-        if (y > 0) {
-            y -= val;
-        } else {
-            onGround = true;
-        }
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-
-    public boolean isOnGround() {
-        return onGround;
-    }
-
-    public boolean isAboveGround() {
-//        System.out.println(EnvironmentUtil.chunks.toString());
-//        System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
-
-        boolean result = false;
-        if (y > 0) {
-            double curr_chunk_x = Math.floor((this.x + context.getEnvironment().chunk_width / 2) / context.getEnvironment().chunk_width);
-            double curr_chunk_z = Math.floor((this.z + context.getEnvironment().chunk_depth / 2) / context.getEnvironment().chunk_depth);
-            if (context.getEnvironment().getChunks().contains(new Point2D(curr_chunk_x, curr_chunk_z))) {
-                aboveGround = true;
-            } else {
-                aboveGround = false;
-            }
-        }
-        return result;
-    }
-
-    public void setPosition(double newx, double newy, double newz) {
-        x = newx;
-        y = newy;
-        z = newz;
-    }
 
 }
 

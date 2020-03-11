@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class ControlsUtil {
@@ -53,7 +54,7 @@ public class ControlsUtil {
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            System.out.println("Pressed " + event.getCharacter().toUpperCase());
+//            System.out.println("Pressed " + event.getCharacter().toUpperCase());
             if (!pressed.contains(event.getCode())) {
                 pressed.add(event.getCode());
             }
@@ -62,10 +63,11 @@ public class ControlsUtil {
 
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             pressed.remove(event.getCode());
-            System.out.println("Released " + event.getCharacter().toUpperCase());
+//            System.out.println("Released " + event.getCharacter().toUpperCase());
 
             switch (event.getCode()) {
                 case SPACE:
+                    context.getPlayer().canJump = true;
                     break;
                 case ESCAPE:
                     context.showScene(context.SCENE_MENU);
@@ -114,7 +116,11 @@ public class ControlsUtil {
                     context.getPlayer().moveRight(context.getPlayer().speedSide);
                     break;
                 case SPACE:
-                    context.getPlayer().moveUp(context.getPlayer().speedFly);
+                    if(context.getPlayer().isOnGround() && context.getPlayer().canJump){
+                        context.getPlayer().jump();
+                    }
+
+//                    context.getPlayer().moveUp(context.getPlayer().speedFly);
                     break;
                 case SHIFT:
                     context.getPlayer().moveDown(context.getPlayer().speedFly);

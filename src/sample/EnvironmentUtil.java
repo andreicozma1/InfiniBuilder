@@ -32,6 +32,10 @@ public class EnvironmentUtil {
         return smp.eval(x, z);
     }
 
+    public double getHeightAt(double x, double z){
+        return getSimplexHeight(x,z);
+    }
+
     EnvironmentUtil(WindowUtil ctx) {
         context = ctx;
         environment_group = new Group();
