@@ -29,7 +29,7 @@ public class MainExecution extends Application {
         // close window on menu if ESC is pressed
 
         controls.getControllerForScene(window.SCENE_MENU).setOnKeyPressed(event -> {
-            if(event.getCode() == KeyCode.ESCAPE){
+            if (event.getCode() == KeyCode.ESCAPE) {
                 window.closeWindow();
             }
         });
@@ -40,13 +40,13 @@ public class MainExecution extends Application {
         envir.generateChunks(0, 0);
         window.showScene(window.SCENE_MENU);
 
-        DrawCube cube = new DrawCube(100,100,100);
-        cube.setPos(100,-100,100);
+        DrawCube cube = new DrawCube(100, 100, 100);
+        cube.setPos(100, -100, 100);
         cube.setMaterial(MaterialsUtil.blue);
         envir.addMember(cube);
 
         DrawSphere sphere = new DrawSphere(50);
-        sphere.setPos(300,-100,100);
+        sphere.setPos(300, -100, 100);
         sphere.setMaterial(MaterialsUtil.red);
         envir.addMember(sphere);
 
@@ -63,13 +63,16 @@ public class MainExecution extends Application {
 
                     // IF THE PLAYER IS PLAYING THE GAME
                     if (window.getCurrentScene() == window.SCENE_GAME) {
-//                        System.out.println("Player X: " + PlayerUtil.x + " Y: " + PlayerUtil.y + " Z: " + PlayerUtil.z + " isFlying: " + PlayerUtil.isFlying + " onGround: " + PlayerUtil.onGround);
+//                        System.out.println("Player X: " + player.getX() + " Y: " +player.getY() + " Z: " + player.getZ()  + " onGround: " + player.isOnGround() + " aboveGround: " + player.isAboveGround());
 //                        window.lockCursor(true);
+//                        System.out.println();
+
                         controls.handleKeyboard(envir.getGroup());
-                        if (!PlayerUtil.isFlying) {
-                            player.moveDown(Physics.GRAVITY);
-                        }
-                        CameraUtil.resetCenter();
+//                        if (!player.isOnGround()) {
+                        player.moveDown(Physics.GRAVITY);
+//                        camera.rotateY(camera.getRotateY() + 1);
+//                        }
+//                        CameraUtil.resetCenter();
                     }
 
                     last = now;
@@ -79,7 +82,6 @@ public class MainExecution extends Application {
         timer.start();
 
     }
-
 
 
     public static void main(String[] args) {

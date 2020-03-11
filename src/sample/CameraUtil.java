@@ -28,7 +28,7 @@ public class CameraUtil {
         cam = new PerspectiveCamera(true);
         cam.setNearClip(1);
         cam.setFarClip(100000);
-        cam.getTransforms().add(new Translate(0, -50, -200));
+        cam.getTransforms().add(new Translate(0, -50, 0));
         cam.getTransforms().addAll(rotx, roty);
     }
 
@@ -37,19 +37,14 @@ public class CameraUtil {
     }
 
 
-    public static void rotateX(double val) {
-        System.out.println("RotateX: " + val);
-        if (Math.abs(val) < 20) {
+    public void rotateX(double val) {
+//        System.out.println("RotateX: " + val);
             rotx.setAngle(val);
-        }
-
     }
 
-    public static void rotateY(double val) {
-        System.out.println("RotateY: " + val);
-        if (Math.abs(val) < 10) {
+    public void rotateY(double val) {
+//        System.out.println("RotateY: " + val);
             roty.setAngle(val);
-        }
     }
 
     public static void resetCenter(){
@@ -62,5 +57,12 @@ public class CameraUtil {
     public void setRotate(double newx, double newy) {
         rotateX(newx);
         rotateY(newy);
+    }
+
+    public double getRotateX(){
+        return rotx.getAngle();
+    }
+    public double getRotateY(){
+        return roty.getAngle();
     }
 }

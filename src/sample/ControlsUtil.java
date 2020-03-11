@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -24,28 +25,29 @@ public class ControlsUtil {
 
     public void apply(Scene game_scene) {
         game_scene.setOnMousePressed(event -> {
-            rotating = true;
+//            rotating = true;
         });
         game_scene.setOnMouseReleased(event -> {
-            rotating = false;
+//            rotating = false;
         });
         game_scene.setOnMouseClicked(event -> {
-            last_mouse_x = event.getSceneX();
-            last_mouse_y = event.getSceneY();
+
         });
 
         game_scene.setOnMouseMoved(event -> {
-
-        });
-
-        game_scene.setOnMouseDragged(event -> {
             double differencex = event.getSceneX() - last_mouse_x;
             double differencey = last_mouse_y - event.getSceneY();
 
             System.out.println("X: " + differencex + " Y: " + differencey);
 
-            CameraUtil.rotateX(differencey / 20);
-            CameraUtil.rotateY(differencex / 20);
+//            context.getCamera().setRotate(context.getCamera().getRotateX() + differencey, context.getCamera().getRotateY() + differencex);
+
+            last_mouse_x = event.getSceneX();
+            last_mouse_y = event.getSceneY();
+        });
+
+        game_scene.setOnMouseDragged(event -> {
+
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
@@ -54,11 +56,6 @@ public class ControlsUtil {
                 pressed.add(event.getCode());
             }
 
-            switch (event.getCode()) {
-                case SPACE:
-                    PlayerUtil.isFlying = true;
-                    break;
-            }
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
@@ -67,7 +64,6 @@ public class ControlsUtil {
 
             switch (event.getCode()) {
                 case SPACE:
-                    context.getPlayer().isFlying = false;
                     break;
                 case ESCAPE:
                     context.showScene(context.SCENE_MENU);
@@ -82,20 +78,20 @@ public class ControlsUtil {
 
     public void handleKeyboard(Group environment) {
 
-        System.out.println(pressed);
-        environment.setTranslateX(-PlayerUtil.x);
-        environment.setTranslateY(PlayerUtil.y);
-        environment.setTranslateZ(-PlayerUtil.z);
+//        System.out.println(pressed);
+        context.getCamera().getCamera().setTranslateX(context.getPlayer().x);
+        context.getCamera().getCamera().setTranslateY(-context.getPlayer().y);
+        context.getCamera().getCamera().setTranslateZ(context.getPlayer().z);
 
-        context.getPlayer().isAboveGround();
+//        context.getPlayer().isAboveGround();
 
-
-        if (PlayerUtil.onGround) {
-            context.getPlayer().rotx.setAngle(-PlayerUtil.z);
-            context.getPlayer().rotz.setAngle(PlayerUtil.x * 2);
-        } else {
-
-        }
+//
+//        if (context.getPlayer().isOnGround()) {
+//            context.getPlayer().rotx.setAngle(-context.getPlayer().z);
+//            context.getPlayer().rotz.setAngle(context.getPlayer().x * 2);
+//        } else {
+//
+//        }
 
         for (KeyCode e : pressed) {
             switch (e) {
@@ -104,22 +100,22 @@ public class ControlsUtil {
                 case E:
                     break;
                 case W:
-                    context.getPlayer().moveForward(PlayerUtil.speedForward);
+                    context.getPlayer().moveForward(context.getPlayer().speedForward);
                     break;
                 case A:
-                    context.getPlayer().moveLeft(PlayerUtil.speedSide);
+                    context.getPlayer().moveLeft(context.getPlayer().speedSide);
                     break;
                 case S:
-                    context.getPlayer().moveBackward(PlayerUtil.speedBackward);
+                    context.getPlayer().moveBackward(context.getPlayer().speedBackward);
                     break;
                 case D:
-                    context.getPlayer().moveRight(PlayerUtil.speedSide);
+                    context.getPlayer().moveRight(context.getPlayer().speedSide);
                     break;
                 case SPACE:
-                    context.getPlayer().moveUp(PlayerUtil.speedFly);
+                    context.getPlayer().moveUp(context.getPlayer().speedFly);
                     break;
                 case SHIFT:
-                    context.getPlayer().moveDown(PlayerUtil.speedFly);
+                    context.getPlayer().moveDown(context.getPlayer().speedFly);
                     break;
                 case R:
                     context.getPlayer().setPosition(0,0,0);

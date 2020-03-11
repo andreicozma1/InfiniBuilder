@@ -10,32 +10,31 @@ import javafx.scene.transform.Rotate;
 
 public class PlayerUtil {
     public WindowUtil context;
-    public static Group player_group;
+    private Group player_group;
 
-    public static Sphere playerHead;
-    public static Cylinder playerNeck;
-    public static Cylinder playerBody;
-    public static Cylinder playerLeftArm;
-    public static Cylinder playerRightArm;
-    public static Cylinder playerLeftLeg;
-    public static Cylinder playerRightLeg;
+    private Sphere playerHead;
+    private Cylinder playerNeck;
+    private Cylinder playerBody;
+    private Cylinder playerLeftArm;
+    private Cylinder playerRightArm;
+    private Cylinder playerLeftLeg;
+    private Cylinder playerRightLeg;
 
-    public static double x = 0;
-    public static double y = 0;
-    public static double z = 0;
+    public double x = 0;
+    public double y = 0;
+    public double z = 0;
 
-    public static Rotate rotx;
-    public static Rotate roty;
-    public static Rotate rotz;
+    public Rotate rotx;
+    public Rotate roty;
+    public Rotate rotz;
 
-    public static int speedForward = 10;
-    public static int speedBackward = 10;
-    public static int speedSide = 2;
-    public static int speedFly = 5;
+    public int speedForward = 10;
+    public int speedBackward = 10;
+    public int speedSide = 2;
+    public int speedFly = 5;
 
-    public static boolean isFlying = false;
-    public static boolean onGround = true;
-    public static boolean aboveGround = true;
+    private boolean onGround = true;
+    private boolean aboveGround = true;
 
     PlayerUtil(WindowUtil ctx) {
         context = ctx;
@@ -115,36 +114,56 @@ public class PlayerUtil {
 
     public void moveForward(int val) {
 //        System.out.println("Move Forward");
-        PlayerUtil.z += val;
+        this.z += val;
     }
 
     public void moveBackward(int val) {
 //        System.out.println("Move Backward");
-        PlayerUtil.z -= val;
+        this.z -= val;
     }
 
     public void moveLeft(int val) {
 //        System.out.println("Move Left");
-        PlayerUtil.x -= val;
+        this.x -= val;
     }
 
     public void moveRight(int val) {
 //        System.out.println("Move Right");
-        PlayerUtil.x += val;
+        this.x += val;
     }
 
     public void moveUp(int val) {
 //        System.out.println("Move Up");
-        PlayerUtil.y += val;
+        this.y += val;
         onGround = false;
     }
 
     public void moveDown(int val) {
-//        System.out.println("Move Down");
+        EnvironmentUtil env = context.getEnvironment();
 
-        if (!aboveGround || y > 0) {
+//        System.out.println(env.getSimplexHeight(context.getPlayer().x / env.chunk_width, context.getPlayer().z / env.chunk_depth) * 20);
+        if (y > 0) {
             y -= val;
+        } else {
+            onGround = true;
         }
+    }
+
+    public double getX() {
+        return Math.round(x / context.getEnvironment().chunk_width);
+    }
+
+    public double getY() {
+        return Math.round(y / context.getEnvironment().chunk_height);
+    }
+
+    public double getZ() {
+        return Math.round(z / context.getEnvironment().chunk_depth);
+    }
+
+
+    public boolean isOnGround() {
+        return onGround;
     }
 
     public boolean isAboveGround() {
@@ -153,13 +172,11 @@ public class PlayerUtil {
 
         boolean result = false;
         if (y > 0) {
-            double curr_chunk_x = Math.floor((PlayerUtil.x + context.getEnvironment().chunk_width / 2) / context.getEnvironment().chunk_width);
-            double curr_chunk_z = Math.floor((PlayerUtil.z + context.getEnvironment().chunk_depth / 2) / context.getEnvironment().chunk_depth);
+            double curr_chunk_x = Math.floor((this.x + context.getEnvironment().chunk_width / 2) / context.getEnvironment().chunk_width);
+            double curr_chunk_z = Math.floor((this.z + context.getEnvironment().chunk_depth / 2) / context.getEnvironment().chunk_depth);
             if (context.getEnvironment().getChunks().contains(new Point2D(curr_chunk_x, curr_chunk_z))) {
-                System.out.println("ON GROUND");
                 aboveGround = true;
             } else {
-                System.out.println("NOT ON GROUND");
                 aboveGround = false;
             }
         }
