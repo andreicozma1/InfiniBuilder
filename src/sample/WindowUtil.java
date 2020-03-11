@@ -137,6 +137,7 @@ public class WindowUtil {
 
         if(SCENE_CURRENT == SCENE_GAME){
             System.out.println("Switched to Game Scene");
+          getEnvironment().resetLighting();
             hideCursor();
         }
         if(SCENE_CURRENT == SCENE_MENU) {

@@ -18,9 +18,7 @@ public class EnvironmentUtil {
     private WindowUtil context;
     public Group environment_group;
 
-    public Rotate rotx;
-    public Rotate roty;
-    public Rotate rotz;
+    LightBase lights = null;
 
     public int chunk_depth = 50;
     public int chunk_width = 50;
@@ -94,8 +92,18 @@ public class EnvironmentUtil {
 
 
     public void setLighting(LightBase node) {
-        environment_group.getChildren().add(node);
+        lights = node;
+        environment_group.getChildren().add(lights);
     }
+
+    public void resetLighting(){
+        if(environment_group.getChildren().contains(lights)){
+            environment_group.getChildren().remove(lights);
+            environment_group.getChildren().add(lights);
+        }
+
+    }
+
 
     public void addMember(ObjectBuilder member) {
         environment_group.getChildren().add(member.getGroup());
