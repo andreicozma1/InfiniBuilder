@@ -60,9 +60,6 @@ public class PlayerUtil {
                 moveDown(speedFly);
             }
         }
-
-
-
     }
 
 
@@ -127,7 +124,6 @@ public class PlayerUtil {
     public double getZ() {
         return z;
     }
-
 
     public boolean isOnGround() {
         return onGround;

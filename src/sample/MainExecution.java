@@ -14,17 +14,22 @@ public class MainExecution extends Application {
 
         System.out.println("MainExecution");
         MaterialsUtil materials = new MaterialsUtil();
+
         WindowUtil window = new WindowUtil(primaryStage, 800, 600);
+
         CameraUtil camera = new CameraUtil(window);
         ControlsUtil controls = new ControlsUtil(window);
         PlayerUtil player = new PlayerUtil(window);
+        player.showModel(true);
         EnvironmentUtil envir = new EnvironmentUtil(window);
+        envir.setLighting(new AmbientLight());
+        envir.generateChunks(0, 0);
 
         window.buildMenu();
         window.setCamera(camera);
         window.setControls(controls);
-        window.setEnvironment(envir);
         window.setPlayer(player);
+        window.setEnvironment(envir);
 
         // close window on menu if ESC is pressed
 
@@ -34,13 +39,7 @@ public class MainExecution extends Application {
             }
         });
 
-
-        player.showModel(true);
-        envir.setLighting(new AmbientLight());
-        envir.generateChunks(0, 0);
         window.showScene(window.SCENE_MENU);
-
-
 
         // MAIN GAME LOOP
         AnimationTimer timer = new AnimationTimer() {
@@ -62,7 +61,6 @@ public class MainExecution extends Application {
         timer.start();
 
     }
-
 
     public static void main(String[] args) {
         launch(args);
