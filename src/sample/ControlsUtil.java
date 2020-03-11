@@ -25,15 +25,7 @@ public class ControlsUtil {
     }
 
     public void apply(Scene game_scene) {
-        game_scene.setOnMousePressed(event -> {
-//            rotating = true;
-        });
-        game_scene.setOnMouseReleased(event -> {
-//            rotating = false;
-        });
-        game_scene.setOnMouseClicked(event -> {
 
-        });
 
         game_scene.setOnMouseMoved(event -> {
             double differencex = event.getSceneX() - last_mouse_x;
@@ -58,21 +50,31 @@ public class ControlsUtil {
             if (!pressed.contains(event.getCode())) {
                 pressed.add(event.getCode());
             }
-
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            pressed.remove(event.getCode());
-//            System.out.println("Released " + event.getCharacter().toUpperCase());
+            if(pressed.contains(event.getCode())){
+                pressed.remove(event.getCode());
+                System.out.println("Released " + event.getText());
+                switch (event.getCode()) {
+                    case SPACE:
+                        context.getPlayer().canJump = true;
+                        break;
+                    case ESCAPE:
+                        context.showScene(context.SCENE_MENU);
+                        break;
+                    case F:
+                        if (context.getPlayer().isFlyMode) {
+                            context.getPlayer().isFlyMode = false;
+                        } else {
+                            context.getPlayer().isFlyMode = true;
+                        }
 
-            switch (event.getCode()) {
-                case SPACE:
-                    context.getPlayer().canJump = true;
-                    break;
-                case ESCAPE:
-                    context.showScene(context.SCENE_MENU);
-                    break;
+                        System.out.println( context.getPlayer().isFlyMode);
+                        break;
+                }
             }
+
         });
     }
 
@@ -81,21 +83,6 @@ public class ControlsUtil {
     }
 
     public void handleKeyboard(Group environment) {
-
-//        System.out.println(pressed);
-//        context.getCamera().getCamera().setTranslateX(context.getPlayer().x);
-//        context.getCamera().getCamera().setTranslateY(-context.getPlayer().y);
-//        context.getCamera().getCamera().setTranslateZ(context.getPlayer().z);
-
-//        context.getPlayer().isAboveGround();
-
-//
-//        if (context.getPlayer().isOnGround()) {
-//            context.getPlayer().rotx.setAngle(-context.getPlayer().z);
-//            context.getPlayer().rotz.setAngle(context.getPlayer().x * 2);
-//        } else {
-//
-//        }
 
         for (KeyCode e : pressed) {
             switch (e) {
@@ -115,12 +102,16 @@ public class ControlsUtil {
                 case D:
                     context.getPlayer().moveRight(context.getPlayer().speedSide);
                     break;
-                case SPACE:
-                    if(context.getPlayer().isOnGround() && context.getPlayer().canJump){
-                        context.getPlayer().jump();
-                    }
 
-//                    context.getPlayer().moveUp(context.getPlayer().speedFly);
+                case SPACE:
+                    System.out.println(context.getPlayer().isFlyMode);
+                    if (context.getPlayer().isFlyMode) {
+                        context.getPlayer().moveUp(context.getPlayer().speedFly);
+                    } else {
+                        if (context.getPlayer().isOnGround() && context.getPlayer().canJump) {
+                            context.getPlayer().jump();
+                        }
+                    }
                     break;
                 case SHIFT:
                     context.getPlayer().moveDown(context.getPlayer().speedFly);

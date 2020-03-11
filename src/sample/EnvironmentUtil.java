@@ -55,6 +55,16 @@ public class EnvironmentUtil {
     public void generateChunks(int playerx, int playery) {
 
         System.out.println("HEREEE");
+        DrawCube cube = new DrawCube(100, 100, 100);
+        cube.setPos(100, -100, 100);
+        cube.setMaterial(MaterialsUtil.blue);
+        addMember(cube);
+
+        DrawSphere sphere = new DrawSphere(50);
+        sphere.setPos(300, -100, 100);
+        sphere.setMaterial(MaterialsUtil.red);
+        addMember(sphere);
+
         for (double i = 0; i < 50; i++) {
             for (double j = 0; j < 50; j++) {
 

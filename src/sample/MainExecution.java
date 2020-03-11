@@ -40,15 +40,7 @@ public class MainExecution extends Application {
         envir.generateChunks(0, 0);
         window.showScene(window.SCENE_MENU);
 
-        DrawCube cube = new DrawCube(100, 100, 100);
-        cube.setPos(100, -100, 100);
-        cube.setMaterial(MaterialsUtil.blue);
-        envir.addMember(cube);
 
-        DrawSphere sphere = new DrawSphere(50);
-        sphere.setPos(300, -100, 100);
-        sphere.setMaterial(MaterialsUtil.red);
-        envir.addMember(sphere);
 
         // MAIN GAME LOOP
         AnimationTimer timer = new AnimationTimer() {
@@ -59,17 +51,10 @@ public class MainExecution extends Application {
 
                 // FPS HANDLING
                 if ((now - last) > (1 / 60)) {
-//                    System.out.println(now-last);
-
-                    // IF THE PLAYER IS PLAYING THE GAME
                     if (window.getCurrentScene() == window.SCENE_GAME) {
-
                         controls.handleKeyboard(envir.getGroup());
-
                         player.handle();
-
                     }
-
                     last = now;
                 }
             }

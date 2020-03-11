@@ -20,6 +20,7 @@ public class PlayerUtil {
     private Cylinder playerLeftLeg;
     private Cylinder playerRightLeg;
 
+
     public double x = 0;
     public double y = 0;
     public double z = 0;
@@ -33,6 +34,8 @@ public class PlayerUtil {
     public boolean canJump = true;
     public boolean isJumping = false;
 
+    public boolean isFlyMode = false;
+
     private boolean onGround = true;
     private boolean aboveGround = true;
 
@@ -44,17 +47,24 @@ public class PlayerUtil {
 
     public void handle() {
 //        System.out.println("Player X: " + getX() + " Y: " + getY() + " Z: " + getZ()  + " onGround: " +  isOnGround() + " aboveGround: " + isAboveGround());
-        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
+//        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().handle();
 
-        if (isJumping && y < context.getEnvironment().getHeightAt(x, z) + jumpHeight) {
-            moveUp(speedFly);
-        } else {
-            isJumping = false;
-            moveDown(speedFly);
+        // todo
+
+        if(!isFlyMode){
+            if (isJumping && y < context.getEnvironment().getHeightAt(x, z) + jumpHeight) {
+                moveUp(speedFly);
+            } else {
+                isJumping = false;
+                moveDown(speedFly);
+            }
         }
 
+
+
     }
+
 
     public void jump() {
         isJumping = true;
