@@ -28,10 +28,10 @@ public class PlayerUtil {
     public Rotate roty;
     public Rotate rotz;
 
-    public int speedForward = 100;
-    public int speedBackward = 100;
-    public int speedSide = 50;
-    public int speedFly = 50;
+    public int speedForward = 5;
+    public int speedBackward = 5;
+    public int speedSide = 2;
+    public int speedFly = 2;
 
     private boolean onGround = true;
     private boolean aboveGround = true;
@@ -113,7 +113,7 @@ public class PlayerUtil {
     }
 
     public void moveForward(int val) {
-        System.out.println("x: " + Math.cos(context.getCamera().rotx/57.3) + " y: " + Math.sin(context.getCamera().rotx/57.3) );
+//        System.out.println("x: " + Math.cos(context.getCamera().rotx/57.3) + " y: " + Math.sin(context.getCamera().rotx/57.3) );
         this.z += Math.cos(context.getCamera().rotx/57.3) * val;
         this.x += Math.sin(context.getCamera().rotx/57.3) * val;
     }
@@ -154,15 +154,15 @@ public class PlayerUtil {
     }
 
     public double getX() {
-        return Math.round(x / context.getEnvironment().chunk_width);
+        return x;
     }
 
     public double getY() {
-        return Math.round(y / context.getEnvironment().chunk_height);
+        return y;
     }
 
     public double getZ() {
-        return Math.round(z / context.getEnvironment().chunk_depth);
+        return z;
     }
 
 
