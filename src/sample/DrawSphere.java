@@ -3,7 +3,7 @@ package sample;
 import javafx.scene.paint.Material;
 import javafx.scene.shape.Sphere;
 
-public class DrawSphere extends ObjectBuilder {
+public class DrawSphere extends StructureBuilder {
     private Sphere sphere;
     private Material material;
 

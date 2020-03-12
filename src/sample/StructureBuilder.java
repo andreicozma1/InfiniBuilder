@@ -2,7 +2,7 @@ package sample;
 
 import javafx.scene.Group;
 
-public class ObjectBuilder {
+public class StructureBuilder {
     private double x = 0;
     private double y = 0;
     private double z = 0;
@@ -14,7 +14,7 @@ public class ObjectBuilder {
     private PhysicsUtil physicsUtil;
     private Group group;
 
-    public ObjectBuilder(float x,float y,float z){
+    public StructureBuilder(float x, float y, float z){
         group = new Group();
     }
 

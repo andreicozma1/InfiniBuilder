@@ -2,14 +2,8 @@ package sample;
 
 import javafx.geometry.Point2D;
 import javafx.scene.*;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.CullFace;
-import javafx.scene.transform.Rotate;
-import javafx.stage.Window;
-import sample.MaterialsUtil;
-import sample.WindowUtil;
 
 import java.util.ArrayList;
 
@@ -105,11 +99,11 @@ public class EnvironmentUtil {
     }
 
 
-    public void addMember(ObjectBuilder member) {
+    public void addMember(StructureBuilder member) {
         environment_group.getChildren().add(member.getGroup());
     }
 
-    public void removeMember(ObjectBuilder member) {
+    public void removeMember(StructureBuilder member) {
         environment_group.getChildren().remove(member.getGroup());
     }
 }

@@ -28,20 +28,18 @@ Updated Feature TO-DO List on Trello: https://trello.com/b/ghb9XDRV/cs307-final-
 - Added a PlayerUtil class which tracks different parameters related to the player, including different movement speeds, current position coordinates, etc
 - The EnvironmentUtil class was added to handle Ambient ligting set on the environment, as well as an addMember function to drop an ObjectBuilder object into the environemnt.
 
-** PERSONALLY ASSIGNED TASKS:
+** PERSONALLY ASSIGNED TASKS (RUBRIC - 40PTS) - sorted by urgency:
 * Avg Time to complete: ~30 more hrs
-- Implement Depth Checking when rendering 3D objects on the 2d screen so that they are rendered in the correct order in front of eachother
-- Basic Environment Generation Improvements (After depth checking is done)
-- Ability to seed the PerlinNoise and SimplexNoise generators, be able to tweak the parameters of these when generating the terrain.
-- Infinite terrain generation. Optimize in a way in which only chunks in a specific radius from the player are generated (or only the front of the player are rendered)
-- Basic collision checking with the environment
-- Basic player running system. Uses stamina to run. Change camera FOV while running
-- Basic player stamina system. Use stamina when running. Regenerate stamina when walking (slower) or standing (faster). After running out of stamina, player can't run anymore. Only be able to run again after the stamina is above 75%.
-- Basic player health system. Falling from a certain height will decrease your health. Health regenerates at a predefined rate only when stamina is 100%
-- Basic PhysicsUtil class implementation (for falling and taking damage while falling)
-- Skybox - can control the Ambient Light intensity, sky color, etc
-- Day-Night Cycle - add moon and sun, use trigonometry to rotate them at specified intervals around the player
-- Change the color of the skybox as well as Ambient light dependinng on the time of day
+- (5 pts) Implement Depth Checking when rendering 3D objects on the 2d screen so that they are rendered in the correct order in front of eachother
+- Basic Environment Generation Improvements (After depth checking is done). Ability to seed the PerlinNoise and SimplexNoise generators, be able to tweak the parameters of these when generating the terrain.
+- (8 pts) Infinite terrain generation. Optimize in a way in which only chunks in a specific radius from the player are generated (or only the front of the player are rendered)
+- (2 pts) Basic collision checking with the environment
+- (3 pts) Basic player running system. Uses stamina to run. Change camera FOV while running
+- (4 pts) Basic player stamina system. Use stamina when running. Regenerate stamina when walking (slower) or standing (faster). After running out of stamina, player can't run anymore. Only be able to run again after the stamina is above 75%.
+- (4 pts) Basic player health system. Falling from a certain height will decrease your health. Health regenerates at a predefined rate only when stamina is 100%
+- (2 pts) Basic PhysicsUtil class implementation (for falling and taking damage while falling)
+- (4 pts) Skybox - can control the Ambient Light intensity, sky color, etc depending on time of day
+- (8 pts) Day-Night Cycle - add moon and sun, use trigonometry to rotate them at specified intervals around the player
 
 ** PROJECT TIME LOG (Based on Git Log):
 - AVERAGE TIME SPENT: ~15 hours

@@ -3,7 +3,7 @@ package sample;
 import javafx.scene.paint.Material;
 import javafx.scene.shape.Box;
 
-public class DrawCube extends ObjectBuilder {
+public class DrawCube extends StructureBuilder {
     private Box box;
     private Material material;
 
