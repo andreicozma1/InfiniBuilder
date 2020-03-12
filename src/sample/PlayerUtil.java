@@ -50,7 +50,6 @@ public class PlayerUtil {
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().handle();
 
-        // todo
 
         if(!isFlyMode){
             if (isJumping && y < context.getEnvironment().getHeightAt(x, z) + jumpHeight) {

@@ -1,0 +1,31 @@
+Andrei Cozma
+CS307 Final Project
+Last Updated: 03/12/2020
+
+
+-AVERAGE TIME SPENT: ~15 hours
+** PROJECT TIME LOG (Based on Git Log):
+* db78978 [0.5 hours] - (HEAD -> master, origin/master) Refactored and cleaned up code (25 hours ago) <Andrei Cozma>
+* 900b415 [0.5 hours] - Fixed bug where lighting system didn't work after going to the pause menu and back (25 hours ago) <Andrei Cozma>
+* 7a65e42 [0.5 hours] - Finished up ability to jump (25 hours ago) <Andrei Cozma>
+* 8f85f91 [1.5 hours] - Added the ability for the player to jump (26 hours ago) <Andrei Cozma>
+* 2b0cf3c [0.2 hours] - Removed unused configuration file (27 hours ago) <Andrei Cozma>
+* 2c1bc0a [0.5 hours] - Fixed jittery movement due to rounding (27 hours ago) <Andrei Cozma>
+* 2b93d67 [1.0 hours] - Added first implementation of a rotating movement system (27 hours ago) <Andrei Cozma>
+* 4c8f4c3 [2.5 hours] - Added camera rotation system (28 hours ago) <Andrei Cozma>
+* 20e31be [1.5 hours] - Improvements in Environment generation and preparation for using SimplexNoise algorithm (29 hours ago) <Andrei Cozma>
+| * 7410685 [0.5 hours] - Added function to be able to completely exit out of the game using the ESC button (8 days ago) <Andrei Cozma>
+| * ce62f20 [0.5 hours] - Added function to move the camera to any arbitrary rotation (8 days ago) <Andrei Cozma>
+| * a3f9575 [0.5 hours] - Added function to move the player anywhere in the world. Would reposition the player above ground in any situation (8 days ago) <Andrei Cozma>
+| * e47cbb2 [2.0 hours] - Started restructuring the controls scheme to be able to use different implementations in any scene (8 days ago) <Andrei Cozma>
+* 9304deb [1.5 hours] - Added getters for each game element in context and fixed player movement (8 days ago) <Andrei Cozma>
+* c119b7b [1.0 hours] - Attempted adding 60FPS cap (8 days ago) <Andrei Cozma>
+* 4430712 [1.0 hours] - Added functions for locking cursor in the middle of the screen as well as switching cursor states (8 days ago) <Andrei Cozma>
+* 243d626 [0.5 hours] - Added exit button and ESC functionality (8 days ago) <Andrei Cozma>
+* | d154bd7 [0.5 hours] - Added exit button (8 days ago) <Andrei Cozma>
+* cd75e8a [0.5 hours] - Added perlin noise (2 weeks ago) <Andrei Cozma>
+* 959dbc6 [0.5 hours] - Added java fx parameters (4 weeks ago) <Andrei Cozma>
+* fce939b [0.5 hours] - Added project configuration files (4 weeks ago) <Andrei Cozma>
+* e9bd172 [1.0 hours] - Added JFX Libraries (4 weeks ago) <Andrei Cozma>
+* 9dec8d4 [0.0 hours] - Initial IDEA Project (4 weeks ago) <Andrei Cozma>
+* e544392 [0.0 hours] - initial commit (4 weeks ago) <Andrei Cozma>

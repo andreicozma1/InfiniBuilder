@@ -1,0 +1,38 @@
+To Do List:
+Features:
+- add player hud pane/group to screen with health, ...
+Camera:
+- Implement Depth Checking on drawn objects so that they are rendered with the correct priority
+Movement
+-
+Environment:
+- Implement basic terrain generation using Simplex Noise
+- Make Simplex noise terrain generation configurable
+- Implement basic terrain generation using PerlinNoise
+- Make PerlinNoise terrain generation configurable
+Lighting:
+- Add the ability to alter the different parameters and modes of Ambient Light
+- Create a Day-Night cycle by using different Ambient Light colors
+
+
+Menu:
+- Improve menu to be more modular and OOP
+- Move Main Menu cube to the right, make it bigger, make it rotate
+- set physics function with the physics class part of the object class.
+    This affects all members of the environment that should be affected by physics
+
+
+Completed List:
+- Fixed Ambient Light problem when returning from the main menu
+- Added Fly Mode by pressing F;
+- Added ability to jump a specified height
+- Implemented Trig logic in order to move in different X and Z coordinates based on the current rotation of the camera
+- basic movement physics to player (jumping, falling, etc)
+- moving and rotating the camera object instead of the terrain
+- Implemented PerlinNoise Algorithm helper functions and tested functionality to ensure it will work with terrain generation
+- Added SimplexNoise library to use in the future for terrain generation
+- basic generate terrain functions in EnvironmentUtil
+- map mouse movement. Find deltaX and deltaY on mouse movement to find
+  mouse acceleration. Use this to find the amount the camera/player needs to rotate
+- Added simple terrain generation based on tiling cubes
+
