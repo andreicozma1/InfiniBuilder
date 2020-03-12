@@ -11,14 +11,12 @@ public class ObjectBuilder {
     private double depth = 1;
     private boolean solidState = false;
     private boolean physicsState = false;
+    private PhysicsUtil physicsUtil;
     private Group group;
-    private EnvironmentUtil environmentUtil;
 
     public ObjectBuilder(float x,float y,float z){
         group = new Group();
     }
-
-
 
     public Group getGroup(){
         return group;
@@ -30,6 +28,9 @@ public class ObjectBuilder {
 
     public void setPhysicsState(boolean state) { physicsState = state; }
     public boolean getPhysicsState(){ return physicsState; }
+
+    public void setPhysicsUtil(PhysicsUtil physicsUtil){ this.physicsUtil= physicsUtil; }
+    public PhysicsUtil getPhysicsUtil() { return physicsUtil; }
 
     public void setPos(double x, double y, double z){
         setX(x);
