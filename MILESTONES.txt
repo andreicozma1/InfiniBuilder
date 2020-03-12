@@ -1,6 +1,6 @@
 Names: Andrei Cozma and Hunter Price
 CS307 Final Project - JavaFX Game & Game Library
-Last Updated File: 03/12/2020
+Updated on Trello: https://trello.com/b/ghb9XDRV/cs307-final-project
 
 TO-DO LIST
 ** TODO- Assign priority to each one of these items **

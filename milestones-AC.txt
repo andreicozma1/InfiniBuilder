@@ -1,13 +1,50 @@
-Andrei Cozma
-CS307 Final Project
-Last Updated: 03/12/2020
+Name: Andrei Cozma
+CS307 Final Project - JavaFX Game & Video Game Library
+GitHub Repository: https://github.com/andreicozma1/CS307FinalProject
+Updated Feature TO-DO List on Trello: https://trello.com/b/ghb9XDRV/cs307-final-project
 
-** COMPLETED LIST:
+** PERSONALLY ALREADY-COMPLETED TASKS LIST:
+- Fixed Ambient Light problem when returning from the main menu
+- Added Fly Mode by pressing F;
+- Added ability to jump a specified height
+- Implemented Trig logic in order to move in different X and Z coordinates based on the current rotation of the camera
+- Basic movement physics to player (jumping, falling, etc)
+- Moving and rotating the camera object instead of the terrain
+- Implemented PerlinNoise Algorithm helper functions and tested functionality to ensure it will work with terrain generation
+- Added SimplexNoise library to use in the future for terrain generation
+- Basic generate terrain functions in EnvironmentUtil
+- map mouse movement. Find deltaX and deltaY on mouse movement to find mouse acceleration. Use this to find the amount the camera/player needs to rotate
+- Implemented an ObjectBuilder parent class which we can create different types of objects we can add to the environment
+- Added simple terrain generation based on tiling cubes and being able to customize the tile range and width/height/depth
+- Added classes for WindowUtil,EnvironmentUtil,PlayerUtil,ControlsUtil,CameraUtil,MenuUtil,MaterialsUtil
+- Each one of the component classes are passed in a context through their constructor from which we are able to directly control different aspects of the game from a different class
+- Wrote MainExecution in a way to which to use the classes for creating a Window, Player, Environment etc.
+- Each of the EnvironmentUtil,PlayerUtil,ControlsUtil,CameraUtil,MenuUtil,MaterialsUtil are implemented to be submodules of the window object
+- The WindowUtil object now controls all aspects of the game, such as creating menus, displaying them, creating a player, camera, environment, as well as customizing them
+- Added functionality in ControlsUtil for handling mouse movement, mouse presses and releases, as well as key presses and releases
+- Added the ability to tell which buttons are pressed at the same time in order to perform multiple interactions at once for player movement.
+- Added a Materials class which contains static references to different Materials to be used when rendering different objects on the scene
+- Implemented basic movement functions in the PlayerUtil class which uses input from the ControlsUtil class.
+- Added a PlayerUtil class which tracks different parameters related to the player, including different movement speeds, current position coordinates, etc
+- The EnvironmentUtil class was added to handle Ambient ligting set on the environment, as well as an addMember function to drop an ObjectBuilder object into the environemnt.
 
-** MILESTONES:
+** PERSONALLY ASSIGNED TASKS:
+* Avg Time to complete: ~30 more hrs
+- Implement Depth Checking when rendering 3D objects on the 2d screen so that they are rendered in the correct order in front of eachother
+- Basic Environment Generation Improvements (After depth checking is done)
+- Ability to seed the PerlinNoise and SimplexNoise generators, be able to tweak the parameters of these when generating the terrain.
+- Infinite terrain generation. Optimize in a way in which only chunks in a specific radius from the player are generated (or only the front of the player are rendered)
+- Basic collision checking with the environment
+- Basic player running system. Uses stamina to run. Change camera FOV while running
+- Basic player stamina system. Use stamina when running. Regenerate stamina when walking (slower) or standing (faster). After running out of stamina, player can't run anymore. Only be able to run again after the stamina is above 75%.
+- Basic player health system. Falling from a certain height will decrease your health. Health regenerates at a predefined rate only when stamina is 100%
+- Basic PhysicsUtil class implementation (for falling and taking damage while falling)
+- Skybox - can control the Ambient Light intensity, sky color, etc
+- Day-Night Cycle - add moon and sun, use trigonometry to rotate them at specified intervals around the player
+- Change the color of the skybox as well as Ambient light dependinng on the time of day
 
--AVERAGE TIME SPENT: ~15 hours
 ** PROJECT TIME LOG (Based on Git Log):
+- AVERAGE TIME SPENT: ~15 hours
 * db78978 [0.5 hours] - (HEAD -> master, origin/master) Refactored and cleaned up code (25 hours ago) <Andrei Cozma>
 * 900b415 [0.5 hours] - Fixed bug where lighting system didn't work after going to the pause menu and back (25 hours ago) <Andrei Cozma>
 * 7a65e42 [0.5 hours] - Finished up ability to jump (25 hours ago) <Andrei Cozma>
@@ -18,7 +55,7 @@ Last Updated: 03/12/2020
 * 4c8f4c3 [2.5 hours] - Added camera rotation system (28 hours ago) <Andrei Cozma>
 * 20e31be [1.5 hours] - Improvements in Environment generation and preparation for using SimplexNoise algorithm (29 hours ago) <Andrei Cozma>
 | * 7410685 [0.5 hours] - Added function to be able to completely exit out of the game using the ESC button (8 days ago) <Andrei Cozma>
-| * ce62f20 [0.5 hours] - Added function to move the camera to any arbitrary rotation (8 days ago) <Andrei Cozma>
+| * ce62f20 [1.0 hours] - Added function to move the camera to any arbitrary rotation (8 days ago) <Andrei Cozma>
 | * a3f9575 [0.5 hours] - Added function to move the player anywhere in the world. Would reposition the player above ground in any situation (8 days ago) <Andrei Cozma>
 | * e47cbb2 [2.0 hours] - Started restructuring the controls scheme to be able to use different implementations in any scene (8 days ago) <Andrei Cozma>
 * 9304deb [1.5 hours] - Added getters for each game element in context and fixed player movement (8 days ago) <Andrei Cozma>

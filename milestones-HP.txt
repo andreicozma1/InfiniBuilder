@@ -1,4 +1,8 @@
 Name: Hunter Price
+CS307 Final Project - JavaFX Game & Video Game Library
+GitHub Repository: https://github.com/andreicozma1/CS307FinalProject
+Updated Feature TO-DO List on Trello: https://trello.com/b/ghb9XDRV/cs307-final-project
+
 Required Time: Minimum of 20 hours for myself
 
 Completed List:
