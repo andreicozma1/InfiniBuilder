@@ -36,7 +36,7 @@ public class WindowUtil {
         WIDTH = w;
         HEIGHT = h;
         window_group = new Group();
-        SCENE_GAME = new Scene(window_group, WIDTH, HEIGHT);
+        SCENE_GAME = new Scene(window_group, WIDTH, HEIGHT, true);
 
         setCamera(new CameraUtil(this));
         setControls(new ControlsUtil(this));
