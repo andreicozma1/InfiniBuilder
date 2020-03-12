@@ -36,6 +36,8 @@ Environment:
 - Make PerlinNoise terrain generation configurable
 - Add different structures on the randomly generated environment (randomly generate?)
 - Add ability to seed the PerlinNoise and Simplex Noise generators in MainExecution (based on given seed)
+- Infinitely generate terrain based on perlin noise in a radius around the player
+- Delete far away chunks in order to save on memory
 Objects:
 - Add ability to spawn object into the environment
 - When placing an object into the environment we have direct access to it's parameters (position, scale, rotation, color, material, physics, etc) from Main Execution
