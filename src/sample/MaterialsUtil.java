@@ -7,7 +7,7 @@ import javafx.scene.paint.PhongMaterial;
 public class MaterialsUtil {
 
     public static PhongMaterial stone;
-   public static PhongMaterial grass;
+    public static PhongMaterial grass;
     public static PhongMaterial blue;
     public static PhongMaterial green;
     public static PhongMaterial red;

@@ -6,6 +6,12 @@ public class MazeGenerator {
     private int row;
     private int col;
     private int seed;
+    private int startingXCoord = 0 ;
+    private int startingYCoord = 0 ;
+    private int startingZCoord = 0 ;
+    private int finalXCoord = 0 ;
+    private int finalYCoord = 0 ;
+    private int finalZCoord = 0 ;
     private ArrayList<ArrayList<Boolean>> maze;
 
     public MazeGenerator(int row, int col, int seed){
