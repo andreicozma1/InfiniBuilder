@@ -1,6 +1,6 @@
 package sample;
 
-public class Physics {
+public class PhysicsUtil {
 
     public static int GRAVITY = 4;
 }

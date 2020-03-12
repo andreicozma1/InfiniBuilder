@@ -2,6 +2,9 @@ Andrei Cozma
 CS307 Final Project
 Last Updated: 03/12/2020
 
+** COMPLETED LIST:
+
+** MILESTONES:
 
 -AVERAGE TIME SPENT: ~15 hours
 ** PROJECT TIME LOG (Based on Git Log):
