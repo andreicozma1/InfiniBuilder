@@ -9,6 +9,8 @@ public class ObjectBuilder {
     private double width = 1;
     private double height = 1;
     private double depth = 1;
+    private boolean solidState = false;
+    private boolean physicsState = false;
     private Group group;
     private EnvironmentUtil environmentUtil;
 
@@ -16,10 +18,18 @@ public class ObjectBuilder {
         group = new Group();
     }
 
+
+
     public Group getGroup(){
         return group;
     }
+    public void setGroup(Group group){ this.group = group; }
 
+    public void setSolidState(boolean state) { solidState = state; }
+    public boolean getSolidState() { return solidState; }
+
+    public void setPhysicsState(boolean state) { physicsState = state; }
+    public boolean getPhysicsState(){ return physicsState; }
 
     public void setPos(double x, double y, double z){
         setX(x);
