@@ -87,6 +87,7 @@ public class MazeGenerator {
             s2 = disjointSet.Find(c2);
             if(s1 != s2){
                 disjointSet.Union(s1,s2);
+                //finish this part
 
                 wallEntry = walls.pollFirstEntry();
                 ncomp--;
