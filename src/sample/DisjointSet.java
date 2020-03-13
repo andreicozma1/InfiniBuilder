@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class DisjointSet{
     private ArrayList<Integer> links;
     private ArrayList<Integer> ranks;
+
     public DisjointSet(int nElements){
         links = new ArrayList<Integer>();
         ranks = new ArrayList<Integer>();
