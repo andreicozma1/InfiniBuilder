@@ -12,6 +12,8 @@ public class MaterialsUtil {
     public static PhongMaterial green;
     public static PhongMaterial red;
     public static PhongMaterial purple;
+    public static PhongMaterial sun;
+    public static PhongMaterial moon;
 
    MaterialsUtil(){
        setupMaterials();
@@ -23,6 +25,17 @@ public class MaterialsUtil {
 
         grass = new PhongMaterial();
         grass.setDiffuseMap(new Image("https://3dwarehouse.sketchup.com/warehouse/v1.0/publiccontent/5577056a-3ec8-4856-b2c1-4604107a6166"));
+
+
+        sun = new PhongMaterial();
+        sun.setDiffuseMap(new Image("https://lh3.googleusercontent.com/proxy/PD1ZGN2tLtQAg8rpkaL4QLk3vLEEe6TRB2UNQYThB8i7Q0r03dCTUg0ExKZP9eveMdTyk7sTT3tsSNJuvB6AXS0m1EC0zWH7MAGcvbK3eWim4dDq5FM5JiSle4UPdHiAwX-GQkA"));
+        sun.setSelfIlluminationMap(new Image("https://lh3.googleusercontent.com/proxy/PD1ZGN2tLtQAg8rpkaL4QLk3vLEEe6TRB2UNQYThB8i7Q0r03dCTUg0ExKZP9eveMdTyk7sTT3tsSNJuvB6AXS0m1EC0zWH7MAGcvbK3eWim4dDq5FM5JiSle4UPdHiAwX-GQkA"));
+
+        moon = new PhongMaterial();
+        moon.setDiffuseMap(new Image("https://i.pinimg.com/originals/3e/dc/e0/3edce08472326f054d5b3f004ebf08f6.jpg"));
+        moon.setSelfIlluminationMap(new Image("https://i.pinimg.com/originals/3e/dc/e0/3edce08472326f054d5b3f004ebf08f6.jpg"));
+
+
 
         blue = new PhongMaterial();
         blue.setDiffuseColor(Color.BLUE);

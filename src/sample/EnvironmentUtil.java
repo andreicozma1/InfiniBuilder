@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class EnvironmentUtil {
     SimplexNoise smp;
-    private WindowUtil context;
+    public WindowUtil context;
     private SkyboxUtil skybox = null;
     public Group environment_group;
 

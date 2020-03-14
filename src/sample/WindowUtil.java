@@ -3,6 +3,7 @@ package sample;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.Cursor;
+import javafx.scene.paint.Color;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 
@@ -22,7 +23,7 @@ public class WindowUtil {
     public Scene SCENE_CURRENT;
 
     public Stage stage;
-    private Group window_group;
+    public Group window_group;
 
     private MenuUtil menu_util;
     private CameraUtil cam_util;
@@ -37,7 +38,6 @@ public class WindowUtil {
         HEIGHT = h;
         window_group = new Group();
         SCENE_GAME = new Scene(window_group, WIDTH, HEIGHT, true);
-
         setCamera(new CameraUtil(this));
         setControls(new ControlsUtil(this));
     }
