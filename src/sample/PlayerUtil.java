@@ -176,11 +176,13 @@ public class PlayerUtil {
     }
 
     private void addModelComponents() {
-
+/*
         hitbox.setHeight(player_height);
         hitbox.setWidth(player_width);
         hitbox.setDepth(player_width);
         hitbox.setMaterial(MaterialsUtil.blue);
+
+ */
 
 
         /*

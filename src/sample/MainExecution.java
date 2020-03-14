@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.AmbientLight;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -27,7 +28,9 @@ public class MainExecution extends Application {
         player.showModel(true);
         EnvironmentUtil envir = new EnvironmentUtil(window);
         SkyboxUtil sky = new SkyboxUtil(envir);
-        sky.setAmbientLight(new AmbientLight());
+        AmbientLight amb = new AmbientLight();
+        amb.setColor(Color.rgb(50, 50, 50));
+        sky.setAmbientLight(amb);
         envir.setSkyBox(sky);
         envir.generateChunks(0, 0);
 
