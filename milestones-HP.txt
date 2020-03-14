@@ -3,7 +3,7 @@ CS307 Final Project - JavaFX Game & Video Game Library
 GitHub Repository: https://github.com/andreicozma1/CS307FinalProject
 Updated Feature TO-DO List on Trello: https://trello.com/b/ghb9XDRV/cs307-final-project
 
-Required Time: Minimum of 20 hours for myself
+Required Time: Minimum of 30 hours for myself
 
 Completed List:
 -- Implement a working menu that changes the menu scene to the game scene
@@ -12,11 +12,26 @@ Completed List:
 -- Implement a group controller to control what scene is shown on the scene
 -- Learn how to draw 3D shapes onto a javafx canvas
 -- Implement an OOP style class to build objects in the Environment using inheritance
+-- Implement a disjoint set using path compression
 
 Milestones:
 -- Add collision with the generated objects
 -- Implement a program to randomly generate a maze given set parameters
 -- Generate OOP class to build a maze in the terrain for the player to navigate through.
+-- Make the maze generate on top of the already generated terrain. This will
+   allow a maze to spawn on top of a randomly generated terrain and on flat terrain
+-- implement a pause menu
+
+Rubric Out Of 40:
+(5 pts) Implement a disjoint set data structure
+(10 pts) Implement an algorithm to randomly generate a maze using disjointsets
+(5 pts) Implement a class to use the randomly generated maze to draw the maze onto the canvas
+(10 pts) Implement a collision system so the player cannot clip through the objects drawn
+         into the environment
+(5 pts) Implement a skybox class to give lighting to the environment
+        (sun/moon) etc.
+(5 pts) Implement a pause menu that the user can go to then return to the game
+
 
 Time Log:
 # Hours | Description
@@ -35,5 +50,11 @@ Time Log:
         | center of the screen to be able to move the player view with the mouse.
     2   | Begin implementing OOP class to add objects into the environment. There is
         | a base object class that is extended by multiple other classes.
+   0.5  | Implemented a DisjointSet class using Path Compression for GenerateMaze
+   0.5  | Begin writing class to generate mazes on the terrain using disjoint sets
 
-Current Total Time: 13 hours
+
+We have put a decent amount of work into the project and I feel good about the
+potential end result of our project.
+
+Current Total Time: 14 hours
