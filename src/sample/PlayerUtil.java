@@ -1,12 +1,10 @@
 package sample;
 
 import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.shape.Sphere;
-import javafx.scene.transform.Rotate;
 
 public class PlayerUtil {
     public WindowUtil context;
@@ -40,19 +38,34 @@ public class PlayerUtil {
     private boolean aboveGround = true;
 
 
+   private Box hitbox = new Box();
+    private int player_width = 15;
+    public int player_height = 50;
+
+
     PlayerUtil(WindowUtil ctx) {
         context = ctx;
         player_group = new Group();
+
     }
 
     public void handle() {
-//        System.out.println("Player X: " + getX() + " Y: " + getY() + " Z: " + getZ()  + " onGround: " +  isOnGround() + " aboveGround: " + isAboveGround());
+        System.out.println("Player X: " + getX() + " Y: " + getY() + " Z: " + getZ()  + " onGround: " +  isOnGround() + " aboveGround: " + isAboveGround());
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().handle();
 
+//        hitbox.setTranslateX(getX());
+//        hitbox.setTranslateY(getY() - 50);
+//        hitbox.setTranslateZ(getZ());
+
+        player_group.setTranslateX(getX());
+        player_group.setTranslateY(-getY() - player_height * 2);
+        player_group.setTranslateZ(getZ());
+
+//        System.out.println("Box X: " + hitbox.getTranslateX() + " Box Y: " + hitbox.getTranslateY() + " Box Z: " + hitbox.getTranslateZ());
 
         if(!isFlyMode){
-            if (isJumping && y < context.getEnvironment().getHeightAt(x, z) + jumpHeight) {
+            if (isJumping && y < context.getEnvironment().getSimplexHeight(x, z) + jumpHeight) {
                 moveUp(speedFly);
             } else {
                 isJumping = false;
@@ -105,7 +118,10 @@ public class PlayerUtil {
     public void moveDown(int val) {
         EnvironmentUtil env = context.getEnvironment();
 //        System.out.println(env.getSimplexHeight(context.getPlayer().x / env.chunk_width, context.getPlayer().z / env.chunk_depth) * 20);
-        if (y > 0) {
+
+
+
+        if (getY() > 0 || true) {
             y -= val;
         } else {
             onGround = true;
@@ -160,6 +176,14 @@ public class PlayerUtil {
     }
 
     private void addModelComponents() {
+
+        hitbox.setHeight(player_height);
+        hitbox.setWidth(player_width);
+        hitbox.setDepth(player_width);
+        hitbox.setMaterial(MaterialsUtil.blue);
+
+
+        /*
         // draw player head
         playerHead = new Sphere(6.5);
         playerHead.setMaterial(MaterialsUtil.blue);
@@ -206,7 +230,8 @@ public class PlayerUtil {
         playerRightLeg.setTranslateX(5);
 
         player_group.getChildren().setAll(playerRightLeg, playerLeftLeg, playerRightArm, playerLeftArm, playerNeck, playerBody, playerHead);
-
+*/
+        player_group.getChildren().setAll(hitbox);
     }
 
 

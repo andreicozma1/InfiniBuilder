@@ -2,6 +2,7 @@ package sample;
 
 import javafx.geometry.Point2D;
 import javafx.scene.*;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.CullFace;
 
@@ -16,12 +17,15 @@ public class EnvironmentUtil {
 
     public int chunk_depth = 50;
     public int chunk_width = 50;
-    public int chunk_height = 1;
+    public int chunk_height = 50;
+
+    public double terrain_height_multiplier = 1.5;
+    public double terrain_spread_multiplier = 10;
 
     public ArrayList<Point2D> chunks = new ArrayList<>();
 
     public double getSimplexHeight(double x, double z) {
-        return smp.eval(x, z);
+        return smp.eval(x/terrain_spread_multiplier, z/terrain_spread_multiplier) * terrain_height_multiplier;
     }
 
     public double getHeightAt(double x, double z){
@@ -46,7 +50,6 @@ public class EnvironmentUtil {
 
     public void generateChunks(int playerx, int playery) {
 
-        System.out.println("HEREEE");
         DrawCube cube = new DrawCube(100, 100, 100);
         cube.setPos(100, -100, 100);
         cube.setMaterial(MaterialsUtil.blue);
@@ -57,12 +60,12 @@ public class EnvironmentUtil {
         sphere.setMaterial(MaterialsUtil.red);
         addMember(sphere);
 
-        for (double i = 0; i < 50; i++) {
-            for (double j = 0; j < 50; j++) {
+        for (double i = 0; i < 100; i++) {
+            for (double j = 0; j < 100; j++) {
 
-                double y = getSimplexHeight(i, j);
+                double y = getSimplexHeight(i,j);
                 System.out.println("Chunk x: " + i + " y: " + y + " z: " + j);
-                environment_group.getChildren().add(create_playform(i * chunk_depth, y * chunk_height, j * chunk_width));
+                environment_group.getChildren().add(create_playform(i * chunk_depth, y * chunk_height + chunk_height/2, j * chunk_width));
             }
         }
 
@@ -88,6 +91,10 @@ public class EnvironmentUtil {
     public void setLighting(LightBase node) {
         lights = node;
         environment_group.getChildren().add(lights);
+
+        PointLight point = new PointLight();
+        point.setColor(Color.RED);
+        environment_group.getChildren().add(point);
     }
 
     public void resetLighting(){
@@ -97,7 +104,6 @@ public class EnvironmentUtil {
         }
 
     }
-
 
     public void addMember(StructureBuilder member) {
         environment_group.getChildren().add(member.getGroup());

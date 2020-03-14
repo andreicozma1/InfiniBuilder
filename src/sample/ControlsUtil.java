@@ -55,7 +55,7 @@ public class ControlsUtil {
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             if(pressed.contains(event.getCode())){
                 pressed.remove(event.getCode());
-                System.out.println("Released " + event.getText());
+//                System.out.println("Released " + event.getText());
                 switch (event.getCode()) {
                     case SPACE:
                         context.getPlayer().canJump = true;
@@ -104,7 +104,7 @@ public class ControlsUtil {
                     break;
 
                 case SPACE:
-                    System.out.println(context.getPlayer().isFlyMode);
+//                    System.out.println(context.getPlayer().isFlyMode);
                     if (context.getPlayer().isFlyMode) {
                         context.getPlayer().moveUp(context.getPlayer().speedFly);
                     } else {
@@ -118,7 +118,7 @@ public class ControlsUtil {
                     break;
                 case R:
                     context.getPlayer().setPosition(0, 0, 0);
-                    context.getCamera().rotx = 90;
+                    context.getCamera().rotx = 0;
                     context.getCamera().roty = 0;
 //                    context.getCamera().setRotate(0,0);
                     break;
