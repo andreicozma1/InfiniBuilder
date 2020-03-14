@@ -1,6 +1,9 @@
 package sample;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.scene.AmbientLight;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 
@@ -8,9 +11,12 @@ public class MainExecution extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        /*
         MazeGenerator maze = new MazeGenerator(10,10,0);
         maze.printWalls();
-        /*
+        */
+
+
         System.out.println("MainExecution");
         MaterialsUtil materials = new MaterialsUtil();
 
@@ -58,7 +64,7 @@ public class MainExecution extends Application {
             }
         };
         timer.start();
-        */
+
     }
 
     public static void main(String[] args) {
