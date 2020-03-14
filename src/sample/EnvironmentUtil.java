@@ -11,9 +11,10 @@ import java.util.ArrayList;
 public class EnvironmentUtil {
     SimplexNoise smp;
     private WindowUtil context;
+    private SkyboxUtil skybox = null;
     public Group environment_group;
 
-    LightBase lights = null;
+
 
     public int chunk_depth = 50;
     public int chunk_width = 50;
@@ -36,6 +37,13 @@ public class EnvironmentUtil {
         context = ctx;
         environment_group = new Group();
         smp = new SimplexNoise();
+    }
+
+    public void handle(){
+        if(skybox != null){
+            skybox.handle();
+        }
+
     }
 
     public Group getGroup() {
@@ -88,22 +96,15 @@ public class EnvironmentUtil {
     }
 
 
-    public void setLighting(LightBase node) {
-        lights = node;
-        environment_group.getChildren().add(lights);
-
-        PointLight point = new PointLight();
-        point.setColor(Color.RED);
-        environment_group.getChildren().add(point);
+    public void setSkyBox(SkyboxUtil sky){
+        skybox = sky;
     }
 
-    public void resetLighting(){
-        if(environment_group.getChildren().contains(lights)){
-            environment_group.getChildren().remove(lights);
-            environment_group.getChildren().add(lights);
-        }
-
+    public SkyboxUtil getSkybox(){
+        return skybox;
     }
+
+
 
     public void addMember(StructureBuilder member) {
         environment_group.getChildren().add(member.getGroup());

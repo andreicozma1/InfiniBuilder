@@ -70,7 +70,7 @@ public class ControlsUtil {
                             context.getPlayer().isFlyMode = true;
                         }
 
-                        System.out.println( context.getPlayer().isFlyMode);
+//                        System.out.println( context.getPlayer().isFlyMode);
                         break;
                 }
             }

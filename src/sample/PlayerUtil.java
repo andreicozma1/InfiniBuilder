@@ -50,7 +50,7 @@ public class PlayerUtil {
     }
 
     public void handle() {
-        System.out.println("Player X: " + getX() + " Y: " + getY() + " Z: " + getZ()  + " onGround: " +  isOnGround() + " aboveGround: " + isAboveGround());
+//        System.out.println("Player X: " + getX() + " Y: " + getY() + " Z: " + getZ()  + " onGround: " +  isOnGround() + " aboveGround: " + isAboveGround());
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().handle();
 

@@ -16,7 +16,6 @@ public class MainExecution extends Application {
         maze.printWalls();
         */
 
-
         System.out.println("MainExecution");
         MaterialsUtil materials = new MaterialsUtil();
 
@@ -27,7 +26,9 @@ public class MainExecution extends Application {
         PlayerUtil player = new PlayerUtil(window);
         player.showModel(true);
         EnvironmentUtil envir = new EnvironmentUtil(window);
-        envir.setLighting(new AmbientLight());
+        SkyboxUtil sky = new SkyboxUtil(envir);
+        sky.setAmbientLight(new AmbientLight());
+        envir.setSkyBox(sky);
         envir.generateChunks(0, 0);
 
         window.buildMenu();
@@ -57,6 +58,7 @@ public class MainExecution extends Application {
                 if ((now - last) > (1 / 60)) {
                     if (window.getCurrentScene() == window.SCENE_GAME) {
                         controls.handleKeyboard(envir.getGroup());
+                        envir.handle();
                         player.handle();
                     }
                     last = now;
