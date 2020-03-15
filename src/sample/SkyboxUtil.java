@@ -10,7 +10,7 @@ public class SkyboxUtil {
     private Group group_skybox;
 
     private AmbientLight ambient = null;
-    public int day_length_multiplier = 5;
+    public int day_length_multiplier = 30;
 
     //TODO? Put these in classes?
     private Sphere sun;

@@ -19,7 +19,7 @@ public class PlayerUtil {
     private double fallSpeed = 0; // Original speed before gravity is applied;
 
     double jump_start_height;
-    private int jumpHeight = 30;
+    private int jumpHeight = 50;
     public boolean canJump = true;
     public boolean isJumping = false;
     public boolean isRunning = false;
@@ -70,6 +70,7 @@ public class PlayerUtil {
         // Jumping Mechanism. As long as player is not in fly mode, execute mechanism
         if (!isFlyMode) {
             // If the player initiated a jump and hasn't reached the top, move the player up
+            System.out.println(jump_start_height);
             if (isJumping && y < jump_start_height + jumpHeight) {
                 moveUp(speedFly);
             } else {
@@ -85,7 +86,7 @@ public class PlayerUtil {
     public void jump() {
         isJumping = true;
         canJump = false;
-        jump_start_height = context.getEnvironment().getTerrainYfromPlayerXZ(getX(),getZ());
+        jump_start_height = getY();
     }
 
 
