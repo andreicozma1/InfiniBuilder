@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 
 public class StructureBuilder {
     private double x = 0;
@@ -14,8 +15,11 @@ public class StructureBuilder {
     private PhysicsUtil physicsUtil;
     private Group group;
 
-    public StructureBuilder(float x, float y, float z){
+    public StructureBuilder(double x, double y, double z){
         group = new Group();
+        setX(x);
+        setY(y);
+        setZ(z);
     }
 
     public Group getGroup(){
@@ -73,5 +77,8 @@ public class StructureBuilder {
     public double getDepth() { return depth; }
 
 
+    void addMember(Node o){
+        group.getChildren().add(o);
+    }
 }
 

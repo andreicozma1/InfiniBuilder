@@ -1,9 +1,6 @@
 package sample;
 
 import javafx.scene.*;
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
@@ -11,10 +8,10 @@ import javafx.scene.shape.Sphere;
 public class SkyboxUtil {
     private EnvironmentUtil context;
 
-    Group group;
+    Group group_skybox;
 
     private AmbientLight ambient = null;
-    public int day_length_multiplier = 20;
+    public int day_length_multiplier = 5;
 
     private Sphere sun;
     private PointLight sunlight;
@@ -30,7 +27,7 @@ public class SkyboxUtil {
 
     SkyboxUtil(EnvironmentUtil envir) {
         context = envir;
-        group = new Group();
+        group_skybox = new Group();
 
         sun = new Sphere();
         sunlight = new PointLight();
@@ -51,9 +48,9 @@ public class SkyboxUtil {
         setNightSkyColor(Color.rgb(10, 10, 35));
 
 
-        group.getChildren().addAll(sun, sunlight, moon, moonlight);
+        group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight);
 
-        context.getGroup().getChildren().addAll(group);
+        context.getEnvironmentGroup().getChildren().add(group_skybox);
     }
 
     void handle() {
@@ -67,7 +64,7 @@ public class SkyboxUtil {
         double cos = Math.cos(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
         double cosdist = cos * dist;
 
-//        System.out.println("SUN sin: " + sin + " cos: " + cos);
+        System.out.println("SUN sin: " + sin + " cos: " + cos);
 
         if (sin <= .5) {
             sin = sin * -1;
@@ -94,7 +91,7 @@ public class SkyboxUtil {
         double sindist = sin * dist;
         double cos = Math.cos(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
         double cosdist = cos * dist;
-        // System.out.println("MOON sin: " + -sin + " cos: " + -cos);
+         System.out.println("MOON sin: " + -sin + " cos: " + -cos);
 
         if (sin >= .5) {
             sin -=.5;
@@ -161,13 +158,13 @@ public class SkyboxUtil {
 
     public void setAmbientLight(AmbientLight node) {
         ambient = node;
-        context.getGroup().getChildren().add(ambient);
+        context.getEnvironmentGroup().getChildren().add(ambient);
     }
 
     public void resetLighting() {
-        if (context.getGroup().getChildren().contains(ambient)) {
-            context.getGroup().getChildren().remove(ambient);
-            context.getGroup().getChildren().add(ambient);
+        if (context.getEnvironmentGroup().getChildren().contains(ambient)) {
+            context.getEnvironmentGroup().getChildren().remove(ambient);
+            context.getEnvironmentGroup().getChildren().add(ambient);
         }
     }
 

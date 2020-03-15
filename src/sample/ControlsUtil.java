@@ -45,6 +45,14 @@ public class ControlsUtil {
 
         });
 
+        game_scene.setOnMousePressed(event->{
+            switch(event.getButton()){
+                case PRIMARY:
+                    context.getPlayer().placeObject();
+                    break;
+            }
+        });
+
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
 //            System.out.println("Pressed " + event.getCharacter().toUpperCase());
             if (!pressed.contains(event.getCode())) {
@@ -53,7 +61,7 @@ public class ControlsUtil {
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            if(pressed.contains(event.getCode())){
+            if (pressed.contains(event.getCode())) {
                 pressed.remove(event.getCode());
 //                System.out.println("Released " + event.getText());
                 switch (event.getCode()) {
@@ -78,7 +86,7 @@ public class ControlsUtil {
                         }
                         break;
                     case R:
-       context.getPlayer().reset();
+                        context.getPlayer().reset();
                         break;
                     case SHIFT:
                         context.getPlayer().isRunning = false;
@@ -124,9 +132,9 @@ public class ControlsUtil {
                     }
                     break;
                 case SHIFT:
-                    if(context.getPlayer().isFlyMode){
+                    if (context.getPlayer().isFlyMode) {
                         context.getPlayer().moveDown(context.getPlayer().speedFly);
-                    } else{
+                    } else {
                         context.getPlayer().isRunning = true;
                     }
 

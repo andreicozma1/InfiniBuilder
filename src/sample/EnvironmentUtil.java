@@ -5,8 +5,6 @@ import javafx.scene.*;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.CullFace;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +13,7 @@ public class EnvironmentUtil {
     public WindowUtil context;
     private SkyboxUtil skybox = null;
     public Group environment_group;
+    public Group terrain_group;
 
     private int render_distance = 50;
 
@@ -33,12 +32,12 @@ public class EnvironmentUtil {
         return smp.eval(x / terrain_spread_multiplier, z / terrain_spread_multiplier) * terrain_height_multiplier;
     }
 
-    public double getTerrainX(double x){
-        return Math.floor((x + chunk_width / 2) / chunk_width);
+    public double getTerrainX(double playerx){
+        return Math.floor((playerx + chunk_width / 2) / chunk_width);
     }
 
-    public double getTerrainZ(double z){
-        return Math.floor((z + chunk_depth / 2) / chunk_depth);
+    public double getTerrainZ(double playerz){
+        return Math.floor((playerz + chunk_depth / 2) / chunk_depth);
     }
 
     public double getTerrainHeight(double x, double z) {
@@ -58,18 +57,22 @@ public class EnvironmentUtil {
     EnvironmentUtil(WindowUtil ctx) {
         context = ctx;
         environment_group = new Group();
+        terrain_group = new Group();
+        environment_group.getChildren().add(terrain_group);
         smp = new SimplexNoise();
     }
 
     public void handle() {
         if (skybox != null) {
+//            System.out.println("HERE");
             skybox.handle();
         }
     }
 
-    public Group getGroup() {
+    public Group getEnvironmentGroup() {
         return environment_group;
     }
+
 
     public void generateChunks(double playerx, double playerz) {
         playerx = getTerrainX(playerx);
@@ -95,13 +98,13 @@ public class EnvironmentUtil {
         playerx = getTerrainX(playerx);
         playerz = getTerrainZ(playerz);
 
-        getGroup().getChildren().clear();
-        System.out.println(box_map.size());
+        terrain_group.getChildren().clear();
+//        System.out.println(box_map.size());
         for (double i = -render_distance/2+ playerx; i < render_distance/2+playerx; i++) {
             for (double j = -render_distance/2+playerz; j < render_distance/2 + playerz; j++) {
                 Point2D key = new Point2D(i,j);
-                if(box_map.containsKey(key) && !getGroup().getChildren().contains(box_map.get(key))){
-                    getGroup().getChildren().add(box_map.get(key));
+                if(box_map.containsKey(key) && !getEnvironmentGroup().getChildren().contains(box_map.get(key))){
+                    terrain_group.getChildren().add(box_map.get(key));
                 }
             }
         }

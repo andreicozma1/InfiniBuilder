@@ -146,6 +146,16 @@ public class PlayerUtil {
         }
     }
 
+    public void placeObject(){
+        Box b = new Box(50,50,50);
+        b.setMaterial(MaterialsUtil.stone);
+
+        StructureBuilder str = new StructureBuilder(x,y + 50,z);
+        str.addMember(b);
+
+        context.getEnvironment().addMember(str);
+    }
+
     public double getX() {
         return x;
     }

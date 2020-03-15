@@ -3,7 +3,6 @@ package sample;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.Cursor;
-import javafx.scene.paint.Color;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 
@@ -71,7 +70,7 @@ public class WindowUtil {
 
     public void setEnvironment(EnvironmentUtil env) {
         env_util = env;
-        window_group.getChildren().add(env_util.getGroup());
+        window_group.getChildren().add(env_util.getEnvironmentGroup());
     }
     public EnvironmentUtil getEnvironment(){
         return env_util;

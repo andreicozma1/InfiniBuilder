@@ -58,7 +58,7 @@ public class MainExecution extends Application {
                 // FPS HANDLING
                 if ((now - last) > (1 / 60)) {
                     if (window.getCurrentScene() == window.SCENE_GAME) {
-                        controls.handleKeyboard(envir.getGroup());
+                        controls.handleKeyboard(envir.getEnvironmentGroup());
                         envir.handle();
                         player.handle();
                     }
