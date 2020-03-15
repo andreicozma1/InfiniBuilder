@@ -84,12 +84,9 @@ public class MazeGenerator {
             int s2 = disjointSet.Find(c2);
             if ( s1 != s2 ){
                 maze.remove(wallIndex);
-                System.out.println("removed "+ c1+ " "+c2);
                 disjointSet.Union(s1,s2);
             }
         }
-
-        System.out.println("end");
     }
 
     private void makeMaze(){

@@ -12,9 +12,8 @@ public class MainExecution extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        MazeGenerator maze = new MazeGenerator(100,100,1);
+//        MazeGenerator maze = new MazeGenerator(5,5,1);
 //        maze.printWalls();
-
 
 
         System.out.println("MainExecution");
@@ -69,7 +68,6 @@ public class MainExecution extends Application {
             }
         };
         timer.start();
-
     }
 
     public static void main(String[] args) {
