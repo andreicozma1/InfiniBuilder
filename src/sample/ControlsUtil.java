@@ -82,6 +82,8 @@ public class ControlsUtil {
                         context.getCamera().rotx = 0;
                         context.getCamera().roty = 0;
                         break;
+                    case SHIFT:
+                        context.getPlayer().isRunning = false;
                 }
             }
 
@@ -124,7 +126,12 @@ public class ControlsUtil {
                     }
                     break;
                 case SHIFT:
-                    context.getPlayer().moveDown(context.getPlayer().speedFly);
+                    if(context.getPlayer().isFlyMode){
+                        context.getPlayer().moveDown(context.getPlayer().speedFly);
+                    } else{
+                        context.getPlayer().isRunning = true;
+                    }
+
                     break;
 
             }

@@ -23,6 +23,7 @@ public class PlayerUtil {
     public double y = 0;
     public double z = 0;
 
+    public double runMultiplier = 1.5;
     public double speedForward = 3;
     public double speedBackward = 3;
     public double speedSide = 1.5;
@@ -33,6 +34,7 @@ public class PlayerUtil {
     private int jumpHeight = 30;
     public boolean canJump = true;
     public boolean isJumping = false;
+    public boolean isRunning = false;
 
     public boolean isClipMode = false;
     public boolean isFlyMode = false;
@@ -41,7 +43,7 @@ public class PlayerUtil {
     private boolean aboveGround = true;
 
 
-   private Box hitbox = new Box();
+    private Box hitbox = new Box();
     private int player_width = 10;
     public int player_height = 30;
 
@@ -49,8 +51,6 @@ public class PlayerUtil {
     PlayerUtil(WindowUtil ctx) {
         context = ctx;
         player_group = new Group();
-
-
 
     }
 
@@ -64,24 +64,33 @@ public class PlayerUtil {
         player_group.setTranslateZ(getZ());
 
 
+        if (isRunning) {
+            if (context.getCamera().getCamera().getFieldOfView() < 60) {
+                context.getCamera().getCamera().setFieldOfView(context.getCamera().getCamera().getFieldOfView() + 1);
+            }
+        } else {
+            if (context.getCamera().getCamera().getFieldOfView() > 45) {
+                context.getCamera().getCamera().setFieldOfView(context.getCamera().getCamera().getFieldOfView() - 1);
+            }
+        }
 
-        context.getEnvironment().generateChunks(getX(),getZ());
+        context.getEnvironment().generateChunks(getX(), getZ());
 
-        context.getEnvironment().showChunksAroundPlayer(getX(),getZ());
+        context.getEnvironment().showChunksAroundPlayer(getX(), getZ());
 
-        if(!isFlyMode){
+        if (!isFlyMode) {
             if (isJumping && y < jump_start_height + jumpHeight) {
                 moveUp(speedFly);
             } else {
                 isJumping = false;
                 moveDown(fallSpeed);
-                fallSpeed+= PhysicsUtil.GRAVITY;
+                fallSpeed += PhysicsUtil.GRAVITY;
             }
         }
     }
 
     public void jump() {
-        jump_start_height = -context.getEnvironment().getTerrainHeight(x,z) + player_height;
+        jump_start_height = -context.getEnvironment().getTerrainHeight(x, z) + player_height;
         System.out.println(jump_start_height);
         isJumping = true;
         canJump = false;
@@ -94,6 +103,7 @@ public class PlayerUtil {
 
     public void moveForward(double val) {
 //        System.out.println("x: " + Math.cos(context.getCamera().rotx/57.3) + " y: " + Math.sin(context.getCamera().rotx/57.3) );
+        if (isRunning) val *= runMultiplier;
         this.z += Math.cos(context.getCamera().rotx / 57.3) * val;
         this.x += Math.sin(context.getCamera().rotx / 57.3) * val;
     }
@@ -106,12 +116,14 @@ public class PlayerUtil {
 
     public void moveLeft(double val) {
 //        System.out.println("Move Left");
+        if (isRunning) val *= runMultiplier;
         this.x -= Math.cos(context.getCamera().rotx / 57.3) * val;
         this.z += Math.sin(context.getCamera().rotx / 57.3) * val;
     }
 
     public void moveRight(double val) {
 //        System.out.println("Move Right");
+        if (isRunning) val *= runMultiplier;
         this.x += Math.cos(context.getCamera().rotx / 57.3) * val;
         this.z -= Math.sin(context.getCamera().rotx / 57.3) * val;
     }
@@ -124,7 +136,7 @@ public class PlayerUtil {
 
 
     public void moveDown(double val) {
-        double ground_level = -context.getEnvironment().getTerrainHeight(x,z) + player_height;
+        double ground_level = -context.getEnvironment().getTerrainHeight(x, z) + player_height;
 
         if (getY() > ground_level || isClipMode) {
             System.out.println("Above ground");

@@ -71,7 +71,6 @@ public class EnvironmentUtil {
         return environment_group;
     }
 
-
     public void generateChunks(double playerx, double playerz) {
         playerx = getTerrainX(playerx);
         playerz = getTerrainZ(playerz);
@@ -90,17 +89,13 @@ public class EnvironmentUtil {
                 }
             }
         }
-        if(box_map.size() > 3000){
-
-                box_map.clear();
-                height_map.clear();
-        }
     }
 
     public void showChunksAroundPlayer(double playerx, double playerz){
         playerx = getTerrainX(playerx);
         playerz = getTerrainZ(playerz);
-//        getGroup().getChildren().removeAll();
+
+        getGroup().getChildren().clear();
         System.out.println(box_map.size());
         for (double i = -render_distance/2+ playerx; i < render_distance/2+playerx; i++) {
             for (double j = -render_distance/2+playerz; j < render_distance/2 + playerz; j++) {
@@ -110,6 +105,7 @@ public class EnvironmentUtil {
                 }
             }
         }
+
     }
 
     public Box create_playform(double x, double y, double z) {

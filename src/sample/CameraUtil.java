@@ -9,7 +9,7 @@ import javafx.stage.Window;
 
 public class CameraUtil {
     private WindowUtil context;
-    public static Camera cam;
+    public static PerspectiveCamera cam;
 
     public double rotx = 0;
     public double roty = 0;
@@ -21,7 +21,7 @@ public class CameraUtil {
         cam.setFarClip(100000);
     }
 
-    Camera getCamera() {
+    PerspectiveCamera getCamera() {
         return cam;
     }
 
