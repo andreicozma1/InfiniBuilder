@@ -10,15 +10,6 @@ public class PlayerUtil {
     public WindowUtil context;
     private Group player_group;
 
-    private Sphere playerHead;
-    private Cylinder playerNeck;
-    private Cylinder playerBody;
-    private Cylinder playerLeftArm;
-    private Cylinder playerRightArm;
-    private Cylinder playerLeftLeg;
-    private Cylinder playerRightLeg;
-
-
     public double x = 0;
     public double y = 0;
     public double z = 0;
@@ -64,34 +55,37 @@ public class PlayerUtil {
         player_group.setTranslateZ(getZ());
 
 
+        // Running mechanism. Changes camera FOV incrementally from 45 to 60 when running and from 60 to 45 when not running
+        double curr_fov = context.getCamera().getCamera().getFieldOfView();
         if (isRunning) {
-            if (context.getCamera().getCamera().getFieldOfView() < 60) {
-                context.getCamera().getCamera().setFieldOfView(context.getCamera().getCamera().getFieldOfView() + 1);
+            if (curr_fov < 60) {
+                context.getCamera().getCamera().setFieldOfView(curr_fov + 1);
             }
         } else {
-            if (context.getCamera().getCamera().getFieldOfView() > 45) {
-                context.getCamera().getCamera().setFieldOfView(context.getCamera().getCamera().getFieldOfView() - 1);
+            if (curr_fov > 45) {
+                context.getCamera().getCamera().setFieldOfView(curr_fov - 1);
             }
         }
 
         context.getEnvironment().generateChunks(getX(), getZ());
-
         context.getEnvironment().showChunksAroundPlayer(getX(), getZ());
 
+        // Jumping Mechanism. As long as player is not in fly mode, execute mechanism
         if (!isFlyMode) {
+            // If the player initiated a jump and hasn't reached the top, move the player up
             if (isJumping && y < jump_start_height + jumpHeight) {
                 moveUp(speedFly);
             } else {
+                // if the player reached the top, set isJumping to false, and let the player fall.
                 isJumping = false;
                 moveDown(fallSpeed);
+                // gravity acceleration
                 fallSpeed += PhysicsUtil.GRAVITY;
             }
         }
     }
 
     public void jump() {
-        jump_start_height = -context.getEnvironment().getTerrainHeight(x, z) + player_height;
-        System.out.println(jump_start_height);
         isJumping = true;
         canJump = false;
     }
@@ -102,34 +96,29 @@ public class PlayerUtil {
     }
 
     public void moveForward(double val) {
-//        System.out.println("x: " + Math.cos(context.getCamera().rotx/57.3) + " y: " + Math.sin(context.getCamera().rotx/57.3) );
+        // If the player is running, move forward by the specified runMultiplier amount
         if (isRunning) val *= runMultiplier;
+
         this.z += Math.cos(context.getCamera().rotx / 57.3) * val;
         this.x += Math.sin(context.getCamera().rotx / 57.3) * val;
     }
 
     public void moveBackward(double val) {
-//        System.out.println("Move Backward");
         this.z -= Math.cos(context.getCamera().rotx / 57.3) * val;
         this.x -= Math.sin(context.getCamera().rotx / 57.3) * val;
     }
 
     public void moveLeft(double val) {
-//        System.out.println("Move Left");
-        if (isRunning) val *= runMultiplier;
         this.x -= Math.cos(context.getCamera().rotx / 57.3) * val;
         this.z += Math.sin(context.getCamera().rotx / 57.3) * val;
     }
 
     public void moveRight(double val) {
-//        System.out.println("Move Right");
-        if (isRunning) val *= runMultiplier;
         this.x += Math.cos(context.getCamera().rotx / 57.3) * val;
         this.z -= Math.sin(context.getCamera().rotx / 57.3) * val;
     }
 
     public void moveUp(double val) {
-//        System.out.println("Move Up");
         this.y += val;
         onGround = false;
     }
@@ -138,13 +127,22 @@ public class PlayerUtil {
     public void moveDown(double val) {
         double ground_level = -context.getEnvironment().getTerrainHeight(x, z) + player_height;
 
+        // if the player is above ground level, let the player fall
         if (getY() > ground_level || isClipMode) {
             System.out.println("Above ground");
             y -= val;
         } else {
+            // once the player fell enough to hit ground, set onGround to true
             onGround = true;
+            // reposition the player back to above ground
             y = ground_level;
+            // reset the "current" fall speed back to 0 since the player is now on ground.
+            // Next time player is above ground the gravity will keep on getting added to the fall speed, simulating the effects of gravity
             fallSpeed = 0;
+        }
+
+        if (y < -5000) {
+            reset();
         }
     }
 
@@ -164,27 +162,6 @@ public class PlayerUtil {
         return onGround;
     }
 
-    public boolean isAboveGround() {
-//        System.out.println(EnvironmentUtil.chunks.toString());
-//        System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
-
-
-        boolean result = false;
-
-        /*
-        if (y > 0) {
-            double curr_chunk_x = Math.floor((this.x + context.getEnvironment().chunk_width / 2) / context.getEnvironment().chunk_width);
-            double curr_chunk_z = Math.floor((this.z + context.getEnvironment().chunk_depth / 2) / context.getEnvironment().chunk_depth);
-            if (context.getEnvironment().getChunks().contains(new Point2D(curr_chunk_x, curr_chunk_z))) {
-                aboveGround = true;
-            } else {
-                aboveGround = false;
-            }
-        }
-
-         */
-        return result;
-    }
 
     public void setPosition(double newx, double newy, double newz) {
         x = newx;
@@ -192,74 +169,14 @@ public class PlayerUtil {
         z = newz;
     }
 
-    public void showModel(boolean state) {
-        if (state) {
-            addModelComponents();
-        } else {
-            player_group.getChildren().removeAll();
-        }
+    void reset() {
+        setPosition(0, 0, 0);
+        context.getCamera().rotx = 0;
+        context.getCamera().roty = 0;
+        isClipMode = false;
+        isRunning = false;
+        isFlyMode = false;
     }
-
-    private void addModelComponents() {
-/*
-        hitbox.setHeight(player_height);
-        hitbox.setWidth(player_width);
-        hitbox.setDepth(player_width);
-        hitbox.setMaterial(MaterialsUtil.blue);
-
- */
-
-        /*
-        // draw player head
-        playerHead = new Sphere(6.5);
-        playerHead.setMaterial(MaterialsUtil.blue);
-        playerHead.setTranslateY(-38);
-
-        // draw player neck
-        playerNeck = new Cylinder(2.0, 2);
-        playerNeck.setMaterial(MaterialsUtil.purple);
-        playerNeck.setTranslateY(-31);
-
-        // draw player body
-        playerBody = new Cylinder(7.5, 20);
-        playerBody.setMaterial(MaterialsUtil.red);
-        playerBody.setTranslateY(-20);
-
-
-        // draw player left arm
-        playerLeftArm = new Cylinder(2.25, 8);
-        playerLeftArm.setMaterial(MaterialsUtil.purple);
-        playerLeftArm.setRotationAxis(Rotate.Z_AXIS);
-        playerLeftArm.setRotate(90);
-        playerLeftArm.setTranslateY(-25);
-        playerLeftArm.setTranslateX(-11);
-
-        // draw player right arm
-        playerRightArm = new Cylinder(2.25, 8);
-        playerRightArm.setMaterial(MaterialsUtil.purple);
-        playerRightArm.setRotationAxis(Rotate.Z_AXIS);
-        playerRightArm.setRotate(90);
-        playerRightArm.setTranslateY(-25);
-        playerRightArm.setTranslateX(11);
-
-
-        // draw player left leg
-        playerLeftLeg = new Cylinder(2.5, 10);
-        playerLeftLeg.setMaterial(MaterialsUtil.purple);
-        playerLeftLeg.setTranslateY(-5);
-        playerLeftLeg.setTranslateX(-5);
-
-        // draw player right leg
-        playerRightLeg = new Cylinder(2.5, 10);
-        playerRightLeg.setMaterial(MaterialsUtil.purple);
-        playerRightLeg.setTranslateY(-5);
-        playerRightLeg.setTranslateX(5);
-
-        player_group.getChildren().setAll(playerRightLeg, playerLeftLeg, playerRightArm, playerLeftArm, playerNeck, playerBody, playerHead);
-*/
-        player_group.getChildren().setAll(hitbox);
-    }
-
 
 }
 

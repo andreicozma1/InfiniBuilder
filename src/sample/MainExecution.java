@@ -24,7 +24,6 @@ public class MainExecution extends Application {
         CameraUtil camera = new CameraUtil(window);
         ControlsUtil controls = new ControlsUtil(window);
         PlayerUtil player = new PlayerUtil(window);
-        player.showModel(true);
         EnvironmentUtil envir = new EnvironmentUtil(window);
         SkyboxUtil sky = new SkyboxUtil(envir);
         AmbientLight amb = new AmbientLight();

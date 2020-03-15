@@ -78,9 +78,7 @@ public class ControlsUtil {
                         }
                         break;
                     case R:
-                        context.getPlayer().setPosition(0, 0, 0);
-                        context.getCamera().rotx = 0;
-                        context.getCamera().roty = 0;
+       context.getPlayer().reset();
                         break;
                     case SHIFT:
                         context.getPlayer().isRunning = false;
