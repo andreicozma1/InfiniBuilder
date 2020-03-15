@@ -151,16 +151,16 @@ public class PlayerUtil {
     public void placeObject(StructureBuilder str, boolean lockToEnvir) {
 
         double xPos = getX();
-        double yPos = context.getEnvironment().getTerrainYfromPlayerXZ(getX(), getZ()) - str.getHeight();
+        double yPos = context.getEnvironment().getTerrainYfromPlayerXZ(getX(), getZ()) - str.getHeight()/2;
         double zPos = getZ();
         if (lockToEnvir) {
               xPos = context.getEnvironment().getTerrainXfromPlayerX(x) * context.getEnvironment().getBlockDim();
             zPos = context.getEnvironment().getTerrainZfromPlayerZ(z) * context.getEnvironment().getBlockDim();
         }
 
-        str.setX(xPos);
-        str.setY(yPos);
-        str.setZ(zPos);
+        str.setTranslateX(xPos);
+        str.setTranslateY(yPos);
+        str.setTranslateZ(zPos);
 
         context.getEnvironment().addMember(str);
     }

@@ -57,23 +57,8 @@ public class ControlsUtil {
             switch (event.getButton()) {
                 case PRIMARY:
 
-                    StructureBuilder str = new StructureBuilder(0, 0, 0);
-//                    javafx.scene.shape.Box b = new Box(20, 20, 20);
-//                    b.setMaterial(MaterialsUtil.stone);
-//                    str.addMember(b);
 
-
-                    URL modelUrl = getClass().getResource("../res/Oak_Tree.3ds");
-                    TdsModelImporter abc = new TdsModelImporter();
-                    abc.read(modelUrl);
-                    Node[] nodes = abc.getImport();
-
-                    context.getEnvironment().getEnvironmentGroup().getChildren().addAll(nodes);
-//                    str.addMember();
-
-                    System.out.println(abc.getNamedNodes().keySet());
-
-                    context.getPlayer().placeObject(str, true);
+//                    context.getPlayer().placeObject(str, true);
                     break;
             }
         });

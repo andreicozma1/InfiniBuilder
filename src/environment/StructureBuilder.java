@@ -4,7 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import utils.PhysicsUtil;
 
-public class StructureBuilder {
+public class StructureBuilder extends Group {
     private double x = 0;
     private double y = 0;
     private double z = 0;
@@ -14,22 +14,11 @@ public class StructureBuilder {
     private boolean solidState = false;
     private boolean physicsState = false;
     private PhysicsUtil physicsUtil;
-    private Group group;
 
     public StructureBuilder(double x, double y, double z) {
-        group = new Group();
-        setX(x);
-        setY(y);
-        setZ(z);
+
     }
 
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
 
     public void setSolidState(boolean state) {
         solidState = state;
@@ -55,26 +44,7 @@ public class StructureBuilder {
         return physicsUtil;
     }
 
-    public void setPos(double x, double y, double z) {
-        setX(x);
-        setY(y);
-        setZ(z);
-    }
 
-    public void setX(double x) {
-        this.x = x;
-        group.setTranslateX(x);
-    }
-
-    public void setY(double y) {
-        this.y = y;
-        group.setTranslateY(y);
-    }
-
-    public void setZ(double z) {
-        this.z = z;
-        group.setTranslateZ(z);
-    }
 
     public double getX() {
         return x;
@@ -88,47 +58,18 @@ public class StructureBuilder {
         return z;
     }
 
-    public void setScaleX(double width) {
-        this.scaleX = width;
-        group.setScaleX(scaleX);
-    }
-
-    public void setScaleY(double height) {
-        this.scaleY = height;
-        group.setScaleY(scaleY);
-    }
-
-    public void setScaleZ(double depth) {
-        this.scaleZ = depth;
-        group.setScaleZ(scaleZ);
-    }
 
     public double getWidth() {
-        return getGroup().getBoundsInParent().getWidth();
+        return this.getBoundsInLocal().getWidth();
     }
 
     public double getHeight() {
-        return getGroup().getBoundsInParent().getHeight();
+        return this.getBoundsInParent().getHeight();
     }
 
     public double getDepth() {
-        return getGroup().getBoundsInParent().getDepth();
+        return this.getBoundsInParent().getDepth();
     }
 
-    public double getScaleX() {
-        return scaleX;
-    }
-
-    public double getScaleY() {
-        return scaleY;
-    }
-
-    public double getScaleZ() {
-        return scaleZ;
-    }
-
-    public void addMember(Node o) {
-        group.getChildren().add(o);
-    }
 }
 

@@ -11,19 +11,19 @@ public class DrawSphere extends StructureBuilder {
     public DrawSphere(float radius){
         super(0,0,0);
         sphere = new Sphere(radius);
-        super.getGroup().getChildren().add(sphere);
+        super.getChildren().add(sphere);
     }
 
     public DrawSphere(float radius, float width, float height, float depth) {
         super(0,0,0);
         sphere = new Sphere(radius);
-        super.getGroup().getChildren().add(sphere);
+        super.getChildren().add(sphere);
         super.setScaleZ(width);
         super.setScaleY(height);
         super.setScaleZ(depth);
-        super.getGroup().setScaleX(width);
-        super.getGroup().setScaleY(height);
-        super.getGroup().setScaleZ(depth);
+        super.setScaleX(width);
+        super.setScaleY(height);
+        super.setScaleZ(depth);
     }
 
     public void setMaterial(Material material){

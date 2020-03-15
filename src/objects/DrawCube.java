@@ -11,13 +11,13 @@ public class DrawCube extends StructureBuilder {
     public DrawCube(double width, double height, double depth) {
         super(0,0,0);
         box = new Box(1, 1, 1);
-        super.getGroup().getChildren().add(box);
+        super.getChildren().add(box);
         super.setScaleZ(width);
         super.setScaleY(height);
         super.setScaleZ(depth);
-        super.getGroup().setScaleX(width);
-        super.getGroup().setScaleY(height);
-        super.getGroup().setScaleZ(depth);
+        super.setScaleX(width);
+        super.setScaleY(height);
+        super.setScaleZ(depth);
     }
 
     public void setBoxX(double x){box.setTranslateX(x);}

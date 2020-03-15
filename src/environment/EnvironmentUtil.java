@@ -169,10 +169,10 @@ public class EnvironmentUtil {
     }
 
     public void addMember(StructureBuilder member) {
-        GROUP_WORLD.getChildren().add(member.getGroup());
+        GROUP_WORLD.getChildren().add(member);
     }
 
     public void removeMember(StructureBuilder member) {
-        GROUP_WORLD.getChildren().remove(member.getGroup());
+        GROUP_WORLD.getChildren().remove(member);
     }
 }
