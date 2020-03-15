@@ -98,7 +98,7 @@ public class SkyboxUtil {
 
         if (sin >= .5) {
             sin -=.5;
-                    sin *= 2;
+            sin *= 2;
             // DO NOT UNCOMMENT FOR NOW
             moonlight.setColor(Color.rgb((int) (mooncolor.getRed() * sin * 255), (int) (mooncolor.getGreen() * sin * 255), (int) (mooncolor.getBlue() * sin * 255)));
             context.context.SCENE_GAME.setFill(Color.rgb((int) (nightskycolor.getRed() * sin * 255), (int) (nightskycolor.getGreen() * sin * 255), (int) (nightskycolor.getBlue() * sin * 255)));
