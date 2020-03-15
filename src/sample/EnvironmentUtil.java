@@ -104,7 +104,6 @@ public class EnvironmentUtil {
             box.setMaterial(MaterialsUtil.sand);
         }
 
-
         box.setWidth(terrain_block_width);
         box.setHeight(terrain_block_height);
         box.setDepth(terrain_block_depth);
@@ -153,7 +152,6 @@ public class EnvironmentUtil {
         skybox = sky;
         getEnvironmentGroup().getChildren().add(sky.getGroup());
     }
-
     public SkyboxUtil getSkybox() {
         return skybox;
     }
