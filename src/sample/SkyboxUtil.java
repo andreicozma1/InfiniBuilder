@@ -14,7 +14,7 @@ public class SkyboxUtil {
     Group group;
 
     private AmbientLight ambient = null;
-    public int day_length_multiplier = 5;
+    public int day_length_multiplier = 20;
 
     private Sphere sun;
     private PointLight sunlight;
@@ -75,7 +75,7 @@ public class SkyboxUtil {
             if (sin > 1) {
                 sin = 1;
             }
-            System.out.println((suncolor.getRed() * 255 * sin) + "  " + (suncolor.getGreen() * 255 * sin) + "  " + (suncolor.getBlue() * 255 * sin));
+//            System.out.println((suncolor.getRed() * 255 * sin) + "  " + (suncolor.getGreen() * 255 * sin) + "  " + (suncolor.getBlue() * 255 * sin));
 
             sunlight.setColor(Color.rgb((int) (suncolor.getRed() * sin * 255), (int) (suncolor.getGreen() * sin * 255), (int) (suncolor.getBlue() * sin * 255)));
             context.context.SCENE_GAME.setFill(Color.rgb((int) (dayskycolor.getRed() * sin * 255), (int) (dayskycolor.getGreen() * sin * 255), (int) (dayskycolor.getBlue() * sin * 255)));

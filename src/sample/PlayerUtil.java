@@ -39,7 +39,7 @@ public class PlayerUtil {
 
 
    private Box hitbox = new Box();
-    private int player_width = 15;
+    private int player_width = 10;
     public int player_height = 50;
 
 
@@ -117,14 +117,16 @@ public class PlayerUtil {
 
     public void moveDown(int val) {
         EnvironmentUtil env = context.getEnvironment();
-//        System.out.println(env.getSimplexHeight(context.getPlayer().x / env.chunk_width, context.getPlayer().z / env.chunk_depth) * 20);
 
+        double ground_level = -context.getEnvironment().getTerrainHeight(x,z) + player_height;
 
-
-        if (getY() > 0 || true) {
+        if (getY() > ground_level) {
+            System.out.println("Above ground");
             y -= val;
         } else {
             onGround = true;
+            y = ground_level;
+//            y = -context.getEnvironment().getTerrainHeight(x,z) - player_height;
         }
     }
 
@@ -148,7 +150,10 @@ public class PlayerUtil {
 //        System.out.println(EnvironmentUtil.chunks.toString());
 //        System.out.println("Player X: " + Player.x + " Y: " + Player.y + " Z: " + Player.z + " isFlying: " + Player.isFlying + " onGround: " + Player.onGround);
 
+
         boolean result = false;
+
+        /*
         if (y > 0) {
             double curr_chunk_x = Math.floor((this.x + context.getEnvironment().chunk_width / 2) / context.getEnvironment().chunk_width);
             double curr_chunk_z = Math.floor((this.z + context.getEnvironment().chunk_depth / 2) / context.getEnvironment().chunk_depth);
@@ -158,6 +163,8 @@ public class PlayerUtil {
                 aboveGround = false;
             }
         }
+
+         */
         return result;
     }
 
@@ -183,7 +190,6 @@ public class PlayerUtil {
         hitbox.setMaterial(MaterialsUtil.blue);
 
  */
-
 
         /*
         // draw player head

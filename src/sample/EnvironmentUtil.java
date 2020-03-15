@@ -3,10 +3,14 @@ package sample;
 import javafx.geometry.Point2D;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.CullFace;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EnvironmentUtil {
     SimplexNoise smp;
@@ -15,23 +19,31 @@ public class EnvironmentUtil {
     public Group environment_group;
 
 
+    public int chunk_depth = 100;
+    public int chunk_width = 100;
+    public int chunk_height = 10;
 
-    public int chunk_depth = 50;
-    public int chunk_width = 50;
-    public int chunk_height = 50;
-
-    public double terrain_height_multiplier = 1.5;
+    public double terrain_height_multiplier = 20;
     public double terrain_spread_multiplier = 10;
 
-    public ArrayList<Point2D> chunks = new ArrayList<>();
+    public Map<Point2D, Double> chunks = new HashMap<Point2D,Double>();
 
     public double getSimplexHeight(double x, double z) {
-        return smp.eval(x/terrain_spread_multiplier, z/terrain_spread_multiplier) * terrain_height_multiplier;
+        return smp.eval(x / terrain_spread_multiplier, z / terrain_spread_multiplier) * terrain_height_multiplier;
     }
 
-    public double getHeightAt(double x, double z){
-        return getSimplexHeight(x,z);
+    public double getTerrainHeight(double x, double z) {
+//        return chunks.find();
+
+
+//          System.out.println(new Point2D(Double.valueOf(Math.floor((x + chunk_width / 2) / chunk_width)), Double.valueOf(Math.floor((z + chunk_depth / 2) / chunk_depth))));
+
+
+//       System.out.println(chunks.containsKey(new Point2D(Double.valueOf(Math.floor((x + chunk_width / 2) / chunk_width)), Double.valueOf(Math.floor((z + chunk_depth / 2) / chunk_depth)))));
+Double result = chunks.get(new Point2D(Double.valueOf(Math.floor((x + chunk_width / 2) / chunk_width)), Double.valueOf(Math.floor((z + chunk_depth / 2) / chunk_depth))));
+       return result;
     }
+
 
     EnvironmentUtil(WindowUtil ctx) {
         context = ctx;
@@ -39,10 +51,11 @@ public class EnvironmentUtil {
         smp = new SimplexNoise();
     }
 
-    public void handle(){
-        if(skybox != null){
+    public void handle() {
+        if (skybox != null) {
             skybox.handle();
         }
+
 
     }
 
@@ -50,9 +63,6 @@ public class EnvironmentUtil {
         return environment_group;
     }
 
-    public ArrayList<Point2D> getChunks() {
-        return chunks;
-    }
 
     ArrayList<ArrayList<Double>> heights = new ArrayList<>();
 
@@ -71,10 +81,18 @@ public class EnvironmentUtil {
         for (double i = 0; i < 100; i++) {
             for (double j = 0; j < 100; j++) {
 
-                double y = getSimplexHeight(i,j);
+                double x = i * chunk_depth;
+                double y = getSimplexHeight(i, j) * chunk_height + chunk_height / 2;
+                double z = j * chunk_width;
                 System.out.println("Chunk x: " + i + " y: " + y + " z: " + j);
-                environment_group.getChildren().add(create_playform(i * chunk_depth, y * chunk_height + chunk_height/2, j * chunk_width));
+                environment_group.getChildren().add(create_playform(x, y, z));
+                chunks.put(new Point2D(i,j), y);
             }
+        }
+
+
+        for(Map.Entry<Point2D,Double> d: chunks.entrySet()) {
+            System.out.println(d.getKey() + "   " + d.getValue());
         }
 
     }
@@ -96,14 +114,13 @@ public class EnvironmentUtil {
     }
 
 
-    public void setSkyBox(SkyboxUtil sky){
+    public void setSkyBox(SkyboxUtil sky) {
         skybox = sky;
     }
 
-    public SkyboxUtil getSkybox(){
+    public SkyboxUtil getSkybox() {
         return skybox;
     }
-
 
 
     public void addMember(StructureBuilder member) {
