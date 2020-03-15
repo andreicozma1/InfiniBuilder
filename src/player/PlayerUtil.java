@@ -73,7 +73,7 @@ public class PlayerUtil {
         // Jumping Mechanism. As long as player is not in fly mode, execute mechanism
         if (!isFlyMode) {
             // If the player initiated a jump and hasn't reached the top, move the player up
-            System.out.println(jump_start_height);
+//            System.out.println(jump_start_height);
             if (isJumping && y < jump_start_height + jumpHeight) {
                 moveUp(speedFly);
             } else {

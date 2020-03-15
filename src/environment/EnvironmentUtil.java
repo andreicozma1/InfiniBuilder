@@ -100,6 +100,7 @@ public class EnvironmentUtil {
         } else if(y < -50){
             box.setMaterial(MaterialsUtil.moss);
         } else if(y < 100){
+
             box.setMaterial(MaterialsUtil.grass);
         } else  if(y < 200){
             box.setMaterial(MaterialsUtil.sand);
