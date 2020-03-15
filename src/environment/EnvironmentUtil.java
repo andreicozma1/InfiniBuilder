@@ -1,9 +1,11 @@
 package environment;
 
+import com.sun.webkit.Timer;
 import javafx.geometry.Point2D;
 import javafx.scene.*;
 import javafx.scene.shape.Box;
 import algorithms.SimplexUtil;
+import utils.ModelUtil;
 import utils.WindowUtil;
 
 import java.util.HashMap;
@@ -14,6 +16,7 @@ public class EnvironmentUtil {
     public WindowUtil context;
 
     private SkyboxUtil skybox = null;
+    private ModelUtil models;
 
     public Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
     public static Group GROUP_TERRAIN;
@@ -39,6 +42,8 @@ public class EnvironmentUtil {
     public EnvironmentUtil(WindowUtil ctx) {
         context = ctx;
         GROUP_WORLD = new Group(); // initialize the world group, which contains the TERRAIN and STRUCTURES subgroups
+        models = new ModelUtil();
+
 
         GROUP_TERRAIN = new Group();
         GROUP_STRUCTURES = new Group();
@@ -93,28 +98,33 @@ public class EnvironmentUtil {
     }
 
     public Box create_playform(double x, double y, double z) {
+
+        StructureBuilder b = new StructureBuilder(x,y,z);
         Box box = new Box();
+        box.setWidth(terrain_block_width);
+        box.setHeight(terrain_block_height);
+        box.setDepth(terrain_block_depth);
+        box.setTranslateX(x);
+        box.setTranslateY(y);
+        box.setTranslateZ(z);
+        b.getChildren().add(box);
 
         if(y < - 180){
             box.setMaterial(MaterialsUtil.stone);
         } else if(y < -50){
             box.setMaterial(MaterialsUtil.moss);
         } else if(y < 100){
-
             box.setMaterial(MaterialsUtil.grass);
+            if(Math.random() > .5){
+                System.out.println("ASDSA");
+
+
+            }
         } else  if(y < 200){
             box.setMaterial(MaterialsUtil.sand);
         } else{
             box.setMaterial(MaterialsUtil.dirt);
         }
-
-        box.setWidth(terrain_block_width);
-        box.setHeight(terrain_block_height);
-        box.setDepth(terrain_block_depth);
-
-        box.setTranslateX(x);
-        box.setTranslateY(y);
-        box.setTranslateZ(z);
 
         return box;
     }

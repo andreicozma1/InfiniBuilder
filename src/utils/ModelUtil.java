@@ -4,27 +4,26 @@ import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
 import environment.StructureBuilder;
 import javafx.scene.Node;
 
+import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ModelUtil {
 
-    StructureBuilder str = new StructureBuilder(0, 0, 0);
+    File res_folder = new File(getClass().getResource("../res/").getFile());
+    public static Map<String,Node[]> models;
 
-    URL modelUrl = getClass().getResource("../res/Oak_Tree.3ds");
-
-    ModelUtil() {
+    public ModelUtil() {
         TdsModelImporter abc = new TdsModelImporter();
-        abc.read(modelUrl);
-        Node[] nodes = abc.getImport();
+        models = new HashMap<String, Node[]>();
 
-        str.getChildren().addAll(nodes);
-        str.setScaleX(10);
-        str.setScaleY(10);
-        str.setScaleZ(10);
-    }
+        File[] list_of_files = res_folder.listFiles();
 
-    StructureBuilder getModel(int model_id) {
-
-        return str;
+        for(File file : list_of_files){
+            System.out.println(file.getAbsolutePath());
+            abc.read(file);
+            models.put(file.getName(),abc.getImport());
+        }
     }
 }

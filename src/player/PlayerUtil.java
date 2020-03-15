@@ -1,5 +1,6 @@
 package player;
 
+import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.shape.Box;
 import utils.PhysicsUtil;
@@ -148,11 +149,11 @@ public class PlayerUtil {
         }
     }
 
-    public void placeObject(StructureBuilder str, boolean lockToEnvir) {
+    public void placeObject(Point3D pos, StructureBuilder str, boolean lockToEnvir) {
 
-        double xPos = getX();
-        double yPos = context.getEnvironment().getTerrainYfromPlayerXZ(getX(), getZ()) - str.getHeight()/2;
-        double zPos = getZ();
+        double xPos = pos.getX();
+        double yPos = context.getEnvironment().getTerrainYfromPlayerXZ(pos.getX(), pos.getZ()) - str.getHeight()/2;
+        double zPos = pos.getZ();
         if (lockToEnvir) {
               xPos = context.getEnvironment().getTerrainXfromPlayerX(x) * context.getEnvironment().getBlockDim();
             zPos = context.getEnvironment().getTerrainZfromPlayerZ(z) * context.getEnvironment().getBlockDim();
@@ -175,6 +176,10 @@ public class PlayerUtil {
 
     public double getZ() {
         return z;
+    }
+
+    public Point3D getPoint3D(){
+        return new Point3D(getX(),getY(),getZ());
     }
 
     public boolean isOnGround() {
