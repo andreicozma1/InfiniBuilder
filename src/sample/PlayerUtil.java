@@ -12,10 +12,10 @@ public class PlayerUtil {
     public double z = 0;
 
     public double runMultiplier = 1.5;
-    public double speedForward = 3;
-    public double speedBackward = 3;
-    public double speedSide = 1.5;
-    public double speedFly = 1.5;
+    public double speedForward = 5;
+    public double speedBackward = 5;
+    public double speedSide = 3;
+    public double speedFly = 3;
     private double fallSpeed = 0; // Original speed before gravity is applied;
 
     double jump_start_height;

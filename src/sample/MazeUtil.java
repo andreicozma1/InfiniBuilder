@@ -65,7 +65,7 @@ public class MazeUtil {
                         cube.setMaterial(MaterialsUtil.stone);
                         cube.setBoxX(currX);
                         cube.setBoxZ(currZ);
-                        context.getPlayer().placeObject(cube, true);
+//                        context.getPlayer().placeObject(cube, true);
                     } else {
 //                        Wall tmp = new Wall();
                     }

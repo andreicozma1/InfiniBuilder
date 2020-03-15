@@ -20,8 +20,8 @@ public class EnvironmentUtil {
 
     private int terrain_render_distance = 50;
     private SimplexNoise terrain_simplex_alg;
-    private double terrain_multiplier_height = 1.5;
-    private double terrain_multiplier_spread = 10;
+    private double terrain_multiplier_height = 10;
+    private double terrain_multiplier_spread = 30;
 
     private int terrain_block_width = 20;
     private int terrain_block_height = 20;

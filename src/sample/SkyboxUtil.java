@@ -64,7 +64,7 @@ public class SkyboxUtil {
         double cos = Math.cos(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
         double cosdist = cos * dist;
 
-        System.out.println("SUN sin: " + sin + " cos: " + cos);
+//        System.out.println("SUN sin: " + sin + " cos: " + cos);
 
         if (sin <= .5) {
             sin = sin * -1;
@@ -79,11 +79,13 @@ public class SkyboxUtil {
         } else {
 //            sunlight.setColor(Color.BLACK);
         }
-
-        sunlight.setTranslateZ(cosdist);
+        sunlight.setTranslateX(context.context.getPlayer().getX());
         sunlight.setTranslateY(sindist);
-        sun.setTranslateZ(cosdist);
+        sunlight.setTranslateZ(cosdist+ context.context.getPlayer().getZ());
+        sun.setTranslateX(context.context.getPlayer().getX());
         sun.setTranslateY(sindist);
+        sun.setTranslateZ(cosdist+ context.context.getPlayer().getZ());
+
     }
 
     private void rotateMoon(double dist) {
@@ -91,7 +93,7 @@ public class SkyboxUtil {
         double sindist = sin * dist;
         double cos = Math.cos(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
         double cosdist = cos * dist;
-         System.out.println("MOON sin: " + -sin + " cos: " + -cos);
+//         System.out.println("MOON sin: " + -sin + " cos: " + -cos);
 
         if (sin >= .5) {
             sin -=.5;
@@ -104,10 +106,13 @@ public class SkyboxUtil {
             // moonlight.setColor(Color.BLACK);
         }
 
-        moonlight.setTranslateZ(-cosdist);
+        moonlight.setTranslateX(context.context.getPlayer().getX());
         moonlight.setTranslateY(-sindist);
-        moon.setTranslateZ(-cosdist);
+        moonlight.setTranslateZ(-cosdist + context.context.getPlayer().getZ());
         moon.setTranslateY(-sindist);
+        moon.setTranslateX(context.context.getPlayer().getX());
+        moon.setTranslateZ(-cosdist+ context.context.getPlayer().getZ());
+
     }
 
 
