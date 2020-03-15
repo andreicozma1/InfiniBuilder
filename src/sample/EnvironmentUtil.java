@@ -28,6 +28,11 @@ public class EnvironmentUtil {
     private Map<Point2D, Double> height_map = new HashMap<Point2D,Double>();
     private Map<Point2D, Box> box_map = new HashMap<Point2D,Box>();
 
+
+    public int getBlockDim(){
+        return chunk_width;
+    }
+
     public double getSimplexHeight(double x, double z) {
         return smp.eval(x / terrain_spread_multiplier, z / terrain_spread_multiplier) * terrain_height_multiplier;
     }

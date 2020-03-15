@@ -147,10 +147,10 @@ public class PlayerUtil {
     }
 
     public void placeObject(){
-        Box b = new Box(50,50,50);
+        Box b = new Box(20,20,20);
         b.setMaterial(MaterialsUtil.stone);
 
-        StructureBuilder str = new StructureBuilder(x,y + 50,z);
+        StructureBuilder str = new StructureBuilder(context.getEnvironment().getTerrainX(x)*context.getEnvironment().getBlockDim(),context.getEnvironment().getTerrainHeight(getX(),getZ()) - 20,context.getEnvironment().getTerrainZ(z) * context.getEnvironment().getBlockDim());
         str.addMember(b);
 
         context.getEnvironment().addMember(str);

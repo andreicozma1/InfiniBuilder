@@ -16,7 +16,6 @@ public class WindowUtil {
     int HEIGHT;
     String currentGroup;
 
-
     public Scene SCENE_GAME;
     public Scene SCENE_MENU;
     public Scene SCENE_CURRENT;

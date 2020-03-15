@@ -22,6 +22,7 @@ public class MaterialsUtil {
     public static void setupMaterials(){
         stone = new PhongMaterial();
         stone.setDiffuseMap(new Image("https://images.unsplash.com/photo-1522409640003-31c21bd5e696?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80"));
+//stone.setSpecularMap(new Image("https://images.unsplash.com/photo-1522409640003-31c21bd5e696?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80"));
 
         grass = new PhongMaterial();
         grass.setDiffuseMap(new Image("https://texturehaven.com/files/textures/jpg/1k/grass_path_2/grass_path_2_diff_1k.jpg"));
