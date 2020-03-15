@@ -14,7 +14,7 @@ public class SkyboxUtil {
     Group group;
 
     private AmbientLight ambient = null;
-    public int day_length_multiplier = 20;
+    public int day_length_multiplier = 5;
 
     private Sphere sun;
     private PointLight sunlight;
@@ -47,8 +47,8 @@ public class SkyboxUtil {
         setMoonScale(200);
         setMoonDistance(10000);
         setMoonMaterial(MaterialsUtil.moon);
-        setMoonlightColor(Color.rgb(5, 5, 23));
-        setNightSkyColor(Color.rgb(5, 5, 23));
+        setMoonlightColor(Color.rgb(20, 20, 60));
+        setNightSkyColor(Color.rgb(10, 10, 35));
 
 
         group.getChildren().addAll(sun, sunlight, moon, moonlight);
@@ -96,10 +96,12 @@ public class SkyboxUtil {
         double cosdist = cos * dist;
         // System.out.println("MOON sin: " + -sin + " cos: " + -cos);
 
-        if (-sin <= 0) {
+        if (sin >= .5) {
+            sin -=.5;
+                    sin *= 2;
             // DO NOT UNCOMMENT FOR NOW
             moonlight.setColor(Color.rgb((int) (mooncolor.getRed() * sin * 255), (int) (mooncolor.getGreen() * sin * 255), (int) (mooncolor.getBlue() * sin * 255)));
-//            context.context.SCENE_GAME.setFill(Color.rgb((int) (nightskycolor.getRed() * sin * 255), (int) (nightskycolor.getGreen() * sin * 255), (int) (nightskycolor.getBlue() * sin * 255)));
+            context.context.SCENE_GAME.setFill(Color.rgb((int) (nightskycolor.getRed() * sin * 255), (int) (nightskycolor.getGreen() * sin * 255), (int) (nightskycolor.getBlue() * sin * 255)));
         } else {
             // DO NOT UNCOMMENT FOR NOW
             // moonlight.setColor(Color.BLACK);
