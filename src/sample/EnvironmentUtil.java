@@ -77,15 +77,20 @@ public class EnvironmentUtil {
             for (double j = -25+playerz; j < 25 + playerz; j++) {
 
                 if(!box_map.containsKey(new Point2D(i,j))){
+                    System.out.println("Generated");
                     double x = i * chunk_depth;
                     double y = getSimplexHeight(i, j) * chunk_height + chunk_height / 2;
                     double z = j * chunk_width;
-                    System.out.println("Chunk x: " + i + " y: " + y + " z: " + j);
+//                    System.out.println("Chunk x: " + i + " y: " + y + " z: " + j);
                     Point2D key = new Point2D(i,j);
                     box_map.put(key,create_playform(x, y, z));
                     height_map.put(key, y);
                 }
             }
+        }
+        if(box_map.size() > 5000){
+            box_map.clear();
+            height_map.clear();
         }
     }
 
@@ -93,8 +98,9 @@ public class EnvironmentUtil {
         playerx = getTerrainX(playerx);
         playerz = getTerrainZ(playerz);
         getGroup().getChildren().removeAll();
-        for (double i = -50+ playerx; i < 50+playerx; i++) {
-            for (double j = -50+playerz; j < 50 + playerz; j++) {
+        System.out.println(box_map.size());
+        for (double i = -25+ playerx; i < 25+playerx; i++) {
+            for (double j = -25+playerz; j < 25 + playerz; j++) {
                 Point2D key = new Point2D(i,j);
                 if(box_map.containsKey(key) && !getGroup().getChildren().contains(box_map.get(key))){
                     getGroup().getChildren().add(box_map.get(key));
