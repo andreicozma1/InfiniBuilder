@@ -95,14 +95,16 @@ public class EnvironmentUtil {
     public Box create_playform(double x, double y, double z) {
         Box box = new Box();
 
-        if(y < - 150){
+        if(y < - 180){
             box.setMaterial(MaterialsUtil.stone);
         } else if(y < -50){
             box.setMaterial(MaterialsUtil.moss);
         } else if(y < 100){
             box.setMaterial(MaterialsUtil.grass);
-        } else{
+        } else  if(y < 200){
             box.setMaterial(MaterialsUtil.sand);
+        } else{
+            box.setMaterial(MaterialsUtil.dirt);
         }
 
         box.setWidth(terrain_block_width);
