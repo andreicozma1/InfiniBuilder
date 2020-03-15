@@ -20,11 +20,11 @@ public class EnvironmentUtil {
 
     private int terrain_render_distance = 50;
     private SimplexUtil terrain_simplex_alg;
-    private double terrain_multiplier_height = 70;
+    private double terrain_multiplier_height = 30;
     private double terrain_multiplier_spread = 1;
 
     private int terrain_block_width = 20;
-    private int terrain_block_height = 40;
+    private int terrain_block_height = 20;
     private int terrain_block_depth = 20;
 
     private Map<Point2D, Double> terrain_map_height = new HashMap<Point2D,Double>();
@@ -43,7 +43,7 @@ public class EnvironmentUtil {
         GROUP_STRUCTURES = new Group();
         GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN,GROUP_STRUCTURES); // add the subgroups to the parent group
 
-        terrain_simplex_alg = new SimplexUtil(200,.45,(int)System.currentTimeMillis());
+        terrain_simplex_alg = new SimplexUtil(100,0.4,(int)System.currentTimeMillis());
     }
 
     /**
@@ -65,7 +65,7 @@ public class EnvironmentUtil {
                 if(!terrain_map_block.containsKey(new Point2D(i,j))){
                     System.out.println("Generated");
                     double x = i * terrain_block_depth;
-                    double y = getSimplexHeight(i, j) * terrain_block_height/2 + terrain_block_height / 2;
+                    double y = getSimplexHeight(i, j) * terrain_block_height + terrain_block_height / 2;
                     double z = j * terrain_block_width;
                     Point2D key = new Point2D(i,j);
                     terrain_map_block.put(key,create_playform(x, y, z));
@@ -94,11 +94,11 @@ public class EnvironmentUtil {
     public Box create_playform(double x, double y, double z) {
         Box box = new Box();
 
-        if(y < - 450){
-            box.setMaterial(MaterialsUtil.grass);
-        } else if(y < -150){
+        if(y < - 150){
+            box.setMaterial(MaterialsUtil.stone);
+        } else if(y < -50){
             box.setMaterial(MaterialsUtil.moss);
-        } else if(y < 400){
+        } else if(y < 100){
             box.setMaterial(MaterialsUtil.grass);
         } else{
             box.setMaterial(MaterialsUtil.sand);

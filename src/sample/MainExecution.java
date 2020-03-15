@@ -15,7 +15,6 @@ public class MainExecution extends Application {
 //        MazeGenerator maze = new MazeGenerator(5,5,1);
 //        maze.printWalls();
 
-
         System.out.println("MainExecution");
         MaterialsUtil materials = new MaterialsUtil();
 
@@ -26,6 +25,7 @@ public class MainExecution extends Application {
         PlayerUtil player = new PlayerUtil(window);
         EnvironmentUtil envir = new EnvironmentUtil(window);
         SkyboxUtil sky = new SkyboxUtil(envir);
+        sky.setMode(SkyboxUtil.MODE_DAY);
         AmbientLight amb = new AmbientLight();
         amb.setColor(Color.rgb(50, 50, 50));
         sky.setAmbientLight(amb);

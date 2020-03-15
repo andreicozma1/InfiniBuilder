@@ -46,14 +46,14 @@ public class ControlsUtil {
 
         });
 
-        game_scene.setOnMousePressed(event->{
-            switch(event.getButton()){
+        game_scene.setOnMousePressed(event -> {
+            switch (event.getButton()) {
                 case PRIMARY:
                     javafx.scene.shape.Box b = new Box(20, 20, 20);
                     b.setMaterial(MaterialsUtil.stone);
-                    StructureBuilder str = new StructureBuilder(0,0,0);
+                    StructureBuilder str = new StructureBuilder(0, 0, 0);
                     str.addMember(b);
-                    context.getPlayer().placeObject(str,true);
+                    context.getPlayer().placeObject(str, true);
                     break;
             }
         });
@@ -90,6 +90,18 @@ public class ControlsUtil {
                             context.getPlayer().isClipMode = true;
                         }
                         break;
+                    case P:
+                        switch (context.getEnvironment().getSkybox().getMode()) {
+                            case SkyboxUtil.MODE_CYCLE:
+                                context.getEnvironment().getSkybox().setMode(SkyboxUtil.MODE_DAY);
+                                break;
+                            case SkyboxUtil.MODE_DAY:
+                                context.getEnvironment().getSkybox().setMode(SkyboxUtil.MODE_NIGHT);
+                                break;
+                            case SkyboxUtil.MODE_NIGHT:
+                                context.getEnvironment().getSkybox().setMode(SkyboxUtil.MODE_CYCLE);
+                                break;
+                        }
                     case R:
                         context.getPlayer().reset();
                         break;

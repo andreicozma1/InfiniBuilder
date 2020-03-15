@@ -12,6 +12,11 @@ public class SkyboxUtil {
     private AmbientLight ambient = null;
     public int day_length_multiplier = 30;
 
+    public static final int MODE_CYCLE = 0;
+    public static final int MODE_DAY = 1;
+    public static final int MODE_NIGHT = 2;
+    private int MODE_CURR;
+
     //TODO? Put these in classes?
     private Sphere sun;
     private PointLight sunlight;
@@ -33,6 +38,7 @@ public class SkyboxUtil {
     SkyboxUtil(EnvironmentUtil envir) {
         context = envir;
         group_skybox = new Group();
+        MODE_CURR = MODE_CYCLE;
 
         sun = new Sphere();
         sunlight = new PointLight();
@@ -62,14 +68,27 @@ public class SkyboxUtil {
      *
      */
     void update_handler() {
-        rotateSun(sun_distance);
-        rotateMoon(moon_distance);
+
+        double time;
+        switch(MODE_CURR){
+            case MODE_DAY:
+                time = -day_length_multiplier * 1000;
+                break;
+            case MODE_NIGHT:
+                time = day_length_multiplier * 1000;
+                break;
+            default:
+                time = System.currentTimeMillis();
+                break;
+        }
+        rotateSun(time,sun_distance);
+        rotateMoon(time,moon_distance);
     }
 
-    private void rotateSun(double dist) {
-        double sin = Math.sin(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
+    private void rotateSun(double time, double dist) {
+        double sin = Math.sin(time / (1000.0 * day_length_multiplier));
         double sindist = sin * dist;
-        double cos = Math.cos(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
+        double cos = Math.cos(time / (1000.0 * day_length_multiplier));
         double cosdist = cos * dist;
 
         // offset for dimming the sky and light to black
@@ -88,6 +107,8 @@ public class SkyboxUtil {
             sunlight.setColor(Color.rgb((int) (suncolor.getRed() * sin * 255), (int) (suncolor.getGreen() * sin * 255), (int) (suncolor.getBlue() * sin * 255)));
             context.context.SCENE_GAME.setFill(Color.rgb((int) (dayskycolor.getRed() * sin * 255), (int) (dayskycolor.getGreen() * sin * 255), (int) (dayskycolor.getBlue() * sin * 255)));
         } else {
+            sunlight.setColor(Color.rgb(0, 0, 0));
+
 //            sunlight.setColor(Color.BLACK);
         }
 
@@ -102,10 +123,10 @@ public class SkyboxUtil {
 
     }
 
-    private void rotateMoon(double dist) {
-        double sin = Math.sin(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
+    private void rotateMoon(double time, double dist) {
+        double sin = Math.sin(time / (1000.0 * day_length_multiplier));
         double sindist = sin * dist;
-        double cos = Math.cos(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
+        double cos = Math.cos(time / (1000.0 * day_length_multiplier));
         double cosdist = cos * dist;
 
         // complement to the offset set on the sun.
@@ -117,6 +138,8 @@ public class SkyboxUtil {
             sin *= 2;
             moonlight.setColor(Color.rgb((int) (mooncolor.getRed() * sin * 255), (int) (mooncolor.getGreen() * sin * 255), (int) (mooncolor.getBlue() * sin * 255)));
             context.context.SCENE_GAME.setFill(Color.rgb((int) (nightskycolor.getRed() * sin * 255), (int) (nightskycolor.getGreen() * sin * 255), (int) (nightskycolor.getBlue() * sin * 255)));
+        } else{
+            moonlight.setColor(Color.rgb(0, 0, 0));
         }
 
         // position the moon relative to the player's position
@@ -190,5 +213,12 @@ public class SkyboxUtil {
     public Group getGroup(){
         return group_skybox;
     }
+
+  public void setMode(int mode_new){
+        MODE_CURR = mode_new;
+  }
+  public int getMode(){
+        return MODE_CURR;
+  }
 
 }
