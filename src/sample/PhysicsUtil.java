@@ -2,5 +2,5 @@ package sample;
 
 public class PhysicsUtil {
 
-    public static int GRAVITY = 4;
+    public static double GRAVITY = .2;
 }

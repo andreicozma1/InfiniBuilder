@@ -69,8 +69,18 @@ public class ControlsUtil {
                         } else {
                             context.getPlayer().isFlyMode = true;
                         }
-
-//                        System.out.println( context.getPlayer().isFlyMode);
+                        break;
+                    case C:
+                        if (context.getPlayer().isClipMode) {
+                            context.getPlayer().isClipMode = false;
+                        } else {
+                            context.getPlayer().isClipMode = true;
+                        }
+                        break;
+                    case R:
+                        context.getPlayer().setPosition(0, 0, 0);
+                        context.getCamera().rotx = 0;
+                        context.getCamera().roty = 0;
                         break;
                 }
             }
@@ -115,12 +125,6 @@ public class ControlsUtil {
                     break;
                 case SHIFT:
                     context.getPlayer().moveDown(context.getPlayer().speedFly);
-                    break;
-                case R:
-                    context.getPlayer().setPosition(0, 0, 0);
-                    context.getCamera().rotx = 0;
-                    context.getCamera().roty = 0;
-//                    context.getCamera().setRotate(0,0);
                     break;
 
             }

@@ -19,11 +19,11 @@ public class EnvironmentUtil {
     public Group environment_group;
 
 
-    public int chunk_depth = 100;
-    public int chunk_width = 100;
-    public int chunk_height = 10;
+    public int chunk_depth = 20;
+    public int chunk_width = 20;
+    public int chunk_height = 20;
 
-    public double terrain_height_multiplier = 20;
+    public double terrain_height_multiplier = 1.5;
     public double terrain_spread_multiplier = 10;
 
     public Map<Point2D, Double> chunks = new HashMap<Point2D,Double>();
@@ -33,20 +33,16 @@ public class EnvironmentUtil {
     }
 
     public double getTerrainHeight(double x, double z) {
-//        return chunks.find();
-
-
 //          System.out.println(new Point2D(Double.valueOf(Math.floor((x + chunk_width / 2) / chunk_width)), Double.valueOf(Math.floor((z + chunk_depth / 2) / chunk_depth))));
-
 
         Point2D pt = new Point2D(Double.valueOf(Math.floor((x + chunk_width / 2) / chunk_width)), Double.valueOf(Math.floor((z + chunk_depth / 2) / chunk_depth)));
         if(chunks.containsKey(pt)){
             return chunks.get(pt);
         } else{
+            // Y down is positive.
             return Integer.MAX_VALUE;
         }
 //       System.out.println(chunks.containsKey(new Point2D(Double.valueOf(Math.floor((x + chunk_width / 2) / chunk_width)), Double.valueOf(Math.floor((z + chunk_depth / 2) / chunk_depth)))));
-
     }
 
 
