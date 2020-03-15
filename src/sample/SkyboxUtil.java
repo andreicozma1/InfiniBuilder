@@ -7,24 +7,29 @@ import javafx.scene.shape.Sphere;
 
 public class SkyboxUtil {
     private EnvironmentUtil context;
-
-    Group group_skybox;
+    private Group group_skybox;
 
     private AmbientLight ambient = null;
     public int day_length_multiplier = 5;
 
+    //TODO? Put these in classes?
     private Sphere sun;
     private PointLight sunlight;
     private double sun_distance;
     Color suncolor;
     Color dayskycolor;
+
+    //TODO? Put these in classes?
     private Sphere moon;
     private PointLight moonlight;
     private double moon_distance;
     Color mooncolor;
     Color nightskycolor;
 
-
+    /**
+     * Constructor for SkyboxUtil. This initializes
+     * @param envir
+     */
     SkyboxUtil(EnvironmentUtil envir) {
         context = envir;
         group_skybox = new Group();
@@ -50,9 +55,12 @@ public class SkyboxUtil {
 
         group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight);
 
-        context.getEnvironmentGroup().getChildren().add(group_skybox);
+
     }
 
+    /**
+     *
+     */
     void update_handler() {
         rotateSun(sun_distance);
         rotateMoon(moon_distance);
@@ -64,21 +72,27 @@ public class SkyboxUtil {
         double cos = Math.cos(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
         double cosdist = cos * dist;
 
-//        System.out.println("SUN sin: " + sin + " cos: " + cos);
-
+        // offset for dimming the sky and light to black
+        // since the sun will be at horizon when sin/cos is 0, we want an offset so that the light isn't completely out when the sun is setting
+        // we want the world to turn compeltely dark AFTER the sun is set with a small delay, till the moon comes out and shines the world
         if (sin <= .5) {
             sin = sin * -1;
             sin += .5;
+            // flip the values of the sin and add .5 to it for the offset, now the values will be from 0 to 1.5.
+            // Since we use the sin to calculate the intensity of the colors, we want the multiplier to be capped at 1
+            // so if the sin > 1, set it back to 1.
+            // this way, during mid day, the intensity of the sun remains constant for longer, before slowly fading to black.
             if (sin > 1) {
                 sin = 1;
             }
-//            System.out.println((suncolor.getRed() * 255 * sin) + "  " + (suncolor.getGreen() * 255 * sin) + "  " + (suncolor.getBlue() * 255 * sin));
-
             sunlight.setColor(Color.rgb((int) (suncolor.getRed() * sin * 255), (int) (suncolor.getGreen() * sin * 255), (int) (suncolor.getBlue() * sin * 255)));
             context.context.SCENE_GAME.setFill(Color.rgb((int) (dayskycolor.getRed() * sin * 255), (int) (dayskycolor.getGreen() * sin * 255), (int) (dayskycolor.getBlue() * sin * 255)));
         } else {
 //            sunlight.setColor(Color.BLACK);
         }
+
+        // position the sun relative to the player's position
+        // the sun is a full 180 degrees (pi) away from the moon, so the sin and cos values are flipped on the sun compared to the moon
         sunlight.setTranslateX(context.context.getPlayer().getX());
         sunlight.setTranslateY(sindist);
         sunlight.setTranslateZ(cosdist+ context.context.getPlayer().getZ());
@@ -93,26 +107,26 @@ public class SkyboxUtil {
         double sindist = sin * dist;
         double cos = Math.cos(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
         double cosdist = cos * dist;
-//         System.out.println("MOON sin: " + -sin + " cos: " + -cos);
 
+        // complement to the offset set on the sun.
+        // this way, we check if the sun has already set, if so, we subtract the multiplier from the sun and multiply by 2
+        // to achieve a value from 0 to 1 which we will use for calculating the intensity of the moon light
+        // TODO? use the .5 as a variable multiplier?
         if (sin >= .5) {
             sin -=.5;
             sin *= 2;
-            // DO NOT UNCOMMENT FOR NOW
             moonlight.setColor(Color.rgb((int) (mooncolor.getRed() * sin * 255), (int) (mooncolor.getGreen() * sin * 255), (int) (mooncolor.getBlue() * sin * 255)));
             context.context.SCENE_GAME.setFill(Color.rgb((int) (nightskycolor.getRed() * sin * 255), (int) (nightskycolor.getGreen() * sin * 255), (int) (nightskycolor.getBlue() * sin * 255)));
-        } else {
-            // DO NOT UNCOMMENT FOR NOW
-            // moonlight.setColor(Color.BLACK);
         }
 
+        // position the moon relative to the player's position
+        // the moon is a full 180 degrees (pi) away from the sun, so the sin and cos values are flipped on the moon compared to the sun
         moonlight.setTranslateX(context.context.getPlayer().getX());
         moonlight.setTranslateY(-sindist);
         moonlight.setTranslateZ(-cosdist + context.context.getPlayer().getZ());
         moon.setTranslateY(-sindist);
         moon.setTranslateX(context.context.getPlayer().getX());
         moon.setTranslateZ(-cosdist+ context.context.getPlayer().getZ());
-
     }
 
 
@@ -171,6 +185,10 @@ public class SkyboxUtil {
             context.getEnvironmentGroup().getChildren().remove(ambient);
             context.getEnvironmentGroup().getChildren().add(ambient);
         }
+    }
+
+    public Group getGroup(){
+        return group_skybox;
     }
 
 }

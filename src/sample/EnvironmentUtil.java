@@ -19,9 +19,9 @@ public class EnvironmentUtil {
     public static Group GROUP_STRUCTURES;
 
     private int terrain_render_distance = 50;
-    private SimplexNoise terrain_simplex_alg;
-    private double terrain_multiplier_height = 10;
-    private double terrain_multiplier_spread = 30;
+    private SimplexUtil terrain_simplex_alg;
+    private double terrain_multiplier_height = 50;
+    private double terrain_multiplier_spread = 1;
 
     private int terrain_block_width = 20;
     private int terrain_block_height = 20;
@@ -43,7 +43,7 @@ public class EnvironmentUtil {
         GROUP_STRUCTURES = new Group();
         GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN,GROUP_STRUCTURES); // add the subgroups to the parent group
 
-        terrain_simplex_alg = new SimplexNoise();
+        terrain_simplex_alg = new SimplexUtil(500,.5,(int)System.currentTimeMillis());
     }
 
     /**
@@ -67,7 +67,6 @@ public class EnvironmentUtil {
                     double x = i * terrain_block_depth;
                     double y = getSimplexHeight(i, j) * terrain_block_height + terrain_block_height / 2;
                     double z = j * terrain_block_width;
-//                    System.out.println("Chunk x: " + i + " y: " + y + " z: " + j);
                     Point2D key = new Point2D(i,j);
                     terrain_map_block.put(key,create_playform(x, y, z));
                     terrain_map_height.put(key, y);
@@ -81,7 +80,6 @@ public class EnvironmentUtil {
         playerz = getTerrainZfromPlayerZ(playerz);
 
         GROUP_TERRAIN.getChildren().clear();
-//        System.out.println(box_map.size());
         for (double i = -terrain_render_distance /2+ playerx; i < terrain_render_distance /2+playerx; i++) {
             for (double j = -terrain_render_distance /2+playerz; j < terrain_render_distance /2 + playerz; j++) {
                 Point2D key = new Point2D(i,j);
@@ -110,7 +108,7 @@ public class EnvironmentUtil {
 
 
     private double getSimplexHeight(double pollx, double pollz) {
-        return terrain_simplex_alg.eval(pollx / terrain_multiplier_spread, pollz / terrain_multiplier_spread) * terrain_multiplier_height;
+        return terrain_simplex_alg.getNoise((int)(pollx / terrain_multiplier_spread), (int)(pollz / terrain_multiplier_spread)) * terrain_multiplier_height;
     }
 
     public double getTerrainXfromPlayerX(double playerx){
@@ -140,8 +138,10 @@ public class EnvironmentUtil {
         }
     }
 
+
     public void setSkyBox(SkyboxUtil sky) {
         skybox = sky;
+        getEnvironmentGroup().getChildren().add(sky.getGroup());
     }
 
     public SkyboxUtil getSkybox() {

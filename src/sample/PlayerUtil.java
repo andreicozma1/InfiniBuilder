@@ -85,6 +85,7 @@ public class PlayerUtil {
     public void jump() {
         isJumping = true;
         canJump = false;
+        jump_start_height = context.getEnvironment().getTerrainYfromPlayerXZ(getX(),getZ());
     }
 
 
