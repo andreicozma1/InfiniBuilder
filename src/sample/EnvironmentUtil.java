@@ -72,7 +72,6 @@ public class EnvironmentUtil {
     }
 
 
-
     public void generateChunks(double playerx, double playerz) {
         playerx = getTerrainX(playerx);
         playerz = getTerrainZ(playerz);
@@ -103,8 +102,8 @@ public class EnvironmentUtil {
         playerz = getTerrainZ(playerz);
 //        getGroup().getChildren().removeAll();
         System.out.println(box_map.size());
-        for (double i = -25+ playerx; i < 25+playerx; i++) {
-            for (double j = -25+playerz; j < 25 + playerz; j++) {
+        for (double i = -render_distance/2+ playerx; i < render_distance/2+playerx; i++) {
+            for (double j = -render_distance/2+playerz; j < render_distance/2 + playerz; j++) {
                 Point2D key = new Point2D(i,j);
                 if(box_map.containsKey(key) && !getGroup().getChildren().contains(box_map.get(key))){
                     getGroup().getChildren().add(box_map.get(key));
