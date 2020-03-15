@@ -50,8 +50,9 @@ public class PlayerUtil {
         context = ctx;
         player_group = new Group();
 
-    }
 
+
+    }
 
     public void handle() {
 //        System.out.println("Player X: " + getX() + " Y: " + getY() + " Z: " + getZ()  + " onGround: " +  isOnGround() + " aboveGround: " + isAboveGround());
@@ -62,6 +63,11 @@ public class PlayerUtil {
         player_group.setTranslateY(-getY() - player_height * 2);
         player_group.setTranslateZ(getZ());
 
+
+
+        context.getEnvironment().generateChunks(getX(),getZ());
+
+        context.getEnvironment().showChunksAroundPlayer(getX(),getZ());
 
         if(!isFlyMode){
             if (isJumping && y < jump_start_height + jumpHeight) {

@@ -31,7 +31,7 @@ public class MainExecution extends Application {
         amb.setColor(Color.rgb(50, 50, 50));
         sky.setAmbientLight(amb);
         envir.setSkyBox(sky);
-        envir.generateChunks(0, 0);
+
 
         window.buildMenu();
         window.setCamera(camera);

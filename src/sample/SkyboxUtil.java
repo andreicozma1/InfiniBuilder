@@ -136,12 +136,10 @@ public class SkyboxUtil {
 
     public void setSunlightColor(Color clr) {
         suncolor = clr;
-        sunlight.setColor(suncolor);
     }
 
     public void setMoonlightColor(Color clr) {
         mooncolor = clr;
-        moonlight.setColor(mooncolor);
     }
 
     public void setDaySkyColor(Color cr) {
