@@ -6,15 +6,8 @@ public class MazeGenerator {
     private int rows;
     private int cols;
     private long seed;
-    private int startingXCoord = 0;
-    private int startingYCoord = 0;
-    private int startingZCoord = 0;
-    private int finalXCoord = 0;
-    private int finalYCoord = 0;
-    private int finalZCoord = 0;
     private Random ran;
     private List<Wall> maze;
-    private List<Wall> innerWalls;
     private DisjointSet disjointSet;
 
     public MazeGenerator(int r, int c, long seed) {
@@ -25,23 +18,27 @@ public class MazeGenerator {
         this.seed = seed;
         ran.setSeed(this.seed);
         maze = new ArrayList<Wall>();
-        innerWalls = new ArrayList<Wall>();
         disjointSet = new DisjointSet(this.rows * this.cols);
 
         generateWalls();
         breakWalls();
-        makeMaze();
-
     }
 
-    public int getCols() {
-        return cols;
-    }
-    public int getRows() {
-        return rows;
-    }
-    public long getSeed() {
-        return seed;
+    public void setCols(int cols) { this.cols = cols; }
+    public void setRows(int rows) { this.rows = rows; }
+    public void setSeed(long seed) { this.seed = seed; }
+
+    public int getCols() { return cols; }
+    public int getRows() { return rows; }
+    public long getSeed() { return seed; }
+    public List<Wall> getWalls() { return maze; }
+
+    public void resetMaze(){
+        ran.setSeed(this.seed);
+        disjointSet = new DisjointSet(this.rows * this.cols);
+        maze = new ArrayList<Wall>();
+        generateWalls();
+        breakWalls();
     }
 
     private void generateWalls() {
@@ -53,9 +50,6 @@ public class MazeGenerator {
             for ( c = 0 ; c < cols-1 ; c++ ) {
                 Wall tmpWall = new Wall(r*cols +c,r*cols +c+1);
                 maze.add(tmpWall);
-//                if ( (r*cols + c) >= cols && (r*cols + c) < (rows*cols) - cols ) {
-//                    innerWalls.add(tmpWall);
-//                }
             }
         }
 
@@ -64,24 +58,17 @@ public class MazeGenerator {
             for ( r = 0 ; r < rows-1 ; r++ ) {
                 Wall tmpWall = new Wall(r*cols +c,r*cols +c+cols);
                 maze.add(tmpWall);
-//                if ( (r*cols + c) % cols != 0 && (r*cols + c + 1) % cols != 0 ) {
-//                    innerWalls.add(tmpWall);
-//                }
             }
         }
 
     }
 
     private void breakWalls() {
-//        while( disjointSet.Find(0) != disjointSet.Find(rows*cols-1)){
+        //  loops until every index in the disjoint set is joined together
         while( disjointSet.getSize(disjointSet.Find(0))!=rows*cols){
-//            System.out.println(maze.size());
-
             int wallIndex = ran.nextInt(maze.size());
-            int c1 = maze.get(wallIndex).cell1;
-            int c2 = maze.get(wallIndex).cell2;
-            int s1 = disjointSet.Find(c1);
-            int s2 = disjointSet.Find(c2);
+            int s1 = disjointSet.Find(maze.get(wallIndex).cell1);
+            int s2 = disjointSet.Find(maze.get(wallIndex).cell2);
             if ( s1 != s2 ){
                 maze.remove(wallIndex);
                 disjointSet.Union(s1,s2);
@@ -89,20 +76,23 @@ public class MazeGenerator {
         }
     }
 
-    private void makeMaze(){
-
-    }
-
     public void printWalls(){
         for(Wall w : maze){
             System.out.println("MAZE WALLS "+w.cell1+" "+w.cell2);
         }
-//        for(Wall w : innerWalls){
-//            System.out.println("INNER WALLS "+w.cell1+" "+w.cell2);
-//        }
     }
 
-
+    @Override
+    public String toString() {
+        return "MazeGenerator{" +
+                "rows=" + rows +
+                ", cols=" + cols +
+                ", seed=" + seed +
+                ", ran=" + ran +
+                ", maze=" + maze +
+                ", disjointSet=" + disjointSet +
+                '}';
+    }
 }
 
 
