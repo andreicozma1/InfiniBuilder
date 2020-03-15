@@ -6,6 +6,7 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.CullFace;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ public class EnvironmentUtil {
     private SkyboxUtil skybox = null;
     public Group environment_group;
 
+    private int render_distance = 50;
 
     private int chunk_depth = 20;
     private int chunk_width = 20;
@@ -22,6 +24,7 @@ public class EnvironmentUtil {
 
     private double terrain_height_multiplier = 1.5;
     private double terrain_spread_multiplier = 10;
+
 
     private Map<Point2D, Double> height_map = new HashMap<Point2D,Double>();
     private Map<Point2D, Box> box_map = new HashMap<Point2D,Box>();
@@ -73,8 +76,8 @@ public class EnvironmentUtil {
     public void generateChunks(double playerx, double playerz) {
         playerx = getTerrainX(playerx);
         playerz = getTerrainZ(playerz);
-        for (double i = -25+ playerx; i < 25+playerx; i++) {
-            for (double j = -25+playerz; j < 25 + playerz; j++) {
+        for (double i = -render_distance/2+ playerx; i < render_distance/2+playerx; i++) {
+            for (double j = -render_distance/2+playerz; j < render_distance/2 + playerz; j++) {
 
                 if(!box_map.containsKey(new Point2D(i,j))){
                     System.out.println("Generated");
@@ -88,16 +91,17 @@ public class EnvironmentUtil {
                 }
             }
         }
-        if(box_map.size() > 5000){
-            box_map.clear();
-            height_map.clear();
+        if(box_map.size() > 3000){
+
+                box_map.clear();
+                height_map.clear();
         }
     }
 
     public void showChunksAroundPlayer(double playerx, double playerz){
         playerx = getTerrainX(playerx);
         playerz = getTerrainZ(playerz);
-        getGroup().getChildren().removeAll();
+//        getGroup().getChildren().removeAll();
         System.out.println(box_map.size());
         for (double i = -25+ playerx; i < 25+playerx; i++) {
             for (double j = -25+playerz; j < 25 + playerz; j++) {
