@@ -12,10 +12,10 @@ public class MainExecution extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        /*
-        MazeGenerator maze = new MazeGenerator(10,10,0);
-        maze.printWalls();
-        */
+//        MazeGenerator maze = new MazeGenerator(100,100,1);
+//        maze.printWalls();
+
+
 
         System.out.println("MainExecution");
         MaterialsUtil materials = new MaterialsUtil();

@@ -1,7 +1,6 @@
 package sample;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 public class MazeGenerator {
     private int rows;
@@ -14,17 +13,19 @@ public class MazeGenerator {
     private int finalYCoord = 0;
     private int finalZCoord = 0;
     private Random ran;
-    private ArrayList<Boolean> maze;
-    private ConcurrentSkipListMap<Double, Integer> walls;
+    private List<Wall> maze;
+    private List<Wall> innerWalls;
     private DisjointSet disjointSet;
 
-    public MazeGenerator(int row, int col, long seed) {
+    public MazeGenerator(int r, int c, long seed) {
         ran = new Random();
-        setRows(row);
-        setCols(col);
-        setSeed(seed);
-        maze = new ArrayList<Boolean>();
-        walls = new ConcurrentSkipListMap<Double, Integer>();
+        this.cols = c;
+        this.rows = r;
+        System.out.println(r*c);
+        this.seed = seed;
+        ran.setSeed(this.seed);
+        maze = new ArrayList<Wall>();
+        innerWalls = new ArrayList<Wall>();
         disjointSet = new DisjointSet(this.rows * this.cols);
 
         generateWalls();
@@ -33,83 +34,62 @@ public class MazeGenerator {
 
     }
 
-    public void setCols(int cols) {
-        this.cols = cols;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
-    public void setSeed(long seed) {
-        this.seed = seed;
-        ran.setSeed(this.seed);
-    }
-
     public int getCols() {
         return cols;
     }
-
     public int getRows() {
         return rows;
     }
-
     public long getSeed() {
         return seed;
     }
 
     private void generateWalls() {
 
-        int r, c, c1;
+        int r, c;
 
-        // generate walls that separate vertical cells
-        for (r = 0; r < rows - 1; r++) {
-            for (c = 0; c < cols; c++) {
-                c1 = r * cols + c;
-                walls.put(ran.nextDouble(), c1);
+        // generate horizontal walls
+        for ( r = 0 ; r < rows ; r++ ) {
+            for ( c = 0 ; c < cols-1 ; c++ ) {
+                Wall tmpWall = new Wall(r*cols +c,r*cols +c+1);
+                maze.add(tmpWall);
+//                if ( (r*cols + c) >= cols && (r*cols + c) < (rows*cols) - cols ) {
+//                    innerWalls.add(tmpWall);
+//                }
             }
         }
 
-        // generate walls that separate horizontal cells
-        for (r = 0; r < rows; r++) {
-            for (c = 0; c < cols - 1; c++) {
-                c1 = (r * cols + c) + rows * cols;
-                walls.put(ran.nextDouble(), c1);
+        // generate vertical walls
+        for ( c = 0 ; c < cols ; c++ ){
+            for ( r = 0 ; r < rows-1 ; r++ ) {
+                Wall tmpWall = new Wall(r*cols +c,r*cols +c+cols);
+                maze.add(tmpWall);
+//                if ( (r*cols + c) % cols != 0 && (r*cols + c + 1) % cols != 0 ) {
+//                    innerWalls.add(tmpWall);
+//                }
             }
         }
+
     }
 
     private void breakWalls() {
+//        while( disjointSet.Find(0) != disjointSet.Find(rows*cols-1)){
+        while( disjointSet.getSize(disjointSet.Find(0))!=rows*cols){
+//            System.out.println(maze.size());
 
-        int c1, c2, ncomp, s1, s2;
-        Map.Entry wallEntry;
-
-        ncomp = rows * cols;
-        wallEntry = walls.firstEntry();
-        while (ncomp > 1) {
-            c1 = (int) wallEntry.getValue();
-            // wall separating vertical cells
-            if (c1 < rows * cols) {
-                c2 = c1 + cols;
-            }
-            // wall separating horizontal cells
-            else {
-                c1 -= rows * cols;
-                c2 = c1 + 1;
-            }
-
-            s1 = disjointSet.Find(c1);
-            s2 = disjointSet.Find(c2);
-
-             // test for different connected parts
-            if (s1 != s2) {
-                disjointSet.Union(s1, s2);
-                wallEntry = walls.pollFirstEntry();
-                ncomp--;
-            } else {
-                wallEntry = walls.higherEntry((Double) wallEntry.getKey());
+            int wallIndex = ran.nextInt(maze.size());
+            int c1 = maze.get(wallIndex).cell1;
+            int c2 = maze.get(wallIndex).cell2;
+            int s1 = disjointSet.Find(c1);
+            int s2 = disjointSet.Find(c2);
+            if ( s1 != s2 ){
+                maze.remove(wallIndex);
+                System.out.println("removed "+ c1+ " "+c2);
+                disjointSet.Union(s1,s2);
             }
         }
+
+        System.out.println("end");
     }
 
     private void makeMaze(){
@@ -117,20 +97,23 @@ public class MazeGenerator {
     }
 
     public void printWalls(){
-
-        int c1, c2;
-
-        System.out.println("ROWS " + rows + " COLS " + cols);
-
-        for(Integer n : walls.values()){
-            c1 = n;
-            if( c1 < rows*cols){
-                c2 = c1 + cols;
-            } else {
-                c1 -= rows*cols;
-                c2 = c1 + 1;
-            }
-            System.out.println("WALL "+ c1 + " " + c2);
+        for(Wall w : maze){
+            System.out.println("MAZE WALLS "+w.cell1+" "+w.cell2);
         }
+//        for(Wall w : innerWalls){
+//            System.out.println("INNER WALLS "+w.cell1+" "+w.cell2);
+//        }
+    }
+
+
+}
+
+
+class Wall{
+    int cell1;
+    int cell2;
+    Wall(int c1, int c2){
+        cell1 = c1;
+        cell2 = c2;
     }
 }
