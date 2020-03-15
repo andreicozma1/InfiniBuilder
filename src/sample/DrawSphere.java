@@ -17,9 +17,9 @@ public class DrawSphere extends StructureBuilder {
         super(0,0,0);
         sphere = new Sphere(radius);
         super.getGroup().getChildren().add(sphere);
-        super.setWidth(width);
-        super.setHeight(height);
-        super.setDepth(depth);
+        super.setScaleZ(width);
+        super.setScaleY(height);
+        super.setScaleZ(depth);
         super.getGroup().setScaleX(width);
         super.getGroup().setScaleY(height);
         super.getGroup().setScaleZ(depth);

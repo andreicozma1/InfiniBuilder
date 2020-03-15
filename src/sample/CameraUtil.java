@@ -25,7 +25,7 @@ public class CameraUtil {
         return cam;
     }
 
-    void handle() {
+    void update_handler() {
 //        System.out.println("x: " + rotx%360 + " y: "  + roty + " rotY " + (roty%180) );
         cam.getTransforms().clear();
         cam.getTransforms().add(new Translate(context.getPlayer().getX(), -context.getPlayer().player_height- context.getPlayer().getY(), context.getPlayer().getZ()));

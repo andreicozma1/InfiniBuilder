@@ -9,107 +9,84 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EnvironmentUtil {
-    private SimplexNoise smp;
+
     public WindowUtil context;
+
     private SkyboxUtil skybox = null;
-    public Group environment_group;
-    public Group terrain_group;
 
-    private int render_distance = 50;
+    public Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
+    public static Group GROUP_TERRAIN;
+    public static Group GROUP_STRUCTURES;
 
-    private int chunk_depth = 20;
-    private int chunk_width = 20;
-    private int chunk_height = 20;
+    private int terrain_render_distance = 50;
+    private SimplexNoise terrain_simplex_alg;
+    private double terrain_multiplier_height = 1.5;
+    private double terrain_multiplier_spread = 10;
 
-    private double terrain_height_multiplier = 1.5;
-    private double terrain_spread_multiplier = 10;
+    private int terrain_block_width = 20;
+    private int terrain_block_height = 20;
+    private int terrain_block_depth = 20;
 
-
-    private Map<Point2D, Double> height_map = new HashMap<Point2D,Double>();
-    private Map<Point2D, Box> box_map = new HashMap<Point2D,Box>();
-
-
-    public int getBlockDim(){
-        return chunk_width;
-    }
-
-    public double getSimplexHeight(double x, double z) {
-        return smp.eval(x / terrain_spread_multiplier, z / terrain_spread_multiplier) * terrain_height_multiplier;
-    }
-
-    public double getTerrainX(double playerx){
-        return Math.floor((playerx + chunk_width / 2) / chunk_width);
-    }
-
-    public double getTerrainZ(double playerz){
-        return Math.floor((playerz + chunk_depth / 2) / chunk_depth);
-    }
-
-    public double getTerrainHeight(double x, double z) {
-//          System.out.println(new Point2D(Double.valueOf(Math.floor((x + chunk_width / 2) / chunk_width)), Double.valueOf(Math.floor((z + chunk_depth / 2) / chunk_depth))));
-
-        Point2D pt = new Point2D(Double.valueOf(getTerrainX(x)), Double.valueOf(getTerrainZ(z)));
-        if(height_map.containsKey(pt)){
-            return height_map.get(pt);
-        } else{
-            // Y down is positive.
-            return Integer.MAX_VALUE;
-        }
-//       System.out.println(chunks.containsKey(new Point2D(Double.valueOf(Math.floor((x + chunk_width / 2) / chunk_width)), Double.valueOf(Math.floor((z + chunk_depth / 2) / chunk_depth)))));
-    }
+    private Map<Point2D, Double> terrain_map_height = new HashMap<Point2D,Double>();
+    private Map<Point2D, Box> terrain_map_block = new HashMap<Point2D,Box>();
 
 
+    /**
+     * Constructor initializes an EnvironmentUtil object based on the parent WindowUtil, which will become the class' context
+     * @param ctx
+     */
     EnvironmentUtil(WindowUtil ctx) {
         context = ctx;
-        environment_group = new Group();
-        terrain_group = new Group();
-        environment_group.getChildren().add(terrain_group);
-        smp = new SimplexNoise();
+        GROUP_WORLD = new Group(); // initialize the world group, which contains the TERRAIN and STRUCTURES subgroups
+
+        GROUP_TERRAIN = new Group();
+        GROUP_STRUCTURES = new Group();
+        GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN,GROUP_STRUCTURES); // add the subgroups to the parent group
+
+        terrain_simplex_alg = new SimplexNoise();
     }
 
-    public void handle() {
+    /**
+     * Handler for the EnvironmentUtil class which contains instructions that must be executed every tick
+     */
+    public void update_handler() {
         if (skybox != null) {
-//            System.out.println("HERE");
-            skybox.handle();
+            skybox.update_handler();
         }
-    }
-
-    public Group getEnvironmentGroup() {
-        return environment_group;
     }
 
 
     public void generateChunks(double playerx, double playerz) {
-        playerx = getTerrainX(playerx);
-        playerz = getTerrainZ(playerz);
-        for (double i = -render_distance/2+ playerx; i < render_distance/2+playerx; i++) {
-            for (double j = -render_distance/2+playerz; j < render_distance/2 + playerz; j++) {
+        playerx = getTerrainXfromPlayerX(playerx);
+        playerz = getTerrainZfromPlayerZ(playerz);
+        for (double i = -terrain_render_distance /2+ playerx; i < terrain_render_distance /2+playerx; i++) {
+            for (double j = -terrain_render_distance /2+playerz; j < terrain_render_distance /2 + playerz; j++) {
 
-                if(!box_map.containsKey(new Point2D(i,j))){
+                if(!terrain_map_block.containsKey(new Point2D(i,j))){
                     System.out.println("Generated");
-                    double x = i * chunk_depth;
-                    double y = getSimplexHeight(i, j) * chunk_height + chunk_height / 2;
-                    double z = j * chunk_width;
+                    double x = i * terrain_block_depth;
+                    double y = getSimplexHeight(i, j) * terrain_block_height + terrain_block_height / 2;
+                    double z = j * terrain_block_width;
 //                    System.out.println("Chunk x: " + i + " y: " + y + " z: " + j);
                     Point2D key = new Point2D(i,j);
-                    box_map.put(key,create_playform(x, y, z));
-                    height_map.put(key, y);
+                    terrain_map_block.put(key,create_playform(x, y, z));
+                    terrain_map_height.put(key, y);
                 }
             }
         }
     }
 
     public void showChunksAroundPlayer(double playerx, double playerz){
-        playerx = getTerrainX(playerx);
-        playerz = getTerrainZ(playerz);
+        playerx = getTerrainXfromPlayerX(playerx);
+        playerz = getTerrainZfromPlayerZ(playerz);
 
-        terrain_group.getChildren().clear();
+        GROUP_TERRAIN.getChildren().clear();
 //        System.out.println(box_map.size());
-        for (double i = -render_distance/2+ playerx; i < render_distance/2+playerx; i++) {
-            for (double j = -render_distance/2+playerz; j < render_distance/2 + playerz; j++) {
+        for (double i = -terrain_render_distance /2+ playerx; i < terrain_render_distance /2+playerx; i++) {
+            for (double j = -terrain_render_distance /2+playerz; j < terrain_render_distance /2 + playerz; j++) {
                 Point2D key = new Point2D(i,j);
-                if(box_map.containsKey(key) && !getEnvironmentGroup().getChildren().contains(box_map.get(key))){
-                    terrain_group.getChildren().add(box_map.get(key));
+                if(terrain_map_block.containsKey(key) && !getEnvironmentGroup().getChildren().contains(terrain_map_block.get(key))){
+                    GROUP_TERRAIN.getChildren().add(terrain_map_block.get(key));
                 }
             }
         }
@@ -119,11 +96,10 @@ public class EnvironmentUtil {
     public Box create_playform(double x, double y, double z) {
         Box box = new Box();
         box.setMaterial(MaterialsUtil.grass);
-        box.setCullFace(CullFace.NONE);
 
-        box.setWidth(chunk_width);
-        box.setHeight(chunk_height);
-        box.setDepth(chunk_depth);
+        box.setWidth(terrain_block_width);
+        box.setHeight(terrain_block_height);
+        box.setDepth(terrain_block_depth);
 
         box.setTranslateX(x);
         box.setTranslateY(y);
@@ -133,6 +109,37 @@ public class EnvironmentUtil {
     }
 
 
+    private double getSimplexHeight(double pollx, double pollz) {
+        return terrain_simplex_alg.eval(pollx / terrain_multiplier_spread, pollz / terrain_multiplier_spread) * terrain_multiplier_height;
+    }
+
+    public double getTerrainXfromPlayerX(double playerx){
+        // requires the getX() from PlayerUtil
+        return Math.floor((playerx + terrain_block_width / 2) / terrain_block_width);
+    }
+
+    public double getTerrainZfromPlayerZ(double playerz){
+        // requires the getZ() from playerUtil
+        return Math.floor((playerz + terrain_block_depth / 2) / terrain_block_depth);
+    }
+
+    /**
+     * Polls the terrain height map and returns the terrain height based on the player's x and z coordinates
+     * @param playerx
+     * @param playerz
+     * @return
+     */
+    public double getTerrainYfromPlayerXZ(double playerx, double playerz) {
+        // requires the getX() and getZ() from PlayerUtil
+        Point2D pt = new Point2D(getTerrainXfromPlayerX(playerx), getTerrainZfromPlayerZ(playerz));
+        if(terrain_map_height.containsKey(pt)){
+            return terrain_map_height.get(pt);
+        } else{
+            // Y down is positive.
+            return Integer.MAX_VALUE;
+        }
+    }
+
     public void setSkyBox(SkyboxUtil sky) {
         skybox = sky;
     }
@@ -141,12 +148,19 @@ public class EnvironmentUtil {
         return skybox;
     }
 
+    public Group getEnvironmentGroup() {
+        return GROUP_WORLD;
+    }
+
+    public int getBlockDim(){
+        return terrain_block_width;
+    }
 
     public void addMember(StructureBuilder member) {
-        environment_group.getChildren().add(member.getGroup());
+        GROUP_WORLD.getChildren().add(member.getGroup());
     }
 
     public void removeMember(StructureBuilder member) {
-        environment_group.getChildren().remove(member.getGroup());
+        GROUP_WORLD.getChildren().remove(member.getGroup());
     }
 }

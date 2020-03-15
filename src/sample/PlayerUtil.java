@@ -1,10 +1,7 @@
 package sample;
 
-import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.shape.Box;
-import javafx.scene.shape.Cylinder;
-import javafx.scene.shape.Sphere;
 
 public class PlayerUtil {
     public WindowUtil context;
@@ -45,10 +42,10 @@ public class PlayerUtil {
 
     }
 
-    public void handle() {
+    public void update_handler() {
 //        System.out.println("Player X: " + getX() + " Y: " + getY() + " Z: " + getZ()  + " onGround: " +  isOnGround() + " aboveGround: " + isAboveGround());
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
-        context.getCamera().handle();
+        context.getCamera().update_handler();
 
         player_group.setTranslateX(getX());
         player_group.setTranslateY(-getY() - player_height * 2);
@@ -125,7 +122,7 @@ public class PlayerUtil {
 
 
     public void moveDown(double val) {
-        double ground_level = -context.getEnvironment().getTerrainHeight(x, z) + player_height;
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(x, z) + player_height;
 
         // if the player is above ground level, let the player fall
         if (getY() > ground_level || isClipMode) {
@@ -146,12 +143,19 @@ public class PlayerUtil {
         }
     }
 
-    public void placeObject(){
-        Box b = new Box(20,20,20);
-        b.setMaterial(MaterialsUtil.stone);
+    public void placeObject(StructureBuilder str, boolean lockToEnvir) {
 
-        StructureBuilder str = new StructureBuilder(context.getEnvironment().getTerrainX(x)*context.getEnvironment().getBlockDim(),context.getEnvironment().getTerrainHeight(getX(),getZ()) - 20,context.getEnvironment().getTerrainZ(z) * context.getEnvironment().getBlockDim());
-        str.addMember(b);
+        double xPos = getX();
+        double yPos = context.getEnvironment().getTerrainYfromPlayerXZ(getX(), getZ()) - str.getHeight();
+        double zPos = getZ();
+        if (lockToEnvir) {
+              xPos = context.getEnvironment().getTerrainXfromPlayerX(x) * context.getEnvironment().getBlockDim();
+            zPos = context.getEnvironment().getTerrainZfromPlayerZ(z) * context.getEnvironment().getBlockDim();
+        }
+
+        str.setX(xPos);
+        str.setY(yPos);
+        str.setZ(zPos);
 
         context.getEnvironment().addMember(str);
     }

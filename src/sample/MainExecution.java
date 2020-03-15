@@ -59,8 +59,8 @@ public class MainExecution extends Application {
                 if ((now - last) > (1 / 60)) {
                     if (window.getCurrentScene() == window.SCENE_GAME) {
                         controls.handleKeyboard(envir.getEnvironmentGroup());
-                        envir.handle();
-                        player.handle();
+                        envir.update_handler();
+                        player.update_handler();
                     }
                     last = now;
                 }

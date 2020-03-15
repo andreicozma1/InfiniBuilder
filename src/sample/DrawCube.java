@@ -11,9 +11,9 @@ public class DrawCube extends StructureBuilder {
         super(0,0,0);
         box = new Box(1, 1, 1);
         super.getGroup().getChildren().add(box);
-        super.setWidth(width);
-        super.setHeight(height);
-        super.setDepth(depth);
+        super.setScaleZ(width);
+        super.setScaleY(height);
+        super.setScaleZ(depth);
         super.getGroup().setScaleX(width);
         super.getGroup().setScaleY(height);
         super.getGroup().setScaleZ(depth);

@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.shape.Box;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -48,7 +49,11 @@ public class ControlsUtil {
         game_scene.setOnMousePressed(event->{
             switch(event.getButton()){
                 case PRIMARY:
-                    context.getPlayer().placeObject();
+                    javafx.scene.shape.Box b = new Box(20, 20, 20);
+                    b.setMaterial(MaterialsUtil.stone);
+                    StructureBuilder str = new StructureBuilder(0,0,0);
+                    str.addMember(b);
+                    context.getPlayer().placeObject(str,true);
                     break;
             }
         });

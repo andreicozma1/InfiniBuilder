@@ -53,7 +53,7 @@ public class SkyboxUtil {
         context.getEnvironmentGroup().getChildren().add(group_skybox);
     }
 
-    void handle() {
+    void update_handler() {
         rotateSun(sun_distance);
         rotateMoon(moon_distance);
     }
