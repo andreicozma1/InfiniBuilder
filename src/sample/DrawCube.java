@@ -7,7 +7,7 @@ public class DrawCube extends StructureBuilder {
     private Box box;
     private Material material;
 
-    public DrawCube(float width, float height, float depth) {
+    public DrawCube(double width, double height, double depth) {
         super(0,0,0);
         box = new Box(1, 1, 1);
         super.getGroup().getChildren().add(box);
@@ -18,6 +18,11 @@ public class DrawCube extends StructureBuilder {
         super.getGroup().setScaleY(height);
         super.getGroup().setScaleZ(depth);
     }
+
+    public void setBoxX(double x){box.setTranslateX(x);}
+    public void setBoxY(double y){box.setTranslateY(y);}
+    public void setBoxZ(double z){box.setTranslateZ(z);}
+
 
     public void setMaterial(Material material){
         this.material = material;
