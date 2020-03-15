@@ -14,7 +14,7 @@ public class SkyboxUtil {
     Group group;
 
     private AmbientLight ambient = null;
-    public int day_length_multiplier = 10;
+    public int day_length_multiplier = 20;
 
     private Sphere sun;
     private PointLight sunlight;
@@ -30,7 +30,7 @@ public class SkyboxUtil {
 
     SkyboxUtil(EnvironmentUtil envir) {
         context = envir;
-        group = new Group();;
+        group = new Group();
 
         sun = new Sphere();
         sunlight = new PointLight();
@@ -40,8 +40,6 @@ public class SkyboxUtil {
         setSunMaterial(MaterialsUtil.sun);
         setSunlightColor(Color.WHITE);
         setDaySkyColor(Color.rgb(135, 206, 235));
-        sun.setEffect(new Glow(1));
-
 
         moon = new Sphere();
         moonlight = new PointLight();
@@ -49,12 +47,11 @@ public class SkyboxUtil {
         setMoonScale(200);
         setMoonDistance(10000);
         setMoonMaterial(MaterialsUtil.moon);
-        setMoonlightColor(Color.NAVY);
+        setMoonlightColor(Color.rgb(5, 5, 23));
         setNightSkyColor(Color.rgb(5, 5, 23));
-moon.setEffect(new Glow(1));
 
 
-        group.getChildren().addAll(sun,sunlight,moon,moonlight);
+        group.getChildren().addAll(sun, sunlight, moon, moonlight);
 
         context.getGroup().getChildren().addAll(group);
     }
@@ -72,13 +69,18 @@ moon.setEffect(new Glow(1));
 
 //        System.out.println("SUN sin: " + sin + " cos: " + cos);
 
-        Color newcol = sunlight.getColor();
-        if (sin <= 0) {
+        if (sin <= .5) {
             sin = sin * -1;
-            sunlight.setColor(Color.rgb((int)(suncolor.getRed() * sin * 255), (int) (suncolor.getGreen() * sin * 255), (int) (suncolor.getBlue() * sin * 255)));
-            context.context.SCENE_GAME.setFill(Color.rgb((int)(dayskycolor.getRed() * sin * 255), (int)(dayskycolor.getGreen() * sin * 255),(int)(dayskycolor.getBlue() * sin * 255)));
-        } else{
-            sunlight.setColor(Color.BLACK);
+            sin += .5;
+            if (sin > 1) {
+                sin = 1;
+            }
+            System.out.println((suncolor.getRed() * 255 * sin) + "  " + (suncolor.getGreen() * 255 * sin) + "  " + (suncolor.getBlue() * 255 * sin));
+
+            sunlight.setColor(Color.rgb((int) (suncolor.getRed() * sin * 255), (int) (suncolor.getGreen() * sin * 255), (int) (suncolor.getBlue() * sin * 255)));
+            context.context.SCENE_GAME.setFill(Color.rgb((int) (dayskycolor.getRed() * sin * 255), (int) (dayskycolor.getGreen() * sin * 255), (int) (dayskycolor.getBlue() * sin * 255)));
+        } else {
+//            sunlight.setColor(Color.BLACK);
         }
 
         sunlight.setTranslateZ(cosdist);
@@ -92,17 +94,15 @@ moon.setEffect(new Glow(1));
         double sindist = sin * dist;
         double cos = Math.cos(System.currentTimeMillis() / (1000.0 * day_length_multiplier));
         double cosdist = cos * dist;
-        System.out.println("MOON sin: " + -sin + " cos: " + -cos);
+        // System.out.println("MOON sin: " + -sin + " cos: " + -cos);
 
-        Color newcol = moonlight.getColor();
         if (-sin <= 0) {
-            System.out.println((mooncolor.getRed() * 255 * sin) + "  " + (mooncolor.getGreen() * 255 * sin) + "  " + (mooncolor.getBlue() * 255 * sin));
-
+            // DO NOT UNCOMMENT FOR NOW
             moonlight.setColor(Color.rgb((int) (mooncolor.getRed() * sin * 255), (int) (mooncolor.getGreen() * sin * 255), (int) (mooncolor.getBlue() * sin * 255)));
-            context.context.SCENE_GAME.setFill(Color.rgb((int)(nightskycolor.getRed() * sin * 255), (int)(nightskycolor.getGreen() * sin * 255),(int)(nightskycolor.getBlue() * sin * 255)));
-
-        }else{
-            moonlight.setColor(Color.BLACK);
+//            context.context.SCENE_GAME.setFill(Color.rgb((int) (nightskycolor.getRed() * sin * 255), (int) (nightskycolor.getGreen() * sin * 255), (int) (nightskycolor.getBlue() * sin * 255)));
+        } else {
+            // DO NOT UNCOMMENT FOR NOW
+            // moonlight.setColor(Color.BLACK);
         }
 
         moonlight.setTranslateZ(-cosdist);
@@ -142,10 +142,11 @@ moon.setEffect(new Glow(1));
         moonlight.setColor(mooncolor);
     }
 
-    public void setDaySkyColor(Color cr){
+    public void setDaySkyColor(Color cr) {
         dayskycolor = cr;
     }
-    public void setNightSkyColor(Color cr){
+
+    public void setNightSkyColor(Color cr) {
         nightskycolor = cr;
     }
 

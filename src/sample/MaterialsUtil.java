@@ -24,8 +24,9 @@ public class MaterialsUtil {
         stone.setDiffuseMap(new Image("https://images.unsplash.com/photo-1522409640003-31c21bd5e696?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80"));
 
         grass = new PhongMaterial();
-        grass.setDiffuseMap(new Image("https://3dwarehouse.sketchup.com/warehouse/v1.0/publiccontent/5577056a-3ec8-4856-b2c1-4604107a6166"));
-
+        grass.setDiffuseMap(new Image("https://texturehaven.com/files/textures/jpg/1k/grass_path_2/grass_path_2_diff_1k.jpg"));
+//        grass.setBumpMap(new Image("https://texturehaven.com/files/textures/jpg/1k/grass_path_2/grass_path_2_bump_1k.jpg"));
+//        grass.setSpecularMap(new Image("https://texturehaven.com/files/textures/jpg/1k/grass_path_2/grass_path_2_spec_1k.jpg"));
 
         sun = new PhongMaterial();
         sun.setDiffuseMap(new Image("https://lh3.googleusercontent.com/proxy/PD1ZGN2tLtQAg8rpkaL4QLk3vLEEe6TRB2UNQYThB8i7Q0r03dCTUg0ExKZP9eveMdTyk7sTT3tsSNJuvB6AXS0m1EC0zWH7MAGcvbK3eWim4dDq5FM5JiSle4UPdHiAwX-GQkA"));
