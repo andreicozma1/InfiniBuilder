@@ -3,28 +3,32 @@ import environment.MaterialsUtil;
 import environment.SkyboxUtil;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.AmbientLight;
+import javafx.scene.effect.Light;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Box;
 import javafx.stage.Stage;
+import maze.MazeUtil;
 import player.CameraUtil;
 import player.ControlsUtil;
 import player.PlayerUtil;
 import utils.*;
+
+import java.util.List;
+import java.util.Map;
 
 
 public class MainExecution extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        MazeGenerator maze = new MazeGenerator(5,5,1);
-//        maze.printWalls();
-
         System.out.println("MainExecution");
+
+        // set up needed Utils for the game
         MaterialsUtil materials = new MaterialsUtil();
-
         WindowUtil window = new WindowUtil(primaryStage, 800, 600);
-
         CameraUtil camera = new CameraUtil(window);
         ControlsUtil controls = new ControlsUtil(window);
         PlayerUtil player = new PlayerUtil(window);
@@ -36,15 +40,19 @@ public class MainExecution extends Application {
         sky.setAmbientLight(amb);
         envir.setSkyBox(sky);
 
-
+        // build the window
         window.buildMenu();
         window.setCamera(camera);
         window.setControls(controls);
         window.setPlayer(player);
         window.setEnvironment(envir);
 
-        // close window on menu if ESC is pressed
+        // ***temporary*** used to test the maze util
+        MazeUtil maze = new MazeUtil( window, 0, 0, 20, 20, 20, 3, 3, 0);
+        maze.createBlockMap();
+        Map<Point2D,Box> m = maze.getMaze_map_block();
 
+        // close window on menu if ESC is pressed
         controls.getControllerForScene(window.SCENE_MENU).setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
                 window.closeWindow();

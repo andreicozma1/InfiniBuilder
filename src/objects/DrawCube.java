@@ -15,10 +15,9 @@ public class DrawCube extends StructureBuilder {
         super.setScaleZ(width);
         super.setScaleY(height);
         super.setScaleZ(depth);
-        super.setScaleX(width);
-        super.setScaleY(height);
-        super.setScaleZ(depth);
     }
+
+    public Box getBox(){ return box; }
 
     public void setBoxX(double x){box.setTranslateX(x);}
     public void setBoxY(double y){box.setTranslateY(y);}
