@@ -8,7 +8,6 @@ import algorithms.SimplexUtil;
 import models.ModelUtil;
 import utils.WindowUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -199,18 +198,16 @@ public class EnvironmentUtil {
     public void placeObject(Point3D pos, StructureBuilder str, boolean lockToEnvir) {
         System.out.println("Adding tree at " + pos);
 
-        double xPos = pos.getX();
-        double yPos = pos.getY() - str.getHeight()/2;
-        double zPos = pos.getZ();
-        if (lockToEnvir) {
-            xPos = getTerrainXfromPlayerX(pos.getX()) * getBlockDim();
-            yPos = getTerrainYfromPlayerXZ(pos.getX(), pos.getZ()) - str.getHeight()/2;
-            zPos = getTerrainZfromPlayerZ(pos.getZ()) * getBlockDim();
-        }
+        double xPos = getTerrainXfromPlayerX(pos.getX());
+        double zPos =getTerrainZfromPlayerZ(pos.getZ());
 
-        System.out.println(xPos + "  " + yPos + "  " + zPos);
-        str.setTranslateXYZ(xPos,yPos,zPos);
-        addMember(str);
+
+        StructureBuilder orig = terrain_map_block.get(new Point2D(xPos,zPos));
+
+        str.setTranslateY(-orig.getHeight());
+
+        orig.getChildren().add(str);
+
     }
 
     public void addMember(StructureBuilder member) {
@@ -227,13 +224,13 @@ public class EnvironmentUtil {
 
     public void setSkyBox(SkyboxUtil sky) {
         skybox = sky;
-        getEnvironmentGroup().getChildren().add(sky.getGroup());
+        getWorldGroup().getChildren().add(sky.getGroup());
     }
     public SkyboxUtil getSkybox() {
         return skybox;
     }
 
-    public Group getEnvironmentGroup() {
+    public Group getWorldGroup() {
         return GROUP_WORLD;
     }
 

@@ -73,7 +73,7 @@ public class WindowUtil {
 
     public void setEnvironment(EnvironmentUtil env) {
         env_util = env;
-        window_group.getChildren().add(env_util.getEnvironmentGroup());
+        window_group.getChildren().add(env_util.getWorldGroup());
     }
     public EnvironmentUtil getEnvironment(){
         return env_util;

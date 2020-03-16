@@ -200,13 +200,13 @@ public class SkyboxUtil {
 
     public void setAmbientLight(AmbientLight node) {
         ambient = node;
-        context.getEnvironmentGroup().getChildren().add(ambient);
+        context.getWorldGroup().getChildren().add(ambient);
     }
 
     public void resetLighting() {
-        if (context.getEnvironmentGroup().getChildren().contains(ambient)) {
-            context.getEnvironmentGroup().getChildren().remove(ambient);
-            context.getEnvironmentGroup().getChildren().add(ambient);
+        if (context.getWorldGroup().getChildren().contains(ambient)) {
+            context.getWorldGroup().getChildren().remove(ambient);
+            context.getWorldGroup().getChildren().add(ambient);
         }
     }
 

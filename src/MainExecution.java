@@ -3,21 +3,14 @@ import environment.MaterialsUtil;
 import environment.SkyboxUtil;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Point2D;
 import javafx.scene.AmbientLight;
-import javafx.scene.effect.Light;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
 import javafx.stage.Stage;
-import maze.MazeUtil;
 import player.CameraUtil;
 import player.ControlsUtil;
 import player.PlayerUtil;
 import utils.*;
-
-import java.util.List;
-import java.util.Map;
 
 
 public class MainExecution extends Application {
@@ -34,7 +27,6 @@ public class MainExecution extends Application {
         PlayerUtil player = new PlayerUtil(window);
         EnvironmentUtil envir = new EnvironmentUtil(window);
         SkyboxUtil sky = new SkyboxUtil(envir);
-        sky.setMode(SkyboxUtil.MODE_DAY);
         AmbientLight amb = new AmbientLight();
         amb.setColor(Color.rgb(50, 50, 50));
         sky.setAmbientLight(amb);
@@ -73,7 +65,7 @@ public class MainExecution extends Application {
                 // FPS HANDLING
                 if ((now - last) > (1 / 60)) {
                     if (window.getCurrentScene() == window.SCENE_GAME) {
-                        controls.handleKeyboard(envir.getEnvironmentGroup());
+                        controls.handleKeyboard(envir.getWorldGroup());
                         envir.update_handler();
                         player.update_handler();
                     }

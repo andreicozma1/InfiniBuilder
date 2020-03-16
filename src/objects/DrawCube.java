@@ -11,22 +11,16 @@ public class DrawCube extends StructureBuilder {
     public DrawCube(double width, double height, double depth) {
         box = new Box(1, 1, 1);
         super.getChildren().add(box);
-        super.setScaleZ(width);
-        super.setScaleY(height);
-        super.setScaleZ(depth);
+        super.setScaleXYZ(width,height,depth);
+    }
+    public DrawCube() {
+        box = new Box(1, 1, 1);
+        super.getChildren().add(box);
     }
 
-    public Box getBox(){ return box; }
 
-    public void setBoxX(double x){box.setTranslateX(x);}
-    public void setBoxY(double y){box.setTranslateY(y);}
-    public void setBoxZ(double z){box.setTranslateZ(z);}
-
-
-    public void setMaterial(Material material){
-        this.material = material;
-        box.setMaterial(material);
+    public Box getBox(){
+        return box;
     }
 
-    public Material getMaterial() { return material; }
 }

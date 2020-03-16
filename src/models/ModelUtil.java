@@ -19,6 +19,7 @@ public class ModelUtil {
     TdsModelImporter tds_importer;
     ObjModelImporter obj_importer;
 
+
     public ModelUtil() {
         tds_importer = new TdsModelImporter();
         obj_importer = new ObjModelImporter();
@@ -51,24 +52,36 @@ public class ModelUtil {
         ArrayList<String> matching = new ArrayList<String>();
 
         for (String st : resources.keySet()) {
-            for(String pattern_n : pattern){
+            for (String pattern_n : pattern) {
                 if (st.toLowerCase().contains(pattern_n.toLowerCase())) {
                     matching.add(st);
                 }
             }
         }
-        StructureBuilder result = new StructureBuilder();
-        int random_matching_index = (int) Math.floor(Math.random() * (matching.size() - 1));
 
-        String random_matching_filename = matching.get(random_matching_index);
-        File random_file = resources.get(random_matching_filename);
+        int random_matching_index = (int) Math.floor(Math.random() * (matching.size() - 1));
         Node[] children = null;
-        if(random_file.getName().contains("3ds")){
-            tds_importer.read(random_file);
-            children = tds_importer.getImport();
-            tds_importer.clear();
+        if (random_matching_index >= 0) {
+            String random_matching_filename = matching.get(random_matching_index);
+            File random_file = resources.get(random_matching_filename);
+
+            if (random_file.getName().contains("3ds")) {
+                tds_importer.read(random_file);
+                children = tds_importer.getImport();
+                tds_importer.clear();
+            } else if (random_file.getName().contains("obj")) {
+                obj_importer.read(random_file);
+                children = obj_importer.getImport();
+                obj_importer.clear();
+            } else if (random_file.getName().contains("fbx")) {
+                obj_importer.read(random_file);
+                children = obj_importer.getImport();
+                obj_importer.clear();
+            }
         }
-        if(children!=null){
+
+        StructureBuilder result = new StructureBuilder();
+        if (children != null) {
             result.getChildren().addAll(children);
         }
         return result;
