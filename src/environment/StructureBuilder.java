@@ -53,6 +53,11 @@ public class StructureBuilder extends Group {
         setScaleY(y);
         setScaleZ(z);
     }
+    public void setTranslateXYZ(double x,double y,double z){
+        setTranslateX(x);
+        setTranslateY(y);
+        setTranslateZ(z);
+    }
 
 
     public double getX() {
