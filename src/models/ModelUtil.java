@@ -42,21 +42,26 @@ public class ModelUtil {
         return result;
     }
 
-    public StructureBuilder getRandomMatching(String pattern){
+    public StructureBuilder getRandomMatching(String pattern) {
         pattern = pattern.toLowerCase();
 
         ArrayList<String> matching = new ArrayList<String>();
 
-        for(String st: resources.keySet()){
-            if(st.toLowerCase().contains(pattern)){
+        for (String st : resources.keySet()) {
+            if (st.toLowerCase().contains(pattern)) {
                 matching.add(st);
             }
         }
-
-        String random = matching.get((int)Math.floor(Math.random() * (matching.size()-1)));
-
         StructureBuilder result = new StructureBuilder();
-        abc.read(resources.get(random));
+        int index = (int) Math.floor(Math.random() * (matching.size() - 1));
+        try {
+            String random = matching.get(index);
+            abc.read(resources.get(random));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         result.getChildren().addAll(abc.getImport());
         abc.clear();
         return result;
