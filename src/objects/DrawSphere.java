@@ -19,10 +19,14 @@ public class DrawSphere extends StructureBuilder {
         super.setScaleZ(width);
         super.setScaleY(height);
         super.setScaleZ(depth);
-        super.setScaleX(width);
-        super.setScaleY(height);
-        super.setScaleZ(depth);
     }
+
+    public Sphere getSphere(){ return sphere; }
+
+    public void setSphereX(double x){sphere.setTranslateX(x);}
+    public void setSphereY(double y){sphere.setTranslateY(y);}
+    public void setSphereZ(double z){sphere.setTranslateZ(z);}
+
 
     public void setMaterial(Material material){
         this.material = material;
