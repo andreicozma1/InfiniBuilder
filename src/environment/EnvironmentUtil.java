@@ -72,7 +72,6 @@ public class EnvironmentUtil {
             for (double j = -terrain_generate_distance /2+playerz; j < terrain_generate_distance /2 + playerz; j++) {
 
                 if(!terrain_map_block.containsKey(new Point2D(i,j))){
-//                    System.out.println("Generated");
                     double x = i * terrain_block_depth;
                     double y = getSimplexHeight(i, j) * terrain_block_height + terrain_block_height / 2;
                     double z = j * terrain_block_width;
@@ -97,7 +96,6 @@ public class EnvironmentUtil {
                 }
             }
         }
-
     }
 
     public Box create_playform(double x, double y, double z) {

@@ -106,23 +106,46 @@ public class PlayerUtil {
         // If the player is running, move forward by the specified runMultiplier amount
         if (isRunning) val *= runMultiplier;
 
-        this.z += Math.cos(context.getCamera().rotx / 57.3) * val;
-        this.x += Math.sin(context.getCamera().rotx / 57.3) * val;
+        double new_x = this.x + Math.sin(context.getCamera().rotx / 57.3) * val;
+        double new_z = this.z + Math.cos(context.getCamera().rotx / 57.3) * val;
+
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z) + player_height;
+        if(getY() > ground_level || isClipMode || !isFlyMode){
+            this.x = new_x;
+            this.z = new_z;
+        }
+
     }
 
     public void moveBackward(double val) {
-        this.z -= Math.cos(context.getCamera().rotx / 57.3) * val;
-        this.x -= Math.sin(context.getCamera().rotx / 57.3) * val;
+        double new_x = this.x - Math.sin(context.getCamera().rotx / 57.3) * val;
+        double new_z = this.z - Math.cos(context.getCamera().rotx / 57.3) * val;
+
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z) + player_height;
+        if(getY() > ground_level || isClipMode || !isFlyMode) {
+            this.x = new_x;
+            this.z = new_z;
+        }
     }
 
     public void moveLeft(double val) {
-        this.x -= Math.cos(context.getCamera().rotx / 57.3) * val;
-        this.z += Math.sin(context.getCamera().rotx / 57.3) * val;
+        double new_z = this.z + Math.sin(context.getCamera().rotx / 57.3) * val;
+        double new_x = this.x - Math.cos(context.getCamera().rotx / 57.3) * val;
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z) + player_height;
+        if(getY() > ground_level || isClipMode || !isFlyMode) {
+            this.x = new_x;
+            this.z = new_z;
+        }
     }
 
     public void moveRight(double val) {
-        this.x += Math.cos(context.getCamera().rotx / 57.3) * val;
-        this.z -= Math.sin(context.getCamera().rotx / 57.3) * val;
+        double new_x = this.x + Math.cos(context.getCamera().rotx / 57.3) * val;
+        double new_z = this.z - Math.sin(context.getCamera().rotx / 57.3) * val;
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z) + player_height;
+        if(getY() > ground_level || isClipMode || !isFlyMode) {
+            this.x = new_x;
+            this.z = new_z;
+        }
     }
 
     public void moveUp(double val) {
