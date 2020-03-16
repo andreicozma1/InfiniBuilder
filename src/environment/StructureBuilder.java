@@ -15,8 +15,7 @@ public class StructureBuilder extends Group {
     private boolean physicsState = false;
     private PhysicsUtil physicsUtil;
 
-    public StructureBuilder(double x, double y, double z) {
-
+    public StructureBuilder() {
     }
 
 

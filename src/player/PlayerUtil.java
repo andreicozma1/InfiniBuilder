@@ -11,6 +11,9 @@ public class PlayerUtil {
     public WindowUtil context;
     private Group player_group;
 
+    public int fov_running = 70;
+    public int fov_tired = 35;
+
     public double x = 0;
     public double y = 0;
     public double z = 0;
@@ -59,11 +62,12 @@ public class PlayerUtil {
         // Running mechanism. Changes camera FOV incrementally from 45 to 60 when running and from 60 to 45 when not running
         double curr_fov = context.getCamera().getCamera().getFieldOfView();
         if (isRunning) {
-            if (curr_fov < 60) {
+
+            if (curr_fov < fov_running) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 1);
             }
         } else {
-            if (curr_fov > 45) {
+            if (curr_fov > context.getCamera().fov_default) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov - 1);
             }
         }
@@ -132,7 +136,7 @@ public class PlayerUtil {
 
         // if the player is above ground level, let the player fall
         if (getY() > ground_level || isClipMode) {
-            System.out.println("Above ground");
+//            System.out.println("Above ground");
             y -= val;
         } else {
             // once the player fell enough to hit ground, set onGround to true
@@ -149,22 +153,15 @@ public class PlayerUtil {
         }
     }
 
-    public void placeObject(Point3D pos, StructureBuilder str, boolean lockToEnvir) {
+    public void placeObject() {
+        StructureBuilder tree = context.getEnvironment().getModelUtil().getStructure("Oak_Tree.3ds");
+        tree.setScaleX(15);
+        tree.setScaleY(15);
+        tree.setScaleZ(15);
 
-        double xPos = pos.getX();
-        double yPos = context.getEnvironment().getTerrainYfromPlayerXZ(pos.getX(), pos.getZ()) - str.getHeight()/2;
-        double zPos = pos.getZ();
-        if (lockToEnvir) {
-              xPos = context.getEnvironment().getTerrainXfromPlayerX(x) * context.getEnvironment().getBlockDim();
-            zPos = context.getEnvironment().getTerrainZfromPlayerZ(z) * context.getEnvironment().getBlockDim();
-        }
-
-        str.setTranslateX(xPos);
-        str.setTranslateY(yPos);
-        str.setTranslateZ(zPos);
-
-        context.getEnvironment().addMember(str);
+        context.getEnvironment().placeObject(getPoint3D(), tree, true);
     }
+
 
     public double getX() {
         return x;
@@ -178,8 +175,8 @@ public class PlayerUtil {
         return z;
     }
 
-    public Point3D getPoint3D(){
-        return new Point3D(getX(),getY(),getZ());
+    public Point3D getPoint3D() {
+        return new Point3D(getX(), getY(), getZ());
     }
 
     public boolean isOnGround() {

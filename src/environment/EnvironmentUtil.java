@@ -1,7 +1,7 @@
 package environment;
 
-import com.sun.webkit.Timer;
 import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.shape.Box;
 import algorithms.SimplexUtil;
@@ -16,7 +16,7 @@ public class EnvironmentUtil {
     public WindowUtil context;
 
     private SkyboxUtil skybox = null;
-    private ModelUtil models;
+    private ModelUtil modelUtil;
 
     public Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
     public static Group GROUP_TERRAIN;
@@ -42,7 +42,7 @@ public class EnvironmentUtil {
     public EnvironmentUtil(WindowUtil ctx) {
         context = ctx;
         GROUP_WORLD = new Group(); // initialize the world group, which contains the TERRAIN and STRUCTURES subgroups
-        models = new ModelUtil();
+        modelUtil = new ModelUtil();
 
 
         GROUP_TERRAIN = new Group();
@@ -69,7 +69,7 @@ public class EnvironmentUtil {
             for (double j = -terrain_render_distance /2+playerz; j < terrain_render_distance /2 + playerz; j++) {
 
                 if(!terrain_map_block.containsKey(new Point2D(i,j))){
-                    System.out.println("Generated");
+//                    System.out.println("Generated");
                     double x = i * terrain_block_depth;
                     double y = getSimplexHeight(i, j) * terrain_block_height + terrain_block_height / 2;
                     double z = j * terrain_block_width;
@@ -99,7 +99,7 @@ public class EnvironmentUtil {
 
     public Box create_playform(double x, double y, double z) {
 
-        StructureBuilder b = new StructureBuilder(x,y,z);
+        StructureBuilder b = new StructureBuilder();
         Box box = new Box();
         box.setWidth(terrain_block_width);
         box.setHeight(terrain_block_height);
@@ -115,10 +115,15 @@ public class EnvironmentUtil {
             box.setMaterial(MaterialsUtil.moss);
         } else if(y < 100){
             box.setMaterial(MaterialsUtil.grass);
-            if(Math.random() > .5){
-                System.out.println("ASDSA");
+            if(Math.random() > .8){
+                /*
+                StructureBuilder tree = context.getEnvironment().getModelUtil().getStructure("Oak_Tree.3ds");
+                tree.setScaleX(15);
+                tree.setScaleY(15);
+                tree.setScaleZ(15);
+                placeObject(new Point3D(x,y,z), tree,true);
 
-
+                 */
             }
         } else  if(y < 200){
             box.setMaterial(MaterialsUtil.sand);
@@ -161,6 +166,34 @@ public class EnvironmentUtil {
         }
     }
 
+    public void placeObject(Point3D pos, StructureBuilder str, boolean lockToEnvir) {
+
+        double xPos = pos.getX();
+        double yPos = context.getEnvironment().getTerrainYfromPlayerXZ(pos.getX(), pos.getZ()) - str.getHeight()/2;
+        double zPos = pos.getZ();
+        if (lockToEnvir) {
+            xPos = context.getEnvironment().getTerrainXfromPlayerX(pos.getX()) * context.getEnvironment().getBlockDim();
+            zPos = context.getEnvironment().getTerrainZfromPlayerZ(pos.getZ()) * context.getEnvironment().getBlockDim();
+        }
+
+        str.setTranslateX(xPos);
+        str.setTranslateY(yPos);
+        str.setTranslateZ(zPos);
+
+        context.getEnvironment().addMember(str);
+    }
+
+    public void addMember(StructureBuilder member) {
+        GROUP_STRUCTURES.getChildren().add(member);
+    }
+
+    public void removeMember(StructureBuilder member) {
+        GROUP_WORLD.getChildren().remove(member);
+    }
+
+    public ModelUtil getModelUtil(){
+        return modelUtil;
+    }
 
     public void setSkyBox(SkyboxUtil sky) {
         skybox = sky;
@@ -176,13 +209,5 @@ public class EnvironmentUtil {
 
     public int getBlockDim(){
         return terrain_block_width;
-    }
-
-    public void addMember(StructureBuilder member) {
-        GROUP_WORLD.getChildren().add(member);
-    }
-
-    public void removeMember(StructureBuilder member) {
-        GROUP_WORLD.getChildren().remove(member);
     }
 }

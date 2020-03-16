@@ -57,13 +57,10 @@ public class ControlsUtil {
         game_scene.setOnMousePressed(event -> {
             switch (event.getButton()) {
                 case PRIMARY:
-                    StructureBuilder tree = new StructureBuilder(0,0,0);
-                    tree.getChildren().addAll(ModelUtil.models.get("Oak_Tree.3ds"));
-                    tree.setScaleX(15);
-                    tree.setScaleY(15);
-                    tree.setScaleZ(15);
 
-                    context.getPlayer().placeObject(context.getPlayer().getPoint3D(), tree, true);
+
+
+                    context.getPlayer().placeObject();
                     break;
             }
         });

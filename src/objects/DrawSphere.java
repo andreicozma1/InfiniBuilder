@@ -9,13 +9,11 @@ public class DrawSphere extends StructureBuilder {
     private Material material;
 
     public DrawSphere(float radius){
-        super(0,0,0);
         sphere = new Sphere(radius);
         super.getChildren().add(sphere);
     }
 
     public DrawSphere(float radius, float width, float height, float depth) {
-        super(0,0,0);
         sphere = new Sphere(radius);
         super.getChildren().add(sphere);
         super.setScaleZ(width);

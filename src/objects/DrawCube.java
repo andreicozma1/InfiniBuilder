@@ -9,7 +9,6 @@ public class DrawCube extends StructureBuilder {
     private Material material;
 
     public DrawCube(double width, double height, double depth) {
-        super(0,0,0);
         box = new Box(1, 1, 1);
         super.getChildren().add(box);
         super.setScaleZ(width);

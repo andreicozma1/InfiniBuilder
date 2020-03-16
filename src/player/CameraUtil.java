@@ -9,14 +9,19 @@ public class CameraUtil {
     private WindowUtil context;
     public static PerspectiveCamera cam;
 
+    public final int fov_default = 45;
+    private int bound_angle_down = -90; // degrees
+            private int bound_angle_up = 90; // degrees
+
     public double rotx = 0;
     public double roty = 0;
 
     public CameraUtil(WindowUtil ctx) {
         context = ctx;
         cam = new PerspectiveCamera(true);
+        cam.setFieldOfView(fov_default);
         cam.setNearClip(1);
-        cam.setFarClip(100000);
+        cam.setFarClip(10000);
     }
 
     public PerspectiveCamera getCamera() {
@@ -24,15 +29,11 @@ public class CameraUtil {
     }
 
     void update_handler() {
-//        System.out.println("x: " + rotx%360 + " y: "  + roty + " rotY " + (roty%180) );
         cam.getTransforms().clear();
         cam.getTransforms().add(new Translate(context.getPlayer().getX(), -context.getPlayer().player_height- context.getPlayer().getY(), context.getPlayer().getZ()));
         cam.getTransforms().add(new Rotate(rotx % 360, Rotate.Y_AXIS));
-
         cam.getTransforms().add(new Rotate(roty % 360, Rotate.X_AXIS));
-
     }
-
 
     public void rotateX(double val) {
         rotx += val;
@@ -40,8 +41,10 @@ public class CameraUtil {
 
     public void rotateY(double val) {
         double newroty = roty + val;
-        // camera bounds
-        if ((newroty % 180) < -90 || (newroty % 180) > 60) {
+
+        double upDownRot = newroty % 180; // mod the newroty value with 180 to keep the bounds within that range
+        // camera bounds (so that the player can't rotate more than 90deg up or 90deg down
+        if (upDownRot < bound_angle_down || upDownRot > bound_angle_up) {
             return;
         }
         roty = newroty;
@@ -54,5 +57,4 @@ public class CameraUtil {
     public double getRotateY() {
         return roty;
     }
-
 }

@@ -12,18 +12,28 @@ import java.util.Map;
 public class ModelUtil {
 
     File res_folder = new File(getClass().getResource("../res/").getFile());
-    public static Map<String,Node[]> models;
+    public static Map<String, File> resources;
+    TdsModelImporter abc;
 
     public ModelUtil() {
-        TdsModelImporter abc = new TdsModelImporter();
-        models = new HashMap<String, Node[]>();
+        abc = new TdsModelImporter();
+
+        resources = new HashMap<String, File>();
 
         File[] list_of_files = res_folder.listFiles();
 
-        for(File file : list_of_files){
+        for (File file : list_of_files) {
             System.out.println(file.getAbsolutePath());
-            abc.read(file);
-            models.put(file.getName(),abc.getImport());
+            resources.put(file.getName(), file);
         }
+    }
+
+    public StructureBuilder getStructure(String name) {
+        StructureBuilder result = new StructureBuilder();
+
+        abc.read(resources.get(name));
+        result.getChildren().addAll(abc.getImport());
+        abc.clear();
+        return result;
     }
 }
