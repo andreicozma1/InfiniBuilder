@@ -5,7 +5,7 @@ import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.shape.Box;
 import algorithms.SimplexUtil;
-import utils.ModelUtil;
+import models.ModelUtil;
 import utils.WindowUtil;
 
 import java.util.HashMap;
@@ -111,24 +111,39 @@ public class EnvironmentUtil {
 
         if(y < - 180){
             box.setMaterial(MaterialsUtil.stone);
+            if(Math.random() > .995) {
+                StructureBuilder tree = modelUtil.getRandomMatching("peak");
+                tree.setScale(15 + Math.random() * 20);
+                placeObject(new Point3D(x, y, z), tree, false);
+            }
         } else if(y < -50){
             box.setMaterial(MaterialsUtil.moss);
+            if(Math.random() > .97) {
+                StructureBuilder tree = modelUtil.getRandomMatching("mountain");
+                tree.setScale(15 + Math.random() * 20);
+                placeObject(new Point3D(x, y, z), tree, false);
+            }
         } else if(y < 100){
             box.setMaterial(MaterialsUtil.grass);
-            if(Math.random() > .8){
-                /*
-                StructureBuilder tree = context.getEnvironment().getModelUtil().getStructure("Oak_Tree.3ds");
-                tree.setScaleX(15);
-                tree.setScaleY(15);
-                tree.setScaleZ(15);
-                placeObject(new Point3D(x,y,z), tree,true);
-
-                 */
+            if(Math.random() > .97){
+                StructureBuilder tree = modelUtil.getRandomMatching("plains");
+                tree.setScale(15 + Math.random() * 20);
+                placeObject(new Point3D(x,y,z),tree,false);
             }
         } else  if(y < 200){
             box.setMaterial(MaterialsUtil.sand);
+            if(Math.random() > .99) {
+                StructureBuilder tree = modelUtil.getRandomMatching("desert");
+                tree.setScale(15 + Math.random() * 20);
+                placeObject(new Point3D(x, y, z), tree, false);
+            }
         } else{
             box.setMaterial(MaterialsUtil.dirt);
+            if(Math.random() > .99) {
+                StructureBuilder tree = modelUtil.getRandomMatching("dirt");
+                tree.setScale(15 + Math.random() * 20);
+                placeObject(new Point3D(x, y, z), tree, false);
+            }
         }
 
         return box;
@@ -167,24 +182,28 @@ public class EnvironmentUtil {
     }
 
     public void placeObject(Point3D pos, StructureBuilder str, boolean lockToEnvir) {
+        System.out.println("Adding tree at " + pos);
 
         double xPos = pos.getX();
-        double yPos = context.getEnvironment().getTerrainYfromPlayerXZ(pos.getX(), pos.getZ()) - str.getHeight()/2;
+        double yPos = pos.getY() - str.getHeight()/2;
         double zPos = pos.getZ();
         if (lockToEnvir) {
-            xPos = context.getEnvironment().getTerrainXfromPlayerX(pos.getX()) * context.getEnvironment().getBlockDim();
-            zPos = context.getEnvironment().getTerrainZfromPlayerZ(pos.getZ()) * context.getEnvironment().getBlockDim();
+            xPos = getTerrainXfromPlayerX(pos.getX()) * getBlockDim();
+            yPos = getTerrainYfromPlayerXZ(pos.getX(), pos.getZ()) - str.getHeight()/2;
+            zPos = getTerrainZfromPlayerZ(pos.getZ()) * getBlockDim();
         }
+
+        System.out.println(xPos + "  " + yPos + "  " + zPos);
 
         str.setTranslateX(xPos);
         str.setTranslateY(yPos);
         str.setTranslateZ(zPos);
 
-        context.getEnvironment().addMember(str);
+        addMember(str);
     }
 
     public void addMember(StructureBuilder member) {
-        GROUP_STRUCTURES.getChildren().add(member);
+        GROUP_WORLD.getChildren().add(member);
     }
 
     public void removeMember(StructureBuilder member) {

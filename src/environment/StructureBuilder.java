@@ -43,6 +43,16 @@ public class StructureBuilder extends Group {
         return physicsUtil;
     }
 
+    public void setScale(double scale){
+        setScaleX(scale);
+        setScaleY(scale);
+        setScaleZ(scale);
+    }
+    public void setScaleXYZ(double x,double y,double z){
+        setScaleX(x);
+        setScaleY(y);
+        setScaleZ(z);
+    }
 
 
     public double getX() {

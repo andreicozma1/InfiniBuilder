@@ -154,7 +154,7 @@ public class PlayerUtil {
     }
 
     public void placeObject() {
-        StructureBuilder tree = context.getEnvironment().getModelUtil().getStructure("Oak_Tree.3ds");
+        StructureBuilder tree = context.getEnvironment().getModelUtil().getStructure("plains_oak_tree.3ds");
         tree.setScaleX(15);
         tree.setScaleY(15);
         tree.setScaleZ(15);

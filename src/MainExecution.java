@@ -47,10 +47,12 @@ public class MainExecution extends Application {
         window.setPlayer(player);
         window.setEnvironment(envir);
 
+        /*
         // ***temporary*** used to test the maze util
         MazeUtil maze = new MazeUtil( window, 0, 0, 20, 20, 20, 3, 3, 0);
         maze.createBlockMap();
         Map<Point2D,Box> m = maze.getMaze_map_block();
+         */
 
         // close window on menu if ESC is pressed
         controls.getControllerForScene(window.SCENE_MENU).setOnKeyPressed(event -> {

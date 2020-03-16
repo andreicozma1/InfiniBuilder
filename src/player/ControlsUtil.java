@@ -1,21 +1,12 @@
 package player;
 
-import com.interactivemesh.jfx.importer.Importer;
-import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
-import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
-import environment.MaterialsUtil;
 import environment.SkyboxUtil;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.shape.Box;
-import environment.StructureBuilder;
-import utils.ModelUtil;
 import utils.WindowUtil;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 public class ControlsUtil {
