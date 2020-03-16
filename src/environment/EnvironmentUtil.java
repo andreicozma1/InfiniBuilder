@@ -8,6 +8,7 @@ import algorithms.SimplexUtil;
 import models.ModelUtil;
 import utils.WindowUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class EnvironmentUtil {
 
     private final int terrain_generate_distance = 50;
     private final int terrain_render_distance = 50;
-    private boolean terrain_should_generate_vegetation = false;
+    private boolean terrain_should_generate_vegetation = true;
 
     private SimplexUtil terrain_simplex_alg;
     private double terrain_multiplier_height = 30;
@@ -35,7 +36,7 @@ public class EnvironmentUtil {
     private final int terrain_block_depth = 20;
 
     private Map<Point2D, Double> terrain_map_height = new HashMap<Point2D,Double>();
-    private Map<Point2D, Box> terrain_map_block = new HashMap<Point2D,Box>();
+    private Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<Point2D,StructureBuilder>();
 
 
     /**
@@ -98,57 +99,69 @@ public class EnvironmentUtil {
         }
     }
 
-    public Box create_playform(double x, double y, double z) {
+    public StructureBuilder create_playform(double x, double y, double z) {
 
         StructureBuilder b = new StructureBuilder();
         Box box = new Box();
         box.setWidth(terrain_block_width);
         box.setHeight(terrain_block_height);
         box.setDepth(terrain_block_depth);
-        box.setTranslateX(x);
-        box.setTranslateY(y);
-        box.setTranslateZ(z);
+//        box.setTranslateX(x);
+//        box.setTranslateY(y);
+//        box.setTranslateZ(z);
 
         b.getChildren().add(box);
+
 
         if(y < - 180){
             box.setMaterial(MaterialsUtil.stone);
             if(terrain_should_generate_vegetation && Math.random() > .995) {
-                StructureBuilder tree = modelUtil.getRandomMatching("peak");
+                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"peak","rock"});
                 tree.setScale(15 + Math.random() * 20);
-                placeObject(new Point3D(x, y, z), tree, false);
+                tree.setTranslateY(-tree.getHeight()/2);
+//                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
+                b.getChildren().add(tree);
             }
         } else if(y < -50){
             box.setMaterial(MaterialsUtil.moss);
             if(terrain_should_generate_vegetation && Math.random() > .97) {
-                StructureBuilder tree = modelUtil.getRandomMatching("mountain");
+                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"mountain","rock"});
                 tree.setScale(15 + Math.random() * 20);
-                placeObject(new Point3D(x, y, z), tree, false);
+                tree.setTranslateY(-tree.getHeight()/2);
+//                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
+                b.getChildren().add(tree);
             }
         } else if(y < 100){
             box.setMaterial(MaterialsUtil.grass);
             if(terrain_should_generate_vegetation && Math.random() > .97){
-                StructureBuilder tree = modelUtil.getRandomMatching("plains");
+                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"plains","rock"});
                 tree.setScale(15 + Math.random() * 20);
-                placeObject(new Point3D(x,y,z),tree,false);
+                tree.setTranslateY(-tree.getHeight()/2);
+//                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
+                b.getChildren().add(tree);
+//                placeObject(new Point3D(x,y,z),tree,false);
             }
         } else  if(y < 200){
             box.setMaterial(MaterialsUtil.sand);
             if(terrain_should_generate_vegetation && Math.random() > .99) {
-                StructureBuilder tree = modelUtil.getRandomMatching("desert");
+                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"desert","cactus"});
                 tree.setScale(15 + Math.random() * 20);
-                placeObject(new Point3D(x, y, z), tree, false);
+                tree.setTranslateY(-tree.getHeight()/2);
+//                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
+                b.getChildren().add(tree);
             }
         } else{
             box.setMaterial(MaterialsUtil.dirt);
             if(terrain_should_generate_vegetation && Math.random() > .99) {
-                StructureBuilder tree = modelUtil.getRandomMatching("dirt");
+                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"dirt","rock"});
                 tree.setScale(15 + Math.random() * 20);
-                placeObject(new Point3D(x, y, z), tree, false);
+                tree.setTranslateY(-tree.getHeight()/2);
+//                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
+                b.getChildren().add(tree);
             }
         }
-
-        return box;
+        b.setTranslateXYZ(x,y,z);
+        return b;
     }
 
 

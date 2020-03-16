@@ -1,5 +1,6 @@
 package models;
 
+import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
 import environment.StructureBuilder;
 import javafx.scene.Node;
@@ -15,10 +16,12 @@ public class ModelUtil {
 
     File res_folder = new File(getClass().getResource("res/").getFile());
     public static Map<String, File> resources;
-    TdsModelImporter abc;
+    TdsModelImporter tds_importer;
+    ObjModelImporter obj_importer;
 
     public ModelUtil() {
-        abc = new TdsModelImporter();
+        tds_importer = new TdsModelImporter();
+        obj_importer = new ObjModelImporter();
 
         resources = new HashMap<String, File>();
 
@@ -36,34 +39,38 @@ public class ModelUtil {
     public StructureBuilder getStructure(String name) {
         StructureBuilder result = new StructureBuilder();
 
-        abc.read(resources.get(name));
-        result.getChildren().addAll(abc.getImport());
-        abc.clear();
+        tds_importer.read(resources.get(name));
+        result.getChildren().addAll(tds_importer.getImport());
+        tds_importer.clear();
         return result;
     }
 
-    public StructureBuilder getRandomMatching(String pattern) {
-        pattern = pattern.toLowerCase();
+    public StructureBuilder getRandomMatching(String[] pattern) {
+
 
         ArrayList<String> matching = new ArrayList<String>();
 
         for (String st : resources.keySet()) {
-            if (st.toLowerCase().contains(pattern)) {
-                matching.add(st);
+            for(String pattern_n : pattern){
+                if (st.toLowerCase().contains(pattern_n.toLowerCase())) {
+                    matching.add(st);
+                }
             }
         }
         StructureBuilder result = new StructureBuilder();
-        int index = (int) Math.floor(Math.random() * (matching.size() - 1));
-        try {
-            String random = matching.get(index);
-            abc.read(resources.get(random));
+        int random_matching_index = (int) Math.floor(Math.random() * (matching.size() - 1));
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        String random_matching_filename = matching.get(random_matching_index);
+        File random_file = resources.get(random_matching_filename);
+        Node[] children = null;
+        if(random_file.getName().contains("3ds")){
+            tds_importer.read(random_file);
+            children = tds_importer.getImport();
+            tds_importer.clear();
         }
-
-        result.getChildren().addAll(abc.getImport());
-        abc.clear();
+        if(children!=null){
+            result.getChildren().addAll(children);
+        }
         return result;
     }
 }
