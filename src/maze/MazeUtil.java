@@ -1,5 +1,6 @@
 package maze;
 
+import environment.MaterialsUtil;
 import environment.StructureBuilder;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;

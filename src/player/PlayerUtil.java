@@ -122,7 +122,7 @@ public class PlayerUtil {
         double new_x = this.x + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
-        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z) + player_height;
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
         if(getY() > ground_level || isClipMode || !isFlyMode){
             this.x = new_x;
             this.z = new_z;
@@ -136,7 +136,7 @@ public class PlayerUtil {
         double new_x = this.x - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
-        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z) + player_height;
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
         if(getY() > ground_level || isClipMode || !isFlyMode) {
             this.x = new_x;
             this.z = new_z;
@@ -148,7 +148,7 @@ public class PlayerUtil {
 
         double new_z = this.z + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_x = this.x - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
-        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z) + player_height;
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
         if(getY() > ground_level || isClipMode || !isFlyMode) {
             this.x = new_x;
             this.z = new_z;
@@ -160,7 +160,7 @@ public class PlayerUtil {
 
         double new_x = this.x + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
-        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z) + player_height;
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
         if(getY() > ground_level || isClipMode || !isFlyMode) {
             this.x = new_x;
             this.z = new_z;

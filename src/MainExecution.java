@@ -42,7 +42,9 @@ public class MainExecution extends Application {
 
 
 
-
+        MazeUtil maze = new MazeUtil( window, 0, 0, 20, 20, 20, 30, 30, 0);
+        maze.createBlockMap();
+//        maze.draw();
 
 
             // close window on menu if ESC is pressed

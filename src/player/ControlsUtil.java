@@ -108,6 +108,7 @@ public class ControlsUtil {
                                 context.getEnvironment().getSkybox().setMode(SkyboxUtil.MODE_CYCLE);
                                 break;
                         }
+                        break;
                     case M:
                         MazeUtil maze = new MazeUtil( context, 0, 0, 20, 20, 20, 3, 3, 0);
                         maze.createBlockMap();

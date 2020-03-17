@@ -4,6 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.*;
 import javafx.scene.shape.Box;
 import algorithms.SimplexUtil;
+import maze.MazeUtil;
 import models.ModelUtil;
 import utils.WindowUtil;
 
@@ -100,6 +101,7 @@ public class EnvironmentUtil {
     public StructureBuilder create_platform(double x, double y, double z) {
 
         StructureBuilder b = new StructureBuilder();
+        b.setTranslateXYZ(x,y,z);
         Box box = new Box();
         box.setWidth(terrain_block_width);
         box.setHeight(terrain_block_height);
@@ -109,6 +111,15 @@ public class EnvironmentUtil {
 //        box.setTranslateZ(z);
 
         b.getChildren().add(box);
+
+
+        /*
+        if(MazeUtil.maze_map_block.containsKey(new Point2D(x,z))){
+            StructureBuilder mazewall = MazeUtil.maze_map_block.get(new Point2D(x,z));
+            mazewall.setTranslateY(-mazewall.getHeight());
+            b.getChildren().add(mazewall);
+        }
+         */
 
 
         if(y < - 180){
@@ -158,7 +169,7 @@ public class EnvironmentUtil {
                 b.getChildren().add(tree);
             }
         }
-        b.setTranslateXYZ(x,y,z);
+
         return b;
     }
 
