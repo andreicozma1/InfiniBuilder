@@ -20,8 +20,7 @@ public class StatusBar extends HUDElement{
     private Paint innerBarPaint;
     private Paint outerBarPaint;
     private Paint borderColor = Color.BLACK;
-    private boolean isBorder = true;
-
+    private boolean isBorder = false;
     private boolean isEmpty = false;
 
     public StatusBar(   GraphicsContext graphicsContext,
@@ -49,6 +48,7 @@ public class StatusBar extends HUDElement{
     public double getWidth() { return width; }
     public Paint getInnerBarPaint() { return innerBarPaint; }
     public Paint getOuterBarPaint() { return outerBarPaint; }
+    public boolean getIsEmpty(){ return isEmpty; }
 
     // set max status error checks to make sure currStatus is never larger than max status
     public void setMaxStatus(double maxStatus){
