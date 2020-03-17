@@ -15,19 +15,21 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 
+import java.util.Collection;
+
 
 public class MenuUtil {
     Scene menuScene;
     WindowUtil context;
     GroupBuilder mainMenu;
-    GroupBuilder highScoreMenu;
+    GroupBuilder controlsMenu;
     GroupBuilder optionsMenu;
     GroupBuilder aboutMenu;
     GroupBuilder exitButton;
 
 
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
-    public static String GROUP_HIGH_SCORES = "GROUP_HIGH_SCORES";
+    public static String GROUP_CONTROLS = "GROUP_HIGH_SCORES";
     public static String GROUP_OPTIONS = "GROUP_OPTIONS";
     public static String GROUP_ABOUT = "GROUP_ABOUT";
     public static String GROUP_EXIT = "GROUP_EXIT";
@@ -37,20 +39,20 @@ public class MenuUtil {
     MenuUtil(WindowUtil ctx) {
         context = ctx;
         mainMenu = new GroupBuilder();
-        highScoreMenu = new GroupBuilder();
+        controlsMenu = new GroupBuilder();
         optionsMenu = new GroupBuilder();
         aboutMenu = new GroupBuilder();
         exitButton = new GroupBuilder();
 
         menuScene = new Scene(mainMenu.getGroup(),context.WIDTH,context.HEIGHT);
         buildMainMenu();
-        buildHighScoreMenu();
+        buildControlsMenu();
         buildOptionsMenu();
         buildAboutMenu();
 
 
         context.addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
-        context.addGroup(GROUP_HIGH_SCORES, highScoreMenu.getGroup());
+        context.addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
         context.addGroup(GROUP_OPTIONS, optionsMenu.getGroup());
         context.addGroup(GROUP_ABOUT, aboutMenu.getGroup());
         context.addGroup(GROUP_EXIT, exitButton.getGroup());
@@ -98,14 +100,14 @@ public class MenuUtil {
         gotoHighScoreMenu.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_HIGH_SCORES);
+                        context.activateGroup(GROUP_CONTROLS);
                     }
                 });
-        Text highScoreText = mainMenu.drawText("High Score", 20, 290, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        Text highScoreText = mainMenu.drawText("Controls", 20, 290, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
         highScoreText.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_HIGH_SCORES);
+                        context.activateGroup(GROUP_CONTROLS);
                     }
                 });
         gotoHighScoreMenu.setCursor(Cursor.HAND);
@@ -164,32 +166,25 @@ public class MenuUtil {
         gotoExitButton.setCursor(Cursor.HAND);
         exitText.setCursor(Cursor.HAND);
 
-
-        // add it to the main menu pain
-
-        // create button to add to GROUP
-
-        // add it to the main menu pain
-
     }
 
-    public void buildHighScoreMenu() {
-        // create label
-//        highScoreMenu.drawText("High Scores",400,250,Color.DARKBLUE);
-
+    public void buildControlsMenu() {
+        drawBasicMenuLayout(controlsMenu);
         // create button to add to GROUP
-        Button gotoMainMenu = new Button("Exit to Main Menu");
-        gotoMainMenu.setOnAction(e -> {
-            context.activateGroup(GROUP_MAIN_MENU);
-        });
-        // add it to the high score menu
-        highScoreMenu.drawButton(gotoMainMenu, 400, 300);
+        Rectangle gotoMainMenu = controlsMenu.drawRectangle(100,100,50,50,20,20,Color.WHITE);
+        gotoMainMenu.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        context.activateGroup(GROUP_MAIN_MENU);
+                    }
+                });
+        gotoMainMenu.setCursor(Cursor.HAND);
     }
 
     public void buildOptionsMenu() {
         // create label
 //        highScoreMenu.drawText("High Scores",400,250,Color.DARKBLUE);
-
+        drawBasicMenuLayout(optionsMenu);
         // create button to add to GROUP
         Button gotoMainMenu = new Button("Exit to Main Menu");
         gotoMainMenu.setOnAction(e -> {
@@ -200,11 +195,22 @@ public class MenuUtil {
     }
 
     public void buildAboutMenu() {
+        drawBasicMenuLayout(aboutMenu);
+
+
         Button gotoMainMenu = new Button("Exit to Main Menu");
         gotoMainMenu.setOnAction(e -> {
             context.activateGroup(GROUP_MAIN_MENU);
         });
         // add it to the high score menu
         aboutMenu.drawButton(gotoMainMenu, 100, 100);
+    }
+
+    private void drawBasicMenuLayout(GroupBuilder group){
+        group.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0,Color.BLACK);
+        group.drawRectangle(20,20,context.WIDTH-40,context.HEIGHT-40,20,20, Color.DARKRED);
+        group.drawRectangle(30,30,context.WIDTH-60,40,20,20,Color.DARKGRAY);
+        group.drawRectangle(30,80,context.WIDTH-60,context.HEIGHT-110,20,20,Color.DARKGRAY);
+
     }
 }
