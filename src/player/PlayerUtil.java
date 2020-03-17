@@ -24,6 +24,8 @@ public class PlayerUtil {
     public double y = 0;
     public double z = 0;
 
+    private boolean tooHigh = false;
+
     public double runMultiplier = 1.5;
     public double speedForward = 5;
     public double speedBackward = 5;
@@ -32,7 +34,7 @@ public class PlayerUtil {
     public double fallSpeed = 0; // Original speed before gravity is applied;
 
     double jump_start_height;
-    private double jumpHeight = player_height;
+    private double jumpHeight = player_height * .75;
     public boolean canJump = true;
     public boolean isJumping = false;
     public boolean isRunning = false;
@@ -67,7 +69,7 @@ public class PlayerUtil {
 //        }
 //        player_group.setTranslateY(-getY() + height);
 //        player_group.setTranslateZ(getZ());
-
+//        System.out.println(isOnGround());
 
         // Running mechanism. Changes camera FOV incrementally from 45 to 60 when running and from 60 to 45 when not running
         double curr_fov = context.getCamera().getCamera().getFieldOfView();
@@ -78,9 +80,9 @@ public class PlayerUtil {
             }
         } else {
             if (isOnGround() && curr_fov > context.getCamera().fov_default) {
-                context.getCamera().getCamera().setFieldOfView(curr_fov - 5);
-            } else{
-                context.getCamera().getCamera().setFieldOfView(context.getCamera().fov_default);
+                context.getCamera().getCamera().setFieldOfView(curr_fov - 10);
+            } else if (curr_fov < context.getCamera().fov_default - 2) {
+                context.getCamera().getCamera().setFieldOfView(curr_fov + 2);
             }
         }
 
@@ -123,7 +125,8 @@ public class PlayerUtil {
         double new_z = this.z + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        if (getY() > ground_level || isClipMode || !isFlyMode) {
+        System.out.println(ground_level - y);
+        if ((ground_level - y < context.getEnvironment().getBlockDim() * 1.5) || isClipMode) {
             this.x = new_x;
             this.z = new_z;
         }
@@ -137,7 +140,7 @@ public class PlayerUtil {
         double new_z = this.z - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        if (getY() > ground_level || isClipMode || !isFlyMode) {
+        if ((ground_level - y < context.getEnvironment().getBlockDim() * 1.5) || isClipMode) {
             this.x = new_x;
             this.z = new_z;
         }
@@ -149,7 +152,7 @@ public class PlayerUtil {
         double new_z = this.z + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_x = this.x - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        if (getY() > ground_level || isClipMode || !isFlyMode) {
+        if ((ground_level - y < context.getEnvironment().getBlockDim() * 1.5) || isClipMode) {
             this.x = new_x;
             this.z = new_z;
         }
@@ -161,7 +164,7 @@ public class PlayerUtil {
         double new_x = this.x + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        if (getY() > ground_level || isClipMode || !isFlyMode) {
+        if ((ground_level - y < context.getEnvironment().getBlockDim() * 1.5) || isClipMode) {
             this.x = new_x;
             this.z = new_z;
         }
@@ -181,24 +184,24 @@ public class PlayerUtil {
 //            System.out.println("Above ground");
             y -= val;
 
-            System.out.println("");
+            // if the player is more than a block above the ground , set onGround = false;
+            if (y - ground_level > context.getEnvironment().getBlockDim()) {
+                onGround = false;
+            }
             if (!isOnGround()) {
-                context.getCamera().getCamera().setFieldOfView(context.getCamera().fov_default + context.getPlayer().fallSpeed * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
-
+                context.getCamera().getCamera().setFieldOfView(context.getCamera().fov_default + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
             }
         } else {
             // once the player fell enough to hit ground, set onGround to true
             onGround = true;
             // reposition the player back to above ground
 
-//            y = ground_level;
-
             // CURRENTLY UNUSED IMPLEMENTATION WHERE THE PLAYER JUMPS IF HE HAS TO CLIMP MORE THAN A SET HEIGHT
-//            System.out.println(ground_level - y);
-            if (ground_level - y < context.getEnvironment().getBlockDim()) {
-                y = ground_level;
-            } else {
+//            System.out.println(y-ground_level);
+            if (ground_level - y > context.getEnvironment().getBlockDim() * .75) {
                 jump();
+            } else {
+                y = ground_level;
             }
 
 

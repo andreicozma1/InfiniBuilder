@@ -20,7 +20,7 @@ public class CameraUtil {
         context = ctx;
         cam = new PerspectiveCamera(true);
         cam.setFieldOfView(fov_default);
-        cam.setNearClip(1);
+        cam.setNearClip(.5);
         cam.setFarClip(3000);
     }
 
