@@ -1,5 +1,6 @@
 package maze;
 
+import environment.StructureBuilder;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.shape.Box;
@@ -7,6 +8,7 @@ import objects.DrawCube;
 import utils.WindowUtil;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class MazeUtil {
     private Group mazeGroup;
     private MazeGenerator mazeGenerator;
     private List<Wall> walls;
-    private Map<Point2D, Box> maze_map_block = new HashMap<Point2D,Box>();
+    private Map<Point2D, StructureBuilder> maze_map_block = new HashMap<Point2D,StructureBuilder>();
 
     /**
      * Constructor for MazeUtil
@@ -61,7 +63,7 @@ public class MazeUtil {
     public int getMazeCols() { return mazeCols; }
     public int getMazeRows() { return mazeRows; }
     public long getSeed() { return seed; }
-    public Map<Point2D, Box> getMaze_map_block() { return maze_map_block; }
+    public Map<Point2D, StructureBuilder> getMaze_map_block() { return maze_map_block; }
 
     public void createBlockMap(){
         int i, j;
@@ -76,7 +78,7 @@ public class MazeUtil {
                 if(i == 0 || i== mazeRows*2 || j == 0 || j == mazeCols*2 || (i%2==0 && j%2==0)) {
                     System.out.println("create wall");
                     DrawCube cube = new DrawCube(20, 20, 20);
-                    maze_map_block.put(new Point2D(currX, currZ), cube.getBox());
+                    maze_map_block.put(new Point2D(currX, currZ), cube);
                 }
                 currX += cellW;
             }
@@ -117,11 +119,20 @@ public class MazeUtil {
                 }
             }
 
-            maze_map_block.put(point, cube.getBox());
+            maze_map_block.put(point, cube);
         }
 
         System.out.println(maze_map_block.size());
 
     }
 
+    public void draw(){
+        Iterator mapIterator = maze_map_block.entrySet().iterator();
+
+        while (mapIterator.hasNext()) {
+            Map.Entry mapElement = (Map.Entry)mapIterator.next();
+            context.getEnvironment().placeObject((Point2D)mapElement.getKey(),(StructureBuilder)mapElement.getValue(),true);
+
+        }
+    }
 }
