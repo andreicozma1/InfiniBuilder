@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import maze.MazeUtil;
 import utils.WindowUtil;
 
 import java.util.ArrayList;
@@ -107,6 +108,11 @@ public class ControlsUtil {
                                 context.getEnvironment().getSkybox().setMode(SkyboxUtil.MODE_CYCLE);
                                 break;
                         }
+                    case M:
+                        MazeUtil maze = new MazeUtil( context, 0, 0, 20, 20, 20, 3, 3, 0);
+                        maze.createBlockMap();
+                        maze.draw();
+                        break;
                     case R:
                         context.getPlayer().reset();
                         break;

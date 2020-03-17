@@ -200,13 +200,16 @@ public class EnvironmentUtil {
         double xPos = getTerrainXfromPlayerX(pos.getX());
         double zPos =getTerrainZfromPlayerZ(pos.getY());
 
+        Point2D origLoc = new Point2D(xPos,zPos);
 
-        StructureBuilder orig = terrain_map_block.get(new Point2D(xPos,zPos));
+        if(terrain_map_block.containsKey(origLoc)){
+            StructureBuilder orig = terrain_map_block.get(origLoc);
+            str.setTranslateY(-orig.getHeight());
 
-        str.setTranslateY(-orig.getHeight());
+            orig.getChildren().add(str);
+        } else{
 
-        orig.getChildren().add(str);
-
+        }
     }
 
     public void addMember(StructureBuilder member) {

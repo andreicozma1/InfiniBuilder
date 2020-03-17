@@ -41,10 +41,8 @@ public class MainExecution extends Application {
         window.setEnvironment(envir);
 
 
-        // ***temporary*** used to test the maze util
-//        MazeUtil maze = new MazeUtil( window, 0, 0, 20, 20, 20, 3, 3, 0);
-//        maze.createBlockMap();
-//        maze.draw();
+
+
 
 
             // close window on menu if ESC is pressed

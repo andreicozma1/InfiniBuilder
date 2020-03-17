@@ -25,7 +25,7 @@ public class MazeUtil {
     private Group mazeGroup;
     private MazeGenerator mazeGenerator;
     private List<Wall> walls;
-    private Map<Point2D, StructureBuilder> maze_map_block = new HashMap<Point2D,StructureBuilder>();
+    public static Map<Point2D, StructureBuilder> maze_map_block = new HashMap<Point2D,StructureBuilder>();
 
     /**
      * Constructor for MazeUtil
@@ -132,7 +132,6 @@ public class MazeUtil {
         while (mapIterator.hasNext()) {
             Map.Entry mapElement = (Map.Entry)mapIterator.next();
             context.getEnvironment().placeObject((Point2D)mapElement.getKey(),(StructureBuilder)mapElement.getValue(),true);
-
         }
     }
 }
