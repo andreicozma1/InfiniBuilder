@@ -1,7 +1,6 @@
 package environment;
 
 import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.shape.Box;
 import algorithms.SimplexUtil;
@@ -76,7 +75,7 @@ public class EnvironmentUtil {
                     double y = getSimplexHeight(i, j) * terrain_block_height + terrain_block_height / 2;
                     double z = j * terrain_block_width;
                     Point2D key = new Point2D(i,j);
-                    terrain_map_block.put(key,create_playform(x, y, z));
+                    terrain_map_block.put(key, create_platform(x, y, z));
                     terrain_map_height.put(key, y);
                 }
             }
@@ -98,7 +97,7 @@ public class EnvironmentUtil {
         }
     }
 
-    public StructureBuilder create_playform(double x, double y, double z) {
+    public StructureBuilder create_platform(double x, double y, double z) {
 
         StructureBuilder b = new StructureBuilder();
         Box box = new Box();
