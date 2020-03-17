@@ -24,9 +24,31 @@ public class MenuUtil {
     GroupBuilder aboutMenu;
     GroupBuilder exitButton;
 
-    private Color BACKDROP = Color.BLACK;
-    private Color MAIN_COLOR = Color.DARKRED;
-    private Color TEXT_BOX = Color.WHITE;
+    //    harvard colors
+    private Color BACKDROP = Color.valueOf("#1a1831");
+    //    private Color BACKDROP = Color.DARKGRAY;
+    private Color BORDER_COLOR = Color.valueOf("#a21232");
+    private Color MAIN_COLOR = Color.valueOf("#1a1831");
+    private Color TEXT_BOX = Color.valueOf("#f6faf7");
+
+    //blues w red border
+//    private Color BACKDROP = Color.valueOf("#1a1831");
+//    private Color BORDER_COLOR = Color.valueOf("#a21232");
+//    private Color MAIN_COLOR = Color.valueOf("#1a1831");
+//    private Color TEXT_BOX = Color.valueOf("#f6faf7");
+
+
+    //greens
+//    private Color BACKDROP = Color.valueOf("#b4bb72");
+//    private Color BORDER_COLOR = Color.valueOf("#303e27");
+//    private Color MAIN_COLOR = Color.valueOf("#303e27");
+//    private Color TEXT_BOX = Color.valueOf("#f6faf7");
+
+    //blues w light blue border
+//    private Color BACKDROP = Color.valueOf("#222831");
+//    private Color BORDER_COLOR = Color.valueOf("#00adb5");
+//    private Color MAIN_COLOR = Color.valueOf("#393e46");
+//    private Color TEXT_BOX = Color.valueOf("#eeeeee");
 
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_CONTROLS = "GROUP_HIGH_SCORES";
@@ -166,6 +188,7 @@ public class MenuUtil {
         gotoExitButton.setCursor(Cursor.HAND);
         exitText.setCursor(Cursor.HAND);
 
+
     }
 
     public void buildControlsMenu() {
@@ -173,11 +196,11 @@ public class MenuUtil {
         drawBasicMenuLayout(controlsMenu);
 
         // draw title
-        controlsMenu.drawText("Controls", 325, 60, BACKDROP, Font.font("vedana", FontWeight.BOLD , FontPosture.REGULAR, 30));
+        controlsMenu.drawText("Controls", 32, 65, BORDER_COLOR, Font.font("vedana", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 55));
 
         // draw information
-        controlsMenu.drawCircle(85,150,5,BACKDROP);
-        controlsMenu.drawText("WASD to move",100,155,BACKDROP, Font.font("vedana", FontWeight.NORMAL, FontPosture.REGULAR, 15));
+        controlsMenu.drawCircle(85,150,5,MAIN_COLOR);
+        controlsMenu.drawText("WASD to move",100,155,MAIN_COLOR, Font.font("vedana", FontWeight.NORMAL, FontPosture.REGULAR, 15));
 
 
     }
@@ -194,14 +217,14 @@ public class MenuUtil {
 
     private void drawBasicMenuLayout(GroupBuilder group){
         // draw menu back drop
-        group.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, MAIN_COLOR);
-        group.drawRectangle(148,18,context.WIDTH-296,64,0,0,BACKDROP);
-        group.drawRectangle(150,20,context.WIDTH-300,60,0,20,TEXT_BOX);
-        group.drawRectangle(28,108,context.WIDTH-56,context.HEIGHT-136,0,0,BACKDROP);
-        group.drawRectangle(30,110,context.WIDTH-60,context.HEIGHT-140,0,0,TEXT_BOX);
+        group.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, BACKDROP);
+//        group.drawRectangle(148,18,context.WIDTH-296,64,0,0,BORDER_COLOR);
+//        group.drawRectangle(152,22,context.WIDTH-304,56,0,20,TEXT_BOX);
+        group.drawRectangle(28,108,context.WIDTH-56,context.HEIGHT-136,0,0,BORDER_COLOR);
+        group.drawRectangle(32,112,context.WIDTH-64,context.HEIGHT-144,0,0,TEXT_BOX);
 
         // draw exit to Main Menu button
-        group.drawRectangle(298, 513, context.WIDTH-596, 39, 0, 0,BACKDROP);
+        group.drawRectangle(298, 513, context.WIDTH-596, 39, 0, 0,BORDER_COLOR);
         Rectangle gotoExitButton = group.drawRectangle(300, 515, context.WIDTH-600, 35, 0, 0, Color.LIGHTGRAY);
         gotoExitButton.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
@@ -209,7 +232,7 @@ public class MenuUtil {
                         context.activateGroup(GROUP_MAIN_MENU);
                     }
                 });
-        Text exitText = group.drawText("Exit To Main Menu", 318, 538, BACKDROP, Font.font("vedana", FontWeight.NORMAL , FontPosture.REGULAR, 18));
+        Text exitText = group.drawText("> MAIN MENU", 318, 538, MAIN_COLOR, Font.font("vedana", FontWeight.NORMAL , FontPosture.REGULAR, 18));
         exitText.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
