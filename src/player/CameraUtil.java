@@ -30,11 +30,17 @@ public class CameraUtil {
 
     void update_handler() {
         cam.getTransforms().clear();
-        cam.getTransforms().add(new Translate(context.getPlayer().getX(), -context.getPlayer().player_height- context.getPlayer().getY(), context.getPlayer().getZ()));
+
+        double height = context.getPlayer().player_height;
+        if(context.getPlayer().isCrouching){
+            height /= 2;
+            height += height * context.getPlayer().crouch_multiplier;
+        }
+        cam.getTransforms().add(new Translate(context.getPlayer().getX(), - context.getPlayer().getY() - height, context.getPlayer().getZ()));
         cam.getTransforms().add(new Rotate(rotx % 360, Rotate.Y_AXIS));
         cam.getTransforms().add(new Rotate(roty % 360, Rotate.X_AXIS));
 
-        System.out.println("RotX: " + Math.sin(context.getCamera().getRotateX() * Math.PI/180)+ "   RotY: " +Math.sin((context.getCamera().getRotateY() + 90) * Math.PI/180));
+//        System.out.println("RotX: " + Math.sin(context.getCamera().getRotateX() * Math.PI/180)+ "   RotY: " +Math.sin((context.getCamera().getRotateY() + 90) * Math.PI/180));
     }
 
     public void rotateX(double val) {

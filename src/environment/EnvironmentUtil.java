@@ -132,7 +132,7 @@ public class EnvironmentUtil {
         } else if(y < 100){
             box.setMaterial(MaterialsUtil.grass);
             if(terrain_should_generate_vegetation && Math.random() > .97){
-                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"plains","rock"});
+                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"plains","rock","veg"});
                 tree.setScale(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight()/2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);

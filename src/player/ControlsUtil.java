@@ -81,11 +81,18 @@ public class ControlsUtil {
                             context.getPlayer().isFlyMode = true;
                         }
                         break;
-                    case C:
+                    case X:
                         if (context.getPlayer().isClipMode) {
                             context.getPlayer().isClipMode = false;
                         } else {
                             context.getPlayer().isClipMode = true;
+                        }
+                        break;
+                    case C:
+                        if (context.getPlayer().isCrouching) {
+                            context.getPlayer().isCrouching = false;
+                        } else {
+                            context.getPlayer().isCrouching = true;
                         }
                         break;
                     case P:

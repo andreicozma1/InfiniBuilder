@@ -14,6 +14,9 @@ public class PlayerUtil {
     public WindowUtil context;
     private Group player_group;
 
+    private int player_width = 10;
+    public int player_height = 60;
+
     public int fov_running = 70;
     public int fov_tired = 35;
 
@@ -29,10 +32,13 @@ public class PlayerUtil {
     private double fallSpeed = 0; // Original speed before gravity is applied;
 
     double jump_start_height;
-    private int jumpHeight = 70;
+    private double jumpHeight = player_height * 1.2;
     public boolean canJump = true;
     public boolean isJumping = false;
     public boolean isRunning = false;
+
+    public boolean isCrouching = false;
+    public double crouch_multiplier = .4;
 
     public boolean isClipMode = false;
     public boolean isFlyMode = false;
@@ -41,9 +47,6 @@ public class PlayerUtil {
     private boolean aboveGround = true;
 
 
-    private Box hitbox = new Box();
-    private int player_width = 10;
-    public int player_height = 50;
 
 
     public PlayerUtil(WindowUtil ctx) {
@@ -57,9 +60,15 @@ public class PlayerUtil {
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().update_handler();
 
-        player_group.setTranslateX(getX());
-        player_group.setTranslateY(-getY() + player_height);
-        player_group.setTranslateZ(getZ());
+//        player_group.setTranslateX(getX());
+//
+//        double height = player_height;
+//        if(isCrouching){
+//            System.out.println("HEREEE");
+//            height *= crouch_multiplier;
+//        }
+//        player_group.setTranslateY(-getY() + height);
+//        player_group.setTranslateZ(getZ());
 
 
         // Running mechanism. Changes camera FOV incrementally from 45 to 60 when running and from 60 to 45 when not running
@@ -108,6 +117,7 @@ public class PlayerUtil {
     public void moveForward(double val) {
         // If the player is running, move forward by the specified runMultiplier amount
         if (isRunning) val *= runMultiplier;
+        if(isCrouching) val*=crouch_multiplier;
 
         double new_x = this.x + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
@@ -121,6 +131,8 @@ public class PlayerUtil {
     }
 
     public void moveBackward(double val) {
+        if(isCrouching) val*=crouch_multiplier;
+
         double new_x = this.x - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
@@ -132,6 +144,8 @@ public class PlayerUtil {
     }
 
     public void moveLeft(double val) {
+        if(isCrouching) val*=crouch_multiplier;
+
         double new_z = this.z + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_x = this.x - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z) + player_height;
@@ -142,6 +156,8 @@ public class PlayerUtil {
     }
 
     public void moveRight(double val) {
+        if(isCrouching) val*=crouch_multiplier;
+
         double new_x = this.x + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z) + player_height;
