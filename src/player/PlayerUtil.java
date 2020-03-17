@@ -32,7 +32,7 @@ public class PlayerUtil {
     private double fallSpeed = 0; // Original speed before gravity is applied;
 
     double jump_start_height;
-    private double jumpHeight = player_height * 1.2;
+    private double jumpHeight = player_height;
     public boolean canJump = true;
     public boolean isJumping = false;
     public boolean isRunning = false;
@@ -185,16 +185,16 @@ public class PlayerUtil {
             onGround = true;
             // reposition the player back to above ground
 
-            y = ground_level;
+//            y = ground_level;
 
-            /* CURRENTLY UNUSED IMPLEMENTATION WHERE THE PLAYER JUMPS IF HE HAS TO CLIMP MORE THAN A SET HEIGHT
+            // CURRENTLY UNUSED IMPLEMENTATION WHERE THE PLAYER JUMPS IF HE HAS TO CLIMP MORE THAN A SET HEIGHT
             System.out.println(ground_level - y);
-            if(ground_level - y < 10){
+            if(ground_level - y < context.getEnvironment().getBlockDim()){
                 y = ground_level;
             } else{
                 jump();
             }
-             */
+
 
             // reset the "current" fall speed back to 0 since the player is now on ground.
             // Next time player is above ground the gravity will keep on getting added to the fall speed, simulating the effects of gravity

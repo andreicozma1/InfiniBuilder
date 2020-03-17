@@ -216,6 +216,7 @@ public class EnvironmentUtil {
         if(terrain_map_block.containsKey(origLoc)){
             StructureBuilder orig = terrain_map_block.get(origLoc);
             str.setTranslateY(-orig.getHeight());
+            terrain_map_height.put(origLoc,terrain_map_height.get(origLoc)-str.getHeight());
 
             orig.getChildren().add(str);
         } else{
