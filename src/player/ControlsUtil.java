@@ -76,38 +76,19 @@ public class ControlsUtil {
                         context.showScene(context.SCENE_MENU);
                         break;
                     case F:
-                        if (context.getPlayer().isFlyMode) {
-                            context.getPlayer().isFlyMode = false;
-                        } else {
-                            context.getPlayer().isFlyMode = true;
-                        }
+                        context.getPlayer().toggleFly();
                         break;
                     case X:
-                        if (context.getPlayer().isClipMode) {
-                            context.getPlayer().isClipMode = false;
-                        } else {
-                            context.getPlayer().isClipMode = true;
-                        }
+                      context.getPlayer().toggleNoClip();
                         break;
                     case C:
-                        if (context.getPlayer().isCrouching) {
-                            context.getPlayer().isCrouching = false;
-                        } else {
-                            context.getPlayer().isCrouching = true;
-                        }
+                        context.getPlayer().toggleCrouch();
+                        break;
+                    case U:
+                        context.getPlayer().toggleUVlight();
                         break;
                     case P:
-                        switch (context.getEnvironment().getSkybox().getMode()) {
-                            case SkyboxUtil.MODE_CYCLE:
-                                context.getEnvironment().getSkybox().setMode(SkyboxUtil.MODE_DAY);
-                                break;
-                            case SkyboxUtil.MODE_DAY:
-                                context.getEnvironment().getSkybox().setMode(SkyboxUtil.MODE_NIGHT);
-                                break;
-                            case SkyboxUtil.MODE_NIGHT:
-                                context.getEnvironment().getSkybox().setMode(SkyboxUtil.MODE_CYCLE);
-                                break;
-                        }
+                        context.getEnvironment().getSkybox().cycleModes();
                         break;
                     case M:
                         MazeUtil maze = new MazeUtil( context, 0, 0, 20, 20, 20, 3, 3, 0);

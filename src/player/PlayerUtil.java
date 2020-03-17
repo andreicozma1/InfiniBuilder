@@ -1,9 +1,14 @@
 package player;
 
+import com.sun.scenario.effect.light.SpotLight;
 import environment.MaterialsUtil;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
+import javafx.scene.AmbientLight;
 import javafx.scene.Group;
+import javafx.scene.PointLight;
+import javafx.scene.effect.Light;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import objects.DrawCube;
 import utils.PhysicsUtil;
@@ -35,7 +40,7 @@ public class PlayerUtil {
 
     double jump_start_height;
     private double jumpHeight = player_height * .75;
-    private double autoJumpCutoffHeight = player_height/2;
+    private double autoJumpCutoffHeight = player_height / 2;
     public boolean canJump = true;
     public boolean isJumping = false;
     public boolean isRunning = false;
@@ -49,11 +54,17 @@ public class PlayerUtil {
     private boolean onGround = true;
     private boolean aboveGround = true;
 
+    public PointLight uv_light;
+    boolean uv_light_state = false;
 
     public PlayerUtil(WindowUtil ctx) {
         context = ctx;
         player_group = new Group();
 
+        uv_light = new PointLight();
+        uv_light.setLightOn(false);
+        uv_light.setColor(Color.DARKBLUE);
+        player_group.getChildren().add(uv_light);
     }
 
     public void update_handler() {
@@ -61,16 +72,10 @@ public class PlayerUtil {
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().update_handler();
 
-//        player_group.setTranslateX(getX());
-//
-//        double height = player_height;
-//        if(isCrouching){
-//            System.out.println("HEREEE");
-//            height *= crouch_multiplier;
-//        }
-//        player_group.setTranslateY(-getY() + height);
-//        player_group.setTranslateZ(getZ());
-//        System.out.println(isOnGround());
+        player_group.setTranslateX(getX());
+        player_group.setTranslateY(-getY() - player_height);
+        player_group.setTranslateZ(getZ());
+
 
         // Running mechanism. Changes camera FOV incrementally from 45 to 60 when running and from 60 to 45 when not running
         double curr_fov = context.getCamera().getCamera().getFieldOfView();
@@ -189,7 +194,7 @@ public class PlayerUtil {
             if (y - ground_level > context.getEnvironment().getBlockDim()) {
                 onGround = false;
             }
-            if (!isOnGround()) {
+            if (!isOnGround() && !isRunning) {
                 context.getCamera().getCamera().setFieldOfView(context.getCamera().fov_default + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
             }
         } else {
@@ -291,6 +296,43 @@ public class PlayerUtil {
 
 
         context.getEnvironment().reset();
+    }
+
+    void setUV_light(boolean state) {
+        uv_light.setLightOn(state);
+        uv_light_state = state;
+    }
+
+    void toggleUVlight() {
+        if (uv_light_state) {
+            setUV_light(false);
+        } else {
+            setUV_light(true);
+        }
+    }
+
+    void toggleCrouch() {
+        if (context.getPlayer().isCrouching) {
+            context.getPlayer().isCrouching = false;
+        } else {
+            context.getPlayer().isCrouching = true;
+        }
+    }
+
+    void toggleNoClip() {
+        if (context.getPlayer().isClipMode) {
+            context.getPlayer().isClipMode = false;
+        } else {
+            context.getPlayer().isClipMode = true;
+        }
+    }
+
+    void toggleFly() {
+        if (context.getPlayer().isFlyMode) {
+            context.getPlayer().isFlyMode = false;
+        } else {
+            context.getPlayer().isFlyMode = true;
+        }
     }
 
 }

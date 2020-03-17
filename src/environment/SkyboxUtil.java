@@ -33,6 +33,7 @@ public class SkyboxUtil {
 
     /**
      * Constructor for SkyboxUtil. This initializes
+     *
      * @param envir
      */
     public SkyboxUtil(EnvironmentUtil envir) {
@@ -70,7 +71,7 @@ public class SkyboxUtil {
     void update_handler() {
 
         double time;
-        switch(MODE_CURR){
+        switch (MODE_CURR) {
             case MODE_DAY:
                 time = -day_length_multiplier * 1000;
                 break;
@@ -81,8 +82,8 @@ public class SkyboxUtil {
                 time = System.currentTimeMillis();
                 break;
         }
-        rotateSun(time,sun_distance);
-        rotateMoon(time,moon_distance);
+        rotateSun(time, sun_distance);
+        rotateMoon(time, moon_distance);
     }
 
     private void rotateSun(double time, double dist) {
@@ -116,10 +117,10 @@ public class SkyboxUtil {
         // the sun is a full 180 degrees (pi) away from the moon, so the sin and cos values are flipped on the sun compared to the moon
         sunlight.setTranslateX(context.context.getPlayer().getX());
         sunlight.setTranslateY(sindist);
-        sunlight.setTranslateZ(cosdist+ context.context.getPlayer().getZ());
+        sunlight.setTranslateZ(cosdist + context.context.getPlayer().getZ());
         sun.setTranslateX(context.context.getPlayer().getX());
         sun.setTranslateY(sindist);
-        sun.setTranslateZ(cosdist+ context.context.getPlayer().getZ());
+        sun.setTranslateZ(cosdist + context.context.getPlayer().getZ());
 
     }
 
@@ -134,11 +135,11 @@ public class SkyboxUtil {
         // to achieve a value from 0 to 1 which we will use for calculating the intensity of the moon light
         // TODO? use the .5 as a variable multiplier?
         if (sin >= .5) {
-            sin -=.5;
+            sin -= .5;
             sin *= 2;
             moonlight.setColor(Color.rgb((int) (mooncolor.getRed() * sin * 255), (int) (mooncolor.getGreen() * sin * 255), (int) (mooncolor.getBlue() * sin * 255)));
             context.context.SCENE_GAME.setFill(Color.rgb((int) (nightskycolor.getRed() * sin * 255), (int) (nightskycolor.getGreen() * sin * 255), (int) (nightskycolor.getBlue() * sin * 255)));
-        } else{
+        } else {
             moonlight.setColor(Color.rgb(0, 0, 0));
         }
 
@@ -149,7 +150,7 @@ public class SkyboxUtil {
         moonlight.setTranslateZ(-cosdist + context.context.getPlayer().getZ());
         moon.setTranslateY(-sindist);
         moon.setTranslateX(context.context.getPlayer().getX());
-        moon.setTranslateZ(-cosdist+ context.context.getPlayer().getZ());
+        moon.setTranslateZ(-cosdist + context.context.getPlayer().getZ());
     }
 
 
@@ -210,15 +211,30 @@ public class SkyboxUtil {
         }
     }
 
-    public Group getGroup(){
+    public Group getGroup() {
         return group_skybox;
     }
 
-  public void setMode(int mode_new){
+    public void setMode(int mode_new) {
         MODE_CURR = mode_new;
-  }
-  public int getMode(){
+    }
+
+    public int getMode() {
         return MODE_CURR;
-  }
+    }
+
+    public void cycleModes() {
+        switch (getMode()) {
+            case SkyboxUtil.MODE_CYCLE:
+                setMode(SkyboxUtil.MODE_DAY);
+                break;
+            case SkyboxUtil.MODE_DAY:
+                setMode(SkyboxUtil.MODE_NIGHT);
+                break;
+            case SkyboxUtil.MODE_NIGHT:
+                setMode(SkyboxUtil.MODE_CYCLE);
+                break;
+        }
+    }
 
 }
