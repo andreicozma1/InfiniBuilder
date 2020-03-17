@@ -27,14 +27,15 @@ public class PlayerUtil {
     private boolean tooHigh = false;
 
     public double runMultiplier = 1.5;
-    public double speedForward = 5;
-    public double speedBackward = 5;
-    public double speedSide = 3;
+    public double speedForward = 3;
+    public double speedBackward = 2;
+    public double speedSide = 2;
     public double speedFly = 3;
     public double fallSpeed = 0; // Original speed before gravity is applied;
 
     double jump_start_height;
     private double jumpHeight = player_height * .75;
+    private double autoJumpCutoffHeight = player_height/2;
     public boolean canJump = true;
     public boolean isJumping = false;
     public boolean isRunning = false;
@@ -80,7 +81,7 @@ public class PlayerUtil {
             }
         } else {
             if (isOnGround() && curr_fov > context.getCamera().fov_default) {
-                context.getCamera().getCamera().setFieldOfView(curr_fov - 10);
+                context.getCamera().getCamera().setFieldOfView(curr_fov - 5);
             } else if (curr_fov < context.getCamera().fov_default - 2) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 2);
             }
@@ -126,7 +127,7 @@ public class PlayerUtil {
 
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
         System.out.println(ground_level - y);
-        if ((ground_level - y < context.getEnvironment().getBlockDim() * 1.5) || isClipMode) {
+        if ((ground_level - y < autoJumpCutoffHeight) || isClipMode) {
             this.x = new_x;
             this.z = new_z;
         }
@@ -140,7 +141,7 @@ public class PlayerUtil {
         double new_z = this.z - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        if ((ground_level - y < context.getEnvironment().getBlockDim() * 1.5) || isClipMode) {
+        if ((ground_level - y < autoJumpCutoffHeight) || isClipMode) {
             this.x = new_x;
             this.z = new_z;
         }
@@ -152,7 +153,7 @@ public class PlayerUtil {
         double new_z = this.z + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_x = this.x - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        if ((ground_level - y < context.getEnvironment().getBlockDim() * 1.5) || isClipMode) {
+        if ((ground_level - y < autoJumpCutoffHeight) || isClipMode) {
             this.x = new_x;
             this.z = new_z;
         }
@@ -164,7 +165,7 @@ public class PlayerUtil {
         double new_x = this.x + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        if ((ground_level - y < context.getEnvironment().getBlockDim() * 1.5) || isClipMode) {
+        if ((ground_level - y < autoJumpCutoffHeight) || isClipMode) {
             this.x = new_x;
             this.z = new_z;
         }
