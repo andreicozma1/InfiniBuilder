@@ -195,11 +195,11 @@ public class EnvironmentUtil {
         }
     }
 
-    public void placeObject(Point3D pos, StructureBuilder str, boolean lockToEnvir) {
+    public void placeObject(Point2D pos, StructureBuilder str, boolean lockToEnvir) {
         System.out.println("Adding tree at " + pos);
 
         double xPos = getTerrainXfromPlayerX(pos.getX());
-        double zPos =getTerrainZfromPlayerZ(pos.getZ());
+        double zPos =getTerrainZfromPlayerZ(pos.getY());
 
 
         StructureBuilder orig = terrain_map_block.get(new Point2D(xPos,zPos));

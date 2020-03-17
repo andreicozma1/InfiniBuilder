@@ -1,6 +1,7 @@
 package player;
 
 import environment.MaterialsUtil;
+import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.shape.Box;
@@ -195,20 +196,20 @@ public class PlayerUtil {
         box.setScale(context.getEnvironment().getBlockDim());
         box.getBox().setMaterial(MaterialsUtil.stone);
 
-        Point3D pos = getPoint3D();
 
         /*
-        double zmult = context.getCamera().getRotateY() + 90;
-        if(Math.abs(context.getCamera().getRotateX()) > 90){
-            zmult *= -1;
-        }
+        Point3D pos = getPoint3D();
 
-        double xmult = Math.sin(context.getCamera().getRotateX() * Math.PI/180) * 90;
+
+        double zmult = Math.sin((context.getCamera().getRotateY() + 90) * Math.PI/180);
+        double xmult = Math.sin(context.getCamera().getRotateX() * Math.PI/180);
+
+
         Point3D newPOS = new Point3D(pos.getX() + xmult,pos.getY(),pos.getZ() + zmult);
-        */
 
+         */
 
-        context.getEnvironment().placeObject(pos,box, true);
+        context.getEnvironment().placeObject(getPoint2D(),box, true);
     }
 
 
@@ -226,6 +227,9 @@ public class PlayerUtil {
 
     public Point3D getPoint3D() {
         return new Point3D(getX(), -getY(), getZ());
+    }
+    public Point2D getPoint2D(){
+        return new Point2D(getX(),getZ());
     }
 
     public boolean isOnGround() {
