@@ -47,7 +47,6 @@ public class EnvironmentUtil {
         GROUP_WORLD = new Group(); // initialize the world group, which contains the TERRAIN and STRUCTURES subgroups
         modelUtil = new ModelUtil();
 
-
         GROUP_TERRAIN = new Group();
         GROUP_STRUCTURES = new Group();
         GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN,GROUP_STRUCTURES); // add the subgroups to the parent group
@@ -106,21 +105,8 @@ public class EnvironmentUtil {
         box.setWidth(terrain_block_width);
         box.setHeight(terrain_block_height);
         box.setDepth(terrain_block_depth);
-//        box.setTranslateX(x);
-//        box.setTranslateY(y);
-//        box.setTranslateZ(z);
 
         b.getChildren().add(box);
-
-
-        /*
-        if(MazeUtil.maze_map_block.containsKey(new Point2D(x,z))){
-            StructureBuilder mazewall = MazeUtil.maze_map_block.get(new Point2D(x,z));
-            mazewall.setTranslateY(-mazewall.getHeight());
-            b.getChildren().add(mazewall);
-        }
-         */
-
 
         if(y < - 180){
             box.setMaterial(MaterialsUtil.stone);
@@ -224,12 +210,15 @@ public class EnvironmentUtil {
         }
     }
 
-    public void addMember(StructureBuilder member) {
-        GROUP_WORLD.getChildren().add(member);
+    public void addWorldGroup(Group g){
+        getWorldGroup().getChildren().add(g);
     }
 
-    public void removeMember(StructureBuilder member) {
-        GROUP_WORLD.getChildren().remove(member);
+    public void addStructure(StructureBuilder member) {
+        GROUP_STRUCTURES.getChildren().add(member);
+    }
+    public void removeStructure(StructureBuilder member) {
+        GROUP_STRUCTURES.getChildren().remove(member);
     }
 
     public ModelUtil getModelUtil(){
@@ -238,7 +227,7 @@ public class EnvironmentUtil {
 
     public void setSkyBox(SkyboxUtil sky) {
         skybox = sky;
-        getWorldGroup().getChildren().add(sky.getGroup());
+        addWorldGroup(sky.getGroup());
     }
     public SkyboxUtil getSkybox() {
         return skybox;

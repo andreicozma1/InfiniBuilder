@@ -47,7 +47,7 @@ public class MainExecution extends Application {
 //        maze.draw();
 
 
-            // close window on menu if ESC is pressed
+        // close window on menu if ESC is pressed
         controls.getControllerForScene(window.SCENE_MENU).setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ESCAPE) {
                     window.closeWindow();

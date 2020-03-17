@@ -1,9 +1,11 @@
 package environment;
 
+import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
+import javafx.scene.transform.Rotate;
 
 public class SkyboxUtil {
     private EnvironmentUtil context;
@@ -19,6 +21,7 @@ public class SkyboxUtil {
 
     //TODO? Put these in classes?
     private Sphere sun;
+    private Rotate sun_rotate;
     private PointLight sunlight;
     private double sun_distance;
     Color suncolor;
@@ -26,6 +29,7 @@ public class SkyboxUtil {
 
     //TODO? Put these in classes?
     private Sphere moon;
+    private Rotate moon_rotate;
     private PointLight moonlight;
     private double moon_distance;
     Color mooncolor;
@@ -45,24 +49,25 @@ public class SkyboxUtil {
         sunlight = new PointLight();
         sunlight.setDepthTest(DepthTest.ENABLE);
         setSunScale(500);
-        setSunDistance(10000);
+        setSunDistance(3000);
         setSunMaterial(MaterialsUtil.sun);
         setSunlightColor(Color.WHITE);
         setDaySkyColor(Color.rgb(135, 206, 235));
+        sun_rotate = new Rotate(0,new Point3D(0,1,0));
+        sun.getTransforms().setAll(sun_rotate);
 
         moon = new Sphere();
         moonlight = new PointLight();
         moonlight.setDepthTest(DepthTest.ENABLE);
         setMoonScale(200);
-        setMoonDistance(10000);
+        setMoonDistance(3000);
         setMoonMaterial(MaterialsUtil.moon);
         setMoonlightColor(Color.rgb(20, 20, 60));
         setNightSkyColor(Color.rgb(10, 10, 35));
-
+        moon_rotate = new Rotate(0,new Point3D(0,1,0));
+        moon.getTransforms().setAll(moon_rotate);
 
         group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight);
-
-
     }
 
     /**
@@ -109,9 +114,9 @@ public class SkyboxUtil {
             context.context.SCENE_GAME.setFill(Color.rgb((int) (dayskycolor.getRed() * sin * 255), (int) (dayskycolor.getGreen() * sin * 255), (int) (dayskycolor.getBlue() * sin * 255)));
         } else {
             sunlight.setColor(Color.rgb(0, 0, 0));
-
-//            sunlight.setColor(Color.BLACK);
         }
+
+        System.out.println(time);
 
         // position the sun relative to the player's position
         // the sun is a full 180 degrees (pi) away from the moon, so the sin and cos values are flipped on the sun compared to the moon
@@ -122,6 +127,8 @@ public class SkyboxUtil {
         sun.setTranslateY(sindist);
         sun.setTranslateZ(cosdist + context.context.getPlayer().getZ());
 
+
+        sun_rotate.setAngle(sun_rotate.getAngle() +.1);
     }
 
     private void rotateMoon(double time, double dist) {
@@ -151,6 +158,9 @@ public class SkyboxUtil {
         moon.setTranslateY(-sindist);
         moon.setTranslateX(context.context.getPlayer().getX());
         moon.setTranslateZ(-cosdist + context.context.getPlayer().getZ());
+
+        moon_rotate.setAngle(sun_rotate.getAngle() +.1);
+
     }
 
 

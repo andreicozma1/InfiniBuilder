@@ -47,8 +47,8 @@ public class MaterialsUtil {
 
 
         sun = new PhongMaterial();
-        sun.setDiffuseMap(new Image("https://www.filterforge.com/filters/10089.jpg"));
-        sun.setSelfIlluminationMap(new Image("https://www.filterforge.com/filters/10089.jpg"));
+        sun.setDiffuseMap(new Image("https://www.solarsystemscope.com/textures/download/8k_sun.jpg"));
+        sun.setSelfIlluminationMap(new Image("https://www.solarsystemscope.com/textures/download/8k_sun.jpg"));
 
         moon = new PhongMaterial();
         moon.setDiffuseMap(new Image("https://i.pinimg.com/originals/3e/dc/e0/3edce08472326f054d5b3f004ebf08f6.jpg"));
