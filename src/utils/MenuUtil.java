@@ -172,19 +172,26 @@ public class MenuUtil {
     }
 
     public void buildControlsMenu() {
+        // draw basic menu
         drawBasicMenuLayout(controlsMenu);
+
+        // draw title
         controlsMenu.drawText("Controls", 325, 60, BACKDROP, Font.font("vedana", FontWeight.BOLD , FontPosture.REGULAR, 30));
+
+        // draw information
+        controlsMenu.drawText("WASD to move",100,150,BACKDROP, Font.font("vedana", FontWeight.NORMAL, FontPosture.REGULAR, 15));
+
 
     }
 
     public void buildOptionsMenu() {
         drawBasicMenuLayout(optionsMenu);
-
+        optionsMenu.drawText("Options", 330, 60, BACKDROP, Font.font("vedana", FontWeight.BOLD , FontPosture.REGULAR, 30));
     }
 
     public void buildAboutMenu() {
         drawBasicMenuLayout(aboutMenu);
-
+        aboutMenu.drawText("About", 345, 60, BACKDROP, Font.font("vedana", FontWeight.BOLD , FontPosture.REGULAR, 30));
     }
 
     private void drawBasicMenuLayout(GroupBuilder group){
@@ -213,5 +220,6 @@ public class MenuUtil {
                     }
                 });
         gotoExitButton.setCursor(Cursor.HAND);
+        exitText.setCursor(Cursor.HAND);
     }
 }
