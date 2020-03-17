@@ -225,9 +225,18 @@ public class PlayerUtil {
         return z;
     }
 
+    /**
+     * Returns the 3D placement of the character in the world (X, Y, Z coords)
+     * @return
+     */
     public Point3D getPoint3D() {
         return new Point3D(getX(), -getY(), getZ());
     }
+
+    /**
+     * Returns the 2D placement of the character in the world (X and Z coords)
+     * @return
+     */
     public Point2D getPoint2D(){
         return new Point2D(getX(),getZ());
     }
