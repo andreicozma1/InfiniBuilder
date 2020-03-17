@@ -27,6 +27,9 @@ public class MenuUtil {
     GroupBuilder aboutMenu;
     GroupBuilder exitButton;
 
+    private Color BACKDROP = Color.BLACK;
+    private Color UT_ORANGE = Color.valueOf("#f77f00");
+    private Color TEXT_BOX = Color.valueOf("#7c7c7c");
 
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_CONTROLS = "GROUP_HIGH_SCORES";
@@ -170,47 +173,45 @@ public class MenuUtil {
 
     public void buildControlsMenu() {
         drawBasicMenuLayout(controlsMenu);
-        // create button to add to GROUP
-        Rectangle gotoMainMenu = controlsMenu.drawRectangle(100,100,50,50,20,20,Color.WHITE);
-        gotoMainMenu.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_MAIN_MENU);
-                    }
-                });
-        gotoMainMenu.setCursor(Cursor.HAND);
+        controlsMenu.drawText("Controls", 325, 60, BACKDROP, Font.font("vedana", FontWeight.BOLD , FontPosture.REGULAR, 30));
+
     }
 
     public void buildOptionsMenu() {
-        // create label
-//        highScoreMenu.drawText("High Scores",400,250,Color.DARKBLUE);
         drawBasicMenuLayout(optionsMenu);
-        // create button to add to GROUP
-        Button gotoMainMenu = new Button("Exit to Main Menu");
-        gotoMainMenu.setOnAction(e -> {
-            context.activateGroup(GROUP_MAIN_MENU);
-        });
-        // add it to the high score menu
-        optionsMenu.drawButton(gotoMainMenu, 100, 100);
+
     }
 
     public void buildAboutMenu() {
         drawBasicMenuLayout(aboutMenu);
 
-
-        Button gotoMainMenu = new Button("Exit to Main Menu");
-        gotoMainMenu.setOnAction(e -> {
-            context.activateGroup(GROUP_MAIN_MENU);
-        });
-        // add it to the high score menu
-        aboutMenu.drawButton(gotoMainMenu, 100, 100);
     }
 
     private void drawBasicMenuLayout(GroupBuilder group){
-        group.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0,Color.BLACK);
-        group.drawRectangle(20,20,context.WIDTH-40,context.HEIGHT-40,20,20, Color.DARKRED);
-        group.drawRectangle(30,30,context.WIDTH-60,40,20,20,Color.DARKGRAY);
-        group.drawRectangle(30,80,context.WIDTH-60,context.HEIGHT-110,20,20,Color.DARKGRAY);
+        // draw menu back drop
+        group.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0,BACKDROP);
+        group.drawRectangle(0,0,context.WIDTH,context.HEIGHT,180,180, UT_ORANGE);
+        group.drawRectangle(148,18,context.WIDTH-296,64,20,20,BACKDROP);
+        group.drawRectangle(150,20,context.WIDTH-300,60,20,20,TEXT_BOX);
+        group.drawRectangle(28,108,context.WIDTH-56,context.HEIGHT-136,180,180,BACKDROP);
+        group.drawRectangle(30,110,context.WIDTH-60,context.HEIGHT-140,180,180,TEXT_BOX);
 
+        // draw exit to Main Menu button
+        group.drawRectangle(298, 513, context.WIDTH-596, 39, 20, 20,BACKDROP);
+        Rectangle gotoExitButton = group.drawRectangle(300, 515, context.WIDTH-600, 35, 20, 20, Color.LIGHTGRAY);
+        gotoExitButton.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        context.activateGroup(GROUP_MAIN_MENU);
+                    }
+                });
+        Text exitText = group.drawText("Exit To Main Menu", 318, 538, BACKDROP, Font.font("vedana", FontWeight.NORMAL , FontPosture.REGULAR, 18));
+        exitText.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        context.activateGroup(GROUP_MAIN_MENU);
+                    }
+                });
+        gotoExitButton.setCursor(Cursor.HAND);
     }
 }
