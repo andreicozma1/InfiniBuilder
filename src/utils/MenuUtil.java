@@ -4,7 +4,6 @@ import environment.MaterialsUtil;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
@@ -14,8 +13,6 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
-
-import java.util.Collection;
 
 
 public class MenuUtil {
@@ -28,8 +25,8 @@ public class MenuUtil {
     GroupBuilder exitButton;
 
     private Color BACKDROP = Color.BLACK;
-    private Color UT_ORANGE = Color.valueOf("#f77f00");
-    private Color TEXT_BOX = Color.valueOf("#7c7c7c");
+    private Color MAIN_COLOR = Color.DARKRED;
+    private Color TEXT_BOX = Color.WHITE;
 
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_CONTROLS = "GROUP_HIGH_SCORES";
@@ -197,16 +194,15 @@ public class MenuUtil {
 
     private void drawBasicMenuLayout(GroupBuilder group){
         // draw menu back drop
-        group.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0,BACKDROP);
-        group.drawRectangle(0,0,context.WIDTH,context.HEIGHT,180,180, UT_ORANGE);
-        group.drawRectangle(148,18,context.WIDTH-296,64,20,20,BACKDROP);
-        group.drawRectangle(150,20,context.WIDTH-300,60,20,20,TEXT_BOX);
-        group.drawRectangle(28,108,context.WIDTH-56,context.HEIGHT-136,180,180,BACKDROP);
-        group.drawRectangle(30,110,context.WIDTH-60,context.HEIGHT-140,180,180,TEXT_BOX);
+        group.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, MAIN_COLOR);
+        group.drawRectangle(148,18,context.WIDTH-296,64,0,0,BACKDROP);
+        group.drawRectangle(150,20,context.WIDTH-300,60,0,20,TEXT_BOX);
+        group.drawRectangle(28,108,context.WIDTH-56,context.HEIGHT-136,0,0,BACKDROP);
+        group.drawRectangle(30,110,context.WIDTH-60,context.HEIGHT-140,0,0,TEXT_BOX);
 
         // draw exit to Main Menu button
-        group.drawRectangle(298, 513, context.WIDTH-596, 39, 20, 20,BACKDROP);
-        Rectangle gotoExitButton = group.drawRectangle(300, 515, context.WIDTH-600, 35, 20, 20, Color.LIGHTGRAY);
+        group.drawRectangle(298, 513, context.WIDTH-596, 39, 0, 0,BACKDROP);
+        Rectangle gotoExitButton = group.drawRectangle(300, 515, context.WIDTH-600, 35, 0, 0, Color.LIGHTGRAY);
         gotoExitButton.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
