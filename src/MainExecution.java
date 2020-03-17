@@ -7,6 +7,7 @@ import javafx.scene.AmbientLight;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import maze.MazeUtil;
 import player.CameraUtil;
 import player.ControlsUtil;
 import player.PlayerUtil;
@@ -39,25 +40,25 @@ public class MainExecution extends Application {
         window.setPlayer(player);
         window.setEnvironment(envir);
 
-        /*
-        // ***temporary*** used to test the maze util
-        MazeUtil maze = new MazeUtil( window, 0, 0, 20, 20, 20, 3, 3, 0);
-        maze.createBlockMap();
-        Map<Point2D,Box> m = maze.getMaze_map_block();
-         */
 
-        // close window on menu if ESC is pressed
+        // ***temporary*** used to test the maze util
+//        MazeUtil maze = new MazeUtil( window, 0, 0, 20, 20, 20, 3, 3, 0);
+//        maze.createBlockMap();
+//        maze.draw();
+
+
+            // close window on menu if ESC is pressed
         controls.getControllerForScene(window.SCENE_MENU).setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ESCAPE) {
-                window.closeWindow();
-            }
-        });
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    window.closeWindow();
+                }
+            });
 
         window.showScene(window.SCENE_MENU);
 
-        // MAIN GAME LOOP
-        AnimationTimer timer = new AnimationTimer() {
-            long last = 0;
+            // MAIN GAME LOOP
+            AnimationTimer timer = new AnimationTimer() {
+                long last = 0;
 
             @Override
             public void handle(long now) {
