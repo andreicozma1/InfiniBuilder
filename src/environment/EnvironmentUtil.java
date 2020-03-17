@@ -251,4 +251,9 @@ public class EnvironmentUtil {
     public int getBlockDim(){
         return terrain_block_width;
     }
+
+    public void reset(){
+        terrain_map_height.clear();
+        terrain_map_block.clear();
+    }
 }

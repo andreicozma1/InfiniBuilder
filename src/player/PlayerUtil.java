@@ -275,6 +275,10 @@ public class PlayerUtil {
         isClipMode = false;
         isRunning = false;
         isFlyMode = false;
+        isJumping = false;
+
+
+        context.getEnvironment().reset();
     }
 
 }
