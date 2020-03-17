@@ -179,7 +179,8 @@ public class MenuUtil {
         controlsMenu.drawText("Controls", 325, 60, BACKDROP, Font.font("vedana", FontWeight.BOLD , FontPosture.REGULAR, 30));
 
         // draw information
-        controlsMenu.drawText("WASD to move",100,150,BACKDROP, Font.font("vedana", FontWeight.NORMAL, FontPosture.REGULAR, 15));
+        controlsMenu.drawCircle(85,150,5,BACKDROP);
+        controlsMenu.drawText("WASD to move",100,155,BACKDROP, Font.font("vedana", FontWeight.NORMAL, FontPosture.REGULAR, 15));
 
 
     }
