@@ -52,9 +52,13 @@ public class CameraUtil {
 
         double upDownRot = newroty % 180; // mod the newroty value with 180 to keep the bounds within that range
         // camera bounds (so that the player can't rotate more than 90deg up or 90deg down
+
         if (upDownRot < bound_angle_down || upDownRot > bound_angle_up) {
             return;
         }
+
+
+
         roty = newroty;
     }
 
