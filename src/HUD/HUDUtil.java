@@ -9,8 +9,16 @@ import java.util.List;
 import java.util.Map;
 
 public class HUDUtil {
-    private List<HUDElement> elements = new ArrayList<HUDElement>();
-    public HUDUtil(PlayerUtil player){
 
+    private PlayerUtil player;
+    private Map<String, HUDElement> elements = new HashMap<String,HUDElement>();
+
+    public HUDUtil(PlayerUtil player){
+        this.player = player;
     }
+
+    public HUDElement getElement(String tag){ return elements.get(tag); }
+    public void addElement(String tag, HUDElement element){ elements.put(tag, element); }
+    public void removeElement(String tag){ elements.remove(tag); }
+
 }
