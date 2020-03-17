@@ -59,24 +59,25 @@ public class ModelUtil {
             }
         }
 
-        int random_matching_index = (int) Math.floor(Math.random() * (matching.size() - 1));
+        int random_matching_index = (int) Math.floor(Math.random() * matching.size());
         Node[] children = null;
-        if (random_matching_index >= 0) {
+        if (random_matching_index >= 0 && matching.size() > 0) {
             String random_matching_filename = matching.get(random_matching_index);
             File random_file = resources.get(random_matching_filename);
 
-            if (random_file.getName().contains("3ds")) {
+            if (random_file.getName().toLowerCase().contains("3ds")) {
                 tds_importer.read(random_file);
                 children = tds_importer.getImport();
                 tds_importer.clear();
-            } else if (random_file.getName().contains("obj")) {
+            } else if (random_file.getName().toLowerCase().contains("obj")) {
                 obj_importer.read(random_file);
                 children = obj_importer.getImport();
                 obj_importer.clear();
-            } else if (random_file.getName().contains("fbx")) {
-                obj_importer.read(random_file);
-                children = obj_importer.getImport();
-                obj_importer.clear();
+            } else if (random_file.getName().toLowerCase().contains("fbx")) {
+                // NOT IMPLEMENTED
+//                obj_importer.read(random_file);
+//                children = obj_importer.getImport();
+//                obj_importer.clear();
             }
         }
 

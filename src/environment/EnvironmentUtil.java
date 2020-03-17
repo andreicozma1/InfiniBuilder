@@ -153,7 +153,7 @@ public class EnvironmentUtil {
         } else  if(y < 200){
             box.setMaterial(MaterialsUtil.sand);
             if(terrain_should_generate_vegetation && Math.random() > .99) {
-                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"desert","cactus"});
+                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"desert","cactus","dead"});
                 tree.setScale(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight()/2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
@@ -162,7 +162,7 @@ public class EnvironmentUtil {
         } else{
             box.setMaterial(MaterialsUtil.dirt);
             if(terrain_should_generate_vegetation && Math.random() > .99) {
-                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"dirt","rock"});
+                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"dirt","rock","moss"});
                 tree.setScale(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight()/2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
