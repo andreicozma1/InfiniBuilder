@@ -12,7 +12,7 @@ public class SkyboxUtil {
     private Group group_skybox;
 
     private AmbientLight ambient = null;
-    public int day_length_multiplier = 30;
+    public int day_length_multiplier = 5;
 
     public static final int MODE_CYCLE = 0;
     public static final int MODE_DAY = 1;
@@ -26,6 +26,7 @@ public class SkyboxUtil {
     private double sun_distance;
     Color suncolor;
     Color dayskycolor;
+    Color sunset_color;
 
     //TODO? Put these in classes?
     private Sphere moon;
@@ -44,6 +45,8 @@ public class SkyboxUtil {
         context = envir;
         group_skybox = new Group();
         MODE_CURR = MODE_CYCLE;
+
+        sunset_color = Color.rgb(253,94,83);
 
         sun = new Sphere();
         sunlight = new PointLight();
@@ -78,31 +81,34 @@ public class SkyboxUtil {
         double time;
         switch (MODE_CURR) {
             case MODE_DAY:
-                time = -day_length_multiplier * 1000;
+                time = Math.PI/2;
                 break;
             case MODE_NIGHT:
-                time = day_length_multiplier * 1000;
+                time = -Math.PI/2;
                 break;
             default:
-                time = System.currentTimeMillis();
+                time = System.currentTimeMillis()/ (1000.0 * day_length_multiplier);
                 break;
         }
         rotateSun(time, sun_distance);
         rotateMoon(time, moon_distance);
     }
 
+
+    double sun_offset = 0;
+
     private void rotateSun(double time, double dist) {
-        double sin = Math.sin(time / (1000.0 * day_length_multiplier));
+        double sin = Math.sin(time );
         double sindist = sin * dist;
-        double cos = Math.cos(time / (1000.0 * day_length_multiplier));
+        double cos = Math.cos(time);
         double cosdist = cos * dist;
 
         // offset for dimming the sky and light to black
         // since the sun will be at horizon when sin/cos is 0, we want an offset so that the light isn't completely out when the sun is setting
         // we want the world to turn compeltely dark AFTER the sun is set with a small delay, till the moon comes out and shines the world
-        if (sin <= .5) {
+        if (sin <= sun_offset) {
             sin = sin * -1;
-            sin += .5;
+            sin += sun_offset;
             // flip the values of the sin and add .5 to it for the offset, now the values will be from 0 to 1.5.
             // Since we use the sin to calculate the intensity of the colors, we want the multiplier to be capped at 1
             // so if the sin > 1, set it back to 1.
@@ -110,13 +116,14 @@ public class SkyboxUtil {
             if (sin > 1) {
                 sin = 1;
             }
-            sunlight.setColor(Color.rgb((int) (suncolor.getRed() * sin * 255), (int) (suncolor.getGreen() * sin * 255), (int) (suncolor.getBlue() * sin * 255)));
-            context.context.SCENE_GAME.setFill(Color.rgb((int) (dayskycolor.getRed() * sin * 255), (int) (dayskycolor.getGreen() * sin * 255), (int) (dayskycolor.getBlue() * sin * 255)));
+            System.out.println(sin);
+            sunlight.setColor(Color.rgb((int) (sin*((sunset_color.getRed() * (1-sin)* 255) + (suncolor.getRed() * sin * 255))), (int)(sin*((sunset_color.getGreen() * (1-sin)* 255) + (suncolor.getGreen() * sin * 255))), (int) (sin*((sunset_color.getBlue() * (1-sin)* 255) + (suncolor.getBlue() * sin * 255)))));
+            context.context.SCENE_GAME.setFill(Color.rgb((int) ((sunset_color.getRed() * (1-sin)* 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1-sin)* 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1-sin)* 255) + (dayskycolor.getBlue() * sin * 255))));
         } else {
             sunlight.setColor(Color.rgb(0, 0, 0));
         }
 
-        System.out.println(time);
+
 
         // position the sun relative to the player's position
         // the sun is a full 180 degrees (pi) away from the moon, so the sin and cos values are flipped on the sun compared to the moon
@@ -132,20 +139,20 @@ public class SkyboxUtil {
     }
 
     private void rotateMoon(double time, double dist) {
-        double sin = Math.sin(time / (1000.0 * day_length_multiplier));
+        double sin = Math.sin(time);
         double sindist = sin * dist;
-        double cos = Math.cos(time / (1000.0 * day_length_multiplier));
+        double cos = Math.cos(time);
         double cosdist = cos * dist;
 
         // complement to the offset set on the sun.
         // this way, we check if the sun has already set, if so, we subtract the multiplier from the sun and multiply by 2
         // to achieve a value from 0 to 1 which we will use for calculating the intensity of the moon light
         // TODO? use the .5 as a variable multiplier?
-        if (sin >= .5) {
-            sin -= .5;
-            sin *= 2;
-            moonlight.setColor(Color.rgb((int) (mooncolor.getRed() * sin * 255), (int) (mooncolor.getGreen() * sin * 255), (int) (mooncolor.getBlue() * sin * 255)));
-            context.context.SCENE_GAME.setFill(Color.rgb((int) (nightskycolor.getRed() * sin * 255), (int) (nightskycolor.getGreen() * sin * 255), (int) (nightskycolor.getBlue() * sin * 255)));
+        if (sin >= sun_offset) {
+            sin -= sun_offset;
+//            sin *= (1/sun_offset);
+            moonlight.setColor(Color.rgb((int) (sin*((sunset_color.getRed() * (1-sin)* 255) + (mooncolor.getRed() * sin * 255))), (int) (sin*((sunset_color.getGreen() * (1-sin)* 255) + (mooncolor.getGreen() * sin * 255))), (int) (sin*(sunset_color.getBlue() * (1-sin)* 255) + (mooncolor.getBlue() * sin * 255))));
+            context.context.SCENE_GAME.setFill(Color.rgb((int)((sunset_color.getRed() * (1-sin)* 255) +  (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1-sin)* 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1-sin)* 255) + (nightskycolor.getBlue() * sin * 255))));
         } else {
             moonlight.setColor(Color.rgb(0, 0, 0));
         }
