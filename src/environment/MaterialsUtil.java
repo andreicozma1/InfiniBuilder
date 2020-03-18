@@ -18,6 +18,7 @@ public class MaterialsUtil {
     public static PhongMaterial purple;
     public static PhongMaterial sun;
     public static PhongMaterial moon;
+    public static PhongMaterial big_star;
 
     public MaterialsUtil() {
         setupMaterials();
@@ -54,6 +55,9 @@ public class MaterialsUtil {
         moon.setDiffuseMap(new Image("https://i.pinimg.com/originals/3e/dc/e0/3edce08472326f054d5b3f004ebf08f6.jpg"));
         moon.setSelfIlluminationMap(new Image("https://i.pinimg.com/originals/3e/dc/e0/3edce08472326f054d5b3f004ebf08f6.jpg"));
 
+        big_star = new PhongMaterial();
+        big_star.setDiffuseMap(new Image("https://static-2.gumroad.com/res/gumroad/4089599447559/asset_previews/91db5f8dafb5cfab14d9a85c83d1b6e3/retina/planet_Arnessk1200.png"));
+        big_star.setSelfIlluminationMap(new Image("https://static-2.gumroad.com/res/gumroad/4089599447559/asset_previews/91db5f8dafb5cfab14d9a85c83d1b6e3/retina/planet_Arnessk1200.png"));
 
         blue = new PhongMaterial();
         blue.setDiffuseColor(Color.BLUE);

@@ -12,10 +12,11 @@ public class SkyboxUtil {
     private Group group_skybox;
 
     private AmbientLight ambient = null;
-    private int day_length_multiplier = 5;
+    private int day_length_multiplier = 30;
     private double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
-    private double sun_rotation_speed = .2;
+    private double sun_rotation_speed = .1;
     private double moon_rotation_speed = .2;
+    private double big_star_rotate_speed = .05;
 
     public static final int MODE_CYCLE = 0;
     public static final int MODE_DAY = 1;
@@ -39,6 +40,10 @@ public class SkyboxUtil {
     Color mooncolor;
     Color nightskycolor;
 
+    private Sphere big_star;
+    private Rotate big_star_rotate;
+    private double big_star_distance;
+
     /**
      * Constructor for SkyboxUtil. This initializes
      *
@@ -54,8 +59,8 @@ public class SkyboxUtil {
         sun = new Sphere();
         sunlight = new PointLight();
         sunlight.setDepthTest(DepthTest.ENABLE);
-        setSunScale(500);
-        setSunDistance(3000);
+        setSunScale(800);
+        setSunDistance(8000);
         setSunMaterial(MaterialsUtil.sun);
         setSunlightColor(Color.WHITE);
         setDaySkyColor(Color.rgb(135, 206, 235));
@@ -65,15 +70,25 @@ public class SkyboxUtil {
         moon = new Sphere();
         moonlight = new PointLight();
         moonlight.setDepthTest(DepthTest.ENABLE);
-        setMoonScale(200);
-        setMoonDistance(3000);
+        setMoonScale(300);
+        setMoonDistance(5000);
         setMoonMaterial(MaterialsUtil.moon);
         setMoonlightColor(Color.rgb(20, 20, 60));
         setNightSkyColor(Color.rgb(10, 10, 35));
         moon_rotate = new Rotate(0, new Point3D(0, 1, 0));
         moon.getTransforms().setAll(moon_rotate);
 
-        group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight);
+
+        big_star = new Sphere();
+        big_star.setMaterial(MaterialsUtil.big_star);
+        big_star.setScaleX(1000);
+        big_star.setScaleY(1000);
+        big_star.setScaleZ(1000);
+        big_star_distance = 4000;
+        big_star_rotate = new Rotate(0, new Point3D(0, 1, 0));
+        big_star.getTransforms().setAll(big_star_rotate);
+
+        group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight,big_star);
     }
 
     /**
@@ -81,26 +96,30 @@ public class SkyboxUtil {
      */
 
     private double time = -1; // set as default to -1 to track whether the user set it manually
-    // if set manually then just use it like that;
+    // if this variable is not -1, use this value as the game_time value
 
     void update_handler() {
 
-        if (time == -1) {
+        double game_time;
             switch (MODE_CURR) {
                 case MODE_DAY:
-                    time = Math.PI / 2;
+                    game_time = Math.PI / 2;
                     break;
                 case MODE_NIGHT:
-                    time = -Math.PI / 2;
+                    game_time = -Math.PI / 2;
                     break;
                 default:
-                    time = System.currentTimeMillis() / (1000.0 * day_length_multiplier);
+                    if(time == -1){
+                        game_time = System.currentTimeMillis() / (1000.0 * day_length_multiplier);
+                    } else{
+                        game_time = time;
+                    }
                     break;
             }
-        }
 
-        rotateSun(time, sun_distance);
-        rotateMoon(time, moon_distance);
+        rotateSun(game_time, sun_distance);
+        rotateMoon(game_time, moon_distance);
+        rotateBigStar(game_time,big_star_distance);
     }
 
 
@@ -144,7 +163,20 @@ public class SkyboxUtil {
         sun_rotate.setAngle(sun_rotate.getAngle() + sun_rotation_speed);
     }
 
-    private void rotateMoon(double time, double dist) {
+
+    private void rotateBigStar(double time, double dist) {
+        double sin = Math.sin(time/15);
+        double sindist = sin * dist;
+        double cos = Math.cos(time/15);
+        double cosdist = cos * dist;
+        big_star.setTranslateX(sindist + context.context.getPlayer().getX());
+        big_star.setTranslateY(sindist);
+        big_star.setTranslateZ(cosdist + context.context.getPlayer().getZ());
+        big_star_rotate.setAngle(big_star_rotate.getAngle() + big_star_rotate_speed);
+    }
+
+
+        private void rotateMoon(double time, double dist) {
         double sin = Math.sin(time);
         double sindist = sin * dist;
         double cos = Math.cos(time);
