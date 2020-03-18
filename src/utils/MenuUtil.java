@@ -1,28 +1,27 @@
 package utils;
 
-import resources.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
 
 
 public class MenuUtil {
     Scene menuScene;
     WindowUtil context;
     GroupBuilder mainMenu;
+    GroupBuilder settingsMenu;
     GroupBuilder controlsMenu;
-    GroupBuilder optionsMenu;
     GroupBuilder aboutMenu;
     GroupBuilder exitButton;
+
+    private Color GREEN = Color.valueOf("#20C20E");
 
     //    harvard colors
     private Color BACKDROP = Color.valueOf("#1a1831");
@@ -51,8 +50,8 @@ public class MenuUtil {
 //    private Color TEXT_BOX = Color.valueOf("#eeeeee");
 
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
-    public static String GROUP_CONTROLS = "GROUP_HIGH_SCORES";
-    public static String GROUP_OPTIONS = "GROUP_OPTIONS";
+    public static String GROUP_CONTROLS = "GROUP_CONTROLS";
+    public static String GROUP_SETTINGS = "GROUP_SETTINGS";
     public static String GROUP_ABOUT = "GROUP_ABOUT";
     public static String GROUP_EXIT = "GROUP_EXIT";
 
@@ -61,21 +60,21 @@ public class MenuUtil {
     MenuUtil(WindowUtil ctx) {
         context = ctx;
         mainMenu = new GroupBuilder();
+        settingsMenu = new GroupBuilder();
         controlsMenu = new GroupBuilder();
-        optionsMenu = new GroupBuilder();
         aboutMenu = new GroupBuilder();
         exitButton = new GroupBuilder();
 
         menuScene = new Scene(mainMenu.getGroup(),context.WIDTH,context.HEIGHT);
         buildMainMenu();
         buildControlsMenu();
-        buildOptionsMenu();
+        buildSettingsMenu();
         buildAboutMenu();
 
 
         context.addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
+        context.addGroup(GROUP_SETTINGS, settingsMenu.getGroup());
         context.addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
-        context.addGroup(GROUP_OPTIONS, optionsMenu.getGroup());
         context.addGroup(GROUP_ABOUT, aboutMenu.getGroup());
         context.addGroup(GROUP_EXIT, exitButton.getGroup());
 
@@ -85,109 +84,147 @@ public class MenuUtil {
 
 
     public void buildMainMenu() {
+        // set fonts
+        int fontNum = 2;
 
-        // create a new box
-        Box b = new Box();
-        Rotate rxBox = new Rotate(0, 0, 0, 0, Rotate.X_AXIS);
-        Rotate ryBox = new Rotate(0, 0, 0, 0, Rotate.Y_AXIS);
-        Rotate rzBox = new Rotate(0, 0, 0, 0, Rotate.Z_AXIS);
-        rxBox.setAngle(30);
-        ryBox.setAngle(50);
-        rzBox.setAngle(30);
-        b.getTransforms().addAll(rxBox, ryBox, rzBox);
-        b.setMaterial(ResourcesUtil.grass);
-        b.setDepth(50);
-        b.setHeight(50);
-        b.setWidth(50);
-        mainMenu.drawBox(b, 350, 250);
+        String singleArrow = ">";
+        String doubleArrow = ">>";
 
-        mainMenu.drawRectangle(-20,180,250,330,20,20,Color.DARKBLUE);
+        Font title = Font.font("Monospaced",FontWeight.BOLD,FontPosture.REGULAR,30);
+        Font options = Font.font("Monospaced",FontWeight.NORMAL,FontPosture.REGULAR,25);
+        Font boldedOptions = Font.font("Monospaced",FontWeight.BOLD,FontPosture.REGULAR,25);
 
-        // go to game button
-        Rectangle gotoGame = mainMenu.drawRectangle(-20, 200, 200, 50, 20, 20, Color.LIGHTBLUE);
-        gotoGame.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        // draw black backdrop
+        mainMenu.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, Color.BLACK);
+
+        //draw title
+        mainMenu.drawText("ROOT@CS307:~$",
+                50,
+                50,
+                GREEN,
+                title);
+
+        mainMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+
+        // Start button handler
+        Text startArrow = mainMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text startText = mainMenu.drawText("./Start_Game", 95, 140, Color.WHITE, options);
+        Rectangle startHitBox = mainMenu.drawRectangle(50,120,225,30,0,0,Color.TRANSPARENT);
+        startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { context.showScene(context.SCENE_GAME); }
                 });
-        Text gameText = mainMenu.drawText("Start Game", 20, 230, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        gameText.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.showScene(context.SCENE_GAME); }
+                    public void handle(MouseEvent me) {
+                        startArrow.setText(doubleArrow);
+                        startText.setFill(GREEN);
+                    }
                 });
-        gotoGame.setCursor(Cursor.HAND);
-        gameText.setCursor(Cursor.HAND);
+        startHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        startArrow.setText(singleArrow);
+                        startText.setFill(Color.WHITE);
+                    }
+                });
 
-        // go to high score button
-        Rectangle gotoHighScoreMenu = mainMenu.drawRectangle(-20, 260, 200, 50, 20, 20, Color.LIGHTBLUE);
-        gotoHighScoreMenu.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        //options handler
+        Text settingsArrow = mainMenu.drawText(singleArrow, 50, 190, GREEN, options);
+        Text settingsText = mainMenu.drawText("./Settings", 95, 190, Color.WHITE, options);
+        Rectangle settingsHitBox = mainMenu.drawRectangle(50,170,225,30,0,0,Color.TRANSPARENT);
+        settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { context.activateGroup(GROUP_SETTINGS); }
+                });
+        settingsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_CONTROLS);
+                        settingsArrow.setText(doubleArrow);
+                        settingsText.setFill(GREEN);
                     }
                 });
-        Text highScoreText = mainMenu.drawText("Controls", 20, 290, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        highScoreText.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        settingsHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_CONTROLS);
+                        settingsArrow.setText(singleArrow);
+                        settingsText.setFill(Color.WHITE);
                     }
                 });
-        gotoHighScoreMenu.setCursor(Cursor.HAND);
-        highScoreText.setCursor(Cursor.HAND);
 
-        // go to settings button
-        Rectangle gotoOptionsMenu = mainMenu.drawRectangle(-20, 320, 200, 50, 20, 20, Color.LIGHTBLUE);
-        gotoOptionsMenu.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_OPTIONS);
-                    }
-                });
-        Text optionsText = mainMenu.drawText("Options", 20, 350, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        optionsText.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_OPTIONS);
-                    }
-                });
-        gotoOptionsMenu.setCursor(Cursor.HAND);
-        optionsText.setCursor(Cursor.HAND);
 
-        // go to settings button
-        Rectangle gotoAboutMenu = mainMenu.drawRectangle(-20, 380, 200, 50, 20, 20, Color.LIGHTBLUE);
-        gotoAboutMenu.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        //controls handler
+        Text controlsArrow = mainMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text controlsText = mainMenu.drawText("./Controls", 95, 240, Color.WHITE, options);
+        Rectangle controlsHitBox = mainMenu.drawRectangle(50,220,225,30,0,0,Color.TRANSPARENT);
+        controlsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { context.activateGroup(GROUP_CONTROLS); }
+                });
+        controlsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_ABOUT);
+                        controlsArrow.setText(doubleArrow);
+                        controlsText.setFill(GREEN);
                     }
                 });
-        Text aboutText = mainMenu.drawText("About", 20, 410, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        aboutText.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        controlsHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_ABOUT);
+                        controlsArrow.setText(singleArrow);
+                        controlsText.setFill(Color.WHITE);
                     }
                 });
-        gotoAboutMenu.setCursor(Cursor.HAND);
-        aboutText.setCursor(Cursor.HAND);
 
-        Rectangle gotoExitButton = mainMenu.drawRectangle(-20, 440, 200, 50, 20, 20, Color.LIGHTBLUE);
-        gotoExitButton.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        //about handler
+        Text aboutArrow = mainMenu.drawText(singleArrow, 50, 290, GREEN, options);
+        Text aboutText = mainMenu.drawText("./About", 95, 290, Color.WHITE, options);
+        Rectangle aboutHitBox = mainMenu.drawRectangle(50,270,225,30,0,0,Color.TRANSPARENT);
+        aboutHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { context.activateGroup(GROUP_ABOUT); }
+                });
+        aboutHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        context.getStage().close();
+                        aboutArrow.setText(doubleArrow);
+                        aboutText.setFill(GREEN);
                     }
                 });
-        Text exitText = mainMenu.drawText("Exit", 20, 470, Color.DARKBLUE, Font.font("vedana", FontWeight.BOLD, FontPosture.REGULAR, 20));
-        exitText.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        aboutHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        context.getStage().close();
+                        aboutArrow.setText(singleArrow);
+                        aboutText.setFill(Color.WHITE);
                     }
                 });
-        gotoExitButton.setCursor(Cursor.HAND);
-        exitText.setCursor(Cursor.HAND);
 
+        //quit handler
+        Text quitArrow = mainMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text quitText = mainMenu.drawText("./Quit", 95, 340, Color.WHITE, options);
+        Rectangle quitHitBox = mainMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { context.getStage().close(); }
+                });
+        quitHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        quitArrow.setText(doubleArrow);
+                        quitText.setFill(GREEN);
+                    }
+                });
+        quitHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        quitArrow.setText(singleArrow);
+                        quitText.setFill(Color.WHITE);
+                    }
+                });
 
     }
 
@@ -205,9 +242,9 @@ public class MenuUtil {
 
     }
 
-    public void buildOptionsMenu() {
-        drawBasicMenuLayout(optionsMenu);
-        optionsMenu.drawText("Options", 330, 60, BACKDROP, Font.font("vedana", FontWeight.BOLD , FontPosture.REGULAR, 30));
+    public void buildSettingsMenu() {
+        drawBasicMenuLayout(settingsMenu);
+        settingsMenu.drawText("Settings", 330, 60, BACKDROP, Font.font("vedana", FontWeight.BOLD , FontPosture.REGULAR, 30));
     }
 
     public void buildAboutMenu() {
