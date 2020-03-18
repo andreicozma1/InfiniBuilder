@@ -8,7 +8,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.CullFace;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
-import resources.MaterialsUtil;
+import resources.ResourcesUtil;
 
 public class SkyboxUtil {
     private EnvironmentUtil context;
@@ -71,7 +71,7 @@ public class SkyboxUtil {
         sunlight.setDepthTest(DepthTest.ENABLE);
         setSunScale(1000);
         setSunDistance(context.planet_diameter + clouds_height + 5000);
-        setSunMaterial(MaterialsUtil.sun);
+        setSunMaterial(ResourcesUtil.sun);
         setSunlightColor(Color.WHITE);
         setDaySkyColor(Color.rgb(135, 206, 235));
         sun_rotate = new Rotate(0, new Point3D(0, 1, 0));
@@ -82,7 +82,7 @@ public class SkyboxUtil {
         moonlight.setDepthTest(DepthTest.ENABLE);
         setMoonScale(500);
         setMoonDistance(context.planet_diameter + clouds_height + 3000);
-        setMoonMaterial(MaterialsUtil.moon);
+        setMoonMaterial(ResourcesUtil.moon);
         setMoonlightColor(Color.rgb(20, 20, 60));
         setNightSkyColor(Color.rgb(10, 10, 35));
         moon_rotate = new Rotate(0, new Point3D(0, 1, 0));
@@ -90,7 +90,7 @@ public class SkyboxUtil {
 
 
         big_star = new Sphere();
-        big_star.setMaterial(MaterialsUtil.big_star);
+        big_star.setMaterial(ResourcesUtil.big_star);
         big_star_scale = 2000;
         big_star.setScaleX(big_star_scale);
         big_star.setScaleY(big_star_scale);
@@ -102,7 +102,7 @@ public class SkyboxUtil {
 
         clouds = new Sphere();
         clouds.setCullFace(CullFace.FRONT);
-        clouds.setMaterial(MaterialsUtil.clouds);
+        clouds.setMaterial(ResourcesUtil.clouds);
         clouds_height = 800;
         clouds.setTranslateY(context.planet_diameter - clouds_height);
         clouds.setScaleX(context.planet_diameter + clouds_height);

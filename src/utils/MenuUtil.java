@@ -1,6 +1,6 @@
 package utils;
 
-import resources.MaterialsUtil;
+import resources.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
@@ -95,7 +95,7 @@ public class MenuUtil {
         ryBox.setAngle(50);
         rzBox.setAngle(30);
         b.getTransforms().addAll(rxBox, ryBox, rzBox);
-        b.setMaterial(MaterialsUtil.grass);
+        b.setMaterial(ResourcesUtil.grass);
         b.setDepth(50);
         b.setHeight(50);
         b.setWidth(50);

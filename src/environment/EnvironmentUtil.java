@@ -5,7 +5,7 @@ import javafx.scene.*;
 import javafx.scene.shape.Box;
 import algorithms.SimplexUtil;
 import models.ModelUtil;
-import resources.MaterialsUtil;
+import resources.ResourcesUtil;
 import utils.WindowUtil;
 
 import java.util.HashMap;
@@ -111,7 +111,7 @@ public class EnvironmentUtil {
         b.getChildren().add(box);
 
         if(y < - 180){
-            box.setMaterial(MaterialsUtil.stone);
+            box.setMaterial(ResourcesUtil.stone);
             if(terrain_should_generate_vegetation && Math.random() > .995) {
                 StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"peak","rock"});
                 tree.setScale(15 + Math.random() * 20);
@@ -120,7 +120,7 @@ public class EnvironmentUtil {
                 b.getChildren().add(tree);
             }
         } else if(y < -50){
-            box.setMaterial(MaterialsUtil.moss);
+            box.setMaterial(ResourcesUtil.moss);
             if(terrain_should_generate_vegetation && Math.random() > .97) {
                 StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"mountain","rock"});
                 tree.setScale(15 + Math.random() * 20);
@@ -129,7 +129,7 @@ public class EnvironmentUtil {
                 b.getChildren().add(tree);
             }
         } else if(y < 100){
-            box.setMaterial(MaterialsUtil.grass);
+            box.setMaterial(ResourcesUtil.grass);
             if(terrain_should_generate_vegetation && Math.random() > .97){
                 StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"plains","rock","veg"});
                 tree.setScale(15 + Math.random() * 20);
@@ -139,7 +139,7 @@ public class EnvironmentUtil {
 //                placeObject(new Point3D(x,y,z),tree,false);
             }
         } else  if(y < 200){
-            box.setMaterial(MaterialsUtil.sand);
+            box.setMaterial(ResourcesUtil.sand);
             if(terrain_should_generate_vegetation && Math.random() > .99) {
                 StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"desert","cactus","dead"});
                 tree.setScale(15 + Math.random() * 20);
@@ -148,7 +148,7 @@ public class EnvironmentUtil {
                 b.getChildren().add(tree);
             }
         } else{
-            box.setMaterial(MaterialsUtil.dirt);
+            box.setMaterial(ResourcesUtil.dirt);
             if(terrain_should_generate_vegetation && Math.random() > .99) {
                 StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"dirt","rock","moss"});
                 tree.setScale(15 + Math.random() * 20);

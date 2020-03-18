@@ -1,5 +1,5 @@
 import environment.EnvironmentUtil;
-import resources.MaterialsUtil;
+import resources.ResourcesUtil;
 import environment.SkyboxUtil;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -21,7 +21,7 @@ public class MainExecution extends Application {
         System.out.println("MainExecution");
 
         // set up needed Utils for the game
-        MaterialsUtil materials = new MaterialsUtil();
+        ResourcesUtil materials = new ResourcesUtil();
         WindowUtil window = new WindowUtil(primaryStage, 800, 600);
         CameraUtil camera = new CameraUtil(window);
         ControlsUtil controls = new ControlsUtil(window);

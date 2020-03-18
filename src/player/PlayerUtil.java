@@ -1,6 +1,6 @@
 package player;
 
-import resources.MaterialsUtil;
+import resources.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -220,7 +220,7 @@ public class PlayerUtil {
 
         DrawCube box = new DrawCube();
         box.setScale(context.getEnvironment().getBlockDim());
-        box.getBox().setMaterial(MaterialsUtil.stone);
+        box.getBox().setMaterial(ResourcesUtil.stone);
 
 
         /*
