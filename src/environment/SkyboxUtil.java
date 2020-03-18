@@ -15,7 +15,7 @@ public class SkyboxUtil {
     private Group group_skybox;
 
     private AmbientLight ambient = null;
-    private int day_length_multiplier = 30;
+    private int day_length_multiplier = 140;
     private double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
     private double sun_rotation_speed = .1;
     private double moon_rotation_speed = .2;
@@ -49,6 +49,7 @@ public class SkyboxUtil {
     private double big_star_distance;
 
     private Sphere clouds;
+    private double clouds_rotate_speed;
     private Rotate clouds_rotate_x;
     private Rotate clouds_rotate_y;
     private Rotate clouds_rotate_z;
@@ -66,27 +67,24 @@ public class SkyboxUtil {
 
         sunset_color = Color.rgb(253, 94, 83);
 
-        sun = new Sphere();
-        sunlight = new PointLight();
-        sunlight.setDepthTest(DepthTest.ENABLE);
-        setSunScale(1000);
-        setSunDistance(context.planet_diameter + clouds_height + 5000);
-        setSunMaterial(ResourcesUtil.sun);
-        setSunlightColor(Color.WHITE);
-        setDaySkyColor(Color.rgb(135, 206, 235));
-        sun_rotate = new Rotate(0, new Point3D(0, 1, 0));
-        sun.getTransforms().setAll(sun_rotate);
+        clouds_height = 800;
 
-        moon = new Sphere();
-        moonlight = new PointLight();
-        moonlight.setDepthTest(DepthTest.ENABLE);
-        setMoonScale(500);
-        setMoonDistance(context.planet_diameter + clouds_height + 3000);
-        setMoonMaterial(ResourcesUtil.moon);
-        setMoonlightColor(Color.rgb(20, 20, 60));
-        setNightSkyColor(Color.rgb(10, 10, 35));
-        moon_rotate = new Rotate(0, new Point3D(0, 1, 0));
-        moon.getTransforms().setAll(moon_rotate);
+        clouds = new Sphere();
+        clouds.setCullFace(CullFace.NONE);
+        clouds.setMaterial(ResourcesUtil.clouds);
+        clouds_rotate_speed = 0.001;
+        clouds.setTranslateY(context.planet_diameter - clouds_height);
+        clouds.setScaleX(context.planet_diameter + clouds_height);
+        clouds.setScaleY(context.planet_diameter + clouds_height);
+        clouds.setScaleZ(context.planet_diameter + clouds_height);
+        clouds.setEffect(new GaussianBlur(5));
+
+
+        clouds_rotate_x = new Rotate(90, new Point3D(1,0,0));
+        clouds_rotate_y = new Rotate(0, new Point3D(0,1,0));
+        clouds_rotate_z = new Rotate(0, new Point3D(0,0,1));
+        clouds.getTransforms().setAll(clouds_rotate_x,clouds_rotate_y,clouds_rotate_z);
+
 
 
         big_star = new Sphere();
@@ -100,21 +98,28 @@ public class SkyboxUtil {
         big_star.getTransforms().setAll(big_star_rotate);
 
 
-        clouds = new Sphere();
-        clouds.setCullFace(CullFace.FRONT);
-        clouds.setMaterial(ResourcesUtil.clouds);
-        clouds_height = 800;
-        clouds.setTranslateY(context.planet_diameter - clouds_height);
-        clouds.setScaleX(context.planet_diameter + clouds_height);
-        clouds.setScaleY(context.planet_diameter + clouds_height);
-        clouds.setScaleZ(context.planet_diameter + clouds_height);
-        clouds.setEffect(new GaussianBlur(5));
+        moon = new Sphere();
+        moonlight = new PointLight();
+        moonlight.setDepthTest(DepthTest.ENABLE);
+        setMoonScale(500);
+        setMoonDistance(context.planet_diameter + clouds_height + 3000);
+        setMoonMaterial(ResourcesUtil.moon);
+        setMoonlightColor(Color.rgb(20, 20, 60));
+        setNightSkyColor(Color.rgb(10, 10, 35));
+        moon_rotate = new Rotate(0, new Point3D(0, 1, 0));
+        moon.getTransforms().setAll(moon_rotate);
 
 
-        clouds_rotate_x = new Rotate(90, new Point3D(1,0,0));
-        clouds_rotate_y = new Rotate(0, new Point3D(0,1,0));
-        clouds_rotate_z = new Rotate(0, new Point3D(0,0,1));
-        clouds.getTransforms().setAll(clouds_rotate_x,clouds_rotate_y,clouds_rotate_z);
+        sun = new Sphere();
+        sunlight = new PointLight();
+        sunlight.setDepthTest(DepthTest.ENABLE);
+        setSunScale(1200);
+        setSunDistance(context.planet_diameter + clouds_height + 8000);
+        setSunMaterial(ResourcesUtil.sun);
+        setSunlightColor(Color.WHITE);
+        setDaySkyColor(Color.rgb(135, 206, 235));
+        sun_rotate = new Rotate(0, new Point3D(0, 1, 0));
+        sun.getTransforms().setAll(sun_rotate);
 
 
         group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight,big_star,clouds);
@@ -156,10 +161,8 @@ public class SkyboxUtil {
         clouds.setTranslateX(context.context.getPlayer().getX());
         clouds.setTranslateZ(context.context.getPlayer().getZ());
 
-        clouds_rotate_z.setAngle(clouds_rotate_z.getAngle() + .001);
-        clouds_rotate_y.setAngle(clouds_rotate_y.getAngle() + .001);
-//        clouds_rotate_y.setAngle(clouds_rotate_y.getAngle() + .01);
-//        clouds_rotate_z.setAngle(clouds_rotate_z.getAngle() + .03);
+        clouds_rotate_z.setAngle(clouds_rotate_z.getAngle() + clouds_rotate_speed);
+        clouds_rotate_y.setAngle(clouds_rotate_y.getAngle() + clouds_rotate_speed);
 
     }
 
