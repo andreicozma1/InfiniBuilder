@@ -49,7 +49,7 @@ public class SkyboxUtil {
         group_skybox = new Group();
         MODE_CURR = MODE_CYCLE;
 
-        sunset_color = Color.rgb(253,94,83);
+        sunset_color = Color.rgb(253, 94, 83);
 
         sun = new Sphere();
         sunlight = new PointLight();
@@ -59,7 +59,7 @@ public class SkyboxUtil {
         setSunMaterial(MaterialsUtil.sun);
         setSunlightColor(Color.WHITE);
         setDaySkyColor(Color.rgb(135, 206, 235));
-        sun_rotate = new Rotate(0,new Point3D(0,1,0));
+        sun_rotate = new Rotate(0, new Point3D(0, 1, 0));
         sun.getTransforms().setAll(sun_rotate);
 
         moon = new Sphere();
@@ -70,7 +70,7 @@ public class SkyboxUtil {
         setMoonMaterial(MaterialsUtil.moon);
         setMoonlightColor(Color.rgb(20, 20, 60));
         setNightSkyColor(Color.rgb(10, 10, 35));
-        moon_rotate = new Rotate(0,new Point3D(0,1,0));
+        moon_rotate = new Rotate(0, new Point3D(0, 1, 0));
         moon.getTransforms().setAll(moon_rotate);
 
         group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight);
@@ -79,29 +79,33 @@ public class SkyboxUtil {
     /**
      *
      */
+
+    private double time = -1; // set as default to -1 to track whether the user set it manually
+    // if set manually then just use it like that;
+
     void update_handler() {
 
-        double time;
-        switch (MODE_CURR) {
-            case MODE_DAY:
-                time = Math.PI/2;
-                break;
-            case MODE_NIGHT:
-                time = -Math.PI/2;
-                break;
-            default:
-                time = System.currentTimeMillis()/ (1000.0 * day_length_multiplier);
-                break;
+        if (time == -1) {
+            switch (MODE_CURR) {
+                case MODE_DAY:
+                    time = Math.PI / 2;
+                    break;
+                case MODE_NIGHT:
+                    time = -Math.PI / 2;
+                    break;
+                default:
+                    time = System.currentTimeMillis() / (1000.0 * day_length_multiplier);
+                    break;
+            }
         }
+
         rotateSun(time, sun_distance);
         rotateMoon(time, moon_distance);
     }
 
 
-
-
     private void rotateSun(double time, double dist) {
-        double sin = Math.sin(time );
+        double sin = Math.sin(time);
         double sindist = sin * dist;
         double cos = Math.cos(time);
         double cosdist = cos * dist;
@@ -120,12 +124,11 @@ public class SkyboxUtil {
                 sin = 1;
             }
             System.out.println(sin);
-            sunlight.setColor(Color.rgb((int) (sin*((sunset_color.getRed() * (1-sin)* 255) + (suncolor.getRed() * sin * 255))), (int)(sin*((sunset_color.getGreen() * (1-sin)* 255) + (suncolor.getGreen() * sin * 255))), (int) (sin*((sunset_color.getBlue() * (1-sin)* 255) + (suncolor.getBlue() * sin * 255)))));
-            context.context.SCENE_GAME.setFill(Color.rgb((int) ((sunset_color.getRed() * (1-sin)* 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1-sin)* 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1-sin)* 255) + (dayskycolor.getBlue() * sin * 255))));
+            sunlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (suncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (suncolor.getGreen() * sin * 255))), (int) (sin * ((sunset_color.getBlue() * (1 - sin) * 255) + (suncolor.getBlue() * sin * 255)))));
+            context.context.SCENE_GAME.setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (dayskycolor.getBlue() * sin * 255))));
         } else {
             sunlight.setColor(Color.rgb(0, 0, 0));
         }
-
 
 
         // position the sun relative to the player's position
@@ -154,8 +157,8 @@ public class SkyboxUtil {
         if (sin >= sun_offset_ratio) {
             sin -= sun_offset_ratio;
 //            sin *= (1/sun_offset);
-            moonlight.setColor(Color.rgb((int) (sin*((sunset_color.getRed() * (1-sin)* 255) + (mooncolor.getRed() * sin * 255))), (int) (sin*((sunset_color.getGreen() * (1-sin)* 255) + (mooncolor.getGreen() * sin * 255))), (int) (sin*(sunset_color.getBlue() * (1-sin)* 255) + (mooncolor.getBlue() * sin * 255))));
-            context.context.SCENE_GAME.setFill(Color.rgb((int)((sunset_color.getRed() * (1-sin)* 255) +  (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1-sin)* 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1-sin)* 255) + (nightskycolor.getBlue() * sin * 255))));
+            moonlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (mooncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (mooncolor.getGreen() * sin * 255))), (int) (sin * (sunset_color.getBlue() * (1 - sin) * 255) + (mooncolor.getBlue() * sin * 255))));
+            context.context.SCENE_GAME.setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (nightskycolor.getBlue() * sin * 255))));
         } else {
             moonlight.setColor(Color.rgb(0, 0, 0));
         }
@@ -169,7 +172,7 @@ public class SkyboxUtil {
         moon.setTranslateX(context.context.getPlayer().getX());
         moon.setTranslateZ(-cosdist + context.context.getPlayer().getZ());
 
-        moon_rotate.setAngle(sun_rotate.getAngle() +moon_rotation_speed);
+        moon_rotate.setAngle(sun_rotate.getAngle() + moon_rotation_speed);
 
     }
 
@@ -231,20 +234,24 @@ public class SkyboxUtil {
         }
     }
 
-    void setDay_length_multiplier(int num){
+    void setDay_length_multiplier(int num) {
         day_length_multiplier = num;
     }
 
-    void setSun_offset_ratio(double off){
+    void setSun_offset_ratio(double off) {
         sun_offset_ratio = off;
     }
 
-    void setSun_rotation_speed(double s){
+    void setSun_rotation_speed(double s) {
         sun_rotation_speed = s;
     }
 
-    void setMoon_rotation_speed(double s){
+    void setMoon_rotation_speed(double s) {
         moon_rotation_speed = s;
+    }
+
+    void setTime(double t){
+        time = t;
     }
 
     public Group getGroup() {
