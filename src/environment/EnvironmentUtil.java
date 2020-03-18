@@ -4,8 +4,8 @@ import javafx.geometry.Point2D;
 import javafx.scene.*;
 import javafx.scene.shape.Box;
 import algorithms.SimplexUtil;
-import maze.MazeUtil;
 import models.ModelUtil;
+import resources.MaterialsUtil;
 import utils.WindowUtil;
 
 import java.util.HashMap;
@@ -36,6 +36,8 @@ public class EnvironmentUtil {
 
     private Map<Point2D, Double> terrain_map_height = new HashMap<Point2D,Double>();
     private Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<Point2D,StructureBuilder>();
+
+    public double planet_diameter = 8000;
 
 
     /**

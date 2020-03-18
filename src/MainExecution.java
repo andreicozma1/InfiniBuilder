@@ -1,5 +1,5 @@
 import environment.EnvironmentUtil;
-import environment.MaterialsUtil;
+import resources.MaterialsUtil;
 import environment.SkyboxUtil;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;

@@ -1,18 +1,13 @@
 package player;
 
-import com.sun.scenario.effect.light.SpotLight;
-import environment.MaterialsUtil;
+import resources.MaterialsUtil;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
-import javafx.scene.AmbientLight;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
-import javafx.scene.effect.Light;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
 import objects.DrawCube;
 import utils.PhysicsUtil;
-import environment.StructureBuilder;
 import utils.WindowUtil;
 
 public class PlayerUtil {

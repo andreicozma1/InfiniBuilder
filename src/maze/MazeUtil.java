@@ -1,10 +1,8 @@
 package maze;
 
-import environment.MaterialsUtil;
 import environment.StructureBuilder;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.shape.Box;
 import objects.DrawCube;
 import utils.WindowUtil;
 
