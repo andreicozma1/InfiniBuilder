@@ -1,12 +1,9 @@
 package HUD;
 
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-
 
 
 public class StatusBar extends HUDElement{
@@ -38,7 +35,7 @@ public class StatusBar extends HUDElement{
         this.innerBarPaint = innerBarPaint;
         this.outerBarPaint = outerBarPaint;
 
-        generateStatusBarGroup();
+        generateStatusBar();
     }
 
     // getters
@@ -86,7 +83,7 @@ public class StatusBar extends HUDElement{
     public void setBorderColor(Paint borderColor) { this.borderColor = borderColor; }
     public void setBorder(boolean state) { isBorder = state; }
 
-    private void generateStatusBarGroup(){
+    private void generateStatusBar(){
         double innerWidth = (currStatus/maxStatus) * width;
 
         //draw outer status bar
