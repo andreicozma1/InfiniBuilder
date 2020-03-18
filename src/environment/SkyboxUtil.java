@@ -15,7 +15,7 @@ public class SkyboxUtil {
     private Group group_skybox;
 
     private AmbientLight ambient = null;
-    private int day_length_multiplier = 140;
+    private int day_length_multiplier = 5;
     private double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
     private double sun_rotation_speed = .1;
     private double moon_rotation_speed = .2;
@@ -163,7 +163,8 @@ public class SkyboxUtil {
 
         clouds_rotate_z.setAngle(clouds_rotate_z.getAngle() + clouds_rotate_speed);
         clouds_rotate_y.setAngle(clouds_rotate_y.getAngle() + clouds_rotate_speed);
-
+//System.out.println((Math.sin(time) + 1)/2);
+//        clouds.opacityProperty().setValue((Math.sin(time) + 1)/2);
     }
 
     private void rotateSun(double time, double dist) {
@@ -185,7 +186,7 @@ public class SkyboxUtil {
             if (sin > 1) {
                 sin = 1;
             }
-            System.out.println(sin);
+//            System.out.println(sin);
             sunlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (suncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (suncolor.getGreen() * sin * 255))), (int) (sin * ((sunset_color.getBlue() * (1 - sin) * 255) + (suncolor.getBlue() * sin * 255)))));
             context.context.SCENE_GAME.setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (dayskycolor.getBlue() * sin * 255))));
         } else {

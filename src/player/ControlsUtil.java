@@ -49,9 +49,6 @@ public class ControlsUtil {
         game_scene.setOnMousePressed(event -> {
             switch (event.getButton()) {
                 case PRIMARY:
-
-
-
                     context.getPlayer().placeObject();
                     break;
             }

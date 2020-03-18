@@ -1,5 +1,7 @@
 package player;
 
+import javafx.scene.effect.BlendMode;
+import javafx.scene.shape.CullFace;
 import resources.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
@@ -220,7 +222,8 @@ public class PlayerUtil {
 
         DrawCube box = new DrawCube();
         box.setScale(context.getEnvironment().getBlockDim());
-        box.getBox().setMaterial(ResourcesUtil.stone);
+        box.getBox().setCullFace(CullFace.NONE);
+        box.getBox().setMaterial(ResourcesUtil.water);
 
 
         /*

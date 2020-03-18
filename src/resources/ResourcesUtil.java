@@ -22,6 +22,7 @@ public class ResourcesUtil {
     public static PhongMaterial moon;
     public static PhongMaterial big_star;
     public static PhongMaterial clouds;
+    public static PhongMaterial water;
 
     public ResourcesUtil() {
         setupMaterials();
@@ -63,6 +64,9 @@ public class ResourcesUtil {
 
         clouds = new PhongMaterial();
         clouds.setDiffuseMap(getImage("textures/clouds.png"));
+
+        water = new PhongMaterial();
+        water.setDiffuseMap(getImage("textures/water.jpg"));
 
         blue = new PhongMaterial();
         blue.setDiffuseColor(Color.BLUE);

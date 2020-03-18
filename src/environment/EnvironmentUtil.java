@@ -4,7 +4,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.*;
 import javafx.scene.shape.Box;
 import algorithms.SimplexUtil;
+import javafx.scene.shape.CullFace;
 import models.ModelUtil;
+import objects.DrawCube;
 import resources.ResourcesUtil;
 import utils.WindowUtil;
 
@@ -38,6 +40,7 @@ public class EnvironmentUtil {
     private Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<Point2D,StructureBuilder>();
 
     public double planet_diameter = 8000;
+    public double water_level = 203;
 
 
     /**
@@ -102,7 +105,6 @@ public class EnvironmentUtil {
     public StructureBuilder create_platform(double x, double y, double z) {
 
         StructureBuilder b = new StructureBuilder();
-        b.setTranslateXYZ(x,y,z);
         Box box = new Box();
         box.setWidth(terrain_block_width);
         box.setHeight(terrain_block_height);
@@ -149,14 +151,27 @@ public class EnvironmentUtil {
             }
         } else{
             box.setMaterial(ResourcesUtil.dirt);
+if(y > water_level){
+    DrawCube water = new DrawCube();
+    water.setScaleXYZ(getBlockDim(),.01,getBlockDim());
+    water.getBox().setMaterial(ResourcesUtil.water);
+    water.getBox().setCullFace(CullFace.BACK);
+    water.setTranslateY(-y + water_level - getBlockDim()/2);
+    b.getChildren().add(water);
+}
+
             if(terrain_should_generate_vegetation && Math.random() > .99) {
                 StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"dirt","rock","moss"});
                 tree.setScale(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight()/2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
+
+
                 b.getChildren().add(tree);
             }
         }
+
+        b.setTranslateXYZ(x,y,z);
 
         return b;
     }
