@@ -21,6 +21,12 @@ public class MenuUtil {
     GroupBuilder aboutMenu;
     GroupBuilder exitButton;
 
+    private String singleArrow = ">";
+    private String doubleArrow = ">>";
+
+    private Font title = Font.font("Monospaced",FontWeight.BOLD,FontPosture.REGULAR,30);
+    private Font options = Font.font("Monospaced",FontWeight.NORMAL,FontPosture.REGULAR,25);
+
     private Color GREEN = Color.valueOf("#20C20E");
 
     //    harvard colors
@@ -84,15 +90,6 @@ public class MenuUtil {
 
 
     public void buildMainMenu() {
-        // set fonts
-        int fontNum = 2;
-
-        String singleArrow = ">";
-        String doubleArrow = ">>";
-
-        Font title = Font.font("Monospaced",FontWeight.BOLD,FontPosture.REGULAR,30);
-        Font options = Font.font("Monospaced",FontWeight.NORMAL,FontPosture.REGULAR,25);
-        Font boldedOptions = Font.font("Monospaced",FontWeight.BOLD,FontPosture.REGULAR,25);
 
         // draw black backdrop
         mainMenu.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, Color.BLACK);
@@ -225,58 +222,131 @@ public class MenuUtil {
                         quitText.setFill(Color.WHITE);
                     }
                 });
-
     }
 
     public void buildControlsMenu() {
-        // draw basic menu
-        drawBasicMenuLayout(controlsMenu);
+        // draw black backdrop
+        controlsMenu.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, Color.BLACK);
 
-        // draw title
-        controlsMenu.drawText("Controls", 32, 65, BORDER_COLOR, Font.font("vedana", FontWeight.EXTRA_BOLD , FontPosture.REGULAR, 55));
+        //draw title
+        controlsMenu.drawText("ROOT@CS307:~$ ./Controls",
+                50,
+                50,
+                GREEN,
+                title);
 
-        // draw information
-        controlsMenu.drawCircle(85,150,5,MAIN_COLOR);
-        controlsMenu.drawText("WASD to move",100,155,MAIN_COLOR, Font.font("vedana", FontWeight.NORMAL, FontPosture.REGULAR, 15));
+        controlsMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
 
-
+        //quit handler
+        Text returnArrow = controlsMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text returnText = controlsMenu.drawText("./Quit", 95, 340, Color.WHITE, options);
+        Rectangle returnHitBox = controlsMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { context.activateGroup(GROUP_MAIN_MENU); }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(doubleArrow);
+                        returnText.setFill(GREEN);
+                    }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(singleArrow);
+                        returnText.setFill(Color.WHITE);
+                    }
+                });
     }
 
     public void buildSettingsMenu() {
-        drawBasicMenuLayout(settingsMenu);
-        settingsMenu.drawText("Settings", 330, 60, BACKDROP, Font.font("vedana", FontWeight.BOLD , FontPosture.REGULAR, 30));
+        // draw black backdrop
+        settingsMenu.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, Color.BLACK);
+
+        //draw title
+        settingsMenu.drawText("ROOT@CS307:~$ ./Settings",
+                50,
+                50,
+                GREEN,
+                title);
+
+        settingsMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+
+        //quit handler
+        Text returnArrow = settingsMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text returnText = settingsMenu.drawText("./Main_Menu", 95, 340, Color.WHITE, options);
+        Rectangle returnHitBox = settingsMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { context.activateGroup(GROUP_MAIN_MENU); }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(doubleArrow);
+                        returnText.setFill(GREEN);
+                    }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(singleArrow);
+                        returnText.setFill(Color.WHITE);
+                    }
+                });
     }
 
     public void buildAboutMenu() {
-        drawBasicMenuLayout(aboutMenu);
-        aboutMenu.drawText("About", 345, 60, BACKDROP, Font.font("vedana", FontWeight.BOLD , FontPosture.REGULAR, 30));
+        // draw black backdrop
+        aboutMenu.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, Color.BLACK);
+
+        //draw title
+        aboutMenu.drawText("ROOT@CS307:~$ ./About",
+                50,
+                50,
+                GREEN,
+                title);
+
+        aboutMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+
+        //quit handler
+        Text quitArrow = aboutMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text quitText = aboutMenu.drawText("./Main_Menu", 95, 340, Color.WHITE, options);
+        Rectangle quitHitBox = aboutMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { context.activateGroup(GROUP_MAIN_MENU); }
+                });
+        quitHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        quitArrow.setText(doubleArrow);
+                        quitText.setFill(GREEN);
+                    }
+                });
+        quitHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        quitArrow.setText(singleArrow);
+                        quitText.setFill(Color.WHITE);
+                    }
+                });
     }
 
     private void drawBasicMenuLayout(GroupBuilder group){
-        // draw menu back drop
-        group.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, BACKDROP);
-//        group.drawRectangle(148,18,context.WIDTH-296,64,0,0,BORDER_COLOR);
-//        group.drawRectangle(152,22,context.WIDTH-304,56,0,20,TEXT_BOX);
-        group.drawRectangle(28,108,context.WIDTH-56,context.HEIGHT-136,0,0,BORDER_COLOR);
-        group.drawRectangle(32,112,context.WIDTH-64,context.HEIGHT-144,0,0,TEXT_BOX);
-
-        // draw exit to Main Menu button
-        group.drawRectangle(298, 513, context.WIDTH-596, 39, 0, 0,BORDER_COLOR);
-        Rectangle gotoExitButton = group.drawRectangle(300, 515, context.WIDTH-600, 35, 0, 0, Color.LIGHTGRAY);
-        gotoExitButton.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_MAIN_MENU);
-                    }
-                });
-        Text exitText = group.drawText("> MAIN MENU", 318, 538, MAIN_COLOR, Font.font("vedana", FontWeight.NORMAL , FontPosture.REGULAR, 18));
-        exitText.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        context.activateGroup(GROUP_MAIN_MENU);
-                    }
-                });
-        gotoExitButton.setCursor(Cursor.HAND);
-        exitText.setCursor(Cursor.HAND);
     }
 }
