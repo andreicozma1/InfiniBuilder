@@ -7,8 +7,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="fxyz3d-0.5.2" level="project" />
-    <orderEntry type="library" name="javafx_mac" level="project" />
-    <orderEntry type="library" name="model_importers" level="project" />
+    <orderEntry type="library" exported="" name="model_importers" level="project" />
+    <orderEntry type="library" exported="" name="lib" level="project" />
+    <orderEntry type="library" exported="" name="lib1" level="project" />
   </component>
 </module>

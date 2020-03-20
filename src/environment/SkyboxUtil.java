@@ -15,7 +15,8 @@ public class SkyboxUtil {
     private Group group_skybox;
 
     private AmbientLight ambient = null;
-    private int day_length_multiplier = 5;
+    private int sun_moon_period_multiplier = 140;
+    private int big_planet_period_multiplier = 140;
     private double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
     private double sun_rotation_speed = .1;
     private double moon_rotation_speed = .2;
@@ -80,11 +81,10 @@ public class SkyboxUtil {
         clouds.setEffect(new GaussianBlur(5));
 
 
-        clouds_rotate_x = new Rotate(90, new Point3D(1,0,0));
-        clouds_rotate_y = new Rotate(0, new Point3D(0,1,0));
-        clouds_rotate_z = new Rotate(0, new Point3D(0,0,1));
-        clouds.getTransforms().setAll(clouds_rotate_x,clouds_rotate_y,clouds_rotate_z);
-
+        clouds_rotate_x = new Rotate(90, new Point3D(1, 0, 0));
+        clouds_rotate_y = new Rotate(0, new Point3D(0, 1, 0));
+        clouds_rotate_z = new Rotate(0, new Point3D(0, 0, 1));
+        clouds.getTransforms().setAll(clouds_rotate_x, clouds_rotate_y, clouds_rotate_z);
 
 
         big_star = new Sphere();
@@ -122,7 +122,7 @@ public class SkyboxUtil {
         sun.getTransforms().setAll(sun_rotate);
 
 
-        group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight,big_star,clouds);
+        group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight, big_star, clouds);
     }
 
     /**
@@ -135,29 +135,29 @@ public class SkyboxUtil {
     void update_handler() {
 
         double game_time;
-            switch (MODE_CURR) {
-                case MODE_DAY:
-                    game_time = Math.PI / 2;
-                    break;
-                case MODE_NIGHT:
-                    game_time = -Math.PI / 2;
-                    break;
-                default:
-                    if(time == -1){
-                        game_time = System.currentTimeMillis() / (1000.0 * day_length_multiplier);
-                    } else{
-                        game_time = time;
-                    }
-                    break;
-            }
+        switch (MODE_CURR) {
+            case MODE_DAY:
+                game_time = Math.PI / 2 * sun_moon_period_multiplier;
+                break;
+            case MODE_NIGHT:
+                game_time = -Math.PI / 2 * sun_moon_period_multiplier;
+                break;
+            default:
+                if (time == -1) {
+                    game_time = System.currentTimeMillis() / (1000.0);
+                } else {
+                    game_time = time;
+                }
+                break;
+        }
 
-        rotateSun(game_time, sun_distance);
-        rotateMoon(game_time, moon_distance);
-        rotateBigStar(game_time,big_star_distance);
+        rotateSun(game_time / sun_moon_period_multiplier, sun_distance);
+        rotateMoon(game_time / sun_moon_period_multiplier, moon_distance);
+        rotateBigStar(game_time / big_planet_period_multiplier, big_star_distance);
         rotateClouds(game_time);
     }
 
-    private void rotateClouds(double time){
+    private void rotateClouds(double time) {
         clouds.setTranslateX(context.context.getPlayer().getX());
         clouds.setTranslateZ(context.context.getPlayer().getZ());
 
@@ -209,9 +209,9 @@ public class SkyboxUtil {
 
 
     private void rotateBigStar(double time, double dist) {
-        double sin = Math.sin(time/15);
+        double sin = Math.sin(time);
         double sindist = sin * dist;
-        double cos = Math.cos(time/15);
+        double cos = Math.cos(time);
         double cosdist = cos * dist;
         big_star.setTranslateX(sindist + context.context.getPlayer().getX());
         big_star.setTranslateY(sindist);
@@ -220,7 +220,7 @@ public class SkyboxUtil {
     }
 
 
-        private void rotateMoon(double time, double dist) {
+    private void rotateMoon(double time, double dist) {
         double sin = Math.sin(time);
         double sindist = sin * dist;
         double cos = Math.cos(time);
@@ -310,8 +310,8 @@ public class SkyboxUtil {
         }
     }
 
-    void setDay_length_multiplier(int num) {
-        day_length_multiplier = num;
+    void setSun_moon_period_multiplier(int num) {
+        sun_moon_period_multiplier = num;
     }
 
     void setSun_offset_ratio(double off) {
@@ -326,7 +326,7 @@ public class SkyboxUtil {
         moon_rotation_speed = s;
     }
 
-    void setTime(double t){
+    void setTime(double t) {
         time = t;
     }
 

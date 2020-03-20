@@ -16,6 +16,7 @@ import utils.*;
 
 public class MainExecution extends Application {
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println("MainExecution");
@@ -32,6 +33,7 @@ public class MainExecution extends Application {
         amb.setColor(Color.rgb(50, 50, 50));
         sky.setAmbientLight(amb);
         envir.setSkyBox(sky);
+
 
         // build the window
         window.buildMenu();
