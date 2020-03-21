@@ -2,15 +2,13 @@ package models;
 
 import com.interactivemesh.jfx.importer.obj.ObjModelImporter;
 import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
-import environment.StructureBuilder;
+import structures.StructureBuilder;
 import javafx.scene.Node;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class ModelUtil {
 

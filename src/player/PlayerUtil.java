@@ -1,15 +1,15 @@
 package player;
 
 import items.weapons.ProjectileUtil;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.shape.CullFace;
 import resources.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
-import objects.DrawCube;
+import structures.DrawCube;
+import structures.DrawSphere;
+import structures.StructureBuilder;
 import utils.PhysicsUtil;
 import utils.WindowUtil;
 
@@ -113,7 +113,11 @@ public class PlayerUtil {
     }
 
     public void shoot(){
-        ProjectileUtil proj = new ProjectileUtil(context.getEnvironment());
+        DrawSphere model = new DrawSphere(2);
+        model.setMaterial(ResourcesUtil.big_star);
+
+        ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), model);
+        proj.setScale(100);
         proj.shoot(5);
     }
 

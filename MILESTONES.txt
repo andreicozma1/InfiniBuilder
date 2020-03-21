@@ -24,7 +24,7 @@ Player:
 - Add the ability to 'equip' items from your inventory (weapons, armor, etc)
 - Add the ability to place the item back into the environment
 Camera:
-- Implement Depth Checking on drawn objects so that they are rendered with the correct priority
+- Implement Depth Checking on drawn structures so that they are rendered with the correct priority
 Movement
 - while in air, your current speed gets decreased by a certain gravity per second squared (-9.81/m/s/s) to simulate gravity
 - Add collision checking with the environment (JavaFX collision implementation or self created implementation?)
@@ -46,7 +46,7 @@ Objects:
 - If the object is destroyable, be able to define the object's health till it is destroyed
 - Add variable in object that tells whether we can pick up the object from the environment and place it in the inventory
 - For certain items (such as weapons), be able to set a damageMultiplier for the damage that is dealt when using that item
-- Certain objects can increase or decrease your stats (health, stamina, etc)
+- Certain structures can increase or decrease your stats (health, stamina, etc)
 Lighting:
 - Add the ability to alter the different parameters and modes of Ambient Light
 - Create a Day-Night cycle by using different Ambient Light colors and intensities
@@ -76,7 +76,7 @@ Completed List:
 - Added SimplexNoise library to use in the future for terrain generation
 - Basic generate terrain functions in EnvironmentUtil
 - map mouse movement. Find deltaX and deltaY on mouse movement to find mouse acceleration. Use this to find the amount the camera/player needs to rotate
-- Implemented an ObjectBuilder parent class which we can create different types of objects we can add to the environment
+- Implemented an ObjectBuilder parent class which we can create different types of structures we can add to the environment
 - Added simple terrain generation based on tiling cubes and being able to customize the tile range and width/height/depth
 - Added classes for WindowUtil,EnvironmentUtil,PlayerUtil,ControlsUtil,CameraUtil,MenuUtil,MaterialsUtil
 - Each one of the component classes are passed in a context through their constructor from which we are able to directly control different aspects of the game from a different class
@@ -85,7 +85,7 @@ Completed List:
 - The WindowUtil object now controls all aspects of the game, such as creating menus, displaying them, creating a player, camera, environment, as well as customizing them
 - Added functionality in ControlsUtil for handling mouse movement, mouse presses and releases, as well as key presses and releases
 - Added the ability to tell which buttons are pressed at the same time in order to perform multiple interactions at once for player movement.
-- Added a Materials class which contains static references to different Materials to be used when rendering different objects on the scene
+- Added a Materials class which contains static references to different Materials to be used when rendering different structures on the scene
 - Implemented basic movement functions in the PlayerUtil class which uses input from the ControlsUtil class.
 - Added a PlayerUtil class which tracks different parameters related to the player, including different movement speeds, current position coordinates, etc
 - The EnvironmentUtil class was added to handle Ambient ligting set on the environment, as well as an addMember function to drop an ObjectBuilder object into the environemnt.

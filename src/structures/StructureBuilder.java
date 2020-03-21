@@ -1,8 +1,6 @@
-package environment;
+package structures;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.shape.Shape3D;
 import utils.PhysicsUtil;
 
 public class StructureBuilder extends Group {

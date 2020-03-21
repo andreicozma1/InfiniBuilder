@@ -14,7 +14,7 @@ Updated Feature TO-DO List on Trello: https://trello.com/b/ghb9XDRV/cs307-final-
 - Added SimplexNoise library to use in the future for terrain generation
 - Basic generate terrain functions in EnvironmentUtil
 - map mouse movement. Find deltaX and deltaY on mouse movement to find mouse acceleration. Use this to find the amount the camera/player needs to rotate
-- Implemented an ObjectBuilder parent class which we can create different types of objects we can add to the environment
+- Implemented an ObjectBuilder parent class which we can create different types of structures we can add to the environment
 - Added simple terrain generation based on tiling cubes and being able to customize the tile range and width/height/depth
 - Added classes for WindowUtil,EnvironmentUtil,PlayerUtil,ControlsUtil,CameraUtil,MenuUtil,MaterialsUtil
 - Each one of the component classes are passed in a context through their constructor from which we are able to directly control different aspects of the game from a different class
@@ -23,14 +23,14 @@ Updated Feature TO-DO List on Trello: https://trello.com/b/ghb9XDRV/cs307-final-
 - The WindowUtil object now controls all aspects of the game, such as creating menus, displaying them, creating a player, camera, environment, as well as customizing them
 - Added functionality in ControlsUtil for handling mouse movement, mouse presses and releases, as well as key presses and releases
 - Added the ability to tell which buttons are pressed at the same time in order to perform multiple interactions at once for player movement.
-- Added a Materials class which contains static references to different Materials to be used when rendering different objects on the scene
+- Added a Materials class which contains static references to different Materials to be used when rendering different structures on the scene
 - Implemented basic movement functions in the PlayerUtil class which uses input from the ControlsUtil class.
 - Added a PlayerUtil class which tracks different parameters related to the player, including different movement speeds, current position coordinates, etc
 - The EnvironmentUtil class was added to handle Ambient ligting set on the environment, as well as an addMember function to drop an ObjectBuilder object into the environemnt.
 
 ** PERSONALLY ASSIGNED TASKS (RUBRIC - 40PTS) - sorted by urgency:
 * Avg Time to complete: ~30 more hrs
-- (5 pts) Implement Depth Checking when rendering 3D objects on the 2d screen so that they are rendered in the correct order in front of eachother
+- (5 pts) Implement Depth Checking when rendering 3D structures on the 2d screen so that they are rendered in the correct order in front of eachother
 - Basic Environment Generation Improvements (After depth checking is done). Ability to seed the PerlinNoise and SimplexNoise generators, be able to tweak the parameters of these when generating the terrain.
 - (8 pts) Infinite terrain generation. Optimize in a way in which only chunks in a specific radius from the player are generated (or only the front of the player are rendered)
 - (2 pts) Basic collision checking with the environment

@@ -1,8 +1,7 @@
-package objects;
+package structures;
 
 import javafx.scene.paint.Material;
 import javafx.scene.shape.Box;
-import environment.StructureBuilder;
 
 public class DrawCube extends StructureBuilder {
     private Box box;

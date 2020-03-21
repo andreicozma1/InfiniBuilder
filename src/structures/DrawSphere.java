@@ -1,8 +1,7 @@
-package objects;
+package structures;
 
 import javafx.scene.paint.Material;
 import javafx.scene.shape.Sphere;
-import environment.StructureBuilder;
 
 public class DrawSphere extends StructureBuilder {
     private Sphere sphere;
@@ -26,8 +25,6 @@ public class DrawSphere extends StructureBuilder {
     public void setSphereX(double x){sphere.setTranslateX(x);}
     public void setSphereY(double y){sphere.setTranslateY(y);}
     public void setSphereZ(double z){sphere.setTranslateZ(z);}
-
-
 
     public void setMaterial(Material material){
         this.material = material;

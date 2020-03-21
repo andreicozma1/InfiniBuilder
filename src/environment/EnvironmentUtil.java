@@ -6,7 +6,8 @@ import javafx.scene.shape.Box;
 import algorithms.SimplexUtil;
 import javafx.scene.shape.CullFace;
 import models.ModelUtil;
-import objects.DrawCube;
+import structures.DrawCube;
+import structures.StructureBuilder;
 import resources.ResourcesUtil;
 import utils.WindowUtil;
 
