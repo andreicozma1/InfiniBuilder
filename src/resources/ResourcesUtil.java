@@ -23,6 +23,7 @@ public class ResourcesUtil {
     public static PhongMaterial big_star;
     public static PhongMaterial clouds;
     public static PhongMaterial water;
+    public static PhongMaterial metal;
 
     public ResourcesUtil() {
         setupMaterials();
@@ -61,6 +62,8 @@ public class ResourcesUtil {
         big_star.setDiffuseMap(getImage("textures/planet.png"));
         big_star.setSelfIlluminationMap(getImage("textures/planet.png"));
 
+        metal = new PhongMaterial();
+        metal.setDiffuseMap(getImage("textures/metal.jpg"));;
 
         clouds = new PhongMaterial();
         clouds.setDiffuseMap(getImage("textures/clouds.png"));

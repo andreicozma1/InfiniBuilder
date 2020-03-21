@@ -13,8 +13,13 @@ public class StructureBuilder extends Group {
     private boolean solidState = false;
     private boolean physicsState = false;
     private PhysicsUtil physicsUtil;
+    private int type;
+
+    public static int TYPE_OBJECT = 0;
+    public static int TYPE_WEAPON = 1;
 
     public StructureBuilder() {
+        type = TYPE_OBJECT;
     }
 
 
@@ -82,6 +87,13 @@ public class StructureBuilder extends Group {
 
     public double getDepth() {
         return this.getBoundsInParent().getDepth();
+    }
+
+    public void setType(int t){
+        type = t;
+    }
+    public int getType(){
+        return type;
     }
 
 }

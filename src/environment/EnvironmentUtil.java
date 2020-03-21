@@ -21,7 +21,7 @@ public class EnvironmentUtil {
     private SkyboxUtil skybox = null;
     private ModelUtil modelUtil;
 
-    public Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
+    public static Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
     public static Group GROUP_TERRAIN;
     public static Group GROUP_STRUCTURES;
 
@@ -239,16 +239,13 @@ public class EnvironmentUtil {
         }
     }
 
-    public void addToWorldGroup(Group g) {
-        getWorldGroup().getChildren().add(g);
+
+    public void addFromGroup(Group gr, Group member) {
+        gr.getChildren().add(member);
     }
 
-    public void addStructure(StructureBuilder member) {
-        GROUP_STRUCTURES.getChildren().add(member);
-    }
-
-    public void removeStructure(StructureBuilder member) {
-        GROUP_STRUCTURES.getChildren().remove(member);
+    public void removeFromGroup(Group gr,Group member) {
+        gr.getChildren().remove(member);
     }
 
     public ModelUtil getModelUtil() {
@@ -257,7 +254,7 @@ public class EnvironmentUtil {
 
     public void setSkyBox(SkyboxUtil sky) {
         skybox = sky;
-        addToWorldGroup(sky.getGroup());
+        addFromGroup(GROUP_WORLD, sky.getGroup());
     }
 
     public SkyboxUtil getSkybox() {

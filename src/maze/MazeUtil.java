@@ -75,7 +75,7 @@ public class MazeUtil {
             currX =startingX;
             for( j = 0 ; j < mazeCols*2 + 1 ; j++ ) {
                 if(i == 0 || i== mazeRows*2 || j == 0 || j == mazeCols*2 || (i%2==0 && j%2==0)) {
-                    System.out.println("create wall");
+//                    System.out.println("create wall");
                     DrawCube cube = new DrawCube(20, 20, 20);
                     maze_map_block.put(new Point2D(currX, currZ), cube);
                 }

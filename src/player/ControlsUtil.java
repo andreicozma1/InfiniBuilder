@@ -42,6 +42,18 @@ public class ControlsUtil {
             last_mouse_y = event.getSceneY();
         });
 
+        game_scene.setOnScroll(scrollEvent -> {
+            if (scrollEvent.getDeltaY() > 0) {
+                if (context.getPlayer().inventorySelected < context.getPlayer().inventory.length - 1)
+                    context.getPlayer().inventorySelected++;
+            }
+            if (scrollEvent.getDeltaY() < 0) {
+                if (context.getPlayer().inventorySelected > 0)
+                    context.getPlayer().inventorySelected--;
+            }
+            System.out.println("Current item index in inventory: " + context.getPlayer().inventorySelected);
+        });
+
         game_scene.setOnMouseDragged(event -> {
 
         });
@@ -79,7 +91,7 @@ public class ControlsUtil {
                         context.getPlayer().toggleFly();
                         break;
                     case X:
-                      context.getPlayer().toggleNoClip();
+                        context.getPlayer().toggleNoClip();
                         break;
                     case C:
                         context.getPlayer().toggleCrouch();
@@ -91,7 +103,7 @@ public class ControlsUtil {
                         context.getEnvironment().getSkybox().cycleModes();
                         break;
                     case M:
-                        MazeUtil maze = new MazeUtil( context, 0, 0, 20, 20, 20, 3, 3, 0);
+                        MazeUtil maze = new MazeUtil(context, 0, 0, 20, 20, 20, 3, 3, 0);
                         maze.createBlockMap();
                         maze.draw();
                         break;

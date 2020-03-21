@@ -1,4 +1,5 @@
 import environment.EnvironmentUtil;
+import items.weapons.ProjectileUtil;
 import resources.ResourcesUtil;
 import environment.SkyboxUtil;
 import javafx.animation.AnimationTimer;
@@ -11,6 +12,9 @@ import maze.MazeUtil;
 import player.CameraUtil;
 import player.ControlsUtil;
 import player.PlayerUtil;
+import structures.DrawCube;
+import structures.DrawSphere;
+import structures.StructureBuilder;
 import utils.*;
 
 
@@ -44,6 +48,17 @@ public class MainExecution extends Application {
         window.setEnvironment(envir);
 
 
+        DrawCube box = new DrawCube();
+        box.setScale(envir.getBlockDim());
+        box.getBox().setMaterial(ResourcesUtil.stone);
+        player.addToInventory(box,5);
+
+
+        DrawSphere weapon = new DrawSphere(5);
+        weapon.setScale(envir.getBlockDim());
+        weapon.setMaterial(ResourcesUtil.stone);
+        weapon.setType(StructureBuilder.TYPE_WEAPON);
+        player.addToInventory(weapon);
 
         MazeUtil maze = new MazeUtil( window, 0, 0, 20, 20, 20, 30, 30, 0);
         maze.createBlockMap();

@@ -1,6 +1,7 @@
 package player;
 
 import items.weapons.ProjectileUtil;
+import javafx.util.Pair;
 import resources.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
@@ -12,6 +13,10 @@ import structures.DrawSphere;
 import structures.StructureBuilder;
 import utils.PhysicsUtil;
 import utils.WindowUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class PlayerUtil {
     public WindowUtil context;
@@ -55,6 +60,9 @@ public class PlayerUtil {
     public PointLight uv_light;
     boolean uv_light_state = false;
 
+    ArrayList<StructureBuilder>[] inventory = new ArrayList[9];
+    int inventorySelected;
+
     public PlayerUtil(WindowUtil ctx) {
         context = ctx;
         player_group = new Group();
@@ -63,6 +71,9 @@ public class PlayerUtil {
         uv_light.setLightOn(false);
         uv_light.setColor(Color.DARKBLUE);
         player_group.getChildren().add(uv_light);
+
+
+        inventorySelected = 1;
     }
 
     public void update_handler() {
@@ -112,13 +123,57 @@ public class PlayerUtil {
 
     }
 
+
+
     public void shoot(){
         DrawSphere model = new DrawSphere(2);
         model.setMaterial(ResourcesUtil.big_star);
 
-        ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), model);
-        proj.setScale(100);
-        proj.shoot(5);
+        if(inventory[inventorySelected] != null && inventory[inventorySelected].get(0).getType() == StructureBuilder.TYPE_WEAPON){
+            System.out.println("HERE");
+            ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), inventory[inventorySelected].get(0));
+            proj.setScale(100);
+            proj.shoot(5);
+        }
+    }
+
+    public void addToInventory(StructureBuilder b){
+        ArrayList<StructureBuilder> list = new ArrayList<StructureBuilder>();
+        list.add(b);
+
+        for(int i = 0; i < inventory.length; i++){
+            if(inventory[i] == null){
+                System.out.println("Added single to inventory at "  + i );
+                inventory[i] = list;
+                break;
+            }
+        }
+
+        System.out.println(inventory.toString());
+    }
+    public void addToInventory(StructureBuilder b, int ct){
+        ArrayList<StructureBuilder> nums = new ArrayList<StructureBuilder>();
+        for(int i = 0 ; i < ct; i++){
+            nums.add(b);
+        }
+
+        for(int i = 0; i < inventory.length; i++){
+            if(inventory[i] == null){
+                System.out.println("Added collection to inventory at " + i);
+                inventory[i] = nums;
+                break;
+            }
+        }
+        System.out.println(inventory.toString());
+
+    }
+
+    public void placeObject() {
+        System.out.println(inventory);
+        if(inventory[inventorySelected] != null && inventory[inventorySelected].get(0).getType() == StructureBuilder.TYPE_OBJECT) {
+            System.out.println(inventory[inventorySelected]);
+            context.getEnvironment().placeObject(getPoint2D(), inventory[inventorySelected].get(0), true);
+        }
     }
 
     public void jump() {
@@ -229,27 +284,6 @@ public class PlayerUtil {
         if (y < -5000) {
             reset();
         }
-    }
-
-    public void placeObject() {
-
-        DrawCube box = new DrawCube();
-        box.setScale(context.getEnvironment().getBlockDim());
-        box.getBox().setMaterial(ResourcesUtil.stone);
-
-        /*
-        Point3D pos = getPoint3D();
-
-
-        double zmult = Math.sin((context.getCamera().getRotateY() + 90) * Math.PI/180);
-        double xmult = Math.sin(context.getCamera().getRotateX() * Math.PI/180);
-
-
-        Point3D newPOS = new Point3D(pos.getX() + xmult,pos.getY(),pos.getZ() + zmult);
-
-         */
-
-        context.getEnvironment().placeObject(getPoint2D(), box, true);
     }
 
 
