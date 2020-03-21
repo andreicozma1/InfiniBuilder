@@ -51,7 +51,7 @@ public class ControlsUtil {
                 if (context.getPlayer().inventorySelected > 0)
                     context.getPlayer().inventorySelected--;
             }
-            System.out.println("Current item index in inventory: " + context.getPlayer().inventorySelected);
+            System.out.println("Inventory slot index: " + context.getPlayer().inventorySelected + "   Item ct: " + ((context.getPlayer().inventory[context.getPlayer().inventorySelected] == null)?0:context.getPlayer().inventory[context.getPlayer().inventorySelected].size()));
         });
 
         game_scene.setOnMouseDragged(event -> {

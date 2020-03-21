@@ -123,20 +123,6 @@ public class PlayerUtil {
 
     }
 
-
-
-    public void shoot(){
-        DrawSphere model = new DrawSphere(2);
-        model.setMaterial(ResourcesUtil.big_star);
-
-        if(inventory[inventorySelected] != null && inventory[inventorySelected].get(0).getType() == StructureBuilder.TYPE_WEAPON){
-            System.out.println("HERE");
-            ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), inventory[inventorySelected].get(0));
-            proj.setScale(100);
-            proj.shoot(5);
-        }
-    }
-
     public void addToInventory(StructureBuilder b){
         ArrayList<StructureBuilder> list = new ArrayList<StructureBuilder>();
         list.add(b);
@@ -168,11 +154,38 @@ public class PlayerUtil {
 
     }
 
+    public void shoot(){
+        System.out.println("Shoot. Inventory slot: " + inventorySelected + "; item ct: " + inventory[inventorySelected].size());
+
+        if(inventory[inventorySelected] != null && inventory[inventorySelected].size() > 0){
+            if( inventory[inventorySelected].get(0).getType() == StructureBuilder.TYPE_WEAPON){
+                System.out.println("Shootable");
+                ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), inventory[inventorySelected].get(0));
+                proj.setSpeed(5);
+                proj.shoot();
+                inventory[inventorySelected].remove(0);
+            } else{
+                System.out.println("Not shootable");
+            }
+        } else{
+            System.out.println("Inventory slot empty");
+        }
+    }
+
     public void placeObject() {
-        System.out.println(inventory);
-        if(inventory[inventorySelected] != null && inventory[inventorySelected].get(0).getType() == StructureBuilder.TYPE_OBJECT) {
-            System.out.println(inventory[inventorySelected]);
-            context.getEnvironment().placeObject(getPoint2D(), inventory[inventorySelected].get(0), true);
+        System.out.println("Shoot. Inventory slot: " + inventorySelected + "; item ct: " + inventory[inventorySelected].size());
+
+        if(inventory[inventorySelected] != null && inventory[inventorySelected].size() > 0) {
+            if(inventory[inventorySelected].get(0).getType() == StructureBuilder.TYPE_OBJECT){
+                System.out.println("Placeable");
+                System.out.println(inventory[inventorySelected]);
+                context.getEnvironment().placeObject(getPoint2D(), inventory[inventorySelected].get(0), true);
+                inventory[inventorySelected].remove(0);
+            } else{
+                System.out.println("Not placeable");
+            }
+        } else{
+            System.out.println("Inventory slot empty");
         }
     }
 

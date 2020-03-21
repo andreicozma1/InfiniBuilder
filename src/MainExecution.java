@@ -55,10 +55,9 @@ public class MainExecution extends Application {
 
 
         DrawSphere weapon = new DrawSphere(5);
-        weapon.setScale(envir.getBlockDim());
         weapon.setMaterial(ResourcesUtil.stone);
         weapon.setType(StructureBuilder.TYPE_WEAPON);
-        player.addToInventory(weapon);
+        player.addToInventory(weapon,5);
 
         MazeUtil maze = new MazeUtil( window, 0, 0, 20, 20, 20, 30, 30, 0);
         maze.createBlockMap();
