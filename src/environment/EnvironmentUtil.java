@@ -238,7 +238,7 @@ public class EnvironmentUtil {
         }
     }
 
-    public void addWorldGroup(Group g) {
+    public void addToWorldGroup(Group g) {
         getWorldGroup().getChildren().add(g);
     }
 
@@ -256,7 +256,7 @@ public class EnvironmentUtil {
 
     public void setSkyBox(SkyboxUtil sky) {
         skybox = sky;
-        addWorldGroup(sky.getGroup());
+        addToWorldGroup(sky.getGroup());
     }
 
     public SkyboxUtil getSkybox() {

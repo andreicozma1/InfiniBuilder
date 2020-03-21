@@ -137,10 +137,10 @@ public class SkyboxUtil {
         double game_time;
         switch (MODE_CURR) {
             case MODE_DAY:
-                game_time = Math.PI / 2 * sun_moon_period_multiplier;
+                game_time = -Math.PI / 2 * sun_moon_period_multiplier;
                 break;
             case MODE_NIGHT:
-                game_time = -Math.PI / 2 * sun_moon_period_multiplier;
+                game_time = Math.PI / 2 * sun_moon_period_multiplier;
                 break;
             default:
                 if (time == -1) {

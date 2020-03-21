@@ -1,5 +1,6 @@
 package player;
 
+import items.weapons.ProjectileUtil;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.shape.CullFace;
 import resources.ResourcesUtil;
@@ -69,10 +70,27 @@ public class PlayerUtil {
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().update_handler();
 
+        context.getEnvironment().generateChunks(getX(), getZ());
+        context.getEnvironment().showChunksAroundPlayer(getX(), getZ());
+
         player_group.setTranslateX(getX());
         player_group.setTranslateY(-getY() - player_height);
         player_group.setTranslateZ(getZ());
 
+        // Jumping Mechanism. As long as player is not in fly mode, execute mechanism
+        if (!isFlyMode) {
+            // If the player initiated a jump and hasn't reached the top, move the player up
+//            System.out.println(jump_start_height);
+            if (isJumping && y < jump_start_height + jumpHeight) {
+                moveUp(speedFly);
+            } else {
+                // if the player reached the top, set isJumping to false, and let the player fall.
+                isJumping = false;
+                moveDown(fallSpeed);
+                // gravity acceleration
+                fallSpeed += PhysicsUtil.GRAVITY;
+            }
+        }
 
         // Running mechanism. Changes camera FOV incrementally from 45 to 60 when running and from 60 to 45 when not running
         double curr_fov = context.getCamera().getCamera().getFieldOfView();
@@ -89,23 +107,14 @@ public class PlayerUtil {
             }
         }
 
-        context.getEnvironment().generateChunks(getX(), getZ());
-        context.getEnvironment().showChunksAroundPlayer(getX(), getZ());
 
-        // Jumping Mechanism. As long as player is not in fly mode, execute mechanism
-        if (!isFlyMode) {
-            // If the player initiated a jump and hasn't reached the top, move the player up
-//            System.out.println(jump_start_height);
-            if (isJumping && y < jump_start_height + jumpHeight) {
-                moveUp(speedFly);
-            } else {
-                // if the player reached the top, set isJumping to false, and let the player fall.
-                isJumping = false;
-                moveDown(fallSpeed);
-                // gravity acceleration
-                fallSpeed += PhysicsUtil.GRAVITY;
-            }
-        }
+//        System.out.println(context.getCamera().getRotateX() + "    " + context.getCamera().getRotateY());
+
+    }
+
+    public void shoot(){
+        ProjectileUtil proj = new ProjectileUtil(context.getEnvironment());
+        proj.shoot(5);
     }
 
     public void jump() {
@@ -128,7 +137,7 @@ public class PlayerUtil {
         double new_z = this.z + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        System.out.println(ground_level - y);
+//        System.out.println(ground_level - y);
         if ((ground_level - y < autoJumpCutoffHeight) || isClipMode) {
             this.x = new_x;
             this.z = new_z;
@@ -222,9 +231,7 @@ public class PlayerUtil {
 
         DrawCube box = new DrawCube();
         box.setScale(context.getEnvironment().getBlockDim());
-        box.getBox().setCullFace(CullFace.NONE);
-        box.getBox().setMaterial(ResourcesUtil.water);
-
+        box.getBox().setMaterial(ResourcesUtil.stone);
 
         /*
         Point3D pos = getPoint3D();

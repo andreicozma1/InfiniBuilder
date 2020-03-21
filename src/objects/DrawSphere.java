@@ -28,6 +28,7 @@ public class DrawSphere extends StructureBuilder {
     public void setSphereZ(double z){sphere.setTranslateZ(z);}
 
 
+
     public void setMaterial(Material material){
         this.material = material;
         sphere.setMaterial(material);

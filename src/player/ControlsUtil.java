@@ -48,8 +48,11 @@ public class ControlsUtil {
 
         game_scene.setOnMousePressed(event -> {
             switch (event.getButton()) {
-                case PRIMARY:
+                case SECONDARY:
                     context.getPlayer().placeObject();
+                    break;
+                case PRIMARY:
+                    context.getPlayer().shoot();
                     break;
             }
         });
