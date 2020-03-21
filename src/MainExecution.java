@@ -1,4 +1,8 @@
+import HUD.Inventory;
 import environment.EnvironmentUtil;
+import items.EmptyItem;
+import items.InventoryUtil;
+import items.Item;
 import items.weapons.ProjectileUtil;
 import resources.ResourcesUtil;
 import environment.SkyboxUtil;
@@ -59,9 +63,19 @@ public class MainExecution extends Application {
         weapon.setType(StructureBuilder.TYPE_WEAPON);
         player.addToInventory(weapon,5);
 
-        MazeUtil maze = new MazeUtil( window, 0, 0, 20, 20, 20, 30, 30, 0);
-        maze.createBlockMap();
-//        maze.draw();
+        // testing inventory Util with a base item that only holds the item tag
+        Item dirt = new Item("DIRT");
+        Item grass = new Item("GRASS");
+        InventoryUtil inventoryUtil = new InventoryUtil(10);
+        inventoryUtil.addItem(dirt);
+        inventoryUtil.addItem(dirt,2);
+        inventoryUtil.print();
+        inventoryUtil.addItem(4,grass,4);
+        inventoryUtil.print();
+        inventoryUtil.popItem(grass);
+        inventoryUtil.print();
+        inventoryUtil.popItem(grass,3);
+        inventoryUtil.print();
 
 
         // close window on menu if ESC is pressed
