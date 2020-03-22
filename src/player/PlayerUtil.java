@@ -60,9 +60,6 @@ public class PlayerUtil {
     public PointLight uv_light;
     boolean uv_light_state = false;
 
-    ArrayList<StructureBuilder>[] inventory = new ArrayList[9];
-    int inventorySelected;
-
     public PlayerUtil(WindowUtil ctx) {
         context = ctx;
         player_group = new Group();
@@ -72,8 +69,6 @@ public class PlayerUtil {
         uv_light.setColor(Color.DARKBLUE);
         player_group.getChildren().add(uv_light);
 
-
-        inventorySelected = 1;
     }
 
     public void update_handler() {
@@ -123,70 +118,23 @@ public class PlayerUtil {
 
     }
 
-    public void addToInventory(StructureBuilder b){
-        ArrayList<StructureBuilder> list = new ArrayList<StructureBuilder>();
-        list.add(b);
 
-        for(int i = 0; i < inventory.length; i++){
-            if(inventory[i] == null){
-                System.out.println("Added single to inventory at "  + i );
-                inventory[i] = list;
-                break;
-            }
-        }
+    public void shoot() {
 
-        System.out.println(inventory.toString());
-    }
-    public void addToInventory(StructureBuilder b, int ct){
-        ArrayList<StructureBuilder> nums = new ArrayList<StructureBuilder>();
-        for(int i = 0 ; i < ct; i++){
-            nums.add(b);
-        }
+        DrawSphere sp = new DrawSphere(5);
+        sp.setMaterial(ResourcesUtil.metal);
+        ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), sp);
+        proj.setSpeed(5);
+        proj.shoot();
 
-        for(int i = 0; i < inventory.length; i++){
-            if(inventory[i] == null){
-                System.out.println("Added collection to inventory at " + i);
-                inventory[i] = nums;
-                break;
-            }
-        }
-        System.out.println(inventory.toString());
-
-    }
-
-    public void shoot(){
-        System.out.println("Shoot. Inventory slot: " + inventorySelected + "; item ct: " + inventory[inventorySelected].size());
-
-        if(inventory[inventorySelected] != null && inventory[inventorySelected].size() > 0){
-            if( inventory[inventorySelected].get(0).getType() == StructureBuilder.TYPE_WEAPON){
-                System.out.println("Shootable");
-                ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), inventory[inventorySelected].get(0));
-                proj.setSpeed(5);
-                proj.shoot();
-                inventory[inventorySelected].remove(0);
-            } else{
-                System.out.println("Not shootable");
-            }
-        } else{
-            System.out.println("Inventory slot empty");
-        }
     }
 
     public void placeObject() {
-        System.out.println("Shoot. Inventory slot: " + inventorySelected + "; item ct: " + inventory[inventorySelected].size());
 
-        if(inventory[inventorySelected] != null && inventory[inventorySelected].size() > 0) {
-            if(inventory[inventorySelected].get(0).getType() == StructureBuilder.TYPE_OBJECT){
-                System.out.println("Placeable");
-                System.out.println(inventory[inventorySelected]);
-                context.getEnvironment().placeObject(getPoint2D(), inventory[inventorySelected].get(0), true);
-                inventory[inventorySelected].remove(0);
-            } else{
-                System.out.println("Not placeable");
-            }
-        } else{
-            System.out.println("Inventory slot empty");
-        }
+        DrawCube cb = new DrawCube();
+        cb.getBox().setMaterial(ResourcesUtil.stone);
+        context.getEnvironment().placeObject(getPoint2D(), cb, true);
+
     }
 
     public void jump() {

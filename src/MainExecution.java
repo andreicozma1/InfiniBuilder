@@ -52,16 +52,6 @@ public class MainExecution extends Application {
         window.setEnvironment(envir);
 
 
-        DrawCube box = new DrawCube();
-        box.setScale(envir.getBlockDim());
-        box.getBox().setMaterial(ResourcesUtil.stone);
-        player.addToInventory(box,5);
-
-
-        DrawSphere weapon = new DrawSphere(5);
-        weapon.setMaterial(ResourcesUtil.stone);
-        weapon.setType(StructureBuilder.TYPE_WEAPON);
-        player.addToInventory(weapon,5);
 
         // testing inventory Util with a base item that only holds the item tag
         Item dirt = new Item("DIRT");

@@ -43,6 +43,7 @@ public class ControlsUtil {
         });
 
         game_scene.setOnScroll(scrollEvent -> {
+            /*
             if (scrollEvent.getDeltaY() > 0) {
                 if (context.getPlayer().inventorySelected < context.getPlayer().inventory.length - 1)
                     context.getPlayer().inventorySelected++;
@@ -51,7 +52,8 @@ public class ControlsUtil {
                 if (context.getPlayer().inventorySelected > 0)
                     context.getPlayer().inventorySelected--;
             }
-            System.out.println("Inventory slot index: " + context.getPlayer().inventorySelected + "   Item ct: " + ((context.getPlayer().inventory[context.getPlayer().inventorySelected] == null)?0:context.getPlayer().inventory[context.getPlayer().inventorySelected].size()));
+             */
+//            System.out.println("Inventory slot index: " + context.getPlayer().inventorySelected + "   Item ct: " + ((context.getPlayer().inventory[context.getPlayer().inventorySelected] == null)?0:context.getPlayer().inventory[context.getPlayer().inventorySelected].size()));
         });
 
         game_scene.setOnMouseDragged(event -> {
