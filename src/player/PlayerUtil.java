@@ -120,18 +120,17 @@ public class PlayerUtil {
 
 
     public void shoot() {
-
         DrawSphere sp = new DrawSphere(5);
         sp.setMaterial(ResourcesUtil.metal);
-        ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), sp);
-        proj.setSpeed(5);
-        proj.shoot();
 
+        ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), sp);
+        proj.setSpeed(10);
+        proj.shoot();
     }
 
     public void placeObject() {
-
         DrawCube cb = new DrawCube();
+        cb.setScale(context.getEnvironment().getBlockDim()/2);
         cb.getBox().setMaterial(ResourcesUtil.stone);
         context.getEnvironment().placeObject(getPoint2D(), cb, true);
 

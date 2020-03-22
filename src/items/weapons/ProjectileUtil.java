@@ -6,33 +6,35 @@ import structures.DrawSphere;
 import resources.ResourcesUtil;
 import structures.StructureBuilder;
 
-public class ProjectileUtil extends StructureBuilder{
+public class ProjectileUtil extends StructureBuilder {
 
-    EnvironmentUtil context;
-    StructureBuilder str;
-    double speed;
-    public ProjectileUtil(EnvironmentUtil u, StructureBuilder b){
+    private EnvironmentUtil context;
+    private StructureBuilder str;
+    private double speed;
+    private double DEFAULT_SPEED = 5;
+
+    public ProjectileUtil(EnvironmentUtil u, StructureBuilder b) {
         System.out.println("Added projectile");
         context = u;
         str = b;
 
-        setSpeed(5);
+        setSpeed(DEFAULT_SPEED);
         this.setType(StructureBuilder.TYPE_WEAPON);
         // TODO - Change to stone
     }
 
-    public void setSpeed(double s){
+    public void setSpeed(double s) {
         speed = s;
     }
 
-    public void shoot(){
+    public void shoot() {
         double initialVel = speed;
-        context.addFromGroup(EnvironmentUtil.GROUP_STRUCTURES,str);
+        context.addFromGroup(EnvironmentUtil.GROUP_STRUCTURES, str);
 
         double velY = initialVel * Math.cos(Math.toRadians(context.context.getCamera().getRotateY()));
 
         double startrotX = Math.toRadians(context.context.getCamera().getRotateX());
-        double startrotY =Math.toRadians(context.context.getCamera().getRotateY());
+        double startrotY = Math.toRadians(context.context.getCamera().getRotateY());
 
         final double[] posx = {context.context.getPlayer().getX()};
         final double[] posy = {-context.context.getPlayer().getY() - context.context.getPlayer().player_height};
@@ -45,9 +47,9 @@ public class ProjectileUtil extends StructureBuilder{
             @Override
             public void handle(long l) {
 
-                posx[0] += initialVel* Math.sin(startrotX) * Math.cos(startrotY);
+                posx[0] += initialVel * Math.sin(startrotX) * Math.cos(startrotY);
                 posy[0] -= initialVel * Math.sin(startrotY);
-                posz[0] += initialVel * Math.cos(startrotX)* Math.cos(startrotY);
+                posz[0] += initialVel * Math.cos(startrotX) * Math.cos(startrotY);
                 str.setTranslateXYZ(posx[0], posy[0], posz[0]);
             }
         };

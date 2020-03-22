@@ -33,6 +33,7 @@ public class EnvironmentUtil {
     private double terrain_multiplier_height = 30;
     private double terrain_multiplier_spread = 1;
 
+    public static int terrain_block_dim = 20;
     private final int terrain_block_width = 20;
     private final int terrain_block_height = 20;
     private final int terrain_block_depth = 20;
