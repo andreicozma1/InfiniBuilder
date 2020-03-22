@@ -8,6 +8,8 @@ public class InventoryUtil {
     private HashMap<String,Integer> indexes = new HashMap<String, Integer>();
     private HashMap<String,Integer> sizes = new HashMap<String, Integer>();
     private int inventorySize = 0;
+    private int currentIndex = 0;
+    private Item currentItem = new EmptyItem();
 
     public InventoryUtil(int inventorySize){
         this.inventorySize = inventorySize;
@@ -22,13 +24,27 @@ public class InventoryUtil {
     public int getInventorySize(){ return inventorySize; }
     public Item getItem(int index){ return inventory.get(index); }
 
+    public boolean isCurrentIndex(int index){ return (currentIndex == index); }
+    public int getCurrentIndex() { return currentIndex; }
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
+
+        // if the given index is out of range set it to the closest index
+        if(currentIndex<0)currentIndex = 0;
+        else if (currentIndex>=inventorySize)currentIndex = inventorySize-1;
+
+        currentItem = inventory.get(currentIndex);
+    }
+
+    public Item getCurrentItem() { return currentItem; }
+
     // --------------------------------------------------------------------------------------------
     // --------------------------------------------------------------------------------------------
     // --------------------------------------------------------------------------------------------
     // REMOVE ITEMS FROM THE INVENTORY
 
     /**
-     * This function will decrement the count of the item at the given index from the inventory. If the index is not in range or if the size is less than 1 it will return an EmptyItem.
+     * This function will decrement the count of the item  at the given index from the inventory. If the index is not in range or if the size is less than 1 it will return an EmptyItem.
      * @param index
      * @return
      */
@@ -184,6 +200,10 @@ public class InventoryUtil {
     // will place the item at the given index
     public void addItem(int index, Item item){
 
+        if( index<0 || index >= inventorySize ) {
+            System.out.println("The given index is not in range");
+        }
+
         String itemTag = item.getItemTag();
 
         // if the index is empty
@@ -205,6 +225,13 @@ public class InventoryUtil {
     }
 
     public void addItem(int index, Item item, int size){
+
+        if(size<1){
+            System.out.println("Size must be greater than 0");
+        }
+        if( index<0 || index >= inventorySize ) {
+            System.out.println("The given index is not in range");
+        }
 
         String itemTag = item.getItemTag();
 
@@ -258,20 +285,24 @@ public class InventoryUtil {
         indexes.put(item2Tag,index1);
     }
 
+    // --------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------
+    // --------------------------------------------------------------------------------------------
+    // PRINT OUT THE CURRENT INVENTORY
+
     public void print(){
         System.out.println("CURRENT INVENTORY::");
         for (int i = 0 ; i < inventory.size() ; i++){
             Item item = inventory.get(i);
             int size;
-            if(item.getItemTag() == "EMPTY"){
-                size = 0;
-            }
-            else{
-                size = sizes.get(item.getItemTag());
-            }
-            System.out.println( "Index = " +i +
-                                " , Item = "+item.getItemTag() +
-                                " , Size = "+size);
+
+            if(item.getItemTag() == "EMPTY")size = 0;
+            else size = sizes.get(item.getItemTag());
+
+            System.out.println( "Index = "   + i +
+                                " , Item = " +item.getItemTag() +
+                                " , Size = " + size +
+                                " , CurrItem = "+isCurrentIndex(i));
         }
     }
 

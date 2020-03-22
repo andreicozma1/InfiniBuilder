@@ -59,10 +59,12 @@ public class MainExecution extends Application {
         InventoryUtil inventoryUtil = new InventoryUtil(10);
         inventoryUtil.addItem(dirt);
         inventoryUtil.addItem(dirt,2);
+        inventoryUtil.setCurrentIndex(8);
         inventoryUtil.print();
         inventoryUtil.addItem(4,grass,4);
         inventoryUtil.print();
         inventoryUtil.popItem(grass);
+        inventoryUtil.setCurrentIndex(3);
         inventoryUtil.print();
         inventoryUtil.popItem(grass,3);
         inventoryUtil.print();
