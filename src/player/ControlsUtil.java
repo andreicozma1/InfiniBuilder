@@ -87,7 +87,7 @@ public class ControlsUtil {
                         context.getPlayer().canJump = true;
                         break;
                     case ESCAPE:
-                        context.showScene(context.SCENE_MENU);
+                        context.showScene(context.getMenu().getScene());
                         break;
                     case F:
                         context.getPlayer().toggleFly();
