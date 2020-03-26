@@ -1,6 +1,8 @@
-<<<<<<< HEAD:src/app/MainExecution.java
+
 package app;
 
+import app.HUD.HUDUtil;
+import app.HUD.StatusBar;
 import app.environment.EnvironmentUtil;
 import app.environment.SkyboxUtil;
 import app.items.InventoryUtil;
@@ -11,22 +13,9 @@ import app.player.PlayerUtil;
 import app.resources.ResourcesUtil;
 import app.utils.MenuUtil;
 import app.utils.WindowUtil;
-=======
-import HUD.HUDUtil;
-import HUD.Inventory;
-import HUD.StatusBar;
-import environment.EnvironmentUtil;
-import items.EmptyItem;
-import items.InventoryUtil;
-import items.Item;
-import items.weapons.ProjectileUtil;
-import javafx.geometry.Point2D;
-import javafx.stage.Screen;
-import resources.ResourcesUtil;
-import environment.SkyboxUtil;
->>>>>>> f5bea3f02f8bcb1bfd8af8c25645501094c5bb1e:src/MainExecution.java
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Point2D;
 import javafx.scene.AmbientLight;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
