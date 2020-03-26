@@ -1,15 +1,10 @@
-package app.HUD;
+package app.hud;
 
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.SubScene;
-import javafx.scene.canvas.*;
-import javafx.scene.canvas.Canvas;
 import app.player.PlayerUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class HUDUtil {

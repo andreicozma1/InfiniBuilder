@@ -63,7 +63,7 @@ public class ResourcesUtil {
         big_star.setSelfIlluminationMap(getImage("textures/planet.png"));
 
         metal = new PhongMaterial();
-        metal.setDiffuseMap(getImage("textures/metal.jpg"));;
+        metal.setDiffuseMap(getImage("textures/metal.jpg"));
 
         clouds = new PhongMaterial();
         clouds.setDiffuseMap(getImage("textures/clouds.png"));

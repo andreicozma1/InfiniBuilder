@@ -1,10 +1,7 @@
-package app.HUD;
+package app.hud;
 
 import javafx.geometry.Point2D;
-import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 
 public class HUDElement {
     private Group group;

@@ -1,8 +1,8 @@
 
 package app;
 
-import app.HUD.HUDUtil;
-import app.HUD.StatusBar;
+import app.hud.HUDUtil;
+import app.hud.StatusBar;
 import app.environment.EnvironmentUtil;
 import app.environment.SkyboxUtil;
 import app.items.InventoryUtil;
@@ -21,6 +21,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
 
 
 public class MainExecution extends Application {

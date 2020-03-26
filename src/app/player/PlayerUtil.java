@@ -315,27 +315,15 @@ public class PlayerUtil {
     }
 
     void toggleCrouch() {
-        if (context.getPlayer().isCrouching) {
-            context.getPlayer().isCrouching = false;
-        } else {
-            context.getPlayer().isCrouching = true;
-        }
+        context.getPlayer().isCrouching = !context.getPlayer().isCrouching;
     }
 
     void toggleNoClip() {
-        if (context.getPlayer().isClipMode) {
-            context.getPlayer().isClipMode = false;
-        } else {
-            context.getPlayer().isClipMode = true;
-        }
+        context.getPlayer().isClipMode = !context.getPlayer().isClipMode;
     }
 
     void toggleFly() {
-        if (context.getPlayer().isFlyMode) {
-            context.getPlayer().isFlyMode = false;
-        } else {
-            context.getPlayer().isFlyMode = true;
-        }
+        context.getPlayer().isFlyMode = !context.getPlayer().isFlyMode;
     }
 
 }

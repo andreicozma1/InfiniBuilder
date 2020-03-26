@@ -10,5 +10,21 @@
     <orderEntry type="library" exported="" name="interactive-mesh" level="project" />
     <orderEntry type="library" exported="" name="javafx-sdk-11.0.2-l" level="project" />
     <orderEntry type="library" exported="" name="javafx-sdk-11.0.2-m" level="project" />
+    <orderEntry type="module-library" exported="" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/lib/javafx-sdk-11.0.2-l" />
+        </CLASSES>
+        <JAVADOC />
+        <NATIVE>
+          <root url="file://$MODULE_DIR$/lib/javafx-sdk-11.0.2-l" />
+        </NATIVE>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/lib/javafx-sdk-11.0.2-l" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/lib/javafx-sdk-11.0.2-l" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/lib/javafx-sdk-11.0.2-l" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
   </component>
 </module>

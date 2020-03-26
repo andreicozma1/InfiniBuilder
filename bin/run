@@ -1,1 +1,0 @@
-java -jar --module-path ../lib/javafx-sdk-11.0.2-l --add-modules=javafx.controls 307FinalProject.jar
