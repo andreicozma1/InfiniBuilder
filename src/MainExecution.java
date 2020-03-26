@@ -4,6 +4,7 @@ import items.EmptyItem;
 import items.InventoryUtil;
 import items.Item;
 import items.weapons.ProjectileUtil;
+import javafx.stage.Screen;
 import resources.ResourcesUtil;
 import environment.SkyboxUtil;
 import javafx.animation.AnimationTimer;
@@ -24,14 +25,18 @@ import utils.*;
 
 public class MainExecution extends Application {
 
+    private double PRIMARY_WIDTH;
+    private double PRIMARY_HEIGHT;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println("MainExecution");
+        PRIMARY_WIDTH = Screen.getPrimary().getBounds().getWidth() / 2;
+        PRIMARY_HEIGHT = Screen.getPrimary().getBounds().getHeight() / 2;
 
         // set up needed Utils for the game
         ResourcesUtil materials = new ResourcesUtil();
-        WindowUtil window = new WindowUtil(primaryStage, 800, 600);
+        WindowUtil window = new WindowUtil(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
         CameraUtil camera = new CameraUtil(window);
         ControlsUtil controls = new ControlsUtil(window);
         PlayerUtil player = new PlayerUtil(window);

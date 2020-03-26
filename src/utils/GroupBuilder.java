@@ -2,19 +2,13 @@ package utils;
 
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class GroupBuilder extends Parent {
     public Group group;
@@ -33,7 +27,7 @@ public class GroupBuilder extends Parent {
         return line;
     }
 
-    public Rectangle drawRectangle(float x, float y, float w, float h,float arcW,float arcH, Paint paint){
+    public Rectangle drawRectangle(float x, float y, double w, double h, float arcW, float arcH, Paint paint){
         Rectangle rectangle = new Rectangle(w, h, paint);
         rectangle.setX(x);
         rectangle.setY(y);

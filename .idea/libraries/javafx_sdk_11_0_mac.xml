@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="javafx-sdk-11.0-mac">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/lib/javafx-sdk-11.0.2-m" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://$PROJECT_DIR$/lib/javafx-sdk-11.0.2-m" />
+    </NATIVE>
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/lib/javafx-sdk-11.0.2-m" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/lib/javafx-sdk-11.0.2-m" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/javafx-sdk-11.0.2-m" recursive="false" type="SOURCES" />
+  </library>
+</component>

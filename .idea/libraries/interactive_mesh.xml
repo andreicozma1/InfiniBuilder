@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="interactive-mesh">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/lib/interactive-mesh" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/lib/interactive-mesh" recursive="false" />
+  </library>
+</component>

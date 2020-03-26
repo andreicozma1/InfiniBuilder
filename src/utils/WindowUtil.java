@@ -16,8 +16,8 @@ public class WindowUtil {
 
     public HashMap<String, Group> menuGroupMap = new HashMap<>();
 
-    int WIDTH;
-    int HEIGHT;
+    double WIDTH;
+    double HEIGHT;
     String currentGroup;
 
     public Scene SCENE_GAME;
@@ -33,7 +33,7 @@ public class WindowUtil {
     private PlayerUtil player_util;
     private ControlsUtil ctrls_util;
 
-    public WindowUtil(Stage stg, int w, int h) {
+    public WindowUtil(Stage stg, double w, double h) {
         System.out.println("WindowUtil");
         stage = stg;
         WIDTH = w;
@@ -107,7 +107,7 @@ public class WindowUtil {
     }
 
 
-    public void moveCursor(int screenX, int screenY) {
+    public void moveCursor(double screenX, double screenY) {
         Platform.runLater(() -> {
             Robot robot = new Robot();
             robot.mouseMove(screenX, screenY);
