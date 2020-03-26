@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="90b0f703-6264-4b84-8d09-13805384aa7e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/307FinalProject_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/307FinalProject.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/307FinalProject_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/307FinalProject_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/MainExecution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/MainExecution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/CS307FinalProject.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/app.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,16 +17,20 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1Zgbx613dK493LvxXPpzA6pEiSQ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -101,6 +107,9 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="4515" y="593" width="1200" height="998" key="#Project_Structure" timestamp="1585263876520">
       <screen x="3200" y="0" width="3840" height="2160" />
@@ -110,33 +119,37 @@
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
     <state x="4570" y="687" width="1305" height="813" key="#com.intellij.execution.impl.EditConfigurationsDialog/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585264016991" />
-    <state x="4824" y="788" width="787" height="607" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1585263834385">
+    <state x="4824" y="788" width="787" height="607" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1585265045267">
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
-    <state x="4824" y="788" width="787" height="607" key="#com.intellij.ide.util.TreeClassChooserDialog/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585263834385" />
+    <state x="4824" y="788" width="787" height="607" key="#com.intellij.ide.util.TreeClassChooserDialog/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585265045267" />
+    <state x="4717" y="736" width="786" height="708" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1585265120897">
+      <screen x="3200" y="0" width="3840" height="2160" />
+    </state>
+    <state x="4717" y="736" width="786" height="708" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585265120897" />
     <state x="4516" y="663" width="1187" height="854" key="FileChooserDialogImpl" timestamp="1585263873859">
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
     <state x="4516" y="663" width="1187" height="854" key="FileChooserDialogImpl/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585263873859" />
-    <state width="3772" height="607" key="GridCell.Tab.0.bottom" timestamp="1585264626481">
+    <state width="3772" height="606" key="GridCell.Tab.0.bottom" timestamp="1585264981016">
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
-    <state width="3772" height="607" key="GridCell.Tab.0.bottom/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585264626481" />
-    <state width="3772" height="607" key="GridCell.Tab.0.center" timestamp="1585264626481">
+    <state width="3772" height="606" key="GridCell.Tab.0.bottom/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585264981016" />
+    <state width="3772" height="606" key="GridCell.Tab.0.center" timestamp="1585264981015">
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
-    <state width="3772" height="607" key="GridCell.Tab.0.center/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585264626481" />
-    <state width="3772" height="607" key="GridCell.Tab.0.left" timestamp="1585264626481">
+    <state width="3772" height="606" key="GridCell.Tab.0.center/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585264981015" />
+    <state width="3772" height="606" key="GridCell.Tab.0.left" timestamp="1585264981015">
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
-    <state width="3772" height="607" key="GridCell.Tab.0.left/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585264626481" />
-    <state width="3772" height="607" key="GridCell.Tab.0.right" timestamp="1585264626481">
+    <state width="3772" height="606" key="GridCell.Tab.0.left/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585264981015" />
+    <state width="3772" height="606" key="GridCell.Tab.0.right" timestamp="1585264981015">
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
-    <state width="3772" height="607" key="GridCell.Tab.0.right/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585264626481" />
-    <state x="4347" y="467" width="1536" height="1250" key="SettingsEditor" timestamp="1585263995331">
+    <state width="3772" height="606" key="GridCell.Tab.0.right/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585264981015" />
+    <state x="4347" y="467" width="1536" height="1250" key="SettingsEditor" timestamp="1585265123943">
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
-    <state x="4347" y="467" width="1536" height="1250" key="SettingsEditor/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585263995331" />
+    <state x="4347" y="467" width="1536" height="1250" key="SettingsEditor/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585265123943" />
   </component>
 </project>
