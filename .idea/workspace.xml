@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="90b0f703-6264-4b84-8d09-13805384aa7e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/lib/javafx-sdk-11.0.2-l/javafx-sdk-11.0.2-l.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/307FinalProject_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/307FinalProject_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/307FinalProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/307FinalProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/307FinalProject.jar" beforeDir="false" afterPath="$PROJECT_DIR$/307FinalProject.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/run" beforeDir="false" afterPath="$PROJECT_DIR$/run" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/HUD/HUDElement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/HUD/HUDUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/HUD/Inventory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/HUD/StatusBar.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/HUD/TextBox.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/MainExecution.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/MainExecution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/player/PlayerUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/player/PlayerUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/resources/ResourcesUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/resources/ResourcesUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,10 +160,10 @@
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
     <state x="4514" y="651" width="1300" height="878" key="NewModule_or_Project.wizard/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585265416461" />
-    <state x="4347" y="467" width="1536" height="1250" key="SettingsEditor" timestamp="1585266094756">
+    <state x="4347" y="467" width="1536" height="1250" key="SettingsEditor" timestamp="1585266324242">
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
-    <state x="4347" y="467" width="1536" height="1250" key="SettingsEditor/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585266094756" />
+    <state x="4347" y="467" width="1536" height="1250" key="SettingsEditor/3200.0.3840.2160/0.180.3200.1800@3200.0.3840.2160" timestamp="1585266324242" />
     <state x="4104" y="495" width="2012" height="1189" key="new project wizard" timestamp="1585265545152">
       <screen x="3200" y="0" width="3840" height="2160" />
     </state>
