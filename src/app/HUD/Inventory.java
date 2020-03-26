@@ -31,8 +31,7 @@ public class Inventory extends HUDElement{
     private Paint selectedItemColor = Color.WHITE;
     private Paint emptyItemColor = Color.DARKGRAY;
 
-    public Inventory(GraphicsContext graphicsContext,
-                     String elementTag,
+    public Inventory(String elementTag,
                      Point2D pos,
                      InventoryUtil inventoryUtil,
                      double width,
@@ -40,7 +39,7 @@ public class Inventory extends HUDElement{
                      double borderWidth,
                      Paint panelColor,
                      Paint slotColor) {
-        super(graphicsContext, elementTag, pos);
+        super( elementTag, pos);
         this.inventoryUtil = inventoryUtil;
         this.inventorySize = inventoryUtil.getInventorySize();
         this.width = width;
@@ -67,7 +66,7 @@ public class Inventory extends HUDElement{
 
     private void generateInventory(){
         // **** once this we get this to draw onto the screen change this, so the user sets this value ****
-
+/*
         // determines the slot width based off the given inventory width, inventory size, and border width
         double slotWidth = ( width - ( ( inventorySize + 1 ) * borderWidth ) ) / inventorySize;
         double slotHeight = height - ( 2 * borderWidth );
@@ -111,5 +110,7 @@ public class Inventory extends HUDElement{
                                                 0 );
 
         }
+
+ */
     }
 }

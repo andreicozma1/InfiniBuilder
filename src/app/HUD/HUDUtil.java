@@ -1,6 +1,8 @@
 package app.HUD;
 
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.SubScene;
 import javafx.scene.canvas.*;
 import javafx.scene.canvas.Canvas;
 import app.player.PlayerUtil;
@@ -11,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 public class HUDUtil {
+
+    private SubScene subScene;
     private Group HUDGroup = new Group();
-    private final Canvas canvas;
-    private GraphicsContext graphicsContext;
     private PlayerUtil player;
     private Map<String, HUDElement> elements = new HashMap<String,HUDElement>();
 
@@ -21,18 +23,38 @@ public class HUDUtil {
                     double screenWidth,
                     double screenHeight){
         this.player = player;
-        canvas = new Canvas(screenWidth,screenHeight);
-        graphicsContext = canvas.getGraphicsContext2D();
-        HUDGroup.getChildren().add(canvas);
+        subScene = new SubScene(HUDGroup,screenWidth,screenHeight);
+
     }
 
     public Group getHUDGroup(){ return HUDGroup; }
-    public Canvas getCanvas(){ return canvas; }
-    private GraphicsContext getGraphicsContext(){ return getGraphicsContext(); }
     public HUDElement getElement(String tag){ return elements.get(tag); }
+    public SubScene getSubScene() { return subScene; }
 
+    public void addElement(HUDElement element){
+        elements.put(element.getElementTag(), element);
+        HUDGroup.getChildren().add(element.getGroup());
+    }
 
-    public void addElement(HUDElement element){ elements.put(element.getElementTag(), element); }
-    public void removeElement(String tag){ elements.remove(tag); }
+    public void removeElement(String tag){
+        if(elements.containsKey(tag)) {
+            HUDGroup.getChildren().remove(elements.get(tag));
+            elements.remove(tag);
+        }
+    }
+
+    public void hideElement(String tag){
+        if(elements.containsKey(tag)) {
+            HUDGroup.getChildren().remove(elements.get(tag));
+            elements.remove(tag);
+        }
+    }
+
+    public void showElement(String tag){
+        if(elements.containsKey(tag)) {
+            HUDGroup.getChildren().add(elements.get(tag).getGroup());
+        }
+    }
 
 }
+

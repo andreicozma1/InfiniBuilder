@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/app/MainExecution.java
 package app;
 
 import app.environment.EnvironmentUtil;
@@ -10,6 +11,20 @@ import app.player.PlayerUtil;
 import app.resources.ResourcesUtil;
 import app.utils.MenuUtil;
 import app.utils.WindowUtil;
+=======
+import HUD.HUDUtil;
+import HUD.Inventory;
+import HUD.StatusBar;
+import environment.EnvironmentUtil;
+import items.EmptyItem;
+import items.InventoryUtil;
+import items.Item;
+import items.weapons.ProjectileUtil;
+import javafx.geometry.Point2D;
+import javafx.stage.Screen;
+import resources.ResourcesUtil;
+import environment.SkyboxUtil;
+>>>>>>> f5bea3f02f8bcb1bfd8af8c25645501094c5bb1e:src/MainExecution.java
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.AmbientLight;
@@ -71,6 +86,18 @@ public class MainExecution extends Application {
         inventoryUtil.popItem(grass,3);
         inventoryUtil.print();
 
+
+        //testing hudutil drawing a health status bar
+        HUDUtil hudUtil = new HUDUtil(player,800,600);
+        StatusBar health = new StatusBar(   "HEALTH",
+                new Point2D(50,50),
+                100,
+                100,
+                25,
+                Color.RED,
+                Color.DARKRED);
+        health.setBorder(true);
+        hudUtil.addElement(health);
 
         // close window on menu if ESC is pressed
         controls.getControllerForScene(window.getMenu().getScene()).setOnKeyPressed(event -> {
