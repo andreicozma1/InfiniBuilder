@@ -1,27 +1,22 @@
 package app;
-import app.HUD.Inventory;
+
 import app.environment.EnvironmentUtil;
-import app.items.EmptyItem;
+import app.environment.SkyboxUtil;
 import app.items.InventoryUtil;
 import app.items.Item;
-import app.items.weapons.ProjectileUtil;
-import javafx.stage.Screen;
+import app.player.CameraUtil;
+import app.player.ControlsUtil;
+import app.player.PlayerUtil;
 import app.resources.ResourcesUtil;
-import app.environment.SkyboxUtil;
+import app.utils.MenuUtil;
+import app.utils.WindowUtil;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.AmbientLight;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-import app.maze.MazeUtil;
-import app.player.CameraUtil;
-import app.player.ControlsUtil;
-import app.player.PlayerUtil;
-import app.structures.DrawCube;
-import app.structures.DrawSphere;
-import app.structures.StructureBuilder;
-import app.utils.*;
 
 
 public class MainExecution extends Application {
