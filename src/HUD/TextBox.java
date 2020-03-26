@@ -16,13 +16,12 @@ public class TextBox extends HUDElement {
     private TextAlignment textAlignment = TextAlignment.LEFT;
 
 
-    public TextBox(GraphicsContext graphicsContext,
-                   String elementTag,
+    public TextBox(String elementTag,
                    Point2D pos,
                    String text,
                    double maxWidth,
                    Paint textColor){
-        super(graphicsContext, elementTag, pos);
+        super( elementTag, pos);
         this.text = text;
         this.maxWidth = maxWidth;
         this.textColor = textColor;
@@ -43,9 +42,12 @@ public class TextBox extends HUDElement {
     public TextAlignment getTextAlignment() { return textAlignment; }
 
     private void generateTextBox(){
+        /*
         getGraphicsContext().setFill(textColor);
         getGraphicsContext().setFont(textFont);
         getGraphicsContext().setTextAlign(textAlignment);
         getGraphicsContext().fillText(text,getPos().getX(),getPos().getY(),maxWidth);
+
+         */
     }
 }
