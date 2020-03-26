@@ -1,9 +1,12 @@
+import HUD.HUDUtil;
 import HUD.Inventory;
+import HUD.StatusBar;
 import environment.EnvironmentUtil;
 import items.EmptyItem;
 import items.InventoryUtil;
 import items.Item;
 import items.weapons.ProjectileUtil;
+import javafx.geometry.Point2D;
 import javafx.stage.Screen;
 import resources.ResourcesUtil;
 import environment.SkyboxUtil;
@@ -75,6 +78,18 @@ public class MainExecution extends Application {
         inventoryUtil.popItem(grass,3);
         inventoryUtil.print();
 
+
+        //testing hudutil drawing a health status bar
+        HUDUtil hudUtil = new HUDUtil(player,800,600);
+        StatusBar health = new StatusBar(   "HEALTH",
+                new Point2D(50,50),
+                100,
+                100,
+                25,
+                Color.RED,
+                Color.DARKRED);
+        health.setBorder(true);
+        hudUtil.addElement(health);
 
         // close window on menu if ESC is pressed
         controls.getControllerForScene(window.getMenu().getScene()).setOnKeyPressed(event -> {

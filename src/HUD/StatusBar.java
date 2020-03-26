@@ -4,6 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 
 
 public class StatusBar extends HUDElement{
@@ -20,15 +21,14 @@ public class StatusBar extends HUDElement{
     private boolean isBorder = false;
     private boolean isEmpty = false;
 
-    public StatusBar(   GraphicsContext graphicsContext,
-                        String elementTag,
+    public StatusBar(   String elementTag,
                         Point2D pos,
                         double maxStatus,
                         double width,
                         double height,
                         Paint innerBarPaint,
                         Paint outerBarPaint){
-        super(graphicsContext,elementTag,pos);
+        super(elementTag,pos);
         this.maxStatus = this.currStatus = maxStatus;
         this.width = width;
         this.height = height;
@@ -87,33 +87,36 @@ public class StatusBar extends HUDElement{
         double innerWidth = (currStatus/maxStatus) * width;
 
         //draw outer status bar
-        getGraphicsContext().setFill(outerBarPaint);
-        getGraphicsContext().fillRoundRect( getPos().getX(),
-                                            getPos().getY(),
-                                        getPos().getX()+width,
-                                        getPos().getY()+height,
-                                            arcWidth,
-                                            arcHeight);
-
-        //draw inner status bar
-        getGraphicsContext().setFill(innerBarPaint);
-        getGraphicsContext().fillRoundRect( getPos().getX(),
-                                            getPos().getY(),
-                                        getPos().getX()+innerWidth,
-                                        getPos().getY()+height,
-                                            arcWidth,
-                                            arcHeight);
-
-        if(isBorder){
-            getGraphicsContext().setStroke(borderColor);
-            getGraphicsContext().strokeRoundRect(   getPos().getX(),
+        Rectangle outerStatusBar = new Rectangle(   getPos().getX(),
                                                     getPos().getY(),
                                                     getPos().getX()+width,
-                                                    getPos().getY()+height,
-                                                    arcWidth,
-                                                    arcHeight);
+                                                    getPos().getY()+height);
+        outerStatusBar.setFill(outerBarPaint);
+        outerStatusBar.setArcWidth(arcWidth);
+        outerStatusBar.setArcHeight(arcHeight);
+        getGroup().getChildren().add(outerStatusBar);
 
+        //draw inner status bar
+        Rectangle innerStatusBar = new Rectangle(   getPos().getX(),
+                                                    getPos().getY(),
+                                                    getPos().getX()+innerWidth,
+                                                    getPos().getY()+height);
+        outerStatusBar.setFill(innerBarPaint);
+        outerStatusBar.setArcWidth(arcWidth);
+        outerStatusBar.setArcHeight(arcHeight);
+        getGroup().getChildren().add(innerStatusBar);
+
+        if(isBorder){
+            Rectangle border = new Rectangle(   getPos().getX(),
+                                                getPos().getY(),
+                                                getPos().getX()+width,
+                                                getPos().getY()+height);
+            border.setFill(borderColor);
+            outerStatusBar.setArcWidth(arcWidth);
+            outerStatusBar.setArcHeight(arcHeight);
+            getGroup().getChildren().add(border);
         }
+
     }
 }
 
