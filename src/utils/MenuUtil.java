@@ -2,6 +2,7 @@ package utils;
 
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -11,9 +12,11 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import java.util.HashMap;
+
 
 public class MenuUtil {
-    Scene menuScene;
+    Scene SCENE_MENU;
     WindowUtil context;
     GroupBuilder mainMenu;
     GroupBuilder settingsMenu;
@@ -61,9 +64,10 @@ public class MenuUtil {
     public static String GROUP_ABOUT = "GROUP_ABOUT";
     public static String GROUP_EXIT = "GROUP_EXIT";
 
+    String currentGroup;
+    public HashMap<String, Group> menuGroupMap = new HashMap<>();
 
-
-    MenuUtil(WindowUtil ctx) {
+    public MenuUtil(WindowUtil ctx) {
         context = ctx;
         mainMenu = new GroupBuilder();
         settingsMenu = new GroupBuilder();
@@ -71,23 +75,36 @@ public class MenuUtil {
         aboutMenu = new GroupBuilder();
         exitButton = new GroupBuilder();
 
-        menuScene = new Scene(mainMenu.getGroup(),context.WIDTH,context.HEIGHT);
+        SCENE_MENU = new Scene(mainMenu.getGroup(),context.WIDTH,context.HEIGHT);
         buildMainMenu();
         buildControlsMenu();
         buildSettingsMenu();
         buildAboutMenu();
 
 
-        context.addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
-        context.addGroup(GROUP_SETTINGS, settingsMenu.getGroup());
-        context.addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
-        context.addGroup(GROUP_ABOUT, aboutMenu.getGroup());
-        context.addGroup(GROUP_EXIT, exitButton.getGroup());
-
-        context.SCENE_MENU = menuScene;
+        addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
+        addGroup(GROUP_SETTINGS, settingsMenu.getGroup());
+        addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
+        addGroup(GROUP_ABOUT, aboutMenu.getGroup());
+        addGroup(GROUP_EXIT, exitButton.getGroup());
     }
 
+    protected void addGroup(String name, Group group) {
+        menuGroupMap.put(name, group);
+    }
 
+    protected void removeGroup(String name) {
+        menuGroupMap.remove(name);
+    }
+
+    public void activateGroup(String name) {
+        currentGroup = name;
+        SCENE_MENU.setRoot(menuGroupMap.get(name));
+    }
+
+    public Scene getScene(){
+        return SCENE_MENU;
+    }
 
     public void buildMainMenu() {
 
@@ -113,7 +130,7 @@ public class MenuUtil {
         Rectangle startHitBox = mainMenu.drawRectangle(50,120,225,30,0,0,Color.TRANSPARENT);
         startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.showScene(context.SCENE_GAME); }
+                    public void handle(MouseEvent me) { context.showScene(context.getGameScene()); }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -136,7 +153,7 @@ public class MenuUtil {
         Rectangle settingsHitBox = mainMenu.drawRectangle(50,170,225,30,0,0,Color.TRANSPARENT);
         settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.activateGroup(GROUP_SETTINGS); }
+                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
                 });
         settingsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -160,7 +177,7 @@ public class MenuUtil {
         Rectangle controlsHitBox = mainMenu.drawRectangle(50,220,225,30,0,0,Color.TRANSPARENT);
         controlsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.activateGroup(GROUP_CONTROLS); }
+                    public void handle(MouseEvent me) { activateGroup(GROUP_CONTROLS); }
                 });
         controlsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -183,7 +200,7 @@ public class MenuUtil {
         Rectangle aboutHitBox = mainMenu.drawRectangle(50,270,225,30,0,0,Color.TRANSPARENT);
         aboutHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.activateGroup(GROUP_ABOUT); }
+                    public void handle(MouseEvent me) { activateGroup(GROUP_ABOUT); }
                 });
         aboutHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -247,7 +264,7 @@ public class MenuUtil {
         Rectangle returnHitBox = controlsMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.activateGroup(GROUP_MAIN_MENU); }
+                    public void handle(MouseEvent me) { activateGroup(GROUP_MAIN_MENU); }
                 });
         returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -288,7 +305,7 @@ public class MenuUtil {
         Rectangle returnHitBox = settingsMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.activateGroup(GROUP_MAIN_MENU); }
+                    public void handle(MouseEvent me) { activateGroup(GROUP_MAIN_MENU); }
                 });
         returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -329,7 +346,7 @@ public class MenuUtil {
         Rectangle quitHitBox = aboutMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
         quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.activateGroup(GROUP_MAIN_MENU); }
+                    public void handle(MouseEvent me) { activateGroup(GROUP_MAIN_MENU); }
                 });
         quitHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {

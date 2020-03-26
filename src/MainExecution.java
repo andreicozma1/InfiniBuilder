@@ -37,6 +37,7 @@ public class MainExecution extends Application {
         // set up needed Utils for the game
         ResourcesUtil materials = new ResourcesUtil();
         WindowUtil window = new WindowUtil(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
+        MenuUtil menu = new MenuUtil(window);
         CameraUtil camera = new CameraUtil(window);
         ControlsUtil controls = new ControlsUtil(window);
         PlayerUtil player = new PlayerUtil(window);
@@ -50,7 +51,7 @@ public class MainExecution extends Application {
 
 
         // build the window
-        window.buildMenu();
+        window.setMenu(menu);
         window.setCamera(camera);
         window.setControls(controls);
         window.setPlayer(player);
@@ -64,23 +65,25 @@ public class MainExecution extends Application {
         InventoryUtil inventoryUtil = new InventoryUtil(10);
         inventoryUtil.addItem(dirt);
         inventoryUtil.addItem(dirt,2);
+        inventoryUtil.setCurrentIndex(8);
         inventoryUtil.print();
         inventoryUtil.addItem(4,grass,4);
         inventoryUtil.print();
         inventoryUtil.popItem(grass);
+        inventoryUtil.setCurrentIndex(3);
         inventoryUtil.print();
         inventoryUtil.popItem(grass,3);
         inventoryUtil.print();
 
 
         // close window on menu if ESC is pressed
-        controls.getControllerForScene(window.SCENE_MENU).setOnKeyPressed(event -> {
+        controls.getControllerForScene(window.getMenu().getScene()).setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ESCAPE) {
                     window.closeWindow();
                 }
             });
 
-        window.showScene(window.SCENE_MENU);
+        window.showScene(window.getMenu().getScene());
 
             // MAIN GAME LOOP
             AnimationTimer timer = new AnimationTimer() {
@@ -91,7 +94,7 @@ public class MainExecution extends Application {
 
                 // FPS HANDLING
                 if ((now - last) > (1 / 60)) {
-                    if (window.getCurrentScene() == window.SCENE_GAME) {
+                    if (window.getCurrentScene() == window.getGameScene()) {
                         controls.handleKeyboard(envir.getWorldGroup());
                         envir.update_handler();
                         player.update_handler();

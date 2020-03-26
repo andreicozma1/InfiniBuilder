@@ -14,14 +14,11 @@ import java.util.HashMap;
 
 public class WindowUtil {
 
-    public HashMap<String, Group> menuGroupMap = new HashMap<>();
+    public double WIDTH;
+    public double HEIGHT;
 
-    double WIDTH;
-    double HEIGHT;
-    String currentGroup;
+    private Scene SCENE_GAME;
 
-    public Scene SCENE_GAME;
-    public Scene SCENE_MENU;
     public Scene SCENE_CURRENT;
 
     public Stage stage;
@@ -83,9 +80,13 @@ public class WindowUtil {
         return SCENE_CURRENT;
     }
 
-    public void buildMenu() {
-        menu_util = new MenuUtil(this);
-        SCENE_MENU = menu_util.menuScene;
+    public void setMenu(MenuUtil ut) {
+        menu_util = ut;
+//        SCENE_MENU = menu_util.menuScene;
+    }
+
+    public MenuUtil getMenu(){
+        return menu_util;
     }
 
     public Stage getStage() {
@@ -93,18 +94,7 @@ public class WindowUtil {
     }
 
 
-    protected void addGroup(String name, Group group) {
-        menuGroupMap.put(name, group);
-    }
 
-    protected void removeGroup(String name) {
-        menuGroupMap.remove(name);
-    }
-
-    public void activateGroup(String name) {
-        currentGroup = name;
-        SCENE_MENU.setRoot(menuGroupMap.get(name));
-    }
 
 
     public void moveCursor(double screenX, double screenY) {
@@ -133,21 +123,24 @@ public class WindowUtil {
         }
     }
 
+    public Scene getGameScene(){
+        return SCENE_GAME;
+    }
 
     public void showScene(Scene NEXT_SCENE) {
         SCENE_CURRENT = NEXT_SCENE;
 
-        if(SCENE_CURRENT == SCENE_GAME){
+        if(SCENE_CURRENT == this.getGameScene()){
             System.out.println("Switched to Game Scene");
           getEnvironment().getSkybox().resetLighting();
             hideCursor();
         }
-        if(SCENE_CURRENT == SCENE_MENU) {
+        if(SCENE_CURRENT == menu_util.getScene()) {
             System.out.println("Switched to Menu Scene");
             showCursor(Cursor.DEFAULT);
         }
 
-        stage.setScene(NEXT_SCENE);
+        stage.setScene(SCENE_CURRENT);
         stage.setTitle("307FinalProject");
         stage.show();
     }
