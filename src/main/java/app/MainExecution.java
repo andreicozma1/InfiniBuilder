@@ -35,8 +35,6 @@ public class MainExecution extends Application {
         PRIMARY_WIDTH = Screen.getPrimary().getBounds().getWidth() / 2;
         PRIMARY_HEIGHT = Screen.getPrimary().getBounds().getHeight() / 2;
 
-
-
         // set up needed Utils for the game
         ResourcesUtil materials = new ResourcesUtil(this);
         WindowUtil window = new WindowUtil(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
