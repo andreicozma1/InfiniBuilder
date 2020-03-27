@@ -107,7 +107,7 @@
                 <version>2.5</version>
                 <executions>
                     <execution>
-                        <phase>validate</phase>
+                        <phase>compile</phase>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
