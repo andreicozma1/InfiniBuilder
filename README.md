@@ -1,6 +1,6 @@
 # CS307 Final Project
-- Andrei Cozma & Hunter Price  
-Trello: ([https://trello.com/b/ghb9XDRV/cs307-final-project])
+- Andrei Cozma & Hunter Price
+Trello: https://trello.com/b/ghb9XDRV/cs307-final-project
 
 ## COMPILATION & INSTALLATION:
 
