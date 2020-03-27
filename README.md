@@ -51,12 +51,13 @@ Usage: `> mvn command`
 8. deploy
 
 ### IMPORT INTO IntelliJ IDEA:  
+1. Clone Repository
 ```
 	> git clone https://github.com/andreicozma1/CS307FinalProject  
 	> cd CS307FinalProject  
 ```
-1. Open IntelliJ IDEA -> Import -> pom.xml  
-2. All dependencies are loaded by the Maven Build System  
-3. Click the Maven Tab on the right side of the IDE for options and commands  
-4. Add Configuration -> Click + -> Select Maven -> Write "javafx:run" for Command Line   
+2. Open IntelliJ IDEA -> Import -> pom.xml  
+3. All dependencies are loaded by the Maven Build System  
+4. Click the Maven Tab on the right side of the IDE for options and commands  
+5. Add Configuration -> Click + -> Select Maven -> Write "javafx:run" for Command Line   
 
