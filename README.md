@@ -12,7 +12,7 @@ Trello: https://trello.com/b/ghb9XDRV/cs307-final-project
 (or)  
 	> mvn clean compile // do both  
 ```
-2. RUN: 
+2. RUN 
 ```
 	> mvn javafx:run  
 (or)  
@@ -26,7 +26,7 @@ Trello: https://trello.com/b/ghb9XDRV/cs307-final-project
 (or)  
 	> mvn clean package // do both  
 ```
-3. RUN:  
+3. RUN  
 ```
 	> java -jar target/307Proj.jar  
 ```
