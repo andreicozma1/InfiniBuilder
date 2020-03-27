@@ -2,3 +2,4 @@
 307FinalProject.jar
 .idea
 *.iml
+/target/
