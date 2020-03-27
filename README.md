@@ -31,7 +31,7 @@ Trello: https://trello.com/b/ghb9XDRV/cs307-final-project
 
 ### MAVEN LIFECYCLE
 Usage:  
-	> mvn command
+'''	> mvn command
 1. process-resources
 2. compile
 3. process-test-resources
