@@ -1,9 +1,11 @@
 package app.structures;
 
+import app.items.Item;
 import javafx.scene.Group;
 import app.utils.PhysicsUtil;
 
-public class StructureBuilder extends Group {
+public abstract class StructureBuilder extends Group implements Item {
+    private String itemTag;
     private double x = 0;
     private double y = 0;
     private double z = 0;
@@ -14,7 +16,6 @@ public class StructureBuilder extends Group {
     private boolean physicsState = false;
     private PhysicsUtil physicsUtil;
     private int type;
-
     public static int TYPE_OBJECT = 0;
     public static int TYPE_WEAPON = 1;
 
@@ -22,6 +23,15 @@ public class StructureBuilder extends Group {
         type = TYPE_OBJECT;
     }
 
+    @Override
+    public String getItemTag() {
+        return itemTag;
+    }
+
+    @Override
+    public void setItemTag(String tag) {
+        itemTag = tag;
+    }
 
     public void setSolidState(boolean state) {
         solidState = state;
