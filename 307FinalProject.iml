@@ -21,5 +21,6 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:13" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:linux:13" level="project" />
     <orderEntry type="library" name="Maven: com.interactivemesh.jfx.importer.obj:example-app:1.0" level="project" />
+    <orderEntry type="library" name="Maven: commons-io:commons-io:2.1" level="project" />
   </component>
 </module>

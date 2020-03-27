@@ -4,11 +4,25 @@ import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
 
 import app.structures.StructureBuilder;
 import javafx.scene.Node;
+import org.apache.commons.io.IOUtils;
+import sun.nio.ch.IOUtil;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class ModelUtil {
 
@@ -19,15 +33,48 @@ public class ModelUtil {
 
 
     public ModelUtil() {
-        res_folder = new File(getClass().getResource("/models").getFile());
-        System.out.println(res_folder.getAbsolutePath());
-
         obj_importer = new TdsModelImporter();
-
         resources = new HashMap<String, File>();
 
-        File[] list_of_files = res_folder.listFiles();
+        // ONLY DO IF JAR
+        JarFile jf = null;
+        try {
+            String s = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
+            System.out.println(s);
+            jf = new JarFile(s.toString());
 
+            Enumeration<JarEntry> entries = jf.entries();
+            while (entries.hasMoreElements()) {
+                JarEntry je = entries.nextElement();
+
+                if (je.getName().startsWith("models") && je.getName().endsWith(".3ds")) {
+                    System.out.println(je.getName());
+
+
+                    InputStream is = getClass().getResourceAsStream("/models/" + je.getName());
+                    File f = File.createTempFile(je.getName(), ".3ds");
+                    f.deleteOnExit();
+                    FileOutputStream out = new FileOutputStream(f);
+                    IOUtils.copy(is,out);
+
+
+                    resources.put(je.getName(), f);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                jf.close();
+            } catch (Exception e) {
+            }
+        }
+
+
+        // ONLY DO IF NOT JAR
+        res_folder = new File(this.getClass().getResource("/models").getFile());
+
+        File[] list_of_files = res_folder.listFiles();
         for (File file : list_of_files) {
             File[] list_of_files1 = file.listFiles();
             for (File file1 : list_of_files1) {
@@ -35,6 +82,8 @@ public class ModelUtil {
                 resources.put(file1.getName(), file1);
             }
         }
+
+
     }
 
 
