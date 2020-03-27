@@ -30,8 +30,8 @@ Trello: https://trello.com/b/ghb9XDRV/cs307-final-project
 2. Run with either of the Run options described above
 
 ### MAVEN LIFECYCLE
-Usage:  
-'''	> mvn command
+Usage:
+    > mvn command
 1. process-resources
 2. compile
 3. process-test-resources
@@ -47,5 +47,5 @@ Usage:
 1. Open IntelliJ IDEA -> Import -> pom.xml
 2. All dependencies are loaded by the Maven Build System
 3. Click the Maven Tab on the right side of the IDE for options and commands
-4. Add Configuration -> Click + -> Select Maven -> Write "javafx:run" for Command Line
+4. Add Configuration -> Click + -> Select Maven -> Write "javafx:run" for Command Line  
 
