@@ -1,0 +1,8 @@
+Equations to calculate triangle:
+
+(P1)o-----o(P2)
+     \   /
+      \ /
+       o (Player)
+P1 = (  [player x - [renderDistance*cos(player view angle)]], player z +render distance )
+P2 = (  [player x + [renderDistance*cos(player view angle)]], player z +render distance )
