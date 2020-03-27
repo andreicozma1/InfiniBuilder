@@ -14,11 +14,15 @@ public class StatusBar extends HUDElement{
     private double height;
     private double arcWidth = 0;
     private double arcHeight = 0;
+    private double borderWidth = 2;
     private Paint innerBarPaint;
     private Paint outerBarPaint;
     private Paint borderColor = Color.BLACK;
     private boolean isBorder = false;
     private boolean isEmpty = false;
+    private boolean isVertical = false;
+    private boolean isDefaultDirection = true;
+
 
     public StatusBar(   String elementTag,
                         Point2D pos,
@@ -28,12 +32,12 @@ public class StatusBar extends HUDElement{
                         Paint innerBarPaint,
                         Paint outerBarPaint){
         super(elementTag,pos);
-        this.maxStatus = this.currStatus = maxStatus;
+        this.maxStatus = maxStatus;
+        this.currStatus = maxStatus;
         this.width = width;
         this.height = height;
         this.innerBarPaint = innerBarPaint;
         this.outerBarPaint = outerBarPaint;
-
         generateStatusBar();
     }
 
@@ -45,6 +49,9 @@ public class StatusBar extends HUDElement{
     public Paint getInnerBarPaint() { return innerBarPaint; }
     public Paint getOuterBarPaint() { return outerBarPaint; }
     public boolean getIsEmpty(){ return isEmpty; }
+    public double getBorderWidth() { return borderWidth; }
+    public boolean getIsVertical() { return isVertical; }
+    public boolean isDefaultDirection() { return isDefaultDirection; }
 
     // set max status error checks to make sure currStatus is never larger than max status
     public void setMaxStatus(double maxStatus){
@@ -66,9 +73,13 @@ public class StatusBar extends HUDElement{
             currStatus = maxStatus;
             isEmpty = false;
         }
-        else isEmpty = false;
+        else {
+            isEmpty = false;
+        }
 
         this.currStatus = currStatus;
+
+        System.out.println(currStatus + " out of "+maxStatus);
     }
 
 
@@ -81,41 +92,63 @@ public class StatusBar extends HUDElement{
     public void setOuterBarPaint(Paint outerBarPaint) { this.outerBarPaint = outerBarPaint; }
     public void setBorderColor(Paint borderColor) { this.borderColor = borderColor; }
     public void setBorder(boolean state) { isBorder = state; }
+    public void setBorderWidth(double borderWidth) { this.borderWidth = borderWidth; }
+    public void setVertical(boolean vertical) { isVertical = vertical; }
+    public void setDefaultDirection(boolean defaultDirection) { isDefaultDirection = defaultDirection; }
 
-    private void generateStatusBar(){
+    public void generateStatusBar(){
+        getGroup().getChildren().clear();
+
+        System.out.println("CurrStatus = "+currStatus+", MaxStatus = "+maxStatus);
         double innerWidth = (currStatus/maxStatus) * width;
+        double innerHeight = (currStatus/maxStatus) * height;
 
         //draw outer status bar
         Rectangle outerStatusBar = new Rectangle(   getPos().getX(),
-                                                    getPos().getY(),
-                                                    getPos().getX()+width,
-                                                    getPos().getY()+height);
+                getPos().getY(),
+                width,
+                height);
         outerStatusBar.setFill(outerBarPaint);
+        if(isBorder) {
+            outerStatusBar.setStroke(borderColor);
+            outerStatusBar.setStrokeWidth(borderWidth);
+        }
         outerStatusBar.setArcWidth(arcWidth);
         outerStatusBar.setArcHeight(arcHeight);
-        getGroup().getChildren().add(outerStatusBar);
 
         //draw inner status bar
-        Rectangle innerStatusBar = new Rectangle(   getPos().getX(),
-                                                    getPos().getY(),
-                                                    getPos().getX()+innerWidth,
-                                                    getPos().getY()+height);
-        outerStatusBar.setFill(innerBarPaint);
-        outerStatusBar.setArcWidth(arcWidth);
-        outerStatusBar.setArcHeight(arcHeight);
-        getGroup().getChildren().add(innerStatusBar);
-
-        if(isBorder){
-            Rectangle border = new Rectangle(   getPos().getX(),
-                                                getPos().getY(),
-                                                getPos().getX()+width,
-                                                getPos().getY()+height);
-            border.setFill(borderColor);
-            outerStatusBar.setArcWidth(arcWidth);
-            outerStatusBar.setArcHeight(arcHeight);
-            getGroup().getChildren().add(border);
+        Rectangle innerStatusBar;
+        if(isVertical) {
+            if(isDefaultDirection) {
+                innerStatusBar = new Rectangle(getPos().getX(),
+                        getPos().getY(),
+                        width,
+                        innerHeight);
+            }else{
+                innerStatusBar = new Rectangle(getPos().getX(),
+                        getPos().getY() + height - innerHeight,
+                        width,
+                        innerHeight);
+            }
+        }else {
+            if(isDefaultDirection) {
+                innerStatusBar = new Rectangle(getPos().getX(),
+                        getPos().getY(),
+                        innerWidth,
+                        height);
+            }else{
+                innerStatusBar = new Rectangle(getPos().getX() + width - innerWidth,
+                        getPos().getY(),
+                        innerWidth,
+                        height);
+            }
         }
+
+        innerStatusBar.setFill(innerBarPaint);
+        innerStatusBar.setArcWidth(arcWidth);
+        innerStatusBar.setArcHeight(arcHeight);
+        getGroup().getChildren().addAll(outerStatusBar,innerStatusBar);
+
 
     }
 }
-

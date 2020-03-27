@@ -2,6 +2,7 @@
 package app;
 
 import app.hud.HUDUtil;
+import app.hud.Inventory;
 import app.hud.StatusBar;
 import app.environment.EnvironmentUtil;
 import app.environment.SkyboxUtil;
@@ -63,30 +64,94 @@ public class MainExecution extends Application {
         Item dirt = new Item("DIRT");
         Item grass = new Item("GRASS");
         InventoryUtil inventoryUtil = new InventoryUtil(10);
-        inventoryUtil.addItem(dirt);
-        inventoryUtil.addItem(dirt,2);
+        inventoryUtil.addItem(4,grass,4);
+        inventoryUtil.addItem(dirt,3);
         inventoryUtil.setCurrentIndex(8);
         inventoryUtil.print();
-        inventoryUtil.addItem(4,grass,4);
-        inventoryUtil.print();
-        inventoryUtil.popItem(grass);
-        inventoryUtil.setCurrentIndex(3);
-        inventoryUtil.print();
-        inventoryUtil.popItem(grass,3);
-        inventoryUtil.print();
+
+
 
 
         //testing hudutil drawing a health status bar
         HUDUtil hudUtil = new HUDUtil(player,800,600);
+
+        //health bar
         StatusBar health = new StatusBar(   "HEALTH",
-                new Point2D(50,50),
-                100,
-                100,
-                25,
+                new Point2D(300,50),
+                500,
+                300,
+                15,
                 Color.RED,
-                Color.DARKRED);
+                Color.valueOf("400000"));
+        health.setCurrStatus(425);
         health.setBorder(true);
+        health.setBorderColor(Color.WHITE);
+        health.setArcHeight(20);
+        health.setArcWidth(20);
+        health.generateStatusBar();
         hudUtil.addElement(health);
+
+        //stamina bar
+        StatusBar stamina = new StatusBar(   "STAMINA",
+                new Point2D(300,150),
+                200,
+                15,
+                200,
+                Color.GREEN,
+                Color.valueOf("013220"));
+        stamina.setCurrStatus(160);
+        stamina.setVertical(true);
+        stamina.setBorder(true);
+        stamina.setBorderColor(Color.WHITE);
+        stamina.setArcHeight(20);
+        stamina.setArcWidth(20);
+        stamina.generateStatusBar();
+        hudUtil.addElement(stamina);
+
+        StatusBar hunger = new StatusBar(   "HUNGER",
+                new Point2D(300,100),
+                500,
+                300,
+                15,
+                Color.LIGHTPINK,
+                Color.valueOf("421c52"));
+        hunger.setCurrStatus(100);
+        hunger.setBorder(true);
+        hunger.setDefaultDirection(false);
+        hunger.setBorderColor(Color.WHITE);
+        hunger.setArcHeight(20);
+        hunger.setArcWidth(20);
+        hunger.generateStatusBar();
+        hudUtil.addElement(hunger);
+
+        //stamina bar
+        StatusBar dickLength = new StatusBar(   "DICKLENGTH",
+                new Point2D(350,150),
+                200,
+                15,
+                200,
+                Color.BLUE,
+                Color.valueOf("010048"));
+        dickLength.setCurrStatus(40);
+        dickLength.setVertical(true);
+        dickLength.setBorder(true);
+        dickLength.setDefaultDirection(false);
+        dickLength.setBorderColor(Color.WHITE);
+        dickLength.setArcHeight(20);
+        dickLength.setArcWidth(20);
+        dickLength.generateStatusBar();
+        hudUtil.addElement(dickLength);
+
+        Inventory inv = new Inventory(  "INVENTORY",
+                new Point2D(200,400),
+                inventoryUtil,
+                600,100,5,Color.WHITE,Color.GREY);
+
+        inv.generateInventory();
+        hudUtil.addElement(inv);
+
+
+        menu.menuGroupMap.get(MenuUtil.GROUP_MAIN_MENU).getChildren().add(hudUtil.getSubScene());
 
         // close window on menu if ESC is pressed
         controls.getControllerForScene(window.getMenu().getScene()).setOnKeyPressed(event -> {

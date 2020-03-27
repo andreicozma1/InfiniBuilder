@@ -1,9 +1,15 @@
 package app.hud;
 
+import app.hud.HUDElement;
 import app.items.InventoryUtil;
+import app.items.Item;
+import app.resources.ResourcesUtil;
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Box;
+import javafx.scene.shape.Rectangle;
 
 /*
  *  will display each item in the inventoryUtil
@@ -18,16 +24,16 @@ import javafx.scene.paint.Paint;
  */
 
 
-public class Inventory extends HUDElement{
+public class Inventory extends HUDElement {
 
     private InventoryUtil inventoryUtil;
     private int inventorySize;
     private double width;
-    private double height ;
+    private double height;
     private double borderWidth;
     private Paint panelColor;
     private Paint slotColor;
-    private Paint selectedItemColor = Color.WHITE;
+    private Paint selectedItemColor = Color.YELLOW;
     private Paint emptyItemColor = Color.DARKGRAY;
 
     public Inventory(String elementTag,
@@ -63,53 +69,52 @@ public class Inventory extends HUDElement{
     public void setSelectedItemColor(Paint selectedItemColor) { this.selectedItemColor = selectedItemColor; }
     public void setEmptyItemColor(Paint emptyItemColor) { this.emptyItemColor = emptyItemColor; }
 
-    private void generateInventory(){
+    public void generateInventory(){
+        getGroup().getChildren().clear();
         // **** once this we get this to draw onto the screen change this, so the user sets this value ****
-/*
+
         // determines the slot width based off the given inventory width, inventory size, and border width
         double slotWidth = ( width - ( ( inventorySize + 1 ) * borderWidth ) ) / inventorySize;
         double slotHeight = height - ( 2 * borderWidth );
         double slotY = getPos().getY() + borderWidth;
 
         // draw inventory backdrop
-        getGraphicsContext().setFill(panelColor);
-        getGraphicsContext().fillRoundRect( getPos().getX(),
-                                            getPos().getY(),
-                                            width,
-                                            height,
-                                            0,
-                                            0 );
+        Rectangle inventoryBackdrop = new Rectangle(getPos().getX(),
+                getPos().getY(),
+                width,
+                height);
+        inventoryBackdrop.setStroke(Color.BLACK);  // change this to user setting
+        inventoryBackdrop.setFill(panelColor);
+        getGroup().getChildren().add(inventoryBackdrop);
+
         // draw each individual panel
         for ( int i = 0 ; i < inventorySize ; i++ ) {
+            Rectangle slotBackdrop = new Rectangle();
+
             // calculate start of the inventory box
-            double currSlotX = ( getPos().getX() + borderWidth ) + ( i * ( slotWidth + borderWidth ) );
+            double currSlotX = (getPos().getX() + borderWidth) + (i * (slotWidth + borderWidth));
 
             // draw the slot border
-            if( inventoryUtil.isCurrentIndex(i)) getGraphicsContext().setFill(selectedItemColor);
-            else getGraphicsContext().setFill(slotColor);
+            if (inventoryUtil.isCurrentIndex(i)) slotBackdrop.setFill(selectedItemColor);
+            else slotBackdrop.setFill(slotColor);
 
-            getGraphicsContext().fillRoundRect( currSlotX,
-                                                slotY,
-                                                slotWidth,
-                                                slotHeight,
-                                                0,
-                                                0 );
+            slotBackdrop.setX(currSlotX);
+            slotBackdrop.setY(slotY);
+            slotBackdrop.setWidth(slotWidth);
+            slotBackdrop.setHeight(slotHeight);
+            slotBackdrop.setStroke(Color.BLACK);  // change this to user setting
+            getGroup().getChildren().add(slotBackdrop);
 
-            // draw the slot contents
-            // *** change the else .setFill to set it to the item color ***
-            // *** might need to change an item to hold an image ***
-            if( inventoryUtil.getCurrentItem().getItemTag() == "EMPTY" ) getGraphicsContext().setFill(emptyItemColor);
-            else getGraphicsContext().setFill(Color.YELLOW);
-
-            getGraphicsContext().fillRoundRect( currSlotX + 2,
-                                                slotY + 2,
-                                                slotHeight - 4,
-                                                slotWidth - 4,
-                                                0,
-                                                0 );
-
+            // draw each item
+            Group item  = inventoryUtil.getItem(i).getGroup();
+            item.setTranslateX(currSlotX+(slotWidth/2));
+            item.setTranslateY(slotY+(slotHeight/2));
+            item.setScaleX(slotWidth/100);
+            item.setScaleY(slotWidth/100);
+            item.setScaleZ(slotWidth/100);
+            item.toFront();
+            getGroup().getChildren().add(item);
         }
 
- */
     }
 }
