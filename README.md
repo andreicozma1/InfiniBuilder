@@ -1,7 +1,6 @@
 # CS307 Final Project  
 - Andrei Cozma & Hunter Price  
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
-- GitHub Link: https://github.com/andreicozma1/CS307FinalProject/blob/maven/README.md
 
 ## COMPILATION & INSTALLATION:  
 
