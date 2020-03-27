@@ -6,6 +6,7 @@ import app.hud.Inventory;
 import app.hud.StatusBar;
 import app.environment.EnvironmentUtil;
 import app.environment.SkyboxUtil;
+import app.items.Block;
 import app.items.InventoryUtil;
 import app.items.Item;
 import app.player.CameraUtil;
@@ -61,8 +62,9 @@ public class MainExecution extends Application {
 
 
         // testing inventory Util with a base item that only holds the item tag
-        Item dirt = new Item("DIRT");
-        Item grass = new Item("GRASS");
+        Block dirt = new Block("DIRT",ResourcesUtil.dirt);
+        Block grass = new Block("GRASS",ResourcesUtil.grass);
+
         InventoryUtil inventoryUtil = new InventoryUtil(10);
         inventoryUtil.addItem(4,grass,4);
         inventoryUtil.addItem(dirt,3);
