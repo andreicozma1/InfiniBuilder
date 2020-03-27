@@ -6,39 +6,39 @@
 ## COMPILATION & INSTALLATION:  
 
 ### OPTION 1:  
-1. COMPILE  
+- COMPILE  
 ```
 	> mvn clean // delete compiled files, optional  
 	> mvn compile // compile source code  
 (or)  
 	> mvn clean compile // do both  
 ```
-2. RUN 
+- RUN 
 ```
 	> mvn javafx:run  
 (or)  
 	> mvn exec:java  
 ```
 ### OPTION 2:  
-1. PACKAGE  
+- PACKAGE  
 ```
 	> mvn clean // delete compiled files, optional  
 	> mvn package // Compiles & Packages JAR inside "target" folder  
 (or)  
 	> mvn clean package // do both  
 ```
-3. RUN  
+- RUN  
 ```
 	> java -jar target/307Proj.jar  
 ```
 ### OPTION 3:  
-1. INSTALL  
+- INSTALL  
 ```
 	> mvn install // Compiles & Packages & Install into Local Repository  
 (or)  
 	> mvn clean install // Cleans and Installs  
 ```
-2. Run with either of the Run options described above  
+- Run with either of the Run options described above  
 
 ### MAVEN LIFECYCLE:  
 Usage: `> mvn command`  
