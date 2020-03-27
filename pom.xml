@@ -26,7 +26,8 @@
             <groupId>com.interactivemesh.jfx.importer.obj</groupId>
             <artifactId>example-app</artifactId>
             <version>1.0</version>
-            <path>${basedir}/lib/interactive-mesh/jim3dsModelImporterJFX.jar</path>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/interactive-mesh/jim3dsModelImporterJFX.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
