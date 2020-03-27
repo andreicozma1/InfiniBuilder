@@ -23,7 +23,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
-
 public class MainExecution extends Application {
 
     private double PRIMARY_WIDTH;

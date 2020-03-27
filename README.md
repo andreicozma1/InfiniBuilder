@@ -46,4 +46,8 @@ Usage:
 ###IMPORT INTO IntelliJ IDEA
 	> git clone https://github.com/andreicozma1/CS307FinalProject
 	> cd CS307FinalProject
-	> idea 
+	Open IntelliJ IDEA -> Import -> pom.xml
+	All dependencies are loaded by the Maven Build System
+	Click the Maven Tab on the right side of the IDE for options and commands  
+	Add Configuration -> Click + -> Select Maven -> Write "javafx:run" for Command Line
+
