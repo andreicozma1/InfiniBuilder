@@ -1,14 +1,16 @@
 package app.environment;
 
+import app.structures.objects.Base_Cube;
+import app.structures.objects.Base_Model;
 import javafx.geometry.Point2D;
 import javafx.scene.*;
 import javafx.scene.shape.Box;
 import app.algorithms.SimplexUtil;
 import javafx.scene.shape.CullFace;
-import app.utils.ModelUtil;
-import app.structures.DrawCube;
+import app.utils.TDModelUtil;
+import app.structures.objects.Base_Cube;
 import app.structures.StructureBuilder;
-import app.resources.ResourcesUtil;
+import app.utils.ResourcesUtil;
 import app.utils.WindowUtil;
 
 import java.util.HashMap;
@@ -19,7 +21,7 @@ public class EnvironmentUtil {
     public WindowUtil context;
 
     private SkyboxUtil skybox = null;
-    private ModelUtil modelUtil;
+    private TDModelUtil modelUtil;
 
     public static Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
     public static Group GROUP_TERRAIN;
@@ -57,7 +59,7 @@ public class EnvironmentUtil {
     public EnvironmentUtil(WindowUtil ctx) {
         context = ctx;
         GROUP_WORLD = new Group(); // initialize the world group, which contains the TERRAIN and STRUCTURES subgroups
-        modelUtil = new ModelUtil();
+        modelUtil = new TDModelUtil();
 
         GROUP_TERRAIN = new Group();
         GROUP_STRUCTURES = new Group();
@@ -112,36 +114,39 @@ public class EnvironmentUtil {
     public StructureBuilder create_platform(double x, double y, double z) {
 
         StructureBuilder b = new StructureBuilder();
-        Box box = new Box();
-        box.setWidth(terrain_block_width);
-        box.setHeight(terrain_block_height);
-        box.setDepth(terrain_block_depth);
 
+
+        Base_Cube box = new Base_Cube("Terrain Base",getBlockDim());
         b.getChildren().add(box);
 
         if (y < peak_level) {
             box.setMaterial(ResourcesUtil.stone);
+            box.setItemTag("Stone");
             if (terrain_should_generate_vegetation && Math.random() > .995) {
-                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"peak", "rock"});
-                tree.setScale(15 + Math.random() * 20);
+                Base_Model tree = modelUtil.getRandomMatching(new String[]{"peak", "rock"});
+                tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
                 b.getChildren().add(tree);
             }
         } else if (y < hills_level) {
             box.setMaterial(ResourcesUtil.moss);
+            box.setItemTag("Moss");
+
             if (terrain_should_generate_vegetation && Math.random() > .97) {
-                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"mountain", "rock"});
-                tree.setScale(15 + Math.random() * 20);
+                Base_Model tree = modelUtil.getRandomMatching(new String[]{"mountain", "rock"});
+                tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
                 b.getChildren().add(tree);
             }
         } else if (y < plains_level) {
             box.setMaterial(ResourcesUtil.grass);
+            box.setItemTag("Grass");
+
             if (terrain_should_generate_vegetation && Math.random() > .97) {
-                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"plains", "rock", "veg"});
-                tree.setScale(15 + Math.random() * 20);
+                Base_Model tree = modelUtil.getRandomMatching(new String[]{"plains", "rock", "veg"});
+                tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
                 b.getChildren().add(tree);
@@ -149,41 +154,45 @@ public class EnvironmentUtil {
             }
         } else if (y < desert_level) {
             box.setMaterial(ResourcesUtil.sand);
+            box.setItemTag("Sand");
+
             if (terrain_should_generate_vegetation && Math.random() > .99) {
-                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"desert", "cactus", "dead"});
-                tree.setScale(15 + Math.random() * 20);
+                Base_Model tree = modelUtil.getRandomMatching(new String[]{"desert", "cactus", "dead"});
+                tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
                 b.getChildren().add(tree);
             }
         } else if (y < water_level) {
             box.setMaterial(ResourcesUtil.dirt);
+            box.setItemTag("Dirt");
 
             if (terrain_should_generate_vegetation && Math.random() > .99) {
-                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"dirt", "rock", "moss"});
-                tree.setScale(15 + Math.random() * 20);
+                Base_Model tree = modelUtil.getRandomMatching(new String[]{"dirt", "rock", "moss"});
+                tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
         } else {
             box.setMaterial(ResourcesUtil.dirt);
+            box.setItemTag("Dirt");
 
-            DrawCube water = new DrawCube();
-            water.setScaleXYZ(getBlockDim(), .01, getBlockDim());
+            Base_Cube water = new Base_Cube("Water");
+            water.setScaleIndependent(getBlockDim(), .01, getBlockDim());
             water.getBox().setMaterial(ResourcesUtil.water);
             water.getBox().setCullFace(CullFace.BACK);
             water.setTranslateY(-y + water_level - getBlockDim() / 2);
             b.getChildren().add(water);
 
             if (terrain_should_generate_vegetation && Math.random() > .99) {
-                StructureBuilder tree = modelUtil.getRandomMatching(new String[]{"sea","water", "rock", "moss"});
-                tree.setScale(15 + Math.random() * 20);
+                Base_Model tree = modelUtil.getRandomMatching(new String[]{"sea","water", "rock", "moss"});
+                tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
         }
 
-        b.setTranslateXYZ(x, y, z);
+        b.setTranslateIndependent(x, y, z);
 
         return b;
     }
@@ -247,10 +256,6 @@ public class EnvironmentUtil {
 
     public void removeFromGroup(Group gr,Group member) {
         gr.getChildren().remove(member);
-    }
-
-    public ModelUtil getModelUtil() {
-        return modelUtil;
     }
 
     public void setSkyBox(SkyboxUtil sky) {

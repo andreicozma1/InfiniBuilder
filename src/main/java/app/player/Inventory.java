@@ -1,15 +1,13 @@
-package app.hud;
+package app.player;
 
-import app.hud.HUDElement;
-import app.items.InventoryUtil;
-import app.items.Item;
-import app.resources.ResourcesUtil;
+import app.GUI.HUD.HUDElement;
+import app.utils.InventoryUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 /*
  *  will display each item in the inventoryUtil
@@ -106,12 +104,13 @@ public class Inventory extends HUDElement {
             getGroup().getChildren().add(slotBackdrop);
 
             // draw each item
-            Group item  = inventoryUtil.getItem(i).getGroup();
+            Group item  = inventoryUtil.getItem(i);
             item.setTranslateX(currSlotX+(slotWidth/2));
             item.setTranslateY(slotY+(slotHeight/2));
-            item.setScaleX(slotWidth/100);
-            item.setScaleY(slotWidth/100);
-            item.setScaleZ(slotWidth/100);
+            item.setScaleX(slotWidth/3);
+            item.setScaleY(slotWidth/3);
+            item.setScaleZ(slotWidth/3);
+            item.getTransforms().setAll(new Rotate(25,Rotate.X_AXIS),new Rotate(25,Rotate.Y_AXIS));
             item.toFront();
             getGroup().getChildren().add(item);
         }

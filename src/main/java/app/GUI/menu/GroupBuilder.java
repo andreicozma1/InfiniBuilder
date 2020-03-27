@@ -1,4 +1,4 @@
-package app.utils;
+package app.menu;
 
 import javafx.scene.Group;
 import javafx.scene.Parent;

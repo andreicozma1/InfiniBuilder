@@ -1,11 +1,10 @@
 package app.player;
 
-import app.environment.SkyboxUtil;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import app.maze.MazeUtil;
+import app.structures.maze.MazeUtil;
 import app.utils.WindowUtil;
 
 import java.util.ArrayList;

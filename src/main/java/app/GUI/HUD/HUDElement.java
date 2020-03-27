@@ -1,4 +1,4 @@
-package app.hud;
+package app.GUI.HUD;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Group;

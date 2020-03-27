@@ -1,8 +1,8 @@
 package app.utils;
 
+import app.structures.objects.Base_Model;
 import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
 
-import app.structures.StructureBuilder;
 import javafx.scene.Node;
 
 import java.io.*;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class ModelUtil {
+public class TDModelUtil {
 
     public static Map<String, File> resources;
 
@@ -25,7 +25,7 @@ public class ModelUtil {
     String FOLDER_NAME = "models";
     String EXTENSION_3DS = "3ds";
 
-    public ModelUtil() {
+    public TDModelUtil() {
         System.out.println("ModelUtil");
 
         obj_importer = new TdsModelImporter();
@@ -86,8 +86,7 @@ public class ModelUtil {
     }
 
 
-    public StructureBuilder getRandomMatching(String[] pattern) {
-
+    public Base_Model getRandomMatching(String[] pattern) {
 
         ArrayList<String> matching = new ArrayList<String>();
 
@@ -100,22 +99,23 @@ public class ModelUtil {
         }
 
         int random_matching_index = (int) Math.floor(Math.random() * matching.size());
-        Node[] children = null;
+
+        Base_Model result = new Base_Model();
         if (random_matching_index >= 0 && matching.size() > 0) {
             String random_matching_filename = matching.get(random_matching_index);
             File random_file = resources.get(random_matching_filename);
 
             if (random_file.getName().toLowerCase().contains(EXTENSION_3DS)) {
                 obj_importer.read(random_file);
-                children = obj_importer.getImport();
+                Node[] children = obj_importer.getImport();
                 obj_importer.clear();
+                result.setItemTag(random_matching_filename);
+                if (children != null) {
+                    result.getChildren().addAll(children);
+                }
             }
         }
 
-        StructureBuilder result = new StructureBuilder();
-        if (children != null) {
-            result.getChildren().addAll(children);
-        }
         return result;
     }
 }

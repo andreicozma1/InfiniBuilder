@@ -1,22 +1,16 @@
 package app.player;
 
-import app.items.weapons.ProjectileUtil;
-import javafx.util.Pair;
-import app.resources.ResourcesUtil;
+import app.utils.ProjectileUtil;
+import app.utils.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
-import app.structures.DrawCube;
-import app.structures.DrawSphere;
-import app.structures.StructureBuilder;
+import app.structures.objects.Base_Cube;
+import app.structures.objects.Base_Sphere;
 import app.utils.PhysicsUtil;
 import app.utils.WindowUtil;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 public class PlayerUtil {
     public WindowUtil context;
@@ -120,7 +114,7 @@ public class PlayerUtil {
 
 
     public void shoot() {
-        DrawSphere sp = new DrawSphere(5);
+        Base_Sphere sp = new Base_Sphere("Projectile", 5);
         sp.setMaterial(ResourcesUtil.metal);
 
         ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), sp);
@@ -129,11 +123,10 @@ public class PlayerUtil {
     }
 
     public void placeObject() {
-        DrawCube cb = new DrawCube();
-        cb.setScale(context.getEnvironment().getBlockDim()/2);
+        Base_Cube cb = new Base_Cube("Stone");
+        cb.setScaleAll(context.getEnvironment().getBlockDim()/2);
         cb.getBox().setMaterial(ResourcesUtil.stone);
         context.getEnvironment().placeObject(getPoint2D(), cb, true);
-
     }
 
     public void jump() {

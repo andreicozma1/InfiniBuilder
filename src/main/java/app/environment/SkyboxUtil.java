@@ -8,7 +8,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.CullFace;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
-import app.resources.ResourcesUtil;
+import app.utils.ResourcesUtil;
 
 public class SkyboxUtil {
     private EnvironmentUtil context;

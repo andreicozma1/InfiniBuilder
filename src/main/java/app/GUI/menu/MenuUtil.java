@@ -1,7 +1,8 @@
-package app.utils;
+package app.menu;
 
+import app.menu.GroupBuilder;
+import app.utils.WindowUtil;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;

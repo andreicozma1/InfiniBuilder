@@ -1,4 +1,4 @@
-package app.resources;
+package app.utils;
 
 import app.MainExecution;
 import javafx.application.Application;

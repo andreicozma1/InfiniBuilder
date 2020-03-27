@@ -1,9 +1,9 @@
-package app.maze;
+package app.structures.maze;
 
 import app.structures.StructureBuilder;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import app.structures.DrawCube;
+import app.structures.objects.Base_Cube;
 import app.utils.WindowUtil;
 
 import java.util.HashMap;
@@ -76,7 +76,7 @@ public class MazeUtil {
             for( j = 0 ; j < mazeCols*2 + 1 ; j++ ) {
                 if(i == 0 || i== mazeRows*2 || j == 0 || j == mazeCols*2 || (i%2==0 && j%2==0)) {
 //                    System.out.println("create wall");
-                    DrawCube cube = new DrawCube(20, 20, 20);
+                    Base_Cube cube = new Base_Cube("Maze Wall",20, 20, 20);
                     maze_map_block.put(new Point2D(currX, currZ), cube);
                 }
                 currX += cellW;
@@ -91,7 +91,7 @@ public class MazeUtil {
         // to find x index := 1 + [ 2 * ( mazeIndex % cols) ]
         // to find z index := 1 + [ 2 * ( mazeIndex / cols) ]
         for (Wall w : walls){
-            DrawCube cube = new DrawCube(cellW,cellH,cellD);
+            Base_Cube cube = new Base_Cube("Maze Wall", cellW,cellH,cellD);
 
             Point2D point;
             int xindex1 = 1 + ( 2 * (w.cell1 % mazeCols) );

@@ -1,6 +1,7 @@
 package app.utils;
 
 import app.environment.EnvironmentUtil;
+import app.menu.MenuUtil;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.Cursor;
@@ -9,8 +10,6 @@ import javafx.stage.Stage;
 import app.player.CameraUtil;
 import app.player.ControlsUtil;
 import app.player.PlayerUtil;
-
-import java.util.HashMap;
 
 public class WindowUtil {
 

@@ -1,19 +1,18 @@
 
 package app;
 
-import app.hud.HUDUtil;
-import app.hud.Inventory;
-import app.hud.StatusBar;
+import app.GUI.HUD.HUDUtil;
+import app.player.Inventory;
+import app.GUI.HUD.StatusBar;
 import app.environment.EnvironmentUtil;
 import app.environment.SkyboxUtil;
-import app.items.Block;
-import app.items.InventoryUtil;
-import app.items.Item;
+import app.utils.InventoryUtil;
 import app.player.CameraUtil;
 import app.player.ControlsUtil;
 import app.player.PlayerUtil;
-import app.resources.ResourcesUtil;
-import app.utils.MenuUtil;
+import app.utils.ResourcesUtil;
+import app.structures.objects.Base_Cube;
+import app.menu.MenuUtil;
 import app.utils.WindowUtil;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -59,19 +58,15 @@ public class MainExecution extends Application {
         window.setPlayer(player);
         window.setEnvironment(envir);
 
-
-
         // testing inventory Util with a base item that only holds the item tag
-        Block dirt = new Block("DIRT",ResourcesUtil.dirt);
-        Block grass = new Block("GRASS",ResourcesUtil.grass);
+        Base_Cube dirt = new Base_Cube("Dirt",ResourcesUtil.grass,EnvironmentUtil.terrain_block_dim);
+        Base_Cube grass = new Base_Cube("Grass",ResourcesUtil.dirt, EnvironmentUtil.terrain_block_dim);
 
         InventoryUtil inventoryUtil = new InventoryUtil(10);
         inventoryUtil.addItem(4,grass,4);
         inventoryUtil.addItem(dirt,3);
         inventoryUtil.setCurrentIndex(8);
         inventoryUtil.print();
-
-
 
 
         //testing hudutil drawing a health status bar
@@ -151,6 +146,7 @@ public class MainExecution extends Application {
 
         inv.generateInventory();
         hudUtil.addElement(inv);
+
 
 
         menu.menuGroupMap.get(MenuUtil.GROUP_MAIN_MENU).getChildren().add(hudUtil.getSubScene());

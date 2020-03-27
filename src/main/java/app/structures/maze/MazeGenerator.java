@@ -1,4 +1,4 @@
-package app.maze;
+package app.structures.maze;
 
 import app.algorithms.DisjointSet;
 

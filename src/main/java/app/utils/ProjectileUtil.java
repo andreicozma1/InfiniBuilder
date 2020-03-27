@@ -1,9 +1,7 @@
-package app.items.weapons;
+package app.utils;
 
 import app.environment.EnvironmentUtil;
 import javafx.animation.AnimationTimer;
-import app.structures.DrawSphere;
-import app.resources.ResourcesUtil;
 import app.structures.StructureBuilder;
 
 public class ProjectileUtil extends StructureBuilder {
@@ -19,7 +17,7 @@ public class ProjectileUtil extends StructureBuilder {
         str = b;
 
         setSpeed(DEFAULT_SPEED);
-        this.setType(StructureBuilder.TYPE_WEAPON);
+        this.setTYPE_CURRENT(StructureBuilder.TYPE_WEAPON);
         // TODO - Change to stone
     }
 
@@ -50,7 +48,7 @@ public class ProjectileUtil extends StructureBuilder {
                 posx[0] += initialVel * Math.sin(startrotX) * Math.cos(startrotY);
                 posy[0] -= initialVel * Math.sin(startrotY);
                 posz[0] += initialVel * Math.cos(startrotX) * Math.cos(startrotY);
-                str.setTranslateXYZ(posx[0], posy[0], posz[0]);
+                str.setTranslateIndependent(posx[0], posy[0], posz[0]);
             }
         };
         at.start();
