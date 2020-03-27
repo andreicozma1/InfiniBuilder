@@ -52,11 +52,7 @@ Usage: `> mvn command`
 8. deploy
 
 ### IMPORT INTO IntelliJ IDEA:  
-1. Clone Repository
-```
-	> git clone https://github.com/andreicozma1/CS307FinalProject  
-	> cd CS307FinalProject  
-```
+1. Clone Repository: `git clone https://github.com/andreicozma1/CS307FinalProject`  
 2. Open IntelliJ IDEA -> Import -> pom.xml  
 3. All dependencies are loaded by the Maven Build System  
 4. Click the Maven Tab on the right side of the IDE for options and commands  
