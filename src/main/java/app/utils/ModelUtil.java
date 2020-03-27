@@ -4,17 +4,9 @@ import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
 
 import app.structures.StructureBuilder;
 import javafx.scene.Node;
-import org.apache.commons.io.IOUtils;
-import sun.nio.ch.IOUtil;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
+import java.io.*;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -26,64 +18,71 @@ import java.util.jar.JarFile;
 
 public class ModelUtil {
 
-    File res_folder;
     public static Map<String, File> resources;
 
     TdsModelImporter obj_importer;
 
+    String FOLDER_NAME = "models";
+    String EXTENSION_3DS = "3ds";
 
     public ModelUtil() {
+        System.out.println("ModelUtil");
+
         obj_importer = new TdsModelImporter();
-        resources = new HashMap<String, File>();
+        resources = new HashMap<>();
 
-        // ONLY DO IF JAR
-        JarFile jf = null;
-        try {
-            String s = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-            System.out.println(s);
-            jf = new JarFile(s.toString());
+        String s = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
+        System.out.println("Execution source: " + s);
 
-            Enumeration<JarEntry> entries = jf.entries();
-            while (entries.hasMoreElements()) {
-                JarEntry je = entries.nextElement();
+        if (s.endsWith(".jar")) {
+            // ONLY DO IF JAR
+            JarFile jf = null;
+            try {
+                jf = new JarFile(s);
+                Enumeration<JarEntry> entries = jf.entries();
+                while (entries.hasMoreElements()) {
+                    JarEntry je = entries.nextElement();
 
-                if (je.getName().startsWith("models") && je.getName().endsWith(".3ds")) {
-                    System.out.println(je.getName());
+                    if (je.getName().startsWith(FOLDER_NAME) && je.getName().endsWith(EXTENSION_3DS)) {
+                        System.out.println(je.getName());
+                        Path path = Paths.get(je.getName());
+                        InputStream is = this.getClass().getResourceAsStream("/" + je.getName());
 
+                        File file = File.createTempFile(path.getFileName().toString(), EXTENSION_3DS);
+                        OutputStream out = new FileOutputStream(file);
+                        int read;
+                        byte[] bytes = new byte[1024];
 
-                    InputStream is = getClass().getResourceAsStream("/models/" + je.getName());
-                    File f = File.createTempFile(je.getName(), ".3ds");
-                    f.deleteOnExit();
-                    FileOutputStream out = new FileOutputStream(f);
-                    IOUtils.copy(is,out);
+                        while ((read = is.read(bytes)) != -1) {
+                            out.write(bytes, 0, read);
+                        }
+                        out.close();
+                        file.deleteOnExit();
 
-
-                    resources.put(je.getName(), f);
+                        resources.put(String.valueOf(path.getFileName()), file);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    jf.close();
+                } catch (Exception e) {
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                jf.close();
-            } catch (Exception e) {
+        } else {
+            // ONLY DO IF NOT JAR
+            File res_folder = new File(this.getClass().getResource("/" + FOLDER_NAME).getFile());
+
+            File[] list_of_files = res_folder.listFiles();
+            for (File file : list_of_files) {
+                File[] list_of_files1 = file.listFiles();
+                for (File file1 : list_of_files1) {
+                    System.out.println(file1.getAbsolutePath());
+                    resources.put(file1.getName(), file1);
+                }
             }
         }
-
-
-        // ONLY DO IF NOT JAR
-        res_folder = new File(this.getClass().getResource("/models").getFile());
-
-        File[] list_of_files = res_folder.listFiles();
-        for (File file : list_of_files) {
-            File[] list_of_files1 = file.listFiles();
-            for (File file1 : list_of_files1) {
-                System.out.println(file1.getAbsolutePath());
-                resources.put(file1.getName(), file1);
-            }
-        }
-
-
     }
 
 
@@ -106,7 +105,7 @@ public class ModelUtil {
             String random_matching_filename = matching.get(random_matching_index);
             File random_file = resources.get(random_matching_filename);
 
-            if (random_file.getName().toLowerCase().contains("3ds")) {
+            if (random_file.getName().toLowerCase().contains(EXTENSION_3DS)) {
                 obj_importer.read(random_file);
                 children = obj_importer.getImport();
                 obj_importer.clear();
