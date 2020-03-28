@@ -109,7 +109,7 @@ public class MainExecution extends Application {
         inventoryUtil.print();
 
         Inventory inv = new Inventory(  "INVENTORY",
-                new Point2D(200,400),
+                new Point2D(200,100),
                 inventoryUtil,
                 50,50,5,Color.WHITE,Color.GREY);
         inv.fixToEdge(HUDUtil.EDGE_BOTTOM);

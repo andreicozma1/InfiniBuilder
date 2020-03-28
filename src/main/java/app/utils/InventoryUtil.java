@@ -5,8 +5,6 @@ import app.structures.StructureBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-// move up/down inventory (pass no parameters, pass -1,1 ,-3)
-
 
 public class InventoryUtil {
     private ArrayList<StructureBuilder> inventory;

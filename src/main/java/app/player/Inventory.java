@@ -31,11 +31,13 @@ public class Inventory extends HUDElement {
 
     private InventoryUtil inventoryUtil;
     private int inventorySize;
-    private int slotWidth;
-    private int slotHeight;
-    private int borderWidth;
-    private int totalWidth;
-    private int totalHeight;
+    private double slotWidth;
+    private double slotHeight;
+    private double borderWidth;
+    private double totalWidth;
+    private double totalHeight;
+    private boolean isVertical = false;
+    private boolean displayNumbers = false;
     private Paint panelColor;
     private Paint slotColor;
     private Paint selectedItemColor = Color.YELLOW;
@@ -45,9 +47,9 @@ public class Inventory extends HUDElement {
     public Inventory(String elementTag,
                      Point2D pos,
                      InventoryUtil inventoryUtil,
-                     int slotWidth,
-                     int slotHeight,
-                     int borderWidth,
+                     double slotWidth,
+                     double slotHeight,
+                     double borderWidth,
                      Paint panelColor,
                      Paint slotColor) {
         super( elementTag, pos);
@@ -75,34 +77,46 @@ public class Inventory extends HUDElement {
     public Paint getSelectedItemColor() { return selectedItemColor; }
     public Paint getEmptyItemColor() { return emptyItemColor; }
     public Paint getBorderColor() { return borderColor; }
+    public boolean isVertical() { return isVertical; }
+    public boolean isDisplayNumbers() { return displayNumbers; }
 
     public void setPanelColor(Paint panelColor) { this.panelColor = panelColor; }
     public void setSlotColor(Paint slotColor) { this.slotColor = slotColor; }
     public void setSelectedItemColor(Paint selectedItemColor) { this.selectedItemColor = selectedItemColor; }
     public void setEmptyItemColor(Paint emptyItemColor) { this.emptyItemColor = emptyItemColor; }
     public void setBorderColor(Paint borderColor) { this.borderColor = borderColor; }
+    public void setVertical(boolean vertical) {
+        if(isVertical!=vertical){
+            double tmp = totalWidth;
+            totalWidth = totalHeight;
+            totalHeight = tmp;
+            isVertical = vertical;
+        }
+    }
+    public void setDisplayNumbers(boolean displayNumbers) { this.displayNumbers = displayNumbers; }
 
     public void fixToEdge(String edge){
-        int x = 0;
-        int y = 0;
+        double x = 0;
+        double y = 0;
 
         switch(edge){
             case HUDUtil.EDGE_BOTTOM:
+                setVertical(false);
                 x = GameBuilder.getWindowWidth()/2 - totalWidth/2;
                 y = GameBuilder.getWindowHeight() - totalHeight;
                 break;
             case HUDUtil.EDGE_TOP:
+                setVertical(false);
                 x = GameBuilder.getWindowWidth()/2 - totalWidth/2;
-                //
                 break;
             case HUDUtil.EDGE_LEFT:
-                // TODO - set orientation to vertical
-                y = GameBuilder.getWindowHeight()/2;
+                setVertical(true);
+                y = GameBuilder.getWindowHeight()/2- totalHeight/2;
                 break;
             case HUDUtil.EDGE_RIGHT:
-                // TODO - set orientation to vertical
+                setVertical(true);
                 x = GameBuilder.getWindowWidth() - totalWidth;
-                y = GameBuilder.getWindowHeight()/2;
+                y = GameBuilder.getWindowHeight()/2 - totalHeight/2;
                 break;
         }
 
@@ -113,15 +127,12 @@ public class Inventory extends HUDElement {
     public void update(){
         getGroup().getChildren().clear();
 
-        // determines the slot width based off the given inventory width, inventory size, and border width
-
-        double slotY = getPos().getY() + borderWidth;
-
         // draw inventory backdrop
         Rectangle inventoryBackdrop = new Rectangle(getPos().getX(),
                 getPos().getY(),
                 totalWidth,
                 totalHeight);
+
         inventoryBackdrop.setStroke(borderColor);
         inventoryBackdrop.setFill(panelColor);
         getGroup().getChildren().add(inventoryBackdrop);
@@ -131,14 +142,23 @@ public class Inventory extends HUDElement {
             Rectangle slotBackdrop = new Rectangle();
 
             // calculate start of the inventory box
-            double currSlotX = (getPos().getX() + borderWidth) + (i * (slotWidth + borderWidth));
+            double currSlotY;
+            double currSlotX;
+
+            if(isVertical){
+                currSlotY = (getPos().getY() + borderWidth) + (i * (slotHeight + borderWidth));
+                currSlotX = getPos().getX() + borderWidth;
+            }else{
+                currSlotY = getPos().getY() + borderWidth;
+                currSlotX = (getPos().getX() + borderWidth) + (i * (slotWidth + borderWidth));
+            }
 
             // draw the slot border
             if (inventoryUtil.isCurrentIndex(i)) slotBackdrop.setFill(selectedItemColor);
             else slotBackdrop.setFill(slotColor);
 
             slotBackdrop.setX(currSlotX);
-            slotBackdrop.setY(slotY);
+            slotBackdrop.setY(currSlotY);
             slotBackdrop.setWidth(slotWidth);
             slotBackdrop.setHeight(slotHeight);
             slotBackdrop.setStroke(borderColor);
@@ -147,15 +167,13 @@ public class Inventory extends HUDElement {
             // draw each item
             Group item = inventoryUtil.getItem(i);
             item.setTranslateX(currSlotX+(slotWidth/2.0));
-            item.setTranslateY(slotY+(slotHeight/2.0));
+            item.setTranslateY(currSlotY+(slotHeight/2.0));
             item.setScaleX(slotWidth/3.0);
             item.setScaleY(slotWidth/3.0);
             item.setScaleZ(slotWidth/3.0);
             item.getTransforms().setAll(new Rotate(25,Rotate.X_AXIS),new Rotate(25,Rotate.Y_AXIS));
             item.toFront();
             getGroup().getChildren().add(item);
-
         }
-
     }
 }
