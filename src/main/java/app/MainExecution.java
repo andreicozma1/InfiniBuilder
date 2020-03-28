@@ -25,14 +25,14 @@ import javafx.stage.Stage;
 
 public class MainExecution extends Application {
 
-    private double PRIMARY_WIDTH;
-    private double PRIMARY_HEIGHT;
+    private int PRIMARY_WIDTH;
+    private int PRIMARY_HEIGHT;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         System.out.println("MainExecution");
-        PRIMARY_WIDTH = Screen.getPrimary().getBounds().getWidth() / 2;
-        PRIMARY_HEIGHT = Screen.getPrimary().getBounds().getHeight() / 2;
+        PRIMARY_WIDTH = (int)Screen.getPrimary().getBounds().getWidth() / 2;
+        PRIMARY_HEIGHT = (int)Screen.getPrimary().getBounds().getHeight() / 2;
 
         // set up needed Utils for the game
         ResourcesUtil materials = new ResourcesUtil(this);
@@ -60,15 +60,10 @@ public class MainExecution extends Application {
         Base_Cube grass = new Base_Cube("Grass",ResourcesUtil.dirt, EnvironmentUtil.terrain_block_dim);
         Base_Cube sand = new Base_Cube("Sand",ResourcesUtil.sand, EnvironmentUtil.terrain_block_dim);
 
-        InventoryUtil inventoryUtil = new InventoryUtil(8);
-        inventoryUtil.addItem(4,grass,4);
-        inventoryUtil.addItem(dirt,3);
-        inventoryUtil.addItem(sand,10);
-        inventoryUtil.setCurrentIndex(7);
-        inventoryUtil.print();
+
 
         //testing hudutil drawing a health status bar
-        HUDUtil hudUtil = new HUDUtil(player,800,600);
+        HUDUtil hudUtil = new HUDUtil(game);
 
         //health bar
         StatusBar health = new StatusBar(   "HEALTH",
@@ -106,12 +101,18 @@ public class MainExecution extends Application {
         stamina.update();
         hudUtil.addElement(stamina);
 
+        InventoryUtil inventoryUtil = new InventoryUtil(8);
+        inventoryUtil.addItem(4,grass,4);
+        inventoryUtil.addItem(dirt,3);
+        inventoryUtil.addItem(sand,10);
+        inventoryUtil.setCurrentIndex(7);
+        inventoryUtil.print();
 
         Inventory inv = new Inventory(  "INVENTORY",
                 new Point2D(200,400),
                 inventoryUtil,
                 50,50,5,Color.WHITE,Color.GREY);
-        inv.fixToBottomCenter(game.getWindowWidth(),game.getWindowHeight());
+        inv.fixToEdge(HUDUtil.EDGE_BOTTOM);
         inv.update();
         hudUtil.addElement(inv);
         

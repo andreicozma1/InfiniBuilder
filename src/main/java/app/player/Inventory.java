@@ -1,6 +1,8 @@
 package app.player;
 
 import app.GUI.HUD.HUDElement;
+import app.GUI.HUD.HUDUtil;
+import app.GameBuilder;
 import app.utils.InventoryUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -29,11 +31,11 @@ public class Inventory extends HUDElement {
 
     private InventoryUtil inventoryUtil;
     private int inventorySize;
-    private double slotWidth;
-    private double slotHeight;
-    private double borderWidth;
-    private double totalWidth;
-    private double totalHeight;
+    private int slotWidth;
+    private int slotHeight;
+    private int borderWidth;
+    private int totalWidth;
+    private int totalHeight;
     private Paint panelColor;
     private Paint slotColor;
     private Paint selectedItemColor = Color.YELLOW;
@@ -43,9 +45,9 @@ public class Inventory extends HUDElement {
     public Inventory(String elementTag,
                      Point2D pos,
                      InventoryUtil inventoryUtil,
-                     double slotWidth,
-                     double slotHeight,
-                     double borderWidth,
+                     int slotWidth,
+                     int slotHeight,
+                     int borderWidth,
                      Paint panelColor,
                      Paint slotColor) {
         super( elementTag, pos);
@@ -80,9 +82,31 @@ public class Inventory extends HUDElement {
     public void setEmptyItemColor(Paint emptyItemColor) { this.emptyItemColor = emptyItemColor; }
     public void setBorderColor(Paint borderColor) { this.borderColor = borderColor; }
 
-    public void fixToBottomCenter(double windowWidth, double windowHeight){
-        double x = windowWidth/2 - totalWidth/2;
-        double y = windowHeight - totalHeight;
+    public void fixToEdge(String edge){
+        int x = 0;
+        int y = 0;
+
+        switch(edge){
+            case HUDUtil.EDGE_BOTTOM:
+                x = GameBuilder.getWindowWidth()/2 - totalWidth/2;
+                y = GameBuilder.getWindowHeight() - totalHeight;
+                break;
+            case HUDUtil.EDGE_TOP:
+                x = GameBuilder.getWindowWidth()/2 - totalWidth/2;
+                //
+                break;
+            case HUDUtil.EDGE_LEFT:
+                // TODO - set orientation to vertical
+                y = GameBuilder.getWindowHeight()/2;
+                break;
+            case HUDUtil.EDGE_RIGHT:
+                // TODO - set orientation to vertical
+                x = GameBuilder.getWindowWidth() - totalWidth;
+                y = GameBuilder.getWindowHeight()/2;
+                break;
+        }
+
+        System.out.println(x + "  " + y);
         setPos(new Point2D(x,y));
     }
 
@@ -122,11 +146,11 @@ public class Inventory extends HUDElement {
 
             // draw each item
             Group item = inventoryUtil.getItem(i);
-            item.setTranslateX(currSlotX+(slotWidth/2));
-            item.setTranslateY(slotY+(slotHeight/2));
-            item.setScaleX(slotWidth/3);
-            item.setScaleY(slotWidth/3);
-            item.setScaleZ(slotWidth/3);
+            item.setTranslateX(currSlotX+(slotWidth/2.0));
+            item.setTranslateY(slotY+(slotHeight/2.0));
+            item.setScaleX(slotWidth/3.0);
+            item.setScaleY(slotWidth/3.0);
+            item.setScaleZ(slotWidth/3.0);
             item.getTransforms().setAll(new Rotate(25,Rotate.X_AXIS),new Rotate(25,Rotate.Y_AXIS));
             item.toFront();
             getGroup().getChildren().add(item);

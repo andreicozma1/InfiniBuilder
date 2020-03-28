@@ -25,7 +25,7 @@ public class HUDElement {
 
     public void setGroup(Group group){ this.group = group; }
     public void setElementTag(String elementTag) { this.elementTag = elementTag; }
-    public void setPos(Point2D pos) { this.pos = pos; }
+    public void setPos(Point2D p) { this.pos = p; }
 
     public void addNode(Node node){ group.getChildren().add(node); }
 }

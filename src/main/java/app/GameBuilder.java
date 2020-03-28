@@ -14,8 +14,8 @@ import app.player.ControlsUtil;
 import app.player.PlayerUtil;
 
 public class GameBuilder {
-    private double WINDOW_WIDTH;
-    private double WINDOW_HEIGHT;
+    private static int WINDOW_WIDTH;
+    private static int WINDOW_HEIGHT;
 
     public Stage STAGE;
 
@@ -43,8 +43,8 @@ public class GameBuilder {
     // MAIN GAME LOOP
     AnimationTimer timer;
 
-    public GameBuilder(Stage stg, double w, double h) {
-        System.out.println("GameBuilder()");
+    public GameBuilder(Stage stg, int w, int h) {
+        System.out.println("Creating game window with dimensions: " + w + " x " + h);
         STAGE = stg;
         WINDOW_WIDTH = w;
         WINDOW_HEIGHT = h;
@@ -200,11 +200,11 @@ public class GameBuilder {
         return GAME_SCENE;
     }
 
-    public double getWindowWidth() {
+    public static int getWindowWidth() {
         return WINDOW_WIDTH;
     }
 
-    public double getWindowHeight() {
+    public static int getWindowHeight() {
         return WINDOW_HEIGHT;
     }
 
