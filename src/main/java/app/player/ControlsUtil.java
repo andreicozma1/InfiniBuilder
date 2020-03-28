@@ -123,7 +123,7 @@ public class ControlsUtil {
         return scn;
     }
 
-    public void handleKeyboard(Group environment) {
+    public void update_handler() {
 
         for (KeyCode e : pressed) {
             switch (e) {

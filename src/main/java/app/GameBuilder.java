@@ -61,13 +61,17 @@ public class GameBuilder {
 
 
         timer = new AnimationTimer() {
-
-
+            long last = 0;
             @Override
             public void handle(long now) {
-                ctrls_util.handleKeyboard(env_util.getWorldGroup());
+                ctrls_util.update_handler();
                 env_util.update_handler();
                 player_util.update_handler();
+
+                if(now-last > 5000000000.0){
+                    System.out.println("HEARTBEAT " + now);
+                    last = now;
+                }
             }
         };
 
