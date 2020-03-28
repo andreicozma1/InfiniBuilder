@@ -18,11 +18,11 @@ import java.util.HashMap;
 public class MenuUtil {
     Scene SCENE_MENU;
     GameBuilder context;
-    GroupBuilder mainMenu;
-    GroupBuilder settingsMenu;
-    GroupBuilder controlsMenu;
-    GroupBuilder aboutMenu;
-    GroupBuilder exitButton;
+    InterfaceBuilder mainMenu;
+    InterfaceBuilder settingsMenu;
+    InterfaceBuilder controlsMenu;
+    InterfaceBuilder aboutMenu;
+    InterfaceBuilder exitButton;
 
     private String singleArrow = ">";
     private String doubleArrow = ">>";
@@ -69,24 +69,41 @@ public class MenuUtil {
 
     public MenuUtil(GameBuilder ctx) {
         context = ctx;
-        mainMenu = new GroupBuilder();
-        settingsMenu = new GroupBuilder();
-        controlsMenu = new GroupBuilder();
-        aboutMenu = new GroupBuilder();
-        exitButton = new GroupBuilder();
+        mainMenu = new InterfaceBuilder();
+        settingsMenu = new InterfaceBuilder();
+        controlsMenu = new InterfaceBuilder();
+        aboutMenu = new InterfaceBuilder();
+        exitButton = new InterfaceBuilder();
 
         SCENE_MENU = new Scene(mainMenu.getGroup(),context.getWindowWidth(),context.getWindowHeight());
+
+
         buildMainMenu();
         buildControlsMenu();
         buildSettingsMenu();
         buildAboutMenu();
-
 
         addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
         addGroup(GROUP_SETTINGS, settingsMenu.getGroup());
         addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
         addGroup(GROUP_ABOUT, aboutMenu.getGroup());
         addGroup(GROUP_EXIT, exitButton.getGroup());
+
+
+        setControlScheme();
+    }
+
+    public void setControlScheme(){
+        SCENE_MENU.setOnKeyReleased(keyEvent -> {
+            switch(keyEvent.getCode()){
+                case ESCAPE:
+                    context.closeWindow();
+                    break;
+                case ENTER:
+//                    TODO
+                    break;
+            }
+        });
     }
 
     protected void addGroup(String name, Group group) {
@@ -364,6 +381,6 @@ public class MenuUtil {
                 });
     }
 
-    private void drawBasicMenuLayout(GroupBuilder group){
+    private void drawBasicMenuLayout(InterfaceBuilder group){
     }
 }

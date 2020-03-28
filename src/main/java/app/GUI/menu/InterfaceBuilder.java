@@ -10,10 +10,10 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class GroupBuilder extends Parent {
+public class InterfaceBuilder extends Parent {
     public Group group;
 
-    public GroupBuilder() {
+    public InterfaceBuilder() {
         group = new Group();
     }
 

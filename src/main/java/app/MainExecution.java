@@ -39,7 +39,6 @@ public class MainExecution extends Application {
         GameBuilder game = new GameBuilder(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
         MenuUtil menu = new MenuUtil(game);
         CameraUtil camera = new CameraUtil(game);
-        ControlsUtil controls = new ControlsUtil(game);
         PlayerUtil player = new PlayerUtil(game);
         EnvironmentUtil envir = new EnvironmentUtil(game);
         SkyboxUtil sky = new SkyboxUtil(envir);
@@ -53,7 +52,6 @@ public class MainExecution extends Application {
         // build the window
         game.setMenu(menu);
         game.setCamera(camera);
-        game.setControls(controls);
         game.setPlayer(player);
         game.setEnvironment(envir);
 
@@ -121,15 +119,9 @@ public class MainExecution extends Application {
 
         game.setHUD(hudUtil);
 
-        // close window on menu if ESC is pressed
-        controls.getControllerForScene(game.getMenu().getScene()).setOnKeyPressed(event -> {
-                if (event.getCode() == KeyCode.ESCAPE) {
-                    game.closeWindow();
-                }
-            });
+
 
         game.showScene(game.getMenu().getScene());
-
 
     }
 
