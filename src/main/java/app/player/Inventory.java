@@ -130,6 +130,7 @@ public class Inventory extends HUDElement {
             item.getTransforms().setAll(new Rotate(25,Rotate.X_AXIS),new Rotate(25,Rotate.Y_AXIS));
             item.toFront();
             getGroup().getChildren().add(item);
+
         }
 
     }

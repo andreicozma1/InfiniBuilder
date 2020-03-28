@@ -114,12 +114,8 @@ public class MainExecution extends Application {
         inv.fixToBottomCenter(game.getWindowWidth(),game.getWindowHeight());
         inv.update();
         hudUtil.addElement(inv);
-
-
-
+        
         game.setHUD(hudUtil);
-
-
 
         game.showScene(game.getMenu().getScene());
 
