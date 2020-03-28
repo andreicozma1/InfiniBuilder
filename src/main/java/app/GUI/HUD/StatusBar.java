@@ -38,7 +38,7 @@ public class StatusBar extends HUDElement{
         this.height = height;
         this.innerBarPaint = innerBarPaint;
         this.outerBarPaint = outerBarPaint;
-        generateStatusBar();
+        update();
     }
 
     // getters
@@ -79,7 +79,6 @@ public class StatusBar extends HUDElement{
 
         this.currStatus = currStatus;
 
-        System.out.println(currStatus + " out of "+maxStatus);
     }
 
 
@@ -96,10 +95,9 @@ public class StatusBar extends HUDElement{
     public void setVertical(boolean vertical) { isVertical = vertical; }
     public void setDefaultDirection(boolean defaultDirection) { isDefaultDirection = defaultDirection; }
 
-    public void generateStatusBar(){
+    public void update(){
         getGroup().getChildren().clear();
 
-        System.out.println("CurrStatus = "+currStatus+", MaxStatus = "+maxStatus);
         double innerWidth = (currStatus/maxStatus) * width;
         double innerHeight = (currStatus/maxStatus) * height;
 
@@ -148,7 +146,9 @@ public class StatusBar extends HUDElement{
         innerStatusBar.setArcWidth(arcWidth);
         innerStatusBar.setArcHeight(arcHeight);
         getGroup().getChildren().addAll(outerStatusBar,innerStatusBar);
+    }
 
-
+    public void printStatus(){
+        System.out.println("CurrStatus = "+currStatus+", MaxStatus = "+maxStatus);
     }
 }

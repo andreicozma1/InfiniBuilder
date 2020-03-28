@@ -22,66 +22,83 @@ import javafx.scene.transform.Rotate;
  */
 
 
+// have user set the sizes of the slots
+
+
 public class Inventory extends HUDElement {
 
     private InventoryUtil inventoryUtil;
     private int inventorySize;
-    private double width;
-    private double height;
+    private double slotWidth;
+    private double slotHeight;
     private double borderWidth;
+    private double totalWidth;
+    private double totalHeight;
     private Paint panelColor;
     private Paint slotColor;
     private Paint selectedItemColor = Color.YELLOW;
     private Paint emptyItemColor = Color.DARKGRAY;
+    private Paint borderColor = Color.BLACK;
 
     public Inventory(String elementTag,
                      Point2D pos,
                      InventoryUtil inventoryUtil,
-                     double width,
-                     double height,
+                     double slotWidth,
+                     double slotHeight,
                      double borderWidth,
                      Paint panelColor,
                      Paint slotColor) {
         super( elementTag, pos);
         this.inventoryUtil = inventoryUtil;
         this.inventorySize = inventoryUtil.getInventorySize();
-        this.width = width;
-        this.height = height;
+        this.slotWidth = slotWidth;
+        this.slotHeight = slotHeight;
         this.borderWidth = borderWidth;
         this.panelColor = panelColor;
         this.slotColor = slotColor;
-
-        generateInventory();
+        totalWidth = ( inventorySize * slotWidth )+( ( 1 + inventorySize ) * borderWidth );
+        totalHeight = slotHeight + ( 2 * borderWidth );
+        update();
     }
 
     public InventoryUtil getInventoryUtil() { return inventoryUtil; }
     public int getInventorySize() { return inventorySize; }
     public double getBorderWidth() { return borderWidth; }
-    public double getHeight() { return height; }
-    public double getWidth() { return width; }
+    public double getSlotHeight() { return slotHeight; }
+    public double getSlotWidth() { return slotWidth; }
+    public double getTotalHeight() { return totalHeight; }
+    public double getTotalWidth() { return totalWidth; }
     public Paint getPanelColor() { return panelColor; }
     public Paint getSlotColor() { return slotColor; }
     public Paint getSelectedItemColor() { return selectedItemColor; }
     public Paint getEmptyItemColor() { return emptyItemColor; }
+    public Paint getBorderColor() { return borderColor; }
 
+    public void setPanelColor(Paint panelColor) { this.panelColor = panelColor; }
+    public void setSlotColor(Paint slotColor) { this.slotColor = slotColor; }
     public void setSelectedItemColor(Paint selectedItemColor) { this.selectedItemColor = selectedItemColor; }
     public void setEmptyItemColor(Paint emptyItemColor) { this.emptyItemColor = emptyItemColor; }
+    public void setBorderColor(Paint borderColor) { this.borderColor = borderColor; }
 
-    public void generateInventory(){
+    public void fixToBottomCenter(double windowWidth, double windowHeight){
+        double x = windowWidth/2 - totalWidth/2;
+        double y = windowHeight - totalHeight;
+        setPos(new Point2D(x,y));
+    }
+
+    public void update(){
         getGroup().getChildren().clear();
-        // **** once this we get this to draw onto the screen change this, so the user sets this value ****
 
         // determines the slot width based off the given inventory width, inventory size, and border width
-        double slotWidth = ( width - ( ( inventorySize + 1 ) * borderWidth ) ) / inventorySize;
-        double slotHeight = height - ( 2 * borderWidth );
+
         double slotY = getPos().getY() + borderWidth;
 
         // draw inventory backdrop
         Rectangle inventoryBackdrop = new Rectangle(getPos().getX(),
                 getPos().getY(),
-                width,
-                height);
-        inventoryBackdrop.setStroke(Color.BLACK);  // change this to user setting
+                totalWidth,
+                totalHeight);
+        inventoryBackdrop.setStroke(borderColor);
         inventoryBackdrop.setFill(panelColor);
         getGroup().getChildren().add(inventoryBackdrop);
 
@@ -100,11 +117,11 @@ public class Inventory extends HUDElement {
             slotBackdrop.setY(slotY);
             slotBackdrop.setWidth(slotWidth);
             slotBackdrop.setHeight(slotHeight);
-            slotBackdrop.setStroke(Color.BLACK);  // change this to user setting
+            slotBackdrop.setStroke(borderColor);
             getGroup().getChildren().add(slotBackdrop);
 
             // draw each item
-            Group item  = inventoryUtil.getItem(i);
+            Group item = inventoryUtil.getItem(i);
             item.setTranslateX(currSlotX+(slotWidth/2));
             item.setTranslateY(slotY+(slotHeight/2));
             item.setScaleX(slotWidth/3);

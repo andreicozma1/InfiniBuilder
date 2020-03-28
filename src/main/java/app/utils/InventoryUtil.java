@@ -5,12 +5,16 @@ import app.structures.StructureBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// move up/down inventory (pass no parameters, pass -1,1 ,-3)
+
+
 public class InventoryUtil {
     private ArrayList<StructureBuilder> inventory;
     private HashMap<String, Integer> indexes = new HashMap<String, Integer>();
     private HashMap<String, Integer> sizes = new HashMap<String, Integer>();
     private int inventorySize = 0;
     private int currentIndex = 0;
+    private boolean isCycle = false;
     private StructureBuilder currentItem = new StructureBuilder();
 
     public InventoryUtil(int inventorySize) {
@@ -35,18 +39,60 @@ public class InventoryUtil {
         return (currentIndex == index);
     }
 
+    public void setIsCycle(boolean isCycle) { this.isCycle = isCycle; }
+
+    public boolean isCycle() { return isCycle; }
+
     public int getCurrentIndex() {
         return currentIndex;
     }
 
     public void setCurrentIndex(int currentIndex) {
-        this.currentIndex = currentIndex;
 
         // if the given index is out of range set it to the closest index
         if (currentIndex < 0) currentIndex = 0;
         else if (currentIndex >= inventorySize) currentIndex = inventorySize - 1;
+        this.currentIndex = currentIndex;
+        currentItem = inventory.get(currentIndex);
+    }
+
+
+    public int moveCurrIndex(int delta){
+        if(isCycle){
+            currentIndex = (currentIndex+delta)%inventorySize;
+        }
+        else{
+            currentIndex += delta;
+            if(currentIndex<0)currentIndex=0;
+            else if(currentIndex>=inventorySize)currentIndex=inventorySize-1;
+        }
 
         currentItem = inventory.get(currentIndex);
+        return currentIndex;
+    }
+
+    public int moveUpInventory() {
+        currentIndex++;
+        if(isCycle){
+            if (currentIndex==inventorySize)currentIndex = 0;
+        }else{
+            if (currentIndex==inventorySize)currentIndex = inventorySize-1;
+        }
+
+        currentItem = inventory.get(currentIndex);
+        return currentIndex;
+    }
+
+    public int moveDownInventory() {
+        currentIndex--;
+        if(isCycle){
+            if (currentIndex==-1)currentIndex = inventorySize-1;
+        }else{
+            if (currentIndex==-1)currentIndex = 0;
+        }
+
+        currentItem = inventory.get(currentIndex);
+        return currentIndex;
     }
 
     public StructureBuilder getCurrentItem() {
