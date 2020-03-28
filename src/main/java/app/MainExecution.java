@@ -111,8 +111,9 @@ public class MainExecution extends Application {
         Inventory inv = new Inventory(  "INVENTORY",
                 new Point2D(200,100),
                 inventoryUtil,
-                50,50,5,Color.WHITE,Color.GREY);
+                50,50,5,Color.WHITE,Color.GREY );
         inv.fixToEdge(HUDUtil.EDGE_BOTTOM);
+        inv.setDisplayNumbers(true);
         inv.update();
         hudUtil.addElement(inv);
         

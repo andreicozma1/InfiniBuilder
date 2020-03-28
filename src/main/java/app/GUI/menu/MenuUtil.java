@@ -39,24 +39,6 @@ public class MenuUtil {
     private Color MAIN_COLOR = Color.valueOf("#1a1831");
     private Color TEXT_BOX = Color.valueOf("#f6faf7");
 
-    //blues w red border
-//    private Color BACKDROP = Color.valueOf("#1a1831");
-//    private Color BORDER_COLOR = Color.valueOf("#a21232");
-//    private Color MAIN_COLOR = Color.valueOf("#1a1831");
-//    private Color TEXT_BOX = Color.valueOf("#f6faf7");
-
-
-    //greens
-//    private Color BACKDROP = Color.valueOf("#b4bb72");
-//    private Color BORDER_COLOR = Color.valueOf("#303e27");
-//    private Color MAIN_COLOR = Color.valueOf("#303e27");
-//    private Color TEXT_BOX = Color.valueOf("#f6faf7");
-
-    //blues w light blue border
-//    private Color BACKDROP = Color.valueOf("#222831");
-//    private Color BORDER_COLOR = Color.valueOf("#00adb5");
-//    private Color MAIN_COLOR = Color.valueOf("#393e46");
-//    private Color TEXT_BOX = Color.valueOf("#eeeeee");
 
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_CONTROLS = "GROUP_CONTROLS";

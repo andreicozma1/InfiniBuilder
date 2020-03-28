@@ -45,6 +45,16 @@ public class InventoryUtil {
         return currentIndex;
     }
 
+    public int getItemSize(StructureBuilder structureBuilder){
+       if(sizes.containsKey(structureBuilder.getItemTag())){
+           return sizes.get(structureBuilder.getItemTag());
+       }else{
+           return 0;
+       }
+    }
+
+    public int getIndexSize(int index){ return getItemSize(getItem(index)); }
+
     public void setCurrentIndex(int currentIndex) {
 
         // if the given index is out of range set it to the closest index

@@ -9,7 +9,13 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
+
 
 /*
  *  will display each item in the inventoryUtil
@@ -168,12 +174,23 @@ public class Inventory extends HUDElement {
             Group item = inventoryUtil.getItem(i);
             item.setTranslateX(currSlotX+(slotWidth/2.0));
             item.setTranslateY(currSlotY+(slotHeight/2.0));
-            item.setScaleX(slotWidth/3.0);
-            item.setScaleY(slotWidth/3.0);
-            item.setScaleZ(slotWidth/3.0);
+            item.setScaleX(slotWidth/3.5);
+            item.setScaleY(slotWidth/3.5);
+            item.setScaleZ(slotWidth/3.5);
             item.getTransforms().setAll(new Rotate(25,Rotate.X_AXIS),new Rotate(25,Rotate.Y_AXIS));
             item.toFront();
             getGroup().getChildren().add(item);
+
+            if( displayNumbers && inventoryUtil.getItem(i).getItemTag() != "Undefined" ){
+                Label itemAmount = new Label( "" + inventoryUtil.getIndexSize(i) );
+//                itemAmount.setScaleX();
+//                itemAmount.setScaleY();
+                itemAmount.setFont(Font.font("Monospaced", FontWeight.EXTRA_BOLD, FontPosture.REGULAR,15));
+                itemAmount.setTextAlignment(TextAlignment.RIGHT);
+                itemAmount.setTranslateX(currSlotX+slotWidth-15);
+                itemAmount.setTranslateY(currSlotY+slotHeight-15);
+                getGroup().getChildren().add(itemAmount);
+            }
         }
     }
 }
