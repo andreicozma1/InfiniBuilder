@@ -12,18 +12,7 @@
         <artifactId>javafx-maven-plugin</artifactId>
         <version>0.0.3</version>
         <configuration>
-          <mainClass>app.LaunchHelper</mainClass>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.0</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <mainClass>app.LaunchHelper</mainClass>
-            </manifest>
-          </archive>
+          <mainClass>app.GameLauncher</mainClass>
         </configuration>
       </plugin>
       <plugin>
@@ -38,7 +27,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>app.LaunchHelper</mainClass>
+                  <mainClass>app.GameLauncher</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -50,7 +39,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.4.0</version>
         <configuration>
-          <mainClass>app.LaunchHelper</mainClass>
+          <mainClass>app.GameLauncher</mainClass>
         </configuration>
       </plugin>
     </plugins>

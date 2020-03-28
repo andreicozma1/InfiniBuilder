@@ -4,7 +4,7 @@ import app.structures.StructureBuilder;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import app.structures.objects.Base_Cube;
-import app.utils.WindowUtil;
+import app.GameBuilder;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MazeUtil {
-    private WindowUtil context;
+    private GameBuilder context;
     private double startingX;
     private double startingZ;
     private double cellW;
@@ -30,7 +30,7 @@ public class MazeUtil {
      * Constructor for MazeUtil
      * @param context,startingX,startingZ,cellW,cellD,cellH,mazeRows,mazeCols,seed
      */
-    public MazeUtil(  WindowUtil context,
+    public MazeUtil(  GameBuilder context,
                       double startingX,
                       double startingZ,
                       double cellW,

@@ -1,7 +1,6 @@
-package app.menu;
+package app.GUI.menu;
 
-import app.menu.GroupBuilder;
-import app.utils.WindowUtil;
+import app.GameBuilder;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -18,7 +17,7 @@ import java.util.HashMap;
 
 public class MenuUtil {
     Scene SCENE_MENU;
-    WindowUtil context;
+    GameBuilder context;
     GroupBuilder mainMenu;
     GroupBuilder settingsMenu;
     GroupBuilder controlsMenu;
@@ -68,7 +67,7 @@ public class MenuUtil {
     String currentGroup;
     public HashMap<String, Group> menuGroupMap = new HashMap<>();
 
-    public MenuUtil(WindowUtil ctx) {
+    public MenuUtil(GameBuilder ctx) {
         context = ctx;
         mainMenu = new GroupBuilder();
         settingsMenu = new GroupBuilder();
@@ -76,7 +75,7 @@ public class MenuUtil {
         aboutMenu = new GroupBuilder();
         exitButton = new GroupBuilder();
 
-        SCENE_MENU = new Scene(mainMenu.getGroup(),context.WIDTH,context.HEIGHT);
+        SCENE_MENU = new Scene(mainMenu.getGroup(),context.getWindowWidth(),context.getWindowHeight());
         buildMainMenu();
         buildControlsMenu();
         buildSettingsMenu();
@@ -110,7 +109,7 @@ public class MenuUtil {
     public void buildMainMenu() {
 
         // draw black backdrop
-        mainMenu.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, Color.BLACK);
+        mainMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         mainMenu.drawText("ROOT@CS307:~$",
@@ -131,7 +130,7 @@ public class MenuUtil {
         Rectangle startHitBox = mainMenu.drawRectangle(50,120,225,30,0,0,Color.TRANSPARENT);
         startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.showScene(context.getGameScene()); }
+                    public void handle(MouseEvent me) { context.showScene(context.getGameRootScene()); }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -224,7 +223,7 @@ public class MenuUtil {
         Rectangle quitHitBox = mainMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
         quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.getStage().close(); }
+                    public void handle(MouseEvent me) { context.getSTAGE().close(); }
                 });
         quitHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -244,7 +243,7 @@ public class MenuUtil {
 
     public void buildControlsMenu() {
         // draw black backdrop
-        controlsMenu.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, Color.BLACK);
+        controlsMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         controlsMenu.drawText("ROOT@CS307:~$ ./Controls",
@@ -285,7 +284,7 @@ public class MenuUtil {
 
     public void buildSettingsMenu() {
         // draw black backdrop
-        settingsMenu.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, Color.BLACK);
+        settingsMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         settingsMenu.drawText("ROOT@CS307:~$ ./Settings",
@@ -326,7 +325,7 @@ public class MenuUtil {
 
     public void buildAboutMenu() {
         // draw black backdrop
-        aboutMenu.drawRectangle(0,0,context.WIDTH,context.HEIGHT,0,0, Color.BLACK);
+        aboutMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         aboutMenu.drawText("ROOT@CS307:~$ ./About",

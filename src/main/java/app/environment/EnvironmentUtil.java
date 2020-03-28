@@ -4,21 +4,19 @@ import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Model;
 import javafx.geometry.Point2D;
 import javafx.scene.*;
-import javafx.scene.shape.Box;
 import app.algorithms.SimplexUtil;
 import javafx.scene.shape.CullFace;
 import app.utils.TDModelUtil;
-import app.structures.objects.Base_Cube;
 import app.structures.StructureBuilder;
 import app.utils.ResourcesUtil;
-import app.utils.WindowUtil;
+import app.GameBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class EnvironmentUtil {
 
-    public WindowUtil context;
+    public GameBuilder context;
 
     private SkyboxUtil skybox = null;
     private TDModelUtil modelUtil;
@@ -56,7 +54,7 @@ public class EnvironmentUtil {
      *
      * @param ctx
      */
-    public EnvironmentUtil(WindowUtil ctx) {
+    public EnvironmentUtil(GameBuilder ctx) {
         context = ctx;
         GROUP_WORLD = new Group(); // initialize the world group, which contains the TERRAIN and STRUCTURES subgroups
         modelUtil = new TDModelUtil();

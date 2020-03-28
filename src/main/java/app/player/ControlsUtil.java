@@ -5,12 +5,12 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import app.structures.maze.MazeUtil;
-import app.utils.WindowUtil;
+import app.GameBuilder;
 
 import java.util.ArrayList;
 
 public class ControlsUtil {
-    private WindowUtil context;
+    private GameBuilder context;
     double last_mouse_x;
     double last_mouse_y;
 
@@ -19,7 +19,7 @@ public class ControlsUtil {
 
     public static boolean rotating = false;
 
-    public ControlsUtil(WindowUtil ctx) {
+    public ControlsUtil(GameBuilder ctx) {
         context = ctx;
         pressed = new ArrayList<>();
     }

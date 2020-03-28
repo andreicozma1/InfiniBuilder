@@ -10,10 +10,10 @@ import javafx.scene.paint.Color;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Sphere;
 import app.utils.PhysicsUtil;
-import app.utils.WindowUtil;
+import app.GameBuilder;
 
 public class PlayerUtil {
-    public WindowUtil context;
+    public GameBuilder context;
     private Group player_group;
 
     private int player_width = 10;
@@ -54,7 +54,7 @@ public class PlayerUtil {
     public PointLight uv_light;
     boolean uv_light_state = false;
 
-    public PlayerUtil(WindowUtil ctx) {
+    public PlayerUtil(GameBuilder ctx) {
         context = ctx;
         player_group = new Group();
 

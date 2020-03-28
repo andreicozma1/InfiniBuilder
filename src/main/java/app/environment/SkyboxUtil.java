@@ -188,7 +188,7 @@ public class SkyboxUtil {
             }
 //            System.out.println(sin);
             sunlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (suncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (suncolor.getGreen() * sin * 255))), (int) (sin * ((sunset_color.getBlue() * (1 - sin) * 255) + (suncolor.getBlue() * sin * 255)))));
-            context.context.getGameScene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (dayskycolor.getBlue() * sin * 255))));
+            context.context.getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (dayskycolor.getBlue() * sin * 255))));
         } else {
             sunlight.setColor(Color.rgb(0, 0, 0));
         }
@@ -234,7 +234,7 @@ public class SkyboxUtil {
             sin -= sun_offset_ratio;
 //            sin *= (1/sun_offset);
             moonlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (mooncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (mooncolor.getGreen() * sin * 255))), (int) (sin * (sunset_color.getBlue() * (1 - sin) * 255) + (mooncolor.getBlue() * sin * 255))));
-            context.context.getGameScene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (nightskycolor.getBlue() * sin * 255))));
+            context.context.getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (nightskycolor.getBlue() * sin * 255))));
         } else {
             moonlight.setColor(Color.rgb(0, 0, 0));
         }

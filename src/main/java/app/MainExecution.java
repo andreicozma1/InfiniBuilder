@@ -12,8 +12,7 @@ import app.player.ControlsUtil;
 import app.player.PlayerUtil;
 import app.utils.ResourcesUtil;
 import app.structures.objects.Base_Cube;
-import app.menu.MenuUtil;
-import app.utils.WindowUtil;
+import app.GUI.menu.MenuUtil;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
@@ -37,12 +36,12 @@ public class MainExecution extends Application {
 
         // set up needed Utils for the game
         ResourcesUtil materials = new ResourcesUtil(this);
-        WindowUtil window = new WindowUtil(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
-        MenuUtil menu = new MenuUtil(window);
-        CameraUtil camera = new CameraUtil(window);
-        ControlsUtil controls = new ControlsUtil(window);
-        PlayerUtil player = new PlayerUtil(window);
-        EnvironmentUtil envir = new EnvironmentUtil(window);
+        GameBuilder game = new GameBuilder(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
+        MenuUtil menu = new MenuUtil(game);
+        CameraUtil camera = new CameraUtil(game);
+        ControlsUtil controls = new ControlsUtil(game);
+        PlayerUtil player = new PlayerUtil(game);
+        EnvironmentUtil envir = new EnvironmentUtil(game);
         SkyboxUtil sky = new SkyboxUtil(envir);
         sky.setMode(SkyboxUtil.MODE_DAY);
         AmbientLight amb = new AmbientLight();
@@ -52,11 +51,11 @@ public class MainExecution extends Application {
 
 
         // build the window
-        window.setMenu(menu);
-        window.setCamera(camera);
-        window.setControls(controls);
-        window.setPlayer(player);
-        window.setEnvironment(envir);
+        game.setMenu(menu);
+        game.setCamera(camera);
+        game.setControls(controls);
+        game.setPlayer(player);
+        game.setEnvironment(envir);
 
         // testing inventory Util with a base item that only holds the item tag
         Base_Cube dirt = new Base_Cube("Dirt",ResourcesUtil.grass,EnvironmentUtil.terrain_block_dim);
@@ -149,36 +148,18 @@ public class MainExecution extends Application {
 
 
 
-        menu.menuGroupMap.get(MenuUtil.GROUP_MAIN_MENU).getChildren().add(hudUtil.getSubScene());
+        game.setHUD(hudUtil);
 
         // close window on menu if ESC is pressed
-        controls.getControllerForScene(window.getMenu().getScene()).setOnKeyPressed(event -> {
+        controls.getControllerForScene(game.getMenu().getScene()).setOnKeyPressed(event -> {
                 if (event.getCode() == KeyCode.ESCAPE) {
-                    window.closeWindow();
+                    game.closeWindow();
                 }
             });
 
-        window.showScene(window.getMenu().getScene());
+        game.showScene(game.getMenu().getScene());
 
-            // MAIN GAME LOOP
-            AnimationTimer timer = new AnimationTimer() {
-                long last = 0;
 
-            @Override
-            public void handle(long now) {
-
-                // FPS HANDLING
-                if ((now - last) > (1 / 60)) {
-                    if (window.getCurrentScene() == window.getGameScene()) {
-                        controls.handleKeyboard(envir.getWorldGroup());
-                        envir.update_handler();
-                        player.update_handler();
-                    }
-                    last = now;
-                }
-            }
-        };
-        timer.start();
     }
 
     public static void main(String[] args) {

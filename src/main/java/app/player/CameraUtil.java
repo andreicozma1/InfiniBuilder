@@ -3,10 +3,10 @@ package app.player;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import app.utils.WindowUtil;
+import app.GameBuilder;
 
 public class CameraUtil {
-    private WindowUtil context;
+    private GameBuilder context;
     public static PerspectiveCamera cam;
 
     public final int fov_default = 45;
@@ -16,7 +16,7 @@ public class CameraUtil {
     private double rotx = 0;
     private double roty = 0;
 
-    public CameraUtil(WindowUtil ctx) {
+    public CameraUtil(GameBuilder ctx) {
         context = ctx;
         cam = new PerspectiveCamera(true);
         cam.setFieldOfView(fov_default);
