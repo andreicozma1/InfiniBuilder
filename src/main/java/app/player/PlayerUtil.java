@@ -17,7 +17,7 @@ public class PlayerUtil {
     private Group player_group;
 
     private int player_width = 10;
-    public int player_height = 60;
+    private int player_height = 60;
 
     public int fov_running = 70;
     public int fov_tired = 35;
@@ -268,6 +268,10 @@ public class PlayerUtil {
      */
     public Point2D getPoint2D() {
         return new Point2D(getX(), getZ());
+    }
+
+    public double getPlayerHeight(){
+        return player_height;
     }
 
     public boolean isOnGround() {

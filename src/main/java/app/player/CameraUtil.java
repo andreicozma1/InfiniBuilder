@@ -31,7 +31,7 @@ public class CameraUtil {
     void update_handler() {
         cam.getTransforms().clear();
 
-        double height = context.getPlayer().player_height;
+        double height = context.getPlayer().getPlayerHeight();
         if(context.getPlayer().isCrouching){
             height /= 2;
             height += height * context.getPlayer().crouch_multiplier;
