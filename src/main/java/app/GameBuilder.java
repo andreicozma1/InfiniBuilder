@@ -24,10 +24,10 @@ public class GameBuilder {
     // This scene holds other SubScenes, such as SCENE_GAME which is used to render the 3D world with a PerspectiveCamera, as well as the 2D HUD as an overlay
     // Controls are set on the root scene.
     private Scene ROOT_SCENE;
-    public Group ROOT_GROUP;
+    private Group ROOT_GROUP;
     // This subscene is a child of SCENE_ROOT.
     private SubScene GAME_SCENE;
-    public Group GAME_GROUP;
+    private Group GAME_GROUP;
     // Each scene contains it's own Group, which is used to hold the scene's children in a container
 
     private HUDUtil hud_util; // The HUDUtil class contains the other SubScene which is placed in the SCENE_ROOT together with SCENE_GAME
@@ -35,10 +35,10 @@ public class GameBuilder {
     private MenuUtil menu_util;
 
     // Other helper utils
-    private PlayerUtil player_util;
-    private CameraUtil cam_util;
-    private EnvironmentUtil env_util;
-    private ControlsUtil ctrls_util;
+    private PlayerUtil player_util = null;
+    private CameraUtil cam_util = null;
+    private EnvironmentUtil env_util = null;
+    private ControlsUtil ctrls_util = null;
 
     // MAIN GAME LOOP
     AnimationTimer timer;
@@ -57,16 +57,22 @@ public class GameBuilder {
         ROOT_GROUP.getChildren().add(GAME_SCENE);
 
         setCamera(new CameraUtil(this));
-        setControls(new ControlsUtil(this));
+        setGameSceneControls(new ControlsUtil(this));
 
 
         timer = new AnimationTimer() {
             long last = 0;
             @Override
             public void handle(long now) {
-                ctrls_util.update_handler();
-                env_util.update_handler();
-                player_util.update_handler();
+                if(ctrls_util != null){
+                    ctrls_util.update_handler();
+                }
+                if(env_util != null){
+                    env_util.update_handler();
+                }
+                if(player_util != null){
+                    player_util.update_handler();
+                }
 
                 if(now-last > 5000000000.0){
                     System.out.println("HEARTBEAT " + now);
@@ -77,6 +83,8 @@ public class GameBuilder {
 
     }
 
+
+
     public void setCamera(CameraUtil cam) {
         cam_util = cam;
         GAME_SCENE.setCamera(cam.getCamera());
@@ -86,12 +94,12 @@ public class GameBuilder {
         return cam_util;
     }
 
-    public void setControls(ControlsUtil ctrls) {
+    public void setGameSceneControls(ControlsUtil ctrls) {
         ctrls_util = ctrls;
         ctrls_util.apply(ROOT_SCENE);
     }
 
-    public ControlsUtil getControls() {
+    public ControlsUtil getGameSceneControls() {
         return ctrls_util;
     }
 
@@ -113,13 +121,8 @@ public class GameBuilder {
         return env_util;
     }
 
-    public Scene getCurrentScene() {
-        return SCENE_CURRENT;
-    }
-
     public void setMenu(MenuUtil ut) {
         menu_util = ut;
-//        SCENE_MENU = menu_util.menuScene;
     }
 
     public MenuUtil getMenu() {
@@ -128,6 +131,15 @@ public class GameBuilder {
 
     public Stage getSTAGE() {
         return STAGE;
+    }
+
+    public void setHUD(HUDUtil hud) {
+        hud_util = hud;
+        ROOT_GROUP.getChildren().add(hud.getSubScene());
+    }
+
+    public HUDUtil getHUD() {
+        return hud_util;
     }
 
 
@@ -157,22 +169,7 @@ public class GameBuilder {
         }
     }
 
-    public void setHUD(HUDUtil hud) {
-        hud_util = hud;
-        ROOT_GROUP.getChildren().add(hud.getSubScene());
-    }
 
-    public HUDUtil getHUD() {
-        return hud_util;
-    }
-
-    public Scene getGameRootScene() {
-        return ROOT_SCENE;
-    }
-
-    public SubScene getGameSubscene() {
-        return GAME_SCENE;
-    }
 
     public void showScene(Scene NEXT_SCENE) {
         SCENE_CURRENT = NEXT_SCENE;
@@ -195,6 +192,13 @@ public class GameBuilder {
         STAGE.show();
     }
 
+    public Scene getGameRootScene() {
+        return ROOT_SCENE;
+    }
+
+    public SubScene getGameSubscene() {
+        return GAME_SCENE;
+    }
 
     public double getWindowWidth() {
         return WINDOW_WIDTH;
@@ -202,6 +206,10 @@ public class GameBuilder {
 
     public double getWindowHeight() {
         return WINDOW_HEIGHT;
+    }
+
+    public Scene getCurrentScene() {
+        return SCENE_CURRENT;
     }
 
     public void closeWindow() {
