@@ -41,7 +41,8 @@ public class GameBuilder {
     private ControlsUtil ctrls_util = null;
 
     // MAIN GAME LOOP
-    AnimationTimer timer;
+    private AnimationTimer timer;
+    private long runtime = 0;
 
     public GameBuilder(Stage stg, int w, int h) {
         System.out.println("Creating game window with dimensions: " + w + " x " + h);
@@ -62,21 +63,31 @@ public class GameBuilder {
 
         timer = new AnimationTimer() {
             long last = 0;
+            int frames = 0;
+            double dt = 0;
             @Override
             public void handle(long now) {
                 if(ctrls_util != null){
-                    ctrls_util.update_handler();
+                    ctrls_util.update_handler(dt);
                 }
                 if(env_util != null){
                     env_util.update_handler();
                 }
                 if(player_util != null){
-                    player_util.update_handler();
+                    player_util.update_handler(dt);
                 }
+                frames++;
+                long curr = System.currentTimeMillis();
 
-                if(now-last > 5000000000.0){
-                    System.out.println("HEARTBEAT " + now);
-                    last = now;
+                if(curr - last > 1000.0){
+                    System.out.println("HEARTBEAT -> " + runtime + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
+                    dt = 60.0/frames;
+                    if(dt > 5){
+                        dt = 1;
+                    }
+                    frames = 0;
+                    runtime++;
+                    last = curr;
                 }
             }
         };

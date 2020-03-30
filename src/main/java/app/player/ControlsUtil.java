@@ -123,7 +123,7 @@ public class ControlsUtil {
         return scn;
     }
 
-    public void update_handler() {
+    public void update_handler(double dt) {
 
         for (KeyCode e : pressed) {
             switch (e) {
@@ -132,22 +132,22 @@ public class ControlsUtil {
                 case E:
                     break;
                 case W:
-                    context.getPlayer().moveForward(context.getPlayer().speedForward);
+                    context.getPlayer().moveForward(context.getPlayer().speedForward * dt);
                     break;
                 case A:
-                    context.getPlayer().moveLeft(context.getPlayer().speedSide);
+                    context.getPlayer().moveLeft(context.getPlayer().speedSide* dt);
                     break;
                 case S:
-                    context.getPlayer().moveBackward(context.getPlayer().speedBackward);
+                    context.getPlayer().moveBackward(context.getPlayer().speedBackward* dt);
                     break;
                 case D:
-                    context.getPlayer().moveRight(context.getPlayer().speedSide);
+                    context.getPlayer().moveRight(context.getPlayer().speedSide* dt);
                     break;
 
                 case SPACE:
 //                    System.out.println(context.getPlayer().isFlyMode);
                     if (context.getPlayer().isFlyMode) {
-                        context.getPlayer().moveUp(context.getPlayer().speedFly);
+                        context.getPlayer().moveUp(context.getPlayer().speedFly* dt);
                     } else {
                         if (context.getPlayer().isOnGround() && context.getPlayer().canJump) {
                             context.getPlayer().jump();
@@ -156,7 +156,7 @@ public class ControlsUtil {
                     break;
                 case SHIFT:
                     if (context.getPlayer().isFlyMode) {
-                        context.getPlayer().moveDown(context.getPlayer().speedFly);
+                        context.getPlayer().moveDown(context.getPlayer().speedFly* dt);
                     } else {
                         context.getPlayer().isRunning = true;
                     }

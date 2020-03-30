@@ -28,8 +28,8 @@ public class PlayerUtil {
 
     private boolean tooHigh = false;
 
-    public double runMultiplier = 1.5;
-    public double speedForward = 3;
+    public double runMultiplier = 1.3;
+    public double speedForward = 2.5;
     public double speedBackward = 2;
     public double speedSide = 2;
     public double speedFly = 3;
@@ -65,7 +65,7 @@ public class PlayerUtil {
 
     }
 
-    public void update_handler() {
+    public void update_handler(double dt) {
 //        System.out.println("Player X: " + getX() + " Y: " + getY() + " Z: " + getZ()  + " onGround: " +  isOnGround() + " aboveGround: " + isAboveGround());
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().update_handler();
@@ -82,13 +82,13 @@ public class PlayerUtil {
             // If the player initiated a jump and hasn't reached the top, move the player up
 //            System.out.println(jump_start_height);
             if (isJumping && y < jump_start_height + jumpHeight) {
-                moveUp(speedFly);
+                moveUp(speedFly* dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
                 isJumping = false;
-                moveDown(fallSpeed);
+                moveDown(fallSpeed* dt);
                 // gravity acceleration
-                fallSpeed += PhysicsUtil.GRAVITY;
+                fallSpeed += PhysicsUtil.GRAVITY* dt;
             }
         }
 

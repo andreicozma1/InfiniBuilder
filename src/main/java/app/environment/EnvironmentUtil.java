@@ -38,8 +38,8 @@ public class EnvironmentUtil {
     private final int terrain_block_height = 20;
     private final int terrain_block_depth = 20;
 
-    private Map<Point2D, Double> terrain_map_height = new HashMap<Point2D, Double>();
-    private Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<Point2D, StructureBuilder>();
+    private Map<Point2D, Double> terrain_map_height = new HashMap<>();
+    private Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<>();
 
     public double planet_diameter = 8000;
     public double water_level = 203;
