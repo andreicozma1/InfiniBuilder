@@ -2,6 +2,14 @@
 - Andrei Cozma & Hunter Price  
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 
+### DEPENDENCIES:
+- Maven (```sudo apt-get install maven```)   
+
+### INSTALL COMPILATION PRE-REQUISITES:   
+```
+	> mvn validate
+```
+
 ## COMPILATION & INSTALLATION:  
 
 ### OPTION 1:  

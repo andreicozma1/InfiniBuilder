@@ -23,6 +23,24 @@
             <version>14</version>
         </dependency>
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>14</version>
+            <classifier>win</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>14</version>
+            <classifier>linux</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>14</version>
+            <classifier>mac</classifier>
+        </dependency>
+        <dependency>
             <groupId>com.interactivemesh.jfx.importer.obj</groupId>
             <artifactId>example-app</artifactId>
             <version>1.0</version>
@@ -79,6 +97,28 @@
                     <mainClass>app.GameLauncher</mainClass>
                 </configuration>
             </plugin>
+            <!-- Import local 3D Model Important Library-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <groupId>com.interactivemesh.jfx.importer.obj</groupId>
+                            <artifactId>example-app</artifactId>
+                            <version>1.0</version>
+                            <packaging>jar</packaging>
+                            <file>${basedir}/lib/interactive-mesh/jim3dsModelImporterJFX.jar</file>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
 
     </build>
