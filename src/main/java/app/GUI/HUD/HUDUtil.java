@@ -13,6 +13,13 @@ public class HUDUtil {
     private SubScene subScene;
     private Group HUDGroup = new Group();
 
+    public static final String HEALTH = "HEALTH";
+    public static final String STAMINA = "STAMINA";
+    public static final String HUNGER = "HUNGER";
+    public static final String INVENTORY = "INVENTORY";
+    public static final String PAUSE = "PAUSE";
+    public static final String CROSSHAIR = "CROSSHAIR";
+
     public static final String EDGE_BOTTOM = "edge_bottom";
     public static final String EDGE_TOP = "edge_top";
     public static final String EDGE_LEFT = "edge_left";

@@ -7,6 +7,7 @@ import javafx.scene.Node;
 
 public class HUDElement {
     private Group group;
+    private Group addedGroup = new Group();
     private String elementTag;
     private Point2D pos;
 
@@ -15,7 +16,6 @@ public class HUDElement {
         group = new Group();
         this.elementTag = elementTag;
         this.pos = pos;
-
     }
 
 
@@ -27,5 +27,13 @@ public class HUDElement {
     public void setElementTag(String elementTag) { this.elementTag = elementTag; }
     public void setPos(Point2D p) { this.pos = p; }
 
-    public void addNode(Node node){ group.getChildren().add(node); }
+    public void addNode(Node node){
+        addedGroup.getChildren().add(node);
+        group.getChildren().add(addedGroup);
+    }
+
+    public void update(){
+        group.getChildren().clear();
+        group.getChildren().add(addedGroup);
+    }
 }

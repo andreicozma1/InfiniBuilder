@@ -1,7 +1,9 @@
 
 package app;
 
+import app.GUI.HUD.Crosshair;
 import app.GUI.HUD.HUDUtil;
+import app.GUI.HUD.PauseMenu;
 import app.player.Inventory;
 import app.GUI.HUD.StatusBar;
 import app.environment.EnvironmentUtil;
@@ -66,7 +68,7 @@ public class MainExecution extends Application {
         HUDUtil hudUtil = new HUDUtil(game);
 
         //health bar
-        StatusBar health = new StatusBar(   "HEALTH",
+        StatusBar health = new StatusBar(   HUDUtil.HEALTH,
                 new Point2D(25,10),
                 500,
                 15,
@@ -84,7 +86,7 @@ public class MainExecution extends Application {
         hudUtil.addElement(health);
 
         //stamina bar
-        StatusBar stamina = new StatusBar(   "STAMINA",
+        StatusBar stamina = new StatusBar(   HUDUtil.STAMINA,
                 new Point2D(55,10),
                 200,
                 15,
@@ -108,7 +110,7 @@ public class MainExecution extends Application {
         inventoryUtil.setCurrentIndex(7);
         inventoryUtil.print();
 
-        Inventory inv = new Inventory(  "INVENTORY",
+        Inventory inv = new Inventory(  HUDUtil.INVENTORY,
                 new Point2D(200,100),
                 inventoryUtil,
                 50,50,5,Color.WHITE,Color.GREY );
@@ -116,7 +118,20 @@ public class MainExecution extends Application {
         inv.setDisplayNumbers(true);
         inv.update();
         hudUtil.addElement(inv);
-        
+
+
+        PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE,
+                                                new Point2D(100,200),100,200);
+        pauseMenu.setPaused(true);
+        pauseMenu.update();
+//        hudUtil.addElement(pauseMenu);
+
+        Crosshair crosshair = new Crosshair(HUDUtil.CROSSHAIR,PRIMARY_WIDTH,PRIMARY_HEIGHT,3,25,5,Color.WHITE);
+        crosshair.setCrosshairBorderWidth(1);
+        crosshair.setCrosshairBorderColor(Color.BLACK);
+        crosshair.update();
+        hudUtil.addElement(crosshair);
+
         game.setHUD(hudUtil);
 
         game.showScene(game.getMenu().getScene());
