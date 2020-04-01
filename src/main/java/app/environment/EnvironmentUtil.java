@@ -245,10 +245,12 @@ public class EnvironmentUtil {
         Point2D origLoc = new Point2D(xPos, zPos);
 
         if (terrain_map_block.containsKey(origLoc)) {
+            System.out.println("placeObject() " + str.getItemTag());
+            System.out.println(str.getChildren());
+
             StructureBuilder orig = terrain_map_block.get(origLoc);
             str.setTranslateY(-orig.getHeight());
             terrain_map_height.put(origLoc, terrain_map_height.get(origLoc) - str.getHeight());
-
             orig.getChildren().add(str);
         } else {
 

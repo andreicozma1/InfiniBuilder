@@ -87,7 +87,7 @@ public class PlayerUtil {
             // If the player initiated a jump and hasn't reached the top, move the player up
 //            System.out.println(jump_start_height);
             if (isJumping && y < jump_start_height + jumpHeight) {
-                moveUp(speedFly* dt);
+                moveUp(fallSpeed* dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
                 isJumping = false;
@@ -149,6 +149,7 @@ public class PlayerUtil {
 
     public void moveForward(double val) {
         // If the player is running, move forward by the specified runMultiplier amount
+        if(isFlyMode) val = speedFly;
         if (isRunning) val *= runMultiplier;
         if (isCrouching) val *= crouch_multiplier;
 
@@ -165,6 +166,7 @@ public class PlayerUtil {
     }
 
     public void moveBackward(double val) {
+        if(isFlyMode) val = speedFly;
         if (isCrouching) val *= crouch_multiplier;
 
         double new_x = this.x - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
@@ -178,6 +180,8 @@ public class PlayerUtil {
     }
 
     public void moveLeft(double val) {
+        if(isFlyMode) val = speedFly;
+
         if (isCrouching) val *= crouch_multiplier;
 
         double new_z = this.z + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
@@ -190,6 +194,7 @@ public class PlayerUtil {
     }
 
     public void moveRight(double val) {
+        if(isFlyMode) val = speedFly;
         if (isCrouching) val *= crouch_multiplier;
 
         double new_x = this.x + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
