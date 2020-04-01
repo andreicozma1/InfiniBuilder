@@ -340,23 +340,26 @@ public class SkyboxUtil {
         }
     }
 
-    void setSun_moon_period_multiplier(int num) {
+    public int getSun_moon_period_multiplier(){
+        return sun_moon_period_multiplier;
+    }
+    public void setSun_moon_period_multiplier(int num) {
         sun_moon_period_multiplier = num;
     }
 
-    void setSun_offset_ratio(double off) {
+    public void setSun_offset_ratio(double off) {
         sun_offset_ratio = off;
     }
 
-    void setSun_rotation_speed(double s) {
+    public void setSun_rotation_speed(double s) {
         sun_rotation_speed = s;
     }
 
-    void setMoon_rotation_speed(double s) {
+    public void setMoon_rotation_speed(double s) {
         moon_rotation_speed = s;
     }
 
-    void setTime(double t) {
+    public void setTime(double t) {
         time = t;
     }
 

@@ -36,7 +36,7 @@ public class PlayerUtil {
     public double fallSpeed = 0; // Original speed before gravity is applied;
 
     double jump_start_height;
-    private double jumpHeight = player_height * .75;
+    private double jumpHeight = player_height;
     private double autoJumpCutoffHeight = player_height / 2.0;
     public boolean canJump = true;
     public boolean isJumping = false;
@@ -342,6 +342,13 @@ public class PlayerUtil {
             e.printStackTrace();
         }
 
+    }
+
+    public double getJumpHeight(){
+        return jumpHeight;
+    }
+    public void setJumpHeight(double mult){
+        jumpHeight = player_height * mult;
     }
 }
 

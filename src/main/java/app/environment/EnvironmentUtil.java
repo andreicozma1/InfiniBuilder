@@ -288,8 +288,7 @@ public class EnvironmentUtil {
         terrain_map_block.clear();
     }
 
-
-    public double getTerrainHeightMultiplier(double mult) {
+    public double getTerrainHeightMultiplier() {
         return terrain_multiplier_height;
     }
 
