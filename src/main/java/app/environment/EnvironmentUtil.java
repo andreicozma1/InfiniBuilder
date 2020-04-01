@@ -84,6 +84,8 @@ public class EnvironmentUtil {
             for (int j = (int) (-terrain_generate_distance / 2 + playerz); j <= terrain_generate_distance / 2.0 + playerz; j++) {
                 if (!terrain_map_block.containsKey(new Point2D(i, j))) {
 //                    System.out.println("Generated Chunks " + i + "  " + j);
+
+
                     double x = i * getBlockDim();
                     double y = getSimplexHeight(i, j) * getBlockDim() + getBlockDim() / 2.0;
                     double z = j * getBlockDim();
@@ -116,6 +118,8 @@ public class EnvironmentUtil {
     public StructureBuilder create_platform(double x, double y, double z) {
 
         StructureBuilder b = new StructureBuilder();
+
+
 
         Base_Cube box = new Base_Cube("Terrain Base", getBlockDim());
         b.getChildren().add(box);
@@ -246,7 +250,6 @@ public class EnvironmentUtil {
 
         if (terrain_map_block.containsKey(origLoc)) {
             System.out.println("placeObject() " + str.getItemTag());
-            System.out.println(str.getChildren());
 
             str.getTransforms().removeAll(str.getTransforms());
             str.setTranslateIndependent(0,0,0);
@@ -256,8 +259,6 @@ public class EnvironmentUtil {
             str.setTranslateY(-orig.getHeight());
             terrain_map_height.put(origLoc, terrain_map_height.get(origLoc) - str.getHeight());
             orig.getChildren().add(str);
-        } else {
-
         }
     }
 

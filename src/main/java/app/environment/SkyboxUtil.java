@@ -18,9 +18,9 @@ public class SkyboxUtil {
     private int sun_moon_period_multiplier = 140;
     private int big_planet_period_multiplier = 140;
     private double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
-    private double sun_rotation_speed = .1;
-    private double moon_rotation_speed = .2;
-    private double big_star_rotate_speed = .02;
+    private double sun_rotation_speed = .05;
+    private double moon_rotation_speed = .05;
+    private double big_star_rotate_speed = .005;
 
     public static final int MODE_CYCLE = 0;
     public static final int MODE_DAY = 1;
@@ -347,10 +347,6 @@ public class SkyboxUtil {
         sun_moon_period_multiplier = num;
     }
 
-    public void setSun_offset_ratio(double off) {
-        sun_offset_ratio = off;
-    }
-
     public void setSun_rotation_speed(double s) {
         sun_rotation_speed = s;
     }
@@ -361,7 +357,7 @@ public class SkyboxUtil {
 
     public void setTime(double t) {
         time = t;
-    }
+    } // -1 uses System Time. Any other value locks it to a specific time
 
     public Group getGroup() {
         return group_skybox;
