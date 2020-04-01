@@ -132,8 +132,10 @@ public class PlayerUtil {
 
         context.getHUD().getElement(HUDUtil.INVENTORY).update();
 
+        System.out.println("placeObject() " + cb.getItemTag() + " " + cb.getScaleX() + " " + cb.getScaleY() + " " + cb.getScaleZ());
+
         if(cb.getItemTag() != StructureBuilder.UNDEFINED_TAG){
-            context.getEnvironment().placeObject(getPoint2D(), cb, true);
+            context.getEnvironment().placeObject(getPoint2D(), cb, false);
         }
     }
 

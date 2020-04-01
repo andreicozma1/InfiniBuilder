@@ -43,11 +43,11 @@ public class ControlsUtil {
             System.out.println("setOnScroll " + scrollEvent.getDeltaY());
 
             if (scrollEvent.getDeltaY() > 0) {
-                ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
+                ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(-1);
                 context.getHUD().getElement(HUDUtil.INVENTORY).update();
             }
             if (scrollEvent.getDeltaY() < 0) {
-                ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(-1);
+                ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
                 context.getHUD().getElement(HUDUtil.INVENTORY).update();
             }
 
@@ -72,8 +72,8 @@ public class ControlsUtil {
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            System.out.println("KEY_PRESSED " + event.getCode());
             if (!pressed.contains(event.getCode())) {
+                System.out.println("KEY_PRESSED " + event.getCode());
                 pressed.add(event.getCode());
             }
         });
@@ -115,7 +115,7 @@ public class ControlsUtil {
                         context.getEnvironment().getSkybox().cycleModes();
                         break;
                     case M:
-                        MazeUtil maze = new MazeUtil(context, 0,0, context.getEnvironment().getBlockDim(), context.getEnvironment().getBlockDim(), context.getEnvironment().getBlockDim(), 20, 20, 0);
+                        MazeUtil maze = new MazeUtil(context, 0,0, context.getEnvironment().getBlockDim(), context.getEnvironment().getBlockDim() * 4, context.getEnvironment().getBlockDim(), 20, 20, 0);
                         maze.draw();
                         break;
                     case R:

@@ -38,8 +38,8 @@ public class MazeUtil {
                       double startingX,
                       double startingZ,
                       double cellW,
-                      double cellD,
                       double cellH,
+                      double cellD,
                       int mazeRows,
                       int mazeCols,
                       long seed ){
@@ -82,8 +82,9 @@ public class MazeUtil {
             for( j = 0 ; j < mazeCols*2 + 1 ; j++ ) {
                 if(i == 0 || i== mazeRows*2 || j == 0 || j == mazeCols*2 || (i%2==0 && j%2==0)) {
 //                    System.out.println("create wall");
-                    Base_Cube cube = new Base_Cube("Maze Wall",20, 20, 20);
+                    Base_Cube cube = new Base_Cube("Maze Wall",cellW, cellH, cellD);
                     cube.setMaterial(mazeMaterial);
+                    cube.setIsSolid(true);
                     maze_map_block.put(new Point2D(currX, currZ), cube);
                 }
                 currX += cellW;
@@ -100,6 +101,7 @@ public class MazeUtil {
         for (Wall w : walls){
             Base_Cube cube = new Base_Cube("Maze Wall", cellW,cellH,cellD);
             cube.setMaterial(mazeMaterial);
+            cube.setIsSolid(true);
             Point2D point;
             int xindex1 = 1 + ( 2 * (w.cell1 % mazeCols) );
             int zindex1 = 1 + ( 2 * (w.cell1 / mazeCols) );

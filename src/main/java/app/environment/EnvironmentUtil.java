@@ -85,7 +85,7 @@ public class EnvironmentUtil {
                 if (!terrain_map_block.containsKey(new Point2D(i, j))) {
 //                    System.out.println("Generated Chunks " + i + "  " + j);
 
-                    create_platform(i,j);
+                    create_platform(i,j, false);
 
                 } else {
 //                    System.out.println("HERE " + i + " " + j);
@@ -110,7 +110,14 @@ public class EnvironmentUtil {
         }
     }
 
-    public StructureBuilder create_platform(double i, double j) {
+    public StructureBuilder create_platform(double i, double j, boolean removeExtra) {
+
+        double vegDens = 0;
+        if(removeExtra){
+            vegDens = 0;
+        } else{
+            vegDens = terrain_vegetation_density;
+        }
 
         StructureBuilder b = new StructureBuilder();
 
@@ -124,13 +131,17 @@ public class EnvironmentUtil {
 
 
         Base_Cube box = new Base_Cube("Terrain Base", getBlockDim());
+        box.setIsSolid(true);
+
         b.getChildren().add(box);
+
 
         if ((terrain_single_material == null && y < peak_level) || (terrain_single_material == ResourcesUtil.stone)) {
             box.setMaterial(ResourcesUtil.stone);
             box.setItemTag("Stone");
-            if (Math.random() > 1 - terrain_vegetation_density) {
+            if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"peak", "rock"});
+                tree.setIsSolid(false);
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
@@ -140,8 +151,9 @@ public class EnvironmentUtil {
             box.setMaterial(ResourcesUtil.moss);
             box.setItemTag("Moss");
 
-            if (Math.random() > 1 - terrain_vegetation_density) {
+            if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"mountain", "rock"});
+                tree.setIsSolid(false);
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
@@ -151,8 +163,9 @@ public class EnvironmentUtil {
             box.setMaterial(ResourcesUtil.grass);
             box.setItemTag("Grass");
 
-            if (Math.random() > 1 - terrain_vegetation_density) {
+            if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"plains", "rock", "veg"});
+                tree.setIsSolid(false);
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
@@ -163,8 +176,9 @@ public class EnvironmentUtil {
             box.setMaterial(ResourcesUtil.sand);
             box.setItemTag("Sand");
 
-            if (Math.random() > 1 - terrain_vegetation_density) {
+            if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"desert", "cactus", "dead"});
+                tree.setIsSolid(false);
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
@@ -174,8 +188,9 @@ public class EnvironmentUtil {
             box.setMaterial(ResourcesUtil.dirt);
             box.setItemTag("Dirt");
 
-            if (Math.random() > 1 - terrain_vegetation_density) {
+            if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"dirt", "rock", "moss"});
+                tree.setIsSolid(false);
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
@@ -186,6 +201,7 @@ public class EnvironmentUtil {
 
             if (terrain_should_have_water) {
                 Base_Cube water = new Base_Cube("Water");
+                water.setIsSolid(false);
                 water.setScaleIndependent(getBlockDim(), .01, getBlockDim());
                 water.getBox().setMaterial(ResourcesUtil.water);
                 water.getBox().setCullFace(CullFace.BACK);
@@ -193,8 +209,9 @@ public class EnvironmentUtil {
                 b.getChildren().add(water);
             }
 
-            if (Math.random() > 1 - terrain_vegetation_density) {
+            if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"sea", "water", "rock", "moss"});
+                tree.setIsSolid(false);
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
@@ -242,26 +259,36 @@ public class EnvironmentUtil {
         }
     }
 
-    public void placeObject(Point2D pos, StructureBuilder str, boolean lockToEnvir) {
-        System.out.println("Adding tree at " + pos);
-
+    public void placeObject(Point2D pos, StructureBuilder str, boolean removeExtras) {
         double xPos = getTerrainXfromPlayerX(pos.getX());
         double zPos = getTerrainZfromPlayerZ(pos.getY());
 
         Point2D origLoc = new Point2D(xPos, zPos);
 
-        if (!terrain_map_block.containsKey(origLoc)) {
-            create_platform(xPos,zPos);
-        }
+        System.out.println("placeObject() " + str.getItemTag() + " at " + origLoc);
 
-            System.out.println("placeObject() " + str.getItemTag());
+
+        if (!terrain_map_block.containsKey(origLoc)) {
+            create_platform(xPos,zPos,removeExtras);
+        } else{
+            boolean foundNonSolid = false;
+            for(Node e : terrain_map_block.get(origLoc).getChildren()){
+                System.out.println(((StructureBuilder)e).getItemTag() + " " + ((StructureBuilder)e).getIsSolid());
+                if(((StructureBuilder)e).getIsSolid() == false){
+                    foundNonSolid = true;
+                }
+            }
+            if(removeExtras && foundNonSolid){
+                create_platform(xPos,zPos,removeExtras);
+            }
+        }
 
             str.getTransforms().removeAll(str.getTransforms());
             str.setTranslateIndependent(0,0,0);
             str.setScaleAll(getBlockDim());
 
             StructureBuilder orig = terrain_map_block.get(origLoc);
-            str.setTranslateY(-orig.getHeight());
+            str.setTranslateY(-orig.getBoundsInParent().getHeight());
             terrain_map_height.put(origLoc, terrain_map_height.get(origLoc) - str.getHeight());
             orig.getChildren().add(str);
 
