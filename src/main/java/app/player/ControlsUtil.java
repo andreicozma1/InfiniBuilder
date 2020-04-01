@@ -32,9 +32,6 @@ public class ControlsUtil {
             double differencex = event.getSceneX() - last_mouse_x;
             double differencey = event.getSceneY() - last_mouse_y;
 
-//            System.out.println("diffX: " + differencex + " diffY: " + differencey);
-
-//            context.getCamera().setRotate(context.getCamera().getRotateX() + differencey, context.getCamera().getRotateY() + differencex);
             context.getCamera().rotateX(differencex);
             context.getCamera().rotateY(-differencey);
 
@@ -43,6 +40,7 @@ public class ControlsUtil {
         });
 
         game_scene.setOnScroll(scrollEvent -> {
+            System.out.println("setOnScroll " + scrollEvent.getDeltaY());
 
             if (scrollEvent.getDeltaY() > 0) {
                 ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
@@ -62,6 +60,7 @@ public class ControlsUtil {
         });
 
         game_scene.setOnMousePressed(event -> {
+            System.out.println("setOnMousePressed " + event.getButton());
             switch (event.getButton()) {
                 case SECONDARY:
                     context.getPlayer().placeObject();
@@ -73,7 +72,7 @@ public class ControlsUtil {
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-//            System.out.println("Pressed " + event.getCharacter().toUpperCase());
+            System.out.println("KEY_PRESSED " + event.getCode());
             if (!pressed.contains(event.getCode())) {
                 pressed.add(event.getCode());
             }
@@ -82,7 +81,17 @@ public class ControlsUtil {
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             if (pressed.contains(event.getCode())) {
                 pressed.remove(event.getCode());
-//                System.out.println("Released " + event.getText());
+                System.out.println("KEY_RELEASED " + event.getCode());
+
+                // Handle changing inventory spot with number keys
+                if(event.getCode().toString().toLowerCase().contains("digit")){
+                    int index = Character.getNumericValue(event.getCode().toString().charAt(event.getCode().toString().length()-1)) - 1;
+                    System.out.println("HERE " + index);
+
+                    ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(index);
+                    context.getHUD().getElement(HUDUtil.INVENTORY).update();
+                }
+
                 switch (event.getCode()) {
                     case SPACE:
                         context.getPlayer().canJump = true;
