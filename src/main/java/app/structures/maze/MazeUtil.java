@@ -28,6 +28,7 @@ public class MazeUtil {
     private MazeGenerator mazeGenerator;
     private List<Wall> walls;
     public static Map<Point2D, StructureBuilder> maze_map_block = new HashMap<Point2D,StructureBuilder>();
+    private int wall_height = 4;
 
     /**
      * Constructor for MazeUtil
@@ -128,17 +129,13 @@ public class MazeUtil {
         }
 
         System.out.println(maze_map_block.size());
-
     }
 
     public void draw(){
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < wall_height; i++){
             createBlockMap();
-
-            Iterator mapIterator = maze_map_block.entrySet().iterator();
-            while (mapIterator.hasNext()) {
-                Map.Entry mapElement = (Map.Entry)mapIterator.next();
-                context.getEnvironment().placeObject((Point2D)mapElement.getKey(),(StructureBuilder)mapElement.getValue(),true);
+            for (Map.Entry<Point2D, StructureBuilder> point2DStructureBuilderEntry : maze_map_block.entrySet()) {
+                context.getEnvironment().placeObject((Point2D) ((Map.Entry) point2DStructureBuilderEntry).getKey(), (StructureBuilder) ((Map.Entry) point2DStructureBuilderEntry).getValue(), true);
             }
         }
     }
