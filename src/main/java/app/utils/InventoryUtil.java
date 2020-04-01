@@ -55,6 +55,11 @@ public class InventoryUtil {
 
     public int getIndexSize(int index){ return getItemSize(getItem(index)); }
 
+    public StructureBuilder popCurrentItem(){
+        return popItem(currentIndex);
+    }
+
+
     public void setCurrentIndex(int currentIndex) {
 
         // if the given index is out of range set it to the closest index

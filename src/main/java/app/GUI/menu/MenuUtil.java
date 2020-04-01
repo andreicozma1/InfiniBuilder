@@ -308,7 +308,7 @@ public class MenuUtil {
         settingsMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
-        settingsMenu.drawText("Settings@CS307:~$",
+        settingsMenu.drawText("ROOT@CS307:~/Settings$",
                 50,
                 50,
                 GREEN,
@@ -549,7 +549,7 @@ public class MenuUtil {
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_jump_height +=.5;
-                        if(curr_jump_height>3) curr_jump_height = 0;
+                        if(curr_jump_height>5) curr_jump_height = 0;
                         playerJumpHeightMult.setText(Double.toString(curr_jump_height));
                         context.getPlayer().setJumpHeight(curr_jump_height);
                     }
