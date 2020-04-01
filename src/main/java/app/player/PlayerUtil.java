@@ -87,7 +87,7 @@ public class PlayerUtil {
             // If the player initiated a jump and hasn't reached the top, move the player up
 //            System.out.println(jump_start_height);
             if (isJumping && y < jump_start_height + jumpHeight) {
-                moveUp(fallSpeed* dt);
+                moveUp(speedFly* dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
                 isJumping = false;
@@ -131,8 +131,9 @@ public class PlayerUtil {
 //        cb.setScaleAll(context.getEnvironment().getBlockDim());
 //
 //        cb.getBox().setMaterial(ResourcesUtil.stone);
-//
-        StructureBuilder cb = ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem();
+
+        StructureBuilder cb = ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
+
         context.getEnvironment().placeObject(getPoint2D(), cb, true);
     }
 
