@@ -64,7 +64,7 @@ public class EnvironmentUtil {
 
         setTerrainRenderDistance(30);
         setTerrainHeightMultiplier(100);
-        setVegetationDensity(100);
+        setVegetationDensity(25);
 
         terrain_simplex_alg = new SimplexUtil(100, 0.4, (int) System.currentTimeMillis());
     }
@@ -296,7 +296,7 @@ public class EnvironmentUtil {
     public void setTerrainHeightMultiplier(double mult) {
         try {
             if (mult >= 0 && mult <= 100) {
-                terrain_multiplier_height = mult / 2.8; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
+                terrain_multiplier_height = mult / 3; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
                 reset();
             } else {
                 throw new IndexOutOfBoundsException();

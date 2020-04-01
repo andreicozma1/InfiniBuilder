@@ -45,7 +45,6 @@ public class SkyboxUtil {
     Color nightskycolor;
 
     private Sphere big_star;
-    private double big_star_scale;
     private Rotate big_star_rotate;
     private double big_star_distance;
 
@@ -80,7 +79,6 @@ public class SkyboxUtil {
         clouds.setScaleZ(context.planet_diameter + clouds_height);
         clouds.setEffect(new GaussianBlur(5));
 
-
         clouds_rotate_x = new Rotate(90, new Point3D(1, 0, 0));
         clouds_rotate_y = new Rotate(0, new Point3D(0, 1, 0));
         clouds_rotate_z = new Rotate(0, new Point3D(0, 0, 1));
@@ -89,11 +87,8 @@ public class SkyboxUtil {
 
         big_star = new Sphere();
         big_star.setMaterial(ResourcesUtil.big_star);
-        big_star_scale = 2000;
-        big_star.setScaleX(big_star_scale);
-        big_star.setScaleY(big_star_scale);
-        big_star.setScaleZ(big_star_scale);
-        big_star_distance = context.planet_diameter + clouds_height + big_star_scale + 1000;
+        setBigStarScale(4000);
+        setBigStarDistance(context.planet_diameter + 1000);
         big_star_rotate = new Rotate(0, new Point3D(0, 1, 0));
         big_star.getTransforms().setAll(big_star_rotate);
 
@@ -101,8 +96,8 @@ public class SkyboxUtil {
         moon = new Sphere();
         moonlight = new PointLight();
         moonlight.setDepthTest(DepthTest.ENABLE);
-        setMoonScale(500);
-        setMoonDistance(context.planet_diameter + clouds_height + 3000);
+        setMoonScale(1000);
+        setMoonDistance(context.planet_diameter + 3000);
         setMoonMaterial(ResourcesUtil.moon);
         setMoonlightColor(Color.rgb(20, 20, 60));
         setNightSkyColor(Color.rgb(10, 10, 35));
@@ -113,8 +108,8 @@ public class SkyboxUtil {
         sun = new Sphere();
         sunlight = new PointLight();
         sunlight.setDepthTest(DepthTest.ENABLE);
-        setSunScale(1200);
-        setSunDistance(context.planet_diameter + clouds_height + 8000);
+        setSunScale(2000);
+        setSunDistance(context.planet_diameter + 8000);
         setSunMaterial(ResourcesUtil.sun);
         setSunlightColor(Color.WHITE);
         setDaySkyColor(Color.rgb(135, 206, 235));
@@ -265,6 +260,25 @@ public class SkyboxUtil {
         moon.setScaleZ(scale);
     }
 
+
+    public void setBigStarScale(double scale){
+        big_star.setScaleX(scale);
+        big_star.setScaleY(scale);
+        big_star.setScaleZ(scale);
+    }
+
+    public double getSunScale(){
+        return sun.getScaleX();
+    }
+
+    public double getMoonScale(){
+        return moon.getScaleX();
+    }
+
+    public double getBigStarScale(){
+        return big_star.getScaleX();
+    }
+
     public void setSunMaterial(PhongMaterial mat) {
         sun.setMaterial(mat);
     }
@@ -289,12 +303,28 @@ public class SkyboxUtil {
         nightskycolor = cr;
     }
 
+    public double getSunDistance(){
+        return sun_distance;
+    }
+
+    public double getMoonDistance(){
+        return moon_distance;
+    }
+
+    public double getBigStarDistance(){
+        return big_star_distance;
+    }
+
     public void setSunDistance(double dist) {
-        sun_distance = dist;
+        sun_distance = clouds_height + dist;
     }
 
     public void setMoonDistance(double dist) {
-        moon_distance = dist;
+        moon_distance = clouds_height + dist;
+    }
+
+    public void setBigStarDistance(double dist){
+        big_star_distance = clouds_height + dist;
     }
 
 
