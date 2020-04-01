@@ -127,14 +127,10 @@ public class PlayerUtil {
     }
 
     public void placeObject() {
-//        Base_Cube cb = new Base_Cube("Stone");
-//        cb.setScaleAll(context.getEnvironment().getBlockDim());
-//
-//        cb.getBox().setMaterial(ResourcesUtil.stone);
-
         StructureBuilder cb = ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
-
-        context.getEnvironment().placeObject(getPoint2D(), cb, true);
+        if(cb.getItemTag() != StructureBuilder.UNDEFINED_TAG){
+            context.getEnvironment().placeObject(getPoint2D(), cb, true);
+        }
     }
 
     public void jump() {

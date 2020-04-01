@@ -3,6 +3,8 @@ package app.structures;
 import javafx.scene.Group;
 
 public class StructureBuilder extends Group{
+    public static String UNDEFINED_TAG = "Undefined";
+
     private String itemTag;
 
     private int TYPE_CURRENT;
@@ -11,7 +13,7 @@ public class StructureBuilder extends Group{
 
     public StructureBuilder() {
         TYPE_CURRENT = TYPE_OBJECT;
-        itemTag = "Undefined";
+        itemTag = UNDEFINED_TAG;
     }
 
     public String getItemTag(){
