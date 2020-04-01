@@ -77,6 +77,7 @@ public class MenuUtil {
 
         curr_fly_speed = context.getPlayer().getFlySpeed();
         curr_jump_height = context.getPlayer().getJumpHeight();
+        System.out.println(curr_jump_height);
 
         buildMainMenu();
         buildControlsMenu();
@@ -509,8 +510,66 @@ public class MenuUtil {
                 });
 
 
+        Text playerFlySpeedArrow = settingsMenu.drawText(singleArrow, 50, 440, GREEN, options);
+        Text playerFlySpeedText= settingsMenu.drawText("./Player_Fly_Speed", 95, 440, Color.WHITE, options);
+        Text playerFlySpeedMult = settingsMenu.drawText(Integer.toString((int)curr_fly_speed), 550, 440, Color.WHITE, options);
+        Rectangle playerFlySpeedHitBox = settingsMenu.drawRectangle(50,420,600,30,0,0,Color.TRANSPARENT);
+        playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_fly_speed +=1;
+                        if(curr_fly_speed>10) curr_fly_speed =1;
+                        playerFlySpeedMult.setText(Integer.toString((int)curr_fly_speed));
+                        context.getPlayer().setFlySpeed(curr_fly_speed);
+                    }
+                });
+        playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        playerFlySpeedArrow.setText(doubleArrow);
+                        playerFlySpeedText.setFill(GREEN);
+                        playerFlySpeedMult.setFill(GREEN);
+                    }
+                });
+        playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        playerFlySpeedArrow.setText(singleArrow);
+                        playerFlySpeedText.setFill(Color.WHITE);
+                        playerFlySpeedMult.setFill(Color.WHITE);
+                    }
+                });
 
 
+        Text playerJumpHeightArrow = settingsMenu.drawText(singleArrow, 50, 490, GREEN, options);
+        Text playerJumpHeightText= settingsMenu.drawText("./Player_Jump_Height", 95, 490, Color.WHITE, options);
+        Text playerJumpHeightMult = settingsMenu.drawText(Double.toString(curr_jump_height), 550, 490, Color.WHITE, options);
+        Rectangle playerJumpHeightHitBox = settingsMenu.drawRectangle(50,470,600,30,0,0,Color.TRANSPARENT);
+        playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_jump_height +=.5;
+                        if(curr_jump_height>3) curr_jump_height = 0;
+                        playerJumpHeightMult.setText(Double.toString(curr_jump_height));
+                        context.getPlayer().setJumpHeight(curr_jump_height);
+                    }
+                });
+        playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        playerJumpHeightArrow.setText(doubleArrow);
+                        playerJumpHeightText.setFill(GREEN);
+                        playerJumpHeightMult.setFill(GREEN);
+                    }
+                });
+        playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        playerJumpHeightArrow.setText(singleArrow);
+                        playerJumpHeightText.setFill(Color.WHITE);
+                        playerJumpHeightMult.setFill(Color.WHITE);
+                    }
+                });
 
         //quit handler
         Text returnArrow = settingsMenu.drawText(singleArrow, 50, 550, GREEN, options);
