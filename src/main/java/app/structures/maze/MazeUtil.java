@@ -1,10 +1,12 @@
 package app.structures.maze;
 
 import app.structures.StructureBuilder;
+import app.utils.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import app.structures.objects.Base_Cube;
 import app.GameBuilder;
+import javafx.scene.paint.Material;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,6 +23,7 @@ public class MazeUtil {
     private int mazeRows;
     private int mazeCols;
     private long seed;
+    private Material mazeMaterial = ResourcesUtil.metal;
     private Group mazeGroup;
     private MazeGenerator mazeGenerator;
     private List<Wall> walls;
@@ -64,6 +67,8 @@ public class MazeUtil {
     public long getSeed() { return seed; }
     public Map<Point2D, StructureBuilder> getMaze_map_block() { return maze_map_block; }
 
+    public void setMazeMaterial(Material mazeMaterial) { this.mazeMaterial = mazeMaterial; }
+
     public void createBlockMap(){
         int i, j;
         double currX = startingX;
@@ -77,6 +82,7 @@ public class MazeUtil {
                 if(i == 0 || i== mazeRows*2 || j == 0 || j == mazeCols*2 || (i%2==0 && j%2==0)) {
 //                    System.out.println("create wall");
                     Base_Cube cube = new Base_Cube("Maze Wall",20, 20, 20);
+                    cube.setMaterial(mazeMaterial);
                     maze_map_block.put(new Point2D(currX, currZ), cube);
                 }
                 currX += cellW;
