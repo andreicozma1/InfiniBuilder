@@ -25,8 +25,9 @@ public class EnvironmentUtil {
     public static Group GROUP_TERRAIN;
     public static Group GROUP_STRUCTURES;
 
-    private final int terrain_generate_distance = 50;
-    private final int terrain_render_distance = 50;
+    private final int terrain_generate_distance = 40;
+    private final int terrain_render_distance = 40;
+
     private boolean terrain_should_generate_vegetation = true;
 
     private SimplexUtil terrain_simplex_alg;
@@ -34,9 +35,6 @@ public class EnvironmentUtil {
     private double terrain_multiplier_spread = 1;
 
     public static int terrain_block_dim = 20;
-    private final int terrain_block_width = 20;
-    private final int terrain_block_height = 20;
-    private final int terrain_block_depth = 20;
 
     private Map<Point2D, Double> terrain_map_height = new HashMap<>();
     private Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<>();
@@ -79,28 +77,30 @@ public class EnvironmentUtil {
     public void generateChunks(double playerx, double playerz) {
         playerx = getTerrainXfromPlayerX(playerx);
         playerz = getTerrainZfromPlayerZ(playerz);
-        for (double i = -terrain_generate_distance / 2 + playerx; i < terrain_generate_distance / 2 + playerx; i++) {
-            for (double j = -terrain_generate_distance / 2 + playerz; j < terrain_generate_distance / 2 + playerz; j++) {
-
+        for (int i = (int) (-terrain_generate_distance / 2 + playerx); i <= terrain_generate_distance / 2 + playerx; i++) {
+            for (int j = (int) (-terrain_generate_distance / 2 + playerz); j <= terrain_generate_distance / 2 + playerz; j++) {
                 if (!terrain_map_block.containsKey(new Point2D(i, j))) {
-                    double x = i * terrain_block_depth;
-                    double y = getSimplexHeight(i, j) * terrain_block_height + terrain_block_height / 2;
-                    double z = j * terrain_block_width;
+//                    System.out.println("Generated Chunks " + i + "  " + j);
+                    double x = i * getBlockDim();
+                    double y = getSimplexHeight(i, j) * getBlockDim() + getBlockDim() / 2.0;
+                    double z = j * getBlockDim();
                     Point2D key = new Point2D(i, j);
                     terrain_map_block.put(key, create_platform(x, y, z));
                     terrain_map_height.put(key, y);
+                } else {
+//                    System.out.println("HERE " + i + " " + j);
                 }
             }
         }
     }
-
     public void showChunksAroundPlayer(double playerx, double playerz) {
         playerx = getTerrainXfromPlayerX(playerx);
         playerz = getTerrainZfromPlayerZ(playerz);
 
+
         GROUP_TERRAIN.getChildren().clear();
-        for (double i = -terrain_render_distance / 2 + playerx; i < terrain_render_distance / 2 + playerx; i++) {
-            for (double j = -terrain_render_distance / 2 + playerz; j < terrain_render_distance / 2 + playerz; j++) {
+        for (int i = (int) (-terrain_render_distance / 2 + playerx); i <= terrain_render_distance / 2.0 + playerx; i++) {
+            for (int j = (int) (-terrain_render_distance / 2 + playerz); j <= terrain_render_distance / 2.0 + playerz; j++) {
                 Point2D key = new Point2D(i, j);
                 if (terrain_map_block.containsKey(key)) {
                     GROUP_TERRAIN.getChildren().add(terrain_map_block.get(key));
@@ -112,7 +112,6 @@ public class EnvironmentUtil {
     public StructureBuilder create_platform(double x, double y, double z) {
 
         StructureBuilder b = new StructureBuilder();
-
 
         Base_Cube box = new Base_Cube("Terrain Base",getBlockDim());
         b.getChildren().add(box);
@@ -202,12 +201,12 @@ public class EnvironmentUtil {
 
     public double getTerrainXfromPlayerX(double playerx) {
         // requires the getX() from PlayerUtil
-        return Math.floor((playerx + terrain_block_width / 2) / terrain_block_width);
+        return Math.round((playerx) / getBlockDim());
     }
 
     public double getTerrainZfromPlayerZ(double playerz) {
         // requires the getZ() from playerUtil
-        return Math.floor((playerz + terrain_block_depth / 2) / terrain_block_depth);
+        return Math.round((playerz) / getBlockDim());
     }
 
     /**
@@ -270,7 +269,7 @@ public class EnvironmentUtil {
     }
 
     public int getBlockDim() {
-        return terrain_block_width;
+        return terrain_block_dim;
     }
 
     public void reset() {

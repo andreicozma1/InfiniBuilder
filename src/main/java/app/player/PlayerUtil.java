@@ -17,7 +17,7 @@ public class PlayerUtil {
     private Group player_group;
 
     private int player_width = 10;
-    private int player_height = 60;
+    private int player_height = 50;
 
     public int fov_running = 70;
     public int fov_tired = 35;
@@ -28,16 +28,16 @@ public class PlayerUtil {
 
     private boolean tooHigh = false;
 
-    public double runMultiplier = 1.3;
+    public double runMultiplier = 1.25;
     public double speedForward = 2.5;
     public double speedBackward = 2;
     public double speedSide = 2;
-    public double speedFly = 3;
+    public double speedFly = 5;
     public double fallSpeed = 0; // Original speed before gravity is applied;
 
     double jump_start_height;
     private double jumpHeight = player_height * .75;
-    private double autoJumpCutoffHeight = player_height / 2;
+    private double autoJumpCutoffHeight = player_height / 2.0;
     public boolean canJump = true;
     public boolean isJumping = false;
     public boolean isRunning = false;
@@ -66,7 +66,10 @@ public class PlayerUtil {
     }
 
     public void update_handler(double dt) {
-//        System.out.println("Player X: " + getX() + " Y: " + getY() + " Z: " + getZ()  + " onGround: " +  isOnGround() + " aboveGround: " + isAboveGround());
+
+        System.out.println("Player X: " + context.getEnvironment().getTerrainXfromPlayerX(getX()) + " Y: " + getY() + " Z: " + context.getEnvironment().getTerrainZfromPlayerZ(getZ())  + " onGround: " +  isOnGround() + " aboveGround: ");
+
+
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().update_handler();
 
@@ -124,7 +127,8 @@ public class PlayerUtil {
 
     public void placeObject() {
         Base_Cube cb = new Base_Cube("Stone");
-        cb.setScaleAll(context.getEnvironment().getBlockDim()/2);
+        cb.setScaleAll(context.getEnvironment().getBlockDim());
+
         cb.getBox().setMaterial(ResourcesUtil.stone);
         context.getEnvironment().placeObject(getPoint2D(), cb, true);
     }

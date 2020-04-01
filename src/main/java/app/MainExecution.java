@@ -46,7 +46,7 @@ public class MainExecution extends Application {
         SkyboxUtil sky = new SkyboxUtil(envir);
         sky.setMode(SkyboxUtil.MODE_DAY);
         AmbientLight amb = new AmbientLight();
-        amb.setColor(Color.rgb(50, 50, 50));
+        amb.setColor(Color.rgb(80, 80, 80));
         sky.setAmbientLight(amb);
         envir.setSkyBox(sky);
 
@@ -110,7 +110,7 @@ public class MainExecution extends Application {
         inventoryUtil.setCurrentIndex(7);
         inventoryUtil.print();
 
-        Inventory inv = new Inventory(  HUDUtil.INVENTORY,
+        Inventory inv = new Inventory( HUDUtil.INVENTORY,
                 new Point2D(200,100),
                 inventoryUtil,
                 50,50,5,Color.WHITE,Color.GREY );
@@ -120,8 +120,7 @@ public class MainExecution extends Application {
         hudUtil.addElement(inv);
 
 
-        PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE,
-                                                new Point2D(100,200),100,200);
+        PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE, new Point2D(100,200),100,200);
         pauseMenu.setPaused(true);
         pauseMenu.update();
 //        hudUtil.addElement(pauseMenu);
