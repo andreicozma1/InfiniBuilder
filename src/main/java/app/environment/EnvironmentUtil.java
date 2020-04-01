@@ -289,7 +289,7 @@ public class EnvironmentUtil {
     }
 
     public double getTerrainHeightMultiplier() {
-        return terrain_multiplier_height;
+        return terrain_multiplier_height * 3;
     }
 
     public void setTerrainHeightMultiplier(double mult) {
