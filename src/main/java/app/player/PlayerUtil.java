@@ -128,6 +128,8 @@ public class PlayerUtil {
 
     public void placeObject() {
         StructureBuilder cb = ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
+       context.getHUD().getElement(HUDUtil.INVENTORY).update();
+
         if(cb.getItemTag() != StructureBuilder.UNDEFINED_TAG){
             context.getEnvironment().placeObject(getPoint2D(), cb, true);
         }
