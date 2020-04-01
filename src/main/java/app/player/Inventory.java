@@ -3,6 +3,7 @@ package app.player;
 import app.GUI.HUD.HUDElement;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
+import app.structures.StructureBuilder;
 import app.utils.InventoryUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -181,7 +182,7 @@ public class Inventory extends HUDElement {
             item.toFront();
             getGroup().getChildren().add(item);
 
-            if( displayNumbers && inventoryUtil.getItem(i).getItemTag() != "Undefined" ){
+            if( displayNumbers && inventoryUtil.getItem(i).getItemTag() != StructureBuilder.UNDEFINED_TAG ){
                 Label itemAmount = new Label( "" + inventoryUtil.getIndexSize(i) );
 //                itemAmount.setScaleX();
 //                itemAmount.setScaleY();

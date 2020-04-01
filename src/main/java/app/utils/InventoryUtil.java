@@ -131,7 +131,7 @@ public class InventoryUtil {
 
         StructureBuilder tmp = inventory.get(index);
         // if there is no item in the inventory
-        if (tmp.getItemTag() == "Undefined") {
+        if (tmp.getItemTag() == StructureBuilder.UNDEFINED_TAG) {
             System.out.println("No Item at index " + index);
         }
 
@@ -193,7 +193,7 @@ public class InventoryUtil {
         int sizeAfterPop = sizes.get(tmp.getItemTag()) - size;
         if (sizeAfterPop < 0) sizeAfterPop = 0;
         // if there is no item in the inventory
-        if (tmp.getItemTag() == "Undefined") {
+        if (tmp.getItemTag() == StructureBuilder.UNDEFINED_TAG) {
             System.out.println("No Item at index " + index);
         }
 
@@ -254,7 +254,7 @@ public class InventoryUtil {
             addItem(indexes.get(item.getItemTag()), item);
         } else {
             for (int i = 0; i < inventory.size(); i++) {
-                if (inventory.get(i).getItemTag() == "Undefined") {
+                if (inventory.get(i).getItemTag() == StructureBuilder.UNDEFINED_TAG) {
                     addItem(i, item);
                     break;
                 }
@@ -269,7 +269,7 @@ public class InventoryUtil {
             addItem(indexes.get(item.getItemTag()), item, size);
         } else {
             for (int i = 0; i < inventory.size(); i++) {
-                if (inventory.get(i).getItemTag() == "Undefined") {
+                if (inventory.get(i).getItemTag() == StructureBuilder.UNDEFINED_TAG) {
                     addItem(i, item, size);
                     break;
                 }
@@ -288,7 +288,7 @@ public class InventoryUtil {
         String itemTag = item.getItemTag();
 
         // if the index is empty
-        if (inventory.get(index).getItemTag() == "Undefined") {
+        if (inventory.get(index).getItemTag() == StructureBuilder.UNDEFINED_TAG) {
             System.out.println("Added the given item to the given index");
             inventory.set(index, item);
             sizes.put(itemTag, 1);
@@ -319,7 +319,7 @@ public class InventoryUtil {
         String itemTag = item.getItemTag();
 
         // if the index is empty
-        if (inventory.get(index).getItemTag() == "Undefined") {
+        if (inventory.get(index).getItemTag() == StructureBuilder.UNDEFINED_TAG) {
             System.out.println("Added the given item to the given index");
             inventory.set(index, item);
             sizes.put(itemTag, size);
@@ -379,7 +379,7 @@ public class InventoryUtil {
             StructureBuilder item = inventory.get(i);
             int size;
 
-            if (item.getItemTag() == "Undefined") size = 0;
+            if (item.getItemTag() == StructureBuilder.UNDEFINED_TAG) size = 0;
             else size = sizes.get(item.getItemTag());
 
             System.out.println("Index = " + i +

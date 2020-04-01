@@ -1,5 +1,7 @@
 package app.structures;
 
+import app.structures.objects.Base_Cube;
+import app.structures.objects.Base_Sphere;
 import javafx.scene.Group;
 
 public class StructureBuilder extends Group{
@@ -8,12 +10,33 @@ public class StructureBuilder extends Group{
     private String itemTag;
 
     private int TYPE_CURRENT;
-    public static int TYPE_OBJECT = 0;
-    public static int TYPE_WEAPON = 1;
+    public static final int TYPE_OBJECT = 0;
+    public static final int TYPE_CUBE = 1;
+    public static final int TYPE_MODEL = 2;
+    public static final int TYPE_SPHERE = 3;
+    public static final int TYPE_WEAPON = 4;
 
     public StructureBuilder() {
         TYPE_CURRENT = TYPE_OBJECT;
         itemTag = UNDEFINED_TAG;
+    }
+
+    public static StructureBuilder resolve(StructureBuilder orig){
+        StructureBuilder result = null;
+        switch(orig.getTYPE_CURRENT()){
+            case TYPE_CUBE:
+                result = new Base_Cube(orig.getItemTag(),((Base_Cube)orig).getMaterial(), orig.getWidth(), orig.getHeight(), orig.getDepth());
+                break;
+            case TYPE_SPHERE:
+                result = new Base_Sphere(orig.getItemTag(),((Base_Sphere)orig).getMaterial(), ((Base_Sphere)orig).getSphere().getRadius(), orig.getWidth(), orig.getHeight(), orig.getDepth());
+                break;
+            case TYPE_MODEL:
+                // TODO
+                break;
+            default:
+                result = new Base_Cube(UNDEFINED_TAG,orig.getWidth(),orig.getHeight(),orig.getDepth());
+        }
+        return result;
     }
 
     public String getItemTag(){

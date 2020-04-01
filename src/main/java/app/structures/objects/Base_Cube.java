@@ -10,23 +10,27 @@ public class Base_Cube extends StructureBuilder {
 
     public Base_Cube(String ITEM_TAG, double width, double height, double depth) {
         box = new Box(1,1,1);
+        setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
         super.getChildren().add(box);
         super.setScaleIndependent(width,height,depth);
         setItemTag(ITEM_TAG);
     }
     public Base_Cube(String ITEM_TAG, double all_side_length){
         box = new Box(1,1,1);
+        setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
         super.getChildren().add(box);
         super.setScaleAll(all_side_length);
         setItemTag(ITEM_TAG);
    }
     public Base_Cube(String ITEM_TAG) {
         box = new Box(1,1,1);
+        setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
         super.getChildren().add(box);
         setItemTag(ITEM_TAG);
     }
     public Base_Cube(String ITEM_TAG, Material mat, double width, double height, double depth) {
         box = new Box(1,1,1);
+        setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
         super.getChildren().add(box);
         super.setScaleIndependent(width,height,depth);
         setItemTag(ITEM_TAG);
@@ -34,6 +38,7 @@ public class Base_Cube extends StructureBuilder {
     }
     public Base_Cube(String ITEM_TAG, Material mat, double all_side_length){
         box = new Box(1,1,1);
+        setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
         super.getChildren().add(box);
         super.setScaleAll(all_side_length);
         setItemTag(ITEM_TAG);
@@ -41,6 +46,7 @@ public class Base_Cube extends StructureBuilder {
     }
     public Base_Cube(String ITEM_TAG, Material mat) {
         box = new Box(1,1,1);
+        setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
         super.getChildren().add(box);
         setItemTag(ITEM_TAG);
         setMaterial(mat);
