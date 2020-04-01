@@ -327,5 +327,21 @@ public class PlayerUtil {
         context.getPlayer().isFlyMode = !context.getPlayer().isFlyMode;
     }
 
+
+    public double getFlySpeed(){
+        return speedFly;
+    }
+    public void setFlySpeed(double spd){
+        try{
+            if(speedFly >= 0){
+                speedFly = spd;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+
+    }
 }
 
