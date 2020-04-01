@@ -3,11 +3,13 @@
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 
 ### DEPENDENCIES:
-- Maven (```sudo apt-get install maven```)   
+If you want to use mvn command install Maven
+- Maven (```sudo apt-get install maven```)  
+Otherwise use the Maven Wrapper ./mvnw 
 
 ### INSTALL COMPILATION PRE-REQUISITES:   
 ```
-	> mvn validate
+	> ./mvnw validate
 ```
 
 ## COMPILATION & INSTALLATION:  
@@ -15,24 +17,24 @@
 ### OPTION 1:  
 - COMPILE  
 ```
-	> mvn clean // delete compiled files, optional  
-	> mvn compile // compile source code  
+	> ./mvnw clean // delete compiled files, optional  
+	> ./mvnw compile // compile source code  
 (or)  
-	> mvn clean compile // do both  
+	> ./mvnw clean compile // do both  
 ```
 - RUN 
 ```
-	> mvn javafx:run  
+	> ./mvnw javafx:run  
 (or)  
-	> mvn exec:java  
+	> ./mvnw exec:java  
 ```
 ### OPTION 2:  
 - PACKAGE  
 ```
-	> mvn clean // delete compiled files, optional  
-	> mvn package // Compiles & Packages JAR inside "target" folder  
+	> ./mvnw clean // delete compiled files, optional  
+	> ./mvnw package // Compiles & Packages JAR inside "target" folder  
 (or)  
-	> mvn clean package // do both  
+	> ./mvnw clean package // do both  
 ```
 - RUN  
 ```
@@ -41,14 +43,14 @@
 ### OPTION 3:  
 - INSTALL  
 ```
-	> mvn install // Compiles & Packages & Install into Local Repository  
+	> ./mvnw install // Compiles & Packages & Install into Local Repository  
 (or)  
-	> mvn clean install // Cleans and Installs  
+	> ./mvnw clean install // Cleans and Installs  
 ```
 - Run with either of the Run options described above  
 
 ### MAVEN LIFECYCLE:  
-Usage: `> mvn command`  
+Usage: `> ./mvnw command`  
 1. process-resources
 2. compile
 3. process-test-resources
