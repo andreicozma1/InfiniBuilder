@@ -33,9 +33,8 @@ public class EnvironmentUtil {
     private double terrain_generate_distance;
     private double terrain_multiplier_height;
     private double terrain_vegetation_density;
-    private boolean terrain_should_have_water = false;
+    private boolean terrain_should_have_water = true;
     private Material terrain_single_material = null; // Default terrain generation if 'null'
-
 
     private Map<Point2D, Double> terrain_map_height = new HashMap<>();
     private Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<>();
@@ -46,7 +45,6 @@ public class EnvironmentUtil {
     public double plains_level = 100;
     public double hills_level = -50;
     public double peak_level = -180;
-
 
     /**
      * Constructor initializes an EnvironmentUtil object based on the parent WindowUtil, which will become the class' context
@@ -64,7 +62,7 @@ public class EnvironmentUtil {
 
         setTerrainRenderDistance(30);
         setTerrainHeightMultiplier(100);
-        setVegetationDensity(25);
+        setVegetationDensity(20);
 
         terrain_simplex_alg = new SimplexUtil(100, 0.4, (int) System.currentTimeMillis());
     }

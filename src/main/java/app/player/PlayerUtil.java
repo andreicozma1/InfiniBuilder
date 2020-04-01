@@ -110,7 +110,6 @@ public class PlayerUtil {
             }
         }
 
-
 //        System.out.println(context.getCamera().getRotateX() + "    " + context.getCamera().getRotateY());
 
     }
