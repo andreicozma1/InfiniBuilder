@@ -341,4 +341,12 @@ public class EnvironmentUtil {
             e.printStackTrace();
         }
     }
+
+    public Material getTerrainBlockType(){
+        return terrain_single_material;
+    }
+
+    public void setTerrainBlockType(Material mat){
+        terrain_single_material = mat;
+    }
 }
