@@ -57,8 +57,8 @@ public class MainExecution extends Application {
         game.setMenu(menu);
 
         // testing inventory Util with a base item that only holds the item tag
-        Base_Cube dirt = new Base_Cube("Dirt",ResourcesUtil.grass,envir.getBlockDim());
-        Base_Cube grass = new Base_Cube("Grass",ResourcesUtil.dirt, envir.getBlockDim());
+        Base_Cube dirt = new Base_Cube("Grass",ResourcesUtil.grass,envir.getBlockDim());
+        Base_Cube grass = new Base_Cube("Dirt",ResourcesUtil.dirt, envir.getBlockDim());
         Base_Cube sand = new Base_Cube("Sand",ResourcesUtil.sand, envir.getBlockDim());
 
 

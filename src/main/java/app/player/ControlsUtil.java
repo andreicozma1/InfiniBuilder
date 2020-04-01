@@ -1,5 +1,6 @@
 package app.player;
 
+import app.GUI.HUD.HUDUtil;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -42,16 +43,18 @@ public class ControlsUtil {
         });
 
         game_scene.setOnScroll(scrollEvent -> {
-            /*
+
             if (scrollEvent.getDeltaY() > 0) {
-                if (context.getPlayer().inventorySelected < context.getPlayer().inventory.length - 1)
-                    context.getPlayer().inventorySelected++;
+                ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
+                context.getHUD().getElement(HUDUtil.INVENTORY).update();
             }
             if (scrollEvent.getDeltaY() < 0) {
-                if (context.getPlayer().inventorySelected > 0)
-                    context.getPlayer().inventorySelected--;
+                ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(-1);
+                context.getHUD().getElement(HUDUtil.INVENTORY).update();
             }
-             */
+
+            System.out.println(((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getItemTag());
+
 //            System.out.println("Inventory slot index: " + context.getPlayer().inventorySelected + "   Item ct: " + ((context.getPlayer().inventory[context.getPlayer().inventorySelected] == null)?0:context.getPlayer().inventory[context.getPlayer().inventorySelected].size()));
         });
 

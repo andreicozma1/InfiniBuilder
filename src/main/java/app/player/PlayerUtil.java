@@ -1,5 +1,7 @@
 package app.player;
 
+import app.GUI.HUD.HUDUtil;
+import app.structures.StructureBuilder;
 import app.utils.ProjectileUtil;
 import app.utils.ResourcesUtil;
 import javafx.geometry.Point2D;
@@ -67,7 +69,7 @@ public class PlayerUtil {
 
     public void update_handler(double dt) {
 
-        System.out.println("Player X: " + context.getEnvironment().getTerrainXfromPlayerX(getX()) + " Y: " + getY() + " Z: " + context.getEnvironment().getTerrainZfromPlayerZ(getZ())  + " onGround: " +  isOnGround() + " aboveGround: ");
+//        System.out.println("Player X: " + context.getEnvironment().getTerrainXfromPlayerX(getX()) + " Y: " + getY() + " Z: " + context.getEnvironment().getTerrainZfromPlayerZ(getZ())  + " onGround: " +  isOnGround() + " aboveGround: ");
 
 
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
@@ -125,10 +127,12 @@ public class PlayerUtil {
     }
 
     public void placeObject() {
-        Base_Cube cb = new Base_Cube("Stone");
-        cb.setScaleAll(context.getEnvironment().getBlockDim());
-
-        cb.getBox().setMaterial(ResourcesUtil.stone);
+//        Base_Cube cb = new Base_Cube("Stone");
+//        cb.setScaleAll(context.getEnvironment().getBlockDim());
+//
+//        cb.getBox().setMaterial(ResourcesUtil.stone);
+//
+        StructureBuilder cb = ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem();
         context.getEnvironment().placeObject(getPoint2D(), cb, true);
     }
 
@@ -344,7 +348,7 @@ public class PlayerUtil {
     }
 
     public double getJumpHeight(){
-        return jumpHeight;
+        return jumpHeight / player_height;
     }
     public void setJumpHeight(double mult){
         jumpHeight = player_height * mult;
