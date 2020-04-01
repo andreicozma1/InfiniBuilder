@@ -174,9 +174,9 @@ public class Inventory extends HUDElement {
             Group item = inventoryUtil.getItem(i);
             item.setTranslateX(currSlotX+(slotWidth/2.0));
             item.setTranslateY(currSlotY+(slotHeight/2.0));
-            item.setScaleX(slotWidth/3.5);
-            item.setScaleY(slotWidth/3.5);
-            item.setScaleZ(slotWidth/3.5);
+            item.setScaleX(slotWidth/2);
+            item.setScaleY(slotWidth/2);
+            item.setScaleZ(slotWidth/2);
             item.getTransforms().setAll(new Rotate(25,Rotate.X_AXIS),new Rotate(25,Rotate.Y_AXIS));
             item.toFront();
             getGroup().getChildren().add(item);

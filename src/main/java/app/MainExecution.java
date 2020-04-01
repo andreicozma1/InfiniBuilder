@@ -46,7 +46,7 @@ public class MainExecution extends Application {
         SkyboxUtil sky = new SkyboxUtil(envir);
         sky.setMode(SkyboxUtil.MODE_DAY);
         AmbientLight amb = new AmbientLight();
-        amb.setColor(Color.rgb(80, 80, 80));
+        amb.setColor(Color.rgb(100, 100, 100));
         sky.setAmbientLight(amb);
         envir.setSkyBox(sky);
 
@@ -58,9 +58,9 @@ public class MainExecution extends Application {
         game.setEnvironment(envir);
 
         // testing inventory Util with a base item that only holds the item tag
-        Base_Cube dirt = new Base_Cube("Dirt",ResourcesUtil.grass,EnvironmentUtil.terrain_block_dim);
-        Base_Cube grass = new Base_Cube("Grass",ResourcesUtil.dirt, EnvironmentUtil.terrain_block_dim);
-        Base_Cube sand = new Base_Cube("Sand",ResourcesUtil.sand, EnvironmentUtil.terrain_block_dim);
+        Base_Cube dirt = new Base_Cube("Dirt",ResourcesUtil.grass,envir.getBlockDim());
+        Base_Cube grass = new Base_Cube("Grass",ResourcesUtil.dirt, envir.getBlockDim());
+        Base_Cube sand = new Base_Cube("Sand",ResourcesUtil.sand, envir.getBlockDim());
 
 
 

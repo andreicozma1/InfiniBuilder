@@ -5,6 +5,7 @@ import app.structures.objects.Base_Model;
 import javafx.geometry.Point2D;
 import javafx.scene.*;
 import app.algorithms.SimplexUtil;
+import javafx.scene.paint.Material;
 import javafx.scene.shape.CullFace;
 import app.utils.TDModelUtil;
 import app.structures.StructureBuilder;
@@ -25,16 +26,16 @@ public class EnvironmentUtil {
     public static Group GROUP_TERRAIN;
     public static Group GROUP_STRUCTURES;
 
-    private final int terrain_generate_distance = 40;
-    private final int terrain_render_distance = 40;
-
-    private boolean terrain_should_generate_vegetation = true;
+    private double terrain_block_dim = 20;
 
     private SimplexUtil terrain_simplex_alg;
-    private double terrain_multiplier_height = 30;
-    private double terrain_multiplier_spread = 1;
 
-    public static int terrain_block_dim = 20;
+    private double terrain_generate_distance;
+    private double terrain_multiplier_height;
+    private double terrain_vegetation_density;
+    private boolean terrain_should_have_water = false;
+    private Material terrain_single_material = null; // Default terrain generation if 'null'
+
 
     private Map<Point2D, Double> terrain_map_height = new HashMap<>();
     private Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<>();
@@ -61,6 +62,10 @@ public class EnvironmentUtil {
         GROUP_STRUCTURES = new Group();
         GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN, GROUP_STRUCTURES); // add the subgroups to the parent group
 
+        setTerrainRenderDistance(30);
+        setTerrainHeightMultiplier(100);
+        setVegetationDensity(100);
+
         terrain_simplex_alg = new SimplexUtil(100, 0.4, (int) System.currentTimeMillis());
     }
 
@@ -77,8 +82,8 @@ public class EnvironmentUtil {
     public void generateChunks(double playerx, double playerz) {
         playerx = getTerrainXfromPlayerX(playerx);
         playerz = getTerrainZfromPlayerZ(playerz);
-        for (int i = (int) (-terrain_generate_distance / 2 + playerx); i <= terrain_generate_distance / 2 + playerx; i++) {
-            for (int j = (int) (-terrain_generate_distance / 2 + playerz); j <= terrain_generate_distance / 2 + playerz; j++) {
+        for (int i = (int) (-terrain_generate_distance / 2 + playerx); i <= terrain_generate_distance / 2.0 + playerx; i++) {
+            for (int j = (int) (-terrain_generate_distance / 2 + playerz); j <= terrain_generate_distance / 2.0 + playerz; j++) {
                 if (!terrain_map_block.containsKey(new Point2D(i, j))) {
 //                    System.out.println("Generated Chunks " + i + "  " + j);
                     double x = i * getBlockDim();
@@ -93,14 +98,15 @@ public class EnvironmentUtil {
             }
         }
     }
+
     public void showChunksAroundPlayer(double playerx, double playerz) {
         playerx = getTerrainXfromPlayerX(playerx);
         playerz = getTerrainZfromPlayerZ(playerz);
 
 
         GROUP_TERRAIN.getChildren().clear();
-        for (int i = (int) (-terrain_render_distance / 2 + playerx); i <= terrain_render_distance / 2.0 + playerx; i++) {
-            for (int j = (int) (-terrain_render_distance / 2 + playerz); j <= terrain_render_distance / 2.0 + playerz; j++) {
+        for (int i = (int) (-terrain_generate_distance / 2 + playerx); i <= terrain_generate_distance / 2.0 + playerx; i++) {
+            for (int j = (int) (-terrain_generate_distance / 2 + playerz); j <= terrain_generate_distance / 2.0 + playerz; j++) {
                 Point2D key = new Point2D(i, j);
                 if (terrain_map_block.containsKey(key)) {
                     GROUP_TERRAIN.getChildren().add(terrain_map_block.get(key));
@@ -113,35 +119,35 @@ public class EnvironmentUtil {
 
         StructureBuilder b = new StructureBuilder();
 
-        Base_Cube box = new Base_Cube("Terrain Base",getBlockDim());
+        Base_Cube box = new Base_Cube("Terrain Base", getBlockDim());
         b.getChildren().add(box);
 
-        if (y < peak_level) {
+        if ((terrain_single_material == null && y < peak_level) || (terrain_single_material == ResourcesUtil.stone)) {
             box.setMaterial(ResourcesUtil.stone);
             box.setItemTag("Stone");
-            if (terrain_should_generate_vegetation && Math.random() > .995) {
+            if (Math.random() > 1 - terrain_vegetation_density) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"peak", "rock"});
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
                 b.getChildren().add(tree);
             }
-        } else if (y < hills_level) {
+        } else if ((terrain_single_material == null && y < hills_level) || (terrain_single_material == ResourcesUtil.moss)) {
             box.setMaterial(ResourcesUtil.moss);
             box.setItemTag("Moss");
 
-            if (terrain_should_generate_vegetation && Math.random() > .97) {
+            if (Math.random() > 1 - terrain_vegetation_density) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"mountain", "rock"});
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
                 b.getChildren().add(tree);
             }
-        } else if (y < plains_level) {
+        } else if ((terrain_single_material == null && y < plains_level) || (terrain_single_material == ResourcesUtil.grass)) {
             box.setMaterial(ResourcesUtil.grass);
             box.setItemTag("Grass");
 
-            if (terrain_should_generate_vegetation && Math.random() > .97) {
+            if (Math.random() > 1 - terrain_vegetation_density) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"plains", "rock", "veg"});
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
@@ -149,44 +155,49 @@ public class EnvironmentUtil {
                 b.getChildren().add(tree);
 //                placeObject(new Point3D(x,y,z),tree,false);
             }
-        } else if (y < desert_level) {
+        } else if ((terrain_single_material == null && y < desert_level) || (terrain_single_material == ResourcesUtil.sand)) {
             box.setMaterial(ResourcesUtil.sand);
             box.setItemTag("Sand");
 
-            if (terrain_should_generate_vegetation && Math.random() > .99) {
+            if (Math.random() > 1 - terrain_vegetation_density) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"desert", "cactus", "dead"});
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
                 b.getChildren().add(tree);
             }
-        } else if (y < water_level) {
+        } else if ((terrain_single_material == null && y < water_level) || (terrain_single_material == ResourcesUtil.dirt)) {
             box.setMaterial(ResourcesUtil.dirt);
             box.setItemTag("Dirt");
 
-            if (terrain_should_generate_vegetation && Math.random() > .99) {
+            if (Math.random() > 1 - terrain_vegetation_density) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"dirt", "rock", "moss"});
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
-        } else {
+        } else if (terrain_single_material == null) {
             box.setMaterial(ResourcesUtil.dirt);
             box.setItemTag("Dirt");
 
-            Base_Cube water = new Base_Cube("Water");
-            water.setScaleIndependent(getBlockDim(), .01, getBlockDim());
-            water.getBox().setMaterial(ResourcesUtil.water);
-            water.getBox().setCullFace(CullFace.BACK);
-            water.setTranslateY(-y + water_level - getBlockDim() / 2);
-            b.getChildren().add(water);
+            if (terrain_should_have_water) {
+                Base_Cube water = new Base_Cube("Water");
+                water.setScaleIndependent(getBlockDim(), .01, getBlockDim());
+                water.getBox().setMaterial(ResourcesUtil.water);
+                water.getBox().setCullFace(CullFace.BACK);
+                water.setTranslateY(-y + water_level - getBlockDim() / 2.0);
+                b.getChildren().add(water);
+            }
 
-            if (terrain_should_generate_vegetation && Math.random() > .99) {
-                Base_Model tree = modelUtil.getRandomMatching(new String[]{"sea","water", "rock", "moss"});
+            if (Math.random() > 1 - terrain_vegetation_density) {
+                Base_Model tree = modelUtil.getRandomMatching(new String[]{"sea", "water", "rock", "moss"});
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
+        } else {
+            box.setMaterial(terrain_single_material);
+            box.setItemTag("");
         }
 
         b.setTranslateIndependent(x, y, z);
@@ -196,7 +207,7 @@ public class EnvironmentUtil {
 
 
     private double getSimplexHeight(double pollx, double pollz) {
-        return terrain_simplex_alg.getNoise((int) (pollx / terrain_multiplier_spread), (int) (pollz / terrain_multiplier_spread)) * terrain_multiplier_height;
+        return terrain_simplex_alg.getNoise((int) (pollx), (int) (pollz)) * terrain_multiplier_height;
     }
 
     public double getTerrainXfromPlayerX(double playerx) {
@@ -251,7 +262,7 @@ public class EnvironmentUtil {
         gr.getChildren().add(member);
     }
 
-    public void removeFromGroup(Group gr,Group member) {
+    public void removeFromGroup(Group gr, Group member) {
         gr.getChildren().remove(member);
     }
 
@@ -268,12 +279,66 @@ public class EnvironmentUtil {
         return GROUP_WORLD;
     }
 
-    public int getBlockDim() {
+    public double getBlockDim() {
         return terrain_block_dim;
     }
 
     public void reset() {
         terrain_map_height.clear();
         terrain_map_block.clear();
+    }
+
+
+    public double getTerrainHeightMultiplier(double mult) {
+        return terrain_multiplier_height;
+    }
+
+    public void setTerrainHeightMultiplier(double mult) {
+        try {
+            if (mult >= 0 && mult <= 100) {
+                terrain_multiplier_height = mult / 2.8; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
+                reset();
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public double getVegetationDensity() {
+        return terrain_vegetation_density;
+    }
+
+    public void setVegetationDensity(double dens) {
+        try {
+            if (dens >= 0 && dens <= 100) {
+                terrain_vegetation_density = (dens / 100) / 6; // bound the value given from 0 to 100 to a reasonable max amount of trees
+                reset();
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public double getTerrainRenderDistance() {
+        return terrain_generate_distance;
+    }
+
+    public void setTerrainRenderDistance(double dist) {
+        try {
+            if (dist >= 0 && dist <= 100) {
+                terrain_generate_distance = dist + 5; // bound the value given
+                reset();
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
     }
 }
