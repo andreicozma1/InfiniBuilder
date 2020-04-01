@@ -36,23 +36,25 @@ public class MainExecution extends Application {
         // set up needed Utils for the game
         ResourcesUtil materials = new ResourcesUtil(this);
         GameBuilder game = new GameBuilder(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
-        MenuUtil menu = new MenuUtil(game);
         CameraUtil camera = new CameraUtil(game);
         PlayerUtil player = new PlayerUtil(game);
         EnvironmentUtil envir = new EnvironmentUtil(game);
         SkyboxUtil sky = new SkyboxUtil(envir);
         sky.setMode(SkyboxUtil.MODE_DAY);
         AmbientLight amb = new AmbientLight();
+
         amb.setColor(Color.rgb(100, 100, 100));
         sky.setAmbientLight(amb);
         envir.setSkyBox(sky);
 
 
         // build the window
-        game.setMenu(menu);
         game.setCamera(camera);
         game.setPlayer(player);
         game.setEnvironment(envir);
+
+        MenuUtil menu = new MenuUtil(game);
+        game.setMenu(menu);
 
         // testing inventory Util with a base item that only holds the item tag
         Base_Cube dirt = new Base_Cube("Dirt",ResourcesUtil.grass,envir.getBlockDim());

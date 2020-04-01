@@ -4,11 +4,30 @@ import app.MainExecution;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 
 import java.net.URI;
+import java.util.*;
 
 public class ResourcesUtil {
+
+    public static List<String> world_types_sorted;
+
+    public static Map<String, Material> world_types = new HashMap<String, Material>(){
+        {
+            put("Default",null);
+            put("Grass",grass);
+            put("Dirt",dirt);
+            put("Moss",moss);
+            put("Sand",sand);
+            put("Metal",metal);
+            put("Water",water);
+            put("Lava",sun);
+            put("Moon Rock",moon);
+        }
+    };
+
 
     public static PhongMaterial stone;
     public static PhongMaterial grass;
@@ -20,6 +39,7 @@ public class ResourcesUtil {
     public static PhongMaterial green;
     public static PhongMaterial red;
     public static PhongMaterial purple;
+
     public static PhongMaterial sun;
     public static PhongMaterial moon;
     public static PhongMaterial big_star;
@@ -31,6 +51,9 @@ public class ResourcesUtil {
     public ResourcesUtil(Application app) {
         context = app;
         setupMaterials();
+        world_types_sorted = new ArrayList<>(world_types.keySet());
+        Collections.sort(world_types_sorted);
+
     }
 
     public void setupMaterials() {

@@ -98,7 +98,7 @@ public class MazeUtil {
         // to find z index := 1 + [ 2 * ( mazeIndex / cols) ]
         for (Wall w : walls){
             Base_Cube cube = new Base_Cube("Maze Wall", cellW,cellH,cellD);
-
+            cube.setMaterial(mazeMaterial);
             Point2D point;
             int xindex1 = 1 + ( 2 * (w.cell1 % mazeCols) );
             int zindex1 = 1 + ( 2 * (w.cell1 / mazeCols) );
