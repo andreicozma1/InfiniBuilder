@@ -307,7 +307,7 @@ public class EnvironmentUtil {
     }
 
     public double getVegetationDensity() {
-        return terrain_vegetation_density;
+        return terrain_vegetation_density * 6 * 100;
     }
 
     public void setVegetationDensity(double dens) {
