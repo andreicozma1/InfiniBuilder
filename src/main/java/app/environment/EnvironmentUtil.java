@@ -85,13 +85,8 @@ public class EnvironmentUtil {
                 if (!terrain_map_block.containsKey(new Point2D(i, j))) {
 //                    System.out.println("Generated Chunks " + i + "  " + j);
 
+                    create_platform(i,j);
 
-                    double x = i * getBlockDim();
-                    double y = getSimplexHeight(i, j) * getBlockDim() + getBlockDim() / 2.0;
-                    double z = j * getBlockDim();
-                    Point2D key = new Point2D(i, j);
-                    terrain_map_block.put(key, create_platform(x, y, z));
-                    terrain_map_height.put(key, y);
                 } else {
 //                    System.out.println("HERE " + i + " " + j);
                 }
@@ -115,10 +110,17 @@ public class EnvironmentUtil {
         }
     }
 
-    public StructureBuilder create_platform(double x, double y, double z) {
+    public StructureBuilder create_platform(double i, double j) {
 
         StructureBuilder b = new StructureBuilder();
 
+
+        double x = i * getBlockDim();
+        double y = getSimplexHeight(i, j) * getBlockDim() + getBlockDim() / 2.0;
+        double z = j * getBlockDim();
+        Point2D key = new Point2D(i, j);
+        terrain_map_block.put(key,b);
+        terrain_map_height.put(key, y);
 
 
         Base_Cube box = new Base_Cube("Terrain Base", getBlockDim());
@@ -248,7 +250,10 @@ public class EnvironmentUtil {
 
         Point2D origLoc = new Point2D(xPos, zPos);
 
-        if (terrain_map_block.containsKey(origLoc)) {
+        if (!terrain_map_block.containsKey(origLoc)) {
+            create_platform(xPos,zPos);
+        }
+
             System.out.println("placeObject() " + str.getItemTag());
 
             str.getTransforms().removeAll(str.getTransforms());
@@ -259,7 +264,7 @@ public class EnvironmentUtil {
             str.setTranslateY(-orig.getHeight());
             terrain_map_height.put(origLoc, terrain_map_height.get(origLoc) - str.getHeight());
             orig.getChildren().add(str);
-        }
+
     }
 
 

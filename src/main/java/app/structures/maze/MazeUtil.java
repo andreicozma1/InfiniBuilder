@@ -132,11 +132,14 @@ public class MazeUtil {
     }
 
     public void draw(){
-        Iterator mapIterator = maze_map_block.entrySet().iterator();
+        for(int i = 0; i < 4; i++){
+            createBlockMap();
 
-        while (mapIterator.hasNext()) {
-            Map.Entry mapElement = (Map.Entry)mapIterator.next();
-            context.getEnvironment().placeObject((Point2D)mapElement.getKey(),(StructureBuilder)mapElement.getValue(),true);
+            Iterator mapIterator = maze_map_block.entrySet().iterator();
+            while (mapIterator.hasNext()) {
+                Map.Entry mapElement = (Map.Entry)mapIterator.next();
+                context.getEnvironment().placeObject((Point2D)mapElement.getKey(),(StructureBuilder)mapElement.getValue(),true);
+            }
         }
     }
 }
