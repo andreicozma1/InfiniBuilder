@@ -182,7 +182,7 @@ public class Inventory extends HUDElement {
             item.toFront();
             getGroup().getChildren().add(item);
 
-            if( displayNumbers && inventoryUtil.getItem(i).getProps().getItemTag() != StructureBuilder.UNDEFINED_TAG ){
+            if( displayNumbers && inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG ){
                 Label itemAmount = new Label( "" + inventoryUtil.getIndexSize(i) );
 //                itemAmount.setScaleX();
 //                itemAmount.setScaleY();

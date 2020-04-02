@@ -9,7 +9,6 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
-import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Sphere;
 import app.utils.PhysicsUtil;
 import app.GameBuilder;
@@ -128,14 +127,21 @@ public class PlayerUtil {
 
     public void placeObject() {
 
-        StructureBuilder cb = StructureBuilder.resolve(((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem());
-
+        StructureBuilder inventory_item = ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
         context.getHUD().getElement(HUDUtil.INVENTORY).update();
 
-        System.out.println("placeObject() " + cb.getProps().getItemTag() + " " + cb.getScaleX() + " " + cb.getScaleY() + " " + cb.getScaleZ());
+        System.out.println("placeObject() " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
 
-        if(cb.getProps().getItemTag() != StructureBuilder.UNDEFINED_TAG){
-            context.getEnvironment().placeObject(getPoint2D(), cb, false);
+        if(inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG){
+            switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
+                case StructureBuilder.TYPE_OBJECT:
+                    StructureBuilder cb = StructureBuilder.resolve(((Inventory) context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem());
+                    cb.place(context.getEnvironment(), getPoint2D());
+                    break;
+                default:
+                    inventory_item.place(context.getEnvironment(), getPoint2D());
+                    break;
+            }
         }
     }
 

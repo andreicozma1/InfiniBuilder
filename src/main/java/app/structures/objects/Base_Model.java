@@ -6,11 +6,13 @@ public class Base_Model extends StructureBuilder {
 
     public static String BASE_MODEL_TAG = "Base Model";
     public Base_Model(String ITEM_TAG){
-        getProps().setItemTag(ITEM_TAG);
-        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_MODEL);
+        getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
+        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
+        getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_MODEL);
     }
     public Base_Model(){
-        getProps().setItemTag(BASE_MODEL_TAG);
-        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_MODEL);
+        getProps().setPROPERTY_ITEM_TAG(BASE_MODEL_TAG);
+        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
+        getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_MODEL);
     }
 }

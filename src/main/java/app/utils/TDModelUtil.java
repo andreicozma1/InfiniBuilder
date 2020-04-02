@@ -109,7 +109,7 @@ public class TDModelUtil {
                 obj_importer.read(random_file);
                 Node[] children = obj_importer.getImport();
                 obj_importer.clear();
-                result.getProps().setItemTag(random_matching_filename);
+                result.getProps().setPROPERTY_ITEM_TAG(random_matching_filename);
                 if (children != null) {
                     result.getChildren().addAll(children);
                 }

@@ -1,11 +1,9 @@
 package app.player;
 
 import app.GUI.HUD.HUDUtil;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import app.structures.maze.MazeUtil;
 import app.GameBuilder;
 
 import java.util.ArrayList;
@@ -51,7 +49,7 @@ public class ControlsUtil {
                 context.getHUD().getElement(HUDUtil.INVENTORY).update();
             }
 
-            System.out.println("onScroll() " + ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getItemTag());
+            System.out.println("onScroll() " + ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
 
         });
 
@@ -115,8 +113,6 @@ public class ControlsUtil {
                         context.getEnvironment().getSkybox().cycleModes();
                         break;
                     case M:
-                        MazeUtil maze = new MazeUtil(context, 0,0, context.getEnvironment().getBlockDim(), context.getEnvironment().getBlockDim() * 4, context.getEnvironment().getBlockDim(), 20, 20, 0);
-                        maze.draw();
                         break;
                     case R:
                         context.getPlayer().reset();

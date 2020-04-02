@@ -10,45 +10,51 @@ public class Base_Cube extends StructureBuilder {
 
     public Base_Cube(String ITEM_TAG, double width, double height, double depth) {
         box = new Box(1,1,1);
-        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
+        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
+        getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_CUBE);
         super.getChildren().add(box);
         super.setScaleIndependent(width,height,depth);
-        getProps().setItemTag(ITEM_TAG);
+        getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
     }
     public Base_Cube(String ITEM_TAG, double all_side_length){
         box = new Box(1,1,1);
-        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
+        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
+        getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_CUBE);
         super.getChildren().add(box);
         super.setScaleAll(all_side_length);
-        getProps().setItemTag(ITEM_TAG);
+        getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
    }
     public Base_Cube(String ITEM_TAG) {
         box = new Box(1,1,1);
-        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
+        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
+        getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_CUBE);
         super.getChildren().add(box);
-        getProps().setItemTag(ITEM_TAG);
+        getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
     }
     public Base_Cube(String ITEM_TAG, Material mat, double width, double height, double depth) {
         box = new Box(1,1,1);
-        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
+        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
+        getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_CUBE);
         super.getChildren().add(box);
         super.setScaleIndependent(width,height,depth);
-        getProps().setItemTag(ITEM_TAG);
+        getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
         setMaterial(mat);
     }
     public Base_Cube(String ITEM_TAG, Material mat, double all_side_length){
         box = new Box(1,1,1);
-        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
+        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
+        getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_CUBE);
         super.getChildren().add(box);
         super.setScaleAll(all_side_length);
-        getProps().setItemTag(ITEM_TAG);
+        getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
         setMaterial(mat);
     }
     public Base_Cube(String ITEM_TAG, Material mat) {
         box = new Box(1,1,1);
-        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_CUBE);
+        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
+        getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_CUBE);
         super.getChildren().add(box);
-        getProps().setItemTag(ITEM_TAG);
+        getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
         setMaterial(mat);
     }
 

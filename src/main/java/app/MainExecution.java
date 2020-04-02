@@ -5,6 +5,8 @@ import app.GUI.HUD.*;
 import app.player.Inventory;
 import app.environment.EnvironmentUtil;
 import app.environment.SkyboxUtil;
+import app.structures.maze.MazeUtil;
+import app.structures.objects.SpawnableStructureItem2D;
 import app.utils.InventoryUtil;
 import app.player.CameraUtil;
 import app.player.ControlsUtil;
@@ -60,8 +62,8 @@ public class MainExecution extends Application {
         Base_Cube dirt = new Base_Cube("Grass",ResourcesUtil.grass,envir.getBlockDim());
         Base_Cube grass = new Base_Cube("Dirt",ResourcesUtil.dirt, envir.getBlockDim());
         Base_Cube sand = new Base_Cube("Sand",ResourcesUtil.sand, envir.getBlockDim());
-
-
+        MazeUtil maze = new MazeUtil(game, 0,0, envir.getBlockDim(), envir.getBlockDim() * 4, envir.getBlockDim(), 20, 20, 0);
+        SpawnableStructureItem2D mazeitem = new SpawnableStructureItem2D(maze,"Maze Generator", ResourcesUtil.sun, envir.getBlockDim());
 
         //testing hudutil drawing a health status bar
         HUDUtil hudUtil = new HUDUtil(game);
@@ -71,6 +73,7 @@ public class MainExecution extends Application {
         inventoryUtil.addItem(4,grass,4);
         inventoryUtil.addItem(dirt,3);
         inventoryUtil.addItem(sand,10);
+        inventoryUtil.addItem(mazeitem);
         inventoryUtil.setCurrentIndex(7);
         inventoryUtil.print();
 

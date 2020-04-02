@@ -2,7 +2,9 @@ package app.environment;
 
 import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Model;
+import app.structures.objects.Base_Structure;
 import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import javafx.scene.*;
 import app.algorithms.SimplexUtil;
 import javafx.scene.paint.Material;
@@ -78,8 +80,8 @@ public class EnvironmentUtil {
 
 
     public void generateChunks(double playerx, double playerz) {
-        playerx = getTerrainXfromPlayerX(playerx);
-        playerz = getTerrainZfromPlayerZ(playerz);
+        playerx = getWorldXFromPlayerX(playerx);
+        playerz = getWorldZFromPlayerZ(playerz);
         for (int i = (int) (-terrain_generate_distance / 2 + playerx); i <= terrain_generate_distance / 2.0 + playerx; i++) {
             for (int j = (int) (-terrain_generate_distance / 2 + playerz); j <= terrain_generate_distance / 2.0 + playerz; j++) {
                 if (!terrain_map_block.containsKey(new Point2D(i, j))) {
@@ -95,8 +97,8 @@ public class EnvironmentUtil {
     }
 
     public void showChunksAroundPlayer(double playerx, double playerz) {
-        playerx = getTerrainXfromPlayerX(playerx);
-        playerz = getTerrainZfromPlayerZ(playerz);
+        playerx = getWorldXFromPlayerX(playerx);
+        playerz = getWorldZFromPlayerZ(playerz);
 
 
         GROUP_TERRAIN.getChildren().clear();
@@ -119,7 +121,7 @@ public class EnvironmentUtil {
             vegDens = terrain_vegetation_density;
         }
 
-        StructureBuilder b = new StructureBuilder();
+        Base_Structure b = new Base_Structure();
 
 
         double x = i * getBlockDim();
@@ -137,10 +139,10 @@ public class EnvironmentUtil {
 
         if ((terrain_single_material == null && y < peak_level) || (terrain_single_material == ResourcesUtil.stone)) {
             box.setMaterial(ResourcesUtil.stone);
-            box.getProps().setItemTag("Stone");
+            box.getProps().setPROPERTY_ITEM_TAG("Stone");
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"peak", "rock"});
-                tree.getProps().setIsDestructible(true);
+                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
 //                tree.setTranslateXYZ(x,y-tree.getHeight()/2,z);
@@ -148,11 +150,11 @@ public class EnvironmentUtil {
             }
         } else if ((terrain_single_material == null && y < hills_level) || (terrain_single_material == ResourcesUtil.moss)) {
             box.setMaterial(ResourcesUtil.moss);
-            box.getProps().setItemTag("Moss");
+            box.getProps().setPROPERTY_ITEM_TAG("Moss");
 
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"mountain", "rock"});
-                tree.getProps().setIsDestructible(true);
+                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
 
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
@@ -161,11 +163,11 @@ public class EnvironmentUtil {
             }
         } else if ((terrain_single_material == null && y < plains_level) || (terrain_single_material == ResourcesUtil.grass)) {
             box.setMaterial(ResourcesUtil.grass);
-            box.getProps().setItemTag("Grass");
+            box.getProps().setPROPERTY_ITEM_TAG("Grass");
 
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"plains", "rock", "veg"});
-                tree.getProps().setIsDestructible(true);
+                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
 
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
@@ -175,11 +177,11 @@ public class EnvironmentUtil {
             }
         } else if ((terrain_single_material == null && y < desert_level) || (terrain_single_material == ResourcesUtil.sand)) {
             box.setMaterial(ResourcesUtil.sand);
-            box.getProps().setItemTag("Sand");
+            box.getProps().setPROPERTY_ITEM_TAG("Sand");
 
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"desert", "cactus", "dead"});
-                tree.getProps().setIsDestructible(true);
+                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
 
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
@@ -188,11 +190,11 @@ public class EnvironmentUtil {
             }
         } else if ((terrain_single_material == null && y < water_level) || (terrain_single_material == ResourcesUtil.dirt)) {
             box.setMaterial(ResourcesUtil.dirt);
-            box.getProps().setItemTag("Dirt");
+            box.getProps().setPROPERTY_ITEM_TAG("Dirt");
 
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"dirt", "rock", "moss"});
-                tree.getProps().setIsDestructible(true);
+                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
 
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
@@ -200,11 +202,11 @@ public class EnvironmentUtil {
             }
         } else if (terrain_single_material == null) {
             box.setMaterial(ResourcesUtil.dirt);
-            box.getProps().setItemTag("Dirt");
+            box.getProps().setPROPERTY_ITEM_TAG("Dirt");
 
             if (terrain_should_have_water) {
                 Base_Cube water = new Base_Cube("Water");
-                water.getProps().setIsDestructible(true);
+                water.getProps().setPROPERTY_DESTRUCTIBLE(true);
 
                 water.setScaleIndependent(getBlockDim(), .01, getBlockDim());
                 water.getBox().setMaterial(ResourcesUtil.water);
@@ -215,7 +217,7 @@ public class EnvironmentUtil {
 
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"sea", "water", "rock", "moss"});
-                tree.getProps().setIsDestructible(true);
+                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
 
                 tree.setScaleAll(15 + Math.random() * 20);
                 tree.setTranslateY(-tree.getHeight() / 2);
@@ -223,7 +225,7 @@ public class EnvironmentUtil {
             }
         } else {
             box.setMaterial(terrain_single_material);
-            box.getProps().setItemTag("");
+            box.getProps().setPROPERTY_ITEM_TAG("");
         }
 
         b.setTranslateIndependent(x, y, z);
@@ -236,14 +238,19 @@ public class EnvironmentUtil {
         return terrain_simplex_alg.getNoise((int) (pollx), (int) (pollz)) * terrain_multiplier_height;
     }
 
-    public double getTerrainXfromPlayerX(double playerx) {
+    public double getWorldXFromPlayerX(double playerx) {
         // requires the getX() from PlayerUtil
         return Math.round((playerx) / getBlockDim());
     }
 
-    public double getTerrainZfromPlayerZ(double playerz) {
+    public double getWorldZFromPlayerZ(double playerz) {
         // requires the getZ() from playerUtil
         return Math.round((playerz) / getBlockDim());
+    }
+
+    public double getWorldYFromPlayerY(double playery) {
+        // requires the getZ() from playerUtil
+        return Math.round((playery) / getBlockDim());
     }
 
     /**
@@ -255,7 +262,7 @@ public class EnvironmentUtil {
      */
     public double getTerrainYfromPlayerXZ(double playerx, double playerz) {
         // requires the getX() and getZ() from PlayerUtil
-        Point2D pt = new Point2D(getTerrainXfromPlayerX(playerx), getTerrainZfromPlayerZ(playerz));
+        Point2D pt = new Point2D(getWorldXFromPlayerX(playerx), getWorldZFromPlayerZ(playerz));
         if (terrain_map_height.containsKey(pt)) {
             return terrain_map_height.get(pt);
         } else {
@@ -265,12 +272,13 @@ public class EnvironmentUtil {
     }
 
     public void placeObject(Point2D pos, StructureBuilder str, boolean removeExtras) {
-        double xPos = getTerrainXfromPlayerX(pos.getX());
-        double zPos = getTerrainZfromPlayerZ(pos.getY());
+        double xPos = getWorldXFromPlayerX(pos.getX());
+        double zPos = getWorldZFromPlayerZ(pos.getY());
+
 
         Point2D origLoc = new Point2D(xPos, zPos);
 
-        System.out.println("placeObject() " + str.getProps().getItemTag() + " at " + origLoc);
+        System.out.println("placeObject() " + str.getProps().getPROPERTY_ITEM_TAG() + " at " + origLoc);
 
 
         if (!terrain_map_block.containsKey(origLoc)) {
@@ -278,7 +286,7 @@ public class EnvironmentUtil {
         } else{
             boolean foundDestructible = false;
             for(Node e : terrain_map_block.get(origLoc).getChildren()){
-                if(((StructureBuilder)e).getProps().getIsDestructible()){
+                if(((StructureBuilder)e).getProps().getPROPERTY_DESTRUCTIBLE()){
                     foundDestructible = true;
                 }
             }
@@ -297,9 +305,16 @@ public class EnvironmentUtil {
             orig.getChildren().add(str);
     }
 
+    public void placeObject3D(Point3D key, StructureBuilder str) {
+        str.getTransforms().removeAll(str.getTransforms());
+        str.setTranslateIndependent(0,0,0);
+        str.setScaleAll(getBlockDim());
+        this.getWorldGroup().getChildren().add(str);
+    }
+
     public void clearSpot(Point2D pos){
-        double xPos = getTerrainXfromPlayerX(pos.getX());
-        double zPos = getTerrainZfromPlayerZ(pos.getY());
+        double xPos = getWorldXFromPlayerX(pos.getX());
+        double zPos = getWorldZFromPlayerZ(pos.getY());
 
         create_platform(xPos,zPos,true);
     }
@@ -395,4 +410,6 @@ public class EnvironmentUtil {
     public void setTerrainBlockType(Material mat){
         terrain_single_material = mat;
     }
+
+
 }
