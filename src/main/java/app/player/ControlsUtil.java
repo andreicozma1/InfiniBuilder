@@ -115,7 +115,7 @@ public class ControlsUtil {
                         context.getEnvironment().getSkybox().cycleModes();
                         break;
                     case M:
-                        MazeUtil maze = new MazeUtil(context, 0,0, context.getEnvironment().getBlockDim(), 2, 3, 3, 0);
+                        MazeUtil maze = new MazeUtil(context, 0,0, context.getEnvironment().getBlockDim(), 2, 20, 20, 0);
                         maze.draw();
                         break;
                     case R:
