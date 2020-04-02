@@ -46,8 +46,8 @@ public class InventoryUtil {
     }
 
     public int getItemSize(StructureBuilder structureBuilder){
-       if(sizes.containsKey(structureBuilder.getItemTag())){
-           return sizes.get(structureBuilder.getItemTag());
+       if(sizes.containsKey(structureBuilder.getProps().getItemTag())){
+           return sizes.get(structureBuilder.getProps().getItemTag());
        }else{
            return 0;
        }
@@ -131,22 +131,22 @@ public class InventoryUtil {
 
         StructureBuilder tmp = inventory.get(index);
         // if there is no item in the inventory
-        if (tmp.getItemTag() == StructureBuilder.UNDEFINED_TAG) {
+        if (tmp.getProps().getItemTag() == StructureBuilder.UNDEFINED_TAG) {
             System.out.println("No Item at index " + index);
         }
 
         // if last item in the item stack
-        else if (sizes.get(tmp.getItemTag()) == 1) {
+        else if (sizes.get(tmp.getProps().getItemTag()) == 1) {
             System.out.println("Index " + index + " is now empty");
-            sizes.remove(tmp.getItemTag());
-            indexes.remove(tmp.getItemTag());
+            sizes.remove(tmp.getProps().getItemTag());
+            indexes.remove(tmp.getProps().getItemTag());
             inventory.set(index, new StructureBuilder());
         }
 
         // if there are items left over in the item stack
         else {
-            System.out.println("Index " + index + " now has " + (sizes.get(tmp.getItemTag()) - 1) + " items");
-            sizes.put(tmp.getItemTag(), sizes.get(tmp.getItemTag()) - 1);
+            System.out.println("Index " + index + " now has " + (sizes.get(tmp.getProps().getItemTag()) - 1) + " items");
+            sizes.put(tmp.getProps().getItemTag(), sizes.get(tmp.getProps().getItemTag()) - 1);
         }
 
         return tmp;
@@ -159,7 +159,7 @@ public class InventoryUtil {
      * @return
      */
     public int popItem(StructureBuilder item) {
-        String itemTag = item.getItemTag();
+        String itemTag = item.getProps().getItemTag();
         // if item is in the inventory
         if (indexes.containsKey(itemTag)) {
             int itemIndex = indexes.get(itemTag);
@@ -190,25 +190,25 @@ public class InventoryUtil {
             return new StructureBuilder();
         }
         StructureBuilder tmp = inventory.get(index);
-        int sizeAfterPop = sizes.get(tmp.getItemTag()) - size;
+        int sizeAfterPop = sizes.get(tmp.getProps().getItemTag()) - size;
         if (sizeAfterPop < 0) sizeAfterPop = 0;
         // if there is no item in the inventory
-        if (tmp.getItemTag() == StructureBuilder.UNDEFINED_TAG) {
+        if (tmp.getProps().getItemTag() == StructureBuilder.UNDEFINED_TAG) {
             System.out.println("No Item at index " + index);
         }
 
         // if last item in the item stack
         else if (sizeAfterPop == 0) {
             System.out.println("Index " + index + " is now empty");
-            sizes.remove(tmp.getItemTag());
-            indexes.remove(tmp.getItemTag());
+            sizes.remove(tmp.getProps().getItemTag());
+            indexes.remove(tmp.getProps().getItemTag());
             inventory.set(index, new StructureBuilder());
         }
 
         // if there are items left over in the item stack
         else {
             System.out.println("Index " + index + " now has " + (sizeAfterPop) + " items");
-            sizes.put(tmp.getItemTag(), sizeAfterPop);
+            sizes.put(tmp.getProps().getItemTag(), sizeAfterPop);
         }
 
         return tmp;
@@ -227,7 +227,7 @@ public class InventoryUtil {
             return -1;
         }
 
-        String itemTag = item.getItemTag();
+        String itemTag = item.getProps().getItemTag();
         // if item is in the inventory
         if (indexes.containsKey(itemTag)) {
             int itemIndex = indexes.get(itemTag);
@@ -248,13 +248,13 @@ public class InventoryUtil {
 
     // if the item isn't already in the inventory it will fill up the inventory from index 0 to inventorySize-1
     public void addItem(StructureBuilder item) {
-        System.out.println("Adding item " + item.getItemTag());
+        System.out.println("Adding item " + item.getProps().getItemTag());
 
-        if (indexes.containsKey(item.getItemTag())) {
-            addItem(indexes.get(item.getItemTag()), item);
+        if (indexes.containsKey(item.getProps().getItemTag())) {
+            addItem(indexes.get(item.getProps().getItemTag()), item);
         } else {
             for (int i = 0; i < inventory.size(); i++) {
-                if (inventory.get(i).getItemTag() == StructureBuilder.UNDEFINED_TAG) {
+                if (inventory.get(i).getProps().getItemTag() == StructureBuilder.UNDEFINED_TAG) {
                     addItem(i, item);
                     break;
                 }
@@ -263,13 +263,13 @@ public class InventoryUtil {
     }
 
     public void addItem(StructureBuilder item, int size) {
-        System.out.println("Adding item " + item.getItemTag());
+        System.out.println("Adding item " + item.getProps().getItemTag());
 
-        if (indexes.containsKey(item.getItemTag())) {
-            addItem(indexes.get(item.getItemTag()), item, size);
+        if (indexes.containsKey(item.getProps().getItemTag())) {
+            addItem(indexes.get(item.getProps().getItemTag()), item, size);
         } else {
             for (int i = 0; i < inventory.size(); i++) {
-                if (inventory.get(i).getItemTag() == StructureBuilder.UNDEFINED_TAG) {
+                if (inventory.get(i).getProps().getItemTag() == StructureBuilder.UNDEFINED_TAG) {
                     addItem(i, item, size);
                     break;
                 }
@@ -279,23 +279,23 @@ public class InventoryUtil {
 
     // will place the item at the given index
     public void addItem(int index, StructureBuilder item) {
-        System.out.println("Adding item " + item.getItemTag());
+        System.out.println("Adding item " + item.getProps().getItemTag());
 
         if (index < 0 || index >= inventorySize) {
             System.out.println("The given index is not in range");
         }
 
-        String itemTag = item.getItemTag();
+        String itemTag = item.getProps().getItemTag();
 
         // if the index is empty
-        if (inventory.get(index).getItemTag() == StructureBuilder.UNDEFINED_TAG) {
+        if (inventory.get(index).getProps().getItemTag() == StructureBuilder.UNDEFINED_TAG) {
             System.out.println("Added the given item to the given index");
             inventory.set(index, item);
             sizes.put(itemTag, 1);
             indexes.put(itemTag, index);
         }
         //if the index contains the correct item
-        else if (inventory.get(index).getItemTag() == itemTag) {
+        else if (inventory.get(index).getProps().getItemTag() == itemTag) {
             System.out.println("Incremented the number of items at the given index");
             sizes.put(itemTag, sizes.get(itemTag) + 1);
         }
@@ -307,7 +307,7 @@ public class InventoryUtil {
 
     public void addItem(int index, StructureBuilder item, int size) {
 
-        System.out.println("Adding item " + item.getItemTag());
+        System.out.println("Adding item " + item.getProps().getItemTag());
 
         if (size < 1) {
             System.out.println("Size must be greater than 0");
@@ -316,17 +316,17 @@ public class InventoryUtil {
             System.out.println("The given index is not in range");
         }
 
-        String itemTag = item.getItemTag();
+        String itemTag = item.getProps().getItemTag();
 
         // if the index is empty
-        if (inventory.get(index).getItemTag() == StructureBuilder.UNDEFINED_TAG) {
+        if (inventory.get(index).getProps().getItemTag() == StructureBuilder.UNDEFINED_TAG) {
             System.out.println("Added the given item to the given index");
             inventory.set(index, item);
             sizes.put(itemTag, size);
             indexes.put(itemTag, index);
         }
         //if the index contains the correct item
-        else if (inventory.get(index).getItemTag() == itemTag) {
+        else if (inventory.get(index).getProps().getItemTag() == itemTag) {
             System.out.println("Incremented the number of items at the given index");
             sizes.put(itemTag, sizes.get(itemTag) + size);
         }
@@ -353,11 +353,11 @@ public class InventoryUtil {
 
         // item at index1
         StructureBuilder item1 = inventory.get(index1);
-        String item1Tag = item1.getItemTag();
+        String item1Tag = item1.getProps().getItemTag();
 
         // item at index2
         StructureBuilder item2 = inventory.get(index2);
-        String item2Tag = item2.getItemTag();
+        String item2Tag = item2.getProps().getItemTag();
 
         // swap the items in inventory
         inventory.set(index1, item2);
@@ -379,11 +379,11 @@ public class InventoryUtil {
             StructureBuilder item = inventory.get(i);
             int size;
 
-            if (item.getItemTag() == StructureBuilder.UNDEFINED_TAG) size = 0;
-            else size = sizes.get(item.getItemTag());
+            if (item.getProps().getItemTag() == StructureBuilder.UNDEFINED_TAG) size = 0;
+            else size = sizes.get(item.getProps().getItemTag());
 
             System.out.println("Index = " + i +
-                    " , Item = " + item.getItemTag() +
+                    " , Item = " + item.getProps().getItemTag() +
                     " , Size = " + size +
                     " , CurrItem = " + isCurrentIndex(i));
         }

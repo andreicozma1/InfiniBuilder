@@ -10,45 +10,45 @@ public class Base_Sphere extends StructureBuilder {
 
     public Base_Sphere(String ITEM_TAG, float radius, float width, float height, float depth) {
         sphere = new Sphere(radius);
-        setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
+        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
         super.getChildren().add(sphere);
         super.setScaleIndependent(width,height,depth);
-        setItemTag(ITEM_TAG);
+        getProps().setItemTag(ITEM_TAG);
     }
     public Base_Sphere(String ITEM_TAG, float radius){
         sphere = new Sphere(radius);
-        setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
+        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
         super.getChildren().add(sphere);
-        setItemTag(ITEM_TAG);
+        getProps().setItemTag(ITEM_TAG);
     }
     public Base_Sphere(String ITEM_TAG){
         sphere = new Sphere();
-        setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
+        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
         super.getChildren().add(sphere);
-        setItemTag(ITEM_TAG);
+        getProps().setItemTag(ITEM_TAG);
     }
 
     public Base_Sphere(String ITEM_TAG, Material mat, double radius, double width, double height, double depth) {
         sphere = new Sphere(radius);
-        setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
+        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
         super.getChildren().add(sphere);
         super.setScaleIndependent(width,height,depth);
-        setItemTag(ITEM_TAG);
+        getProps().setItemTag(ITEM_TAG);
         setMaterial(mat);
     }
     public Base_Sphere(String ITEM_TAG, Material mat, float radius){
         sphere = new Sphere(radius);
-        setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
+        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
         super.getChildren().add(sphere);
-        setItemTag(ITEM_TAG);
+        getProps().setItemTag(ITEM_TAG);
         setMaterial(mat);
 
     }
     public Base_Sphere(String ITEM_TAG, Material mat){
         sphere = new Sphere();
-        setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
+        getProps().setTYPE_CURRENT(StructureBuilder.TYPE_SPHERE);
         super.getChildren().add(sphere);
-        setItemTag(ITEM_TAG);
+        getProps().setItemTag(ITEM_TAG);
         setMaterial(mat);
     }
 

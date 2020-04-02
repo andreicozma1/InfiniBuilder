@@ -9,7 +9,6 @@ import app.GameBuilder;
 import javafx.scene.paint.Material;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +83,6 @@ public class MazeUtil {
 //                    System.out.println("create wall");
                     Base_Cube cube = new Base_Cube("Maze Wall",cellW, cellH, cellD);
                     cube.setMaterial(mazeMaterial);
-                    cube.setIsSolid(true);
                     maze_map_block.put(new Point2D(currX, currZ), cube);
                 }
                 currX += cellW;
@@ -101,7 +99,6 @@ public class MazeUtil {
         for (Wall w : walls){
             Base_Cube cube = new Base_Cube("Maze Wall", cellW,cellH,cellD);
             cube.setMaterial(mazeMaterial);
-            cube.setIsSolid(true);
             Point2D point;
             int xindex1 = 1 + ( 2 * (w.cell1 % mazeCols) );
             int zindex1 = 1 + ( 2 * (w.cell1 / mazeCols) );

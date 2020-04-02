@@ -17,7 +17,7 @@ public class ProjectileUtil extends StructureBuilder {
         str = b;
 
         setSpeed(DEFAULT_SPEED);
-        this.setTYPE_CURRENT(StructureBuilder.TYPE_WEAPON);
+        this.getProps().setTYPE_CURRENT(StructureBuilder.TYPE_WEAPON);
         // TODO - Change to stone
     }
 

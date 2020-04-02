@@ -132,9 +132,9 @@ public class PlayerUtil {
 
         context.getHUD().getElement(HUDUtil.INVENTORY).update();
 
-        System.out.println("placeObject() " + cb.getItemTag() + " " + cb.getScaleX() + " " + cb.getScaleY() + " " + cb.getScaleZ());
+        System.out.println("placeObject() " + cb.getProps().getItemTag() + " " + cb.getScaleX() + " " + cb.getScaleY() + " " + cb.getScaleZ());
 
-        if(cb.getItemTag() != StructureBuilder.UNDEFINED_TAG){
+        if(cb.getProps().getItemTag() != StructureBuilder.UNDEFINED_TAG){
             context.getEnvironment().placeObject(getPoint2D(), cb, false);
         }
     }

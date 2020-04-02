@@ -15,26 +15,22 @@ public class StructureBuilder extends Group{
 
     StructureBuilder.properties p;
 
-    public class properties {
-        public int TYPE_CURRENT;
-        public String itemTag;
-        public boolean isSolid = false;
-    }
+
 
     public StructureBuilder() {
         p = new properties();
-        p.TYPE_CURRENT = TYPE_OBJECT;
-        p.itemTag = UNDEFINED_TAG;
+        p.PROPERTY_ITEM_TYPE = TYPE_OBJECT;
+        p.PROPERTY_ITEM_TAG = UNDEFINED_TAG;
     }
 
     public static StructureBuilder resolve(StructureBuilder orig){
         StructureBuilder result = null;
-        switch(orig.getTYPE_CURRENT()){
+        switch(orig.getProps().getTYPE_CURRENT()){
             case TYPE_CUBE:
-                result = new Base_Cube(orig.getItemTag(),((Base_Cube)orig).getMaterial(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
+                result = new Base_Cube(orig.getProps().getItemTag(),((Base_Cube)orig).getMaterial(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
                 break;
             case TYPE_SPHERE:
-                result = new Base_Sphere(orig.getItemTag(),((Base_Sphere)orig).getMaterial(), ((Base_Sphere)orig).getSphere().getRadius(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
+                result = new Base_Sphere(orig.getProps().getItemTag(),((Base_Sphere)orig).getMaterial(), ((Base_Sphere)orig).getSphere().getRadius(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
                 break;
             case TYPE_MODEL:
                 // TODO
@@ -82,25 +78,32 @@ public class StructureBuilder extends Group{
         p = pr;
     }
 
-    public void setTYPE_CURRENT(int t){
-        p.TYPE_CURRENT = t;
-    }
-    public int getTYPE_CURRENT(){
-        return p.TYPE_CURRENT;
+    public class properties {
+        public int PROPERTY_ITEM_TYPE;
+        public String PROPERTY_ITEM_TAG;
+        public boolean PROPERTY_DESTRUCTIBLE = false;
+
+        public void setTYPE_CURRENT(int t){
+            PROPERTY_ITEM_TYPE = t;
+        }
+        public int getTYPE_CURRENT(){
+            return PROPERTY_ITEM_TYPE;
+        }
+
+        public String getItemTag(){
+            return PROPERTY_ITEM_TAG;
+        }
+        public void setItemTag(String itm) {
+            PROPERTY_ITEM_TAG = itm;
+        }
+
+        public boolean getIsDestructible(){
+            return PROPERTY_DESTRUCTIBLE;
+        }
+        public void setIsDestructible(boolean val){
+            PROPERTY_DESTRUCTIBLE = val;
+        }
     }
 
-    public String getItemTag(){
-        return p.itemTag;
-    }
-    public void setItemTag(String itm) {
-        p.itemTag = itm;
-    }
-
-    public boolean getIsSolid(){
-        return p.isSolid;
-    }
-    public void setIsSolid(boolean val){
-        p.isSolid = val;
-    }
 }
 

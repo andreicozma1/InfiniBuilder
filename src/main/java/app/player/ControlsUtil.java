@@ -51,7 +51,7 @@ public class ControlsUtil {
                 context.getHUD().getElement(HUDUtil.INVENTORY).update();
             }
 
-            System.out.println("onScroll() " + ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getItemTag());
+            System.out.println("onScroll() " + ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getItemTag());
 
         });
 
