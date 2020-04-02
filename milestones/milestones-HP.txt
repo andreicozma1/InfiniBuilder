@@ -54,6 +54,9 @@ Time Log:
    0.5  | Begin writing class to generate mazes on the terrain using disjoint sets
 
 
+
+6 hr april 1st working on the settings menu
+
 We have put a decent amount of work into the project and I feel good about the
 potential end result of our project.
 

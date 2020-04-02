@@ -10,6 +10,7 @@ public class MazeGenerator {
     private long seed;
     private Random ran;
     private List<Wall> maze;
+    private List<Wall> deletedWalls;
     private DisjointSet disjointSet;
 
     public MazeGenerator(int r, int c, long seed) {
@@ -20,6 +21,7 @@ public class MazeGenerator {
         this.seed = seed;
         ran.setSeed(this.seed);
         maze = new ArrayList<Wall>();
+        deletedWalls = new ArrayList<Wall>();
         disjointSet = new DisjointSet(this.rows * this.cols);
 
         generateWalls();
@@ -34,11 +36,12 @@ public class MazeGenerator {
     public int getRows() { return rows; }
     public long getSeed() { return seed; }
     public List<Wall> getWalls() { return maze; }
-
+    public List<Wall> getDeletedWalls() { return deletedWalls; }
     public void resetMaze(){
         ran.setSeed(this.seed);
         disjointSet = new DisjointSet(this.rows * this.cols);
         maze = new ArrayList<Wall>();
+        deletedWalls = new ArrayList<Wall>();
         generateWalls();
         breakWalls();
     }
@@ -72,6 +75,7 @@ public class MazeGenerator {
             int s1 = disjointSet.Find(maze.get(wallIndex).cell1);
             int s2 = disjointSet.Find(maze.get(wallIndex).cell2);
             if ( s1 != s2 ){
+                deletedWalls.add(maze.get(wallIndex));
                 maze.remove(wallIndex);
                 disjointSet.Union(s1,s2);
             }
