@@ -16,9 +16,8 @@ public class MazeUtil {
     private GameBuilder context;
     private double startingX;
     private double startingZ;
-    private double cellW;
-    private double cellD;
-    private double cellH;
+    private double cellDim;
+    private int cellWidth;
     private int mazeRows;
     private int mazeCols;
     private long seed;
@@ -36,18 +35,16 @@ public class MazeUtil {
     public MazeUtil(  GameBuilder context,
                       double startingX,
                       double startingZ,
-                      double cellW,
-                      double cellH,
-                      double cellD,
+                      double cellDim,
+                      int cellWidth,
                       int mazeRows,
                       int mazeCols,
                       long seed ){
         this.context = context;
         this.startingX = startingX;
         this.startingZ = startingZ;
-        this.cellW = cellW;
-        this.cellD = cellD;
-        this.cellH = cellH;
+        this.cellDim = cellDim;
+        this.cellWidth = cellWidth;
         this.mazeRows = mazeRows;
         this.mazeCols = mazeCols;
         this.seed = seed;
@@ -59,9 +56,7 @@ public class MazeUtil {
 
     public double getStartingX() { return startingX; }
     public double getStartingZ() { return startingZ; }
-    public double getCellH() { return cellH; }
-    public double getCellD() { return cellD; }
-    public double getCellW() { return cellW; }
+    public double getCellDim() { return cellDim; }
     public int getMazeCols() { return mazeCols; }
     public int getMazeRows() { return mazeRows; }
     public long getSeed() { return seed; }
@@ -70,28 +65,30 @@ public class MazeUtil {
     public void setMazeMaterial(Material mazeMaterial) { this.mazeMaterial = mazeMaterial; }
 
     public void createBlockMap(){
-        int i, j;
+        int i, j, mi, mj;
         double currX;
         double currZ = startingZ;
         maze_map_block.clear();
 
         // add known maze walls to the map
-        for( i = 0 ; i < mazeRows*2 + 1 ; i++ ){
+        for( i = 0 ; i < (mazeRows*2 + 1) * cellWidth ; i++ ){
             currX =startingX;
-            for( j = 0 ; j < mazeCols*2 + 1 ; j++ ) {
-                if( (i==1&&j==0) || (i== mazeRows*2-1&&j==mazeCols*2) ){
+            mi = i / cellWidth;
+            for( j = 0 ; j < (mazeCols*2 + 1) * cellWidth ; j++ ) {
+                mj = j/cellWidth;
+                if( (mi==1&&mj==0) || (mi== mazeRows*2-1&&mj==mazeCols*2) ){
 
-                } else if(i == 0 || i== mazeRows*2 || j == 0 || j == mazeCols*2 || (i%2==0 && j%2==0)) {
+                } else if(mi == 0 || mi== mazeRows*2 || mj == 0 || mj == mazeCols*2 || (mi%2==0 && mj%2==0)) {
                     System.out.println("create wall");
-                    Base_Cube cube = new Base_Cube("Maze Wall",cellW, cellH, cellD);
+                    Base_Cube cube = new Base_Cube("Maze Wall",cellDim, cellDim, cellDim);
                     cube.setMaterial(mazeMaterial);
                     maze_map_block.put(new Point2D(currX, currZ), cube);
                 }else{
 //                    context.getEnvironment().clearSpot(new Point2D(currX, currZ));
                 }
-                currX += cellW;
+                currX += cellDim;
             }
-            currZ += cellD;
+            currZ += cellDim;
         }
 
         // add vertical and horizontal generated walls to the map
@@ -100,36 +97,36 @@ public class MazeUtil {
 
         // to find x index := 1 + [ 2 * ( mazeIndex % cols) ]
         // to find z index := 1 + [ 2 * ( mazeIndex / cols) ]
-        for (Wall w : walls){
-            Base_Cube cube = new Base_Cube("Maze Wall", cellW,cellH,cellD);
-            cube.setMaterial(mazeMaterial);
-            Point2D point;
-            int xindex1 = 1 + ( 2 * (w.cell1 % mazeCols) );
-            int zindex1 = 1 + ( 2 * (w.cell1 / mazeCols) );
-            int xindex2 = 1 + ( 2 * (w.cell2 % mazeCols) );
-            int zindex2 = 1 + ( 2 * (w.cell2 / mazeCols) );
-
-            // wall separating vertical cells
-            if ( xindex1 == xindex2 ) {
-                // find vertical wall coordinate
-                if ( zindex1 < zindex2 ) {
-                    point = new Point2D(startingX + (xindex1 * cellW),startingZ + ((zindex1 + 1) * cellD) );
-                } else {
-                    point = new Point2D(startingX + (xindex1 * cellW),startingZ + ((zindex2 + 1) * cellD) );
-                }
-            }
-            // wall separating horizontal cells
-            else {
-                // find horizontal wall coordinate
-                if ( xindex1 < xindex2 ) {
-                    point = new Point2D(startingX + ((xindex1 + 1) * cellW),startingZ + (zindex1 * cellD) );
-                } else {
-                    point = new Point2D(startingX + ((xindex2 + 1) * cellW), startingZ + (zindex1 * cellD));
-                }
-            }
-
-            maze_map_block.put(point, cube);
-        }
+//        for (Wall w : walls){
+//            Base_Cube cube = new Base_Cube("Maze Wall", cellDim,cellDim,cellDim);
+//            cube.setMaterial(mazeMaterial);
+//            Point2D point;
+//            int xindex1 = 1 + ( 2 * (w.cell1 % mazeCols) );
+//            int zindex1 = 1 + ( 2 * (w.cell1 / mazeCols) );
+//            int xindex2 = 1 + ( 2 * (w.cell2 % mazeCols) );
+//            int zindex2 = 1 + ( 2 * (w.cell2 / mazeCols) );
+//
+//            // wall separating vertical cells
+//            if ( xindex1 == xindex2 ) {
+//                // find vertical wall coordinate
+//                if ( zindex1 < zindex2 ) {
+//                    point = new Point2D(startingX + (xindex1 * cellDim),startingZ + ((zindex1 + 1) * cellDim) );
+//                } else {
+//                    point = new Point2D(startingX + (xindex1 * cellDim),startingZ + ((zindex2 + 1) * cellDim) );
+//                }
+//            }
+//            // wall separating horizontal cells
+//            else {
+//                // find horizontal wall coordinate
+//                if ( xindex1 < xindex2 ) {
+//                    point = new Point2D(startingX + ((xindex1 + 1) * cellDim),startingZ + (zindex1 * cellDim) );
+//                } else {
+//                    point = new Point2D(startingX + ((xindex2 + 1) * cellDim), startingZ + (zindex1 * cellDim));
+//                }
+//            }
+//
+//            maze_map_block.put(point, cube);
+//        }
 
         System.out.println(maze_map_block.size());
     }
@@ -145,48 +142,48 @@ public class MazeUtil {
         int zindex2;
 
         // clear the spots where there are no walls generated
-        for(Wall w : mazeGenerator.getDeletedWalls()){
-            Point2D point;
-            xindex1 = 1 + ( 2 * (w.cell1 % mazeCols) );
-            zindex1 = 1 + ( 2 * (w.cell1 / mazeCols) );
-            xindex2 = 1 + ( 2 * (w.cell2 % mazeCols) );
-            zindex2 = 1 + ( 2 * (w.cell2 / mazeCols) );
+//        for(Wall w : mazeGenerator.getDeletedWalls()){
+//            Point2D point;
+//            xindex1 = 1 + ( 2 * (w.cell1 % mazeCols) );
+//            zindex1 = 1 + ( 2 * (w.cell1 / mazeCols) );
+//            xindex2 = 1 + ( 2 * (w.cell2 % mazeCols) );
+//            zindex2 = 1 + ( 2 * (w.cell2 / mazeCols) );
+//
+//            // wall separating vertical cells
+//            if ( xindex1 == xindex2 ) {
+//                // find vertical wall coordinate
+//                if ( zindex1 < zindex2 ) {
+//                    point = new Point2D(startingX + (xindex1 * cellDim),startingZ + ((zindex1 + 1) * cellDim) );
+//                } else {
+//                    point = new Point2D(startingX + (xindex1 * cellDim),startingZ + ((zindex2 + 1) * cellDim) );
+//                }
+//            }
+//            // wall separating horizontal cells
+//            else {
+//                // find horizontal wall coordinate
+//                if ( xindex1 < xindex2 ) {
+//                    point = new Point2D(startingX + ((xindex1 + 1) * cellDim),startingZ + (zindex1 * cellDim) );
+//                } else {
+//                    point = new Point2D(startingX + ((xindex2 + 1) * cellDim), startingZ + (zindex1 * cellDim));
+//                }
+//            }
+//            context.getEnvironment().clearSpot(point);
+//        }
 
-            // wall separating vertical cells
-            if ( xindex1 == xindex2 ) {
-                // find vertical wall coordinate
-                if ( zindex1 < zindex2 ) {
-                    point = new Point2D(startingX + (xindex1 * cellW),startingZ + ((zindex1 + 1) * cellD) );
-                } else {
-                    point = new Point2D(startingX + (xindex1 * cellW),startingZ + ((zindex2 + 1) * cellD) );
-                }
-            }
-            // wall separating horizontal cells
-            else {
-                // find horizontal wall coordinate
-                if ( xindex1 < xindex2 ) {
-                    point = new Point2D(startingX + ((xindex1 + 1) * cellW),startingZ + (zindex1 * cellD) );
-                } else {
-                    point = new Point2D(startingX + ((xindex2 + 1) * cellW), startingZ + (zindex1 * cellD));
-                }
-            }
-            context.getEnvironment().clearSpot(point);
-        }
 
 
-
-        // add known maze walls to the map
-        currZ = startingZ;
-        for( i = 0 ; i < mazeRows*2 + 1 ; i++ ){
-            currX = startingX;
-            for( j = 0 ; j < mazeCols*2 + 1 ; j++ ) {
-                if(i%2==1 && j%2==1){
-                    context.getEnvironment().clearSpot(new Point2D(currX, currZ));
-                }
-                currX += cellW;
-            }
-            currZ += cellD;
-        }
+//        // add known maze walls to the map
+//        currZ = startingZ;
+//        for( i = 0 ; i < mazeRows*2 + 1 ; i++ ){
+//            currX = startingX;
+//            for( j = 0 ; j < mazeCols*2 + 1 ; j++ ) {
+//                if(i%2==1 && j%2==1){
+//                    context.getEnvironment().clearSpot(new Point2D(currX, currZ));
+//                }
+//                currX += cellDim;
+//            }
+//            currZ += cellDim;
+//        }
 
         for(i = 0; i < wall_height; i++){
             createBlockMap();
