@@ -99,6 +99,7 @@ public class MazeUtil implements SpawnableStructure2D {
         double startingX = pos.getX() - (cellDim*cellWidth);
         double startingZ = pos.getY() - (cellDim*cellWidth);
 
+
         int i, j, mi, mj;
         double currX;
         double currZ = startingZ;
@@ -135,7 +136,6 @@ public class MazeUtil implements SpawnableStructure2D {
             currZ += cellDim;
         }
 
-
         // add vertical and horizontal generated walls to the map
         // wall is vertical if xindex of two walls are equal
         // wall is horizontal if xindex of two walls are not equal
@@ -170,8 +170,9 @@ public class MazeUtil implements SpawnableStructure2D {
                     cellZ = startingZ + (zindex1 * cellDim);
                 }
             }
-            cellX *= cellWidth;
-            cellZ *= cellWidth;
+            cellX = (cellX+cellDim)*cellWidth;
+            cellZ = (cellZ+cellDim)*cellWidth;
+
 
             currZ = cellZ;
 
@@ -187,7 +188,8 @@ public class MazeUtil implements SpawnableStructure2D {
             }
         }
 
-        System.out.println(block_map.size());
+//        System.out.println(block_map.size());
+
 
         // clear the spots where there are no walls generated
         for (Wall w : mazeGenerator.getDeletedWalls()) {
@@ -219,8 +221,8 @@ public class MazeUtil implements SpawnableStructure2D {
                     cellZ = startingZ + (zindex1 * cellDim);
                 }
             }
-            cellX *= cellWidth;
-            cellZ *= cellWidth;
+            cellX = (cellX+cellDim)*cellWidth;
+            cellZ = (cellZ+cellDim)*cellWidth;
 
             currZ = cellZ;
 
@@ -250,6 +252,6 @@ public class MazeUtil implements SpawnableStructure2D {
             }
             currZ += cellDim;
         }
-    }
 
+    }
 }
