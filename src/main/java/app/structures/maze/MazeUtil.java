@@ -20,21 +20,44 @@ public class MazeUtil implements SpawnableStructure2D {
     private int mazeRows;
     private int mazeCols;
     private long seed;
-    private Material mazeMaterial = ResourcesUtil.metal;
+    private boolean isTrapped;
+    private Material mazeMaterial;
     private MazeGenerator mazeGenerator;
     private List<Wall> walls;
 
 
     public MazeUtil(  double cellDim,
-                      int cellWidth,
                       int mazeRows,
                       int mazeCols,
+                      int cellWidth,
+                      Material mazeMaterial,
                       long seed ){
+        this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
         this.cellWidth = cellWidth;
         this.mazeRows = mazeRows;
         this.mazeCols = mazeCols;
         this.seed = seed;
+        this.isTrapped = false;
+
+        mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, this.seed);
+        walls = mazeGenerator.getWalls();
+    }
+
+    public MazeUtil(  double cellDim,
+                      int mazeRows,
+                      int mazeCols,
+                      int cellWidth,
+                      Material mazeMaterial,
+                      long seed ,
+                      boolean isTrapped){
+        this.mazeMaterial = mazeMaterial;
+        this.cellDim = cellDim;
+        this.cellWidth = cellWidth;
+        this.mazeRows = mazeRows;
+        this.mazeCols = mazeCols;
+        this.seed = seed;
+        this.isTrapped = isTrapped;
 
         mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, this.seed);
         walls = mazeGenerator.getWalls();
@@ -73,8 +96,8 @@ public class MazeUtil implements SpawnableStructure2D {
 
         System.out.println("Building");
         Point2D pos  = context.getPlayer().getPoint2D();
-        double startingX = pos.getX();
-        double startingZ = pos.getY();
+        double startingX = pos.getX() - (cellDim*cellWidth);
+        double startingZ = pos.getY() - (cellDim*cellWidth);
 
         int i, j, mi, mj;
         double currX;
@@ -97,7 +120,9 @@ public class MazeUtil implements SpawnableStructure2D {
             mi = i / cellWidth;
             for (j = 0; j < (mazeCols * 2 + 1) * cellWidth; j++) {
                 mj = j / cellWidth;
-                if ((mi == 1 && mj == 0) || (mi == mazeRows * 2 - 1 && mj == mazeCols * 2)) {
+                if ( !isTrapped &&((mi == 1 && mj == 0) )) {
+                    context.getEnvironment().clearSpot(new Point2D(currX, currZ));
+                }else if (mi == mazeRows * 2 - 1 && mj == mazeCols * 2){
                     context.getEnvironment().clearSpot(new Point2D(currX, currZ));
                 } else if (mi == 0 || mi == mazeRows * 2 || mj == 0 || mj == mazeCols * 2 || (mi % 2 == 0 && mj % 2 == 0)) {
                     System.out.println("create wall");
@@ -226,4 +251,5 @@ public class MazeUtil implements SpawnableStructure2D {
             currZ += cellDim;
         }
     }
+
 }
