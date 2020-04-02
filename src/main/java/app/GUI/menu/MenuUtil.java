@@ -19,11 +19,23 @@ import java.util.*;
 public class MenuUtil {
     Scene SCENE_MENU;
     GameBuilder context;
+
+    // main menu group
     InterfaceBuilder mainMenu;
+
+    // settings groups
     InterfaceBuilder settingsMenu;
+    InterfaceBuilder environmentMenu;
+    InterfaceBuilder skyBoxMenu;
+    InterfaceBuilder playerMenu;
+    InterfaceBuilder mazeMenu;
+
+
     InterfaceBuilder controlsMenu;
     InterfaceBuilder aboutMenu;
-    InterfaceBuilder exitButton;
+    InterfaceBuilder exitButton;    // not sure what this is for will most likely delete
+
+
 
     private String singleArrow = ">";
     private String doubleArrow = ">>";
@@ -51,6 +63,11 @@ public class MenuUtil {
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_CONTROLS = "GROUP_CONTROLS";
     public static String GROUP_SETTINGS = "GROUP_SETTINGS";
+    public static String GROUP_ENVIRONMENT = "GROUP_ENVIRONMENT";
+    public static String GROUP_SKYBOX = "GROUP_SKYBOX";
+    public static String GROUP_PLAYER = "GROUP_PLAYER";
+    public static String GROUP_MAZE = "GROUP_MAZE";
+
     public static String GROUP_ABOUT = "GROUP_ABOUT";
     public static String GROUP_EXIT = "GROUP_EXIT";
 
@@ -59,11 +76,17 @@ public class MenuUtil {
 
     public MenuUtil(GameBuilder ctx) {
         context = ctx;
+
+        // set up interfaces
         mainMenu = new InterfaceBuilder();
         settingsMenu = new InterfaceBuilder();
         controlsMenu = new InterfaceBuilder();
         aboutMenu = new InterfaceBuilder();
         exitButton = new InterfaceBuilder();
+        environmentMenu= new InterfaceBuilder();
+        skyBoxMenu = new InterfaceBuilder();
+        playerMenu = new InterfaceBuilder();
+        mazeMenu = new InterfaceBuilder();
 
         SCENE_MENU = new Scene(mainMenu.getGroup(),context.getWindowWidth(),context.getWindowHeight());
 
@@ -82,10 +105,17 @@ public class MenuUtil {
         buildMainMenu();
         buildControlsMenu();
         buildSettingsMenu();
+        buildEnvironmentMenu();
+
+
         buildAboutMenu();
 
         addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
         addGroup(GROUP_SETTINGS, settingsMenu.getGroup());
+        addGroup(GROUP_ENVIRONMENT, environmentMenu.getGroup());
+        addGroup(GROUP_SKYBOX, skyBoxMenu.getGroup());
+        addGroup(GROUP_PLAYER, playerMenu.getGroup());
+        addGroup(GROUP_MAZE, mazeMenu.getGroup());
         addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
         addGroup(GROUP_ABOUT, aboutMenu.getGroup());
         addGroup(GROUP_EXIT, exitButton.getGroup());
@@ -148,7 +178,7 @@ public class MenuUtil {
         // Start button handler
         Text startArrow = mainMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text startText = mainMenu.drawText("./Start_Game", 95, 140, Color.WHITE, options);
-        Rectangle startHitBox = mainMenu.drawRectangle(50,120,225,30,0,0,Color.TRANSPARENT);
+        Rectangle startHitBox = mainMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
         startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { context.showScene(context.getGameRootScene()); }
@@ -171,7 +201,7 @@ public class MenuUtil {
         //options handler
         Text settingsArrow = mainMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text settingsText = mainMenu.drawText("./Settings", 95, 190, Color.WHITE, options);
-        Rectangle settingsHitBox = mainMenu.drawRectangle(50,170,225,30,0,0,Color.TRANSPARENT);
+        Rectangle settingsHitBox = mainMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
         settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
@@ -195,7 +225,7 @@ public class MenuUtil {
         //controls handler
         Text controlsArrow = mainMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text controlsText = mainMenu.drawText("./Controls", 95, 240, Color.WHITE, options);
-        Rectangle controlsHitBox = mainMenu.drawRectangle(50,220,225,30,0,0,Color.TRANSPARENT);
+        Rectangle controlsHitBox = mainMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
         controlsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_CONTROLS); }
@@ -218,7 +248,7 @@ public class MenuUtil {
         //about handler
         Text aboutArrow = mainMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text aboutText = mainMenu.drawText("./About", 95, 290, Color.WHITE, options);
-        Rectangle aboutHitBox = mainMenu.drawRectangle(50,270,225,30,0,0,Color.TRANSPARENT);
+        Rectangle aboutHitBox = mainMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
         aboutHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_ABOUT); }
@@ -241,7 +271,7 @@ public class MenuUtil {
         //quit handler
         Text quitArrow = mainMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text quitText = mainMenu.drawText("./Quit", 95, 340, Color.WHITE, options);
-        Rectangle quitHitBox = mainMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        Rectangle quitHitBox = mainMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
         quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { context.getSTAGE().close(); }
@@ -282,7 +312,7 @@ public class MenuUtil {
         //quit handler
         Text returnArrow = controlsMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text returnText = controlsMenu.drawText("./Quit", 95, 340, Color.WHITE, options);
-        Rectangle returnHitBox = controlsMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        Rectangle returnHitBox = controlsMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_MAIN_MENU); }
@@ -303,6 +333,9 @@ public class MenuUtil {
                 });
     }
 
+    //*****************************************************************************************************
+
+
     public void buildSettingsMenu() {
         // draw black backdrop
         settingsMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
@@ -320,104 +353,28 @@ public class MenuUtil {
                 Color.WHITE,
                 title);
 
-        // World Height Multiplier
 
-        Text worldHeightArrow = settingsMenu.drawText(singleArrow, 50, 140, GREEN, options);
-        Text worldHeightText= settingsMenu.drawText("./World_Height_Multiplier", 95, 140, Color.WHITE, options);
-        Text worldHeightMult = settingsMenu.drawText(Integer.toString((int)curr_world_height_mult), 550, 140, Color.WHITE, options);
-        Rectangle worldHeightHitBox = settingsMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
-        worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        Text environmentArrow = settingsMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text environmentText = settingsMenu.drawText("./Environment_Settings", 95, 240, Color.WHITE, options);
+        Rectangle environmentHitBox = settingsMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        environmentHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { activateGroup(GROUP_ENVIRONMENT); }
+                });
+        environmentHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_world_height_mult +=10;
-                        if(curr_world_height_mult >100) curr_world_height_mult =0;
-                        worldHeightMult.setText(Integer.toString((int)curr_world_height_mult));
-                        context.getEnvironment().setTerrainHeightMultiplier(curr_world_height_mult);
+                        environmentArrow.setText(doubleArrow);
+                        environmentText.setFill(GREEN);
                     }
                 });
-        worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+        environmentHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        worldHeightArrow.setText(doubleArrow);
-                        worldHeightText.setFill(GREEN);
-                        worldHeightMult.setFill(GREEN);
+                        environmentArrow.setText(singleArrow);
+                        environmentText.setFill(Color.WHITE);
                     }
                 });
-        worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        worldHeightArrow.setText(singleArrow);
-                        worldHeightText.setFill(Color.WHITE);
-                        worldHeightMult.setFill(Color.WHITE);
-                    }
-                });
-
-        // Vegetation Multiplier
-
-        Text vegetationArrow = settingsMenu.drawText(singleArrow, 50, 190, GREEN, options);
-        Text vegetationText= settingsMenu.drawText("./Vegetation_Multiplier", 95, 190, Color.WHITE, options);
-        Text vegetationMult = settingsMenu.drawText(Integer.toString((int) curr_vegetation_mult), 550, 190, Color.WHITE, options);
-        Rectangle vegetationHitBox = settingsMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
-        vegetationHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        curr_vegetation_mult+=10;
-                        if(curr_vegetation_mult>100)curr_vegetation_mult=0;
-                        vegetationMult.setText(Integer.toString((int) curr_vegetation_mult));
-                        context.getEnvironment().setVegetationDensity(curr_vegetation_mult);
-                    }
-                });
-        vegetationHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        vegetationArrow.setText(doubleArrow);
-                        vegetationText.setFill(GREEN);
-                        vegetationMult.setFill(GREEN);
-                    }
-                });
-        vegetationHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        vegetationArrow.setText(singleArrow);
-                        vegetationText.setFill(Color.WHITE);
-                        vegetationMult.setFill(Color.WHITE);
-                    }
-                });
-
-        // World type
-
-        Text worldTypeArrow = settingsMenu.drawText(singleArrow, 50, 240, GREEN, options);
-        Text worldTypeText = settingsMenu.drawText("./World_Type", 95, 240, Color.WHITE, options);
-        Text worldTypeChoice = settingsMenu.drawText(ResourcesUtil.world_types_sorted.get(curr_world_type), 550, 240, Color.WHITE, options);
-        Rectangle worldTypeHitBox = settingsMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
-        worldTypeHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        curr_world_type++;
-                        if(curr_world_type == ResourcesUtil.world_types_sorted.size())curr_world_type = 0;
-                        String world_type = ResourcesUtil.world_types_sorted.get(curr_world_type);
-                        worldTypeChoice.setText(world_type);
-                        System.out.println(world_type +" "+ResourcesUtil.world_types.get(world_type));
-                        context.getEnvironment().setTerrainBlockType(ResourcesUtil.world_types.get(world_type));
-                    }
-                });
-        worldTypeHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        worldTypeArrow.setText(doubleArrow);
-                        worldTypeText.setFill(GREEN);
-                        worldTypeChoice.setFill(GREEN);
-                    }
-                });
-        worldTypeHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        worldTypeArrow.setText(singleArrow);
-                        worldTypeText.setFill(Color.WHITE);
-                        worldTypeChoice.setFill(Color.WHITE);
-                    }
-                });
-
 
         Text sunArrow = settingsMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text sunText= settingsMenu.drawText("./Sun_Scale", 95, 290, Color.WHITE, options);
@@ -597,6 +554,150 @@ public class MenuUtil {
 
     }
 
+
+    public void buildEnvironmentMenu(){
+        // draw black backdrop
+        environmentMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+
+        //draw title
+        environmentMenu.drawText("ROOT@CS307:~/Settings/Environment$",
+                50,
+                50,
+                GREEN,
+                title);
+
+        environmentMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+
+        // World Height Multiplier
+
+        Text worldHeightArrow = environmentMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text worldHeightText= environmentMenu.drawText("./World_Height_Multiplier", 95, 140, Color.WHITE, options);
+        Text worldHeightMult = environmentMenu.drawText(Integer.toString((int)curr_world_height_mult), 550, 140, Color.WHITE, options);
+        Rectangle worldHeightHitBox = environmentMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_world_height_mult +=10;
+                        if(curr_world_height_mult >100) curr_world_height_mult =0;
+                        worldHeightMult.setText(Integer.toString((int)curr_world_height_mult));
+                        context.getEnvironment().setTerrainHeightMultiplier(curr_world_height_mult);
+                    }
+                });
+        worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        worldHeightArrow.setText(doubleArrow);
+                        worldHeightText.setFill(GREEN);
+                        worldHeightMult.setFill(GREEN);
+                    }
+                });
+        worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        worldHeightArrow.setText(singleArrow);
+                        worldHeightText.setFill(Color.WHITE);
+                        worldHeightMult.setFill(Color.WHITE);
+                    }
+                });
+
+        // Vegetation Multiplier
+
+        Text vegetationArrow = environmentMenu.drawText(singleArrow, 50, 190, GREEN, options);
+        Text vegetationText= environmentMenu.drawText("./Vegetation_Multiplier", 95, 190, Color.WHITE, options);
+        Text vegetationMult = environmentMenu.drawText(Integer.toString((int) curr_vegetation_mult), 550, 190, Color.WHITE, options);
+        Rectangle vegetationHitBox = environmentMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        vegetationHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_vegetation_mult+=10;
+                        if(curr_vegetation_mult>100)curr_vegetation_mult=0;
+                        vegetationMult.setText(Integer.toString((int) curr_vegetation_mult));
+                        context.getEnvironment().setVegetationDensity(curr_vegetation_mult);
+                    }
+                });
+        vegetationHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        vegetationArrow.setText(doubleArrow);
+                        vegetationText.setFill(GREEN);
+                        vegetationMult.setFill(GREEN);
+                    }
+                });
+        vegetationHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        vegetationArrow.setText(singleArrow);
+                        vegetationText.setFill(Color.WHITE);
+                        vegetationMult.setFill(Color.WHITE);
+                    }
+                });
+
+        // World type
+
+        Text worldTypeArrow = environmentMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text worldTypeText = environmentMenu.drawText("./World_Type", 95, 240, Color.WHITE, options);
+        Text worldTypeChoice = environmentMenu.drawText(ResourcesUtil.world_types_sorted.get(curr_world_type), 550, 240, Color.WHITE, options);
+        Rectangle worldTypeHitBox = environmentMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        worldTypeHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_world_type++;
+                        if(curr_world_type == ResourcesUtil.world_types_sorted.size())curr_world_type = 0;
+                        String world_type = ResourcesUtil.world_types_sorted.get(curr_world_type);
+                        worldTypeChoice.setText(world_type);
+                        System.out.println(world_type +" "+ResourcesUtil.world_types.get(world_type));
+                        context.getEnvironment().setTerrainBlockType(ResourcesUtil.world_types.get(world_type));
+                    }
+                });
+        worldTypeHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        worldTypeArrow.setText(doubleArrow);
+                        worldTypeText.setFill(GREEN);
+                        worldTypeChoice.setFill(GREEN);
+                    }
+                });
+        worldTypeHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        worldTypeArrow.setText(singleArrow);
+                        worldTypeText.setFill(Color.WHITE);
+                        worldTypeChoice.setFill(Color.WHITE);
+                    }
+                });
+
+        //quit handler
+        Text returnArrow = environmentMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text returnText = environmentMenu.drawText("./Quit", 95, 340, Color.WHITE, options);
+        Rectangle returnHitBox = environmentMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(doubleArrow);
+                        returnText.setFill(GREEN);
+                    }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(singleArrow);
+                        returnText.setFill(Color.WHITE);
+                    }
+                });
+
+    }
+
+
+    //*****************************************************************************************************
+    // ABOUT MENU
     public void buildAboutMenu() {
         // draw black backdrop
         aboutMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
@@ -636,8 +737,5 @@ public class MenuUtil {
                         quitText.setFill(Color.WHITE);
                     }
                 });
-    }
-
-    private void drawBasicMenuLayout(InterfaceBuilder group){
     }
 }
