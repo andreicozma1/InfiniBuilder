@@ -295,7 +295,13 @@ public class EnvironmentUtil {
             str.setTranslateY(-orig.getBoundsInParent().getHeight());
             terrain_map_height.put(origLoc, terrain_map_height.get(origLoc) - str.getHeight());
             orig.getChildren().add(str);
+    }
 
+    public void clearSpot(Point2D pos){
+        double xPos = getTerrainXfromPlayerX(pos.getX());
+        double zPos = getTerrainZfromPlayerZ(pos.getY());
+
+        create_platform(xPos,zPos,true);
     }
 
 
