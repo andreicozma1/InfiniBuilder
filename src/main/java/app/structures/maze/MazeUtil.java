@@ -15,9 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 public class MazeUtil implements SpawnableStructure2D {
-    private GameBuilder context;
-    private double startingX;
-    private double startingZ;
     private int cellWidth;
     private double cellDim;
     private int mazeRows;
@@ -28,17 +25,11 @@ public class MazeUtil implements SpawnableStructure2D {
     private List<Wall> walls;
 
 
-    public MazeUtil(  GameBuilder context,
-                      double startingX,
-                      double startingZ,
-                      double cellDim,
+    public MazeUtil(  double cellDim,
                       int cellWidth,
                       int mazeRows,
                       int mazeCols,
                       long seed ){
-        this.context = context;
-        this.startingX = startingX;
-        this.startingZ = startingZ;
         this.cellDim = cellDim;
         this.cellWidth = cellWidth;
         this.mazeRows = mazeRows;
@@ -49,13 +40,6 @@ public class MazeUtil implements SpawnableStructure2D {
         walls = mazeGenerator.getWalls();
     }
 
-    public double getStartingX() {
-        return startingX;
-    }
-
-    public double getStartingZ() {
-        return startingZ;
-    }
     public double getCellDim() {
         return cellDim;
     }
@@ -85,9 +69,12 @@ public class MazeUtil implements SpawnableStructure2D {
     }
 
     @Override
-    public void build() {
+    public void build(GameBuilder context) {
 
         System.out.println("Building");
+        Point2D pos  = context.getPlayer().getPoint2D();
+        double startingX = pos.getX();
+        double startingZ = pos.getY();
 
         int i, j, mi, mj;
         double currX;
@@ -98,6 +85,9 @@ public class MazeUtil implements SpawnableStructure2D {
         int zindex1;
         int xindex2;
         int zindex2;
+
+
+
         block_map.clear();
 
 
