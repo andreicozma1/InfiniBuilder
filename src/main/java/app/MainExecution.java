@@ -62,7 +62,7 @@ public class MainExecution extends Application {
         Base_Cube dirt = new Base_Cube("Grass",ResourcesUtil.grass,envir.getBlockDim());
         Base_Cube grass = new Base_Cube("Dirt",ResourcesUtil.dirt, envir.getBlockDim());
         Base_Cube sand = new Base_Cube("Sand",ResourcesUtil.sand, envir.getBlockDim());
-        MazeUtil maze = new MazeUtil(game, 0,0, game.getEnvironment().getBlockDim(), 2, 20, 20, 0);
+        MazeUtil maze = new MazeUtil(game, 0,0, game.getEnvironment().getBlockDim(), 2, 20, 20, System.currentTimeMillis());
         SpawnableStructureItem2D mazeitem = new SpawnableStructureItem2D(maze,"Maze Generator", ResourcesUtil.sun, envir.getBlockDim());
 
         //testing hudutil drawing a health status bar
