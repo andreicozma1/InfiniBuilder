@@ -54,7 +54,7 @@ public class SpawnableStructureItem3D extends Base_Cube {
     @Override
     public void place(EnvironmentUtil e, Point2D startingPos) {
 
-        spawnable.build();
+        spawnable.build(e.context);
         for (Map.Entry<Point3D, StructureBuilder> point2DStructureBuilderEntry : spawnable.block_map.entrySet()) {
             e.placeObject3D((Point3D) ((Map.Entry) point2DStructureBuilderEntry).getKey(), (StructureBuilder) ((Map.Entry) point2DStructureBuilderEntry).getValue());
         }
