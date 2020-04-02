@@ -28,8 +28,6 @@ public class MazeUtil implements SpawnableStructure2D {
     private Group mazeGroup;
     private MazeGenerator mazeGenerator;
     private List<Wall> walls;
-    public static Map<Point2D, StructureBuilder> block_map = new HashMap<Point2D, StructureBuilder>();
-
     /**
      * Constructor for MazeUtil
      *
@@ -101,6 +99,8 @@ public class MazeUtil implements SpawnableStructure2D {
 
     @Override
     public void build() {
+
+        System.out.println("Building");
         int i, j;
         double currX;
         double currZ = startingZ;
@@ -115,7 +115,7 @@ public class MazeUtil implements SpawnableStructure2D {
                 } else if (i == 0 || i == mazeRows * 2 || j == 0 || j == mazeCols * 2 || (i % 2 == 0 && j % 2 == 0)) {
                     System.out.println("create wall");
                     Base_Cube cube = new Base_Cube("Maze Wall", cellW, cellH, cellD);
-                    cube.setMaterial(mazeMaterial);
+                    cube.getShape().setMaterial(mazeMaterial);
                     block_map.put(new Point2D(currX, currZ), cube);
                 } else {
 //                    context.getEnvironment().clearSpot(new Point2D(currX, currZ));
@@ -133,7 +133,7 @@ public class MazeUtil implements SpawnableStructure2D {
         // to find z index := 1 + [ 2 * ( mazeIndex / cols) ]
         for (Wall w : walls) {
             Base_Cube cube = new Base_Cube("Maze Wall", cellW, cellH, cellD);
-            cube.setMaterial(mazeMaterial);
+            cube.getShape().setMaterial(mazeMaterial);
             Point2D point;
             int xindex1 = 1 + (2 * (w.cell1 % mazeCols));
             int zindex1 = 1 + (2 * (w.cell1 / mazeCols));

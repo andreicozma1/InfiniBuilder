@@ -3,10 +3,12 @@ package app.structures;
 import app.environment.EnvironmentUtil;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Sphere;
+import app.structures.objects.Base_Structure;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.paint.Material;
 
-public class StructureBuilder extends Group implements Interactable {
+public abstract class StructureBuilder extends Group implements Interactable {
     public static String UNDEFINED_TAG = "Undefined";
 
     public static final int TYPE_OBJECT = 0;
@@ -27,18 +29,21 @@ public class StructureBuilder extends Group implements Interactable {
         p.PROPERTY_ITEM_TAG = UNDEFINED_TAG;
     }
 
-    public static StructureBuilder resolve(StructureBuilder orig) {
-        StructureBuilder result = null;
+    public static Base_Structure resolve(Base_Structure orig) {
+        Base_Structure result = null;
+//        System.out.println("HERE2");
+
         switch (orig.getProps().getPROPERTY_OBJECT_TYPE()) {
             case OBJECT_TYPE_CUBE:
-                System.out.println("HERE 1");
-                Base_Cube cube = new Base_Cube(orig.getProps().getPROPERTY_ITEM_TAG(), ((Base_Cube) orig).getMaterial(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
+//                System.out.println("HERE 3" + orig.getShape());
+
+                Base_Cube cube = new Base_Cube(orig.getProps().getPROPERTY_ITEM_TAG(), orig.getShape().getMaterial(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
                 result = cube;
                 break;
-            case OBJECT_TYPE_SPHERE:
-                Base_Sphere sphere = new Base_Sphere(orig.getProps().getPROPERTY_ITEM_TAG(), ((Base_Sphere) orig).getMaterial(), ((Base_Sphere) orig).getSphere().getRadius(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
-                result = sphere;
-                break;
+//            case OBJECT_TYPE_SPHERE:
+//                Base_Sphere sphere = new Base_Sphere(orig.getProps().getPROPERTY_ITEM_TAG(), orig.getShape().getMaterial(), orig.getShape().getRadius(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
+//                result = sphere;
+//                break;
             case OBJECT_TYPE_MODEL:
                 // TODO
                 break;
@@ -47,6 +52,7 @@ public class StructureBuilder extends Group implements Interactable {
                 result = def;
                 break;
         }
+        System.out.println("Finished");
         result.setProps(orig.getProps());
         return result;
     }
@@ -90,6 +96,7 @@ public class StructureBuilder extends Group implements Interactable {
         p = pr;
     }
 
+
     @Override
     public void place(EnvironmentUtil e, Point2D pos) {
         // right click action usually
@@ -102,11 +109,20 @@ public class StructureBuilder extends Group implements Interactable {
 
     }
 
+
     public class properties {
         private int PROPERTY_ITEM_TYPE;
         private int PROPERTY_OBJECT_TYPE;
         private String PROPERTY_ITEM_TAG;
         private boolean PROPERTY_DESTRUCTIBLE = false;
+        private Material PROPERTY_MATERIAL;
+
+        public void setICON_MATERIAL(Material mat){
+            PROPERTY_MATERIAL = mat;
+        }
+        public Material getICON_MATERIAL(){
+            return PROPERTY_MATERIAL;
+        }
 
         public void setPROPERTY_ITEM_TYPE(int t) {
             PROPERTY_ITEM_TYPE = t;

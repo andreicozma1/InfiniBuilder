@@ -52,6 +52,7 @@ public class SpawnableStructureItem2D extends Base_Cube{
 
     @Override
     public void place(EnvironmentUtil e, Point2D startingPos) {
+        System.out.println("HERE1");
         for (int i = 0; i < spawnable.structure_height; i++) {
             spawnable.build();
             for (Map.Entry<Point2D, StructureBuilder> point2DStructureBuilderEntry : spawnable.block_map.entrySet()) {

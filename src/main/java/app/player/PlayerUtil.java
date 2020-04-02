@@ -2,6 +2,7 @@ package app.player;
 
 import app.GUI.HUD.HUDUtil;
 import app.structures.StructureBuilder;
+import app.structures.objects.Base_Structure;
 import app.utils.ProjectileUtil;
 import app.utils.ResourcesUtil;
 import javafx.geometry.Point2D;
@@ -118,7 +119,7 @@ public class PlayerUtil {
 
     public void shoot() {
         Base_Sphere sp = new Base_Sphere("Projectile", 5);
-        sp.setMaterial(ResourcesUtil.metal);
+        sp.getShape().setMaterial(ResourcesUtil.metal);
 
         ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), sp);
         proj.setSpeed(10);
@@ -127,7 +128,7 @@ public class PlayerUtil {
 
     public void placeObject() {
 
-        StructureBuilder inventory_item = ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
+        Base_Structure inventory_item = ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
         context.getHUD().getElement(HUDUtil.INVENTORY).update();
 
         System.out.println("placeObject() " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
@@ -135,7 +136,8 @@ public class PlayerUtil {
         if(inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG){
             switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
                 case StructureBuilder.TYPE_OBJECT:
-                    StructureBuilder cb = StructureBuilder.resolve(((Inventory) context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem());
+                    System.out.println("HERE1");
+                    Base_Structure cb = StructureBuilder.resolve(inventory_item);
                     cb.place(context.getEnvironment(), getPoint2D());
                     break;
                 default:

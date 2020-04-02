@@ -1,6 +1,7 @@
 package app.utils;
 
 import app.environment.EnvironmentUtil;
+import app.structures.objects.Base_Cube;
 import javafx.animation.AnimationTimer;
 import app.structures.StructureBuilder;
 

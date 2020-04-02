@@ -138,7 +138,7 @@ public class EnvironmentUtil {
 
 
         if ((terrain_single_material == null && y < peak_level) || (terrain_single_material == ResourcesUtil.stone)) {
-            box.setMaterial(ResourcesUtil.stone);
+            box.getShape().setMaterial(ResourcesUtil.stone);
             box.getProps().setPROPERTY_ITEM_TAG("Stone");
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"peak", "rock"});
@@ -149,7 +149,7 @@ public class EnvironmentUtil {
                 b.getChildren().add(tree);
             }
         } else if ((terrain_single_material == null && y < hills_level) || (terrain_single_material == ResourcesUtil.moss)) {
-            box.setMaterial(ResourcesUtil.moss);
+            box.getShape().setMaterial(ResourcesUtil.moss);
             box.getProps().setPROPERTY_ITEM_TAG("Moss");
 
             if (Math.random() > 1 - vegDens) {
@@ -162,7 +162,7 @@ public class EnvironmentUtil {
                 b.getChildren().add(tree);
             }
         } else if ((terrain_single_material == null && y < plains_level) || (terrain_single_material == ResourcesUtil.grass)) {
-            box.setMaterial(ResourcesUtil.grass);
+            box.getShape().setMaterial(ResourcesUtil.grass);
             box.getProps().setPROPERTY_ITEM_TAG("Grass");
 
             if (Math.random() > 1 - vegDens) {
@@ -176,7 +176,7 @@ public class EnvironmentUtil {
 //                placeObject(new Point3D(x,y,z),tree,false);
             }
         } else if ((terrain_single_material == null && y < desert_level) || (terrain_single_material == ResourcesUtil.sand)) {
-            box.setMaterial(ResourcesUtil.sand);
+            box.getShape().setMaterial(ResourcesUtil.sand);
             box.getProps().setPROPERTY_ITEM_TAG("Sand");
 
             if (Math.random() > 1 - vegDens) {
@@ -189,7 +189,7 @@ public class EnvironmentUtil {
                 b.getChildren().add(tree);
             }
         } else if ((terrain_single_material == null && y < water_level) || (terrain_single_material == ResourcesUtil.dirt)) {
-            box.setMaterial(ResourcesUtil.dirt);
+            box.getShape().setMaterial(ResourcesUtil.dirt);
             box.getProps().setPROPERTY_ITEM_TAG("Dirt");
 
             if (Math.random() > 1 - vegDens) {
@@ -201,7 +201,7 @@ public class EnvironmentUtil {
                 b.getChildren().add(tree);
             }
         } else if (terrain_single_material == null) {
-            box.setMaterial(ResourcesUtil.dirt);
+            box.getShape().setMaterial(ResourcesUtil.dirt);
             box.getProps().setPROPERTY_ITEM_TAG("Dirt");
 
             if (terrain_should_have_water) {
@@ -209,8 +209,8 @@ public class EnvironmentUtil {
                 water.getProps().setPROPERTY_DESTRUCTIBLE(true);
 
                 water.setScaleIndependent(getBlockDim(), .01, getBlockDim());
-                water.getBox().setMaterial(ResourcesUtil.water);
-                water.getBox().setCullFace(CullFace.BACK);
+                water.getShape().setMaterial(ResourcesUtil.water);
+                water.getShape().setCullFace(CullFace.BACK);
                 water.setTranslateY(-y + water_level - getBlockDim() / 2.0);
                 b.getChildren().add(water);
             }
@@ -224,7 +224,7 @@ public class EnvironmentUtil {
                 b.getChildren().add(tree);
             }
         } else {
-            box.setMaterial(terrain_single_material);
+            box.getShape().setMaterial(terrain_single_material);
             box.getProps().setPROPERTY_ITEM_TAG("");
         }
 

@@ -80,7 +80,7 @@ public class GameBuilder {
                 long curr = System.currentTimeMillis();
 
                 if(curr - last > 1000.0){
-                    System.out.println("HEARTBEAT -> " + runtime + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
+//                    System.out.println("HEARTBEAT -> " + runtime + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
                     dt = 60.0/frames;
                     if(dt > 5){
                         dt = 1;

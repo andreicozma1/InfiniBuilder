@@ -2,7 +2,7 @@ package app.structures.objects;
 
 import app.structures.StructureBuilder;
 
-public class Base_Model extends StructureBuilder {
+public class Base_Model extends Base_Structure {
 
     public static String BASE_MODEL_TAG = "Base Model";
     public Base_Model(String ITEM_TAG){

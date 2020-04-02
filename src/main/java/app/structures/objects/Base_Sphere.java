@@ -4,68 +4,59 @@ import app.structures.StructureBuilder;
 import javafx.scene.paint.Material;
 import javafx.scene.shape.Sphere;
 
-public class Base_Sphere extends StructureBuilder {
-
-    private Sphere sphere;
-    private Material material;
+public class Base_Sphere extends Base_Structure {
 
     public Base_Sphere(String ITEM_TAG, float radius, float width, float height, float depth) {
-        sphere = new Sphere(radius);
+        this.shape = new Sphere(radius);
         getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
         getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_SPHERE);
-        super.getChildren().add(sphere);
+        super.getChildren().add(this.shape);
         super.setScaleIndependent(width,height,depth);
         getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
     }
     public Base_Sphere(String ITEM_TAG, float radius){
-        sphere = new Sphere(radius);
+        this.shape = new Sphere(radius);
         getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
         getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_SPHERE);
-        super.getChildren().add(sphere);
+        super.getChildren().add(this.shape);
         getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
     }
     public Base_Sphere(String ITEM_TAG){
-        sphere = new Sphere();
+        this.shape = new Sphere();
         getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
         getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_SPHERE);
-        super.getChildren().add(sphere);
+        super.getChildren().add(this.shape);
         getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
     }
 
     public Base_Sphere(String ITEM_TAG, Material mat, double radius, double width, double height, double depth) {
-        sphere = new Sphere(radius);
+        this.shape = new Sphere(radius);
         getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
         getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_SPHERE);
-        super.getChildren().add(sphere);
+        super.getChildren().add(this.shape);
         super.setScaleIndependent(width,height,depth);
         getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
-        setMaterial(mat);
+        this.getShape().setMaterial(mat);
     }
     public Base_Sphere(String ITEM_TAG, Material mat, float radius){
-        sphere = new Sphere(radius);
+        this.shape = new Sphere(radius);
         getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
         getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_SPHERE);
-        super.getChildren().add(sphere);
+        super.getChildren().add(this.shape);
         getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
-        setMaterial(mat);
+        this.getShape().setMaterial(mat);
 
     }
     public Base_Sphere(String ITEM_TAG, Material mat){
-        sphere = new Sphere();
+        this.shape = new Sphere();
         getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_OBJECT);
         getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_SPHERE);
-        super.getChildren().add(sphere);
+        super.getChildren().add(this.shape);
         getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
-        setMaterial(mat);
+        this.getShape().setMaterial(mat);
     }
 
 
-    public Sphere getSphere(){ return sphere; }
 
-    public void setMaterial(Material material){
-        this.material = material;
-        sphere.setMaterial(material);
-    }
 
-    public Material getMaterial() { return material; }
 }
