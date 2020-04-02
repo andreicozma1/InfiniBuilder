@@ -180,7 +180,7 @@ public class MazeUtil {
         for( i = 0 ; i < mazeRows*2 + 1 ; i++ ){
             currX = startingX;
             for( j = 0 ; j < mazeCols*2 + 1 ; j++ ) {
-                if(i%2==1 && j%2==0){
+                if(i%2==1 && j%2==1){
                     context.getEnvironment().clearSpot(new Point2D(currX, currZ));
                 }
                 currX += cellW;
