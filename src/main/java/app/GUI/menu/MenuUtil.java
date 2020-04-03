@@ -521,8 +521,8 @@ public class MenuUtil {
         worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_world_height_mult +=10;
-                        if(curr_world_height_mult >100) curr_world_height_mult = 0;
+                        curr_world_height_mult +=5;
+                        if(curr_world_height_mult >35) curr_world_height_mult = 0;
                         worldHeightMult.setText(Integer.toString((int)curr_world_height_mult));
                         context.getEnvironment().setTerrainHeightMultiplier(curr_world_height_mult);
                     }
@@ -1062,7 +1062,7 @@ public class MenuUtil {
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_fov_default +=5;
-                        if(curr_fov_default > 80) curr_fov_default = 20;
+                        if(curr_fov_default > 100) curr_fov_default = 20;
                         defaultFovMult.setText(Integer.toString(curr_fov_default));
                         context.getCamera().setFov_default(curr_fov_default);
                     }
