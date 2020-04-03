@@ -167,12 +167,7 @@ public class PlayerUtil {
         double new_x = this.x + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
-        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-//        System.out.println(ground_level - y);
-        if ((ground_level - y < autoJumpCutoffHeight) || isClipMode) {
-            this.x = new_x;
-            this.z = new_z;
-        }
+        handle_collision(new_x,new_z);
 
     }
 
@@ -183,11 +178,8 @@ public class PlayerUtil {
         double new_x = this.x - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
-        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        if ((ground_level - y < autoJumpCutoffHeight) || isClipMode) {
-            this.x = new_x;
-            this.z = new_z;
-        }
+        handle_collision(new_x,new_z);
+
     }
 
     public void moveLeft(double val) {
@@ -197,11 +189,9 @@ public class PlayerUtil {
 
         double new_z = this.z + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_x = this.x - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
-        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        if ((ground_level - y < autoJumpCutoffHeight) || isClipMode) {
-            this.x = new_x;
-            this.z = new_z;
-        }
+
+        handle_collision(new_x,new_z);
+
     }
 
     public void moveRight(double val) {
@@ -210,9 +200,18 @@ public class PlayerUtil {
 
         double new_x = this.x + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.z - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
-        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, new_z);
-        if ((ground_level - y < autoJumpCutoffHeight) || isClipMode) {
+
+        handle_collision(new_x,new_z);
+    }
+
+    public void handle_collision(double new_x, double new_z){
+        double ground_level_x = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, this.z);
+        double ground_level_z = -context.getEnvironment().getTerrainYfromPlayerXZ(this.x, new_z);
+
+        if ((ground_level_x - y < autoJumpCutoffHeight) || isClipMode) {
             this.x = new_x;
+        }
+        if ((ground_level_z - y < autoJumpCutoffHeight) || isClipMode) {
             this.z = new_z;
         }
     }
