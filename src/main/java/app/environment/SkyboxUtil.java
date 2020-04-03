@@ -261,21 +261,21 @@ public class SkyboxUtil {
     }
 
 
-    public void setBigStarScale(double scale){
+    public void setBigStarScale(double scale) {
         big_star.setScaleX(scale);
         big_star.setScaleY(scale);
         big_star.setScaleZ(scale);
     }
 
-    public double getSunScale(){
+    public double getSunScale() {
         return sun.getScaleX();
     }
 
-    public double getMoonScale(){
+    public double getMoonScale() {
         return moon.getScaleX();
     }
 
-    public double getBigStarScale(){
+    public double getBigStarScale() {
         return big_star.getScaleX();
     }
 
@@ -303,15 +303,15 @@ public class SkyboxUtil {
         nightskycolor = cr;
     }
 
-    public double getSunDistance(){
+    public double getSunDistance() {
         return sun_distance;
     }
 
-    public double getMoonDistance(){
+    public double getMoonDistance() {
         return moon_distance;
     }
 
-    public double getBigStarDistance(){
+    public double getBigStarDistance() {
         return big_star_distance;
     }
 
@@ -323,7 +323,7 @@ public class SkyboxUtil {
         moon_distance = clouds_height + dist;
     }
 
-    public void setBigStarDistance(double dist){
+    public void setBigStarDistance(double dist) {
         big_star_distance = clouds_height + dist;
     }
 
@@ -340,11 +340,20 @@ public class SkyboxUtil {
         }
     }
 
-    public int getSun_moon_period_multiplier(){
+    public int getSun_moon_period_multiplier() {
         return sun_moon_period_multiplier;
     }
+
     public void setSun_moon_period_multiplier(int num) {
         sun_moon_period_multiplier = num;
+    }
+
+    public int getBig_planet_period_multiplier() {
+        return big_planet_period_multiplier;
+    }
+
+    public void setBig_planet_period_multiplier(int num) {
+        big_planet_period_multiplier = num;
     }
 
     public void setSun_rotation_speed(double s) {
