@@ -64,7 +64,7 @@ public class EnvironmentUtil {
         GROUP_STRUCTURES = new Group();
         GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN, GROUP_STRUCTURES); // add the subgroups to the parent group
 
-        setTerrainRenderDistance(0);
+        setTerrainRenderDistance(30);
         setTerrainHeightMultiplier(100);
         setVegetationDensity(20);
 
