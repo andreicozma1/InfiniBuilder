@@ -97,14 +97,13 @@ public class PlayerUtil {
         // Running mechanism. Changes camera FOV incrementally from 45 to 60 when running and from 60 to 45 when not running
         double curr_fov = context.getCamera().getCamera().getFieldOfView();
         if (isRunning) {
-
-            if (curr_fov < context.getCamera().fov_running) {
+            if (curr_fov < context.getCamera().getFov_default() * context.getCamera().getFov_running_multiplier()) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 1);
             }
         } else {
-            if (isOnGround() && curr_fov > context.getCamera().fov_default) {
+            if (isOnGround() && curr_fov > context.getCamera().getFov_default()) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov - 5);
-            } else if (curr_fov < context.getCamera().fov_default - 2) {
+            } else if (curr_fov < context.getCamera().getFov_default() - 2) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 2);
             }
         }
@@ -232,7 +231,7 @@ public class PlayerUtil {
                 onGround = false;
             }
             if (!isOnGround() && !isRunning && isFlyMode) {
-                context.getCamera().getCamera().setFieldOfView(context.getCamera().fov_default + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
+                context.getCamera().getCamera().setFieldOfView(context.getCamera().getFov_default() + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
             }
         } else {
             // once the player fell enough to hit ground, set onGround to true

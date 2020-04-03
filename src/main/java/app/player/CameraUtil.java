@@ -9,9 +9,9 @@ public class CameraUtil {
     private GameBuilder context;
     public static PerspectiveCamera cam;
 
-    public final int fov_default = 45;
-    int fov_running = 70;
-    private int fov_tired = 35;
+    private int fov_default = 45;
+    private double fov_running_multiplier = 1.5;
+    private double fov_tired_multiplier = .8;
 
     private int bound_angle_down = -90; // degrees
     private int bound_angle_up = 90; // degrees
@@ -78,5 +78,56 @@ public class CameraUtil {
 
     public void setRotateY(double val) {
         roty = val;
+    }
+
+    public int getFov_default() {
+        return fov_default;
+    }
+
+    public double getFov_running_multiplier() {
+        return fov_running_multiplier;
+    }
+
+    public double getFov_tired_multiplier() {
+        return fov_tired_multiplier;
+    }
+
+    public void setFov_default(int def) {
+
+        try {
+            if (def >= 0) {
+                fov_default = def; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setFov_running_multiplier(double mult) {
+
+        try {
+            if (mult >= 0) {
+                fov_running_multiplier = mult; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void setFov_tired_multiplier(int mult) {
+        try {
+            if (mult >= 0) {
+                fov_tired_multiplier = mult; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
     }
 }
