@@ -65,7 +65,7 @@ public class EnvironmentUtil {
         GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN, GROUP_STRUCTURES); // add the subgroups to the parent group
 
         setTerrainRenderDistance(30);
-        setTerrainHeightMultiplier(100);
+        setTerrainHeightMultiplier(35);
         setVegetationDensityPercent(20);
 
         terrain_simplex_alg = new SimplexUtil(100, 0.4, (int) System.currentTimeMillis());
