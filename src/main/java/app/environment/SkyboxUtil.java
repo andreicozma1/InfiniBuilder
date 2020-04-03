@@ -124,7 +124,7 @@ public class SkyboxUtil {
      *
      */
 
-    private double time = -1; // set as default to -1 to track whether the user set it manually
+    private double fixed_time = -1; // set as default to -1 to track whether the user set it manually
     // if this variable is not -1, use this value as the game_time value
 
     void update_handler() {
@@ -138,10 +138,10 @@ public class SkyboxUtil {
                 game_time = Math.PI / 2 * sun_moon_period_multiplier;
                 break;
             default:
-                if (time == -1) {
+                if (fixed_time == -1) {
                     game_time = System.currentTimeMillis() / (1000.0);
                 } else {
-                    game_time = time;
+                    game_time = fixed_time;
                 }
                 break;
         }
@@ -380,8 +380,20 @@ public class SkyboxUtil {
         moon_rotation_speed = s;
     }
 
-    public void setTime(double t) {
-        time = t;
+    public double getFixedTime() {
+        return fixed_time;
+    }
+
+    public void setFixedTime(double t) {
+        try{
+            if(t >= -1){
+                fixed_time = t;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
     } // -1 uses System Time. Any other value locks it to a specific time
 
     public Group getGroup() {
