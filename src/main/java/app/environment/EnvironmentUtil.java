@@ -35,18 +35,20 @@ public class EnvironmentUtil {
     private double terrain_generate_distance;
     private double terrain_multiplier_height;
     private double terrain_vegetation_density;
+
+
     private boolean terrain_should_have_water = true;
     private Material terrain_single_material = null; // Default terrain generation if 'null'
 
     private Map<Point2D, Double> terrain_map_height = new HashMap<>();
     private Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<>();
 
-    public double planet_diameter = 8000;
-    public double water_level = 203;
-    public double desert_level = 200;
-    public double plains_level = 100;
-    public double hills_level = -50;
-    public double peak_level = -180;
+    double planet_diameter = 8000;
+    private double water_level = 203;
+    private double desert_level = 200;
+    private double plains_level = 100;
+    private double hills_level = -50;
+    private double peak_level = -180;
 
     /**
      * Constructor initializes an EnvironmentUtil object based on the parent WindowUtil, which will become the class' context
@@ -62,7 +64,7 @@ public class EnvironmentUtil {
         GROUP_STRUCTURES = new Group();
         GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN, GROUP_STRUCTURES); // add the subgroups to the parent group
 
-        setTerrainRenderDistance(30);
+        setTerrainRenderDistance(0);
         setTerrainHeightMultiplier(100);
         setVegetationDensity(20);
 
@@ -393,7 +395,7 @@ public class EnvironmentUtil {
     public void setTerrainRenderDistance(double dist) {
         try {
             if (dist >= 0 && dist <= 100) {
-                terrain_generate_distance = dist + 5; // bound the value given
+                terrain_generate_distance = dist; // bound the value given
                 reset();
             } else {
                 throw new IndexOutOfBoundsException();
@@ -411,5 +413,12 @@ public class EnvironmentUtil {
         terrain_single_material = mat;
     }
 
+    public boolean isTerrain_should_have_water() {
+        return terrain_should_have_water;
+    }
+
+    public void setTerrain_should_have_water(boolean val) {
+        terrain_should_have_water = val;
+    }
 
 }
