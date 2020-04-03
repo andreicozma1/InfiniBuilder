@@ -31,16 +31,16 @@ public class PlayerUtil {
     private boolean tooHigh = false;
 
     private double runMultiplier = 1.25;
-    public double speedForward = 2.5;
-    public double speedBackward = 2;
-    public double speedSide = 2;
+    double speedForward = 2.5;
+    double speedBackward = 2;
+    double speedSide = 2;
     double speedFly = 5;
     private double fallSpeed = 0; // Original speed before gravity is applied;
 
     private double jump_start_height;
     private double jumpHeight = player_height;
     private double autoJumpCutoffHeight = player_height / 2.0;
-    public boolean canJump = true;
+    boolean canJump = true;
     private boolean isJumping = false;
     boolean isRunning = false;
 
@@ -53,7 +53,7 @@ public class PlayerUtil {
     private boolean onGround = true;
 
     private PointLight uv_light;
-    boolean uv_light_state = false;
+    private boolean uv_light_state = false;
 
     public PlayerUtil(GameBuilder ctx) {
         context = ctx;

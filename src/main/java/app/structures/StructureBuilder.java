@@ -9,7 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.paint.Material;
 
 public abstract class StructureBuilder extends Group implements Interactable {
-    public static String UNDEFINED_TAG = "Undefined";
+    public static final String UNDEFINED_TAG = "Undefined";
 
     public static final int TYPE_OBJECT = 0;
     public static final int TYPE_STRUCTURE_2D = 1;
@@ -21,7 +21,6 @@ public abstract class StructureBuilder extends Group implements Interactable {
     public static final int OBJECT_TYPE_MODEL = 2;
 
     StructureBuilder.properties p;
-
 
     public StructureBuilder() {
         p = new properties();

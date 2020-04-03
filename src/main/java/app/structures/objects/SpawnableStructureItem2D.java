@@ -9,15 +9,14 @@ import javafx.scene.paint.Material;
 import java.util.Map;
 
 public class SpawnableStructureItem2D extends Base_Cube{
-    SpawnableStructure2D spawnable;
-    int height;
+    private  SpawnableStructure2D spawnable;
+    private  int height;
 
     public SpawnableStructureItem2D(SpawnableStructure2D str, int BuildHeight, String ITEM_TAG, double width, double height, double depth) {
         super(ITEM_TAG, width, height, depth);
         getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_STRUCTURE_2D);
         spawnable = str;
         height = BuildHeight;
-
     }
 
     public SpawnableStructureItem2D(SpawnableStructure2D str,int BuildHeight, String ITEM_TAG, double all_side_length) {

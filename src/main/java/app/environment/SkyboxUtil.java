@@ -15,8 +15,8 @@ public class SkyboxUtil {
     private Group group_skybox;
 
     private AmbientLight ambient = null;
-    private int sun_moon_period_multiplier = 150;
-    private int big_planet_period_multiplier = 150;
+    private int sun_moon_period_multiplier = 128;
+    private int big_planet_period_multiplier = 128;
     private double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
     private double sun_rotation_speed = .05;
     private double moon_rotation_speed = .05;

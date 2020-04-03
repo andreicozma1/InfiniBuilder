@@ -10,7 +10,7 @@ import javafx.scene.paint.Material;
 import java.util.Map;
 
 public class SpawnableStructureItem3D extends Base_Cube {
-    SpawnableStructure3D spawnable;
+    private SpawnableStructure3D spawnable;
 
     public SpawnableStructureItem3D(SpawnableStructure3D str, String ITEM_TAG, double width, double height, double depth) {
         super(ITEM_TAG, width, height, depth);
