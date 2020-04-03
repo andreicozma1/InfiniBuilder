@@ -28,7 +28,7 @@ public class MenuUtil {
     InterfaceBuilder environmentMenu;
     InterfaceBuilder skyBoxMenu;
     InterfaceBuilder playerMenu;
-    InterfaceBuilder mazeMenu;
+    InterfaceBuilder cameraMenu;
 
 
     InterfaceBuilder controlsMenu;
@@ -65,6 +65,9 @@ public class MenuUtil {
     private double curr_fly_speed;
     private double curr_jump_height;
     private double curr_run_speed;
+    private double curr_fov_default;
+    private double curr_fov_running;
+    private double curr_fov_tired;
 
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_CONTROLS = "GROUP_CONTROLS";
@@ -72,7 +75,7 @@ public class MenuUtil {
     public static String GROUP_ENVIRONMENT = "GROUP_ENVIRONMENT";
     public static String GROUP_SKYBOX = "GROUP_SKYBOX";
     public static String GROUP_PLAYER = "GROUP_PLAYER";
-    public static String GROUP_MAZE = "GROUP_MAZE";
+    public static String GROUP_CAMERA = "GROUP_CAMERA";
 
     public static String GROUP_ABOUT = "GROUP_ABOUT";
     public static String GROUP_EXIT = "GROUP_EXIT";
@@ -85,14 +88,15 @@ public class MenuUtil {
 
         // set up interfaces
         mainMenu = new InterfaceBuilder();
-        settingsMenu = new InterfaceBuilder();
+
         controlsMenu = new InterfaceBuilder();
         aboutMenu = new InterfaceBuilder();
-        exitButton = new InterfaceBuilder();
+        settingsMenu = new InterfaceBuilder();
         environmentMenu= new InterfaceBuilder();
         skyBoxMenu = new InterfaceBuilder();
         playerMenu = new InterfaceBuilder();
-        mazeMenu = new InterfaceBuilder();
+        cameraMenu = new InterfaceBuilder();
+        exitButton = new InterfaceBuilder();
 
         SCENE_MENU = new Scene(mainMenu.getGroup(),context.getWindowWidth(),context.getWindowHeight());
 
@@ -110,15 +114,21 @@ public class MenuUtil {
 
         curr_fly_speed = context.getPlayer().getFlySpeed();
         curr_jump_height = context.getPlayer().getJumpHeightMultiplier();
-        curr_render_distance = context.getPlayer().getRunMultiplier();
+        curr_run_speed = context.getPlayer().getRunMultiplier();
+
+        curr_fov_default = context.getCamera().getFov_default();
+        curr_fov_running = context.getCamera().getFov_running_multiplier();
+        curr_fov_tired = context.getCamera().getFov_tired_multiplier();
 
 
         buildMainMenu();
         buildControlsMenu();
+
         buildSettingsMenu();
         buildEnvironmentMenu();
         buildSkyBoxMenu();
         buildPlayerMenu();
+        buildCameraMenu();
 
 
         buildAboutMenu();
@@ -128,7 +138,7 @@ public class MenuUtil {
         addGroup(GROUP_ENVIRONMENT, environmentMenu.getGroup());
         addGroup(GROUP_SKYBOX, skyBoxMenu.getGroup());
         addGroup(GROUP_PLAYER, playerMenu.getGroup());
-        addGroup(GROUP_MAZE, mazeMenu.getGroup());
+        addGroup(GROUP_CAMERA, cameraMenu.getGroup());
         addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
         addGroup(GROUP_ABOUT, aboutMenu.getGroup());
         addGroup(GROUP_EXIT, exitButton.getGroup());
@@ -489,8 +499,8 @@ public class MenuUtil {
         worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_world_height_mult +=10;
-                        if(curr_world_height_mult >100) curr_world_height_mult =0;
+                        curr_world_height_mult +=5;
+                        if(curr_world_height_mult >35) curr_world_height_mult =0;
                         worldHeightMult.setText(Integer.toString((int)curr_world_height_mult));
                         context.getEnvironment().setTerrainHeightMultiplier(curr_world_height_mult);
                     }
@@ -515,15 +525,15 @@ public class MenuUtil {
         // Vegetation Multiplier
 
         Text vegetationArrow = environmentMenu.drawText(singleArrow, 50, 190, GREEN, options);
-        Text vegetationText= environmentMenu.drawText("./Vegetation_Multiplier", 95, 190, Color.WHITE, options);
-        Text vegetationMult = environmentMenu.drawText(Integer.toString((int) curr_vegetation_mult), 550, 190, Color.WHITE, options);
+        Text vegetationText= environmentMenu.drawText("./Vegetation_Percent", 95, 190, Color.WHITE, options);
+        Text vegetationMult = environmentMenu.drawText(Integer.toString((int) curr_vegetation_mult)+"%", 550, 190, Color.WHITE, options);
         Rectangle vegetationHitBox = environmentMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
         vegetationHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_vegetation_mult+=10;
                         if(curr_vegetation_mult>100)curr_vegetation_mult=0;
-                        vegetationMult.setText(Integer.toString((int) curr_vegetation_mult));
+                        vegetationMult.setText(Integer.toString((int) curr_vegetation_mult)+"%");
                         context.getEnvironment().setVegetationDensityPercent(curr_vegetation_mult);
                     }
                 });
@@ -973,6 +983,10 @@ public class MenuUtil {
                 });
     }
 
+
+    public void buildCameraMenu(){
+
+    }
 
     //*****************************************************************************************************
     // ABOUT MENU
