@@ -65,7 +65,9 @@ public class MenuUtil {
     private double curr_fly_speed;
     private double curr_jump_height;
     private double curr_run_speed;
-    private double curr_fov_default;
+
+    // camera settings
+    private int curr_fov_default;
     private double curr_fov_running;
     private double curr_fov_tired;
 
@@ -443,7 +445,27 @@ public class MenuUtil {
                     }
                 });
 
-
+        Text cameraArrow = settingsMenu.drawText(singleArrow, 50, 290, GREEN, options);
+        Text cameraText = settingsMenu.drawText("./Camera_Settings", 95, 290, Color.WHITE, options);
+        Rectangle cameraHitBox = settingsMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
+        cameraHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { activateGroup(GROUP_CAMERA); }
+                });
+        cameraHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        cameraArrow.setText(doubleArrow);
+                        cameraText.setFill(GREEN);
+                    }
+                });
+        cameraHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        cameraArrow.setText(singleArrow);
+                        cameraText.setFill(Color.WHITE);
+                    }
+                });
 
 
         //quit handler
@@ -499,8 +521,8 @@ public class MenuUtil {
         worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_world_height_mult +=5;
-                        if(curr_world_height_mult >35) curr_world_height_mult =0;
+                        curr_world_height_mult +=10;
+                        if(curr_world_height_mult >100) curr_world_height_mult = 0;
                         worldHeightMult.setText(Integer.toString((int)curr_world_height_mult));
                         context.getEnvironment().setTerrainHeightMultiplier(curr_world_height_mult);
                     }
@@ -531,8 +553,8 @@ public class MenuUtil {
         vegetationHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_vegetation_mult+=10;
-                        if(curr_vegetation_mult>100)curr_vegetation_mult=0;
+                        curr_vegetation_mult+=5;
+                        if(curr_vegetation_mult>35)curr_vegetation_mult=0;
                         vegetationMult.setText(Integer.toString((int) curr_vegetation_mult)+"%");
                         context.getEnvironment().setVegetationDensityPercent(curr_vegetation_mult);
                     }
@@ -597,7 +619,7 @@ public class MenuUtil {
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_render_distance+=5;
-                        if(curr_render_distance>50)curr_render_distance=5;
+                        if(curr_render_distance>50)curr_render_distance=0;
                         renderDistanceMult.setText(Integer.toString((int) curr_render_distance));
                         context.getEnvironment().setTerrainRenderDistance(curr_render_distance);
                     }
@@ -985,7 +1007,137 @@ public class MenuUtil {
 
 
     public void buildCameraMenu(){
+        // draw black backdrop
+        cameraMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
 
+        //draw title
+        cameraMenu.drawText("ROOT@CS307:~/Settings/Camera$",
+                50,
+                50,
+                GREEN,
+                title);
+
+        cameraMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+
+        // default fov
+        Text defaultFovArrow = cameraMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text defaultFovText= cameraMenu.drawText("./Default_FOV", 95, 140, Color.WHITE, options);
+        Text defaultFovMult = cameraMenu.drawText(Integer.toString(curr_fov_default), 550, 140, Color.WHITE, options);
+        Rectangle defaultFovHitBox = cameraMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        defaultFovHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_fov_default +=5;
+                        if(curr_fov_default > 80) curr_fov_default = 20;
+                        defaultFovMult.setText(Integer.toString(curr_fov_default));
+                        context.getCamera().setFov_default(curr_fov_default);
+                    }
+                });
+        defaultFovHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        defaultFovArrow.setText(doubleArrow);
+                        defaultFovText.setFill(GREEN);
+                        defaultFovMult.setFill(GREEN);
+                    }
+                });
+        defaultFovHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        defaultFovArrow.setText(singleArrow);
+                        defaultFovText.setFill(Color.WHITE);
+                        defaultFovMult.setFill(Color.WHITE);
+                    }
+                });
+
+        // running fov
+        Text runningFovArrow = cameraMenu.drawText(singleArrow, 50, 190, GREEN, options);
+        Text runningFovText= cameraMenu.drawText("./Running_FOV", 95, 190, Color.WHITE, options);
+        Text runningFovMult = cameraMenu.drawText(Integer.toString((int)curr_fov_running), 550, 190, Color.WHITE, options);
+        Rectangle runningFovHitBox = cameraMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        runningFovHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_fov_running +=5;
+                        if(curr_fov_running > 80) curr_fov_running = 20;
+                        runningFovMult.setText(Integer.toString((int)curr_fov_running));
+                        context.getCamera().setFov_running_multiplier(curr_fov_running);
+                    }
+                });
+        runningFovHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        runningFovArrow.setText(doubleArrow);
+                        runningFovText.setFill(GREEN);
+                        runningFovMult.setFill(GREEN);
+                    }
+                });
+        runningFovHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        runningFovArrow.setText(singleArrow);
+                        runningFovText.setFill(Color.WHITE);
+                        runningFovMult.setFill(Color.WHITE);
+                    }
+                });
+
+        // tired fov
+        Text tiredFovArrow = cameraMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text tiredFovText= cameraMenu.drawText("./Tired_FOV", 95, 240, Color.WHITE, options);
+        Text tiredFovMult = cameraMenu.drawText(Integer.toString((int)curr_fov_tired), 550, 240, Color.WHITE, options);
+        Rectangle tiredFovHitBox = cameraMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        tiredFovHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_fov_tired +=5;
+                        if(curr_fov_tired > 80) curr_fov_tired = 20;
+                        tiredFovMult.setText(Integer.toString((int)curr_fov_tired));
+                        context.getCamera().setFov_tired_multiplier(curr_fov_tired);
+                    }
+                });
+        tiredFovHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        tiredFovArrow.setText(doubleArrow);
+                        tiredFovText.setFill(GREEN);
+                        tiredFovMult.setFill(GREEN);
+                    }
+                });
+        tiredFovHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        tiredFovArrow.setText(singleArrow);
+                        tiredFovText.setFill(Color.WHITE);
+                        tiredFovMult.setFill(Color.WHITE);
+                    }
+                });
+
+        //quit handler
+        Text returnArrow = cameraMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text returnText = cameraMenu.drawText("./Back", 95, 340, Color.WHITE, options);
+        Rectangle returnHitBox = cameraMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(doubleArrow);
+                        returnText.setFill(GREEN);
+                    }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(singleArrow);
+                        returnText.setFill(Color.WHITE);
+                    }
+                });
     }
 
     //*****************************************************************************************************
