@@ -104,7 +104,7 @@ public class MenuUtil {
 
 
         curr_fly_speed = context.getPlayer().getFlySpeed();
-        curr_jump_height = context.getPlayer().getJumpHeight();
+        curr_jump_height = context.getPlayer().getJumpHeightMultiplier();
         System.out.println(curr_jump_height);
 
         buildMainMenu();
@@ -856,7 +856,7 @@ public class MenuUtil {
                         curr_jump_height +=.5;
                         if(curr_jump_height>5) curr_jump_height = 0;
                         playerJumpHeightMult.setText(Double.toString(curr_jump_height));
-                        context.getPlayer().setJumpHeight(curr_jump_height);
+                        context.getPlayer().setJumpHeightMultiplier(curr_jump_height);
                     }
                 });
         playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,

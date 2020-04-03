@@ -1,7 +1,6 @@
 package app.utils;
 
 import app.environment.EnvironmentUtil;
-import app.structures.objects.Base_Cube;
 import javafx.animation.AnimationTimer;
 import app.structures.StructureBuilder;
 
@@ -35,9 +34,9 @@ public class ProjectileUtil extends StructureBuilder {
         double startrotX = Math.toRadians(context.context.getCamera().getRotateX());
         double startrotY = Math.toRadians(context.context.getCamera().getRotateY());
 
-        final double[] posx = {context.context.getPlayer().getX()};
-        final double[] posy = {-context.context.getPlayer().getY() - context.context.getPlayer().getPlayerHeight()};
-        final double[] posz = {context.context.getPlayer().getZ()};
+        final double[] posx = {context.context.getPlayer().getPos_x()};
+        final double[] posy = {-context.context.getPlayer().getPos_y() - context.context.getPlayer().getPlayerHeight()};
+        final double[] posz = {context.context.getPlayer().getPos_z()};
 
 
         System.out.println(posx[0] + "   " + posy[0] + "   " + posz[0]);

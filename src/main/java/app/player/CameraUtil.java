@@ -10,8 +10,11 @@ public class CameraUtil {
     public static PerspectiveCamera cam;
 
     public final int fov_default = 45;
+    int fov_running = 70;
+    private int fov_tired = 35;
+
     private int bound_angle_down = -90; // degrees
-            private int bound_angle_up = 90; // degrees
+    private int bound_angle_up = 90; // degrees
 
     private double rotx = 0;
     private double roty = 0;
@@ -36,7 +39,7 @@ public class CameraUtil {
             height /= 2;
             height += height * context.getPlayer().crouch_multiplier;
         }
-        cam.getTransforms().add(new Translate(context.getPlayer().getX(), - context.getPlayer().getY() - height, context.getPlayer().getZ()));
+        cam.getTransforms().add(new Translate(context.getPlayer().getPos_x(), - context.getPlayer().getPos_y() - height, context.getPlayer().getPos_z()));
         cam.getTransforms().add(new Rotate(rotx % 360, Rotate.Y_AXIS));
         cam.getTransforms().add(new Rotate(roty % 360, Rotate.X_AXIS));
 

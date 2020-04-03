@@ -18,32 +18,30 @@ public class PlayerUtil {
     public GameBuilder context;
     private Group player_group;
 
+    private String player_name = "Steve";
     private int player_width = 10;
     private int player_height = 50;
 
-    private int fov_running = 70;
-    private int fov_tired = 35;
-
-    private double x = 0;
-    private double y = 0;
-    private double z = 0;
-
-    private boolean tooHigh = false;
+    private double pos_x = 0;
+    private double pos_y = 0;
+    private double pos_z = 0;
 
     private double runMultiplier = 1.25;
     double speedForward = 2.5;
     double speedBackward = 2;
     double speedSide = 2;
     double speedFly = 5;
-    private double fallSpeed = 0; // Original speed before gravity is applied;
+    private double speed_fall_initial = 0; // Original speed before gravity is applied;
 
-    private double jump_start_height;
-    private double jumpHeight = player_height;
+    private double jump_height_initial;
+
+    private double jump_height_multiplier = 1;
+
     private double autoJumpCutoffHeight = player_height / 2.0;
+
     boolean canJump = true;
     private boolean isJumping = false;
     boolean isRunning = false;
-
     boolean isCrouching = false;
     double crouch_multiplier = .4;
 
@@ -74,25 +72,25 @@ public class PlayerUtil {
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().update_handler();
 
-        context.getEnvironment().generateChunks(getX(), getZ());
-        context.getEnvironment().showChunksAroundPlayer(getX(), getZ());
+        context.getEnvironment().generateChunks(getPos_x(), getPos_z());
+        context.getEnvironment().showChunksAroundPlayer(getPos_x(), getPos_z());
 
-        player_group.setTranslateX(getX());
-        player_group.setTranslateY(-getY() - player_height);
-        player_group.setTranslateZ(getZ());
+        player_group.setTranslateX(getPos_x());
+        player_group.setTranslateY(-getPos_y() - player_height);
+        player_group.setTranslateZ(getPos_z());
 
         // Jumping Mechanism. As long as player is not in fly mode, execute mechanism
         if (!isFlyMode) {
             // If the player initiated a jump and hasn't reached the top, move the player up
 //            System.out.println(jump_start_height);
-            if (isJumping && y < jump_start_height + jumpHeight) {
+            if (isJumping && pos_y < jump_height_initial + player_height * jump_height_multiplier) {
                 moveUp(speedFly* dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
                 isJumping = false;
-                moveDown(fallSpeed* dt);
+                moveDown(speed_fall_initial * dt);
                 // gravity acceleration
-                fallSpeed += PhysicsUtil.GRAVITY* dt;
+                speed_fall_initial += PhysicsUtil.GRAVITY* dt;
             }
         }
 
@@ -100,7 +98,7 @@ public class PlayerUtil {
         double curr_fov = context.getCamera().getCamera().getFieldOfView();
         if (isRunning) {
 
-            if (curr_fov < fov_running) {
+            if (curr_fov < context.getCamera().fov_running) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 1);
             }
         } else {
@@ -149,7 +147,7 @@ public class PlayerUtil {
     public void jump() {
         isJumping = true;
         canJump = false;
-        jump_start_height = getY();
+        jump_height_initial = getPos_y();
     }
 
 
@@ -163,8 +161,8 @@ public class PlayerUtil {
         if (isRunning) val *= runMultiplier;
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_x = this.x + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
-        double new_z = this.z + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.pos_x + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.pos_z + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x,new_z);
 
@@ -174,8 +172,8 @@ public class PlayerUtil {
         if(isFlyMode) val = speedFly;
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_x = this.x - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
-        double new_z = this.z - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.pos_x - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.pos_z - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x,new_z);
 
@@ -186,8 +184,8 @@ public class PlayerUtil {
 
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_z = this.z + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
-        double new_x = this.x - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.pos_z + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.pos_x - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x,new_z);
 
@@ -197,40 +195,40 @@ public class PlayerUtil {
         if(isFlyMode) val = speedFly;
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_x = this.x + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
-        double new_z = this.z - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.pos_x + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.pos_z - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x,new_z);
     }
 
     public void handle_collision(double new_x, double new_z){
-        double ground_level_x = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, this.z);
-        double ground_level_z = -context.getEnvironment().getTerrainYfromPlayerXZ(this.x, new_z);
+        double ground_level_x = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, this.pos_z);
+        double ground_level_z = -context.getEnvironment().getTerrainYfromPlayerXZ(this.pos_x, new_z);
 
-        if ((ground_level_x - y < autoJumpCutoffHeight) || isClipMode) {
-            this.x = new_x;
+        if ((ground_level_x - pos_y < autoJumpCutoffHeight) || isClipMode) {
+            this.pos_x = new_x;
         }
-        if ((ground_level_z - y < autoJumpCutoffHeight) || isClipMode) {
-            this.z = new_z;
+        if ((ground_level_z - pos_y < autoJumpCutoffHeight) || isClipMode) {
+            this.pos_z = new_z;
         }
     }
 
     public void moveUp(double val) {
-        this.y += val;
+        this.pos_y += val;
         onGround = false;
     }
 
 
     public void moveDown(double val) {
-        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(x, z);
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(pos_x, pos_z);
 
         // if the player is above ground level, let the player fall
-        if (getY() > ground_level || isClipMode) {
+        if (getPos_y() > ground_level || isClipMode) {
 //            System.out.println("Above ground");
-            y -= val;
+            pos_y -= val;
 
             // if the player is more than a block above the ground , set onGround = false;
-            if (y - ground_level > context.getEnvironment().getBlockDim()) {
+            if (pos_y - ground_level > context.getEnvironment().getBlockDim()) {
                 onGround = false;
             }
             if (!isOnGround() && !isRunning && isFlyMode) {
@@ -243,34 +241,34 @@ public class PlayerUtil {
 
             // CURRENTLY UNUSED IMPLEMENTATION WHERE THE PLAYER JUMPS IF HE HAS TO CLIMP MORE THAN A SET HEIGHT
 //            System.out.println(y-ground_level);
-            if (ground_level - y > context.getEnvironment().getBlockDim() * .75) {
+            if (ground_level - pos_y > context.getEnvironment().getBlockDim() * .75) {
                 jump();
             } else {
-                y = ground_level;
+                pos_y = ground_level;
             }
 
 
             // reset the "current" fall speed back to 0 since the player is now on ground.
             // Next time player is above ground the gravity will keep on getting added to the fall speed, simulating the effects of gravity
-            fallSpeed = 0;
+            speed_fall_initial = 0;
         }
 
-        if (y < -5000) {
+        if (pos_y < -5000) {
             reset();
         }
     }
 
 
-    public double getX() {
-        return x;
+    public double getPos_x() {
+        return pos_x;
     }
 
-    public double getY() {
-        return y;
+    public double getPos_y() {
+        return pos_y;
     }
 
-    public double getZ() {
-        return z;
+    public double getPos_z() {
+        return pos_z;
     }
 
     /**
@@ -279,7 +277,7 @@ public class PlayerUtil {
      * @return
      */
     public Point3D getPoint3D() {
-        return new Point3D(getX(), -getY(), getZ());
+        return new Point3D(getPos_x(), -getPos_y(), getPos_z());
     }
 
     /**
@@ -288,7 +286,7 @@ public class PlayerUtil {
      * @return
      */
     public Point2D getPoint2D() {
-        return new Point2D(getX(), getZ());
+        return new Point2D(getPos_x(), getPos_z());
     }
 
     public double getPlayerHeight(){
@@ -301,9 +299,9 @@ public class PlayerUtil {
 
 
     public void setPosition(double newx, double newy, double newz) {
-        x = newx;
-        y = newy;
-        z = newz;
+        pos_x = newx;
+        pos_y = newy;
+        pos_z = newz;
     }
 
     void reset() {
@@ -377,11 +375,19 @@ public class PlayerUtil {
     }
 
 
-    public double getJumpHeight(){
-        return jumpHeight / player_height;
+    public double getJumpHeightMultiplier(){
+        return jump_height_multiplier;
     }
-    public void setJumpHeight(double mult){
-        jumpHeight = player_height * mult;
+    public void setJumpHeightMultiplier(double mult){
+        try{
+            if(mult >= 0){
+                jump_height_multiplier = mult;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
     }
 }
 
