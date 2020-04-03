@@ -918,7 +918,7 @@ public class MenuUtil {
 
 
         Text playerFlySpeedArrow = playerMenu.drawText(singleArrow, 50, 140, GREEN, options);
-        Text playerFlySpeedText= playerMenu.drawText("./Player_Fly_Speed", 95, 140, Color.WHITE, options);
+        Text playerFlySpeedText= playerMenu.drawText("./Fly_Speed", 95, 140, Color.WHITE, options);
         Text playerFlySpeedMult = playerMenu.drawText(Integer.toString((int)curr_fly_speed), 550, 140, Color.WHITE, options);
         Rectangle playerFlySpeedHitBox = playerMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
         playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
@@ -949,7 +949,7 @@ public class MenuUtil {
 
 
         Text playerJumpHeightArrow = playerMenu.drawText(singleArrow, 50, 190, GREEN, options);
-        Text playerJumpHeightText= playerMenu.drawText("./Player_Jump_Height", 95, 190, Color.WHITE, options);
+        Text playerJumpHeightText= playerMenu.drawText("./Jump_Height", 95, 190, Color.WHITE, options);
         Text playerJumpHeightMult = playerMenu.drawText(Double.toString(curr_jump_height), 550, 190, Color.WHITE, options);
         Rectangle playerJumpHeightHitBox = playerMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
         playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
@@ -975,6 +975,36 @@ public class MenuUtil {
                         playerJumpHeightArrow.setText(singleArrow);
                         playerJumpHeightText.setFill(Color.WHITE);
                         playerJumpHeightMult.setFill(Color.WHITE);
+                    }
+                });
+
+        Text playerRunSpeedArrow = playerMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text playerRunSpeedText = playerMenu.drawText("./Run_Speed_Multiplier", 95, 240, Color.WHITE, options);
+        Text playerRunSpeedMult = playerMenu.drawText(Double.toString(curr_run_speed), 550, 240, Color.WHITE, options);
+        Rectangle playerRunSpeedHitBox = playerMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        playerRunSpeedHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_run_speed +=.25;
+                        if(curr_run_speed>3) curr_run_speed = .5;
+                        playerRunSpeedMult.setText(Double.toString(curr_run_speed));
+                        context.getPlayer().setRunMultiplier(curr_run_speed);
+                    }
+                });
+        playerRunSpeedHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        playerRunSpeedArrow.setText(doubleArrow);
+                        playerRunSpeedText.setFill(GREEN);
+                        playerRunSpeedMult.setFill(GREEN);
+                    }
+                });
+        playerRunSpeedHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        playerRunSpeedArrow.setText(singleArrow);
+                        playerRunSpeedText.setFill(Color.WHITE);
+                        playerRunSpeedMult.setFill(Color.WHITE);
                     }
                 });
 
@@ -1056,15 +1086,15 @@ public class MenuUtil {
 
         // running fov
         Text runningFovArrow = cameraMenu.drawText(singleArrow, 50, 190, GREEN, options);
-        Text runningFovText= cameraMenu.drawText("./Running_FOV", 95, 190, Color.WHITE, options);
-        Text runningFovMult = cameraMenu.drawText(Integer.toString((int)curr_fov_running), 550, 190, Color.WHITE, options);
+        Text runningFovText= cameraMenu.drawText("./Running_FOV_Multiplier", 95, 190, Color.WHITE, options);
+        Text runningFovMult = cameraMenu.drawText(Double.toString(curr_fov_running), 550, 190, Color.WHITE, options);
         Rectangle runningFovHitBox = cameraMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
         runningFovHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_fov_running +=5;
                         if(curr_fov_running > 80) curr_fov_running = 20;
-                        runningFovMult.setText(Integer.toString((int)curr_fov_running));
+                        runningFovMult.setText(Double.toString(curr_fov_running));
                         context.getCamera().setFov_running_multiplier(curr_fov_running);
                     }
                 });
@@ -1087,15 +1117,15 @@ public class MenuUtil {
 
         // tired fov
         Text tiredFovArrow = cameraMenu.drawText(singleArrow, 50, 240, GREEN, options);
-        Text tiredFovText= cameraMenu.drawText("./Tired_FOV", 95, 240, Color.WHITE, options);
-        Text tiredFovMult = cameraMenu.drawText(Integer.toString((int)curr_fov_tired), 550, 240, Color.WHITE, options);
+        Text tiredFovText= cameraMenu.drawText("./Tired_FOV_Multiplier", 95, 240, Color.WHITE, options);
+        Text tiredFovMult = cameraMenu.drawText(Double.toString(curr_fov_tired), 550, 240, Color.WHITE, options);
         Rectangle tiredFovHitBox = cameraMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
         tiredFovHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_fov_tired +=5;
                         if(curr_fov_tired > 80) curr_fov_tired = 20;
-                        tiredFovMult.setText(Integer.toString((int)curr_fov_tired));
+                        tiredFovMult.setText(Double.toString(curr_fov_tired));
                         context.getCamera().setFov_tired_multiplier(curr_fov_tired);
                     }
                 });
