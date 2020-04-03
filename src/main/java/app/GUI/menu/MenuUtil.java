@@ -98,7 +98,7 @@ public class MenuUtil {
 
 
         curr_world_height_mult = context.getEnvironment().getTerrainHeightMultiplier();
-        curr_vegetation_mult = context.getEnvironment().getVegetationDensity();
+        curr_vegetation_mult = context.getEnvironment().getVegetationDensityPercent();
         curr_render_distance = context.getEnvironment().getTerrainRenderDistance();
         curr_terrain_has_water = context.getEnvironment().isTerrain_should_have_water();
 
@@ -524,7 +524,7 @@ public class MenuUtil {
                         curr_vegetation_mult+=10;
                         if(curr_vegetation_mult>100)curr_vegetation_mult=0;
                         vegetationMult.setText(Integer.toString((int) curr_vegetation_mult));
-                        context.getEnvironment().setVegetationDensity(curr_vegetation_mult);
+                        context.getEnvironment().setVegetationDensityPercent(curr_vegetation_mult);
                     }
                 });
         vegetationHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,

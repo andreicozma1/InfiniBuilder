@@ -34,7 +34,7 @@ public class EnvironmentUtil {
 
     private double terrain_generate_distance;
     private double terrain_multiplier_height;
-    private double terrain_vegetation_density;
+    private double terrain_vegetation_density_percent;
 
 
     private boolean terrain_should_have_water = true;
@@ -66,7 +66,7 @@ public class EnvironmentUtil {
 
         setTerrainRenderDistance(30);
         setTerrainHeightMultiplier(100);
-        setVegetationDensity(20);
+        setVegetationDensityPercent(20);
 
         terrain_simplex_alg = new SimplexUtil(100, 0.4, (int) System.currentTimeMillis());
     }
@@ -120,7 +120,7 @@ public class EnvironmentUtil {
         if(removeExtra){
             vegDens = 0;
         } else{
-            vegDens = terrain_vegetation_density;
+            vegDens = terrain_vegetation_density_percent;
         }
 
         Base_Structure b = new Base_Structure();
@@ -370,14 +370,14 @@ public class EnvironmentUtil {
 
     }
 
-    public double getVegetationDensity() {
-        return terrain_vegetation_density * 6 * 100;
+    public double getVegetationDensityPercent() {
+        return terrain_vegetation_density_percent * 6 * 100;
     }
 
-    public void setVegetationDensity(double dens) {
+    public void setVegetationDensityPercent(double dens) {
         try {
             if (dens >= 0 && dens <= 100) {
-                terrain_vegetation_density = (dens / 100) / 6; // bound the value given from 0 to 100 to a reasonable max amount of trees
+                terrain_vegetation_density_percent = (dens / 100) / 6; // bound the value given from 0 to 100 to a reasonable max amount of trees
                 reset();
             } else {
                 throw new IndexOutOfBoundsException();
@@ -387,14 +387,13 @@ public class EnvironmentUtil {
         }
     }
 
-
     public double getTerrainRenderDistance() {
         return terrain_generate_distance;
     }
 
     public void setTerrainRenderDistance(double dist) {
         try {
-            if (dist >= 0 && dist <= 100) {
+            if (dist >= 0) {
                 terrain_generate_distance = dist; // bound the value given
                 reset();
             } else {
