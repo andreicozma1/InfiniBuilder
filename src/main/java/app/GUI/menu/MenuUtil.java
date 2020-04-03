@@ -46,21 +46,25 @@ public class MenuUtil {
     private Color GREEN = Color.valueOf("#20C20E");
 
 
-    // sky box settings
-    private double curr_sun_scale;
-    private double curr_moon_scale;
-    private double curr_big_star_scale;
-    private double curr_sun_moon_period;
-    private double curr_big_star_period;
-
     // world generation settings
     private int curr_world_type = 0;
     private double curr_world_height_mult;
     private double curr_vegetation_mult;
+    private double curr_render_distance;
+    private boolean curr_terrain_has_water;
+
+
+    // sky box settings
+    private double curr_sun_scale;
+    private double curr_moon_scale;
+    private double curr_big_star_scale;
+    private int curr_sun_moon_period;
+    private int curr_big_star_period;
 
     // player settings
     private double curr_fly_speed;
     private double curr_jump_height;
+    private double curr_run_speed;
 
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_CONTROLS = "GROUP_CONTROLS";
@@ -95,6 +99,8 @@ public class MenuUtil {
 
         curr_world_height_mult = context.getEnvironment().getTerrainHeightMultiplier();
         curr_vegetation_mult = context.getEnvironment().getVegetationDensity();
+        curr_render_distance = context.getEnvironment().getTerrainRenderDistance();
+        curr_terrain_has_water = context.getEnvironment().isTerrain_should_have_water();
 
         curr_sun_scale = context.getEnvironment().getSkybox().getSunScale();
         curr_moon_scale = context.getEnvironment().getSkybox().getMoonScale();
@@ -102,10 +108,10 @@ public class MenuUtil {
         curr_sun_moon_period = context.getEnvironment().getSkybox().getSun_moon_period_multiplier();
         curr_big_star_period = context.getEnvironment().getSkybox().getBig_planet_period_multiplier();
 
-
         curr_fly_speed = context.getPlayer().getFlySpeed();
         curr_jump_height = context.getPlayer().getJumpHeightMultiplier();
-        System.out.println(curr_jump_height);
+        curr_render_distance = context.getPlayer().getRunMultiplier();
+
 
         buildMainMenu();
         buildControlsMenu();
@@ -572,10 +578,74 @@ public class MenuUtil {
                     }
                 });
 
+        // render distance
+        Text renderDistanceArrow = environmentMenu.drawText(singleArrow, 50, 290, GREEN, options);
+        Text renderDistanceText= environmentMenu.drawText("./Render_Distance", 95, 290, Color.WHITE, options);
+        Text renderDistanceMult = environmentMenu.drawText(Integer.toString((int)curr_render_distance), 550, 290, Color.WHITE, options);
+        Rectangle renderDistanceHitBox = environmentMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
+        renderDistanceHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_render_distance+=5;
+                        if(curr_render_distance>50)curr_render_distance=5;
+                        renderDistanceMult.setText(Integer.toString((int) curr_render_distance));
+                        context.getEnvironment().setTerrainRenderDistance(curr_render_distance);
+                    }
+                });
+        renderDistanceHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        renderDistanceArrow.setText(doubleArrow);
+                        renderDistanceText.setFill(GREEN);
+                        renderDistanceMult.setFill(GREEN);
+                    }
+                });
+        renderDistanceHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        renderDistanceArrow.setText(singleArrow);
+                        renderDistanceText.setFill(Color.WHITE);
+                        renderDistanceMult.setFill(Color.WHITE);
+                    }
+                });
+
+
+        // if the terrain has water
+        Text hasWaterArrow = environmentMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text hasWaterText = environmentMenu.drawText("./Has_Water", 95, 340, Color.WHITE, options);
+        Text hasWaterChoice = environmentMenu.drawText( String.valueOf(curr_terrain_has_water), 550, 340, Color.WHITE, options);
+        Rectangle hasWaterHitBox = environmentMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        hasWaterHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        if(curr_terrain_has_water)curr_terrain_has_water=false;
+                        else curr_terrain_has_water = true;
+
+                        hasWaterChoice.setText(String.valueOf(curr_terrain_has_water));
+                        context.getEnvironment().setTerrain_should_have_water(curr_terrain_has_water);
+                    }
+                });
+        hasWaterHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        hasWaterArrow.setText(doubleArrow);
+                        hasWaterText.setFill(GREEN);
+                        hasWaterChoice.setFill(GREEN);
+                    }
+                });
+        hasWaterHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        hasWaterArrow.setText(singleArrow);
+                        hasWaterText.setFill(Color.WHITE);
+                        hasWaterChoice.setFill(Color.WHITE);
+                    }
+                });
+
         //quit handler
-        Text returnArrow = environmentMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text returnText = environmentMenu.drawText("./Back", 95, 340, Color.WHITE, options);
-        Rectangle returnHitBox = environmentMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        Text returnArrow = environmentMenu.drawText(singleArrow, 50, 390, GREEN, options);
+        Text returnText = environmentMenu.drawText("./Back", 95, 390, Color.WHITE, options);
+        Rectangle returnHitBox = environmentMenu.drawRectangle(50,370,600,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
@@ -719,7 +789,7 @@ public class MenuUtil {
                         curr_sun_moon_period *= 2;
                         if(curr_sun_moon_period > 256) curr_sun_moon_period = 2;
                         sunMoonPeriodMult.setText(Integer.toString((int)curr_sun_moon_period));
-                        context.getEnvironment().getSkybox().setBigStarScale(curr_sun_moon_period);
+                        context.getEnvironment().getSkybox().setSun_moon_period_multiplier(curr_sun_moon_period);
                     }
                 });
         sunMoonPeriodHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -750,7 +820,7 @@ public class MenuUtil {
                         curr_big_star_period *= 2;
                         if(curr_big_star_period > 256) curr_big_star_period = 2;
                         bigStarPeriodMult.setText(Integer.toString((int)curr_big_star_period));
-                        context.getEnvironment().getSkybox().setBigStarScale(curr_big_star_period);
+                        context.getEnvironment().getSkybox().setBig_planet_period_multiplier(curr_big_star_period);
                     }
                 });
         bigStarPeriodHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -775,7 +845,7 @@ public class MenuUtil {
         //quit handler
         Text returnArrow = skyBoxMenu.drawText(singleArrow, 50, 440, GREEN, options);
         Text returnText = skyBoxMenu.drawText("./Back", 95, 440, Color.WHITE, options);
-        Rectangle returnHitBox = skyBoxMenu.drawRectangle(50,420,225,30,0,0,Color.TRANSPARENT);
+        Rectangle returnHitBox = skyBoxMenu.drawRectangle(50,420,600,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
@@ -882,7 +952,7 @@ public class MenuUtil {
         //quit handler
         Text returnArrow = playerMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text returnText = playerMenu.drawText("./Back", 95, 340, Color.WHITE, options);
-        Rectangle returnHitBox = playerMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        Rectangle returnHitBox = playerMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
@@ -926,7 +996,7 @@ public class MenuUtil {
         //quit handler
         Text quitArrow = aboutMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text quitText = aboutMenu.drawText("./Main_Menu", 95, 340, Color.WHITE, options);
-        Rectangle quitHitBox = aboutMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        Rectangle quitHitBox = aboutMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
         quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_MAIN_MENU); }
