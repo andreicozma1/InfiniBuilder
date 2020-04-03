@@ -235,7 +235,7 @@ public class PlayerUtil {
             if (y - ground_level > context.getEnvironment().getBlockDim()) {
                 onGround = false;
             }
-            if (!isOnGround() && !isRunning) {
+            if (!isOnGround() && !isRunning && isFlyMode) {
                 context.getCamera().getCamera().setFieldOfView(context.getCamera().fov_default + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
             }
         } else {

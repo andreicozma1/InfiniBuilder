@@ -87,7 +87,7 @@ public class EnvironmentUtil {
                 if (!terrain_map_block.containsKey(new Point2D(i, j))) {
 //                    System.out.println("Generated Chunks " + i + "  " + j);
 
-                    create_platform(i,j, false);
+                    create_platform(i,j, false,false);
 
                 } else {
 //                    System.out.println("HERE " + i + " " + j);
@@ -112,7 +112,7 @@ public class EnvironmentUtil {
         }
     }
 
-    public StructureBuilder create_platform(double i, double j, boolean removeExtra) {
+    public StructureBuilder create_platform(double i, double j, boolean removeExtra, boolean isDry) {
 
         double vegDens = 0;
         if(removeExtra){
@@ -204,7 +204,7 @@ public class EnvironmentUtil {
             box.getShape().setMaterial(ResourcesUtil.dirt);
             box.getProps().setPROPERTY_ITEM_TAG("Dirt");
 
-            if (terrain_should_have_water) {
+            if (terrain_should_have_water && !isDry) {
                 Base_Cube water = new Base_Cube("Water");
                 water.getProps().setPROPERTY_DESTRUCTIBLE(true);
 
@@ -282,7 +282,7 @@ public class EnvironmentUtil {
 
 
         if (!terrain_map_block.containsKey(origLoc)) {
-            create_platform(xPos,zPos,removeExtras);
+            create_platform(xPos,zPos,removeExtras,false);
         } else{
             boolean foundDestructible = false;
             for(Node e : terrain_map_block.get(origLoc).getChildren()){
@@ -291,7 +291,7 @@ public class EnvironmentUtil {
                 }
             }
             if(removeExtras && foundDestructible){
-                create_platform(xPos,zPos,removeExtras);
+                create_platform(xPos,zPos,removeExtras,true);
             }
         }
 
@@ -316,7 +316,7 @@ public class EnvironmentUtil {
         double xPos = getWorldXFromPlayerX(pos.getX());
         double zPos = getWorldZFromPlayerZ(pos.getY());
 
-        create_platform(xPos,zPos,true);
+        create_platform(xPos,zPos,true,false);
     }
 
 
