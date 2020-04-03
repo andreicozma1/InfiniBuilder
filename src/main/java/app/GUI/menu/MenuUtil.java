@@ -711,12 +711,12 @@ public class MenuUtil {
         // period multiplier for sun / moon  . cannot be 0. exponential up to 256
         Text sunMoonPeriodArrow = skyBoxMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text sunMoonPeriodText= skyBoxMenu.drawText("./Sun_Moon_Period_Multiplier", 95, 290, Color.WHITE, options);
-        Text sunMoonPeriodMult = skyBoxMenu.drawText(Integer.toString((int)curr_big_star_scale), 550, 290, Color.WHITE, options);
+        Text sunMoonPeriodMult = skyBoxMenu.drawText(Integer.toString((int)curr_sun_moon_period), 550, 290, Color.WHITE, options);
         Rectangle sunMoonPeriodHitBox = skyBoxMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
         sunMoonPeriodHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_sun_moon_period *= curr_sun_moon_period;
+                        curr_sun_moon_period *= 2;
                         if(curr_sun_moon_period > 256) curr_sun_moon_period = 2;
                         sunMoonPeriodMult.setText(Integer.toString((int)curr_sun_moon_period));
                         context.getEnvironment().getSkybox().setBigStarScale(curr_sun_moon_period);
@@ -741,13 +741,13 @@ public class MenuUtil {
 
         // period multiplier for big star
         Text bigStarPeriodArrow = skyBoxMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text bigStarPeriodText= skyBoxMenu.drawText("./Sun_Moon_Period_Multiplier", 95, 340, Color.WHITE, options);
-        Text bigStarPeriodMult = skyBoxMenu.drawText(Integer.toString((int)curr_big_star_scale), 550, 340, Color.WHITE, options);
+        Text bigStarPeriodText= skyBoxMenu.drawText("./Big_Star_Period_Multiplier", 95, 340, Color.WHITE, options);
+        Text bigStarPeriodMult = skyBoxMenu.drawText(Integer.toString((int)curr_big_star_period), 550, 340, Color.WHITE, options);
         Rectangle bigStarPeriodHitBox = skyBoxMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
         bigStarPeriodHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_big_star_period *= curr_big_star_period;
+                        curr_big_star_period *= 2;
                         if(curr_big_star_period > 256) curr_big_star_period = 2;
                         bigStarPeriodMult.setText(Integer.toString((int)curr_big_star_period));
                         context.getEnvironment().getSkybox().setBigStarScale(curr_big_star_period);
