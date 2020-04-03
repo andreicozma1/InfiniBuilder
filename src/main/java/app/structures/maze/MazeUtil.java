@@ -170,8 +170,8 @@ public class MazeUtil implements SpawnableStructure2D {
                     cellZ = startingZ + (zindex1 * cellDim);
                 }
             }
-            cellX = (cellX-cellDim)*cellWidth + startingX;
-            cellZ = (cellZ-cellDim)*cellWidth+ startingZ;
+            cellX = (cellX-startingX)*cellWidth + startingX;
+            cellZ = (cellZ-startingZ)*cellWidth + startingZ;
 
 
             currZ = cellZ;
@@ -221,8 +221,9 @@ public class MazeUtil implements SpawnableStructure2D {
                     cellZ = startingZ + (zindex1 * cellDim);
                 }
             }
-            cellX = (cellX-cellDim)*cellWidth + startingX;
-            cellZ = (cellZ-cellDim)*cellWidth+ startingZ;
+
+            cellX = (cellX-startingX)*cellWidth + startingX;
+            cellZ = (cellZ-startingZ)*cellWidth + startingZ;
 
             currZ = cellZ;
 
