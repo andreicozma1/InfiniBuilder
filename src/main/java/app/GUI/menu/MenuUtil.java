@@ -106,6 +106,8 @@ public class MenuUtil {
         buildControlsMenu();
         buildSettingsMenu();
         buildEnvironmentMenu();
+        buildSkyBoxMenu();
+        buildPlayerMenu();
 
 
         buildAboutMenu();
@@ -354,9 +356,9 @@ public class MenuUtil {
                 title);
 
 
-        Text environmentArrow = settingsMenu.drawText(singleArrow, 50, 240, GREEN, options);
-        Text environmentText = settingsMenu.drawText("./Environment_Settings", 95, 240, Color.WHITE, options);
-        Rectangle environmentHitBox = settingsMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        Text environmentArrow = settingsMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text environmentText = settingsMenu.drawText("./Environment_Settings", 95, 140, Color.WHITE, options);
+        Rectangle environmentHitBox = settingsMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
         environmentHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_ENVIRONMENT); }
@@ -376,162 +378,57 @@ public class MenuUtil {
                     }
                 });
 
-        Text sunArrow = settingsMenu.drawText(singleArrow, 50, 290, GREEN, options);
-        Text sunText= settingsMenu.drawText("./Sun_Scale", 95, 290, Color.WHITE, options);
-        Text sunMult = settingsMenu.drawText(Integer.toString((int)curr_sun_scale), 550, 290, Color.WHITE, options);
-        Rectangle sunHitBox = settingsMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
-        sunHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        Text skyBoxArrow = settingsMenu.drawText(singleArrow, 50, 190, GREEN, options);
+        Text skyBoxText = settingsMenu.drawText("./SkyBox_Settings", 95, 190, Color.WHITE, options);
+        Rectangle skyBoxHitBox = settingsMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        skyBoxHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { activateGroup(GROUP_SKYBOX); }
+                });
+        skyBoxHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_sun_scale +=500;
-                        if(curr_sun_scale == 10500) curr_sun_scale = 0;
-                        sunMult.setText(Integer.toString((int)curr_sun_scale));
-                        context.getEnvironment().getSkybox().setSunScale(curr_sun_scale);
+                        skyBoxArrow.setText(doubleArrow);
+                        skyBoxText.setFill(GREEN);
                     }
                 });
-        sunHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+        skyBoxHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        sunArrow.setText(doubleArrow);
-                        sunText.setFill(GREEN);
-                        sunMult.setFill(GREEN);
-                    }
-                });
-        sunHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        sunArrow.setText(singleArrow);
-                        sunText.setFill(Color.WHITE);
-                        sunMult.setFill(Color.WHITE);
+                        skyBoxArrow.setText(singleArrow);
+                        skyBoxText.setFill(Color.WHITE);
                     }
                 });
 
-        Text moonArrow = settingsMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text moonText= settingsMenu.drawText("./Moon_Scale", 95, 340, Color.WHITE, options);
-        Text moonMult = settingsMenu.drawText(Integer.toString((int)curr_moon_scale), 550, 340, Color.WHITE, options);
-        Rectangle moonHitBox = settingsMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
-        moonHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        Text playerArrow = settingsMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text playerText = settingsMenu.drawText("./Player_Settings", 95, 240, Color.WHITE, options);
+        Rectangle playerHitBox = settingsMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        playerHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { activateGroup(GROUP_PLAYER); }
+                });
+        playerHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_moon_scale +=500;
-                        if(curr_moon_scale == 8000) curr_moon_scale = 0;
-                        moonMult.setText(Integer.toString((int)curr_moon_scale));
-                        context.getEnvironment().getSkybox().setMoonScale(curr_moon_scale);
+                        playerArrow.setText(doubleArrow);
+                        playerText.setFill(GREEN);
                     }
                 });
-        moonHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+        playerHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        moonArrow.setText(doubleArrow);
-                        moonText.setFill(GREEN);
-                        moonMult.setFill(GREEN);
-                    }
-                });
-        moonHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        moonArrow.setText(singleArrow);
-                        moonText.setFill(Color.WHITE);
-                        moonMult.setFill(Color.WHITE);
-                    }
-                });
-
-        Text bigStarArrow = settingsMenu.drawText(singleArrow, 50, 390, GREEN, options);
-        Text bigStarText= settingsMenu.drawText("./Big_Star_Scale", 95, 390, Color.WHITE, options);
-        Text bigStarMult = settingsMenu.drawText(Integer.toString((int)curr_big_star_scale), 550, 390, Color.WHITE, options);
-        Rectangle bigStarHitBox = settingsMenu.drawRectangle(50,370,600,30,0,0,Color.TRANSPARENT);
-        bigStarHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        curr_big_star_scale +=500;
-                        if(curr_big_star_scale == 10500) curr_big_star_scale = 0;
-                        bigStarMult.setText(Integer.toString((int)curr_big_star_scale));
-                        context.getEnvironment().getSkybox().setBigStarScale(curr_big_star_scale);
-                    }
-                });
-        bigStarHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        bigStarArrow.setText(doubleArrow);
-                        bigStarText.setFill(GREEN);
-                        bigStarMult.setFill(GREEN);
-                    }
-                });
-        bigStarHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        bigStarArrow.setText(singleArrow);
-                        bigStarText.setFill(Color.WHITE);
-                        bigStarMult.setFill(Color.WHITE);
+                        playerArrow.setText(singleArrow);
+                        playerText.setFill(Color.WHITE);
                     }
                 });
 
 
-        Text playerFlySpeedArrow = settingsMenu.drawText(singleArrow, 50, 440, GREEN, options);
-        Text playerFlySpeedText= settingsMenu.drawText("./Player_Fly_Speed", 95, 440, Color.WHITE, options);
-        Text playerFlySpeedMult = settingsMenu.drawText(Integer.toString((int)curr_fly_speed), 550, 440, Color.WHITE, options);
-        Rectangle playerFlySpeedHitBox = settingsMenu.drawRectangle(50,420,600,30,0,0,Color.TRANSPARENT);
-        playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        curr_fly_speed +=1;
-                        if(curr_fly_speed>10) curr_fly_speed =1;
-                        playerFlySpeedMult.setText(Integer.toString((int)curr_fly_speed));
-                        context.getPlayer().setFlySpeed(curr_fly_speed);
-                    }
-                });
-        playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        playerFlySpeedArrow.setText(doubleArrow);
-                        playerFlySpeedText.setFill(GREEN);
-                        playerFlySpeedMult.setFill(GREEN);
-                    }
-                });
-        playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        playerFlySpeedArrow.setText(singleArrow);
-                        playerFlySpeedText.setFill(Color.WHITE);
-                        playerFlySpeedMult.setFill(Color.WHITE);
-                    }
-                });
 
-
-        Text playerJumpHeightArrow = settingsMenu.drawText(singleArrow, 50, 490, GREEN, options);
-        Text playerJumpHeightText= settingsMenu.drawText("./Player_Jump_Height", 95, 490, Color.WHITE, options);
-        Text playerJumpHeightMult = settingsMenu.drawText(Double.toString(curr_jump_height), 550, 490, Color.WHITE, options);
-        Rectangle playerJumpHeightHitBox = settingsMenu.drawRectangle(50,470,600,30,0,0,Color.TRANSPARENT);
-        playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        curr_jump_height +=.5;
-                        if(curr_jump_height>5) curr_jump_height = 0;
-                        playerJumpHeightMult.setText(Double.toString(curr_jump_height));
-                        context.getPlayer().setJumpHeight(curr_jump_height);
-                    }
-                });
-        playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        playerJumpHeightArrow.setText(doubleArrow);
-                        playerJumpHeightText.setFill(GREEN);
-                        playerJumpHeightMult.setFill(GREEN);
-                    }
-                });
-        playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        playerJumpHeightArrow.setText(singleArrow);
-                        playerJumpHeightText.setFill(Color.WHITE);
-                        playerJumpHeightMult.setFill(Color.WHITE);
-                    }
-                });
 
         //quit handler
-        Text returnArrow = settingsMenu.drawText(singleArrow, 50, 550, GREEN, options);
-        Text returnText = settingsMenu.drawText("./Main_Menu", 95, 550, Color.WHITE, options);
-        Rectangle returnHitBox = settingsMenu.drawRectangle(50,530,600,30,0,0,Color.TRANSPARENT);
+        Text returnArrow = settingsMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text returnText = settingsMenu.drawText("./Main_Menu", 95, 340, Color.WHITE, options);
+        Rectangle returnHitBox = settingsMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_MAIN_MENU); }
@@ -672,7 +569,7 @@ public class MenuUtil {
 
         //quit handler
         Text returnArrow = environmentMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text returnText = environmentMenu.drawText("./Quit", 95, 340, Color.WHITE, options);
+        Text returnText = environmentMenu.drawText("./Back", 95, 340, Color.WHITE, options);
         Rectangle returnHitBox = environmentMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
@@ -693,6 +590,241 @@ public class MenuUtil {
                     }
                 });
 
+    }
+
+
+    public void buildSkyBoxMenu(){
+        // draw black backdrop
+        skyBoxMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+
+        //draw title
+        skyBoxMenu.drawText("ROOT@CS307:~/Settings/SkyBox$",
+                50,
+                50,
+                GREEN,
+                title);
+
+        skyBoxMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+
+        Text sunArrow = skyBoxMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text sunText= skyBoxMenu.drawText("./Sun_Scale", 95, 140, Color.WHITE, options);
+        Text sunMult = skyBoxMenu.drawText(Integer.toString((int)curr_sun_scale), 550, 140, Color.WHITE, options);
+        Rectangle sunHitBox = skyBoxMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        sunHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_sun_scale +=500;
+                        if(curr_sun_scale == 10500) curr_sun_scale = 0;
+                        sunMult.setText(Integer.toString((int)curr_sun_scale));
+                        context.getEnvironment().getSkybox().setSunScale(curr_sun_scale);
+                    }
+                });
+        sunHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        sunArrow.setText(doubleArrow);
+                        sunText.setFill(GREEN);
+                        sunMult.setFill(GREEN);
+                    }
+                });
+        sunHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        sunArrow.setText(singleArrow);
+                        sunText.setFill(Color.WHITE);
+                        sunMult.setFill(Color.WHITE);
+                    }
+                });
+
+        Text moonArrow = skyBoxMenu.drawText(singleArrow, 50, 190, GREEN, options);
+        Text moonText= skyBoxMenu.drawText("./Moon_Scale", 95, 190, Color.WHITE, options);
+        Text moonMult = skyBoxMenu.drawText(Integer.toString((int)curr_moon_scale), 550, 190, Color.WHITE, options);
+        Rectangle moonHitBox = skyBoxMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        moonHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_moon_scale +=500;
+                        if(curr_moon_scale == 8000) curr_moon_scale = 0;
+                        moonMult.setText(Integer.toString((int)curr_moon_scale));
+                        context.getEnvironment().getSkybox().setMoonScale(curr_moon_scale);
+                    }
+                });
+        moonHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        moonArrow.setText(doubleArrow);
+                        moonText.setFill(GREEN);
+                        moonMult.setFill(GREEN);
+                    }
+                });
+        moonHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        moonArrow.setText(singleArrow);
+                        moonText.setFill(Color.WHITE);
+                        moonMult.setFill(Color.WHITE);
+                    }
+                });
+
+        Text bigStarArrow = skyBoxMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text bigStarText= skyBoxMenu.drawText("./Big_Star_Scale", 95, 240, Color.WHITE, options);
+        Text bigStarMult = skyBoxMenu.drawText(Integer.toString((int)curr_big_star_scale), 550, 240, Color.WHITE, options);
+        Rectangle bigStarHitBox = skyBoxMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        bigStarHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_big_star_scale +=500;
+                        if(curr_big_star_scale == 10500) curr_big_star_scale = 0;
+                        bigStarMult.setText(Integer.toString((int)curr_big_star_scale));
+                        context.getEnvironment().getSkybox().setBigStarScale(curr_big_star_scale);
+                    }
+                });
+        bigStarHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        bigStarArrow.setText(doubleArrow);
+                        bigStarText.setFill(GREEN);
+                        bigStarMult.setFill(GREEN);
+                    }
+                });
+        bigStarHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        bigStarArrow.setText(singleArrow);
+                        bigStarText.setFill(Color.WHITE);
+                        bigStarMult.setFill(Color.WHITE);
+                    }
+                });
+        //quit handler
+        Text returnArrow = skyBoxMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text returnText = skyBoxMenu.drawText("./Back", 95, 340, Color.WHITE, options);
+        Rectangle returnHitBox = skyBoxMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(doubleArrow);
+                        returnText.setFill(GREEN);
+                    }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(singleArrow);
+                        returnText.setFill(Color.WHITE);
+                    }
+                });
+    }
+
+
+    public void buildPlayerMenu(){
+        // draw black backdrop
+        playerMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+
+        //draw title
+        playerMenu.drawText("ROOT@CS307:~/Settings/Player$",
+                50,
+                50,
+                GREEN,
+                title);
+
+        playerMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+
+
+        Text playerFlySpeedArrow = playerMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text playerFlySpeedText= playerMenu.drawText("./Player_Fly_Speed", 95, 140, Color.WHITE, options);
+        Text playerFlySpeedMult = playerMenu.drawText(Integer.toString((int)curr_fly_speed), 550, 140, Color.WHITE, options);
+        Rectangle playerFlySpeedHitBox = playerMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_fly_speed +=1;
+                        if(curr_fly_speed>10) curr_fly_speed =1;
+                        playerFlySpeedMult.setText(Integer.toString((int)curr_fly_speed));
+                        context.getPlayer().setFlySpeed(curr_fly_speed);
+                    }
+                });
+        playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        playerFlySpeedArrow.setText(doubleArrow);
+                        playerFlySpeedText.setFill(GREEN);
+                        playerFlySpeedMult.setFill(GREEN);
+                    }
+                });
+        playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        playerFlySpeedArrow.setText(singleArrow);
+                        playerFlySpeedText.setFill(Color.WHITE);
+                        playerFlySpeedMult.setFill(Color.WHITE);
+                    }
+                });
+
+
+        Text playerJumpHeightArrow = playerMenu.drawText(singleArrow, 50, 190, GREEN, options);
+        Text playerJumpHeightText= playerMenu.drawText("./Player_Jump_Height", 95, 190, Color.WHITE, options);
+        Text playerJumpHeightMult = playerMenu.drawText(Double.toString(curr_jump_height), 550, 190, Color.WHITE, options);
+        Rectangle playerJumpHeightHitBox = playerMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_jump_height +=.5;
+                        if(curr_jump_height>5) curr_jump_height = 0;
+                        playerJumpHeightMult.setText(Double.toString(curr_jump_height));
+                        context.getPlayer().setJumpHeight(curr_jump_height);
+                    }
+                });
+        playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        playerJumpHeightArrow.setText(doubleArrow);
+                        playerJumpHeightText.setFill(GREEN);
+                        playerJumpHeightMult.setFill(GREEN);
+                    }
+                });
+        playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        playerJumpHeightArrow.setText(singleArrow);
+                        playerJumpHeightText.setFill(Color.WHITE);
+                        playerJumpHeightMult.setFill(Color.WHITE);
+                    }
+                });
+
+        //quit handler
+        Text returnArrow = playerMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text returnText = playerMenu.drawText("./Back", 95, 340, Color.WHITE, options);
+        Rectangle returnHitBox = playerMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(doubleArrow);
+                        returnText.setFill(GREEN);
+                    }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(singleArrow);
+                        returnText.setFill(Color.WHITE);
+                    }
+                });
     }
 
 
