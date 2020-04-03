@@ -353,13 +353,13 @@ public class EnvironmentUtil {
     }
 
     public double getTerrainHeightMultiplier() {
-        return terrain_multiplier_height * 3;
+        return terrain_multiplier_height;
     }
 
     public void setTerrainHeightMultiplier(double mult) {
         try {
-            if (mult >= 0 && mult <= 100) {
-                terrain_multiplier_height = mult / 3; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
+            if (mult >= 0) {
+                terrain_multiplier_height = mult; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
                 reset();
             } else {
                 throw new IndexOutOfBoundsException();
