@@ -27,7 +27,7 @@ public class PlayerUtil {
     private double pos_z = 0;
 
     private double runMultiplier = 1.25;
-    double speedForward = 2.5;
+    double speedForward = 3;
     double speedBackward = 2;
     double speedSide = 2;
     double speedFly = 5;
