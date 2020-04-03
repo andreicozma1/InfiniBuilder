@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public interface SpawnableStructure2D {
-    int structure_height = 4;
-    Map<Point2D, StructureBuilder> block_map = new HashMap<Point2D, StructureBuilder>();
+    Map<Point2D, StructureBuilder> block_map = new HashMap<>();
     void build(GameBuilder gameBuilder);
 }

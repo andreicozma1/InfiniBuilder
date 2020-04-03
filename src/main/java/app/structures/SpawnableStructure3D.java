@@ -8,6 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public interface SpawnableStructure3D {
-    Map<Point3D, StructureBuilder> block_map = new HashMap<Point3D, StructureBuilder>();
+    Map<Point3D, StructureBuilder> block_map = new HashMap<>();
     void build(GameBuilder gameBuilder);
 }
