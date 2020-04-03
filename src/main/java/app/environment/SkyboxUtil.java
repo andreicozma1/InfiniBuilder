@@ -146,9 +146,9 @@ public class SkyboxUtil {
                 break;
         }
 
-        rotateSun(game_time / sun_moon_period_multiplier, sun_distance);
-        rotateMoon(game_time / sun_moon_period_multiplier, moon_distance);
-        rotateBigStar(game_time / big_planet_period_multiplier, big_star_distance);
+        rotateSun(game_time / sun_moon_period_multiplier *6.5, sun_distance);
+        rotateMoon(game_time / sun_moon_period_multiplier *6.5, moon_distance);
+        rotateBigStar(game_time / big_planet_period_multiplier*6.5, big_star_distance);
         rotateClouds(game_time);
     }
 
