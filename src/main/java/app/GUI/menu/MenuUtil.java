@@ -47,9 +47,11 @@ public class MenuUtil {
 
 
     // sky box settings
-    private double curr_sun_scale ;
-    private double curr_moon_scale ;
+    private double curr_sun_scale;
+    private double curr_moon_scale;
     private double curr_big_star_scale;
+    private double curr_sun_moon_period;
+    private double curr_big_star_period;
 
     // world generation settings
     private int curr_world_type = 0;
@@ -97,6 +99,9 @@ public class MenuUtil {
         curr_sun_scale = context.getEnvironment().getSkybox().getSunScale();
         curr_moon_scale = context.getEnvironment().getSkybox().getMoonScale();
         curr_big_star_scale = context.getEnvironment().getSkybox().getBigStarScale();
+        curr_sun_moon_period = context.getEnvironment().getSkybox().getSun_moon_period_multiplier();
+        curr_big_star_period = context.getEnvironment().getSkybox().getBig_planet_period_multiplier();
+
 
         curr_fly_speed = context.getPlayer().getFlySpeed();
         curr_jump_height = context.getPlayer().getJumpHeight();
@@ -610,6 +615,7 @@ public class MenuUtil {
                 Color.WHITE,
                 title);
 
+        // sun size multiplier
         Text sunArrow = skyBoxMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text sunText= skyBoxMenu.drawText("./Sun_Scale", 95, 140, Color.WHITE, options);
         Text sunMult = skyBoxMenu.drawText(Integer.toString((int)curr_sun_scale), 550, 140, Color.WHITE, options);
@@ -640,6 +646,7 @@ public class MenuUtil {
                     }
                 });
 
+        // moon size multiplier
         Text moonArrow = skyBoxMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text moonText= skyBoxMenu.drawText("./Moon_Scale", 95, 190, Color.WHITE, options);
         Text moonMult = skyBoxMenu.drawText(Integer.toString((int)curr_moon_scale), 550, 190, Color.WHITE, options);
@@ -670,6 +677,7 @@ public class MenuUtil {
                     }
                 });
 
+        // big star size multiplier
         Text bigStarArrow = skyBoxMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text bigStarText= skyBoxMenu.drawText("./Big_Star_Scale", 95, 240, Color.WHITE, options);
         Text bigStarMult = skyBoxMenu.drawText(Integer.toString((int)curr_big_star_scale), 550, 240, Color.WHITE, options);
@@ -699,10 +707,75 @@ public class MenuUtil {
                         bigStarMult.setFill(Color.WHITE);
                     }
                 });
+
+        // period multiplier for sun / moon  . cannot be 0. exponential up to 256
+        Text sunMoonPeriodArrow = skyBoxMenu.drawText(singleArrow, 50, 290, GREEN, options);
+        Text sunMoonPeriodText= skyBoxMenu.drawText("./Sun_Moon_Period_Multiplier", 95, 290, Color.WHITE, options);
+        Text sunMoonPeriodMult = skyBoxMenu.drawText(Integer.toString((int)curr_big_star_scale), 550, 290, Color.WHITE, options);
+        Rectangle sunMoonPeriodHitBox = skyBoxMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
+        sunMoonPeriodHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_sun_moon_period *= curr_sun_moon_period;
+                        if(curr_sun_moon_period > 256) curr_sun_moon_period = 2;
+                        sunMoonPeriodMult.setText(Integer.toString((int)curr_sun_moon_period));
+                        context.getEnvironment().getSkybox().setBigStarScale(curr_sun_moon_period);
+                    }
+                });
+        sunMoonPeriodHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        sunMoonPeriodArrow.setText(doubleArrow);
+                        sunMoonPeriodText.setFill(GREEN);
+                        sunMoonPeriodMult.setFill(GREEN);
+                    }
+                });
+        sunMoonPeriodHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        sunMoonPeriodArrow.setText(singleArrow);
+                        sunMoonPeriodText.setFill(Color.WHITE);
+                        sunMoonPeriodMult.setFill(Color.WHITE);
+                    }
+                });
+
+        // period multiplier for big star
+        Text bigStarPeriodArrow = skyBoxMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text bigStarPeriodText= skyBoxMenu.drawText("./Sun_Moon_Period_Multiplier", 95, 340, Color.WHITE, options);
+        Text bigStarPeriodMult = skyBoxMenu.drawText(Integer.toString((int)curr_big_star_scale), 550, 340, Color.WHITE, options);
+        Rectangle bigStarPeriodHitBox = skyBoxMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        bigStarPeriodHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_big_star_period *= curr_big_star_period;
+                        if(curr_big_star_period > 256) curr_big_star_period = 2;
+                        bigStarPeriodMult.setText(Integer.toString((int)curr_big_star_period));
+                        context.getEnvironment().getSkybox().setBigStarScale(curr_big_star_period);
+                    }
+                });
+        bigStarPeriodHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        bigStarPeriodArrow.setText(doubleArrow);
+                        bigStarPeriodText.setFill(GREEN);
+                        bigStarPeriodMult.setFill(GREEN);
+                    }
+                });
+        bigStarPeriodHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        bigStarPeriodArrow.setText(singleArrow);
+                        bigStarPeriodText.setFill(Color.WHITE);
+                        bigStarPeriodMult.setFill(Color.WHITE);
+                    }
+                });
+
+
+
         //quit handler
-        Text returnArrow = skyBoxMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text returnText = skyBoxMenu.drawText("./Back", 95, 340, Color.WHITE, options);
-        Rectangle returnHitBox = skyBoxMenu.drawRectangle(50,320,225,30,0,0,Color.TRANSPARENT);
+        Text returnArrow = skyBoxMenu.drawText(singleArrow, 50, 440, GREEN, options);
+        Text returnText = skyBoxMenu.drawText("./Back", 95, 440, Color.WHITE, options);
+        Rectangle returnHitBox = skyBoxMenu.drawRectangle(50,420,225,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
@@ -802,6 +875,9 @@ public class MenuUtil {
                         playerJumpHeightMult.setFill(Color.WHITE);
                     }
                 });
+
+        // player run multiplier
+
 
         //quit handler
         Text returnArrow = playerMenu.drawText(singleArrow, 50, 340, GREEN, options);
