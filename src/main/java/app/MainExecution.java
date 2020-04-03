@@ -5,8 +5,10 @@ import app.GUI.HUD.*;
 import app.player.Inventory;
 import app.environment.EnvironmentUtil;
 import app.environment.SkyboxUtil;
+import app.structures.SpawnableStructure2D;
 import app.structures.maze.MazeUtil;
 import app.structures.objects.SpawnableStructureItem2D;
+import app.structures.pyramid.PyramidUtil;
 import app.utils.InventoryUtil;
 import app.player.CameraUtil;
 import app.player.ControlsUtil;
@@ -61,10 +63,15 @@ public class MainExecution extends Application {
         Base_Cube dirt = new Base_Cube("Grass",ResourcesUtil.grass,envir.getBlockDim());
         Base_Cube grass = new Base_Cube("Dirt",ResourcesUtil.dirt, envir.getBlockDim());
         Base_Cube sand = new Base_Cube("Sand",ResourcesUtil.sand, envir.getBlockDim());
+
         MazeUtil maze = new MazeUtil(game.getEnvironment().getBlockDim(), 20, 20, 2, ResourcesUtil.metal, System.currentTimeMillis());
         MazeUtil maze2 = new MazeUtil(game.getEnvironment().getBlockDim(), 3, 3, 1, ResourcesUtil.metal, System.currentTimeMillis(),true);
         SpawnableStructureItem2D mazeitem = new SpawnableStructureItem2D(maze,5,"Maze Generator", ResourcesUtil.sun, envir.getBlockDim());
         SpawnableStructureItem2D maze2item = new SpawnableStructureItem2D(maze2,5,"Maze Generator2", ResourcesUtil.moon, envir.getBlockDim());
+
+        PyramidUtil pyramid = new PyramidUtil(game.getEnvironment().getBlockDim(),4,ResourcesUtil.red);
+        SpawnableStructureItem2D pyrmItem = new SpawnableStructureItem2D(pyramid,1,"Pyramid",ResourcesUtil.red,envir.getBlockDim());
+
 
         //testing hudutil drawing a health status bar
         HUDUtil hudUtil = new HUDUtil(game);
@@ -76,6 +83,7 @@ public class MainExecution extends Application {
         inventoryUtil.addItem(sand,10);
         inventoryUtil.addItem(mazeitem, 99);
         inventoryUtil.addItem(maze2item, 99);
+        inventoryUtil.addItem(pyrmItem, 99);
         inventoryUtil.setCurrentIndex(7);
         inventoryUtil.print();
 

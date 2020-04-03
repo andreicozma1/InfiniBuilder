@@ -102,7 +102,7 @@ public class MazeUtil implements SpawnableStructure2D {
 
         int i, j, mi, mj;
         double currX;
-        double currZ = startingZ;
+        double currZ;
         double cellX;
         double cellZ;
         int xindex1;
@@ -116,6 +116,7 @@ public class MazeUtil implements SpawnableStructure2D {
 
 
         // add known maze walls to the map
+        currZ = startingZ;
         for (i = 0; i < (mazeRows * 2 + 1) * cellWidth; i++) {
             currX = startingX;
             mi = i / cellWidth;
