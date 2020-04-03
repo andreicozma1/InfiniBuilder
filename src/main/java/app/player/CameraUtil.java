@@ -119,7 +119,7 @@ public class CameraUtil {
 
     }
 
-    public void setFov_tired_multiplier(int mult) {
+    public void setFov_tired_multiplier(double mult) {
         try {
             if (mult >= 0) {
                 fov_tired_multiplier = mult; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
