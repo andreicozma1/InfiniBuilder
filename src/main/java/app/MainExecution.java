@@ -69,7 +69,7 @@ public class MainExecution extends Application {
         SpawnableStructureItem2D mazeitem = new SpawnableStructureItem2D(maze,5,"Maze Generator", ResourcesUtil.sun, envir.getBlockDim());
         SpawnableStructureItem2D maze2item = new SpawnableStructureItem2D(maze2,5,"Maze Generator2", ResourcesUtil.moon, envir.getBlockDim());
 
-        PyramidUtil pyramid = new PyramidUtil(game.getEnvironment().getBlockDim(),4,ResourcesUtil.red);
+        PyramidUtil pyramid = new PyramidUtil(game.getEnvironment().getBlockDim(),10,ResourcesUtil.dirt);
         SpawnableStructureItem2D pyrmItem = new SpawnableStructureItem2D(pyramid,1,"Pyramid",ResourcesUtil.red,envir.getBlockDim());
 
 

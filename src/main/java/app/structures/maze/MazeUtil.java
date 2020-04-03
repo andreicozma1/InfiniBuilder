@@ -9,6 +9,7 @@ import javafx.scene.Group;
 import app.structures.objects.Base_Cube;
 import app.GameBuilder;
 import javafx.scene.paint.Material;
+import org.apache.commons.collections4.MultiValuedMap;
 
 import java.util.HashMap;
 import java.util.List;
@@ -83,7 +84,7 @@ public class MazeUtil implements SpawnableStructure2D {
         return seed;
     }
 
-    public Map<Point2D, StructureBuilder> getMaze_map_block() {
+    public MultiValuedMap<Point2D, StructureBuilder> getMaze_map_block() {
         return block_map;
     }
 
