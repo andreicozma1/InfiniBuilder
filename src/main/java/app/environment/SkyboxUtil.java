@@ -15,8 +15,8 @@ public class SkyboxUtil {
     private Group group_skybox;
 
     private AmbientLight ambient = null;
-    private int sun_moon_period_multiplier = 140;
-    private int big_planet_period_multiplier = 140;
+    private int sun_moon_period_multiplier = 150;
+    private int big_planet_period_multiplier = 150;
     private double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
     private double sun_rotation_speed = .05;
     private double moon_rotation_speed = .05;
@@ -345,7 +345,15 @@ public class SkyboxUtil {
     }
 
     public void setSun_moon_period_multiplier(int num) {
-        sun_moon_period_multiplier = num;
+        try{
+            if(num > 0){
+                sun_moon_period_multiplier = num;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
     }
 
     public int getBig_planet_period_multiplier() {
@@ -353,7 +361,15 @@ public class SkyboxUtil {
     }
 
     public void setBig_planet_period_multiplier(int num) {
-        big_planet_period_multiplier = num;
+        try{
+            if(num > 0){
+                big_planet_period_multiplier = num;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
     }
 
     public void setSun_rotation_speed(double s) {

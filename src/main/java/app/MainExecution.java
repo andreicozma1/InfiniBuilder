@@ -42,7 +42,6 @@ public class MainExecution extends Application {
         PlayerUtil player = new PlayerUtil(game);
         EnvironmentUtil envir = new EnvironmentUtil(game);
         SkyboxUtil sky = new SkyboxUtil(envir);
-        sky.setMode(SkyboxUtil.MODE_DAY);
         AmbientLight amb = new AmbientLight();
 
         amb.setColor(Color.rgb(100, 100, 100));

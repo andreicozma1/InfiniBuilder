@@ -21,39 +21,38 @@ public class PlayerUtil {
     private int player_width = 10;
     private int player_height = 50;
 
-    public int fov_running = 70;
-    public int fov_tired = 35;
+    private int fov_running = 70;
+    private int fov_tired = 35;
 
-    public double x = 0;
-    public double y = 0;
-    public double z = 0;
+    private double x = 0;
+    private double y = 0;
+    private double z = 0;
 
     private boolean tooHigh = false;
 
-    public double runMultiplier = 1.25;
+    private double runMultiplier = 1.25;
     public double speedForward = 2.5;
     public double speedBackward = 2;
     public double speedSide = 2;
-    public double speedFly = 5;
-    public double fallSpeed = 0; // Original speed before gravity is applied;
+    double speedFly = 5;
+    private double fallSpeed = 0; // Original speed before gravity is applied;
 
-    double jump_start_height;
+    private double jump_start_height;
     private double jumpHeight = player_height;
     private double autoJumpCutoffHeight = player_height / 2.0;
     public boolean canJump = true;
-    public boolean isJumping = false;
-    public boolean isRunning = false;
+    private boolean isJumping = false;
+    boolean isRunning = false;
 
-    public boolean isCrouching = false;
-    public double crouch_multiplier = .4;
+    boolean isCrouching = false;
+    double crouch_multiplier = .4;
 
-    public boolean isClipMode = false;
-    public boolean isFlyMode = false;
+    private boolean isClipMode = false;
+    boolean isFlyMode = false;
 
     private boolean onGround = true;
-    private boolean aboveGround = true;
 
-    public PointLight uv_light;
+    private PointLight uv_light;
     boolean uv_light_state = false;
 
     public PlayerUtil(GameBuilder ctx) {
@@ -351,7 +350,7 @@ public class PlayerUtil {
     }
     public void setFlySpeed(double spd){
         try{
-            if(speedFly >= 0){
+            if(spd >= 0){
                 speedFly = spd;
             } else{
                 throw new IndexOutOfBoundsException();
@@ -359,8 +358,24 @@ public class PlayerUtil {
         }catch(IndexOutOfBoundsException e){
             e.printStackTrace();
         }
-
     }
+
+    public double getRunMultiplier(){
+        return runMultiplier;
+    }
+
+    public void setRunMultiplier(double mult){
+        try{
+            if(mult >= 0){
+                runMultiplier = mult;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+    }
+
 
     public double getJumpHeight(){
         return jumpHeight / player_height;

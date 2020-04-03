@@ -166,9 +166,7 @@ public class ControlsUtil {
                     } else {
                         context.getPlayer().isRunning = true;
                     }
-
                     break;
-
             }
         }
 
