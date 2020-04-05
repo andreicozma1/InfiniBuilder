@@ -1,6 +1,7 @@
 package app.player;
 
 import app.GUI.HUD.HUDUtil;
+import app.GUI.HUD.PauseMenu;
 import app.GUI.menu.MenuUtil;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -28,30 +29,35 @@ public class ControlsUtil {
 
 
         game_scene.setOnMouseMoved(event -> {
-            double differencex = event.getSceneX() - last_mouse_x;
-            double differencey = event.getSceneY() - last_mouse_y;
+            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
 
-            context.getCamera().rotateX(differencex);
-            context.getCamera().rotateY(-differencey);
+                double differencex = event.getSceneX() - last_mouse_x;
+                double differencey = event.getSceneY() - last_mouse_y;
 
-            last_mouse_x = event.getSceneX();
-            last_mouse_y = event.getSceneY();
+                context.getCamera().rotateX(differencex);
+                context.getCamera().rotateY(-differencey);
+
+                last_mouse_x = event.getSceneX();
+                last_mouse_y = event.getSceneY();
+            }
         });
 
         game_scene.setOnScroll(scrollEvent -> {
-            System.out.println("setOnScroll " + scrollEvent.getDeltaY());
+            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
 
-            if (scrollEvent.getDeltaY() > 0) {
-                ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(-1);
-                context.getHUD().getElement(HUDUtil.INVENTORY).update();
+                System.out.println("setOnScroll " + scrollEvent.getDeltaY());
+
+                if (scrollEvent.getDeltaY() > 0) {
+                    ((Inventory) context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(-1);
+                    context.getHUD().getElement(HUDUtil.INVENTORY).update();
+                }
+                if (scrollEvent.getDeltaY() < 0) {
+                    ((Inventory) context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
+                    context.getHUD().getElement(HUDUtil.INVENTORY).update();
+                }
+
+                System.out.println("onScroll() " + ((Inventory) context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
             }
-            if (scrollEvent.getDeltaY() < 0) {
-                ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
-                context.getHUD().getElement(HUDUtil.INVENTORY).update();
-            }
-
-            System.out.println("onScroll() " + ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
-
         });
 
         game_scene.setOnMouseDragged(event -> {
@@ -59,71 +65,88 @@ public class ControlsUtil {
         });
 
         game_scene.setOnMousePressed(event -> {
-            System.out.println("setOnMousePressed " + event.getButton());
-            switch (event.getButton()) {
-                case SECONDARY:
-                    context.getPlayer().placeObject();
-                    break;
-                case PRIMARY:
-                    context.getPlayer().shoot();
-                    break;
+            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
+
+                System.out.println("setOnMousePressed " + event.getButton());
+                switch (event.getButton()) {
+                    case SECONDARY:
+                        context.getPlayer().placeObject();
+                        break;
+                    case PRIMARY:
+                        context.getPlayer().shoot();
+                        break;
+                }
             }
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (!pressed.contains(event.getCode())) {
-                System.out.println("KEY_PRESSED " + event.getCode());
-                pressed.add(event.getCode());
+            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
+                if (!pressed.contains(event.getCode())) {
+                    System.out.println("KEY_PRESSED " + event.getCode());
+                    pressed.add(event.getCode());
+                }
             }
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            if (pressed.contains(event.getCode())) {
-                pressed.remove(event.getCode());
-                System.out.println("KEY_RELEASED " + event.getCode());
 
-                // Handle changing inventory spot with number keys
-                if(event.getCode().toString().toLowerCase().contains("digit")){
-                    int index = Character.getNumericValue(event.getCode().toString().charAt(event.getCode().toString().length()-1)) - 1;
-                    System.out.println("HERE " + index);
+            if(event.getCode() == KeyCode.ESCAPE){
+                if(((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()){
+                    ((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).setPaused(false);
 
-                    ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(index);
-                    context.getHUD().getElement(HUDUtil.INVENTORY).update();
-                }
+                }else{
+                    ((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).setPaused(true);
 
-                switch (event.getCode()) {
-                    case SPACE:
-                        context.getPlayer().canJump = true;
-                        break;
-                    case ESCAPE:
-                        context.getMenu().activateGroup(MenuUtil.GROUP_MAIN_MENU);
-                        context.showScene(context.getMenu().getScene());
-                        break;
-                    case F:
-                        context.getPlayer().toggleFly();
-                        break;
-                    case X:
-                        context.getPlayer().toggleNoClip();
-                        break;
-                    case C:
-                        context.getPlayer().toggleCrouch();
-                        break;
-                    case U:
-                        context.getPlayer().toggleUVlight();
-                        break;
-                    case P:
-                        context.getEnvironment().getSkybox().cycleModes();
-                        break;
-                    case M:
-                        break;
-                    case R:
-                        context.getPlayer().reset();
-                        break;
-                    case SHIFT:
-                        context.getPlayer().isRunning = false;
                 }
             }
 
+            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
+
+                if (pressed.contains(event.getCode())) {
+                    pressed.remove(event.getCode());
+                    System.out.println("KEY_RELEASED " + event.getCode());
+
+                    // Handle changing inventory spot with number keys
+                    if (event.getCode().toString().toLowerCase().contains("digit")) {
+                        int index = Character.getNumericValue(event.getCode().toString().charAt(event.getCode().toString().length() - 1)) - 1;
+                        System.out.println("HERE " + index);
+
+                        ((Inventory) context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(index);
+                        context.getHUD().getElement(HUDUtil.INVENTORY).update();
+                    }
+
+                    switch (event.getCode()) {
+                        case SPACE:
+                            context.getPlayer().canJump = true;
+                            break;
+                        case ESCAPE:
+
+                            break;
+                        case F:
+                            context.getPlayer().toggleFly();
+                            break;
+                        case X:
+                            context.getPlayer().toggleNoClip();
+                            break;
+                        case C:
+                            context.getPlayer().toggleCrouch();
+                            break;
+                        case U:
+                            context.getPlayer().toggleUVlight();
+                            break;
+                        case P:
+                            context.getEnvironment().getSkybox().cycleModes();
+                            break;
+                        case M:
+                            break;
+                        case R:
+                            context.getPlayer().reset();
+                            break;
+                        case SHIFT:
+                            context.getPlayer().isRunning = false;
+                    }
+                }
+            }
         });
     }
 
@@ -143,19 +166,19 @@ public class ControlsUtil {
                     context.getPlayer().moveForward(context.getPlayer().speedForward * dt);
                     break;
                 case A:
-                    context.getPlayer().moveLeft(context.getPlayer().speedSide* dt);
+                    context.getPlayer().moveLeft(context.getPlayer().speedSide * dt);
                     break;
                 case S:
-                    context.getPlayer().moveBackward(context.getPlayer().speedBackward* dt);
+                    context.getPlayer().moveBackward(context.getPlayer().speedBackward * dt);
                     break;
                 case D:
-                    context.getPlayer().moveRight(context.getPlayer().speedSide* dt);
+                    context.getPlayer().moveRight(context.getPlayer().speedSide * dt);
                     break;
 
                 case SPACE:
 //                    System.out.println(context.getPlayer().isFlyMode);
                     if (context.getPlayer().isFlyMode) {
-                        context.getPlayer().moveUp(context.getPlayer().speedFly* dt);
+                        context.getPlayer().moveUp(context.getPlayer().speedFly * dt);
                     } else {
                         if (context.getPlayer().isOnGround() && context.getPlayer().canJump) {
                             context.getPlayer().jump();
@@ -164,7 +187,7 @@ public class ControlsUtil {
                     break;
                 case SHIFT:
                     if (context.getPlayer().isFlyMode) {
-                        context.getPlayer().moveDown(context.getPlayer().speedFly* dt);
+                        context.getPlayer().moveDown(context.getPlayer().speedFly * dt);
                     } else {
                         context.getPlayer().isRunning = true;
                     }

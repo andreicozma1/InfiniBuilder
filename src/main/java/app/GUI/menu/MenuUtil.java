@@ -215,7 +215,10 @@ public class MenuUtil {
         Rectangle startHitBox = mainMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
         startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.showScene(context.getGameRootScene()); }
+                    public void handle(MouseEvent me) {
+                        context.getEnvironment().reset();
+                        context.showScene(context.getGameRootScene());
+                    }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {

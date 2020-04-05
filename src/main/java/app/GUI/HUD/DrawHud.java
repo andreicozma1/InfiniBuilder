@@ -64,7 +64,6 @@ public class DrawHud {
 
         PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE,
                 new Point2D(100,200),gameBuilder,300,400,PRIMARY_WIDTH,PRIMARY_HEIGHT);
-        pauseMenu.setPaused(true);
         pauseMenu.update();
         hudUtil.addElement(pauseMenu);
     }

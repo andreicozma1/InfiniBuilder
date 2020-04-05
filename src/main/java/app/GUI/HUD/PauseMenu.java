@@ -121,14 +121,24 @@ public class PauseMenu extends HUDElement {
 
             //**************************************************************************\
             // GOTO SETTINGS
+            Rectangle goToSettingsRect = new Rectangle(x+25,y+75,width-50,25);
+            goToSettingsRect.setFill(Color.BLACK);
+            goToSettingsRect.setStroke(Color.WHITE);
+            goToSettingsRect.setStrokeWidth(3);
+            goToSettingsRect.setArcWidth(arcW);
+            goToSettingsRect.setArcHeight(arcH);
+            getGroup().getChildren().add(goToSettingsRect);
 
+            Text goToSettingsText = new Text("Go To Settings");
+            goToSettingsText.setFont(options);
+            goToSettingsText.setFill(GREEN);
+            goToSettingsText.setX(x+60);
+            goToSettingsText.setY(y+93);
+            getGroup().getChildren().add(goToSettingsText);
 
-
-            //**************************************************************************\
-            // GOTO MAIN MENU
-
-            /*
-                        gotosettingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+            Rectangle goToSettingsHitBox = new Rectangle(x+25,y+75,width-50,25);
+            goToSettingsHitBox.setFill(Color.TRANSPARENT);
+            goToSettingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
                             menuUtil.setSettingsReturnState(MenuUtil.PAUSE);
@@ -136,7 +146,39 @@ public class PauseMenu extends HUDElement {
                             menuUtil.activateGroup(menuUtil.GROUP_SETTINGS);
                         }
                     });
-            */
+            getGroup().getChildren().add(goToSettingsHitBox);
+
+            //**************************************************************************\
+            // GOTO MAIN MENU
+
+            Rectangle goToMainRect = new Rectangle(x+25,y+125,width-50,25);
+            goToMainRect.setFill(Color.BLACK);
+            goToMainRect.setStroke(Color.WHITE);
+            goToMainRect.setStrokeWidth(3);
+            goToMainRect.setArcWidth(arcW);
+            goToMainRect.setArcHeight(arcH);
+            getGroup().getChildren().add(goToMainRect);
+
+            Text goToMainText = new Text("Go To Main Menu");
+            goToMainText.setFont(options);
+            goToMainText.setFill(GREEN);
+            goToMainText.setX(x+60);
+            goToMainText.setY(y+143);
+            getGroup().getChildren().add(goToMainText);
+
+            Rectangle goToMainHitBox = new Rectangle(x+25,y+125,width-50,25);
+            goToMainHitBox.setFill(Color.TRANSPARENT);
+            goToMainHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                    new EventHandler<MouseEvent>() {
+                        public void handle(MouseEvent me) {
+                            context.showScene(context.getMenu().getScene());
+                            menuUtil.activateGroup(menuUtil.GROUP_MAIN_MENU);
+                            isPaused = false;
+                            update();
+                        }
+                    });
+            getGroup().getChildren().add(goToMainHitBox);
+
 
 //            Rectangle settings = new Rectangle()
         }
