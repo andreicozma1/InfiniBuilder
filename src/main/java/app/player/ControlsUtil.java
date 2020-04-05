@@ -1,6 +1,7 @@
 package app.player;
 
 import app.GUI.HUD.HUDUtil;
+import app.GUI.menu.MenuUtil;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -95,6 +96,7 @@ public class ControlsUtil {
                         context.getPlayer().canJump = true;
                         break;
                     case ESCAPE:
+                        context.getMenu().activateGroup(MenuUtil.GROUP_MAIN_MENU);
                         context.showScene(context.getMenu().getScene());
                         break;
                     case F:

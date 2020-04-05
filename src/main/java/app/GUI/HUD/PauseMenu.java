@@ -39,14 +39,13 @@ public class PauseMenu extends HUDElement {
     public PauseMenu(String elementTag,
                      Point2D pos,
                      GameBuilder context,
-                     MenuUtil menuUtil,
                      double width,
                      double height,
                      double screenWidth,
                      double screenHeight){
         super(elementTag,pos);
         this.context = context;
-        this.menuUtil = menuUtil;
+        this.menuUtil = context.getMenu();
         this.width = width;
         this.height =  height;
         this.screenHeight = screenHeight;
@@ -80,6 +79,9 @@ public class PauseMenu extends HUDElement {
                 y = screenHeight/2-height/2;
 
             }
+
+            //**************************************************************************\
+            // RESUME GAME
             Rectangle backdrop = new Rectangle(x,y,width,height);
             backdrop.setFill(backdropPaint);
             backdrop.setStroke(backdropBorderPaint);
@@ -110,14 +112,31 @@ public class PauseMenu extends HUDElement {
             returnToGameHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
-                            menuUtil.setSettingsReturnState(MenuUtil.PAUSE);
-                            context.showScene(context.getGameRootScene());
-                            menuUtil.activateGroup(menuUtil.GROUP_SETTINGS);
+                            isPaused = false;
+                            update();
                         }
                     });
             getGroup().getChildren().add(returnToGameHitBox);
 
 
+            //**************************************************************************\
+            // GOTO SETTINGS
+
+
+
+            //**************************************************************************\
+            // GOTO MAIN MENU
+
+            /*
+                        gotosettingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                    new EventHandler<MouseEvent>() {
+                        public void handle(MouseEvent me) {
+                            menuUtil.setSettingsReturnState(MenuUtil.PAUSE);
+                            context.showScene(context.getMenu().getScene());
+                            menuUtil.activateGroup(menuUtil.GROUP_SETTINGS);
+                        }
+                    });
+            */
 
 //            Rectangle settings = new Rectangle()
         }

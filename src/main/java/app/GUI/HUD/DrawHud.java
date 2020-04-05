@@ -8,7 +8,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
 public class DrawHud {
-    public static void DrawHud(GameBuilder gameBuilder, HUDUtil hudUtil, InventoryUtil inventoryUtil, MenuUtil menuUtil, double PRIMARY_WIDTH, double PRIMARY_HEIGHT){
+    public static void DrawHud(GameBuilder gameBuilder, HUDUtil hudUtil, InventoryUtil inventoryUtil, double PRIMARY_WIDTH, double PRIMARY_HEIGHT){
         //health bar
         StatusBar health = new StatusBar(   HUDUtil.HEALTH,
                 new Point2D(25,10),
@@ -63,7 +63,7 @@ public class DrawHud {
         hudUtil.addElement(crosshair);
 
         PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE,
-                new Point2D(100,200),gameBuilder,menuUtil,300,400,PRIMARY_WIDTH,PRIMARY_HEIGHT);
+                new Point2D(100,200),gameBuilder,300,400,PRIMARY_WIDTH,PRIMARY_HEIGHT);
         pauseMenu.setPaused(true);
         pauseMenu.update();
         hudUtil.addElement(pauseMenu);
