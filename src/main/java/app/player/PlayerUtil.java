@@ -29,6 +29,10 @@ public class PlayerUtil {
     private double pos_y = 0;
     private double pos_z = 0;
 
+    private double staminaRegenSpeed = .05;
+    private double staminaDepletionSpeed = 0.2;
+    private double healthRegenSpeed = .02;
+
     private double runMultiplier = 1.25;
     double speedForward = 3;
     double speedBackward = 2;
@@ -66,7 +70,7 @@ public class PlayerUtil {
         player_group.getChildren().add(uv_light);
 
         setJumpHeightMultiplier(1);
-        setAutoJumpCutoffHeight(.75);
+        setAutoJumpCutoffHeight(.5);
         setResetWorldOnDeath(true);
     }
 
@@ -109,9 +113,9 @@ public class PlayerUtil {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 1);
             }
         } else {
-            StatusBar bar = (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
-            if (bar.getCurrStatus() < bar.getMaxStatus()) {
-                bar.setCurrStatus(bar.getCurrStatus() + .05);
+
+            if (getStaminaBar().getCurrStatus() < getStaminaBar().getMaxStatus()) {
+                getStaminaBar().setCurrStatus(getStaminaBar().getCurrStatus() + staminaRegenSpeed * dt);
             }
             if (isOnGround() && curr_fov > context.getCamera().getFov_default()) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov - 5);
@@ -120,7 +124,10 @@ public class PlayerUtil {
             }
         }
 
-//        System.out.println(context.getCamera().getRotateX() + "    " + context.getCamera().getRotateY());
+        if(getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus()/2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()){
+            // Regenerate health if stamina > half
+            getHealthBar().setCurrStatus(getHealthBar().getCurrStatus()+ healthRegenSpeed * dt);
+        }
 
     }
 
@@ -190,7 +197,7 @@ public class PlayerUtil {
         StatusBar bar = (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
         if (isRunning) {
             val *= runMultiplier;
-            bar.setCurrStatus(bar.getCurrStatus() - 0.2);
+            bar.setCurrStatus(bar.getCurrStatus() - staminaDepletionSpeed);
         }
 
         if (isCrouching) val *= crouch_multiplier;
@@ -276,8 +283,8 @@ public class PlayerUtil {
                 System.out.println("Player Hit Ground from height: " + fall_height);
 
 
-                if (fall_height > jump_height_multiplier * player_height * 1.3)
-                    takeDamage(fall_height / 5);
+                if (fall_height > jump_height_multiplier * player_height * 1.8)
+                    takeDamage(fall_height / 8);
 
             }
             onGround = true;
@@ -304,6 +311,9 @@ public class PlayerUtil {
     }
 
 
+    public StatusBar getStaminaBar(){
+        return (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
+    }
     public StatusBar getHealthBar(){
         return (StatusBar) context.getHUD().getElement(HUDUtil.HEALTH);
     }
@@ -314,7 +324,7 @@ public class PlayerUtil {
     public void takeDamage(double d) {
         getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() - d);
         if (getHealthBar().getCurrStatus() == 0) {
-            reset();
+            die();
         }
     }
 
@@ -372,10 +382,12 @@ public class PlayerUtil {
         isFlyMode = false;
         isJumping = false;
         getHealthBar().setCurrStatus(getHealthBar().getMaxStatus());
-
         context.getEnvironment().reset();
+    }
 
-        context.getEnvironment().reset();
+    void die(){
+        reset();
+        context.showScene(context.getMenu().getScene());
     }
 
 
@@ -429,7 +441,7 @@ public class PlayerUtil {
     public void setAutoJumpCutoffHeight(double val) {
         try {
             if (val >= 0) {
-                this.autoJumpCutoffHeight = player_height / 2;
+                this.autoJumpCutoffHeight = player_height * val;
             } else {
                 throw new IndexOutOfBoundsException();
             }

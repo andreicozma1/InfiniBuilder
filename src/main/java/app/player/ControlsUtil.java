@@ -119,7 +119,6 @@ public class ControlsUtil {
                             context.getPlayer().canJump = true;
                             break;
                         case ESCAPE:
-
                             break;
                         case F:
                             context.getPlayer().toggleIsFlyMode();
@@ -139,7 +138,7 @@ public class ControlsUtil {
                         case M:
                             break;
                         case R:
-                            context.getPlayer().reset();
+                            context.getCamera().reset();
                             break;
                         case SHIFT:
                             context.getPlayer().isRunning = false;
