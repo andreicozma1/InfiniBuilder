@@ -98,10 +98,10 @@ public class ControlsUtil {
                         context.showScene(context.getMenu().getScene());
                         break;
                     case F:
-                        context.getPlayer().toggleFly();
+                        context.getPlayer().toggleIsFlyMode();
                         break;
                     case X:
-                        context.getPlayer().toggleNoClip();
+                        context.getPlayer().toggleIsClipMode();
                         break;
                     case C:
                         context.getPlayer().toggleCrouch();
@@ -118,7 +118,7 @@ public class ControlsUtil {
                         context.getPlayer().reset();
                         break;
                     case SHIFT:
-                        context.getPlayer().isRunning = false;
+                        context.getPlayer().setIsRunning(false);
                 }
             }
 
@@ -164,7 +164,7 @@ public class ControlsUtil {
                     if (context.getPlayer().isFlyMode) {
                         context.getPlayer().moveDown(context.getPlayer().speedFly* dt);
                     } else {
-                        context.getPlayer().isRunning = true;
+                        context.getPlayer().setIsRunning(true);
                     }
                     break;
             }

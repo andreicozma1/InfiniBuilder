@@ -36,9 +36,9 @@ public class PlayerUtil {
 
     private double jump_height_initial;
 
-    private double jump_height_multiplier = 1;
+    private double jump_height_multiplier;
 
-    private double autoJumpCutoffHeight = player_height / 2.0;
+    private double autoJumpCutoffHeight;
 
     boolean canJump = true;
     private boolean isJumping = false;
@@ -63,6 +63,8 @@ public class PlayerUtil {
         uv_light.setColor(Color.DARKBLUE);
         player_group.getChildren().add(uv_light);
 
+        setJumpHeightMultiplier(1);
+        setAutoJumpCutoffHeight(.75);
     }
 
     public void update_handler(double dt) {
@@ -84,14 +86,17 @@ public class PlayerUtil {
         if (!isFlyMode) {
             // If the player initiated a jump and hasn't reached the top, move the player up
 //            System.out.println(jump_start_height);
+
+
             if (isJumping && pos_y < jump_height_initial + player_height * jump_height_multiplier) {
-                moveUp(speedFly* dt);
+
+                moveUp(speedFly * dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
                 isJumping = false;
                 moveDown(speed_fall_initial * dt);
                 // gravity acceleration
-                speed_fall_initial += PhysicsUtil.GRAVITY* dt;
+                speed_fall_initial += PhysicsUtil.GRAVITY * dt;
             }
         }
 
@@ -102,6 +107,10 @@ public class PlayerUtil {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 1);
             }
         } else {
+            StatusBar bar = (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
+            if (bar.getCurrStatus() < bar.getMaxStatus()) {
+                bar.setCurrStatus(bar.getCurrStatus() + .05);
+            }
             if (isOnGround() && curr_fov > context.getCamera().getFov_default()) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov - 5);
             } else if (curr_fov < context.getCamera().getFov_default() - 2) {
@@ -125,15 +134,14 @@ public class PlayerUtil {
 
     public void placeObject() {
 
-        Base_Structure inventory_item = ((Inventory)context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
+        Base_Structure inventory_item = ((Inventory) context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
         context.getHUD().getElement(HUDUtil.INVENTORY).update();
 
         System.out.println("placeObject() " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
 
-        if(inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG){
+        if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
             switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
                 case StructureBuilder.TYPE_OBJECT:
-                    System.out.println("HERE1");
                     Base_Structure cb = StructureBuilder.resolve(inventory_item);
                     cb.place(context.getEnvironment(), getPoint2D());
                     break;
@@ -156,57 +164,77 @@ public class PlayerUtil {
         return player_group;
     }
 
+    public void setIsRunning(boolean run) {
+        StatusBar bar = (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
+
+        if (!isRunning && run && bar.getCurrStatus() > bar.getMaxStatus()/3) {
+//            System.out.println("HERE2");
+            isRunning = true;
+        } else if (isRunning && run && bar.getCurrStatus() > 0) {
+//            System.out.println("HERE2");
+            isRunning = true;
+        } else {
+//            System.out.println("HERE3");
+            if(isRunning){
+                StatusBar health = (StatusBar) context.getHUD().getElement(HUDUtil.HEALTH);
+                health.setCurrStatus(health.getCurrStatus()-1);
+            }
+            isRunning = false;
+        }
+    }
+
     public void moveForward(double val) {
         // If the player is running, move forward by the specified runMultiplier amount
-        if(isFlyMode) val = speedFly;
+        if (isFlyMode) val = speedFly;
+        StatusBar bar = (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
         if (isRunning) {
             val *= runMultiplier;
-            StatusBar bar = (StatusBar)context.getHUD().getElement(HUDUtil.STAMINA);
-            bar.setCurrStatus(bar.getCurrStatus()-1);
+            bar.setCurrStatus(bar.getCurrStatus() - 0.2);
         }
+
         if (isCrouching) val *= crouch_multiplier;
 
         double new_x = this.pos_x + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.pos_z + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
-        handle_collision(new_x,new_z);
+        handle_collision(new_x, new_z);
 
     }
 
     public void moveBackward(double val) {
-        if(isFlyMode) val = speedFly;
+        if (isFlyMode) val = speedFly;
         if (isCrouching) val *= crouch_multiplier;
 
         double new_x = this.pos_x - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.pos_z - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
-        handle_collision(new_x,new_z);
+        handle_collision(new_x, new_z);
 
     }
 
     public void moveLeft(double val) {
-        if(isFlyMode) val = speedFly;
+        if (isFlyMode) val = speedFly;
 
         if (isCrouching) val *= crouch_multiplier;
 
         double new_z = this.pos_z + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
         double new_x = this.pos_x - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
 
-        handle_collision(new_x,new_z);
+        handle_collision(new_x, new_z);
 
     }
 
     public void moveRight(double val) {
-        if(isFlyMode) val = speedFly;
+        if (isFlyMode) val = speedFly;
         if (isCrouching) val *= crouch_multiplier;
 
         double new_x = this.pos_x + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
         double new_z = this.pos_z - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
 
-        handle_collision(new_x,new_z);
+        handle_collision(new_x, new_z);
     }
 
-    public void handle_collision(double new_x, double new_z){
+    public void handle_collision(double new_x, double new_z) {
         double ground_level_x = -context.getEnvironment().getTerrainYfromPlayerXZ(new_x, this.pos_z);
         double ground_level_z = -context.getEnvironment().getTerrainYfromPlayerXZ(this.pos_x, new_z);
 
@@ -225,7 +253,7 @@ public class PlayerUtil {
 
 
     public void moveDown(double val) {
-        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(pos_x, pos_z);
+        double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(getPos_x(), getPos_z());
 
         // if the player is above ground level, let the player fall
         if (getPos_y() > ground_level || isClipMode) {
@@ -236,7 +264,7 @@ public class PlayerUtil {
             if (pos_y - ground_level > context.getEnvironment().getBlockDim()) {
                 onGround = false;
             }
-            if (!isOnGround() && !isRunning && isFlyMode) {
+            if (!isOnGround() && !isRunning && !isFlyMode) {
                 context.getCamera().getCamera().setFieldOfView(context.getCamera().getFov_default() + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
             }
         } else {
@@ -294,7 +322,7 @@ public class PlayerUtil {
         return new Point2D(getPos_x(), getPos_z());
     }
 
-    public double getPlayerHeight(){
+    public double getPlayerHeight() {
         return player_height;
     }
 
@@ -336,63 +364,91 @@ public class PlayerUtil {
     }
 
     void toggleCrouch() {
-        if(!isFlyMode){
+        if (!isFlyMode) {
             context.getPlayer().isCrouching = !context.getPlayer().isCrouching;
         }
     }
 
-    void toggleNoClip() {
+
+    boolean getIsClipMode(){
+        return isClipMode;
+    }
+    void toggleIsClipMode() {
         context.getPlayer().isClipMode = !context.getPlayer().isClipMode;
     }
 
-    void toggleFly() {
+    boolean getIsFlyMode(){
+        return isFlyMode;
+    }
+
+    void toggleIsFlyMode() {
         context.getPlayer().isFlyMode = !context.getPlayer().isFlyMode;
     }
 
-
-    public double getFlySpeed(){
-        return speedFly;
+    public double getAutoJumpCutoffHeight() {
+        return autoJumpCutoffHeight/getPlayerHeight();
     }
-    public void setFlySpeed(double spd){
-        try{
-            if(spd >= 0){
-                speedFly = spd;
-            } else{
+
+    public void setAutoJumpCutoffHeight(double val) {
+        try {
+            if (val >= 0) {
+                this.autoJumpCutoffHeight = player_height/2;
+            } else {
                 throw new IndexOutOfBoundsException();
             }
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    public double getFlySpeed() {
+        return speedFly;
+    }
+
+    public void setFlySpeed(double spd) {
+        try {
+            if (spd >= 0) {
+                speedFly = spd;
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
 
-    public double getRunMultiplier(){
+    public double getRunMultiplier() {
         return runMultiplier;
     }
 
-    public void setRunMultiplier(double mult){
-        try{
-            if(mult >= 0){
+    public void setRunMultiplier(double mult) {
+        try {
+            if (mult >= 0) {
                 runMultiplier = mult;
-            } else{
+            } else {
                 throw new IndexOutOfBoundsException();
             }
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
 
 
-    public double getJumpHeightMultiplier(){
+    public double getJumpHeightMultiplier() {
         return jump_height_multiplier;
     }
-    public void setJumpHeightMultiplier(double mult){
-        try{
-            if(mult >= 0){
+
+    public void setJumpHeightMultiplier(double mult) {
+        try {
+            if (mult >= 0) {
                 jump_height_multiplier = mult;
-            } else{
+            } else {
                 throw new IndexOutOfBoundsException();
             }
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
