@@ -59,7 +59,7 @@ public class DrawHud {
         PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE,
                 new Point2D(100,200),100,200);
         pauseMenu.setPaused(true);
-        pauseMenu.update();
+//        pauseMenu.update();
         hudUtil.addElement(pauseMenu);
 
         Crosshair crosshair = new Crosshair(HUDUtil.CROSSHAIR,PRIMARY_WIDTH,PRIMARY_HEIGHT,3,25,5,Color.WHITE);
