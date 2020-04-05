@@ -31,7 +31,7 @@ public class PlayerUtil {
 
     private double staminaRegenSpeed = .05;
     private double staminaDepletionSpeed = 0.2;
-    private double healthRegenSpeed = .02;
+    private double healthRegenSpeed = .005;
 
     private double runMultiplier = 1.25;
     double speedForward = 3;
@@ -279,7 +279,7 @@ public class PlayerUtil {
                 context.getCamera().getCamera().setFieldOfView(context.getCamera().getFov_default() + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
             }
         } else {
-            if (!onGround) {
+            if (!onGround && !isFlyMode) {
                 System.out.println("Player Hit Ground from height: " + fall_height);
 
 
@@ -382,6 +382,9 @@ public class PlayerUtil {
         isFlyMode = false;
         isJumping = false;
         getHealthBar().setCurrStatus(getHealthBar().getMaxStatus());
+        getStaminaBar().setCurrStatus(getStaminaBar().getMaxStatus());
+
+        context.getGameSceneControls().reset();
         context.getEnvironment().reset();
     }
 

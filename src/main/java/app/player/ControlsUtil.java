@@ -15,10 +15,8 @@ public class ControlsUtil {
     double last_mouse_x;
     double last_mouse_y;
 
-
     public static ArrayList<KeyCode> pressed;
 
-    public static boolean rotating = false;
 
     public ControlsUtil(GameBuilder ctx) {
         context = ctx;
@@ -91,9 +89,9 @@ public class ControlsUtil {
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
 
             if(event.getCode() == KeyCode.ESCAPE){
+                reset();
                 if(((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()){
                     ((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).setPaused(false);
-
                 }else{
                     ((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).setPaused(true);
                 }
@@ -193,6 +191,10 @@ public class ControlsUtil {
             }
         }
 
+    }
+
+    public void reset(){
+        pressed.clear();
     }
 
 }
