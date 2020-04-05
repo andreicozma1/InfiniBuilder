@@ -88,7 +88,7 @@ public class SkyboxUtil {
         big_star = new Sphere();
         big_star.setMaterial(ResourcesUtil.big_star);
         setBigStarScale(4000);
-        setBigStarDistance(context.planet_diameter + 1000);
+        setBigStarDistance(context.planet_diameter + 2000);
         big_star_rotate = new Rotate(0, new Point3D(0, 1, 0));
         big_star.getTransforms().setAll(big_star_rotate);
 

@@ -31,7 +31,7 @@ public class PlayerUtil {
 
     private double staminaRegenSpeed = .05;
     private double staminaDepletionSpeed = 0.2;
-    private double healthRegenSpeed = .005;
+    private double healthRegenSpeed = .008;
 
     private double runMultiplier = 1.25;
     double speedForward = 3;
