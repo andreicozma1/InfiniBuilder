@@ -16,39 +16,39 @@ Otherwise use the Maven Wrapper `./mvnw`
 ## COMPILATION & INSTALLATION:  
 
 ### OPTION 1:  
-- COMPILE  
+1. COMPILE  
 ```
 	> ./mvnw clean // delete compiled files, optional  
 	> ./mvnw compile // compile source code  
 (or)  
 	> ./mvnw clean compile // do both  
 ```
-- RUN 
+2. RUN 
 ```
 	> ./mvnw javafx:run  
 (or)  
 	> ./mvnw exec:java  
 ```
 ### OPTION 2:  
-- PACKAGE  
+1. PACKAGE  
 ```
 	> ./mvnw clean // delete compiled files, optional  
 	> ./mvnw package // Compiles & Packages JAR inside "target" folder  
 (or)  
 	> ./mvnw clean package // do both  
 ```
-- RUN  
+2. RUN  
 ```
 	> java -jar target/307Proj.jar  
 ```
 ### OPTION 3:  
-- INSTALL  
+1. INSTALL  
 ```
 	> ./mvnw install // Compiles & Packages & Install into Local Repository  
 (or)  
 	> ./mvnw clean install // Cleans and Installs  
 ```
-- Run with either of the Run options described above  
+2. Run with either of the Run options described above  
 
 ### MAVEN LIFECYCLE:  
 Usage: `> ./mvnw command`  
