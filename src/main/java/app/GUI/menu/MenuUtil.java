@@ -20,6 +20,7 @@ public class MenuUtil {
     Scene SCENE_MENU;
     GameBuilder context;
 
+
     // main menu group
     InterfaceBuilder mainMenu;
 
@@ -34,6 +35,11 @@ public class MenuUtil {
     InterfaceBuilder controlsMenu;
     InterfaceBuilder aboutMenu;
     InterfaceBuilder exitButton;    // not sure what this is for will most likely delete
+
+    private String settingsReturnState;
+    public static final String PAUSE = "PAUSE";
+    public static final String MAIN = "MAIN";
+
 
 
 
@@ -102,6 +108,7 @@ public class MenuUtil {
 
         SCENE_MENU = new Scene(mainMenu.getGroup(),context.getWindowWidth(),context.getWindowHeight());
 
+        settingsReturnState = MAIN;
 
         curr_world_height_mult = context.getEnvironment().getTerrainHeightMultiplier();
         curr_vegetation_mult = context.getEnvironment().getVegetationDensityPercent();
@@ -182,6 +189,8 @@ public class MenuUtil {
         return SCENE_MENU;
     }
 
+    public void setSettingsReturnState(String state){settingsReturnState = state;}
+
     public void buildMainMenu() {
 
         // draw black backdrop
@@ -206,7 +215,10 @@ public class MenuUtil {
         Rectangle startHitBox = mainMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
         startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.showScene(context.getGameRootScene()); }
+                    public void handle(MouseEvent me) {
+                        context.getEnvironment().reset();
+                        context.showScene(context.getGameRootScene());
+                    }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -229,7 +241,10 @@ public class MenuUtil {
         Rectangle settingsHitBox = mainMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
         settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                    public void handle(MouseEvent me) {
+                        setSettingsReturnState(MAIN);
+                        activateGroup(GROUP_SETTINGS);
+                    }
                 });
         settingsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -474,7 +489,13 @@ public class MenuUtil {
         Rectangle returnHitBox = settingsMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_MAIN_MENU); }
+                    public void handle(MouseEvent me) {
+                        if(settingsReturnState==MAIN){
+                            activateGroup(GROUP_MAIN_MENU);
+                        }else {
+                            context.showScene(context.getGameRootScene());
+                        }
+                    }
                 });
         returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {

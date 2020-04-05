@@ -1,6 +1,7 @@
 package app;
 
 import app.GUI.HUD.HUDUtil;
+import app.GUI.HUD.PauseMenu;
 import app.environment.EnvironmentUtil;
 import app.GUI.menu.MenuUtil;
 import javafx.animation.AnimationTimer;
@@ -67,27 +68,29 @@ public class GameBuilder {
             double dt = 0;
             @Override
             public void handle(long now) {
-                if(ctrls_util != null){
-                    ctrls_util.update_handler(dt);
-                }
-                if(env_util != null){
-                    env_util.update_handler();
-                }
-                if(player_util != null){
-                    player_util.update_handler(dt);
-                }
-                frames++;
-                long curr = System.currentTimeMillis();
-
-                if(curr - last > 1000.0){
-//                    System.out.println("HEARTBEAT -> " + runtime + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
-                    dt = 60.0/frames;
-                    if(dt > 5){
-                        dt = 1;
+                if (!((PauseMenu) hud_util.getElement(HUDUtil.PAUSE)).isPaused()) {
+                    if (ctrls_util != null) {
+                        ctrls_util.update_handler(dt);
                     }
-                    frames = 0;
-                    runtime++;
-                    last = curr;
+                    if (env_util != null) {
+                        env_util.update_handler();
+                    }
+                    if (player_util != null) {
+                        player_util.update_handler(dt);
+                    }
+                    frames++;
+                    long curr = System.currentTimeMillis();
+
+                    if (curr - last > 1000.0) {
+//                    System.out.println("HEARTBEAT -> " + runtime + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
+                        dt = 60.0 / frames;
+                        if (dt > 5) {
+                            dt = 1;
+                        }
+                        frames = 0;
+                        runtime++;
+                        last = curr;
+                    }
                 }
             }
         };

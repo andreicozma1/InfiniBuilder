@@ -89,7 +89,7 @@ public class MainExecution extends Application {
 
 
         // draws our game HUD
-        DrawHud.DrawHud(hudUtil,inventoryUtil,PRIMARY_WIDTH,PRIMARY_HEIGHT);
+        DrawHud.DrawHud(game, hudUtil,inventoryUtil,PRIMARY_WIDTH,PRIMARY_HEIGHT);
 
         game.setHUD(hudUtil);
 

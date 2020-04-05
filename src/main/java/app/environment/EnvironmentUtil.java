@@ -67,7 +67,7 @@ public class EnvironmentUtil {
         setTerrainHeightMultiplier(35);
         setVegetationDensityPercent(20);
 
-        terrain_simplex_alg = new SimplexUtil(100, 0.4, (int) System.currentTimeMillis());
+        reset();
     }
 
     /**
@@ -347,6 +347,7 @@ public class EnvironmentUtil {
     }
 
     public void reset() {
+        terrain_simplex_alg = new SimplexUtil(100, 0.4, (int) System.currentTimeMillis());
         terrain_map_height.clear();
         terrain_map_block.clear();
     }
