@@ -48,7 +48,7 @@ Otherwise use the Maven Wrapper `./mvnw`
 (or)  
 	> ./mvnw clean install // Cleans and Installs  
 ```
-2. Run with either of the Run options described above  
+2. RUN with either of the Run options described above  
 
 ### MAVEN LIFECYCLE:  
 Usage: `> ./mvnw command`  
