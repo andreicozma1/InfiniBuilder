@@ -10,6 +10,7 @@ Otherwise use the Maven Wrapper ./mvnw
 ### INSTALL COMPILATION PRE-REQUISITES:   
 ```
 	> ./mvnw validate
+	> ./mvnw site
 ```
 
 ## COMPILATION & INSTALLATION:  
