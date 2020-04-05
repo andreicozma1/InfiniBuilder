@@ -2,12 +2,12 @@
 - Andrei Cozma & Hunter Price  
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 
-### DEPENDENCIES:
+## MAVEN:
 If you want to use mvn command install Maven
 - Maven (```sudo apt-get install maven```)  
 Otherwise use the Maven Wrapper `./mvnw` 
 
-### INSTALL COMPILATION PRE-REQUISITES:   
+## INSTALL DEPENDENCIES:   
 ```
 	> ./mvnw validate
 	> ./mvnw site
