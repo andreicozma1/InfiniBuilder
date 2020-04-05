@@ -37,8 +37,8 @@ public class MenuUtil {
     InterfaceBuilder exitButton;    // not sure what this is for will most likely delete
 
     private String settingsReturnState;
-    public final String PAUSE = "PAUSE";
-    public final String MAIN = "MAIN";
+    public static final String PAUSE = "PAUSE";
+    public static final String MAIN = "MAIN";
 
 
 
