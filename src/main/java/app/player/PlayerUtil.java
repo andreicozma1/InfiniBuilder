@@ -1,6 +1,7 @@
 package app.player;
 
 import app.GUI.HUD.HUDUtil;
+import app.GUI.HUD.StatusBar;
 import app.structures.StructureBuilder;
 import app.structures.objects.Base_Structure;
 import app.utils.ProjectileUtil;
@@ -147,6 +148,7 @@ public class PlayerUtil {
         isJumping = true;
         canJump = false;
         jump_height_initial = getPos_y();
+        isCrouching = false;
     }
 
 
@@ -157,7 +159,11 @@ public class PlayerUtil {
     public void moveForward(double val) {
         // If the player is running, move forward by the specified runMultiplier amount
         if(isFlyMode) val = speedFly;
-        if (isRunning) val *= runMultiplier;
+        if (isRunning) {
+            val *= runMultiplier;
+            StatusBar bar = (StatusBar)context.getHUD().getElement(HUDUtil.STAMINA);
+            bar.setCurrStatus(bar.getCurrStatus()-1);
+        }
         if (isCrouching) val *= crouch_multiplier;
 
         double new_x = this.pos_x + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
@@ -330,7 +336,9 @@ public class PlayerUtil {
     }
 
     void toggleCrouch() {
-        context.getPlayer().isCrouching = !context.getPlayer().isCrouching;
+        if(!isFlyMode){
+            context.getPlayer().isCrouching = !context.getPlayer().isCrouching;
+        }
     }
 
     void toggleNoClip() {

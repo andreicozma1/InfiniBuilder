@@ -29,25 +29,57 @@ public class PyramidUtil implements SpawnableStructure2D {
         double height;
         double startingX = pos.getX();
         double startingZ = pos.getY();
-        double currX;
-        double currZ;
 
         block_map.clear();
 
+        if (baseSideSize % 2 == 1) height = (baseSideSize / 2.0) + 1;
+        else height = (baseSideSize / 2.0);
 
-        if (baseSideSize % 2 == 1) height = (baseSideSize / 2) + 1;
-        else height = (baseSideSize / 2);
+
+        double min_height = Double.MAX_VALUE;
+        double max_height = Double.MIN_VALUE;
+
+        for (j = 0; j < baseSideSize; j++) {
+            for (k = 0; k < baseSideSize; k++) {
+                double x_pos = startingX + j * cellDim;
+                double y_pos = startingZ + k * cellDim;
+                double new_height = context.getEnvironment().getTerrainYfromPlayerXZ(x_pos, y_pos);
+                if (new_height < min_height) {
+                    min_height = new_height;
+                }
+                if(new_height > max_height){
+                    max_height = new_height;
+                }
+
+            }
+        }
+
+        System.out.println("MIN HEIGHT " + min_height);
+        System.out.println("MAX HEIGHT " + max_height);
+
 
         //draw pyramid
         for (i = 0; i < height; i++) {
-            System.out.println("BUILDING Layer " + i);
+            System.out.println("\n\nBUILDING Layer " + i);
             for (j = i; j < baseSideSize - i; j++) {
                 for (k = i; k < baseSideSize - i; k++) {
-                    System.out.println(j + "  " + k);
-                    Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
-                    cube.getProps().setPROPERTY_DESTRUCTIBLE(false);
-                    cube.getShape().setMaterial(pyramidMaterial);
-                    block_map.put(new Point2D(j*cellDim,k*cellDim), cube);
+                    double x_pos = startingX + j * cellDim;
+                    double y_pos = startingZ + k * cellDim;
+                    double hi = context.getEnvironment().getTerrainYfromPlayerXZ(x_pos, y_pos);
+
+                    System.out.println(j + "  " + k + " CURRENT " + hi + "   DIFF " + (min_height - (i+1) * cellDim));
+
+                    if(hi >  max_height - (i + 1) * cellDim) {
+                        System.out.println("PLACED");
+                        Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
+                        cube.getProps().setPROPERTY_DESTRUCTIBLE(false);
+                        cube.getShape().setMaterial(pyramidMaterial);
+                        block_map.put(new Point2D(x_pos, y_pos), cube);
+                    } else{
+                        System.out.println("DISCARDED");
+
+                    }
+
                 }
             }
         }

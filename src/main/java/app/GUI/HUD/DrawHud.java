@@ -10,7 +10,7 @@ public class DrawHud {
         //health bar
         StatusBar health = new StatusBar(   HUDUtil.HEALTH,
                 new Point2D(25,10),
-                500,
+                100,
                 15,
                 200,
                 Color.RED,
@@ -28,7 +28,7 @@ public class DrawHud {
         //stamina bar
         StatusBar stamina = new StatusBar(   HUDUtil.STAMINA,
                 new Point2D(55,10),
-                200,
+                100,
                 15,
                 200,
                 Color.BLUE,

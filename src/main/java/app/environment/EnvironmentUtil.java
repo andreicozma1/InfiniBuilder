@@ -36,7 +36,6 @@ public class EnvironmentUtil {
     private double terrain_multiplier_height;
     private double terrain_vegetation_density_percent;
 
-
     private boolean terrain_should_have_water = true;
     private Material terrain_single_material = null; // Default terrain generation if 'null'
 
