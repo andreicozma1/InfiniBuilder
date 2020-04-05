@@ -5,7 +5,7 @@
 ### DEPENDENCIES:
 If you want to use mvn command install Maven
 - Maven (```sudo apt-get install maven```)  
-Otherwise use the Maven Wrapper ./mvnw 
+Otherwise use the Maven Wrapper `./mvnw` 
 
 ### INSTALL COMPILATION PRE-REQUISITES:   
 ```
