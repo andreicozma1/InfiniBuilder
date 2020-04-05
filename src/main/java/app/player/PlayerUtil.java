@@ -23,6 +23,8 @@ public class PlayerUtil {
     private int player_width = 10;
     private int player_height = 50;
 
+    private boolean resetWorldOnDeath;
+
     private double pos_x = 0;
     private double pos_y = 0;
     private double pos_z = 0;
@@ -65,6 +67,7 @@ public class PlayerUtil {
 
         setJumpHeightMultiplier(1);
         setAutoJumpCutoffHeight(.75);
+        setResetWorldOnDeath(true);
     }
 
     public void update_handler(double dt) {
@@ -86,7 +89,6 @@ public class PlayerUtil {
         if (!isFlyMode) {
             // If the player initiated a jump and hasn't reached the top, move the player up
 //            System.out.println(jump_start_height);
-
 
             if (isJumping && pos_y < jump_height_initial + player_height * jump_height_multiplier) {
 
@@ -167,7 +169,7 @@ public class PlayerUtil {
     public void setIsRunning(boolean run) {
         StatusBar bar = (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
 
-        if (!isRunning && run && bar.getCurrStatus() > bar.getMaxStatus()/3) {
+        if (!isRunning && run && bar.getCurrStatus() > bar.getMaxStatus() / 3) {
 //            System.out.println("HERE2");
             isRunning = true;
         } else if (isRunning && run && bar.getCurrStatus() > 0) {
@@ -175,9 +177,8 @@ public class PlayerUtil {
             isRunning = true;
         } else {
 //            System.out.println("HERE3");
-            if(isRunning){
-                StatusBar health = (StatusBar) context.getHUD().getElement(HUDUtil.HEALTH);
-                health.setCurrStatus(health.getCurrStatus()-1);
+            if (isRunning) {
+                takeDamage(1);
             }
             isRunning = false;
         }
@@ -252,13 +253,16 @@ public class PlayerUtil {
     }
 
 
+    double fall_height = 0;
+
     public void moveDown(double val) {
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(getPos_x(), getPos_z());
 
         // if the player is above ground level, let the player fall
         if (getPos_y() > ground_level || isClipMode) {
-//            System.out.println("Above ground");
+
             pos_y -= val;
+            fall_height += val;
 
             // if the player is more than a block above the ground , set onGround = false;
             if (pos_y - ground_level > context.getEnvironment().getBlockDim()) {
@@ -268,22 +272,30 @@ public class PlayerUtil {
                 context.getCamera().getCamera().setFieldOfView(context.getCamera().getFov_default() + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
             }
         } else {
-            // once the player fell enough to hit ground, set onGround to true
+            if (!onGround) {
+                System.out.println("Player Hit Ground from height: " + fall_height);
+
+
+                if (fall_height > jump_height_multiplier * player_height * 1.3)
+                    takeDamage(fall_height / 5);
+
+            }
             onGround = true;
+            fall_height = 0;
+            speed_fall_initial = 0;
+            // once the player fell enough to hit ground, set onGround to true
+
             // reposition the player back to above ground
 
             // CURRENTLY UNUSED IMPLEMENTATION WHERE THE PLAYER JUMPS IF HE HAS TO CLIMP MORE THAN A SET HEIGHT
-//            System.out.println(y-ground_level);
             if (ground_level - pos_y > context.getEnvironment().getBlockDim() * .75) {
                 jump();
             } else {
                 pos_y = ground_level;
             }
-
-
             // reset the "current" fall speed back to 0 since the player is now on ground.
             // Next time player is above ground the gravity will keep on getting added to the fall speed, simulating the effects of gravity
-            speed_fall_initial = 0;
+
         }
 
         if (pos_y < -5000) {
@@ -291,6 +303,20 @@ public class PlayerUtil {
         }
     }
 
+
+    public StatusBar getHealthBar(){
+        return (StatusBar) context.getHUD().getElement(HUDUtil.HEALTH);
+    }
+    public double getHealth() {
+        return getHealthBar().getCurrStatus();
+    }
+
+    public void takeDamage(double d) {
+        getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() - d);
+        if (getHealthBar().getCurrStatus() == 0) {
+            reset();
+        }
+    }
 
     public double getPos_x() {
         return pos_x;
@@ -338,16 +364,26 @@ public class PlayerUtil {
     }
 
     void reset() {
+        System.out.println("## You died!");
         setPosition(0, 0, 0);
-        context.getCamera().setRotateX(0);
-        context.getCamera().setRotateY(0);
+        context.getCamera().reset();
         isClipMode = false;
         isRunning = false;
         isFlyMode = false;
         isJumping = false;
-
+        getHealthBar().setCurrStatus(getHealthBar().getMaxStatus());
 
         context.getEnvironment().reset();
+
+        context.getEnvironment().reset();
+    }
+
+
+    boolean getResetWorldOnDeath(){
+        return resetWorldOnDeath;
+    }
+    void setResetWorldOnDeath(boolean val){
+        resetWorldOnDeath = val;
     }
 
     void setUV_light(boolean state) {
@@ -370,14 +406,15 @@ public class PlayerUtil {
     }
 
 
-    boolean getIsClipMode(){
+    boolean getIsClipMode() {
         return isClipMode;
     }
+
     void toggleIsClipMode() {
         context.getPlayer().isClipMode = !context.getPlayer().isClipMode;
     }
 
-    boolean getIsFlyMode(){
+    boolean getIsFlyMode() {
         return isFlyMode;
     }
 
@@ -386,13 +423,13 @@ public class PlayerUtil {
     }
 
     public double getAutoJumpCutoffHeight() {
-        return autoJumpCutoffHeight/getPlayerHeight();
+        return autoJumpCutoffHeight / getPlayerHeight();
     }
 
     public void setAutoJumpCutoffHeight(double val) {
         try {
             if (val >= 0) {
-                this.autoJumpCutoffHeight = player_height/2;
+                this.autoJumpCutoffHeight = player_height / 2;
             } else {
                 throw new IndexOutOfBoundsException();
             }
@@ -401,7 +438,6 @@ public class PlayerUtil {
         }
 
     }
-
 
 
     public double getFlySpeed() {

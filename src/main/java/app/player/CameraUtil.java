@@ -7,14 +7,14 @@ import app.GameBuilder;
 
 public class CameraUtil {
     private GameBuilder context;
-    public static PerspectiveCamera cam;
+    private static PerspectiveCamera cam;
 
-    private int fov_default = 45;
-    private double fov_running_multiplier = 1.5;
-    private double fov_tired_multiplier = .8;
+    private int fov_default;
+    private double fov_running_multiplier;
+    private double fov_tired_multiplier;
 
-    private int bound_angle_down = -90; // degrees
-    private int bound_angle_up = 90; // degrees
+    private final int bound_angle_down = -90; // degrees
+    private final int bound_angle_up = 90; // degrees
 
     private double rotx = 0;
     private double roty = 0;
@@ -25,6 +25,10 @@ public class CameraUtil {
         cam.setFieldOfView(fov_default);
         cam.setNearClip(.5);
         cam.setFarClip(50000);
+
+        setFov_default(45);
+        setFov_running_multiplier(1.5);
+        setFov_tired_multiplier(0.8);
     }
 
     public PerspectiveCamera getCamera() {
@@ -129,5 +133,10 @@ public class CameraUtil {
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
+    }
+
+    public void reset(){
+        setRotateX(0);
+        setRotateY(0);
     }
 }
