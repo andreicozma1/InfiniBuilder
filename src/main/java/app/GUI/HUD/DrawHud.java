@@ -1,12 +1,13 @@
 package app.GUI.HUD;
 
+import app.GUI.menu.MenuUtil;
 import app.player.Inventory;
 import app.utils.InventoryUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
 public class DrawHud {
-    public static void DrawHud(HUDUtil hudUtil,InventoryUtil inventoryUtil, double PRIMARY_WIDTH, double PRIMARY_HEIGHT){
+    public static void DrawHud(HUDUtil hudUtil, InventoryUtil inventoryUtil, MenuUtil menuUtil, double PRIMARY_WIDTH, double PRIMARY_HEIGHT){
         //health bar
         StatusBar health = new StatusBar(   HUDUtil.HEALTH,
                 new Point2D(25,10),
@@ -59,7 +60,7 @@ public class DrawHud {
                 new Point2D(100,200),100,200);
         pauseMenu.setPaused(true);
         pauseMenu.update();
-//        hudUtil.addElement(pauseMenu);
+        hudUtil.addElement(pauseMenu);
 
         Crosshair crosshair = new Crosshair(HUDUtil.CROSSHAIR,PRIMARY_WIDTH,PRIMARY_HEIGHT,3,25,5,Color.WHITE);
         crosshair.setCrosshairBorderWidth(1);
