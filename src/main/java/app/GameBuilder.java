@@ -126,6 +126,7 @@ public class GameBuilder {
         setSepiaTone(0);
         setBloom(.8);
         setMotionBlur(0);
+        setMotionBlurEnabled(true);
     }
 
 
