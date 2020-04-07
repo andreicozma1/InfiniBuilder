@@ -70,6 +70,8 @@ public class EnvironmentUtil {
         GROUP_STRUCTURES = new Group();
         GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN, GROUP_STRUCTURES); // add the subgroups to the parent group
 
+        setSkyBox(new SkyboxUtil(this));
+
         setTerrainRenderDistance(30);
         setTerrainHeightMultiplier(35);
         setVegetationDensityPercent(20);
@@ -85,7 +87,6 @@ public class EnvironmentUtil {
             skybox.update_handler();
         }
     }
-
 
     public void generateChunks(double playerx, double playerz) {
         playerx = getWorldXFromPlayerX(playerx);

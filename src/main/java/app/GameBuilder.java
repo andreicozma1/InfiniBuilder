@@ -206,7 +206,6 @@ public class GameBuilder {
             setGameSceneControls(new ControlsUtil(context));
             setPlayer(new PlayerUtil(context));
             setEnvironment(new EnvironmentUtil(context));
-            getEnvironment().setSkyBox(new SkyboxUtil(this.getEnvironment()));
             setMenu(new MenuUtil(context));
             setHUD(new HUDUtil(context));
         }
