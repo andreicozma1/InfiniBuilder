@@ -22,7 +22,7 @@ public class CameraUtil {
     public CameraUtil(GameBuilder ctx) {
         context = ctx;
         cam = new PerspectiveCamera(true);
-        cam.setFieldOfView(0); // initial value
+        cam.setFieldOfView(25); // initial value
         cam.setNearClip(.5);
         cam.setFarClip(50000);
 

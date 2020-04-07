@@ -1,7 +1,7 @@
 package app;
 
 import app.GUI.HUD.HUDUtil;
-import app.GUI.HUD.PauseMenu;
+import app.GUI.HUD.HUDElements.*;
 import app.environment.EnvironmentUtil;
 import app.GUI.menu.MenuUtil;
 import javafx.animation.AnimationTimer;
@@ -62,9 +62,6 @@ public class GameBuilder {
 
         resetEffects();
 
-        setCamera(new CameraUtil(this));
-        setGameSceneControls(new ControlsUtil(this));
-
         GAME_GROUP = new Group();
         GAME_SCENE = new SubScene(GAME_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT, true, SceneAntialiasing.BALANCED);
         GAME_SCENE.setEffect(EFFECT_SEPIA_TONE);
@@ -74,6 +71,8 @@ public class GameBuilder {
         ROOT_SCENE = new Scene(ROOT_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT);
         ROOT_GROUP.getChildren().add(GAME_SCENE);
 
+        setCamera(new CameraUtil(this));
+        setGameSceneControls(new ControlsUtil(this));
 
         timer = new AnimationTimer() {
             long last = 0;
@@ -115,7 +114,7 @@ public class GameBuilder {
         };
     }
 
-    private void resetEffects(){
+    public void resetEffects(){
         EFFECT_MOTION_BLUR = new MotionBlur();
         EFFECT_BLOOM = new Bloom();
         EFFECT_BLOOM.setInput(EFFECT_MOTION_BLUR);
@@ -124,7 +123,9 @@ public class GameBuilder {
         EFFECT_SEPIA_TONE = new SepiaTone();
         EFFECT_SEPIA_TONE.setInput(EFFECT_COLOR_ADJUST);
 
+        setSepiaTone(0);
         setBloom(.8);
+        setMotionBlur(0);
     }
 
 
@@ -282,7 +283,7 @@ public class GameBuilder {
     }
 
     public double getBrightness(){
-        return EFFECT_COLOR_ADJUST.getBrightness()
+        return EFFECT_COLOR_ADJUST.getBrightness();
     }
 
     public void setBrightness(double val){
@@ -366,5 +367,20 @@ public class GameBuilder {
 
     public void setMotionBlurEnabled(boolean val){
         EFFECT_MOTION_BLUR_ENABLED = val;
+    }
+
+    public double getMotionBlur(){
+        return EFFECT_SEPIA_TONE.getLevel();
+    }
+    public void setMotionBlur(double val){
+        try{
+            if(val >= 0){
+                EFFECT_MOTION_BLUR.setRadius(val);;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
     }
 }

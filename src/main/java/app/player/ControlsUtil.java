@@ -1,9 +1,8 @@
 package app.player;
 
-import app.GUI.HUD.DeathMenu;
+import app.GUI.HUD.HUDElements.DeathMenu;
 import app.GUI.HUD.HUDUtil;
-import app.GUI.HUD.PauseMenu;
-import app.GUI.menu.MenuUtil;
+import app.GUI.HUD.HUDElements.PauseMenu;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

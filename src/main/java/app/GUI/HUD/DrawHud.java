@@ -1,6 +1,9 @@
 package app.GUI.HUD;
 
-import app.GUI.menu.MenuUtil;
+import app.GUI.HUD.HUDElements.Crosshair;
+import app.GUI.HUD.HUDElements.DeathMenu;
+import app.GUI.HUD.HUDElements.PauseMenu;
+import app.GUI.HUD.HUDElements.StatusBar;
 import app.GameBuilder;
 import app.player.Inventory;
 import app.utils.InventoryUtil;
