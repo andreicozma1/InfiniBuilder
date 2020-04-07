@@ -79,10 +79,10 @@ public class PlayerUtil {
     }
 
     public void update_handler(double dt) {
-        context.getCamera().update_handler();
+        context.getComponents().getCamera().update_handler();
 
-        context.getEnvironment().generateChunks(getPos_x(), getPos_z());
-        context.getEnvironment().showChunksAroundPlayer(getPos_x(), getPos_z());
+        context.getComponents().getEnvironment().generateChunks(getPos_x(), getPos_z());
+        context.getComponents().getEnvironment().showChunksAroundPlayer(getPos_x(), getPos_z());
 
         player_group.setTranslateX(getPos_x());
         player_group.setTranslateY(-getPos_y() - player_height);
@@ -104,32 +104,32 @@ public class PlayerUtil {
         }
 
         // Running mechanism. Changes camera FOV incrementally from 45 to 60 when running and from 60 to 45 when not running
-        double curr_fov = context.getCamera().getCamera().getFieldOfView();
+        double curr_fov = context.getComponents().getCamera().getCamera().getFieldOfView();
         if (isRunning) {
-            if (curr_fov < context.getCamera().getFov_default() * context.getCamera().getFov_running_multiplier()) {
-                context.getCamera().getCamera().setFieldOfView(curr_fov + 1);
-                if (context.getMotionBlurEnabled()) {
-                    context.EFFECT_MOTION_BLUR.setRadius(context.EFFECT_MOTION_BLUR.getRadius() + .5);
+            if (curr_fov < context.getComponents().getCamera().getFov_default() * context.getComponents().getCamera().getFov_running_multiplier()) {
+                context.getComponents().getCamera().getCamera().setFieldOfView(curr_fov + 1);
+                if (context.getEffects().getMotionBlurEnabled()) {
+                    context.getEffects().EFFECT_MOTION_BLUR.setRadius(context.getEffects().EFFECT_MOTION_BLUR.getRadius() + .5);
                 }
             }
         } else {
             if (getStaminaBar().getCurrStatus() < getStaminaBar().getMaxStatus()) {
                 getStaminaBar().setCurrStatus(getStaminaBar().getCurrStatus() + staminaRegenSpeed * dt);
             }
-            if (curr_fov > context.getCamera().getFov_default()) {
-                context.getCamera().getCamera().setFieldOfView(curr_fov - 5);
-            } else if (curr_fov < context.getCamera().getFov_default() - 2) {
-                context.getCamera().getCamera().setFieldOfView(curr_fov + 2);
+            if (curr_fov > context.getComponents().getCamera().getFov_default()) {
+                context.getComponents().getCamera().getCamera().setFieldOfView(curr_fov - 5);
+            } else if (curr_fov < context.getComponents().getCamera().getFov_default() - 2) {
+                context.getComponents().getCamera().getCamera().setFieldOfView(curr_fov + 2);
             }
-            if (context.getMotionBlurEnabled()) {
-                if (context.EFFECT_MOTION_BLUR.getRadius() > 0) {
+            if (context.getEffects().getMotionBlurEnabled()) {
+                if (context.getEffects().EFFECT_MOTION_BLUR.getRadius() > 0) {
                     double deBlurSpeed = 1;
                     if (isFlyMode) {
                         deBlurSpeed = 5;
                     }
-                    context.EFFECT_MOTION_BLUR.setRadius(context.EFFECT_MOTION_BLUR.getRadius() - deBlurSpeed);
+                    context.getEffects().EFFECT_MOTION_BLUR.setRadius(context.getEffects().EFFECT_MOTION_BLUR.getRadius() - deBlurSpeed);
                 } else {
-                    context.EFFECT_MOTION_BLUR.setRadius(0);
+                    context.getEffects().EFFECT_MOTION_BLUR.setRadius(0);
                 }
             }
         }
@@ -140,8 +140,8 @@ public class PlayerUtil {
         }
 
         /* TODO - unfinished implementation for resetting the player's status bars if walking over a crystal.
-        if(context.getEnvironment().terrain_map_block.containsKey(getPoint2D())){
-            if(context.getEnvironment().terrain_map_block.get(context.getEnvironment().getWorldPoint2D(getPoint2D())).getProps().getPROPERTY_ITEM_TAG().toLowerCase().contains("crystal")){
+        if(context.getComponents().getEnvironment().terrain_map_block.containsKey(getPoint2D())){
+            if(context.getComponents().getEnvironment().terrain_map_block.get(context.getComponents().getEnvironment().getWorldPoint2D(getPoint2D())).getProps().getPROPERTY_ITEM_TAG().toLowerCase().contains("crystal")){
                 resetBars();
             }
         }
@@ -154,14 +154,14 @@ public class PlayerUtil {
         Base_Sphere sp = new Base_Sphere("Projectile", 5);
         sp.getShape().setMaterial(ResourcesUtil.metal);
 
-        ProjectileUtil proj = new ProjectileUtil(context.getEnvironment(), sp);
+        ProjectileUtil proj = new ProjectileUtil(context.getComponents().getEnvironment(), sp);
         proj.setSpeed(10);
         proj.shoot();
     }
 
     public void placeObject() {
-        Base_Structure inventory_item = ((Inventory) context.getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
-        context.getHUD().getElement(HUDUtil.INVENTORY).update();
+        Base_Structure inventory_item = ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
+        context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
 
         Log.p(TAG,"placeObject() " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
 
@@ -169,10 +169,10 @@ public class PlayerUtil {
             switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
                 case StructureBuilder.TYPE_OBJECT:
                     Base_Structure cb = StructureBuilder.resolve(inventory_item);
-                    cb.place(context.getEnvironment(), getPoint2D());
+                    cb.place(context.getComponents().getEnvironment(), getPoint2D());
                     break;
                 default:
-                    inventory_item.place(context.getEnvironment(), getPoint2D());
+                    inventory_item.place(context.getComponents().getEnvironment(), getPoint2D());
                     break;
             }
         }
@@ -192,7 +192,7 @@ public class PlayerUtil {
     }
 
     public void setIsRunning(boolean run) {
-        StatusBar bar = (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
+        StatusBar bar = (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.STAMINA);
 
         if (!isRunning && run && bar.getCurrStatus() > bar.getMaxStatus() / 3) {
             isRunning = true;
@@ -209,7 +209,7 @@ public class PlayerUtil {
     public void moveForward(double val) {
         // If the player is running, move forward by the specified runMultiplier amount
         if (isFlyMode) val = speedFly;
-        StatusBar bar = (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
+        StatusBar bar = (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.STAMINA);
         if (isRunning) {
             val *= runMultiplier;
             bar.setCurrStatus(bar.getCurrStatus() - staminaDepletionSpeed);
@@ -217,8 +217,8 @@ public class PlayerUtil {
 
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_x = this.pos_x + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
-        double new_z = this.pos_z + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.pos_x + Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.pos_z + Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
 
@@ -228,8 +228,8 @@ public class PlayerUtil {
         if (isFlyMode) val = speedFly;
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_x = this.pos_x - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
-        double new_z = this.pos_z - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.pos_x - Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.pos_z - Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
 
@@ -240,8 +240,8 @@ public class PlayerUtil {
 
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_z = this.pos_z + Math.sin(context.getCamera().getRotateX() / 57.3) * val;
-        double new_x = this.pos_x - Math.cos(context.getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.pos_z + Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.pos_x - Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
 
@@ -251,15 +251,15 @@ public class PlayerUtil {
         if (isFlyMode) val = speedFly;
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_x = this.pos_x + Math.cos(context.getCamera().getRotateX() / 57.3) * val;
-        double new_z = this.pos_z - Math.sin(context.getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.pos_x + Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.pos_z - Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
     }
 
     public void handle_collision(double new_x, double new_z) {
-        double ground_level_x = context.getEnvironment().getTerrainYfromPlayerXZ(new_x, this.pos_z);
-        double ground_level_z = context.getEnvironment().getTerrainYfromPlayerXZ(this.pos_x, new_z);
+        double ground_level_x = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(new_x, this.pos_z);
+        double ground_level_z = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(this.pos_x, new_z);
 
         if ((ground_level_x - pos_y < autoJumpCutoffHeight) || isClipMode) {
             this.pos_x = new_x;
@@ -276,22 +276,22 @@ public class PlayerUtil {
 
 
     public void moveDown(double val) {
-        double ground_level = context.getEnvironment().getTerrainYfromPlayerXZ(getPos_x(), getPos_z());
+        double ground_level = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(getPos_x(), getPos_z());
 
         // if the player is above ground level, let the player fall
         if (getPos_y() > ground_level || isClipMode) {
             pos_y -= val;
             speed_fall_initial += PhysicsUtil.GRAVITY;
             // if the player is more than a block above the ground , set onGround = false;
-            if (pos_y - ground_level > context.getEnvironment().getBlockDim()) {
+            if (pos_y - ground_level > context.getComponents().getEnvironment().getBlockDim()) {
                 onGround = false;
             }
             if (!isOnGround() && !isRunning && !isFlyMode) {
                 Log.p(TAG, "moveDown() -> Falling at speed " + val);
-                if (context.getCamera().getCamera().getFieldOfView() < 120) {
-                    context.getCamera().getCamera().setFieldOfView(context.getCamera().getFov_default() + val * 5);
-                    if (context.getMotionBlurEnabled()) {
-                        context.EFFECT_MOTION_BLUR.setRadius(context.EFFECT_MOTION_BLUR.getRadius() + val / 2);
+                if (context.getComponents().getCamera().getCamera().getFieldOfView() < 120) {
+                    context.getComponents().getCamera().getCamera().setFieldOfView(context.getComponents().getCamera().getFov_default() + val * 5);
+                    if (context.getEffects().getMotionBlurEnabled()) {
+                        context.getEffects().EFFECT_MOTION_BLUR.setRadius(context.getEffects().EFFECT_MOTION_BLUR.getRadius() + val / 2);
                     }
                 }
             }
@@ -303,7 +303,7 @@ public class PlayerUtil {
                 }
             }
 
-            if (ground_level - pos_y > context.getEnvironment().getBlockDim() * .75) {
+            if (ground_level - pos_y > context.getComponents().getEnvironment().getBlockDim() * .75) {
                 jump();
             } else {
                 warpToGround();
@@ -316,18 +316,18 @@ public class PlayerUtil {
     }
 
     private void warpToGround() {
-        double ground_level = context.getEnvironment().getTerrainYfromPlayerXZ(getPos_x(), getPos_z());
+        double ground_level = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(getPos_x(), getPos_z());
         pos_y = ground_level;
         onGround = true;
         speed_fall_initial = 0;
     }
 
     public StatusBar getStaminaBar() {
-        return (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
+        return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.STAMINA);
     }
 
     public StatusBar getHealthBar() {
-        return (StatusBar) context.getHUD().getElement(HUDUtil.HEALTH);
+        return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.HEALTH);
     }
 
     public double getHealth() {
@@ -397,9 +397,9 @@ public class PlayerUtil {
         isJumping = false;
 
         resetBars();
-        context.getCamera().reset();
-        context.resetEffects();
-        context.getGameSceneControls().reset();
+        context.getComponents().getCamera().reset();
+        context.getEffects().resetEffects();
+        context.getComponents().getGameSceneControls().reset();
     }
 
     public void resetBars(){
@@ -409,8 +409,8 @@ public class PlayerUtil {
 
     public void die() {
         Log.p(TAG, "die()");
-        ((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).setDead(true);
-        context.getHUD().getElement(HUDUtil.DEATH).update();
+        ((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).setDead(true);
+        context.getComponents().getHUD().getElement(HUDUtil.DEATH).update();
     }
 
 
@@ -431,7 +431,7 @@ public class PlayerUtil {
     public void toggleCrouch() {
         if (!isFlyMode) {
             Log.p(TAG, "toggleCrouch()");
-            context.getPlayer().isCrouching = !context.getPlayer().isCrouching;
+            context.getComponents().getPlayer().isCrouching = !context.getComponents().getPlayer().isCrouching;
         }
     }
 

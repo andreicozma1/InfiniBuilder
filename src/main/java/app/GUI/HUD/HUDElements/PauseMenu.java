@@ -49,7 +49,7 @@ public class PauseMenu extends HUDElement {
                      double screenHeight){
         super(elementTag,pos);
         this.context = context;
-        this.menuUtil = context.getMenu();
+        this.menuUtil = context.getComponents().getMenu();
         this.width = width;
         this.height =  height;
         this.screenHeight = screenHeight;
@@ -140,7 +140,7 @@ public class PauseMenu extends HUDElement {
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
                             menuUtil.setSettingsReturnState(MenuUtil.PAUSE);
-                            context.showScene(context.getMenu().getScene());
+                            context.showScene(context.getComponents().getMenu().getScene());
                             menuUtil.activateGroup(MenuUtil.GROUP_SETTINGS);
                         }
                     });
@@ -167,7 +167,7 @@ public class PauseMenu extends HUDElement {
             mainMenuHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
-                            context.showScene(context.getMenu().getScene());
+                            context.showScene(context.getComponents().getMenu().getScene());
                             menuUtil.activateGroup(MenuUtil.GROUP_MAIN_MENU);
                             isPaused = false;
                             update();

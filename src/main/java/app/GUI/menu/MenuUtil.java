@@ -1,6 +1,7 @@
 package app.GUI.menu;
 
 import app.GameBuilder;
+import app.utils.Log;
 import app.utils.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -117,29 +118,29 @@ public class MenuUtil {
 
         settingsReturnState = MAIN;
 
-        curr_world_height_mult = context.getEnvironment().getTerrainHeightMultiplier();
-        curr_vegetation_mult = context.getEnvironment().getVegetationDensityPercent();
-        curr_render_distance = context.getEnvironment().getTerrainRenderDistance();
-        curr_terrain_has_water = context.getEnvironment().isTerrain_should_have_water();
+        curr_world_height_mult = context.getComponents().getEnvironment().getTerrainHeightMultiplier();
+        curr_vegetation_mult = context.getComponents().getEnvironment().getVegetationDensityPercent();
+        curr_render_distance = context.getComponents().getEnvironment().getTerrainRenderDistance();
+        curr_terrain_has_water = context.getComponents().getEnvironment().isTerrain_should_have_water();
 
-        curr_sun_scale = context.getEnvironment().getSkybox().getSunScale();
-        curr_moon_scale = context.getEnvironment().getSkybox().getMoonScale();
-        curr_big_star_scale = context.getEnvironment().getSkybox().getBigStarScale();
-        curr_sun_moon_period = context.getEnvironment().getSkybox().getSun_moon_period_multiplier();
-        curr_big_star_period = context.getEnvironment().getSkybox().getBig_planet_period_multiplier();
+        curr_sun_scale = context.getComponents().getEnvironment().getSkybox().getSunScale();
+        curr_moon_scale = context.getComponents().getEnvironment().getSkybox().getMoonScale();
+        curr_big_star_scale = context.getComponents().getEnvironment().getSkybox().getBigStarScale();
+        curr_sun_moon_period = context.getComponents().getEnvironment().getSkybox().getSun_moon_period_multiplier();
+        curr_big_star_period = context.getComponents().getEnvironment().getSkybox().getBig_planet_period_multiplier();
 
-        curr_fly_speed = context.getPlayer().getFlySpeed();
-        curr_jump_height = context.getPlayer().getJumpHeightMultiplier();
-        curr_run_speed = context.getPlayer().getRunMultiplier();
+        curr_fly_speed = context.getComponents().getPlayer().getFlySpeed();
+        curr_jump_height = context.getComponents().getPlayer().getJumpHeightMultiplier();
+        curr_run_speed = context.getComponents().getPlayer().getRunMultiplier();
 
-        curr_fov_default = context.getCamera().getFov_default();
-        curr_fov_running = context.getCamera().getFov_running_multiplier();
-        curr_fov_tired = context.getCamera().getFov_tired_multiplier();
+        curr_fov_default = context.getComponents().getCamera().getFov_default();
+        curr_fov_running = context.getComponents().getCamera().getFov_running_multiplier();
+        curr_fov_tired = context.getComponents().getCamera().getFov_tired_multiplier();
 
-        curr_sepia_tone = context.getSepiaTone();
-        curr_bloom = context.getBloom();
-        is_trip_mode = context.getTripMode();
-        is_motion_blur = context.getMotionBlurEnabled();
+        curr_sepia_tone = context.getEffects().getSepiaTone();
+        curr_bloom = context.getEffects().getBloom();
+        is_trip_mode = context.getEffects().getTripMode();
+        is_motion_blur = context.getEffects().getMotionBlurEnabled();
 
         buildMainMenu();
         buildControlsMenu();
@@ -222,7 +223,7 @@ public class MenuUtil {
         startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        context.getEnvironment().reset();
+                        context.getComponents().getEnvironment().reset();
                         context.showScene(context.getGameRootScene());
                     }
                 });
@@ -571,7 +572,7 @@ public class MenuUtil {
                         curr_world_height_mult +=5;
                         if(curr_world_height_mult >35) curr_world_height_mult = 0;
                         worldHeightMult.setText((int) curr_world_height_mult + " blocks");
-                        context.getEnvironment().setTerrainHeightMultiplier(curr_world_height_mult);
+                        context.getComponents().getEnvironment().setTerrainHeightMultiplier(curr_world_height_mult);
                     }
                 });
         worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -603,7 +604,7 @@ public class MenuUtil {
                         curr_vegetation_mult+=5;
                         if(curr_vegetation_mult>100)curr_vegetation_mult=0;
                         vegetationMult.setText((int) curr_vegetation_mult +"%");
-                        context.getEnvironment().setVegetationDensityPercent(curr_vegetation_mult);
+                        context.getComponents().getEnvironment().setVegetationDensityPercent(curr_vegetation_mult);
                     }
                 });
         vegetationHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -637,7 +638,7 @@ public class MenuUtil {
                         String world_type = ResourcesUtil.world_types_sorted.get(curr_world_type);
                         worldTypeChoice.setText(world_type);
                         System.out.println(world_type +" "+ResourcesUtil.world_types.get(world_type));
-                        context.getEnvironment().setTerrainBlockType(ResourcesUtil.world_types.get(world_type));
+                        context.getComponents().getEnvironment().setTerrainBlockType(ResourcesUtil.world_types.get(world_type));
                     }
                 });
         worldTypeHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -668,7 +669,7 @@ public class MenuUtil {
                         curr_render_distance+=5;
                         if(curr_render_distance>75)curr_render_distance=0;
                         renderDistanceMult.setText((int) curr_render_distance + " blocks");
-                        context.getEnvironment().setTerrainRenderDistance(curr_render_distance);
+                        context.getComponents().getEnvironment().setTerrainRenderDistance(curr_render_distance);
                     }
                 });
         renderDistanceHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -700,7 +701,7 @@ public class MenuUtil {
                         curr_terrain_has_water= !curr_terrain_has_water;
 
                         hasWaterChoice.setText(String.valueOf(curr_terrain_has_water));
-                        context.getEnvironment().setTerrain_should_have_water(curr_terrain_has_water);
+                        context.getComponents().getEnvironment().setTerrain_should_have_water(curr_terrain_has_water);
                     }
                 });
         hasWaterHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -774,7 +775,7 @@ public class MenuUtil {
                         curr_sun_scale +=500;
                         if(curr_sun_scale == 10500) curr_sun_scale = 0;
                         sunMult.setText(Integer.toString((int)curr_sun_scale));
-                        context.getEnvironment().getSkybox().setSunScale(curr_sun_scale);
+                        context.getComponents().getEnvironment().getSkybox().setSunScale(curr_sun_scale);
                     }
                 });
         sunHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -805,7 +806,7 @@ public class MenuUtil {
                         curr_moon_scale +=500;
                         if(curr_moon_scale == 8000) curr_moon_scale = 0;
                         moonMult.setText(Integer.toString((int)curr_moon_scale));
-                        context.getEnvironment().getSkybox().setMoonScale(curr_moon_scale);
+                        context.getComponents().getEnvironment().getSkybox().setMoonScale(curr_moon_scale);
                     }
                 });
         moonHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -836,7 +837,7 @@ public class MenuUtil {
                         curr_big_star_scale +=500;
                         if(curr_big_star_scale == 10500) curr_big_star_scale = 0;
                         bigStarMult.setText(Integer.toString((int)curr_big_star_scale));
-                        context.getEnvironment().getSkybox().setBigStarScale(curr_big_star_scale);
+                        context.getComponents().getEnvironment().getSkybox().setBigStarScale(curr_big_star_scale);
                     }
                 });
         bigStarHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -867,7 +868,7 @@ public class MenuUtil {
                         curr_sun_moon_period *= 2;
                         if(curr_sun_moon_period > 256) curr_sun_moon_period = 2;
                         sunMoonPeriodMult.setText(curr_sun_moon_period + " sec");
-                        context.getEnvironment().getSkybox().setSun_moon_period_multiplier(curr_sun_moon_period);
+                        context.getComponents().getEnvironment().getSkybox().setSun_moon_period_multiplier(curr_sun_moon_period);
                     }
                 });
         sunMoonPeriodHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -898,7 +899,7 @@ public class MenuUtil {
                         curr_big_star_period *= 2;
                         if(curr_big_star_period > 256) curr_big_star_period = 2;
                         bigStarPeriodMult.setText(curr_big_star_period + " sec");
-                        context.getEnvironment().getSkybox().setBig_planet_period_multiplier(curr_big_star_period);
+                        context.getComponents().getEnvironment().getSkybox().setBig_planet_period_multiplier(curr_big_star_period);
                     }
                 });
         bigStarPeriodHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -973,7 +974,7 @@ public class MenuUtil {
                         curr_fly_speed +=1;
                         if(curr_fly_speed>10) curr_fly_speed =1;
                         playerFlySpeedMult.setText(Integer.toString((int)curr_fly_speed));
-                        context.getPlayer().setFlySpeed(curr_fly_speed);
+                        context.getComponents().getPlayer().setFlySpeed(curr_fly_speed);
                     }
                 });
         playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1004,7 +1005,7 @@ public class MenuUtil {
                         curr_jump_height +=.5;
                         if(curr_jump_height>10) curr_jump_height = 0;
                         playerJumpHeightMult.setText(Double.toString(curr_jump_height));
-                        context.getPlayer().setJumpHeightMultiplier(curr_jump_height);
+                        context.getComponents().getPlayer().setJumpHeightMultiplier(curr_jump_height);
                     }
                 });
         playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1034,7 +1035,7 @@ public class MenuUtil {
                         curr_run_speed +=.25;
                         if(curr_run_speed>5) curr_run_speed = .5;
                         playerRunSpeedMult.setText(Double.toString(curr_run_speed));
-                        context.getPlayer().setRunMultiplier(curr_run_speed);
+                        context.getComponents().getPlayer().setRunMultiplier(curr_run_speed);
                     }
                 });
         playerRunSpeedHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1110,7 +1111,7 @@ public class MenuUtil {
                         curr_fov_default +=5;
                         if(curr_fov_default > 100) curr_fov_default = 20;
                         defaultFovMult.setText(curr_fov_default + " deg");
-                        context.getCamera().setFov_default(curr_fov_default);
+                        context.getComponents().getCamera().setFov_default(curr_fov_default);
                     }
                 });
         defaultFovHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1141,7 +1142,7 @@ public class MenuUtil {
                         curr_fov_running += .25;
                         if(curr_fov_running > 3) curr_fov_running = 1;
                         runningFovMult.setText(Math.floor(curr_fov_running * 100) / 100 + " x Default");
-                        context.getCamera().setFov_running_multiplier(curr_fov_running);
+                        context.getComponents().getCamera().setFov_running_multiplier(curr_fov_running);
                     }
                 });
         runningFovHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1172,7 +1173,7 @@ public class MenuUtil {
                         curr_fov_tired -= .1;
                         if(curr_fov_tired < .5) curr_fov_tired = 1;
                         tiredFovMult.setText(Math.floor(curr_fov_tired * 100) / 100 + " x Default");
-                        context.getCamera().setFov_tired_multiplier(curr_fov_tired);
+                        context.getComponents().getCamera().setFov_tired_multiplier(curr_fov_tired);
                     }
                 });
         tiredFovHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1243,7 +1244,7 @@ public class MenuUtil {
                         curr_sepia_tone += .1;
                         if(curr_sepia_tone >1) curr_sepia_tone = 0.0;
                         sepiaToneMult.setText(Double.toString(curr_sepia_tone));
-                        context.setSepiaTone(curr_sepia_tone);
+                        context.getEffects().setSepiaTone(curr_sepia_tone);
                     }
                 });
         sepiaToneHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1273,7 +1274,7 @@ public class MenuUtil {
                         curr_bloom += .1;
                         if(curr_bloom >1) curr_bloom = 0.0;
                         bloomMult.setText(Double.toString(curr_bloom));
-                        context.setBloom(curr_bloom);
+                        context.getEffects().setBloom(curr_bloom);
                     }
                 });
         bloomHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1302,7 +1303,7 @@ public class MenuUtil {
                     public void handle(MouseEvent me) {
                         is_trip_mode = !is_trip_mode;
                         tripModeMult.setText(String.valueOf(is_trip_mode));
-                        context.setTripMode(is_trip_mode);
+                        context.getEffects().setTripMode(is_trip_mode);
                     }
                 });
         tripModeHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1331,7 +1332,7 @@ public class MenuUtil {
                     public void handle(MouseEvent me) {
                         is_motion_blur = !is_motion_blur;
                         motionBlurMult.setText(String.valueOf(is_motion_blur));
-                        context.setMotionBlurEnabled(is_motion_blur);
+                        context.getEffects().setMotionBlurEnabled(is_motion_blur);
                     }
                 });
         motionBlurHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,

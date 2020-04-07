@@ -43,17 +43,17 @@ public class MainExecution extends Application {
         GameBuilder game = new GameBuilder(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
 
         // testing inventory Util with a base item that only holds the item tag
-        Base_Cube dirt = new Base_Cube("Grass", ResourcesUtil.grass, game.getEnvironment().getBlockDim());
-        Base_Cube grass = new Base_Cube("Dirt", ResourcesUtil.dirt, game.getEnvironment().getBlockDim());
-        Base_Cube sand = new Base_Cube("Sand", ResourcesUtil.sand, game.getEnvironment().getBlockDim());
+        Base_Cube dirt = new Base_Cube("Grass", ResourcesUtil.grass, game.getComponents().getEnvironment().getBlockDim());
+        Base_Cube grass = new Base_Cube("Dirt", ResourcesUtil.dirt, game.getComponents().getEnvironment().getBlockDim());
+        Base_Cube sand = new Base_Cube("Sand", ResourcesUtil.sand, game.getComponents().getEnvironment().getBlockDim());
         // 1586226789454
-        MazeUtil maze = new MazeUtil(game.getEnvironment().getBlockDim(), 20, 20, 2,3, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED);
-        MazeUtil maze2 = new MazeUtil(game.getEnvironment().getBlockDim(), 3, 3, 1, 3,ResourcesUtil.metal,  MazeUtil.GENERATOR_RANDOM_SEED, true);
-        SpawnableStructureItem2D mazeitem = new SpawnableStructureItem2D(maze, "Maze Generator", ResourcesUtil.sun, game.getEnvironment().getBlockDim());
-        SpawnableStructureItem2D maze2item = new SpawnableStructureItem2D(maze2, "Maze Generator2", ResourcesUtil.moon, game.getEnvironment().getBlockDim());
+        MazeUtil maze = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 20, 2,3, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED);
+        MazeUtil maze2 = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, 3,ResourcesUtil.metal,  MazeUtil.GENERATOR_RANDOM_SEED, true);
+        SpawnableStructureItem2D mazeitem = new SpawnableStructureItem2D(maze, "Maze Generator", ResourcesUtil.sun, game.getComponents().getEnvironment().getBlockDim());
+        SpawnableStructureItem2D maze2item = new SpawnableStructureItem2D(maze2, "Maze Generator2", ResourcesUtil.moon, game.getComponents().getEnvironment().getBlockDim());
 
-        PyramidUtil pyramid = new PyramidUtil(game.getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
-        SpawnableStructureItem2D pyrmItem = new SpawnableStructureItem2D(pyramid,  "Pyramid", ResourcesUtil.red, game.getEnvironment().getBlockDim());
+        PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
+        SpawnableStructureItem2D pyrmItem = new SpawnableStructureItem2D(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
 
         InventoryUtil inventoryUtil = new InventoryUtil(10);
         inventoryUtil.addItem(4, grass, 40);
@@ -65,9 +65,9 @@ public class MainExecution extends Application {
         inventoryUtil.setCurrentIndex(7);
 
         // draws our game HUD
-        DrawHud.DrawHud(game, game.getHUD(), inventoryUtil, PRIMARY_WIDTH, PRIMARY_HEIGHT);
+        DrawHud.DrawHud(game, game.getComponents().getHUD(), inventoryUtil, PRIMARY_WIDTH, PRIMARY_HEIGHT);
 
-        game.showScene(game.getMenu().getScene());
+        game.showScene(game.getComponents().getMenu().getScene());
     }
 
     public static void main(String[] args) {

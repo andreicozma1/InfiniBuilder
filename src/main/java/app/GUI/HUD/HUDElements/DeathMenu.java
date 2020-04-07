@@ -51,7 +51,7 @@ public class DeathMenu extends HUDElement {
                      double screenHeight){
         super(elementTag,pos);
         this.context = context;
-        this.menuUtil = context.getMenu();
+        this.menuUtil = context.getComponents().getMenu();
         this.width = width;
         this.height =  height;
         this.screenHeight = screenHeight;
@@ -113,7 +113,7 @@ public class DeathMenu extends HUDElement {
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
                             isDead = false;
-                            context.getPlayer().reset();
+                            context.getComponents().getPlayer().reset();
                             update();
                         }
                     });
@@ -142,9 +142,9 @@ public class DeathMenu extends HUDElement {
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
                             isDead = false;
-                            context.getPlayer().reset();
+                            context.getComponents().getPlayer().reset();
 
-                            context.getEnvironment().reset();
+                            context.getComponents().getEnvironment().reset();
                             update();
                         }
                     });
@@ -171,7 +171,7 @@ public class DeathMenu extends HUDElement {
             mainMenuHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
-                            context.showScene(context.getMenu().getScene());
+                            context.showScene(context.getComponents().getMenu().getScene());
                             menuUtil.activateGroup(MenuUtil.GROUP_MAIN_MENU);
                             isDead = false;
                             update();

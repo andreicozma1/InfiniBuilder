@@ -30,7 +30,7 @@ public class PyramidUtil implements SpawnableStructure2D {
     @Override
     public void build(GameBuilder context) {
         int i, j, k;
-        Point2D pos = context.getPlayer().getPoint2D();
+        Point2D pos = context.getComponents().getPlayer().getPoint2D();
         double height;
         double startingX = pos.getX();
         double startingZ = pos.getY();
@@ -48,7 +48,7 @@ public class PyramidUtil implements SpawnableStructure2D {
             for (k = 0; k < baseSideSize; k++) {
                 double x_pos = startingX + j * cellDim;
                 double y_pos = startingZ + k * cellDim;
-                double new_height = context.getEnvironment().getTerrainYfromPlayerXZ(x_pos, y_pos);
+                double new_height = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(x_pos, y_pos);
                 if (new_height < min_height) {
                     min_height = new_height;
                 }
@@ -70,7 +70,7 @@ public class PyramidUtil implements SpawnableStructure2D {
                 for (k = i; k < baseSideSize - i; k++) {
                     double x_pos = startingX + j * cellDim;
                     double y_pos = startingZ + k * cellDim;
-                    double hi = context.getEnvironment().getTerrainYfromPlayerXZ(x_pos, y_pos);
+                    double hi = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(x_pos, y_pos);
 
                     System.out.println(j + "  " + k + " CURRENT " + hi + "   DIFF " + (min_height - (i+1) * cellDim));
 

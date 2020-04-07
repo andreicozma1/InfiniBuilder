@@ -95,7 +95,7 @@ public class MazeUtil implements SpawnableStructure2D {
         }
 
 
-        Point2D pos = context.getPlayer().getPoint2D();
+        Point2D pos = context.getComponents().getPlayer().getPoint2D();
         double startingX = pos.getX() - (cellDim * cellWidth);
         double startingZ = pos.getY() - (cellDim * cellWidth);
 
@@ -119,9 +119,9 @@ public class MazeUtil implements SpawnableStructure2D {
                 for (j = 0; j < (mazeCols * 2 + 1) * cellWidth; j++) {
                     mj = j / cellWidth;
                     if (!isTrapped && ((mi == 1 && mj == 0))) {
-                        context.getEnvironment().clearSpot(new Point2D(currX, currZ));
+                        context.getComponents().getEnvironment().clearSpot(new Point2D(currX, currZ));
                     } else if (mi == mazeRows * 2 - 1 && mj == mazeCols * 2) {
-                        context.getEnvironment().clearSpot(new Point2D(currX, currZ));
+                        context.getComponents().getEnvironment().clearSpot(new Point2D(currX, currZ));
                     } else if (mi == 0 || mi == mazeRows * 2 || mj == 0 || mj == mazeCols * 2 || (mi % 2 == 0 && mj % 2 == 0)) {
                         Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                         cube.getShape().setMaterial(mazeMaterial);
@@ -220,7 +220,7 @@ public class MazeUtil implements SpawnableStructure2D {
             for (i = 0; i < cellWidth; i++) {
                 currX = cellX;
                 for (j = 0; j < cellWidth; j++) {
-                    context.getEnvironment().clearSpot(new Point2D(cellX + cellDim * j, cellZ + cellDim * i));
+                    context.getComponents().getEnvironment().clearSpot(new Point2D(cellX + cellDim * j, cellZ + cellDim * i));
                     currX += cellDim;
                 }
                 currZ += cellDim;
@@ -236,7 +236,7 @@ public class MazeUtil implements SpawnableStructure2D {
             for (j = 0; j < (mazeCols * 2 + 1) * cellWidth; j++) {
                 mj = j / cellWidth;
                 if (mi % 2 == 1 && mj % 2 == 1) {
-                    context.getEnvironment().clearSpot(new Point2D(currX, currZ));
+                    context.getComponents().getEnvironment().clearSpot(new Point2D(currX, currZ));
 
                 }
                 currX += cellDim;

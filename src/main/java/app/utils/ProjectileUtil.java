@@ -31,14 +31,14 @@ public class ProjectileUtil extends StructureBuilder {
         double initialVel = speed;
         context.addFromGroup(EnvironmentUtil.GROUP_STRUCTURES, str);
 
-        double velY = initialVel * Math.cos(Math.toRadians(context.context.getCamera().getRotateY()));
+        double velY = initialVel * Math.cos(Math.toRadians(context.context.getComponents().getCamera().getRotateY()));
 
-        double startrotX = Math.toRadians(context.context.getCamera().getRotateX());
-        double startrotY = Math.toRadians(context.context.getCamera().getRotateY());
+        double startrotX = Math.toRadians(context.context.getComponents().getCamera().getRotateX());
+        double startrotY = Math.toRadians(context.context.getComponents().getCamera().getRotateY());
 
-        final double[] posx = {context.context.getPlayer().getPos_x()};
-        final double[] posy = {-context.context.getPlayer().getPos_y() - context.context.getPlayer().getPlayerHeight()};
-        final double[] posz = {context.context.getPlayer().getPos_z()};
+        final double[] posx = {context.context.getComponents().getPlayer().getPos_x()};
+        final double[] posy = {-context.context.getComponents().getPlayer().getPos_y() - context.context.getComponents().getPlayer().getPlayerHeight()};
+        final double[] posz = {context.context.getComponents().getPlayer().getPos_z()};
 
 
         System.out.println(posx[0] + "   " + posy[0] + "   " + posz[0]);
