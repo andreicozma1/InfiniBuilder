@@ -38,13 +38,15 @@ public class MenuUtil {
     InterfaceBuilder skyBoxMenu;
     InterfaceBuilder playerMenu;
     InterfaceBuilder cameraMenu;
-
+    InterfaceBuilder graphicsMenu;
 
     // menu to explain the controls
     InterfaceBuilder controlsMenu;
 
     // menu to explain the project
     InterfaceBuilder aboutMenu;
+
+
 
     // variables for the settings menu return state
     private String settingsReturnState;
@@ -75,6 +77,12 @@ public class MenuUtil {
     private double curr_fov_running;
     private double curr_fov_tired;
 
+    // graphics settings
+    private double curr_sepia_tone;
+    private double curr_bloom;
+    private boolean is_trip_mode;
+    private boolean is_motion_blur;
+
     // static strings to access any menu from the menuGroupHashMap
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_CONTROLS = "GROUP_CONTROLS";
@@ -84,6 +92,7 @@ public class MenuUtil {
     public static String GROUP_PLAYER = "GROUP_PLAYER";
     public static String GROUP_CAMERA = "GROUP_CAMERA";
     public static String GROUP_ABOUT = "GROUP_ABOUT";
+    public static String GROUP_GRAPHICS = "GROUP_GRAPHICS";
 
     // variables to hold and keep track of the different menus
     String currentGroup;
@@ -102,6 +111,7 @@ public class MenuUtil {
         skyBoxMenu = new InterfaceBuilder();
         playerMenu = new InterfaceBuilder();
         cameraMenu = new InterfaceBuilder();
+        graphicsMenu = new InterfaceBuilder();
 
         SCENE_MENU = new Scene(mainMenu.getGroup(),context.getWindowWidth(),context.getWindowHeight());
 
@@ -126,6 +136,10 @@ public class MenuUtil {
         curr_fov_running = context.getCamera().getFov_running_multiplier();
         curr_fov_tired = context.getCamera().getFov_tired_multiplier();
 
+        curr_sepia_tone = context.getSepiaTone();
+        curr_bloom = context.getBloom();
+        is_trip_mode = context.getTripMode();
+        is_motion_blur = context.getMotionBlurEnabled();
 
         buildMainMenu();
         buildControlsMenu();
@@ -135,6 +149,7 @@ public class MenuUtil {
         buildPlayerMenu();
         buildCameraMenu();
         buildAboutMenu();
+        buildGraphicsMenu();
 
         addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
         addGroup(GROUP_SETTINGS, settingsMenu.getGroup());
@@ -144,8 +159,9 @@ public class MenuUtil {
         addGroup(GROUP_CAMERA, cameraMenu.getGroup());
         addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
         addGroup(GROUP_ABOUT, aboutMenu.getGroup());
+        addGroup(GROUP_CONTROLS,aboutMenu.getGroup());
+        addGroup(GROUP_GRAPHICS,graphicsMenu.getGroup());
 
-        System.out.println("curr_sun_scale = "+curr_sun_scale);
         setControlScheme();
     }
 
@@ -471,12 +487,32 @@ public class MenuUtil {
                         cameraText.setFill(Color.WHITE);
                     }
                 });
-
+        Text graphicsArrow = settingsMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text graphicsText = settingsMenu.drawText("cd Graphics_Settings", 95, 340, Color.WHITE, options);
+        Rectangle graphicsHitBox = settingsMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        graphicsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { activateGroup(GROUP_GRAPHICS); }
+                });
+        graphicsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        graphicsArrow.setText(doubleArrow);
+                        graphicsText.setFill(GREEN);
+                    }
+                });
+        graphicsHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        graphicsArrow.setText(singleArrow);
+                        graphicsText.setFill(Color.WHITE);
+                    }
+                });
 
         //quit handler
-        Text returnArrow = settingsMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text returnText = settingsMenu.drawText("cd ..", 95, 340, Color.WHITE, options);
-        Rectangle returnHitBox = settingsMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        Text returnArrow = settingsMenu.drawText(singleArrow, 50, 390, GREEN, options);
+        Text returnText = settingsMenu.drawText("cd ..", 95, 390, Color.WHITE, options);
+        Rectangle returnHitBox = settingsMenu.drawRectangle(50,370,600,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
@@ -1180,6 +1216,166 @@ public class MenuUtil {
                     }
                 });
     }
+
+    public void buildGraphicsMenu(){
+        // draw black backdrop
+        graphicsMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+
+        //draw title
+        graphicsMenu.drawText("ROOT@CS307:~$ ./About",
+                50,
+                50,
+                GREEN,
+                title);
+
+        graphicsMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+
+        Text sepiaToneArrow = graphicsMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text sepiaToneText= graphicsMenu.drawText("./Sepia_Tone", 95, 140, Color.WHITE, options);
+        Text sepiaToneMult = graphicsMenu.drawText(Double.toString(curr_sepia_tone) , 550, 140, Color.WHITE, options);
+        Rectangle sepiaToneHitBox = graphicsMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        sepiaToneHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_sepia_tone += .1;
+                        if(curr_sepia_tone >1) curr_sepia_tone = 0;
+                        sepiaToneMult.setText(Double.toString(curr_sepia_tone));
+                        context.setSepiaTone(curr_sepia_tone);
+                    }
+                });
+        sepiaToneHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        sepiaToneArrow.setText(doubleArrow);
+                        sepiaToneText.setFill(GREEN);
+                        sepiaToneMult.setFill(GREEN);
+                    }
+                });
+        sepiaToneHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        sepiaToneArrow.setText(singleArrow);
+                        sepiaToneText.setFill(Color.WHITE);
+                        sepiaToneMult.setFill(Color.WHITE);
+                    }
+                });
+
+        Text bloomArrow = graphicsMenu.drawText(singleArrow, 50, 190, GREEN, options);
+        Text bloomText= graphicsMenu.drawText("./Bloom", 95, 190, Color.WHITE, options);
+        Text bloomMult = graphicsMenu.drawText(Double.toString(curr_bloom) , 550, 190, Color.WHITE, options);
+        Rectangle bloomHitBox = graphicsMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        bloomHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_bloom += .1;
+                        if(curr_bloom >1) curr_bloom = 0;
+                        bloomMult.setText(Double.toString(curr_bloom));
+                        context.setBloom(curr_bloom);
+                    }
+                });
+        bloomHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        bloomArrow.setText(doubleArrow);
+                        bloomText.setFill(GREEN);
+                        bloomMult.setFill(GREEN);
+                    }
+                });
+        bloomHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        bloomArrow.setText(singleArrow);
+                        bloomText.setFill(Color.WHITE);
+                        bloomMult.setFill(Color.WHITE);
+                    }
+                });
+
+        Text tripModeArrow = graphicsMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text tripModeText= graphicsMenu.drawText("./Trip_Mode", 95, 240, Color.WHITE, options);
+        Text tripModeMult = graphicsMenu.drawText(String.valueOf(is_trip_mode) , 550, 240, Color.WHITE, options);
+        Rectangle tripModeHitBox = graphicsMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        tripModeHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        is_trip_mode = !is_trip_mode;
+                        tripModeMult.setText(String.valueOf(is_trip_mode));
+                        context.setTripMode(is_trip_mode);
+                    }
+                });
+        tripModeHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        tripModeArrow.setText(doubleArrow);
+                        tripModeText.setFill(GREEN);
+                        tripModeMult.setFill(GREEN);
+                    }
+                });
+        tripModeHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        tripModeArrow.setText(singleArrow);
+                        tripModeText.setFill(Color.WHITE);
+                        tripModeMult.setFill(Color.WHITE);
+                    }
+                });
+
+        Text motionBlurArrow = graphicsMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text motionBlurText= graphicsMenu.drawText("./Motion_Blur", 95, 240, Color.WHITE, options);
+        Text motionBlurMult = graphicsMenu.drawText(String.valueOf(is_motion_blur) , 550, 240, Color.WHITE, options);
+        Rectangle motionBlurHitBox = graphicsMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        motionBlurHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        is_motion_blur = !is_motion_blur;
+                        motionBlurMult.setText(String.valueOf(is_motion_blur));
+                        context.setMotionBlurEnabled(is_motion_blur);
+                    }
+                });
+        motionBlurHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        motionBlurArrow.setText(doubleArrow);
+                        motionBlurText.setFill(GREEN);
+                        motionBlurMult.setFill(GREEN);
+                    }
+                });
+        motionBlurHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        motionBlurArrow.setText(singleArrow);
+                        motionBlurText.setFill(Color.WHITE);
+                        motionBlurMult.setFill(Color.WHITE);
+                    }
+                });
+
+        //quit handler
+        Text returnArrow = graphicsMenu.drawText(singleArrow, 50, 390, GREEN, options);
+        Text returnText = graphicsMenu.drawText("./Back", 95, 390, Color.WHITE, options);
+        Rectangle returnHitBox = graphicsMenu.drawRectangle(50,370,600,30,0,0,Color.TRANSPARENT);
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(doubleArrow);
+                        returnText.setFill(GREEN);
+                    }
+                });
+        returnHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        returnArrow.setText(singleArrow);
+                        returnText.setFill(Color.WHITE);
+                    }
+                });
+    }
+
 
     //*****************************************************************************************************
     // ABOUT MENU
