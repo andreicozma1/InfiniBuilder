@@ -50,7 +50,6 @@ public class MainExecution extends Application {
         sky.setAmbientLight(amb);
         envir.setSkyBox(sky);
 
-
         // build the window
         game.setCamera(camera);
         game.setPlayer(player);
