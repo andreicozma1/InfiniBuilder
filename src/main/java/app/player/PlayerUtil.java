@@ -36,7 +36,7 @@ public class PlayerUtil {
     private double staminaDepletionSpeed = 0.2;
     private double healthRegenSpeed = .008;
 
-    private double runMultiplier = 1.25;
+    private double runMultiplier;
     double speedForward = 3;
     double speedBackward = 2;
     double speedSide = 2;
@@ -74,6 +74,7 @@ public class PlayerUtil {
 
         setJumpHeightMultiplier(1);
         setAutoJumpCutoffHeight(.5);
+        setRunMultiplier(1.10);
         setResetWorldOnDeath(true);
     }
 
@@ -186,13 +187,10 @@ public class PlayerUtil {
         StatusBar bar = (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
 
         if (!isRunning && run && bar.getCurrStatus() > bar.getMaxStatus() / 3) {
-//            System.out.println("HERE2");
             isRunning = true;
         } else if (isRunning && run && bar.getCurrStatus() > 0) {
-//            System.out.println("HERE2");
             isRunning = true;
         } else {
-//            System.out.println("HERE3");
             if (isRunning) {
                 takeDamage(1);
             }
@@ -285,16 +283,17 @@ public class PlayerUtil {
                 onGround = false;
             }
             if (!isOnGround() && !isRunning && !isFlyMode) {
+                // player is falling from the sky
                 context.getCamera().getCamera().setFieldOfView(context.getCamera().getFov_default() + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
+                context.motionBlur.setRadius(context.motionBlur.getRadius() + val/2);
             }
         } else {
             if (!onGround && !isFlyMode) {
                 System.out.println("Player Hit Ground from height: " + fall_height);
-
-
-                if (fall_height > jump_height_multiplier * player_height * 1.8)
+                if (fall_height > jump_height_multiplier * player_height * 1.8){
                     takeDamage(fall_height / 8);
 
+                }
             }
             onGround = true;
             fall_height = 0;
