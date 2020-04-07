@@ -1242,7 +1242,7 @@ public class MenuUtil {
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_sepia_tone += .1;
-                        if(curr_sepia_tone >1) curr_sepia_tone = 0;
+                        if(curr_sepia_tone >1) curr_sepia_tone = 0.0;
                         sepiaToneMult.setText(Double.toString(curr_sepia_tone));
                         context.setSepiaTone(curr_sepia_tone);
                     }
@@ -1272,7 +1272,7 @@ public class MenuUtil {
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_bloom += .1;
-                        if(curr_bloom >1) curr_bloom = 0;
+                        if(curr_bloom >1) curr_bloom = 0.0;
                         bloomMult.setText(Double.toString(curr_bloom));
                         context.setBloom(curr_bloom);
                     }
@@ -1323,10 +1323,10 @@ public class MenuUtil {
                     }
                 });
 
-        Text motionBlurArrow = graphicsMenu.drawText(singleArrow, 50, 240, GREEN, options);
-        Text motionBlurText= graphicsMenu.drawText("./Motion_Blur", 95, 240, Color.WHITE, options);
-        Text motionBlurMult = graphicsMenu.drawText(String.valueOf(is_motion_blur) , 550, 240, Color.WHITE, options);
-        Rectangle motionBlurHitBox = graphicsMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        Text motionBlurArrow = graphicsMenu.drawText(singleArrow, 50, 290, GREEN, options);
+        Text motionBlurText= graphicsMenu.drawText("./Motion_Blur", 95, 290, Color.WHITE, options);
+        Text motionBlurMult = graphicsMenu.drawText(String.valueOf(is_motion_blur) , 550, 290, Color.WHITE, options);
+        Rectangle motionBlurHitBox = graphicsMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
         motionBlurHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
