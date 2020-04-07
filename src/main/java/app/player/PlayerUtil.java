@@ -1,8 +1,6 @@
 package app.player;
 
-import app.GUI.HUD.DeathMenu;
 import app.GUI.HUD.HUDUtil;
-import app.GUI.HUD.PauseMenu;
 import app.GUI.HUD.StatusBar;
 import app.GUI.menu.MenuUtil;
 import app.structures.StructureBuilder;
@@ -393,11 +391,13 @@ public class PlayerUtil {
         getStaminaBar().setCurrStatus(getStaminaBar().getMaxStatus());
 
         context.getGameSceneControls().reset();
+        context.getEnvironment().reset();
     }
 
     void die(){
-        ((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).setDead(true);
-        ((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).update();
+        reset();
+        context.getMenu().activateGroup(MenuUtil.GROUP_DEATH);
+        context.showScene(context.getMenu().getScene());
     }
 
 
