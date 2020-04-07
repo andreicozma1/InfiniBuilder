@@ -4,6 +4,7 @@ import app.GUI.HUD.HUDUtil;
 import app.GUI.HUD.HUDElements.*;
 import app.environment.EnvironmentUtil;
 import app.GUI.menu.MenuUtil;
+import app.utils.Log;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.*;
@@ -16,6 +17,8 @@ import app.player.ControlsUtil;
 import app.player.PlayerUtil;
 
 public class GameBuilder {
+    private static final String TAG = "CameraUtil";
+
     private static int WINDOW_WIDTH;
     private static int WINDOW_HEIGHT;
 
@@ -55,7 +58,9 @@ public class GameBuilder {
     boolean trippy;
 
     public GameBuilder(Stage stg, int w, int h) {
-        System.out.println("Creating game window with dimensions: " + w + " x " + h);
+        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG,"Creating Game Window with dimensions: " + w + " x " + h);
+
         STAGE = stg;
         WINDOW_WIDTH = w;
         WINDOW_HEIGHT = h;

@@ -2,6 +2,7 @@ package app.structures.maze;
 
 import app.structures.SpawnableStructure2D;
 import app.structures.StructureBuilder;
+import app.utils.Log;
 import javafx.geometry.Point2D;
 import app.structures.objects.Base_Cube;
 import app.GameBuilder;
@@ -10,6 +11,8 @@ import org.apache.commons.collections4.MultiValuedMap;
 
 
 public class MazeUtil implements SpawnableStructure2D {
+    private static final String TAG = "MazeUtil";
+
     private int cellWidth;
     private double cellDim;
     private int mazeRows;
@@ -28,6 +31,8 @@ public class MazeUtil implements SpawnableStructure2D {
                     int mazeHeight,
                     int cellWidth,
                     Material mazeMaterial) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
         this.cellWidth = cellWidth;
@@ -44,6 +49,8 @@ public class MazeUtil implements SpawnableStructure2D {
                     int mazeHeight,
                     Material mazeMaterial,
                     Long seed) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
         this.cellWidth = cellWidth;
@@ -63,6 +70,8 @@ public class MazeUtil implements SpawnableStructure2D {
                     Material mazeMaterial,
                     Long seed,
                     boolean isTrapped) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
         this.cellWidth = cellWidth;
@@ -114,7 +123,6 @@ public class MazeUtil implements SpawnableStructure2D {
                     } else if (mi == mazeRows * 2 - 1 && mj == mazeCols * 2) {
                         context.getEnvironment().clearSpot(new Point2D(currX, currZ));
                     } else if (mi == 0 || mi == mazeRows * 2 || mj == 0 || mj == mazeCols * 2 || (mi % 2 == 0 && mj % 2 == 0)) {
-//                    System.out.println("create outer wall");
                         Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                         cube.getShape().setMaterial(mazeMaterial);
                         block_map.put(new Point2D(currX, currZ), cube);
@@ -164,8 +172,6 @@ public class MazeUtil implements SpawnableStructure2D {
                 // loops here are for when the cells are thicker than one block
                 for (i = 0; i < cellWidth; i++) {
                     for (j = 0; j < cellWidth; j++) {
-                        System.out.println("create wall");
-
                         Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                         cube.getShape().setMaterial(mazeMaterial);
                         block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), cube);

@@ -17,7 +17,6 @@ import javafx.scene.text.Text;
 
 
 public class PauseMenu extends HUDElement {
-
     private double width;
     private double height;
     private double screenWidth;

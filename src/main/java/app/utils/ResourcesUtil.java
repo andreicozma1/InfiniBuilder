@@ -11,6 +11,7 @@ import java.net.URI;
 import java.util.*;
 
 public class ResourcesUtil {
+    private static final String TAG = "ResourcesUtil";
 
     public static List<String> world_types_sorted;
 
@@ -49,6 +50,8 @@ public class ResourcesUtil {
 
     Application context;
     public ResourcesUtil(Application app) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         context = app;
         setupMaterials();
         world_types_sorted = new ArrayList<>(world_types.keySet());

@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 
 public class InventoryUtil {
+    private static final String TAG = "InventoryUtil";
+
     private ArrayList<Base_Structure> inventory;
     private HashMap<String, Integer> indexes = new HashMap<String, Integer>();
     private HashMap<String, Integer> sizes = new HashMap<String, Integer>();
@@ -16,6 +18,8 @@ public class InventoryUtil {
     private Base_Structure currentItem = new Base_Structure();
 
     public InventoryUtil(int inventorySize) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         this.inventorySize = inventorySize;
 
         // set the inventory items to all empty items

@@ -3,6 +3,7 @@ package app.environment;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Model;
 import app.structures.objects.Base_Structure;
+import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EnvironmentUtil {
+    private static final String TAG = "EnvironmentUtil";
 
     public GameBuilder context;
 
@@ -56,6 +58,8 @@ public class EnvironmentUtil {
      * @param ctx
      */
     public EnvironmentUtil(GameBuilder ctx) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         context = ctx;
         GROUP_WORLD = new Group(); // initialize the world group, which contains the TERRAIN and STRUCTURES subgroups
         modelUtil = new TDModelUtil();

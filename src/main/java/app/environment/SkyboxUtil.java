@@ -1,5 +1,6 @@
 package app.environment;
 
+import app.utils.Log;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.effect.GaussianBlur;
@@ -10,7 +11,12 @@ import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import app.utils.ResourcesUtil;
 
+import javax.swing.text.html.HTML;
+
 public class SkyboxUtil {
+    private static final String TAG = "SkyboxUtil";
+
+
     private EnvironmentUtil context;
     private Group group_skybox;
 
@@ -61,9 +67,12 @@ public class SkyboxUtil {
      * @param envir
      */
     public SkyboxUtil(EnvironmentUtil envir) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         context = envir;
         group_skybox = new Group();
         MODE_CURR = MODE_CYCLE;
+
 
         sunset_color = Color.rgb(253, 94, 83);
 

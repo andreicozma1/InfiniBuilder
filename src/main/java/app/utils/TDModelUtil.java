@@ -17,6 +17,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class TDModelUtil {
+    private static final String TAG = "ModelUtil";
 
     private Map<String, File> resources;
 
@@ -26,7 +27,7 @@ public class TDModelUtil {
     private final String EXTENSION_3DS = "3ds";
 
     public TDModelUtil() {
-        System.out.println("ModelUtil");
+        Log.p(TAG,"CONSTRUCTOR");
 
         obj_importer = new TdsModelImporter();
         resources = new HashMap<>();

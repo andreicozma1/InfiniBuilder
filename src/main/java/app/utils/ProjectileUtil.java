@@ -5,6 +5,7 @@ import javafx.animation.AnimationTimer;
 import app.structures.StructureBuilder;
 
 public class ProjectileUtil extends StructureBuilder {
+    private static final String TAG = "ProjectileUtil";
 
     private EnvironmentUtil context;
     private StructureBuilder str;
@@ -12,7 +13,8 @@ public class ProjectileUtil extends StructureBuilder {
     private double DEFAULT_SPEED = 5;
 
     public ProjectileUtil(EnvironmentUtil u, StructureBuilder b) {
-        System.out.println("Added projectile");
+        Log.p(TAG,"CONSTRUCTOR");
+
         context = u;
         str = b;
 

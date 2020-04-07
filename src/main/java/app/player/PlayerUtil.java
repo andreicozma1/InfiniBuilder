@@ -63,6 +63,8 @@ public class PlayerUtil {
     private boolean uv_light_state = false;
 
     public PlayerUtil(GameBuilder ctx) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         context = ctx;
         player_group = new Group();
 

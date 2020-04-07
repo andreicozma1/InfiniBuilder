@@ -4,11 +4,14 @@ import app.GameBuilder;
 import app.structures.SpawnableStructure2D;
 import app.structures.StructureBuilder;
 import app.structures.objects.Base_Cube;
+import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
 
 public class PyramidUtil implements SpawnableStructure2D {
+    private static final String TAG = "PyramidUtil";
+
     private double cellDim;
     private int baseSideSize;
     private Material pyramidMaterial;
@@ -16,6 +19,8 @@ public class PyramidUtil implements SpawnableStructure2D {
     public PyramidUtil(double cellDim,
                        int baseSideSize,
                        Material pyramidMaterial) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         this.cellDim = cellDim;
         this.baseSideSize = baseSideSize;
         this.pyramidMaterial = pyramidMaterial;

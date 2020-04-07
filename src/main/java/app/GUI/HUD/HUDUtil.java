@@ -2,6 +2,7 @@ package app.GUI.HUD;
 
 import app.GUI.HUD.HUDElements.HUDElement;
 import app.GameBuilder;
+import app.utils.Log;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
 
@@ -9,6 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HUDUtil {
+    private static final String TAG = "HudUtil";
+
     public GameBuilder context;
     private SubScene subScene;
     private Group HUDGroup = new Group();
@@ -33,6 +36,7 @@ public class HUDUtil {
     private Map<String, HUDElement> elements = new HashMap<>();
 
     public HUDUtil(GameBuilder ctx){
+        Log.p(TAG,"CONSTRUCTOR");
         context = ctx;
         subScene = new SubScene(HUDGroup, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight());
     }

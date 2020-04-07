@@ -6,6 +6,7 @@ import javafx.scene.Node;
 
 
 public class HUDElement {
+
     private Group group;
     private Group addedGroup = new Group();
     private String elementTag;

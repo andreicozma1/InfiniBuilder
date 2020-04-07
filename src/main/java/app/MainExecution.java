@@ -84,7 +84,7 @@ public class MainExecution extends Application {
         inventoryUtil.addItem(maze2item, 99);
         inventoryUtil.addItem(pyrmItem, 99);
         inventoryUtil.setCurrentIndex(7);
-        inventoryUtil.print();
+//        inventoryUtil.print();
 
 
         // draws our game HUD

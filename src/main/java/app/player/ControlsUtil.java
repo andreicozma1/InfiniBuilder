@@ -3,6 +3,7 @@ package app.player;
 import app.GUI.HUD.HUDElements.DeathMenu;
 import app.GUI.HUD.HUDUtil;
 import app.GUI.HUD.HUDElements.PauseMenu;
+import app.utils.Log;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -11,6 +12,8 @@ import app.GameBuilder;
 import java.util.ArrayList;
 
 public class ControlsUtil {
+    private static final String TAG = "ControlsUtil";
+
     private GameBuilder context;
     double last_mouse_x;
     double last_mouse_y;
@@ -19,6 +22,8 @@ public class ControlsUtil {
 
 
     public ControlsUtil(GameBuilder ctx) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         context = ctx;
         pressed = new ArrayList<>();
     }

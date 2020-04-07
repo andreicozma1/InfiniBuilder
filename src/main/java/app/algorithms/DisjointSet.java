@@ -3,6 +3,7 @@ package app.algorithms;
 import java.util.ArrayList;
 
 public class DisjointSet{
+    private static final String TAG = "DisjointSet";
     private ArrayList<Integer> links;
     private ArrayList<Integer> sizes;
     public DisjointSet(int nElements){

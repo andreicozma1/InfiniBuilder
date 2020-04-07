@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 
 
 public class DeathMenu extends HUDElement {
+    private static final String TAG = "DeathMenu";
 
     private double width;
     private double height;

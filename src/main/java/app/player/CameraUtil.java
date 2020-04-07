@@ -1,11 +1,14 @@
 package app.player;
 
+import app.utils.Log;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import app.GameBuilder;
 
 public class CameraUtil {
+    private static final String TAG = "CameraUtil";
+
     private GameBuilder context;
     private static PerspectiveCamera cam;
 
@@ -20,6 +23,8 @@ public class CameraUtil {
     private double roty = 0;
 
     public CameraUtil(GameBuilder ctx) {
+        Log.p(TAG,"CONSTRUCTOR");
+
         context = ctx;
         cam = new PerspectiveCamera(true);
         cam.setFieldOfView(25); // initial value
