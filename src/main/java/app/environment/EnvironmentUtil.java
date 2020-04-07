@@ -7,6 +7,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import app.algorithms.SimplexUtil;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.paint.Material;
 import javafx.scene.shape.CullFace;
 import app.utils.TDModelUtil;

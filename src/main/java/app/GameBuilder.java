@@ -8,6 +8,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.Cursor;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 import app.player.CameraUtil;
@@ -45,14 +46,19 @@ public class GameBuilder {
     private AnimationTimer timer;
     private long runtime = 0;
 
+    public MotionBlur motionBlur;
+
     public GameBuilder(Stage stg, int w, int h) {
         System.out.println("Creating game window with dimensions: " + w + " x " + h);
         STAGE = stg;
         WINDOW_WIDTH = w;
         WINDOW_HEIGHT = h;
+        motionBlur = new MotionBlur();
+        motionBlur.setRadius(0);
 
         GAME_GROUP = new Group();
         GAME_SCENE = new SubScene(GAME_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT, true, SceneAntialiasing.BALANCED);
+        GAME_SCENE.setEffect(motionBlur);
 
         ROOT_GROUP = new Group();
         ROOT_SCENE = new Scene(ROOT_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT);

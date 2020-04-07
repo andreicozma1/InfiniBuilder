@@ -112,6 +112,7 @@ public class PlayerUtil {
         if (isRunning) {
             if (curr_fov < context.getCamera().getFov_default() * context.getCamera().getFov_running_multiplier()) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 1);
+                context.motionBlur.setRadius(context.motionBlur.getRadius() + .5);
             }
         } else {
 
@@ -122,6 +123,11 @@ public class PlayerUtil {
                 context.getCamera().getCamera().setFieldOfView(curr_fov - 5);
             } else if (curr_fov < context.getCamera().getFov_default() - 2) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 2);
+            }
+            if(context.motionBlur.getRadius() > 0){
+                context.motionBlur.setRadius(context.motionBlur.getRadius()-1);
+            }else{
+                context.motionBlur.setRadius(0);
             }
         }
 
