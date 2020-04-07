@@ -123,7 +123,7 @@ public class GameBuilder {
         EFFECT_SEPIA_TONE.setInput(EFFECT_COLOR_ADJUST);
 
         setSepiaTone(0);
-        setBloom(.8);
+        setBloom(.85);
         setMotionBlur(0);
         setMotionBlurEnabled(true);
     }

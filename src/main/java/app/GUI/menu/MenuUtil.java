@@ -666,7 +666,7 @@ public class MenuUtil {
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_render_distance+=5;
-                        if(curr_render_distance>50)curr_render_distance=0;
+                        if(curr_render_distance>75)curr_render_distance=0;
                         renderDistanceMult.setText((int) curr_render_distance + " blocks");
                         context.getEnvironment().setTerrainRenderDistance(curr_render_distance);
                     }

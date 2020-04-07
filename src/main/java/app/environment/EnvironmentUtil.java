@@ -40,10 +40,10 @@ public class EnvironmentUtil {
     private boolean terrain_should_have_water = true;
     private Material terrain_single_material = null; // Default terrain generation if 'null'
 
-    private Map<Point2D, Double> terrain_map_height = new HashMap<>();
-    private Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<>();
+    public Map<Point2D, Double> terrain_map_height = new HashMap<>();
+    public Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<>();
 
-    double planet_diameter = 8000;
+    public double planet_diameter = 8000;
     private double water_level = 203;
     private double desert_level = 200;
     private double plains_level = 100;
@@ -266,11 +266,15 @@ public class EnvironmentUtil {
         // requires the getX() and getZ() from PlayerUtil
         Point2D pt = new Point2D(getWorldXFromPlayerX(playerx), getWorldZFromPlayerZ(playerz));
         if (terrain_map_height.containsKey(pt)) {
-            return terrain_map_height.get(pt);
+            return -terrain_map_height.get(pt);
         } else {
             // Y down is positive.
             return Integer.MAX_VALUE;
         }
+    }
+
+    public Point2D getWorldPoint2D(Point2D pt){
+        return new Point2D(getWorldXFromPlayerX(pt.getX()),getWorldZFromPlayerZ(pt.getY()));
     }
 
     public void placeObject(Point2D pos, StructureBuilder str, boolean removeExtras) {
