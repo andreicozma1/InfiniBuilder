@@ -266,7 +266,7 @@ public class PlayerUtil {
     }
 
 
-    double fall_height = 0;
+    private double fall_height = 0;
 
     public void moveDown(double val) {
         double ground_level = -context.getEnvironment().getTerrainYfromPlayerXZ(getPos_x(), getPos_z());
@@ -399,18 +399,18 @@ public class PlayerUtil {
         context.getGameSceneControls().reset();
     }
 
-    void die() {
+    public void die() {
         ((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).setDead(true);
         context.getHUD().getElement(HUDUtil.DEATH).update();
     }
 
 
-    void setUV_light(boolean state) {
+    public void setUV_light(boolean state) {
         uv_light.setLightOn(state);
         uv_light_state = state;
     }
 
-    void toggleUVlight() {
+    public void toggleUVlight() {
         if (uv_light_state) {
             setUV_light(false);
         } else {
@@ -418,26 +418,34 @@ public class PlayerUtil {
         }
     }
 
-    void toggleCrouch() {
+    public void toggleCrouch() {
         if (!isFlyMode) {
             context.getPlayer().isCrouching = !context.getPlayer().isCrouching;
         }
     }
 
 
-    boolean getIsClipMode() {
+    public boolean getIsClipMode() {
         return isClipMode;
     }
 
-    void toggleIsClipMode() {
+    public void setIsClipMode(boolean val){
+        isClipMode = val;
+    }
+
+    public void toggleIsClipMode() {
         context.getPlayer().isClipMode = !context.getPlayer().isClipMode;
     }
 
-    boolean getIsFlyMode() {
+    public boolean getIsFlyMode() {
         return isFlyMode;
     }
 
-    void toggleIsFlyMode() {
+    public void setIfFlyMode(boolean val){
+        isFlyMode = val;
+    }
+
+    public void toggleIsFlyMode() {
         context.getPlayer().isFlyMode = !context.getPlayer().isFlyMode;
     }
 

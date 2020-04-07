@@ -142,7 +142,7 @@ public class PauseMenu extends HUDElement {
                         public void handle(MouseEvent me) {
                             menuUtil.setSettingsReturnState(MenuUtil.PAUSE);
                             context.showScene(context.getMenu().getScene());
-                            menuUtil.activateGroup(menuUtil.GROUP_SETTINGS);
+                            menuUtil.activateGroup(MenuUtil.GROUP_SETTINGS);
                         }
                     });
             settingsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -169,7 +169,7 @@ public class PauseMenu extends HUDElement {
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
                             context.showScene(context.getMenu().getScene());
-                            menuUtil.activateGroup(menuUtil.GROUP_MAIN_MENU);
+                            menuUtil.activateGroup(MenuUtil.GROUP_MAIN_MENU);
                             isPaused = false;
                             update();
                         }

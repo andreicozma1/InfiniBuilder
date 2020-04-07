@@ -171,7 +171,7 @@ public class DeathMenu extends HUDElement {
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
                             context.showScene(context.getMenu().getScene());
-                            menuUtil.activateGroup(menuUtil.GROUP_MAIN_MENU);
+                            menuUtil.activateGroup(MenuUtil.GROUP_MAIN_MENU);
                             isDead = false;
                             update();
                         }

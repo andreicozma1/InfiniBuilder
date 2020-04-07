@@ -34,7 +34,7 @@ public class HUDUtil {
 
     public HUDUtil(GameBuilder ctx){
         context = ctx;
-        subScene = new SubScene(HUDGroup,ctx.getWindowWidth(),ctx.getWindowHeight());
+        subScene = new SubScene(HUDGroup, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight());
     }
 
     public Group getHUDGroup(){ return HUDGroup; }

@@ -113,7 +113,7 @@ public class MenuUtil {
         cameraMenu = new InterfaceBuilder();
         graphicsMenu = new InterfaceBuilder();
 
-        SCENE_MENU = new Scene(mainMenu.getGroup(),context.getWindowWidth(),context.getWindowHeight());
+        SCENE_MENU = new Scene(mainMenu.getGroup(), GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight());
 
         settingsReturnState = MAIN;
 
@@ -200,7 +200,7 @@ public class MenuUtil {
     public void buildMainMenu() {
 
         // draw black backdrop
-        mainMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+        mainMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         mainMenu.drawText("ROOT@CS307:~$",
@@ -340,7 +340,7 @@ public class MenuUtil {
 
     public void buildControlsMenu() {
         // draw black backdrop
-        controlsMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+        controlsMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         controlsMenu.drawText("ROOT@CS307:~/Controls$",
@@ -384,7 +384,7 @@ public class MenuUtil {
 
     public void buildSettingsMenu() {
         // draw black backdrop
-        settingsMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+        settingsMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         settingsMenu.drawText("ROOT@CS307:~/Settings$",
@@ -544,7 +544,7 @@ public class MenuUtil {
 
     public void buildEnvironmentMenu(){
         // draw black backdrop
-        environmentMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+        environmentMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         environmentMenu.drawText("ROOT@CS307:~/Settings/Environment$",
@@ -563,14 +563,14 @@ public class MenuUtil {
 
         Text worldHeightArrow = environmentMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text worldHeightText= environmentMenu.drawText("./World_Height_Multiplier", 95, 140, Color.WHITE, options);
-        Text worldHeightMult = environmentMenu.drawText(Integer.toString((int)curr_world_height_mult) + " blocks", 550, 140, Color.WHITE, options);
+        Text worldHeightMult = environmentMenu.drawText((int) curr_world_height_mult + " blocks", 550, 140, Color.WHITE, options);
         Rectangle worldHeightHitBox = environmentMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
         worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_world_height_mult +=5;
                         if(curr_world_height_mult >35) curr_world_height_mult = 0;
-                        worldHeightMult.setText(Integer.toString((int)curr_world_height_mult) + " blocks");
+                        worldHeightMult.setText((int) curr_world_height_mult + " blocks");
                         context.getEnvironment().setTerrainHeightMultiplier(curr_world_height_mult);
                     }
                 });
@@ -595,14 +595,14 @@ public class MenuUtil {
 
         Text vegetationArrow = environmentMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text vegetationText= environmentMenu.drawText("./Vegetation_Percent", 95, 190, Color.WHITE, options);
-        Text vegetationMult = environmentMenu.drawText(Integer.toString((int) curr_vegetation_mult)+"%", 550, 190, Color.WHITE, options);
+        Text vegetationMult = environmentMenu.drawText((int) curr_vegetation_mult +"%", 550, 190, Color.WHITE, options);
         Rectangle vegetationHitBox = environmentMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
         vegetationHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_vegetation_mult+=5;
                         if(curr_vegetation_mult>100)curr_vegetation_mult=0;
-                        vegetationMult.setText(Integer.toString((int) curr_vegetation_mult)+"%");
+                        vegetationMult.setText((int) curr_vegetation_mult +"%");
                         context.getEnvironment().setVegetationDensityPercent(curr_vegetation_mult);
                     }
                 });
@@ -660,14 +660,14 @@ public class MenuUtil {
         // render distance
         Text renderDistanceArrow = environmentMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text renderDistanceText= environmentMenu.drawText("./Render_Distance", 95, 290, Color.WHITE, options);
-        Text renderDistanceMult = environmentMenu.drawText(Integer.toString((int)curr_render_distance) + " blocks", 550, 290, Color.WHITE, options);
+        Text renderDistanceMult = environmentMenu.drawText((int) curr_render_distance + " blocks", 550, 290, Color.WHITE, options);
         Rectangle renderDistanceHitBox = environmentMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
         renderDistanceHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_render_distance+=5;
                         if(curr_render_distance>50)curr_render_distance=0;
-                        renderDistanceMult.setText(Integer.toString((int) curr_render_distance) + " blocks");
+                        renderDistanceMult.setText((int) curr_render_distance + " blocks");
                         context.getEnvironment().setTerrainRenderDistance(curr_render_distance);
                     }
                 });
@@ -697,8 +697,7 @@ public class MenuUtil {
         hasWaterHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        if(curr_terrain_has_water)curr_terrain_has_water=false;
-                        else curr_terrain_has_water = true;
+                        curr_terrain_has_water= !curr_terrain_has_water;
 
                         hasWaterChoice.setText(String.valueOf(curr_terrain_has_water));
                         context.getEnvironment().setTerrain_should_have_water(curr_terrain_has_water);
@@ -749,7 +748,7 @@ public class MenuUtil {
 
     public void buildSkyBoxMenu(){
         // draw black backdrop
-        skyBoxMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+        skyBoxMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         skyBoxMenu.drawText("ROOT@CS307:~/Settings/SkyBox$",
@@ -860,14 +859,14 @@ public class MenuUtil {
         // period multiplier for sun / moon  . cannot be 0. exponential up to 256
         Text sunMoonPeriodArrow = skyBoxMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text sunMoonPeriodText= skyBoxMenu.drawText("./Sun_Moon_Period_Multiplier", 95, 290, Color.WHITE, options);
-        Text sunMoonPeriodMult = skyBoxMenu.drawText(Integer.toString((int)curr_sun_moon_period) + " sec", 550, 290, Color.WHITE, options);
+        Text sunMoonPeriodMult = skyBoxMenu.drawText(curr_sun_moon_period + " sec", 550, 290, Color.WHITE, options);
         Rectangle sunMoonPeriodHitBox = skyBoxMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
         sunMoonPeriodHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_sun_moon_period *= 2;
                         if(curr_sun_moon_period > 256) curr_sun_moon_period = 2;
-                        sunMoonPeriodMult.setText(Integer.toString((int)curr_sun_moon_period) + " sec");
+                        sunMoonPeriodMult.setText(curr_sun_moon_period + " sec");
                         context.getEnvironment().getSkybox().setSun_moon_period_multiplier(curr_sun_moon_period);
                     }
                 });
@@ -891,14 +890,14 @@ public class MenuUtil {
         // period multiplier for big star
         Text bigStarPeriodArrow = skyBoxMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text bigStarPeriodText= skyBoxMenu.drawText("./Big_Star_Period_Multiplier", 95, 340, Color.WHITE, options);
-        Text bigStarPeriodMult = skyBoxMenu.drawText(Integer.toString((int)curr_big_star_period) + " sec", 550, 340, Color.WHITE, options);
+        Text bigStarPeriodMult = skyBoxMenu.drawText(curr_big_star_period + " sec", 550, 340, Color.WHITE, options);
         Rectangle bigStarPeriodHitBox = skyBoxMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
         bigStarPeriodHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_big_star_period *= 2;
                         if(curr_big_star_period > 256) curr_big_star_period = 2;
-                        bigStarPeriodMult.setText(Integer.toString((int)curr_big_star_period) + " sec");
+                        bigStarPeriodMult.setText(curr_big_star_period + " sec");
                         context.getEnvironment().getSkybox().setBig_planet_period_multiplier(curr_big_star_period);
                     }
                 });
@@ -948,7 +947,7 @@ public class MenuUtil {
 
     public void buildPlayerMenu(){
         // draw black backdrop
-        playerMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+        playerMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         playerMenu.drawText("ROOT@CS307:~/Settings/Player$",
@@ -1085,7 +1084,7 @@ public class MenuUtil {
 
     public void buildCameraMenu(){
         // draw black backdrop
-        cameraMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+        cameraMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         cameraMenu.drawText("ROOT@CS307:~/Settings/Camera$",
@@ -1103,14 +1102,14 @@ public class MenuUtil {
         // default fov
         Text defaultFovArrow = cameraMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text defaultFovText= cameraMenu.drawText("./Default_FOV", 95, 140, Color.WHITE, options);
-        Text defaultFovMult = cameraMenu.drawText(Integer.toString(curr_fov_default) + " deg", 550, 140, Color.WHITE, options);
+        Text defaultFovMult = cameraMenu.drawText(curr_fov_default + " deg", 550, 140, Color.WHITE, options);
         Rectangle defaultFovHitBox = cameraMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
         defaultFovHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_fov_default +=5;
                         if(curr_fov_default > 100) curr_fov_default = 20;
-                        defaultFovMult.setText(Integer.toString(curr_fov_default) + " deg");
+                        defaultFovMult.setText(curr_fov_default + " deg");
                         context.getCamera().setFov_default(curr_fov_default);
                     }
                 });
@@ -1219,7 +1218,7 @@ public class MenuUtil {
 
     public void buildGraphicsMenu(){
         // draw black backdrop
-        graphicsMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+        graphicsMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         graphicsMenu.drawText("ROOT@CS307:~$ ./About",
@@ -1381,7 +1380,7 @@ public class MenuUtil {
     // ABOUT MENU
     public void buildAboutMenu() {
         // draw black backdrop
-        aboutMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+        aboutMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         aboutMenu.drawText("ROOT@CS307:~$ ./About",

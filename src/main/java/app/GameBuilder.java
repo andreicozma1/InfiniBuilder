@@ -66,7 +66,6 @@ public class GameBuilder {
         GAME_SCENE = new SubScene(GAME_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT, true, SceneAntialiasing.BALANCED);
         GAME_SCENE.setEffect(EFFECT_SEPIA_TONE);
 
-
         ROOT_GROUP = new Group();
         ROOT_SCENE = new Scene(ROOT_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT);
         ROOT_GROUP.getChildren().add(GAME_SCENE);
@@ -274,7 +273,7 @@ public class GameBuilder {
     public void setContrast(double val){
         try{
             if(val >= -1 && val <= 1){
-                EFFECT_COLOR_ADJUST.setContrast(val);;
+                EFFECT_COLOR_ADJUST.setContrast(val);
             } else{
                 throw new IndexOutOfBoundsException();
             }
@@ -290,7 +289,7 @@ public class GameBuilder {
     public void setBrightness(double val){
         try{
             if(val >= -1 && val <= 1){
-                EFFECT_COLOR_ADJUST.setBrightness(val);;
+                EFFECT_COLOR_ADJUST.setBrightness(val);
             } else{
                 throw new IndexOutOfBoundsException();
             }
@@ -322,7 +321,7 @@ public class GameBuilder {
     public void setHue(double val){
         try{
             if(val >= -1 && val <= 1){
-                EFFECT_COLOR_ADJUST.setHue(val);;
+                EFFECT_COLOR_ADJUST.setHue(val);
             } else{
                 throw new IndexOutOfBoundsException();
             }
@@ -338,7 +337,7 @@ public class GameBuilder {
     public void setBloom(double val){
         try{
             if(val >= 0 && val <= 1){
-                EFFECT_BLOOM.setThreshold(val);;
+                EFFECT_BLOOM.setThreshold(val);
             } else{
                 throw new IndexOutOfBoundsException();
             }
@@ -353,7 +352,7 @@ public class GameBuilder {
     public void setSepiaTone(double val){
         try{
             if(val >= 0 && val <= 1){
-                EFFECT_SEPIA_TONE.setLevel(val);;
+                EFFECT_SEPIA_TONE.setLevel(val);
             } else{
                 throw new IndexOutOfBoundsException();
             }
@@ -376,7 +375,7 @@ public class GameBuilder {
     public void setMotionBlur(double val){
         try{
             if(val >= 0){
-                EFFECT_MOTION_BLUR.setRadius(val);;
+                EFFECT_MOTION_BLUR.setRadius(val);
             } else{
                 throw new IndexOutOfBoundsException();
             }
