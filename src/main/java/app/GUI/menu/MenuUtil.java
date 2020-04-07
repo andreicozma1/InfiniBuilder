@@ -17,8 +17,16 @@ import java.util.*;
 
 
 public class MenuUtil {
+
+    // class variables
     Scene SCENE_MENU;
     GameBuilder context;
+    private String singleArrow = ">";
+    private String doubleArrow = ">>";
+    private Font title = Font.font("Monospaced",FontWeight.BOLD,FontPosture.REGULAR,30);
+    private Font options = Font.font("Monospaced",FontWeight.NORMAL,FontPosture.REGULAR,25);
+    private Color GREEN = Color.valueOf("#20C20E");
+
 
 
     // main menu group
@@ -32,25 +40,19 @@ public class MenuUtil {
     InterfaceBuilder cameraMenu;
 
 
+    // menu to explain the controls
     InterfaceBuilder controlsMenu;
-    InterfaceBuilder aboutMenu;
-    InterfaceBuilder exitButton;    // not sure what this is for will most likely delete
 
+    // menu to explain the project
+    InterfaceBuilder aboutMenu;
+
+    // menu that will display when the player dies
+    InterfaceBuilder deathMenu;
+
+    // variables for the settings menu return state
     private String settingsReturnState;
     public static final String PAUSE = "PAUSE";
     public static final String MAIN = "MAIN";
-
-
-
-
-    private String singleArrow = ">";
-    private String doubleArrow = ">>";
-
-    private Font title = Font.font("Monospaced",FontWeight.BOLD,FontPosture.REGULAR,30);
-    private Font options = Font.font("Monospaced",FontWeight.NORMAL,FontPosture.REGULAR,25);
-
-    private Color GREEN = Color.valueOf("#20C20E");
-
 
     // world generation settings
     private int curr_world_type = 0;
@@ -58,7 +60,6 @@ public class MenuUtil {
     private double curr_vegetation_mult;
     private double curr_render_distance;
     private boolean curr_terrain_has_water;
-
 
     // sky box settings
     private double curr_sun_scale;
@@ -77,6 +78,7 @@ public class MenuUtil {
     private double curr_fov_running;
     private double curr_fov_tired;
 
+    // static strings to access any menu from the menuGroupHashMap
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_CONTROLS = "GROUP_CONTROLS";
     public static String GROUP_SETTINGS = "GROUP_SETTINGS";
@@ -84,10 +86,10 @@ public class MenuUtil {
     public static String GROUP_SKYBOX = "GROUP_SKYBOX";
     public static String GROUP_PLAYER = "GROUP_PLAYER";
     public static String GROUP_CAMERA = "GROUP_CAMERA";
-
     public static String GROUP_ABOUT = "GROUP_ABOUT";
-    public static String GROUP_EXIT = "GROUP_EXIT";
+    public static String GROUP_DEATH = "GROUP_DEATH";
 
+    // variables to hold and keep track of the different menus
     String currentGroup;
     public HashMap<String, Group> menuGroupMap = new HashMap<>();
 
@@ -104,7 +106,7 @@ public class MenuUtil {
         skyBoxMenu = new InterfaceBuilder();
         playerMenu = new InterfaceBuilder();
         cameraMenu = new InterfaceBuilder();
-        exitButton = new InterfaceBuilder();
+        deathMenu = new InterfaceBuilder();
 
         SCENE_MENU = new Scene(mainMenu.getGroup(),context.getWindowWidth(),context.getWindowHeight());
 
@@ -132,15 +134,13 @@ public class MenuUtil {
 
         buildMainMenu();
         buildControlsMenu();
-
         buildSettingsMenu();
         buildEnvironmentMenu();
         buildSkyBoxMenu();
         buildPlayerMenu();
         buildCameraMenu();
-
-
         buildAboutMenu();
+        buildDeathMenu();
 
         addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
         addGroup(GROUP_SETTINGS, settingsMenu.getGroup());
@@ -150,10 +150,7 @@ public class MenuUtil {
         addGroup(GROUP_CAMERA, cameraMenu.getGroup());
         addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
         addGroup(GROUP_ABOUT, aboutMenu.getGroup());
-        addGroup(GROUP_EXIT, exitButton.getGroup());
-
-
-
+        addGroup(GROUP_DEATH,deathMenu.getGroup());
 
         System.out.println("curr_sun_scale = "+curr_sun_scale);
         setControlScheme();
@@ -1233,4 +1230,97 @@ public class MenuUtil {
                     }
                 });
     }
+
+    public void buildDeathMenu(){
+        // draw black backdrop
+        deathMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
+
+        //draw title
+        deathMenu.drawText("ROOT@CS307:~/PLAYER_HAS_DIED$ YOU HAVE MCFUCKING DIED",
+                50,
+                50,
+                GREEN,
+                title);
+
+        deathMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+
+        // Start A New Game
+        Text respawnArrow = deathMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text respawnGameText = deathMenu.drawText("./Respawn", 95, 140, Color.WHITE, options);
+        Rectangle respawnGameHitBox = deathMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        respawnGameHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        context.showScene(context.getGameRootScene());
+                    }
+                });
+        respawnGameHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        respawnArrow.setText(doubleArrow);
+                        respawnGameText.setFill(GREEN);
+                    }
+                });
+        respawnGameHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        respawnArrow.setText(singleArrow);
+                        respawnGameText.setFill(Color.WHITE);
+                    }
+                });
+
+        // Start A New Game
+        Text startNewGameArrow = deathMenu.drawText(singleArrow, 50, 190, GREEN, options);
+        Text startNewGameText = deathMenu.drawText("./Start_New_Game", 95, 190, Color.WHITE, options);
+        Rectangle startNewGameHitBox = deathMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        startNewGameHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        context.getEnvironment().reset();
+                        context.showScene(context.getGameRootScene());
+                    }
+                });
+        startNewGameHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        startNewGameArrow.setText(doubleArrow);
+                        startNewGameText.setFill(GREEN);
+                    }
+                });
+        startNewGameHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        startNewGameArrow.setText(singleArrow);
+                        startNewGameText.setFill(Color.WHITE);
+                    }
+                });
+
+        // Start A New Game
+        Text mainMenuArrow = deathMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text mainMenuGameText = deathMenu.drawText("./Exit_To_Main_Menu", 95, 240, Color.WHITE, options);
+        Rectangle mainMenuGameHitBox = deathMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        mainMenuGameHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {activateGroup(GROUP_MAIN_MENU); }
+                });
+        mainMenuGameHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        mainMenuArrow.setText(doubleArrow);
+                        mainMenuGameText.setFill(GREEN);
+                    }
+                });
+        mainMenuGameHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        mainMenuArrow.setText(singleArrow);
+                        mainMenuGameText.setFill(Color.WHITE);
+                    }
+                });
+    }
+
 }

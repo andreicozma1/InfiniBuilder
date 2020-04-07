@@ -2,6 +2,7 @@ package app.player;
 
 import app.GUI.HUD.HUDUtil;
 import app.GUI.HUD.StatusBar;
+import app.GUI.menu.MenuUtil;
 import app.structures.StructureBuilder;
 import app.structures.objects.Base_Structure;
 import app.utils.ProjectileUtil;
@@ -390,6 +391,7 @@ public class PlayerUtil {
 
     void die(){
         reset();
+        context.getMenu().activateGroup(MenuUtil.GROUP_DEATH);
         context.showScene(context.getMenu().getScene());
     }
 
