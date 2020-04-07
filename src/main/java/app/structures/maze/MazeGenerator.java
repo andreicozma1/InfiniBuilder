@@ -1,6 +1,7 @@
 package app.structures.maze;
 
 import app.algorithms.DisjointSet;
+import app.algorithms.Edge;
 
 import java.util.*;
 
@@ -9,8 +10,8 @@ public class MazeGenerator {
     private int cols;
     private long seed;
     private Random ran;
-    private List<Wall> maze;
-    private List<Wall> deletedWalls;
+    private List<Edge> maze;
+    private List<Edge> deletedEdges;
     private DisjointSet disjointSet;
 
     public MazeGenerator(int r, int c, long seed) {
@@ -20,8 +21,8 @@ public class MazeGenerator {
         System.out.println(r*c);
         this.seed = seed;
         ran.setSeed(this.seed);
-        maze = new ArrayList<Wall>();
-        deletedWalls = new ArrayList<Wall>();
+        maze = new ArrayList<Edge>();
+        deletedEdges = new ArrayList<Edge>();
         disjointSet = new DisjointSet(this.rows * this.cols);
 
         generateWalls();
@@ -35,13 +36,13 @@ public class MazeGenerator {
     public int getCols() { return cols; }
     public int getRows() { return rows; }
     public long getSeed() { return seed; }
-    public List<Wall> getWalls() { return maze; }
-    public List<Wall> getDeletedWalls() { return deletedWalls; }
+    public List<Edge> getWalls() { return maze; }
+    public List<Edge> getDeletedWalls() { return deletedEdges; }
     public void resetMaze(){
         ran.setSeed(this.seed);
         disjointSet = new DisjointSet(this.rows * this.cols);
-        maze = new ArrayList<Wall>();
-        deletedWalls = new ArrayList<Wall>();
+        maze = new ArrayList<Edge>();
+        deletedEdges = new ArrayList<Edge>();
         generateWalls();
         breakWalls();
     }
@@ -53,16 +54,16 @@ public class MazeGenerator {
         // generate horizontal walls
         for ( r = 0 ; r < rows ; r++ ) {
             for ( c = 0 ; c < cols-1 ; c++ ) {
-                Wall tmpWall = new Wall(r*cols +c,r*cols +c+1);
-                maze.add(tmpWall);
+                Edge tmpEdge = new Edge(r*cols +c,r*cols +c+1);
+                maze.add(tmpEdge);
             }
         }
 
         // generate vertical walls
         for ( c = 0 ; c < cols ; c++ ){
             for ( r = 0 ; r < rows-1 ; r++ ) {
-                Wall tmpWall = new Wall(r*cols +c,r*cols +c+cols);
-                maze.add(tmpWall);
+                Edge tmpEdge = new Edge(r*cols +c,r*cols +c+cols);
+                maze.add(tmpEdge);
             }
         }
 
@@ -72,10 +73,10 @@ public class MazeGenerator {
         //  loops until every index in the disjoint set is joined together
         while( disjointSet.getSize(disjointSet.Find(0))!=rows*cols){
             int wallIndex = ran.nextInt(maze.size());
-            int s1 = disjointSet.Find(maze.get(wallIndex).cell1);
-            int s2 = disjointSet.Find(maze.get(wallIndex).cell2);
+            int s1 = disjointSet.Find(maze.get(wallIndex).v1);
+            int s2 = disjointSet.Find(maze.get(wallIndex).v2);
             if ( s1 != s2 ){
-                deletedWalls.add(maze.get(wallIndex));
+                deletedEdges.add(maze.get(wallIndex));
                 maze.remove(wallIndex);
                 disjointSet.Union(s1,s2);
             }
@@ -83,11 +84,15 @@ public class MazeGenerator {
     }
 
     public void printWalls(){
-        for(Wall w : maze){
-            System.out.println("MAZE WALLS "+w.cell1+" "+w.cell2);
+        for(Edge w : maze){
+            System.out.println("MAZE WALLS "+w.v1+" "+w.v2);
         }
     }
-
+    public void printDeletedWalls(){
+        for(Edge w : deletedEdges){
+            System.out.println("MAZE WALLS "+w.v1+" "+w.v2);
+        }
+    }
     @Override
     public String toString() {
         return "MazeGenerator{" +
