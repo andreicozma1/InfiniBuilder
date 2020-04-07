@@ -235,4 +235,8 @@ public class GameBuilder {
     public void closeWindow() {
         STAGE.close();
     }
+
+    public void resetEffects(){
+        motionBlur.setRadius(0);
+    }
 }
