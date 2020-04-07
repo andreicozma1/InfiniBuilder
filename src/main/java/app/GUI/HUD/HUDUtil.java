@@ -1,9 +1,9 @@
 package app.GUI.HUD;
 
+import app.GUI.HUD.HUDElements.HUDElement;
 import app.GameBuilder;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
-import app.player.PlayerUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +22,7 @@ public class HUDUtil {
     public static final String PAUSE = "PAUSE";
     public static final String DEATH = "DEATH";
     public static final String CROSSHAIR = "CROSSHAIR";
+    public static final String PLAYER_INFO = "PLAYER_INFO";
 
 
     public static final String EDGE_BOTTOM = "edge_bottom";

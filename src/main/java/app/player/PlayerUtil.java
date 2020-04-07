@@ -1,8 +1,7 @@
 package app.player;
 
-import app.GUI.HUD.DeathMenu;
+import app.GUI.HUD.HUDElements.*;
 import app.GUI.HUD.HUDUtil;
-import app.GUI.HUD.StatusBar;
 import app.GUI.menu.MenuUtil;
 import app.structures.StructureBuilder;
 import app.structures.objects.Base_Structure;

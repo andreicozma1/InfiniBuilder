@@ -1,6 +1,6 @@
 package app.player;
 
-import app.GUI.HUD.HUDElement;
+import app.GUI.HUD.HUDElements.HUDElement;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.structures.StructureBuilder;

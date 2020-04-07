@@ -1,12 +1,13 @@
-package app.GUI.HUD;
+package app.GUI.HUD.HUDElements;
 
+import app.GUI.HUD.HUDElements.HUDElement;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 
-public class StatusBar extends HUDElement{
+public class StatusBar extends HUDElement {
 
     private double maxStatus;
     private double currStatus;

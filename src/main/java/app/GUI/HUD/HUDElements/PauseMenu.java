@@ -1,5 +1,6 @@
-package app.GUI.HUD;
+package app.GUI.HUD.HUDElements;
 
+import app.GUI.HUD.HUDElements.HUDElement;
 import app.GUI.menu.InterfaceBuilder;
 import app.GUI.menu.MenuUtil;
 import app.GameBuilder;
@@ -15,7 +16,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 
-public class DeathMenu extends HUDElement {
+public class PauseMenu extends HUDElement {
 
     private double width;
     private double height;
@@ -25,7 +26,7 @@ public class DeathMenu extends HUDElement {
     private double arcW = 0;
     private double arcH = 0;
     private boolean isCentered = true;
-    private boolean isDead = false;
+    private boolean isPaused = false;
     private String singleArrow = ">";
     private String doubleArrow = ">>";
     private GameBuilder context;
@@ -40,7 +41,7 @@ public class DeathMenu extends HUDElement {
 
     private Font pauseText = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR,15);
 
-    public DeathMenu(String elementTag,
+    public PauseMenu(String elementTag,
                      Point2D pos,
                      GameBuilder context,
                      double width,
@@ -58,23 +59,24 @@ public class DeathMenu extends HUDElement {
         update();
     }
 
-    public void setDead(boolean dead) {
-        isDead = dead;
+    public void setPaused(boolean paused) {
+        isPaused = paused;
         update();
     }
     public void setHeight(double height) { this.height = height; }
     public void setWidth(double width) { this.width = width; }
     public void setCentered(boolean centered) { isCentered = centered; }
 
-    public boolean isDead() { return isDead; }
+    public boolean isPaused() { return isPaused; }
     public double getHeight() { return height; }
     public double getWidth() { return width; }
+
 
 
     public void update(){
         getGroup().getChildren().clear();
 
-        if(isDead){
+        if(isPaused){
             double x = getPos().getX();
             double y = getPos().getY();
             if(isCentered) {
@@ -89,7 +91,7 @@ public class DeathMenu extends HUDElement {
             backdrop.setStrokeWidth(4);
 
             //draw title
-            pause.drawText("PLAYER_HAS_DIED",
+            pause.drawText("ROOT@CS307:~Pause$",
                     (float)x+20,
                     (float)y+35,
                     GREEN,
@@ -104,29 +106,28 @@ public class DeathMenu extends HUDElement {
 
             //**************************************************************************\
             // RESUME GAME
-            Text respawnArrow = pause.drawText(singleArrow, x+20, y+80, GREEN, pauseText);
-            Text respawnText = pause.drawText("./Respawn", x+45, y+80, Color.WHITE, pauseText);
-            Rectangle respawnHitBox = pause.drawRectangle(x,y+65,width,20,0,0,Color.TRANSPARENT);
-            respawnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+            Text returnArrow = pause.drawText(singleArrow, x+20, y+80, GREEN, pauseText);
+            Text returnText = pause.drawText("./Return_To_Game", x+45, y+80, Color.WHITE, pauseText);
+            Rectangle returnHitBox = pause.drawRectangle(x,y+65,width,20,0,0,Color.TRANSPARENT);
+            returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
-                            isDead = false;
-                            context.getPlayer().reset();
+                            isPaused = false;
                             update();
                         }
                     });
-            respawnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+            returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
-                            respawnArrow.setText(doubleArrow);
-                            respawnText.setFill(GREEN);
+                            returnArrow.setText(doubleArrow);
+                            returnText.setFill(GREEN);
                         }
                     });
-            respawnHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+            returnHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
-                            respawnArrow.setText(singleArrow);
-                            respawnText.setFill(Color.WHITE);
+                            returnArrow.setText(singleArrow);
+                            returnText.setFill(Color.WHITE);
                         }
                     });
 
@@ -134,16 +135,14 @@ public class DeathMenu extends HUDElement {
             //**************************************************************************\
             // GOTO SETTINGS
             Text settingsArrow = pause.drawText(singleArrow, x+20, y+110, GREEN, pauseText);
-            Text settingsText = pause.drawText("./New_Game", x+45, y+110, Color.WHITE, pauseText);
+            Text settingsText = pause.drawText("./Settings", x+45, y+110, Color.WHITE, pauseText);
             Rectangle settingsHitBox = pause.drawRectangle(x,y+95,width,20,0,0,Color.TRANSPARENT);
             settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
-                            isDead = false;
-                            context.getPlayer().reset();
-
-                            context.getEnvironment().reset();
-                            update();
+                            menuUtil.setSettingsReturnState(MenuUtil.PAUSE);
+                            context.showScene(context.getMenu().getScene());
+                            menuUtil.activateGroup(menuUtil.GROUP_SETTINGS);
                         }
                     });
             settingsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -171,7 +170,7 @@ public class DeathMenu extends HUDElement {
                         public void handle(MouseEvent me) {
                             context.showScene(context.getMenu().getScene());
                             menuUtil.activateGroup(menuUtil.GROUP_MAIN_MENU);
-                            isDead = false;
+                            isPaused = false;
                             update();
                         }
                     });

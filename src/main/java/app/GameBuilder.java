@@ -1,7 +1,7 @@
 package app;
 
 import app.GUI.HUD.HUDUtil;
-import app.GUI.HUD.PauseMenu;
+import app.GUI.HUD.HUDElements.*;
 import app.environment.EnvironmentUtil;
 import app.GUI.menu.MenuUtil;
 import javafx.animation.AnimationTimer;
