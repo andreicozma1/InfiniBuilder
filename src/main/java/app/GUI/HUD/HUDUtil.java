@@ -16,10 +16,13 @@ public class HUDUtil {
     public static final String HEALTH = "HEALTH";
     public static final String STAMINA = "STAMINA";
     public static final String HUNGER = "HUNGER";
+    public static final String THIRST = "THIRST";
+    public static final String TEMPERATURE = "TEMPERATURE";
     public static final String INVENTORY = "INVENTORY";
     public static final String PAUSE = "PAUSE";
     public static final String DEATH = "DEATH";
     public static final String CROSSHAIR = "CROSSHAIR";
+
 
     public static final String EDGE_BOTTOM = "edge_bottom";
     public static final String EDGE_TOP = "edge_top";

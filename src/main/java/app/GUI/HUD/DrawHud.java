@@ -17,7 +17,6 @@ public class DrawHud {
                 200,
                 Color.RED,
                 Color.valueOf("400000"));
-        health.setCurrStatus(425);
         health.setVertical(true);
         health.setBorder(true);
         health.setDefaultDirection(false);
@@ -35,7 +34,6 @@ public class DrawHud {
                 200,
                 Color.BLUE,
                 Color.valueOf("010048"));
-        stamina.setCurrStatus(160);
         stamina.setVertical(true);
         stamina.setBorder(true);
         stamina.setDefaultDirection(false);
@@ -45,6 +43,24 @@ public class DrawHud {
         stamina.update();
         hudUtil.addElement(stamina);
 
+        // this is here as an example of how to use the setColorInterpolation
+        StatusBar temperature = new StatusBar(   HUDUtil.TEMPERATURE,
+                new Point2D(85,10),
+                100,
+                15,
+                200,
+                Color.BLUE,
+                Color.DARKGRAY);
+        temperature.setColorInterpolation(Color.RED,Color.BLUE);  // (full color, empty color)
+        temperature.setCurrStatus(90);
+        temperature.setVertical(true);
+        temperature.setBorder(true);
+        temperature.setDefaultDirection(false);
+        temperature.setBorderColor(Color.WHITE);
+        temperature.setArcHeight(20);
+        temperature.setArcWidth(20);
+        temperature.update();
+        hudUtil.addElement(temperature);
 
 
         Inventory inv = new Inventory(  HUDUtil.INVENTORY,
