@@ -25,13 +25,13 @@ public class EnvironmentUtil {
     public GameBuilder context;
 
     private SkyboxUtil skybox = null;
-    private TDModelUtil modelUtil;
+    private final TDModelUtil modelUtil;
 
     public static Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
     public static Group GROUP_TERRAIN;
     public static Group GROUP_STRUCTURES;
 
-    private double terrain_block_dim = 20;
+    private final double terrain_block_dim = 20;
 
     private SimplexUtil terrain_simplex_alg;
 
@@ -46,11 +46,11 @@ public class EnvironmentUtil {
     public Map<Point2D, StructureBuilder> terrain_map_block = new HashMap<>();
 
     public double planet_diameter = 8000;
-    private double water_level = 203;
-    private double desert_level = 200;
-    private double plains_level = 100;
-    private double hills_level = -50;
-    private double peak_level = -180;
+    private final double water_level = 203;
+    private final double desert_level = 200;
+    private final double plains_level = 100;
+    private final double hills_level = -50;
+    private final double peak_level = -180;
 
     /**
      * Constructor initializes an EnvironmentUtil object based on the parent WindowUtil, which will become the class' context

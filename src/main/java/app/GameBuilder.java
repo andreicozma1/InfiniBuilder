@@ -4,12 +4,14 @@ import app.GUI.HUD.HUDUtil;
 import app.GUI.HUD.HUDElements.*;
 import app.environment.EnvironmentUtil;
 import app.GUI.menu.MenuUtil;
+import app.environment.SkyboxUtil;
 import app.utils.Log;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.Cursor;
 import javafx.scene.effect.*;
+import javafx.scene.paint.Color;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 import app.player.CameraUtil;
@@ -19,10 +21,9 @@ import app.player.PlayerUtil;
 public class GameBuilder {
     private static final String TAG = "CameraUtil";
 
-    private static int WINDOW_WIDTH;
-    private static int WINDOW_HEIGHT;
-
     public Stage STAGE;
+    private static int WINDOW_WIDTH, WINDOW_HEIGHT;
+
 
     private Scene SCENE_CURRENT; // hold the current scene displayed to the user
 
@@ -49,6 +50,7 @@ public class GameBuilder {
     private AnimationTimer timer;
     private long runtime = 0;
 
+
     public MotionBlur EFFECT_MOTION_BLUR;
     private boolean EFFECT_MOTION_BLUR_ENABLED;
     private Bloom EFFECT_BLOOM;
@@ -65,7 +67,6 @@ public class GameBuilder {
         WINDOW_WIDTH = w;
         WINDOW_HEIGHT = h;
 
-        resetEffects();
 
         GAME_GROUP = new Group();
         GAME_SCENE = new SubScene(GAME_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT, true, SceneAntialiasing.BALANCED);
@@ -75,8 +76,8 @@ public class GameBuilder {
         ROOT_SCENE = new Scene(ROOT_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT);
         ROOT_GROUP.getChildren().add(GAME_SCENE);
 
-        setCamera(new CameraUtil(this));
-        setGameSceneControls(new ControlsUtil(this));
+        resetEffects();
+        resetGameComponents();
 
         timer = new AnimationTimer() {
             long last = 0;
@@ -104,7 +105,7 @@ public class GameBuilder {
                     }
 
                     if (curr - last > 1000.0) {
-//                    System.out.println("HEARTBEAT -> " + runtime + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
+                    Log.p(TAG,"HEARTBEAT -> " + runtime + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
                         dt = 60.0 / frames;
                         if (dt > 5) {
                             dt = 1;
@@ -119,6 +120,7 @@ public class GameBuilder {
     }
 
     public void resetEffects(){
+        Log.p(TAG,"resetEffects()");
         EFFECT_MOTION_BLUR = new MotionBlur();
         EFFECT_BLOOM = new Bloom();
         EFFECT_BLOOM.setInput(EFFECT_MOTION_BLUR);
@@ -133,6 +135,15 @@ public class GameBuilder {
         setMotionBlurEnabled(true);
     }
 
+    public void resetGameComponents(){
+        this.setCamera(new CameraUtil(this));
+        this.setGameSceneControls(new ControlsUtil(this));
+        this.setPlayer(new PlayerUtil(this));
+        this.setEnvironment(new EnvironmentUtil(this));
+        this.getEnvironment().setSkyBox(new SkyboxUtil(this.getEnvironment()));
+        this.setMenu(new MenuUtil(this));
+        this.setHUD(new HUDUtil(this));
+    }
 
     public void setCamera(CameraUtil cam) {
         cam_util = cam;

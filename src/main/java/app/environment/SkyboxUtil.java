@@ -73,6 +73,9 @@ public class SkyboxUtil {
         group_skybox = new Group();
         MODE_CURR = MODE_CYCLE;
 
+        AmbientLight amb = new AmbientLight();
+        amb.setColor(Color.rgb(100, 100, 100));
+        setAmbientLight(amb);
 
         sunset_color = Color.rgb(253, 94, 83);
 

@@ -33,7 +33,7 @@ public class TDModelUtil {
         resources = new HashMap<>();
 
         String s = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-        System.out.println("Execution source: " + s);
+        Log.p(TAG,"Execution source: " + s);
 
         if (s.endsWith(".jar")) {
             // ONLY DO IF JAR

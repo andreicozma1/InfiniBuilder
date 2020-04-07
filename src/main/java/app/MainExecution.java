@@ -39,42 +39,21 @@ public class MainExecution extends Application {
 
         // set up needed Utils for the game
         ResourcesUtil materials = new ResourcesUtil(this);
+
         GameBuilder game = new GameBuilder(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
-        CameraUtil camera = new CameraUtil(game);
-        PlayerUtil player = new PlayerUtil(game);
-        EnvironmentUtil envir = new EnvironmentUtil(game);
-        SkyboxUtil sky = new SkyboxUtil(envir);
-        AmbientLight amb = new AmbientLight();
-
-        amb.setColor(Color.rgb(100, 100, 100));
-        sky.setAmbientLight(amb);
-        envir.setSkyBox(sky);
-
-        // build the window
-        game.setCamera(camera);
-        game.setPlayer(player);
-        game.setEnvironment(envir);
-
-        MenuUtil menu = new MenuUtil(game);
-        game.setMenu(menu);
 
         // testing inventory Util with a base item that only holds the item tag
-        Base_Cube dirt = new Base_Cube("Grass", ResourcesUtil.grass, envir.getBlockDim());
-        Base_Cube grass = new Base_Cube("Dirt", ResourcesUtil.dirt, envir.getBlockDim());
-        Base_Cube sand = new Base_Cube("Sand", ResourcesUtil.sand, envir.getBlockDim());
+        Base_Cube dirt = new Base_Cube("Grass", ResourcesUtil.grass, game.getEnvironment().getBlockDim());
+        Base_Cube grass = new Base_Cube("Dirt", ResourcesUtil.dirt, game.getEnvironment().getBlockDim());
+        Base_Cube sand = new Base_Cube("Sand", ResourcesUtil.sand, game.getEnvironment().getBlockDim());
         // 1586226789454
         MazeUtil maze = new MazeUtil(game.getEnvironment().getBlockDim(), 20, 20, 2,3, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED);
         MazeUtil maze2 = new MazeUtil(game.getEnvironment().getBlockDim(), 3, 3, 1, 3,ResourcesUtil.metal,  MazeUtil.GENERATOR_RANDOM_SEED, true);
-        SpawnableStructureItem2D mazeitem = new SpawnableStructureItem2D(maze, "Maze Generator", ResourcesUtil.sun, envir.getBlockDim());
-        SpawnableStructureItem2D maze2item = new SpawnableStructureItem2D(maze2, "Maze Generator2", ResourcesUtil.moon, envir.getBlockDim());
+        SpawnableStructureItem2D mazeitem = new SpawnableStructureItem2D(maze, "Maze Generator", ResourcesUtil.sun, game.getEnvironment().getBlockDim());
+        SpawnableStructureItem2D maze2item = new SpawnableStructureItem2D(maze2, "Maze Generator2", ResourcesUtil.moon, game.getEnvironment().getBlockDim());
 
         PyramidUtil pyramid = new PyramidUtil(game.getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
-        SpawnableStructureItem2D pyrmItem = new SpawnableStructureItem2D(pyramid,  "Pyramid", ResourcesUtil.red, envir.getBlockDim());
-
-
-        //testing hudutil drawing a health status bar
-        HUDUtil hudUtil = new HUDUtil(game);
-
+        SpawnableStructureItem2D pyrmItem = new SpawnableStructureItem2D(pyramid,  "Pyramid", ResourcesUtil.red, game.getEnvironment().getBlockDim());
 
         InventoryUtil inventoryUtil = new InventoryUtil(10);
         inventoryUtil.addItem(4, grass, 40);
@@ -84,16 +63,11 @@ public class MainExecution extends Application {
         inventoryUtil.addItem(maze2item, 99);
         inventoryUtil.addItem(pyrmItem, 99);
         inventoryUtil.setCurrentIndex(7);
-//        inventoryUtil.print();
-
 
         // draws our game HUD
-        DrawHud.DrawHud(game, hudUtil, inventoryUtil, PRIMARY_WIDTH, PRIMARY_HEIGHT);
-
-        game.setHUD(hudUtil);
+        DrawHud.DrawHud(game, game.getHUD(), inventoryUtil, PRIMARY_WIDTH, PRIMARY_HEIGHT);
 
         game.showScene(game.getMenu().getScene());
-
     }
 
     public static void main(String[] args) {
