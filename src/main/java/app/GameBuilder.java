@@ -8,6 +8,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.Cursor;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.MotionBlur;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
@@ -47,6 +49,10 @@ public class GameBuilder {
     private long runtime = 0;
 
     public MotionBlur motionBlur;
+    public Bloom bloom;
+    public ColorAdjust colorAdjust;
+
+    boolean trippy;
 
     public GameBuilder(Stage stg, int w, int h) {
         System.out.println("Creating game window with dimensions: " + w + " x " + h);
@@ -55,10 +61,17 @@ public class GameBuilder {
         WINDOW_HEIGHT = h;
         motionBlur = new MotionBlur();
         motionBlur.setRadius(0);
+        bloom = new Bloom();
+        colorAdjust = new ColorAdjust();
+
+
+        setTripMode(true);
 
         GAME_GROUP = new Group();
         GAME_SCENE = new SubScene(GAME_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT, true, SceneAntialiasing.BALANCED);
         GAME_SCENE.setEffect(motionBlur);
+        GAME_SCENE.setEffect(bloom);
+        GAME_SCENE.setEffect(colorAdjust);
 
         ROOT_GROUP = new Group();
         ROOT_SCENE = new Scene(ROOT_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -86,6 +99,13 @@ public class GameBuilder {
                     }
                     frames++;
                     long curr = System.currentTimeMillis();
+
+                    if(trippy){
+                        colorAdjust.setHue(Math.sin(curr/1000.0));
+//                        colorAdjust.setBrightness(((Math.sin(curr/12000.0)/2)+.5)/2);
+                        colorAdjust.setContrast((Math.sin(curr/15000.0))/5);
+                        bloom.setThreshold(Math.sin(curr/5000.0)/2+1);
+                    }
 
                     if (curr - last > 1000.0) {
 //                    System.out.println("HEARTBEAT -> " + runtime + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
@@ -238,5 +258,12 @@ public class GameBuilder {
 
     public void resetEffects(){
         motionBlur.setRadius(0);
+    }
+
+    public void setTripMode(boolean val){
+        trippy = val;
+    }
+    public boolean getTripMode(){
+        return trippy;
     }
 }

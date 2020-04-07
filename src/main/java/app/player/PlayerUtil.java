@@ -74,13 +74,11 @@ public class PlayerUtil {
         setJumpHeightMultiplier(1);
         setAutoJumpCutoffHeight(.5);
         setRunMultiplier(1.10);
-        setResetWorldOnDeath(true);
     }
 
     public void update_handler(double dt) {
 
 //        System.out.println("Player X: " + context.getEnvironment().getTerrainXfromPlayerX(getX()) + " Y: " + getY() + " Z: " + context.getEnvironment().getTerrainZfromPlayerZ(getZ())  + " onGround: " +  isOnGround() + " aboveGround: ");
-
 
 //        System.out.println("isJumping: " + isJumping + " canJump: " + canJump);
         context.getCamera().update_handler();
@@ -126,16 +124,17 @@ public class PlayerUtil {
             } else if (curr_fov < context.getCamera().getFov_default() - 2) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 2);
             }
-            if(context.motionBlur.getRadius() > 0){
-                context.motionBlur.setRadius(context.motionBlur.getRadius()-1);
-            }else{
+            if (context.motionBlur.getRadius() > 0) {
+                context.motionBlur.setRadius(context.motionBlur.getRadius() - 0.5);
+            } else {
                 context.motionBlur.setRadius(0);
             }
+
         }
 
-        if(getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus()/2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()){
+        if (getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus() / 2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()) {
             // Regenerate health if stamina > half
-            getHealthBar().setCurrStatus(getHealthBar().getCurrStatus()+ healthRegenSpeed * dt);
+            getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() + healthRegenSpeed * dt);
         }
 
     }
@@ -284,12 +283,12 @@ public class PlayerUtil {
             if (!isOnGround() && !isRunning && !isFlyMode) {
                 // player is falling from the sky
                 context.getCamera().getCamera().setFieldOfView(context.getCamera().getFov_default() + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
-                context.motionBlur.setRadius(context.motionBlur.getRadius() + val/2);
+                context.motionBlur.setRadius(context.motionBlur.getRadius() + val / 2);
             }
         } else {
             if (!onGround && !isFlyMode) {
                 System.out.println("Player Hit Ground from height: " + fall_height);
-                if (fall_height > jump_height_multiplier * player_height * 1.8){
+                if (fall_height > jump_height_multiplier * player_height * 1.8) {
                     takeDamage(fall_height / 8);
 
                 }
@@ -318,12 +317,14 @@ public class PlayerUtil {
     }
 
 
-    public StatusBar getStaminaBar(){
+    public StatusBar getStaminaBar() {
         return (StatusBar) context.getHUD().getElement(HUDUtil.STAMINA);
     }
-    public StatusBar getHealthBar(){
+
+    public StatusBar getHealthBar() {
         return (StatusBar) context.getHUD().getElement(HUDUtil.HEALTH);
     }
+
     public double getHealth() {
         return getHealthBar().getCurrStatus();
     }
@@ -391,21 +392,15 @@ public class PlayerUtil {
         getHealthBar().setCurrStatus(getHealthBar().getMaxStatus());
         getStaminaBar().setCurrStatus(getStaminaBar().getMaxStatus());
 
+        context.resetEffects();
         context.getGameSceneControls().reset();
     }
 
-    void die(){
+    void die() {
         ((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).setDead(true);
-        ((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).update();
+        context.getHUD().getElement(HUDUtil.DEATH).update();
     }
 
-
-    boolean getResetWorldOnDeath(){
-        return resetWorldOnDeath;
-    }
-    void setResetWorldOnDeath(boolean val){
-        resetWorldOnDeath = val;
-    }
 
     void setUV_light(boolean state) {
         uv_light.setLightOn(state);
