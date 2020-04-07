@@ -15,13 +15,16 @@ public class StatusBar extends HUDElement{
     private double arcWidth = 0;
     private double arcHeight = 0;
     private double borderWidth = 2;
-    private Paint innerBarPaint;
-    private Paint outerBarPaint;
-    private Paint borderColor = Color.BLACK;
+    private Color innerBarColor;
+    private Color outerBarColor;
+    private Color fullColor;
+    private Color emptyColor;
+    private Color borderColor = Color.BLACK;
     private boolean isBorder = false;
     private boolean isEmpty = false;
     private boolean isVertical = false;
     private boolean isDefaultDirection = true;
+    private boolean isColorInterpolated = false;
 
 
     public StatusBar(   String elementTag,
@@ -29,15 +32,15 @@ public class StatusBar extends HUDElement{
                         double maxStatus,
                         double width,
                         double height,
-                        Paint innerBarPaint,
-                        Paint outerBarPaint){
+                        Color innerBarPaint,
+                        Color outerBarPaint){
         super(elementTag,pos);
         this.maxStatus = maxStatus;
         this.currStatus = maxStatus;
         this.width = width;
         this.height = height;
-        this.innerBarPaint = innerBarPaint;
-        this.outerBarPaint = outerBarPaint;
+        this.innerBarColor = innerBarPaint;
+        this.outerBarColor = outerBarPaint;
         update();
     }
 
@@ -46,12 +49,13 @@ public class StatusBar extends HUDElement{
     public double getCurrStatus() { return currStatus; }
     public double getHeight() { return height; }
     public double getWidth() { return width; }
-    public Paint getInnerBarPaint() { return innerBarPaint; }
-    public Paint getOuterBarPaint() { return outerBarPaint; }
+    public Color getInnerBarColor() { return innerBarColor; }
+    public Color getOuterBarColor() { return outerBarColor; }
     public boolean getIsEmpty(){ return isEmpty; }
     public double getBorderWidth() { return borderWidth; }
     public boolean getIsVertical() { return isVertical; }
     public boolean isDefaultDirection() { return isDefaultDirection; }
+    public boolean isColorInterpolated() { return isColorInterpolated; }
 
     // set max status error checks to make sure currStatus is never larger than max status
     public void setMaxStatus(double maxStatus){
@@ -87,26 +91,39 @@ public class StatusBar extends HUDElement{
     public void setArcHeight(double arcHeight) {this.arcHeight = arcHeight; }
     public void setHeight(double height) { this.height = height; }
     public void setWidth(double width) { this.width = width; }
-    public void setInnerBarPaint(Paint innerBarPaint) { this.innerBarPaint = innerBarPaint; }
-    public void setOuterBarPaint(Paint outerBarPaint) { this.outerBarPaint = outerBarPaint; }
-    public void setBorderColor(Paint borderColor) { this.borderColor = borderColor; }
+    public void setInnerBarColor(Color innerBarColor) { this.innerBarColor = innerBarColor; }
+    public void setOuterBarColor(Color outerBarColor) { this.outerBarColor = outerBarColor; }
+    public void setBorderColor(Color borderColor) { this.borderColor = borderColor; }
     public void setBorder(boolean state) { isBorder = state; }
     public void setBorderWidth(double borderWidth) { this.borderWidth = borderWidth; }
     public void setVertical(boolean vertical) { isVertical = vertical; }
     public void setDefaultDirection(boolean defaultDirection) { isDefaultDirection = defaultDirection; }
+    public void setColorInterpolation(Color fullColor, Color emptyColor) {
+        this.fullColor =  fullColor;
+        this.emptyColor = emptyColor;
+        isColorInterpolated = true;
+    }
 
     public void update(){
         getGroup().getChildren().clear();
 
+        Paint currInnerPaint;
         double innerWidth = (currStatus/maxStatus) * width;
         double innerHeight = (currStatus/maxStatus) * height;
+
+        if(isColorInterpolated){
+            currInnerPaint = emptyColor.interpolate(fullColor,currStatus/maxStatus);
+        }else{
+            currInnerPaint = innerBarColor;
+        }
+
 
         //draw outer status bar
         Rectangle outerStatusBar = new Rectangle(   getPos().getX(),
                 getPos().getY(),
                 width,
                 height);
-        outerStatusBar.setFill(outerBarPaint);
+        outerStatusBar.setFill(outerBarColor);
         if(isBorder) {
             outerStatusBar.setStroke(borderColor);
             outerStatusBar.setStrokeWidth(borderWidth);
@@ -142,7 +159,7 @@ public class StatusBar extends HUDElement{
             }
         }
 
-        innerStatusBar.setFill(innerBarPaint);
+        innerStatusBar.setFill(currInnerPaint);
         innerStatusBar.setArcWidth(arcWidth);
         innerStatusBar.setArcHeight(arcHeight);
         getGroup().getChildren().addAll(outerStatusBar,innerStatusBar);
