@@ -81,7 +81,6 @@ public class StatusBar extends HUDElement {
         else {
             isEmpty = false;
         }
-
         this.currStatus = currStatus;
         update();
     }
