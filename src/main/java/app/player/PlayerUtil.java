@@ -91,7 +91,7 @@ public class PlayerUtil {
             // If the player initiated a jump and hasn't reached the top, move the player up
 
             if (isJumping && pos_y < jump_height_initial + player_height * jump_height_multiplier) {
-                System.out.println("Jumping");
+                Log.p(TAG,"Jumping from " + jump_height_initial + " to " + (jump_height_initial + player_height * jump_height_multiplier));
                 moveUp(speedFly * dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
@@ -143,7 +143,7 @@ public class PlayerUtil {
                 resetBars();
             }
         }
-         */
+        */
     }
 
 
