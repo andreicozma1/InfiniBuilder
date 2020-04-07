@@ -66,5 +66,9 @@ public class DrawHud {
                 new Point2D(100,200),gameBuilder,257,165,PRIMARY_WIDTH,PRIMARY_HEIGHT);
         pauseMenu.update();
         hudUtil.addElement(pauseMenu);
+
+        DeathMenu deathMenu = new DeathMenu(HUDUtil.DEATH,new Point2D(100,200),gameBuilder,257,165,PRIMARY_WIDTH,PRIMARY_HEIGHT);
+        deathMenu.update();
+        hudUtil.addElement(deathMenu);
     }
 }

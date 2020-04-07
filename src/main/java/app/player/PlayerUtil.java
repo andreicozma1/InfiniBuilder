@@ -1,6 +1,8 @@
 package app.player;
 
+import app.GUI.HUD.DeathMenu;
 import app.GUI.HUD.HUDUtil;
+import app.GUI.HUD.PauseMenu;
 import app.GUI.HUD.StatusBar;
 import app.GUI.menu.MenuUtil;
 import app.structures.StructureBuilder;
@@ -380,7 +382,7 @@ public class PlayerUtil {
         pos_z = newz;
     }
 
-    void reset() {
+    public void reset() {
         System.out.println("## You died!");
         setPosition(0, 0, 0);
         context.getCamera().reset();
@@ -392,13 +394,11 @@ public class PlayerUtil {
         getStaminaBar().setCurrStatus(getStaminaBar().getMaxStatus());
 
         context.getGameSceneControls().reset();
-        context.getEnvironment().reset();
     }
 
     void die(){
-        reset();
-        context.getMenu().activateGroup(MenuUtil.GROUP_DEATH);
-        context.showScene(context.getMenu().getScene());
+        ((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).setDead(true);
+        ((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).update();
     }
 
 

@@ -1,5 +1,6 @@
 package app.player;
 
+import app.GUI.HUD.DeathMenu;
 import app.GUI.HUD.HUDUtil;
 import app.GUI.HUD.PauseMenu;
 import app.GUI.menu.MenuUtil;
@@ -27,7 +28,7 @@ public class ControlsUtil {
 
 
         game_scene.setOnMouseMoved(event -> {
-            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
+            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).isDead()) {
 
                 double differencex = event.getSceneX() - last_mouse_x;
                 double differencey = event.getSceneY() - last_mouse_y;
@@ -41,7 +42,7 @@ public class ControlsUtil {
         });
 
         game_scene.setOnScroll(scrollEvent -> {
-            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
+            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).isDead()) {
 
                 System.out.println("setOnScroll " + scrollEvent.getDeltaY());
 
@@ -63,7 +64,7 @@ public class ControlsUtil {
         });
 
         game_scene.setOnMousePressed(event -> {
-            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
+            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).isDead()) {
 
                 System.out.println("setOnMousePressed " + event.getButton());
                 switch (event.getButton()) {
@@ -78,7 +79,7 @@ public class ControlsUtil {
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
+            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).isDead()) {
                 if (!pressed.contains(event.getCode())) {
                     System.out.println("KEY_PRESSED " + event.getCode());
                     pressed.add(event.getCode());
@@ -97,7 +98,7 @@ public class ControlsUtil {
                 }
             }
 
-            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
+            if (!((PauseMenu) context.getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getHUD().getElement(HUDUtil.DEATH)).isDead()) {
 
                 if (pressed.contains(event.getCode())) {
                     pressed.remove(event.getCode());

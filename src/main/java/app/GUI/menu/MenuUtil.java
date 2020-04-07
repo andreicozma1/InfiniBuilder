@@ -1236,7 +1236,7 @@ public class MenuUtil {
         deathMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
-        deathMenu.drawText("ROOT@CS307:~/PLAYER_HAS_DIED$ YOU HAVE MCFUCKING DIED",
+        deathMenu.drawText("ROOT@CS307:~/PLAYER_HAS_DIED$",
                 50,
                 50,
                 GREEN,

@@ -18,6 +18,7 @@ public class HUDUtil {
     public static final String HUNGER = "HUNGER";
     public static final String INVENTORY = "INVENTORY";
     public static final String PAUSE = "PAUSE";
+    public static final String DEATH = "DEATH";
     public static final String CROSSHAIR = "CROSSHAIR";
 
     public static final String EDGE_BOTTOM = "edge_bottom";
