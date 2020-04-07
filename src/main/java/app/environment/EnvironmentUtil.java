@@ -52,6 +52,8 @@ public class EnvironmentUtil {
     private final double hills_level = -50;
     private final double peak_level = -180;
 
+    public static double GRAVITY = .2;
+
     /**
      * Constructor initializes an EnvironmentUtil object based on the parent WindowUtil, which will become the class' context
      *

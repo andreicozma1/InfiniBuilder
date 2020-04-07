@@ -2,26 +2,13 @@
 package app;
 
 import app.GUI.HUD.*;
-import app.player.Inventory;
-import app.environment.EnvironmentUtil;
-import app.environment.SkyboxUtil;
-import app.structures.SpawnableStructure2D;
 import app.structures.maze.MazeUtil;
-import app.structures.objects.SpawnableStructureItem2D;
+import app.structures.objects.SpawnableStructureItem;
 import app.structures.pyramid.PyramidUtil;
 import app.utils.InventoryUtil;
-import app.player.CameraUtil;
-import app.player.ControlsUtil;
-import app.player.PlayerUtil;
 import app.utils.ResourcesUtil;
 import app.structures.objects.Base_Cube;
-import app.GUI.menu.MenuUtil;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Point2D;
-import javafx.scene.AmbientLight;
-import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -49,11 +36,11 @@ public class MainExecution extends Application {
         // 1586226789454
         MazeUtil maze = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 20, 2,3, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED);
         MazeUtil maze2 = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, 3,ResourcesUtil.metal,  MazeUtil.GENERATOR_RANDOM_SEED, true);
-        SpawnableStructureItem2D mazeitem = new SpawnableStructureItem2D(maze, "Maze Generator", ResourcesUtil.sun, game.getComponents().getEnvironment().getBlockDim());
-        SpawnableStructureItem2D maze2item = new SpawnableStructureItem2D(maze2, "Maze Generator2", ResourcesUtil.moon, game.getComponents().getEnvironment().getBlockDim());
+        SpawnableStructureItem mazeitem = new SpawnableStructureItem(maze, "Maze Generator", ResourcesUtil.sun, game.getComponents().getEnvironment().getBlockDim());
+        SpawnableStructureItem maze2item = new SpawnableStructureItem(maze2, "Maze Generator2", ResourcesUtil.moon, game.getComponents().getEnvironment().getBlockDim());
 
         PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
-        SpawnableStructureItem2D pyrmItem = new SpawnableStructureItem2D(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
+        SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
 
         InventoryUtil inventoryUtil = new InventoryUtil(10);
         inventoryUtil.addItem(4, grass, 40);

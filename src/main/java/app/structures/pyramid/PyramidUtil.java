@@ -1,15 +1,14 @@
 package app.structures.pyramid;
 
 import app.GameBuilder;
-import app.structures.SpawnableStructure2D;
-import app.structures.StructureBuilder;
+import app.structures.SpawnableStructure;
 import app.structures.objects.Base_Cube;
 import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
 
-public class PyramidUtil implements SpawnableStructure2D {
+public class PyramidUtil implements SpawnableStructure {
     private static final String TAG = "PyramidUtil";
 
     private double cellDim;

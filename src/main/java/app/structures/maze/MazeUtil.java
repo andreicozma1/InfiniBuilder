@@ -1,16 +1,14 @@
 package app.structures.maze;
 
-import app.structures.SpawnableStructure2D;
-import app.structures.StructureBuilder;
+import app.structures.SpawnableStructure;
 import app.utils.Log;
 import javafx.geometry.Point2D;
 import app.structures.objects.Base_Cube;
 import app.GameBuilder;
 import javafx.scene.paint.Material;
-import org.apache.commons.collections4.MultiValuedMap;
 
 
-public class MazeUtil implements SpawnableStructure2D {
+public class MazeUtil implements SpawnableStructure {
     private static final String TAG = "MazeUtil";
 
     private int cellWidth;

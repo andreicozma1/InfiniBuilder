@@ -2,6 +2,7 @@ package app.player;
 
 import app.GUI.HUD.HUDElements.*;
 import app.GUI.HUD.HUDUtil;
+import app.environment.EnvironmentUtil;
 import app.structures.StructureBuilder;
 import app.structures.objects.Base_Structure;
 import app.utils.Log;
@@ -13,7 +14,6 @@ import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
 import app.structures.objects.Base_Sphere;
-import app.utils.PhysicsUtil;
 import app.GameBuilder;
 
 public class PlayerUtil {
@@ -281,7 +281,7 @@ public class PlayerUtil {
         // if the player is above ground level, let the player fall
         if (getPos_y() > ground_level || isClipMode) {
             pos_y -= val;
-            speed_fall_initial += PhysicsUtil.GRAVITY;
+            speed_fall_initial += EnvironmentUtil.GRAVITY;
             // if the player is more than a block above the ground , set onGround = false;
             if (pos_y - ground_level > context.getComponents().getEnvironment().getBlockDim()) {
                 onGround = false;

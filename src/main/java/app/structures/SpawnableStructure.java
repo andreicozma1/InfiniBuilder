@@ -11,7 +11,7 @@ import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface SpawnableStructure2D {
+public interface SpawnableStructure {
     MultiValuedMap<Point2D, StructureBuilder> block_map = new ArrayListValuedHashMap<>();
     void build(GameBuilder gameBuilder);
 }
