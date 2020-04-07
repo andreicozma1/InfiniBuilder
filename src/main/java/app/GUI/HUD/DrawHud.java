@@ -63,7 +63,7 @@ public class DrawHud {
         hudUtil.addElement(crosshair);
 
         PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE,
-                new Point2D(100,200),gameBuilder,300,400,PRIMARY_WIDTH,PRIMARY_HEIGHT);
+                new Point2D(100,200),gameBuilder,257,165,PRIMARY_WIDTH,PRIMARY_HEIGHT);
         pauseMenu.update();
         hudUtil.addElement(pauseMenu);
     }

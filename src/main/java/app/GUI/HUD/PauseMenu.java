@@ -1,5 +1,6 @@
 package app.GUI.HUD;
 
+import app.GUI.menu.InterfaceBuilder;
 import app.GUI.menu.MenuUtil;
 import app.GameBuilder;
 import javafx.event.EventHandler;
@@ -27,14 +28,19 @@ public class PauseMenu extends HUDElement {
     private double arcH = 0;
     private boolean isCentered = true;
     private boolean isPaused = false;
+    private String singleArrow = ">";
+    private String doubleArrow = ">>";
     private GameBuilder context;
     private MenuUtil menuUtil;
     private Paint backdropPaint = Color.BLACK;
     private Paint backdropBorderPaint = Color.WHITE;
     private Paint textPaint = Color.WHITE;
     private Color GREEN = Color.valueOf("#20C20E");
+    private InterfaceBuilder pause;
 
-    private Font options = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR,15);
+    private Font pauseTitle = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR,20);
+
+    private Font pauseText = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR,15);
 
     public PauseMenu(String elementTag,
                      Point2D pos,
@@ -50,7 +56,7 @@ public class PauseMenu extends HUDElement {
         this.height =  height;
         this.screenHeight = screenHeight;
         this.screenWidth = screenWidth;
-
+        pause = new InterfaceBuilder();
         update();
     }
 
@@ -80,65 +86,59 @@ public class PauseMenu extends HUDElement {
 
             }
 
+            // draw black backdrop
+            Rectangle backdrop = pause.drawRectangle((float)x,(float)y,width,height,0,0, Color.BLACK);
+            backdrop.setStroke(Color.WHITE);
+            backdrop.setStrokeWidth(4);
+
+            //draw title
+            pause.drawText("ROOT@CS307:~Pause$",
+                    (float)x+20,
+                    (float)y+35,
+                    GREEN,
+                    pauseTitle);
+
+            pause.drawText("-------------",
+                    (float)x+20,
+                    (float)y+55,
+                    Color.WHITE,
+                    pauseTitle);
+
+
             //**************************************************************************\
             // RESUME GAME
-            Rectangle backdrop = new Rectangle(x,y,width,height);
-            backdrop.setFill(backdropPaint);
-            backdrop.setStroke(backdropBorderPaint);
-            backdrop.setStrokeWidth(backdropBorderWidth);
-            backdrop.setArcWidth(arcW);
-            backdrop.setArcHeight(arcH);
-            getGroup().getChildren().add(backdrop);
-
-
-            Rectangle returnToGameRect = new Rectangle(x+25,y+25,width-50,25);
-            returnToGameRect.setFill(Color.BLACK);
-            returnToGameRect.setStroke(Color.WHITE);
-            returnToGameRect.setStrokeWidth(3);
-            returnToGameRect.setArcWidth(arcW);
-            returnToGameRect.setArcHeight(arcH);
-            getGroup().getChildren().add(returnToGameRect);
-
-            Text returnToGameText = new Text("Return To Game");
-            returnToGameText.setFont(options);
-            returnToGameText.setFill(GREEN);
-            returnToGameText.setX(x+60);
-            returnToGameText.setY(y+43);
-            getGroup().getChildren().add(returnToGameText);
-
-
-            Rectangle returnToGameHitBox = new Rectangle(x+25,y+25,width-50,25);
-            returnToGameHitBox.setFill(Color.TRANSPARENT);
-            returnToGameHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+            Text returnArrow = pause.drawText(singleArrow, x+20, y+80, GREEN, pauseText);
+            Text returnText = pause.drawText("./Return_To_Game", x+45, y+80, Color.WHITE, pauseText);
+            Rectangle returnHitBox = pause.drawRectangle(x,y+65,width,20,0,0,Color.TRANSPARENT);
+            returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
                             isPaused = false;
                             update();
                         }
                     });
-            getGroup().getChildren().add(returnToGameHitBox);
+            returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                    new EventHandler<MouseEvent>() {
+                        public void handle(MouseEvent me) {
+                            returnArrow.setText(doubleArrow);
+                            returnText.setFill(GREEN);
+                        }
+                    });
+            returnHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                    new EventHandler<MouseEvent>() {
+                        public void handle(MouseEvent me) {
+                            returnArrow.setText(singleArrow);
+                            returnText.setFill(Color.WHITE);
+                        }
+                    });
 
 
             //**************************************************************************\
             // GOTO SETTINGS
-            Rectangle goToSettingsRect = new Rectangle(x+25,y+75,width-50,25);
-            goToSettingsRect.setFill(Color.BLACK);
-            goToSettingsRect.setStroke(Color.WHITE);
-            goToSettingsRect.setStrokeWidth(3);
-            goToSettingsRect.setArcWidth(arcW);
-            goToSettingsRect.setArcHeight(arcH);
-            getGroup().getChildren().add(goToSettingsRect);
-
-            Text goToSettingsText = new Text("Go To Settings");
-            goToSettingsText.setFont(options);
-            goToSettingsText.setFill(GREEN);
-            goToSettingsText.setX(x+60);
-            goToSettingsText.setY(y+93);
-            getGroup().getChildren().add(goToSettingsText);
-
-            Rectangle goToSettingsHitBox = new Rectangle(x+25,y+75,width-50,25);
-            goToSettingsHitBox.setFill(Color.TRANSPARENT);
-            goToSettingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+            Text settingsArrow = pause.drawText(singleArrow, x+20, y+110, GREEN, pauseText);
+            Text settingsText = pause.drawText("./Settings", x+45, y+110, Color.WHITE, pauseText);
+            Rectangle settingsHitBox = pause.drawRectangle(x,y+95,width,20,0,0,Color.TRANSPARENT);
+            settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
                             menuUtil.setSettingsReturnState(MenuUtil.PAUSE);
@@ -146,29 +146,27 @@ public class PauseMenu extends HUDElement {
                             menuUtil.activateGroup(menuUtil.GROUP_SETTINGS);
                         }
                     });
-            getGroup().getChildren().add(goToSettingsHitBox);
+            settingsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                    new EventHandler<MouseEvent>() {
+                        public void handle(MouseEvent me) {
+                            settingsArrow.setText(doubleArrow);
+                            settingsText.setFill(GREEN);
+                        }
+                    });
+            settingsHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                    new EventHandler<MouseEvent>() {
+                        public void handle(MouseEvent me) {
+                            settingsArrow.setText(singleArrow);
+                            settingsText.setFill(Color.WHITE);
+                        }
+                    });
 
             //**************************************************************************\
             // GOTO MAIN MENU
-
-            Rectangle goToMainRect = new Rectangle(x+25,y+125,width-50,25);
-            goToMainRect.setFill(Color.BLACK);
-            goToMainRect.setStroke(Color.WHITE);
-            goToMainRect.setStrokeWidth(3);
-            goToMainRect.setArcWidth(arcW);
-            goToMainRect.setArcHeight(arcH);
-            getGroup().getChildren().add(goToMainRect);
-
-            Text goToMainText = new Text("Go To Main Menu");
-            goToMainText.setFont(options);
-            goToMainText.setFill(GREEN);
-            goToMainText.setX(x+60);
-            goToMainText.setY(y+143);
-            getGroup().getChildren().add(goToMainText);
-
-            Rectangle goToMainHitBox = new Rectangle(x+25,y+125,width-50,25);
-            goToMainHitBox.setFill(Color.TRANSPARENT);
-            goToMainHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+            Text mainMenuArrow = pause.drawText(singleArrow, x+20, y+140, GREEN, pauseText);
+            Text mainMenuText = pause.drawText("./Exit_To_Main_Menu", x+45, y+140, Color.WHITE, pauseText);
+            Rectangle mainMenuHitBox = pause.drawRectangle(x,y+125,width,20,0,0,Color.TRANSPARENT);
+            mainMenuHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
                             context.showScene(context.getMenu().getScene());
@@ -177,10 +175,25 @@ public class PauseMenu extends HUDElement {
                             update();
                         }
                     });
-            getGroup().getChildren().add(goToMainHitBox);
+            mainMenuHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                    new EventHandler<MouseEvent>() {
+                        public void handle(MouseEvent me) {
+                            mainMenuArrow.setText(doubleArrow);
+                            mainMenuText.setFill(GREEN);
+                        }
+                    });
+            mainMenuHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                    new EventHandler<MouseEvent>() {
+                        public void handle(MouseEvent me) {
+                            mainMenuArrow.setText(singleArrow);
+                            mainMenuText.setFill(Color.WHITE);
+                        }
+                    });
 
 
-//            Rectangle settings = new Rectangle()
+            // add the interface builder to the pause menu group
+            getGroup().getChildren().add(pause.getGroup());
+
         }
     }
 }

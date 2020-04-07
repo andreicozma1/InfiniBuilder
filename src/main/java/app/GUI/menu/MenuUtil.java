@@ -337,7 +337,7 @@ public class MenuUtil {
         controlsMenu.drawRectangle(0,0,context.getWindowWidth(),context.getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
-        controlsMenu.drawText("ROOT@CS307:~$ ./Controls",
+        controlsMenu.drawText("ROOT@CS307:~/Controls$",
                 50,
                 50,
                 GREEN,
