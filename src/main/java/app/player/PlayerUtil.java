@@ -3,7 +3,6 @@ package app.player;
 import app.GUI.HUD.DeathMenu;
 import app.GUI.HUD.HUDUtil;
 import app.GUI.HUD.StatusBar;
-import app.GUI.menu.MenuUtil;
 import app.structures.StructureBuilder;
 import app.structures.objects.Base_Structure;
 import app.utils.ProjectileUtil;
@@ -112,7 +111,9 @@ public class PlayerUtil {
         if (isRunning) {
             if (curr_fov < context.getCamera().getFov_default() * context.getCamera().getFov_running_multiplier()) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 1);
-                context.motionBlur.setRadius(context.motionBlur.getRadius() + .5);
+                if(context.getMotionBlurEnabled()){
+                    context.EFFECT_MOTION_BLUR.setRadius(context.EFFECT_MOTION_BLUR.getRadius() + .5);
+                }
             }
         } else {
 
@@ -124,12 +125,13 @@ public class PlayerUtil {
             } else if (curr_fov < context.getCamera().getFov_default() - 2) {
                 context.getCamera().getCamera().setFieldOfView(curr_fov + 2);
             }
-            if (context.motionBlur.getRadius() > 0) {
-                context.motionBlur.setRadius(context.motionBlur.getRadius() - 0.5);
-            } else {
-                context.motionBlur.setRadius(0);
+            if(context.getMotionBlurEnabled()){
+                if (context.EFFECT_MOTION_BLUR.getRadius() > 0) {
+                    context.EFFECT_MOTION_BLUR.setRadius(context.EFFECT_MOTION_BLUR.getRadius() - 0.5);
+                } else {
+                    context.EFFECT_MOTION_BLUR.setRadius(0);
+                }
             }
-
         }
 
         if (getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus() / 2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()) {
@@ -283,7 +285,9 @@ public class PlayerUtil {
             if (!isOnGround() && !isRunning && !isFlyMode) {
                 // player is falling from the sky
                 context.getCamera().getCamera().setFieldOfView(context.getCamera().getFov_default() + val * 5 * (1 - Math.cos((context.getCamera().getRotateY()) * Math.PI / 180)));
-                context.motionBlur.setRadius(context.motionBlur.getRadius() + val / 2);
+                if(context.getMotionBlurEnabled()){
+                    context.EFFECT_MOTION_BLUR.setRadius(context.EFFECT_MOTION_BLUR.getRadius() + val / 2);
+                }
             }
         } else {
             if (!onGround && !isFlyMode) {

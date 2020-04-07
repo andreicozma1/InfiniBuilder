@@ -8,9 +8,7 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.Cursor;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.MotionBlur;
+import javafx.scene.effect.*;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 import app.player.CameraUtil;
@@ -48,9 +46,11 @@ public class GameBuilder {
     private AnimationTimer timer;
     private long runtime = 0;
 
-    public MotionBlur motionBlur;
-    public Bloom bloom;
-    public ColorAdjust colorAdjust;
+    public MotionBlur EFFECT_MOTION_BLUR;
+    private boolean EFFECT_MOTION_BLUR_ENABLED;
+    private Bloom EFFECT_BLOOM;
+    private ColorAdjust EFFECT_COLOR_ADJUST;
+    private SepiaTone EFFECT_SEPIA_TONE;
 
     boolean trippy;
 
@@ -59,26 +59,20 @@ public class GameBuilder {
         STAGE = stg;
         WINDOW_WIDTH = w;
         WINDOW_HEIGHT = h;
-        motionBlur = new MotionBlur();
-        motionBlur.setRadius(0);
-        bloom = new Bloom();
-        colorAdjust = new ColorAdjust();
 
+        resetEffects();
 
-        setTripMode(true);
+        setCamera(new CameraUtil(this));
+        setGameSceneControls(new ControlsUtil(this));
 
         GAME_GROUP = new Group();
         GAME_SCENE = new SubScene(GAME_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT, true, SceneAntialiasing.BALANCED);
-        GAME_SCENE.setEffect(motionBlur);
-        GAME_SCENE.setEffect(bloom);
-        GAME_SCENE.setEffect(colorAdjust);
+        GAME_SCENE.setEffect(EFFECT_SEPIA_TONE);
+
 
         ROOT_GROUP = new Group();
         ROOT_SCENE = new Scene(ROOT_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT);
         ROOT_GROUP.getChildren().add(GAME_SCENE);
-
-        setCamera(new CameraUtil(this));
-        setGameSceneControls(new ControlsUtil(this));
 
 
         timer = new AnimationTimer() {
@@ -101,10 +95,9 @@ public class GameBuilder {
                     long curr = System.currentTimeMillis();
 
                     if(trippy){
-                        colorAdjust.setHue(Math.sin(curr/1000.0));
-//                        colorAdjust.setBrightness(((Math.sin(curr/12000.0)/2)+.5)/2);
-                        colorAdjust.setContrast((Math.sin(curr/15000.0))/5);
-                        bloom.setThreshold(Math.sin(curr/5000.0)/2+1);
+                        EFFECT_COLOR_ADJUST.setHue(Math.sin(curr/1000.0));
+                        EFFECT_COLOR_ADJUST.setContrast((Math.sin(curr/15000.0))/5);
+                        EFFECT_BLOOM.setThreshold(Math.sin(curr/5000.0)/2+1);
                     }
 
                     if (curr - last > 1000.0) {
@@ -120,9 +113,19 @@ public class GameBuilder {
                 }
             }
         };
-
     }
 
+    private void resetEffects(){
+        EFFECT_MOTION_BLUR = new MotionBlur();
+        EFFECT_BLOOM = new Bloom();
+        EFFECT_BLOOM.setInput(EFFECT_MOTION_BLUR);
+        EFFECT_COLOR_ADJUST = new ColorAdjust();
+        EFFECT_COLOR_ADJUST.setInput(EFFECT_BLOOM);
+        EFFECT_SEPIA_TONE = new SepiaTone();
+        EFFECT_SEPIA_TONE.setInput(EFFECT_COLOR_ADJUST);
+
+        setBloom(.8);
+    }
 
 
     public void setCamera(CameraUtil cam) {
@@ -256,14 +259,112 @@ public class GameBuilder {
         STAGE.close();
     }
 
-    public void resetEffects(){
-        motionBlur.setRadius(0);
-    }
-
     public void setTripMode(boolean val){
         trippy = val;
     }
     public boolean getTripMode(){
         return trippy;
+    }
+
+    public double getContrast(){
+        return EFFECT_COLOR_ADJUST.getContrast();
+    }
+    public void setContrast(double val){
+        try{
+            if(val >= -1 && val <= 1){
+                EFFECT_COLOR_ADJUST.setContrast(val);;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+    }
+
+    public double getBrightness(){
+        return EFFECT_COLOR_ADJUST.getBrightness()
+    }
+
+    public void setBrightness(double val){
+        try{
+            if(val >= -1 && val <= 1){
+                EFFECT_COLOR_ADJUST.setBrightness(val);;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+    }
+
+    public double getSaturation(){
+        return EFFECT_COLOR_ADJUST.getSaturation();
+    }
+
+    public void setSaturation(double val){
+        try{
+            if(val >= -1 && val <= 1){
+                EFFECT_COLOR_ADJUST.setSaturation(val);
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+    }
+
+    public double getHue(){
+        return EFFECT_COLOR_ADJUST.getHue();
+    }
+
+    public void setHue(double val){
+        try{
+            if(val >= -1 && val <= 1){
+                EFFECT_COLOR_ADJUST.setHue(val);;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+    }
+
+    public double getBloom(){
+        return EFFECT_BLOOM.getThreshold();
+    }
+
+    public void setBloom(double val){
+        try{
+            if(val >= 0 && val <= 1){
+                EFFECT_BLOOM.setThreshold(val);;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+    }
+
+    public double getSepiaTone(){
+        return EFFECT_SEPIA_TONE.getLevel();
+    }
+    public void setSepiaTone(double val){
+        try{
+            if(val >= 0 && val <= 1){
+                EFFECT_SEPIA_TONE.setLevel(val);;
+            } else{
+                throw new IndexOutOfBoundsException();
+            }
+        }catch(IndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+    }
+
+    public boolean getMotionBlurEnabled(){
+        return EFFECT_MOTION_BLUR_ENABLED;
+    }
+
+    public void setMotionBlurEnabled(boolean val){
+        EFFECT_MOTION_BLUR_ENABLED = val;
     }
 }
