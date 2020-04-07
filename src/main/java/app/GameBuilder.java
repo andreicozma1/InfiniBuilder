@@ -4,7 +4,6 @@ import app.GUI.HUD.HUDUtil;
 import app.GUI.HUD.HUDElements.*;
 import app.environment.EnvironmentUtil;
 import app.GUI.menu.MenuUtil;
-import app.environment.SkyboxUtil;
 import app.utils.Log;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
@@ -20,50 +19,25 @@ import app.player.PlayerUtil;
 public class GameBuilder {
     private static final String TAG = "CameraUtil";
 
-    private GameBuilder context;
-
-    public Stage STAGE;
-    private static int WINDOW_WIDTH, WINDOW_HEIGHT;
-
-    private Scene SCENE_CURRENT; // hold the current scene displayed to the user
-
-    // This scene holds other SubScenes, such as SCENE_GAME which is used to render the 3D world with a PerspectiveCamera, as well as the 2D HUD as an overlay
-    // Controls are set on the root scene.
-    private Scene ROOT_SCENE;
-    private Group ROOT_GROUP;
-    // This subscene is a child of SCENE_ROOT.
-    private SubScene GAME_SCENE;
-    private Group GAME_GROUP;
-    // Each scene contains it's own Group, which is used to hold the scene's children in a container
 
     // MAIN GAME LOOP
-    private AnimationTimer timer;
-    private long runtime = 0;
+    private final AnimationTimer GAME_ANIMATION_TIMER;
+    private long TOTAL_RUNTIME = 0;
 
     private GameFX GAME_EFFECTS;
     private GameComponents GAME_COMPONENTS;
+    private GameWindow GAME_WINDOW;
 
     public GameBuilder(Stage stg, int w, int h) {
         Log.p(TAG,"CONSTRUCTOR");
         Log.p(TAG,"Creating Game Window with dimensions: " + w + " x " + h);
 
-        context = this;
 
-        STAGE = stg;
-        WINDOW_WIDTH = w;
-        WINDOW_HEIGHT = h;
+        new GameWindow(stg,w,h);
+        new GameFX(this);
+        new GameComponents(this);
 
-        GAME_GROUP = new Group();
-        GAME_SCENE = new SubScene(GAME_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT, true, SceneAntialiasing.BALANCED);
-
-        ROOT_GROUP = new Group();
-        ROOT_SCENE = new Scene(ROOT_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT);
-        ROOT_GROUP.getChildren().add(GAME_SCENE);
-
-        new GameFX();
-        new GameComponents();
-
-        timer = new AnimationTimer() {
+        GAME_ANIMATION_TIMER = new AnimationTimer() {
             long last = 0;
             int frames = 0;
             double dt = 0;
@@ -89,13 +63,13 @@ public class GameBuilder {
                     }
 
                     if (curr - last > 1000.0) {
-                    Log.p(TAG,"HEARTBEAT -> " + runtime + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
+                    Log.p(TAG,"HEARTBEAT -> " + TOTAL_RUNTIME + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
                         dt = 60.0 / frames;
                         if (dt > 5) {
                             dt = 1;
                         }
                         frames = 0;
-                        runtime++;
+                        TOTAL_RUNTIME++;
                         last = curr;
                     }
                 }
@@ -112,79 +86,121 @@ public class GameBuilder {
         return GAME_EFFECTS;
     }
 
+    public GameWindow getWindow() {return GAME_WINDOW;}
 
-    public void showScene(Scene NEXT_SCENE) {
-        SCENE_CURRENT = NEXT_SCENE;
-        timer.stop();
+    public class GameWindow{
+        public Stage STAGE;
+        private final int WINDOW_WIDTH;
+        private final int WINDOW_HEIGHT;
 
-        if (SCENE_CURRENT == ROOT_SCENE) {
-            System.out.println("Switched to Game Scene");
-            getComponents().getEnvironment().getSkybox().resetLighting();
-            hideCursor();
+        private Scene SCENE_CURRENT; // hold the current scene displayed to the user
 
-            timer.start();
+        // This scene holds other SubScenes, such as SCENE_GAME which is used to render the 3D world with a PerspectiveCamera, as well as the 2D HUD as an overlay
+        // Controls are set on the root scene.
+        private final Scene ROOT_SCENE;
+        private final Group ROOT_GROUP;
+        // This subscene is a child of SCENE_ROOT.
+        private final SubScene GAME_SCENE;
+        private final Group GAME_GROUP;
+        // Each scene contains it's own Group, which is used to hold the scene's children in a container
+
+        GameWindow(Stage stg, int w, int h){
+            GAME_WINDOW = this;
+
+            STAGE = stg;
+
+            WINDOW_WIDTH = w;
+            WINDOW_HEIGHT = h;
+
+            GAME_GROUP = new Group();
+            GAME_SCENE = new SubScene(GAME_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT, true, SceneAntialiasing.BALANCED);
+
+            ROOT_GROUP = new Group();
+            ROOT_SCENE = new Scene(ROOT_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT);
+            ROOT_GROUP.getChildren().add(GAME_SCENE);
         }
-        if (SCENE_CURRENT == getComponents().getMenu().getScene()) {
-            System.out.println("Switched to Menu Scene");
-            showCursor(Cursor.DEFAULT);
+
+
+        public void showScene(Scene NEXT_SCENE) {
+            SCENE_CURRENT = NEXT_SCENE;
+            GAME_ANIMATION_TIMER.stop();
+
+            if (SCENE_CURRENT == ROOT_SCENE) {
+                System.out.println("Switched to Game Scene");
+                getComponents().getEnvironment().getSkybox().resetLighting();
+                hideCursor();
+
+                GAME_ANIMATION_TIMER.start();
+            }
+            if (SCENE_CURRENT == getComponents().getMenu().getScene()) {
+                System.out.println("Switched to Menu Scene");
+                showCursor(Cursor.DEFAULT);
+            }
+
+            STAGE.setScene(SCENE_CURRENT);
+            STAGE.setTitle("307FinalProject");
+            STAGE.show();
         }
 
-        STAGE.setScene(SCENE_CURRENT);
-        STAGE.setTitle("307FinalProject");
-        STAGE.show();
-    }
+        public Stage getSTAGE() {
+            return STAGE;
+        }
 
-    public Stage getSTAGE() {
-        return STAGE;
-    }
+        public Scene getCurrentScene() {
+            return SCENE_CURRENT;
+        }
 
-    public Scene getCurrentScene() {
-        return SCENE_CURRENT;
-    }
+        public Scene getRootScene() {
+            return ROOT_SCENE;
+        }
+        public Group getRootSceneGroup() {
+            return ROOT_GROUP;
+        }
 
-    public Scene getGameRootScene() {
-        return ROOT_SCENE;
-    }
+        public SubScene getGameSubscene() {
+            return GAME_SCENE;
+        }
+        public Group getGameSubsceneGroup() {
+            return GAME_GROUP;
+        }
 
-    public SubScene getGameSubscene() {
-        return GAME_SCENE;
-    }
+        public int getWindowWidth() {
+            return WINDOW_WIDTH;
+        }
 
-    public static int getWindowWidth() {
-        return WINDOW_WIDTH;
-    }
+        public int getWindowHeight() {
+            return WINDOW_HEIGHT;
+        }
 
-    public static int getWindowHeight() {
-        return WINDOW_HEIGHT;
-    }
+        public void closeWindow() {
+            STAGE.close();
+        }
 
-    public void closeWindow() {
-        STAGE.close();
-    }
+        public void moveCursor(double screenX, double screenY) {
+            Platform.runLater(() -> {
+                Robot robot = new Robot();
+                robot.mouseMove(screenX, screenY);
+            });
+        }
 
-    public void moveCursor(double screenX, double screenY) {
-        Platform.runLater(() -> {
-            Robot robot = new Robot();
-            robot.mouseMove(screenX, screenY);
-        });
-    }
+        public void centerCursor() {
+            moveCursor((int) STAGE.getX() + WINDOW_WIDTH / 2, (int) STAGE.getY() + WINDOW_HEIGHT / 2);
+        }
 
-    public void centerCursor() {
-        moveCursor((int) STAGE.getX() + WINDOW_WIDTH / 2, (int) STAGE.getY() + WINDOW_HEIGHT / 2);
-    }
-
-    public void hideCursor() {
+        public void hideCursor() {
 //        getCurrentScene().setCursor(Cursor.NONE);
-    }
+        }
 
-    public void showCursor(Cursor c) {
-        getCurrentScene().setCursor(c);
-    }
 
-    public void lockCursor(boolean state) {
-        if (state) {
-            centerCursor();
-            hideCursor();
+        public void showCursor(Cursor c) {
+            getCurrentScene().setCursor(c);
+        }
+
+        public void lockCursor(boolean state) {
+            if (state) {
+                centerCursor();
+                hideCursor();
+            }
         }
     }
 
@@ -200,19 +216,19 @@ public class GameBuilder {
         private EnvironmentUtil env_util = null;
         private ControlsUtil ctrls_util = null;
 
-        GameComponents(){
+        GameComponents(GameBuilder ctx){
             GAME_COMPONENTS = this;
-            setCamera(new CameraUtil(context));
-            setGameSceneControls(new ControlsUtil(context));
-            setPlayer(new PlayerUtil(context));
-            setEnvironment(new EnvironmentUtil(context));
-            setMenu(new MenuUtil(context));
-            setHUD(new HUDUtil(context));
+            setCamera(new CameraUtil(ctx));
+            setGameSceneControls(new ControlsUtil(ctx));
+            setPlayer(new PlayerUtil(ctx));
+            setEnvironment(new EnvironmentUtil(ctx));
+            setMenu(new MenuUtil(ctx));
+            setHUD(new HUDUtil(ctx));
         }
 
         public void setCamera(CameraUtil cam) {
             cam_util = cam;
-            GAME_SCENE.setCamera(cam.getCamera());
+            getWindow().getGameSubscene().setCamera(cam.getCamera());
         }
 
         public CameraUtil getCamera() {
@@ -221,7 +237,7 @@ public class GameBuilder {
 
         public void setGameSceneControls(ControlsUtil ctrls) {
             ctrls_util = ctrls;
-            ctrls_util.apply(ROOT_SCENE);
+            ctrls_util.apply(getWindow().getRootScene());
         }
 
         public ControlsUtil getGameSceneControls() {
@@ -230,7 +246,7 @@ public class GameBuilder {
 
         public void setPlayer(PlayerUtil player) {
             player_util = player;
-            GAME_GROUP.getChildren().add(player_util.getGroup());
+            getWindow().getGameSubsceneGroup().getChildren().add(player_util.getGroup());
         }
 
         public PlayerUtil getPlayer() {
@@ -239,7 +255,7 @@ public class GameBuilder {
 
         public void setEnvironment(EnvironmentUtil env) {
             env_util = env;
-            GAME_GROUP.getChildren().add(env_util.getWorldGroup());
+            getWindow().getGameSubsceneGroup().getChildren().add(env_util.getWorldGroup());
         }
 
         public EnvironmentUtil getEnvironment() {
@@ -256,7 +272,7 @@ public class GameBuilder {
 
         public void setHUD(HUDUtil hud) {
             hud_util = hud;
-            ROOT_GROUP.getChildren().add(hud.getSubScene());
+            getWindow().getRootSceneGroup().getChildren().add(hud.getSubScene());
         }
 
         public HUDUtil getHUD() {
@@ -265,6 +281,8 @@ public class GameBuilder {
     }
 
     public class GameFX {
+        GameBuilder context;
+
         public MotionBlur EFFECT_MOTION_BLUR;
         private boolean EFFECT_MOTION_BLUR_ENABLED;
         private Bloom EFFECT_BLOOM;
@@ -272,7 +290,8 @@ public class GameBuilder {
         private SepiaTone EFFECT_SEPIA_TONE;
         boolean trippy;
 
-        GameFX(){
+        GameFX(GameBuilder ctx){
+            context = ctx;
             GAME_EFFECTS = this;
             resetEffects();
         }
@@ -291,7 +310,7 @@ public class GameBuilder {
             setMotionBlur(0);
             setMotionBlurEnabled(true);
 
-            GAME_SCENE.setEffect(EFFECT_SEPIA_TONE);
+            getWindow().getGameSubscene().setEffect(EFFECT_SEPIA_TONE);
         }
 
         public void setTripMode(boolean val){

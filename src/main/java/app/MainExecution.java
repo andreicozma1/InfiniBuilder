@@ -42,7 +42,7 @@ public class MainExecution extends Application {
         PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
         SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
 
-        InventoryUtil inventoryUtil = new InventoryUtil(10);
+        InventoryUtil inventoryUtil = new InventoryUtil(game,10);
         inventoryUtil.addItem(4, grass, 40);
         inventoryUtil.addItem(dirt, 15);
         inventoryUtil.addItem(sand, 10);
@@ -54,7 +54,7 @@ public class MainExecution extends Application {
         // draws our game HUD
         DrawHud.DrawHud(game, game.getComponents().getHUD(), inventoryUtil, PRIMARY_WIDTH, PRIMARY_HEIGHT);
 
-        game.showScene(game.getComponents().getMenu().getScene());
+        game.getWindow().showScene(game.getComponents().getMenu().getScene());
     }
 
     public static void main(String[] args) {

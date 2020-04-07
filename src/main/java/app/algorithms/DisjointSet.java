@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class DisjointSet{
     private static final String TAG = "DisjointSet";
-    private ArrayList<Integer> links;
-    private ArrayList<Integer> sizes;
+    private final ArrayList<Integer> links;
+    private final ArrayList<Integer> sizes;
     public DisjointSet(int nElements){
         links = new ArrayList<Integer>();
         sizes = new ArrayList<Integer>();

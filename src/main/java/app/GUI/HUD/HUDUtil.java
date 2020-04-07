@@ -13,8 +13,8 @@ public class HUDUtil {
     private static final String TAG = "HudUtil";
 
     public GameBuilder context;
-    private SubScene subScene;
-    private Group HUDGroup = new Group();
+    private final SubScene subScene;
+    private final Group HUDGroup = new Group();
 
     public static final String HEALTH = "HEALTH";
     public static final String STAMINA = "STAMINA";
@@ -33,12 +33,12 @@ public class HUDUtil {
     public static final String EDGE_LEFT = "edge_left";
     public static final String EDGE_RIGHT = "edge_right";
 
-    private Map<String, HUDElement> elements = new HashMap<>();
+    private final Map<String, HUDElement> elements = new HashMap<>();
 
     public HUDUtil(GameBuilder ctx){
         Log.p(TAG,"CONSTRUCTOR");
         context = ctx;
-        subScene = new SubScene(HUDGroup, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight());
+        subScene = new SubScene(HUDGroup, ctx.getWindow().getWindowWidth(), ctx.getWindow().getWindowHeight());
     }
 
     public Group getHUDGroup(){ return HUDGroup; }

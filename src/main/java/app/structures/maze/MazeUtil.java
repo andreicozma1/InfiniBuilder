@@ -11,15 +11,15 @@ import javafx.scene.paint.Material;
 public class MazeUtil implements SpawnableStructure {
     private static final String TAG = "MazeUtil";
 
-    private int cellWidth;
-    private double cellDim;
-    private int mazeRows;
-    private int mazeCols;
+    private final int cellWidth;
+    private final double cellDim;
+    private final int mazeRows;
+    private final int mazeCols;
     private Long seed = null;
-    private boolean isTrapped;
-    private Material mazeMaterial;
+    private final boolean isTrapped;
+    private final Material mazeMaterial;
     private MazeGenerator mazeGenerator;
-    private int height;
+    private final int height;
 
     public static Long GENERATOR_RANDOM_SEED = null;
 

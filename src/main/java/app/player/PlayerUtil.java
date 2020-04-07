@@ -21,19 +21,19 @@ public class PlayerUtil {
     private static final String TAG = "PlayerUtil";
 
     public GameBuilder context;
-    private Group player_group;
+    private final Group player_group;
 
-    private String player_name = "Steve";
-    private int player_width = 10;
-    private int player_height = 50;
+    private final String player_name = "Steve";
+    private final int player_width = 10;
+    private final int player_height = 50;
 
     private double pos_x = 0;
     private double pos_y = 0;
     private double pos_z = 0;
 
-    private double staminaRegenSpeed = .05;
-    private double staminaDepletionSpeed = 0.2;
-    private double healthRegenSpeed = .008;
+    private final double staminaRegenSpeed = .05;
+    private final double staminaDepletionSpeed = 0.2;
+    private final double healthRegenSpeed = .008;
 
     private double runMultiplier;
     double speedForward = 3;
@@ -59,7 +59,7 @@ public class PlayerUtil {
 
     private boolean onGround = true;
 
-    private PointLight uv_light;
+    private final PointLight uv_light;
     private boolean uv_light_state = false;
 
     public PlayerUtil(GameBuilder ctx) {
@@ -421,11 +421,7 @@ public class PlayerUtil {
 
     public void toggleUVlight() {
         Log.p(TAG, "toggleUVlight()");
-        if (uv_light_state) {
-            setUV_light(false);
-        } else {
-            setUV_light(true);
-        }
+        setUV_light(!uv_light_state);
     }
 
     public void toggleCrouch() {

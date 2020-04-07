@@ -7,10 +7,10 @@ import app.structures.StructureBuilder;
 public class ProjectileUtil extends StructureBuilder {
     private static final String TAG = "ProjectileUtil";
 
-    private EnvironmentUtil context;
-    private StructureBuilder str;
+    private final EnvironmentUtil context;
+    private final StructureBuilder str;
     private double speed;
-    private double DEFAULT_SPEED = 5;
+    private final double DEFAULT_SPEED = 5;
 
     public ProjectileUtil(EnvironmentUtil u, StructureBuilder b) {
         Log.p(TAG,"CONSTRUCTOR");

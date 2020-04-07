@@ -17,16 +17,16 @@ public class SkyboxUtil {
     private static final String TAG = "SkyboxUtil";
 
 
-    private EnvironmentUtil context;
-    private Group group_skybox;
+    private final EnvironmentUtil context;
+    private final Group group_skybox;
 
     private AmbientLight ambient = null;
     private int sun_moon_period_multiplier = 128;
     private int big_planet_period_multiplier = 128;
-    private double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
+    private final double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
     private double sun_rotation_speed = .05;
     private double moon_rotation_speed = .05;
-    private double big_star_rotate_speed = .005;
+    private final double big_star_rotate_speed = .005;
 
     public static final int MODE_CYCLE = 0;
     public static final int MODE_DAY = 1;
@@ -34,32 +34,32 @@ public class SkyboxUtil {
     private int MODE_CURR;
 
     //TODO? Put these in classes?
-    private Sphere sun;
-    private Rotate sun_rotate;
-    private PointLight sunlight;
+    private final Sphere sun;
+    private final Rotate sun_rotate;
+    private final PointLight sunlight;
     private double sun_distance;
     Color suncolor;
     Color dayskycolor;
     Color sunset_color;
 
     //TODO? Put these in classes?
-    private Sphere moon;
-    private Rotate moon_rotate;
-    private PointLight moonlight;
+    private final Sphere moon;
+    private final Rotate moon_rotate;
+    private final PointLight moonlight;
     private double moon_distance;
     Color mooncolor;
     Color nightskycolor;
 
-    private Sphere big_star;
-    private Rotate big_star_rotate;
+    private final Sphere big_star;
+    private final Rotate big_star_rotate;
     private double big_star_distance;
 
-    private Sphere clouds;
-    private double clouds_rotate_speed;
-    private Rotate clouds_rotate_x;
-    private Rotate clouds_rotate_y;
-    private Rotate clouds_rotate_z;
-    private double clouds_height;
+    private final Sphere clouds;
+    private final double clouds_rotate_speed;
+    private final Rotate clouds_rotate_x;
+    private final Rotate clouds_rotate_y;
+    private final Rotate clouds_rotate_z;
+    private final double clouds_height;
 
     /**
      * Constructor for SkyboxUtil. This initializes
@@ -195,7 +195,7 @@ public class SkyboxUtil {
             }
 //            System.out.println(sin);
             sunlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (suncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (suncolor.getGreen() * sin * 255))), (int) (sin * ((sunset_color.getBlue() * (1 - sin) * 255) + (suncolor.getBlue() * sin * 255)))));
-            context.context.getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (dayskycolor.getBlue() * sin * 255))));
+            context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (dayskycolor.getBlue() * sin * 255))));
         } else {
             sunlight.setColor(Color.rgb(0, 0, 0));
         }
@@ -241,7 +241,7 @@ public class SkyboxUtil {
             sin -= sun_offset_ratio;
 //            sin *= (1/sun_offset);
             moonlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (mooncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (mooncolor.getGreen() * sin * 255))), (int) (sin * (sunset_color.getBlue() * (1 - sin) * 255) + (mooncolor.getBlue() * sin * 255))));
-            context.context.getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (nightskycolor.getBlue() * sin * 255))));
+            context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (nightskycolor.getBlue() * sin * 255))));
         } else {
             moonlight.setColor(Color.rgb(0, 0, 0));
         }

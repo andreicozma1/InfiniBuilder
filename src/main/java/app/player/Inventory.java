@@ -36,11 +36,11 @@ import javafx.scene.transform.Rotate;
 
 public class Inventory extends HUDElement {
 
-    private InventoryUtil inventoryUtil;
-    private int inventorySize;
-    private double slotWidth;
-    private double slotHeight;
-    private double borderWidth;
+    private final InventoryUtil inventoryUtil;
+    private final int inventorySize;
+    private final double slotWidth;
+    private final double slotHeight;
+    private final double borderWidth;
     private double totalWidth;
     private double totalHeight;
     private boolean isVertical = false;
@@ -109,21 +109,21 @@ public class Inventory extends HUDElement {
         switch(edge){
             case HUDUtil.EDGE_BOTTOM:
                 setVertical(false);
-                x = GameBuilder.getWindowWidth()/2 - totalWidth/2;
-                y = GameBuilder.getWindowHeight() - totalHeight;
+                x = inventoryUtil.context.getWindow().getWindowWidth()/2.0 - totalWidth/2;
+                y = inventoryUtil.context.getWindow().getWindowHeight() - totalHeight;
                 break;
             case HUDUtil.EDGE_TOP:
                 setVertical(false);
-                x = GameBuilder.getWindowWidth()/2 - totalWidth/2;
+                x = inventoryUtil.context.getWindow().getWindowWidth()/2.0 - totalWidth/2;
                 break;
             case HUDUtil.EDGE_LEFT:
                 setVertical(true);
-                y = GameBuilder.getWindowHeight()/2- totalHeight/2;
+                y = inventoryUtil.context.getWindow().getWindowHeight()/2.0- totalHeight/2;
                 break;
             case HUDUtil.EDGE_RIGHT:
                 setVertical(true);
-                x = GameBuilder.getWindowWidth() - totalWidth;
-                y = GameBuilder.getWindowHeight()/2 - totalHeight/2;
+                x = inventoryUtil.context.getWindow().getWindowWidth() - totalWidth;
+                y = inventoryUtil.context.getWindow().getWindowHeight()/2.0 - totalHeight/2;
                 break;
         }
 

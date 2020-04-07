@@ -19,9 +19,9 @@ import java.util.jar.JarFile;
 public class TDModelUtil {
     private static final String TAG = "ModelUtil";
 
-    private Map<String, File> resources;
+    private final Map<String, File> resources;
 
-    private TdsModelImporter obj_importer;
+    private final TdsModelImporter obj_importer;
 
     private final String FOLDER_NAME = "models";
     private final String EXTENSION_3DS = "3ds";

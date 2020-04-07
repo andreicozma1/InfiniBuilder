@@ -22,11 +22,11 @@ public class MenuUtil {
     // class variables
     Scene SCENE_MENU;
     GameBuilder context;
-    private String singleArrow = ">";
-    private String doubleArrow = ">>";
-    private Font title = Font.font("Monospaced",FontWeight.BOLD,FontPosture.REGULAR,30);
-    private Font options = Font.font("Monospaced",FontWeight.NORMAL,FontPosture.REGULAR,25);
-    private Color GREEN = Color.valueOf("#20C20E");
+    private final String singleArrow = ">";
+    private final String doubleArrow = ">>";
+    private final Font title = Font.font("Monospaced",FontWeight.BOLD,FontPosture.REGULAR,30);
+    private final Font options = Font.font("Monospaced",FontWeight.NORMAL,FontPosture.REGULAR,25);
+    private final Color GREEN = Color.valueOf("#20C20E");
 
 
 
@@ -114,7 +114,7 @@ public class MenuUtil {
         cameraMenu = new InterfaceBuilder();
         graphicsMenu = new InterfaceBuilder();
 
-        SCENE_MENU = new Scene(mainMenu.getGroup(), GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight());
+        SCENE_MENU = new Scene(mainMenu.getGroup(), context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
 
         settingsReturnState = MAIN;
 
@@ -170,7 +170,7 @@ public class MenuUtil {
         SCENE_MENU.setOnKeyReleased(keyEvent -> {
             switch(keyEvent.getCode()){
                 case ESCAPE:
-                    context.closeWindow();
+                    context.getWindow().closeWindow();
                     break;
                 case ENTER:
 //                    TODO
@@ -201,7 +201,7 @@ public class MenuUtil {
     public void buildMainMenu() {
 
         // draw black backdrop
-        mainMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
+        mainMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         mainMenu.drawText("ROOT@CS307:~$",
@@ -224,7 +224,7 @@ public class MenuUtil {
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         context.getComponents().getEnvironment().reset();
-                        context.showScene(context.getGameRootScene());
+                        context.getWindow().showScene(context.getWindow().getRootScene());
                     }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -321,7 +321,7 @@ public class MenuUtil {
         Rectangle quitHitBox = mainMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
         quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.getSTAGE().close(); }
+                    public void handle(MouseEvent me) { context.getWindow().getSTAGE().close(); }
                 });
         quitHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -341,7 +341,7 @@ public class MenuUtil {
 
     public void buildControlsMenu() {
         // draw black backdrop
-        controlsMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
+        controlsMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         controlsMenu.drawText("ROOT@CS307:~/Controls$",
@@ -385,7 +385,7 @@ public class MenuUtil {
 
     public void buildSettingsMenu() {
         // draw black backdrop
-        settingsMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
+        settingsMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         settingsMenu.drawText("ROOT@CS307:~/Settings$",
@@ -520,7 +520,7 @@ public class MenuUtil {
                         if(settingsReturnState==MAIN){
                             activateGroup(GROUP_MAIN_MENU);
                         }else {
-                            context.showScene(context.getGameRootScene());
+                            context.getWindow().showScene(context.getWindow().getRootScene());
                         }
                     }
                 });
@@ -545,7 +545,7 @@ public class MenuUtil {
 
     public void buildEnvironmentMenu(){
         // draw black backdrop
-        environmentMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
+        environmentMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         environmentMenu.drawText("ROOT@CS307:~/Settings/Environment$",
@@ -749,7 +749,7 @@ public class MenuUtil {
 
     public void buildSkyBoxMenu(){
         // draw black backdrop
-        skyBoxMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
+        skyBoxMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         skyBoxMenu.drawText("ROOT@CS307:~/Settings/SkyBox$",
@@ -948,7 +948,7 @@ public class MenuUtil {
 
     public void buildPlayerMenu(){
         // draw black backdrop
-        playerMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
+        playerMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         playerMenu.drawText("ROOT@CS307:~/Settings/Player$",
@@ -1085,7 +1085,7 @@ public class MenuUtil {
 
     public void buildCameraMenu(){
         // draw black backdrop
-        cameraMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
+        cameraMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         cameraMenu.drawText("ROOT@CS307:~/Settings/Camera$",
@@ -1219,7 +1219,7 @@ public class MenuUtil {
 
     public void buildGraphicsMenu(){
         // draw black backdrop
-        graphicsMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
+        graphicsMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         graphicsMenu.drawText("ROOT@CS307:~$ ./About",
@@ -1381,7 +1381,7 @@ public class MenuUtil {
     // ABOUT MENU
     public void buildAboutMenu() {
         // draw black backdrop
-        aboutMenu.drawRectangle(0,0, GameBuilder.getWindowWidth(), GameBuilder.getWindowHeight(),0,0, Color.BLACK);
+        aboutMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
 
         //draw title
         aboutMenu.drawText("ROOT@CS307:~$ ./About",

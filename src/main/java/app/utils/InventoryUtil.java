@@ -1,5 +1,6 @@
 package app.utils;
 
+import app.GameBuilder;
 import app.structures.objects.Base_Structure;
 
 import java.util.ArrayList;
@@ -8,17 +9,20 @@ import java.util.HashMap;
 
 public class InventoryUtil {
     private static final String TAG = "InventoryUtil";
+    public GameBuilder context;
 
-    private ArrayList<Base_Structure> inventory;
-    private HashMap<String, Integer> indexes = new HashMap<String, Integer>();
-    private HashMap<String, Integer> sizes = new HashMap<String, Integer>();
+    private final ArrayList<Base_Structure> inventory;
+    private final HashMap<String, Integer> indexes = new HashMap<String, Integer>();
+    private final HashMap<String, Integer> sizes = new HashMap<String, Integer>();
     private int inventorySize = 0;
     private int currentIndex = 0;
     private boolean isCycle = false;
     private Base_Structure currentItem = new Base_Structure();
 
-    public InventoryUtil(int inventorySize) {
+    public InventoryUtil(GameBuilder ctx, int inventorySize) {
         Log.p(TAG,"CONSTRUCTOR");
+
+        context = ctx;
 
         this.inventorySize = inventorySize;
 

@@ -21,26 +21,26 @@ public class DeathMenu extends HUDElement {
 
     private double width;
     private double height;
-    private double screenWidth;
-    private double screenHeight;
-    private double backdropBorderWidth = 5;
-    private double arcW = 0;
-    private double arcH = 0;
+    private final double screenWidth;
+    private final double screenHeight;
+    private final double backdropBorderWidth = 5;
+    private final double arcW = 0;
+    private final double arcH = 0;
     private boolean isCentered = true;
     private boolean isDead = false;
-    private String singleArrow = ">";
-    private String doubleArrow = ">>";
-    private GameBuilder context;
-    private MenuUtil menuUtil;
-    private Paint backdropPaint = Color.BLACK;
-    private Paint backdropBorderPaint = Color.WHITE;
-    private Paint textPaint = Color.WHITE;
-    private Color GREEN = Color.valueOf("#20C20E");
-    private InterfaceBuilder pause;
+    private final String singleArrow = ">";
+    private final String doubleArrow = ">>";
+    private final GameBuilder context;
+    private final MenuUtil menuUtil;
+    private final Paint backdropPaint = Color.BLACK;
+    private final Paint backdropBorderPaint = Color.WHITE;
+    private final Paint textPaint = Color.WHITE;
+    private final Color GREEN = Color.valueOf("#20C20E");
+    private final InterfaceBuilder pause;
 
-    private Font pauseTitle = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR,20);
+    private final Font pauseTitle = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR,20);
 
-    private Font pauseText = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR,15);
+    private final Font pauseText = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR,15);
 
     public DeathMenu(String elementTag,
                      Point2D pos,
@@ -171,7 +171,7 @@ public class DeathMenu extends HUDElement {
             mainMenuHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
-                            context.showScene(context.getComponents().getMenu().getScene());
+                            context.getWindow().showScene(context.getComponents().getMenu().getScene());
                             menuUtil.activateGroup(MenuUtil.GROUP_MAIN_MENU);
                             isDead = false;
                             update();

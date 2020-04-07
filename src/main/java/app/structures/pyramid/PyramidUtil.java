@@ -11,9 +11,9 @@ import javafx.scene.paint.Material;
 public class PyramidUtil implements SpawnableStructure {
     private static final String TAG = "PyramidUtil";
 
-    private double cellDim;
-    private int baseSideSize;
-    private Material pyramidMaterial;
+    private final double cellDim;
+    private final int baseSideSize;
+    private final Material pyramidMaterial;
 
     public PyramidUtil(double cellDim,
                        int baseSideSize,

@@ -8,7 +8,7 @@ public class MazeGenerator {
     private int rows;
     private int cols;
     private long seed;
-    private Random ran;
+    private final Random ran;
     private List<Wall> maze;
     private List<Wall> deletedWalls;
     private DisjointSet disjointSet;

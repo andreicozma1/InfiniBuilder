@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ControlsUtil {
     private static final String TAG = "ControlsUtil";
 
-    private GameBuilder context;
+    private final GameBuilder context;
     double last_mouse_x;
     double last_mouse_y;
 
@@ -95,11 +95,7 @@ public class ControlsUtil {
 
             if(event.getCode() == KeyCode.ESCAPE){
                 reset();
-                if(((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused()){
-                    ((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).setPaused(false);
-                }else{
-                    ((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).setPaused(true);
-                }
+                ((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).setPaused(!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused());
             }
 
             if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {

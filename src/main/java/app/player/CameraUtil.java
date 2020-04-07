@@ -9,7 +9,7 @@ import app.GameBuilder;
 public class CameraUtil {
     private static final String TAG = "CameraUtil";
 
-    private GameBuilder context;
+    private final GameBuilder context;
     private static PerspectiveCamera cam;
 
     private int fov_default;

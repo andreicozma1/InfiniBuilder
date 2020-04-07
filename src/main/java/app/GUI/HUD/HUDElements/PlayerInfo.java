@@ -6,7 +6,7 @@ import javafx.geometry.Point2D;
 
 public class PlayerInfo extends HUDElement {
 
-    private GameBuilder context;
+    private final GameBuilder context;
 
     public PlayerInfo(String elementTag,
                       Point2D pos,
