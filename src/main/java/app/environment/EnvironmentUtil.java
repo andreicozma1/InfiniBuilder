@@ -155,7 +155,7 @@ public class EnvironmentUtil {
             box.getProps().setPROPERTY_ITEM_TAG("Moss");
 
             if (Math.random() > 1 - vegDens) {
-                Base_Model tree = modelUtil.getRandomMatching(new String[]{"mountain", "rock"});
+                Base_Model tree = modelUtil.getRandomMatching(new String[]{"mountain", "rock", "flower","wood"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
 
                 tree.setScaleAll(15 + Math.random() * 20);
@@ -168,7 +168,7 @@ public class EnvironmentUtil {
             box.getProps().setPROPERTY_ITEM_TAG("Grass");
 
             if (Math.random() > 1 - vegDens) {
-                Base_Model tree = modelUtil.getRandomMatching(new String[]{"plains", "rock", "veg"});
+                Base_Model tree = modelUtil.getRandomMatching(new String[]{"plains", "rock", "veg","flower","grass"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
 
                 tree.setScaleAll(15 + Math.random() * 20);

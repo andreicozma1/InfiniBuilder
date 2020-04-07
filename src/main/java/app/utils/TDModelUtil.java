@@ -18,12 +18,12 @@ import java.util.jar.JarFile;
 
 public class TDModelUtil {
 
-    public static Map<String, File> resources;
+    private Map<String, File> resources;
 
-    TdsModelImporter obj_importer;
+    private TdsModelImporter obj_importer;
 
-    String FOLDER_NAME = "models";
-    String EXTENSION_3DS = "3ds";
+    private final String FOLDER_NAME = "models";
+    private final String EXTENSION_3DS = "3ds";
 
     public TDModelUtil() {
         System.out.println("ModelUtil");

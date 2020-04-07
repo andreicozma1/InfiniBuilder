@@ -79,11 +79,11 @@ public class MazeUtil implements SpawnableStructure2D {
     public void build(GameBuilder context) {
         block_map.clear();
 
-            if (this.seed == null) {
-                mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, System.currentTimeMillis());
-            } else {
-                mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, this.seed);
-            }
+        if (this.seed == null) {
+            mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, System.currentTimeMillis());
+        } else {
+            mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, this.seed);
+        }
 
 
         Point2D pos = context.getPlayer().getPoint2D();
