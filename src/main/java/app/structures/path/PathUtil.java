@@ -8,6 +8,7 @@ import app.structures.SpawnableStructure;
 import app.structures.maze.MazeGenerator;
 import app.structures.objects.Base_Cube;
 import app.utils.Log;
+import app.utils.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
@@ -89,8 +90,9 @@ public class PathUtil  implements SpawnableStructure {
         Point2D pos = context.getComponents().getPlayer().getPoint2D();
         double startingX = pos.getX();
         double startingZ = pos.getY();
-
         int i, j, mi, mj;
+        int currIndex;
+        int nextIndex;
         double cellX;
         double cellZ;
         int xindex1;
@@ -119,9 +121,6 @@ public class PathUtil  implements SpawnableStructure {
             }
             path = graph.Dijkstra(startLoc,endLoc);
             if(path == null)findShortestPath = false;
-            for (i = 0 ; i < path.size();i++){
-                System.out.println(path.get(i));
-            }
         }
 
 
@@ -184,72 +183,66 @@ public class PathUtil  implements SpawnableStructure {
                     block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), cube);
                 }
             }
+        }
 
-            // if a path has been found draw it
-            if(findShortestPath){
-                int currIndex = 0;
-                int nextIndex = 1;
-                i = (2*(startLoc%pathCols));   // big block coordinate
-                j = (2*(startLoc/pathCols));
-                mi = (i*pathWidth)+(pathWidth/2);   // individual cube coordinates
-                mj = (j*pathWidth)+(pathWidth/2);
-                int endi = ((2*(endLoc%pathCols))*pathWidth)+(pathWidth/2);
-                int endj = ((2*(endLoc/pathCols))*pathWidth)+(pathWidth/2);
-                currX = startingX+mi*cellDim;
-                currZ = startingZ+mj*cellDim;
-                while(true){
-                    System.out.println("mi: "+mi+", mj: "+mj+", currI: "+currIndex+", nextI: "+nextIndex +", curr: " + path.get(currIndex)+", next: "+path.get(nextIndex));
-                    // draw the cube
-                    Base_Cube cube = new Base_Cube("Path Block", cellDim, cellDim, cellDim);
-                    cube.getShape().setMaterial(shortestPathMaterial);
-                    block_map.put(new Point2D(currX, currZ), cube);
+        // if a path has been found draw it
+        if(findShortestPath){
 
-                    // if reached the end of the path
-                    if(mi==endj && mj==endi){
-                        break;
-                    }
+            currIndex = 0;
+            nextIndex = 1;
+            mi = ((2*(startLoc%pathCols))*pathWidth)+(pathWidth/2);   // individual cube coordinates
+            mj = ((2*(startLoc/pathCols))*pathWidth)+(pathWidth/2);
+            i = ((2*(endLoc%pathCols))*pathWidth)+(pathWidth/2);
+            j = ((2*(endLoc/pathCols))*pathWidth)+(pathWidth/2);
+            currX = startingX+mi*cellDim;
+            currZ = startingZ+mj*cellDim;
+            while(true){
+                // draw the cube
+                Base_Cube cube = new Base_Cube("Path Block", cellDim,2,cellDim);
+                cube.getShape().setMaterial(shortestPathMaterial);
+                block_map.put(new Point2D(currX, currZ), cube);
 
-                    // set currIndex and next Index
-                    System.out.println("i: "+((2*(path.get(nextIndex)%pathCols))*pathWidth+(pathWidth/2))+",j: "+((2*(path.get(nextIndex)/pathCols))*pathWidth+(pathWidth/2)));
-                    if( mj==((2*(path.get(nextIndex)%pathCols))*pathWidth)+(pathWidth/2) && mi==((2*(path.get(nextIndex)/pathCols))*pathWidth)+(pathWidth/2) ){
-                        currIndex++;
-                        nextIndex++;
-                    }
+                // if reached the end of the path
+                if(mj==j && mi==i){
+                    break;
+                }
 
-                    // change the coordinates to draw next block
-                    //up
-                    if (path.get(currIndex)==path.get(nextIndex)-pathCols){
-                        System.out.println("up");
-                        currZ+=cellDim;
-                        mi++;
+                // set currIndex and next Index
+                if( mj==((2*(path.get(nextIndex)%pathCols))*pathWidth)+(pathWidth/2) && mi==((2*(path.get(nextIndex)/pathCols))*pathWidth)+(pathWidth/2) ){
+                    currIndex++;
+                    nextIndex++;
+                }
 
-                    }
-                    //down
-                    else if(path.get(currIndex)==path.get(nextIndex)+pathCols){
-                        System.out.println("down");
-                        currZ-=cellDim;
-                        mi--;
+                // change the coordinates to draw next block
+                //up
+                if (path.get(currIndex)==path.get(nextIndex)-pathCols){
+                    System.out.println("up");
+                    currZ+=cellDim;
+                    mi++;
 
-                    }
-
-                    //left
-                    else if(path.get(currIndex)==path.get(nextIndex)-1){
-                        System.out.println("right");
-                        currX+=cellDim;
-                        mj++;
-                    }
-                    //right
-                    else if(path.get(currIndex)==path.get(nextIndex)+1){
-                        System.out.println("left");
-                        currX-=cellDim;
-                        mj--;
-                    }
+                }
+                //down
+                else if(path.get(currIndex)==path.get(nextIndex)+pathCols){
+                    System.out.println("down");
+                    currZ-=cellDim;
+                    mi--;
 
                 }
 
-
-
+                //left
+                else if(path.get(currIndex)==path.get(nextIndex)-1){
+                    System.out.println("right");
+                    currX+=cellDim;
+                    mj++;
+                }
+                //right
+                else if(path.get(currIndex)==path.get(nextIndex)+1){
+                    System.out.println("left");
+                    currX-=cellDim;
+                    mj--;
+                }
             }
+
         }
     }
 }
