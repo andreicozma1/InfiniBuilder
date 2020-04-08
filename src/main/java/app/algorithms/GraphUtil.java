@@ -3,7 +3,7 @@ package app.algorithms;
 import java.util.*;
 
 public class GraphUtil {
-    private int V;
+    private int V;                           // Number of nodes
     private List<Integer> w;                 // Weights when leaving each node
     private Map<Integer,List<Edge>> e;       // Edges(v1->v2) indexed by the v1
 
