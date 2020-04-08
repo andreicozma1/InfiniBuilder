@@ -11,23 +11,25 @@ import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
+import java.util.List;
 
 
 // eventually I want to add the ability to change the distance in between vertexes
 public class PathUtil  implements SpawnableStructure {
     public final static String TAG = "PathUtil";
 
-    public int pathRows;
-    public int pathCols;
-    public int pathWidth;
-    public int edgeLength;
-    public double cellDim;
-    public Long seed = null;
-    public boolean findShortestPath;
-    public Material pathMaterial;
-    public Material shortestPathMaterial;
-    public MazeGenerator mazeGenerator;
-    public GraphUtil graph;
+    private int pathRows;
+    private int pathCols;
+    private int pathWidth;
+    private int edgeLength;
+    private double cellDim;
+    private boolean findShortestPath;
+    private Long seed = null;
+    private Material pathMaterial;
+    private Material shortestPathMaterial;
+    private List path;
+    private MazeGenerator mazeGenerator;
+    private GraphUtil graph;
 
     public PathUtil(double cellDim,
                     int pathRows,
@@ -90,6 +92,10 @@ public class PathUtil  implements SpawnableStructure {
                 graph.addEdge(new Edge(w.v2,w.v1));
             }
             graph.print();
+            path = graph.BFS(0,pathRows*pathCols-1);
+            for(int i = 0 ; i < path.size();i++){
+                System.out.println(path.get(i));
+            }
         }
 
         Point2D pos = context.getComponents().getPlayer().getPoint2D();
