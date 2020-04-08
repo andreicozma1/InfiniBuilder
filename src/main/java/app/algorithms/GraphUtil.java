@@ -1,12 +1,12 @@
 package app.algorithms;
 
-import java.awt.geom.Point2D;
 import java.util.*;
 
 public class GraphUtil {
     private int V;
     private List<Integer> w;                 // Weights when leaving each node
     private Map<Integer,List<Edge>> e;       // Edges(v1->v2) indexed by the v1
+
 
     // if there are no weights given in the constructor each node is given a weight value of 1
     // previous nodes are all set to -1
@@ -39,6 +39,7 @@ public class GraphUtil {
         e.get(edge.v1).add(edge);
     }
 
+    //********************************************************************************
     // Depth First Search to find a path from the start pos to the end pos
     public List<Integer> DFS(int start, int end){
         // declare variables
@@ -101,7 +102,7 @@ public class GraphUtil {
         }
         return path;
     }
-
+    //********************************************************************************
     // Breadth First Search to find a path from the start pos to the end pos
     public List<Integer> BFS(int start, int end){
         // declare variables
@@ -165,9 +166,83 @@ public class GraphUtil {
         return path;
     }
 
+    //********************************************************************************
+    //dijkstras shortest path algorithm
     public List<Integer> Dijkstra(int start, int end){
-        List<Integer> path = new ArrayList<>();
+        // declare variables
+        int cV, aV, aD, i; // current vertex, adj vertex, i
+        Entry cN;  // current node
+        boolean foundPath = false;
+        List<Integer> path = new LinkedList<>();
+        List<Integer> dist = new LinkedList<>(Collections.nCopies(V, Integer.MAX_VALUE));
+        List<Boolean> visited = new ArrayList<>(Collections.nCopies(V, false));
+        List<Integer> prev = new ArrayList<Integer>(Collections.nCopies(V, -1));
+        PriorityQueue<Entry> frontier = new PriorityQueue<>(); // holds the values as a (dist,vertex) pair
 
+        // error checking
+        if( start<0 || end<0 || start>=V || end>=V ){
+            System.out.println("start and end position must be in bounds");
+            return null;
+        }else if( start == end ){
+            System.out.println("start position is equal to the end position");
+            return null;
+        }
+
+        // set up starting node
+        dist.set(start,0);
+        frontier.add(new Entry(0,start));
+
+        while(!frontier.isEmpty()) {
+            // get current vertex data
+            cN = frontier.poll();
+            cV = cN.getValue();
+            System.out.println("currNode "+cV);
+
+            // current node is marked
+            if (visited.get(cV)) continue;
+
+            // if found end
+            if (cV == end){
+                foundPath = true;
+                break;
+            }
+
+            // set node to marked
+            visited.set(cV, true);
+
+            // add adj nodes and fix their total dist
+            for (i = 0; i < e.get(cV).size(); i++) {
+                // set temp variables
+                aV = e.get(cV).get(i).v2;
+                aD = dist.get(cV) + w.get(cV);
+
+                // if the adj are not already visited
+                if (!visited.get(aV)) {
+                    // fix the adj nodes weight
+                    if (dist.get(aV) > aD) {
+                        // set the nodes prev
+                        prev.set(aV, cV);
+
+                        // change the nodes total distance if it needs to be changed
+                        dist.set(aV, aD);
+                        frontier.add(new Entry(dist.get(aV), aV));
+                    }
+                }
+            }
+        }
+
+        // if could not find path
+        if(!foundPath){
+            System.out.println("Could not find a path from "+start+" to "+end);
+            return null;
+        }
+
+        // if cV
+        cV = end;
+        while (cV!=-1){
+            path.add(0,cV);
+            cV = prev.get(cV);
+        }
         return path;
     }
 
@@ -183,6 +258,26 @@ public class GraphUtil {
             System.out.println();
         }
     }
+
+    public class Entry implements Comparable<Entry> {
+        private int key;
+        private int value;
+
+        public Entry(int key, int value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        // getters
+        public int getKey() { return key; }
+        public int getValue() { return value; }
+
+        @Override
+        public int compareTo(Entry other) {
+            return this.getKey() - (other.getKey());
+        }
+    }
+
 }
 
 

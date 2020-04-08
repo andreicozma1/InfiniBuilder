@@ -107,7 +107,7 @@ public class PathUtil  implements SpawnableStructure {
                 graph.addEdge(new Edge(w.v2,w.v1));
             }
             graph.print();
-            path = graph.DFS(0,pathRows*pathCols-1);
+            path = graph.Dijkstra(0,pathRows*pathCols-1);
             for(i = 0 ; i < path.size();i++){
                 System.out.println(path.get(i));
             }
