@@ -4,6 +4,7 @@ package app;
 import app.GUI.HUD.*;
 import app.structures.maze.MazeUtil;
 import app.structures.objects.SpawnableStructureItem;
+import app.structures.path.PathUtil;
 import app.structures.pyramid.PyramidUtil;
 import app.utils.InventoryUtil;
 import app.utils.ResourcesUtil;
@@ -11,6 +12,8 @@ import app.structures.objects.Base_Cube;
 import javafx.application.Application;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 
 public class MainExecution extends Application {
@@ -42,14 +45,25 @@ public class MainExecution extends Application {
         PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
         SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
 
+
+        PathUtil path = new PathUtil(game.getComponents().getEnvironment().getBlockDim(),3,3,1,3,ResourcesUtil.red,(long)0);
+        SpawnableStructureItem pathItem = new SpawnableStructureItem(path,"Path",ResourcesUtil.purple,game.getComponents().getEnvironment().getBlockDim());
+        PathUtil path2 = new PathUtil(game.getComponents().getEnvironment().getBlockDim(),3,3,3,3,ResourcesUtil.moon);
+        path.setShortestPathMaterial(ResourcesUtil.red);
+        SpawnableStructureItem path2Item = new SpawnableStructureItem(path2,"Path2",ResourcesUtil.green,game.getComponents().getEnvironment().getBlockDim());
+
+
         InventoryUtil inventoryUtil = new InventoryUtil(game,10);
+
         inventoryUtil.addItem(4, grass, 40);
         inventoryUtil.addItem(dirt, 15);
         inventoryUtil.addItem(sand, 10);
         inventoryUtil.addItem(mazeitem, 99);
         inventoryUtil.addItem(maze2item, 99);
         inventoryUtil.addItem(pyrmItem, 99);
-        inventoryUtil.setCurrentIndex(7);
+        inventoryUtil.addItem(pathItem, 99);
+        inventoryUtil.addItem(path2Item, 99);
+        inventoryUtil.setCurrentIndex(0);
 
         // draws our game HUD
         DrawHud.DrawHud(game, game.getComponents().getHUD(), inventoryUtil, PRIMARY_WIDTH, PRIMARY_HEIGHT);

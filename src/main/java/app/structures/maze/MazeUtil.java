@@ -1,5 +1,6 @@
 package app.structures.maze;
 
+import app.algorithms.Edge;
 import app.structures.SpawnableStructure;
 import app.utils.Log;
 import javafx.geometry.Point2D;
@@ -57,7 +58,6 @@ public class MazeUtil implements SpawnableStructure {
         this.seed = seed;
         this.isTrapped = false;
         this.height = mazeHeight;
-
     }
 
     public MazeUtil(double cellDim,
@@ -136,12 +136,12 @@ public class MazeUtil implements SpawnableStructure {
 
             // to find x index := 1 + [ 2 * ( mazeIndex % cols) ]
             // to find z index := 1 + [ 2 * ( mazeIndex / cols) ]
-            for (Wall w : mazeGenerator.getWalls()) {
+            for (Edge w : mazeGenerator.getWalls()) {
 
-                xindex1 = 1 + (2 * (w.cell1 % mazeCols));
-                zindex1 = 1 + (2 * (w.cell1 / mazeCols));
-                xindex2 = 1 + (2 * (w.cell2 % mazeCols));
-                zindex2 = 1 + (2 * (w.cell2 / mazeCols));
+                xindex1 = 1 + (2 * (w.v1 % mazeCols));
+                zindex1 = 1 + (2 * (w.v1 / mazeCols));
+                xindex2 = 1 + (2 * (w.v2 % mazeCols));
+                zindex2 = 1 + (2 * (w.v2 / mazeCols));
                 // wall separating vertical cells
                 if (xindex1 == xindex2) {
                     // find vertical wall coordinate
@@ -180,12 +180,12 @@ public class MazeUtil implements SpawnableStructure {
         }
 
         // clear the spots where there are no walls generated
-        for (Wall w : mazeGenerator.getDeletedWalls()) {
+        for (Edge w : mazeGenerator.getDeletedWalls()) {
 
-            xindex1 = 1 + (2 * (w.cell1 % mazeCols));
-            zindex1 = 1 + (2 * (w.cell1 / mazeCols));
-            xindex2 = 1 + (2 * (w.cell2 % mazeCols));
-            zindex2 = 1 + (2 * (w.cell2 / mazeCols));
+            xindex1 = 1 + (2 * (w.v1 % mazeCols));
+            zindex1 = 1 + (2 * (w.v1 / mazeCols));
+            xindex2 = 1 + (2 * (w.v2 % mazeCols));
+            zindex2 = 1 + (2 * (w.v2 / mazeCols));
 
             // wall separating vertical cells
             if (xindex1 == xindex2) {
