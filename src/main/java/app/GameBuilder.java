@@ -273,6 +273,7 @@ public class GameBuilder {
         public void setHUD(HUDUtil hud) {
             hud_util = hud;
             getWindow().getRootSceneGroup().getChildren().add(hud.getSubScene());
+            hud_util.drawHUD();
         }
 
         public HUDUtil getHUD() {

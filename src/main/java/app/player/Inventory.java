@@ -109,21 +109,21 @@ public class Inventory extends HUDElement {
         switch(edge){
             case HUDUtil.EDGE_BOTTOM:
                 setVertical(false);
-                x = inventoryUtil.context.getWindow().getWindowWidth()/2.0 - totalWidth/2;
-                y = inventoryUtil.context.getWindow().getWindowHeight() - totalHeight;
+                x = inventoryUtil.context.context.getWindow().getWindowWidth()/2.0 - totalWidth/2;
+                y = inventoryUtil.context.context.getWindow().getWindowHeight() - totalHeight;
                 break;
             case HUDUtil.EDGE_TOP:
                 setVertical(false);
-                x = inventoryUtil.context.getWindow().getWindowWidth()/2.0 - totalWidth/2;
+                x = inventoryUtil.context.context.getWindow().getWindowWidth()/2.0 - totalWidth/2;
                 break;
             case HUDUtil.EDGE_LEFT:
                 setVertical(true);
-                y = inventoryUtil.context.getWindow().getWindowHeight()/2.0- totalHeight/2;
+                y = inventoryUtil.context.context.getWindow().getWindowHeight()/2.0- totalHeight/2;
                 break;
             case HUDUtil.EDGE_RIGHT:
                 setVertical(true);
-                x = inventoryUtil.context.getWindow().getWindowWidth() - totalWidth;
-                y = inventoryUtil.context.getWindow().getWindowHeight()/2.0 - totalHeight/2;
+                x = inventoryUtil.context.context.getWindow().getWindowWidth() - totalWidth;
+                y = inventoryUtil.context.context.getWindow().getWindowHeight()/2.0 - totalHeight/2;
                 break;
         }
 
@@ -182,7 +182,7 @@ public class Inventory extends HUDElement {
             item.toFront();
             getGroup().getChildren().add(item);
 
-            if( displayNumbers && inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG ){
+            if(displayNumbers && inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG ){
                 Label itemAmount = new Label( "" + inventoryUtil.getIndexSize(i) );
 //                itemAmount.setScaleX();
 //                itemAmount.setScaleY();

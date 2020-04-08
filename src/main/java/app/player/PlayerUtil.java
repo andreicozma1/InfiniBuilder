@@ -5,6 +5,7 @@ import app.GUI.HUD.HUDUtil;
 import app.environment.EnvironmentUtil;
 import app.structures.StructureBuilder;
 import app.structures.objects.Base_Structure;
+import app.utils.InventoryUtil;
 import app.utils.Log;
 import app.utils.ProjectileUtil;
 import app.utils.ResourcesUtil;
@@ -62,11 +63,15 @@ public class PlayerUtil {
     private final PointLight uv_light;
     private boolean uv_light_state = false;
 
+    InventoryUtil inventoryUtil;
+
     public PlayerUtil(GameBuilder ctx) {
         Log.p(TAG,"CONSTRUCTOR");
 
         context = ctx;
         player_group = new Group();
+
+        inventoryUtil = new InventoryUtil(this,10);
 
         uv_light = new PointLight();
         uv_light.setLightOn(false);
@@ -146,6 +151,10 @@ public class PlayerUtil {
             }
         }
         */
+    }
+
+    public InventoryUtil getInventory(){
+        return inventoryUtil;
     }
 
 

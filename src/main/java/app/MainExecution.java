@@ -53,20 +53,19 @@ public class MainExecution extends Application {
         SpawnableStructureItem path2Item = new SpawnableStructureItem(path2,"Path2",ResourcesUtil.green,game.getComponents().getEnvironment().getBlockDim());
 
 
-        InventoryUtil inventoryUtil = new InventoryUtil(game,10);
 
-        inventoryUtil.addItem(4, grass, 40);
-        inventoryUtil.addItem(dirt, 15);
-        inventoryUtil.addItem(sand, 10);
-        inventoryUtil.addItem(mazeitem, 99);
-        inventoryUtil.addItem(maze2item, 99);
-        inventoryUtil.addItem(pyrmItem, 99);
-        inventoryUtil.addItem(pathItem, 99);
-        inventoryUtil.addItem(path2Item, 99);
-        inventoryUtil.setCurrentIndex(0);
+        game.getComponents().getPlayer().getInventory().addItem(4, grass, 40);
+        game.getComponents().getPlayer().getInventory().addItem(dirt, 15);
+        game.getComponents().getPlayer().getInventory().addItem(sand, 10);
+        game.getComponents().getPlayer().getInventory().addItem(mazeitem, 99);
+        game.getComponents().getPlayer().getInventory().addItem(maze2item, 99);
+        game.getComponents().getPlayer().getInventory().addItem(pyrmItem, 99);
+        game.getComponents().getPlayer().getInventory().addItem(pathItem, 99);
+        game.getComponents().getPlayer().getInventory().addItem(path2Item, 99);
+        game.getComponents().getPlayer().getInventory().setCurrentIndex(0);
 
         // draws our game HUD
-        DrawHud.DrawHud(game, game.getComponents().getHUD(), inventoryUtil, PRIMARY_WIDTH, PRIMARY_HEIGHT);
+
 
         game.getWindow().showScene(game.getComponents().getMenu().getScene());
     }
