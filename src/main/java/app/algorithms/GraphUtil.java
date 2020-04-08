@@ -42,7 +42,9 @@ public class GraphUtil {
     // Depth First Search to find a path from the start pos to the end pos
     public List<Integer> DFS(int start, int end){
         // declare variables
-        List<Integer> path = new ArrayList<>();
+        int cV, i;
+        boolean foundPath = false;
+        List<Integer> path = new LinkedList<>();
         List<Boolean> visited = new ArrayList<>(Collections.nCopies(V, false));
         List<Integer> prev = new ArrayList<Integer>(Collections.nCopies(V, -1));
         Stack<Integer> frontier = new Stack<>();
@@ -58,8 +60,45 @@ public class GraphUtil {
 
         // set up starting node
         visited.set(start,true);
+        frontier.push(start);
 
+        // iterate until find end or visited all nodes it could
+        while(!frontier.isEmpty()){
+            // pop from the frontier
+            cV = frontier.pop();
 
+            for(i = 0 ; i < e.get(cV).size() ;i++){
+                // if reaches the ending node
+
+                if(e.get(cV).get(i).v2==end){
+                    prev.set(e.get(cV).get(i).v2,e.get(cV).get(i).v1);
+                    frontier.clear();
+                    foundPath = true;
+                    break;
+                }
+                // add the adjacent nodes to the
+                else if(!visited.get(e.get(cV).get(i).v2)){
+                    prev.set(e.get(cV).get(i).v2,e.get(cV).get(i).v1);
+                    visited.set(e.get(cV).get(i).v2,true);
+                    frontier.add(e.get(cV).get(i).v2);
+                }
+            }
+        }
+
+        // if could not find path
+        if(!foundPath){
+            System.out.println("Could not find a path from "+start+" to "+end);
+            return null;
+        }
+
+        System.out.println("Found a path from "+start+" to "+end);
+        // backtrace to find the path
+        cV = end;
+
+        while(cV != -1){
+            path.add(0,cV);
+            cV = prev.get(cV);
+        }
         return path;
     }
 

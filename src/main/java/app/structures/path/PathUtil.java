@@ -75,7 +75,22 @@ public class PathUtil  implements SpawnableStructure {
 
     @Override
     public void build(GameBuilder context) {
+        Point2D pos = context.getComponents().getPlayer().getPoint2D();
+        double startingX = pos.getX();
+        double startingZ = pos.getY();
+
+        int i, j, mi, mj;
+        double cellX;
+        double cellZ;
+        int xindex1;
+        int zindex1;
+        int xindex2;
+        int zindex2;
+        double currX;
+        double currZ;
+
         block_map.clear();
+
         // randomizes the seed if the user wants it to be randomized
         if (this.seed == null) {
             mazeGenerator = new MazeGenerator(this.pathRows, this.pathCols, System.currentTimeMillis());
@@ -92,25 +107,13 @@ public class PathUtil  implements SpawnableStructure {
                 graph.addEdge(new Edge(w.v2,w.v1));
             }
             graph.print();
-            path = graph.BFS(0,pathRows*pathCols-1);
-            for(int i = 0 ; i < path.size();i++){
+            path = graph.DFS(0,pathRows*pathCols-1);
+            for(i = 0 ; i < path.size();i++){
                 System.out.println(path.get(i));
             }
         }
 
-        Point2D pos = context.getComponents().getPlayer().getPoint2D();
-        double startingX = pos.getX();
-        double startingZ = pos.getY();
 
-        int i, j, mi, mj;
-        double cellX;
-        double cellZ;
-        int xindex1;
-        int zindex1;
-        int xindex2;
-        int zindex2;
-        double currX;
-        double currZ;
 
         currZ = startingZ;
         for (i = 0; i < (pathRows * 2 - 1) * pathWidth; i++) {
