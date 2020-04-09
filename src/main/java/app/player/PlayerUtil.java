@@ -254,8 +254,8 @@ public class PlayerUtil {
     }
 
     public void handle_collision(double new_x, double new_z) {
-        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new Point3D(new_x, getPositionYwithHeight(), this.POSITION_Z));
-        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new Point3D(this.POSITION_X, getPositionYwithHeight(), new_z));
+        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z));
+        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(this.POSITION_X, getPositionYwithHeight(), new_z));
 
         if ((POSITION_Y - ground_level_x  < autoJumpCutoffHeight) || isClipMode) {
             this.POSITION_X = new_x;
