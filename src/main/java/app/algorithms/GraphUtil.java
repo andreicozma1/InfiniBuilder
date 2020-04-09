@@ -177,7 +177,7 @@ public class GraphUtil {
         List<Integer> dist = new LinkedList<>(Collections.nCopies(V, Integer.MAX_VALUE));
         List<Boolean> visited = new ArrayList<>(Collections.nCopies(V, false));
         List<Integer> prev = new ArrayList<Integer>(Collections.nCopies(V, -1));
-        PriorityQueue<Entry> frontier = new PriorityQueue<>(); // holds the values as a (dist,vertex) pair
+        PriorityQueue<Entry<Integer>> frontier = new PriorityQueue<>(); // holds the values as a (dist,vertex) pair
 
         // error checking
         if( start<0 || end<0 || start>=V || end>=V ){
@@ -195,7 +195,7 @@ public class GraphUtil {
         while(!frontier.isEmpty()) {
             // get current vertex data
             cN = frontier.poll();
-            cV = cN.getValue();
+            cV = (int)cN.getValue();
             System.out.println("currNode "+cV);
 
             // current node is marked
@@ -256,25 +256,6 @@ public class GraphUtil {
                 }
             }
             System.out.println();
-        }
-    }
-
-    public class Entry implements Comparable<Entry> {
-        private int key;
-        private int value;
-
-        public Entry(int key, int value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        // getters
-        public int getKey() { return key; }
-        public int getValue() { return value; }
-
-        @Override
-        public int compareTo(Entry other) {
-            return this.getKey() - (other.getKey());
         }
     }
 

@@ -86,13 +86,17 @@ public class PlayerUtil {
     public void update_handler(double dt) {
         context.getComponents().getCamera().update_handler();
 
-        context.getComponents().getEnvironment().generateChunks(getPos_x(), getPos_z());
+        context.getComponents().getEnvironment().generateChunks3D(getPos_x(), getPos_z());
+//        context.getComponents().getEnvironment().generateChunks(getPos_x(), getPos_z());
         context.getComponents().getEnvironment().showChunksAroundPlayer(getPos_x(), getPos_z());
 
+//        System.out.println("########## " + (int)Math.floor(-getPos_y()/context.getComponents().getEnvironment().getBlockDim()) + "   " + context.getComponents().getEnvironment().getWorldYFromPlayerPt2D(getPoint2D()));
+
         player_group.setTranslateX(getPos_x());
-        player_group.setTranslateY(-getPos_y() - player_height);
+        player_group.setTranslateY(getPos_y() - player_height);
         player_group.setTranslateZ(getPos_z());
 
+        /*
         // Jumping Mechanism. As long as player is not in fly mode, execute mechanism
         if (!isFlyMode) {
             // If the player initiated a jump and hasn't reached the top, move the player up
@@ -144,6 +148,8 @@ public class PlayerUtil {
             getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() + healthRegenSpeed * dt);
         }
 
+         */
+
         /* TODO - unfinished implementation for resetting the player's status bars if walking over a crystal.
         if(context.getComponents().getEnvironment().terrain_map_block.containsKey(getPoint2D())){
             if(context.getComponents().getEnvironment().terrain_map_block.get(context.getComponents().getEnvironment().getWorldPoint2D(getPoint2D())).getProps().getPROPERTY_ITEM_TAG().toLowerCase().contains("crystal")){
@@ -151,6 +157,7 @@ public class PlayerUtil {
             }
         }
         */
+
     }
 
     public InventoryUtil getInventory(){
@@ -283,7 +290,6 @@ public class PlayerUtil {
         onGround = false;
     }
 
-
     public void moveDown(double val) {
         double ground_level = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(getPos_x(), getPos_z());
 
@@ -319,9 +325,9 @@ public class PlayerUtil {
             }
         }
 
-        if (pos_y < -5000) {
-            reset();
-        }
+//        if (pos_y < -5000) {
+//            reset();
+//        }
     }
 
     private void warpToGround() {

@@ -36,7 +36,7 @@ public class SimplexUtil {
     }
 
 
-    public double getNoise(int x, int y){
+    public double getNoise(double x, double y){
 
         double result=0;
 
@@ -52,7 +52,7 @@ public class SimplexUtil {
 
     }
 
-    public double getNoise(int x,int y, int z){
+    public double getNoise(double x,double y, double z){
         double result=0;
         for(int i=0;i<octaves.length;i++){
             double frequency = Math.pow(2,i);
