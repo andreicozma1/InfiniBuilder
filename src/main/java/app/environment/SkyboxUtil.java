@@ -59,6 +59,8 @@ public class SkyboxUtil {
     private final Rotate clouds_rotate_z;
     private final double clouds_height;
 
+    public double planet_diameter = 8000;
+
     /**
      * Constructor for SkyboxUtil. This initializes
      *
@@ -83,10 +85,10 @@ public class SkyboxUtil {
         clouds.setCullFace(CullFace.NONE);
         clouds.setMaterial(ResourcesUtil.clouds);
         clouds_rotate_speed = 0.001;
-        clouds.setTranslateY(context.planet_diameter - clouds_height);
-        clouds.setScaleX(context.planet_diameter + clouds_height);
-        clouds.setScaleY(context.planet_diameter + clouds_height);
-        clouds.setScaleZ(context.planet_diameter + clouds_height);
+        clouds.setTranslateY(planet_diameter - clouds_height);
+        clouds.setScaleX(planet_diameter + clouds_height);
+        clouds.setScaleY(planet_diameter + clouds_height);
+        clouds.setScaleZ(planet_diameter + clouds_height);
         clouds.setEffect(new GaussianBlur(5));
 
         clouds_rotate_x = new Rotate(90, new Point3D(1, 0, 0));
@@ -98,7 +100,7 @@ public class SkyboxUtil {
         big_star = new Sphere();
         big_star.setMaterial(ResourcesUtil.big_star);
         setBigStarScale(4000);
-        setBigStarDistance(context.planet_diameter + 4000);
+        setBigStarDistance(planet_diameter + 4000);
         big_star_rotate = new Rotate(0, new Point3D(0, 1, 0));
         big_star.getTransforms().setAll(big_star_rotate);
 
@@ -107,7 +109,7 @@ public class SkyboxUtil {
         moonlight = new PointLight();
         moonlight.setDepthTest(DepthTest.ENABLE);
         setMoonScale(1000);
-        setMoonDistance(context.planet_diameter + 3000);
+        setMoonDistance(planet_diameter + 3000);
         setMoonMaterial(ResourcesUtil.moon);
         setMoonlightColor(Color.rgb(20, 20, 60));
         setNightSkyColor(Color.rgb(10, 10, 35));
@@ -119,7 +121,7 @@ public class SkyboxUtil {
         sunlight = new PointLight();
         sunlight.setDepthTest(DepthTest.ENABLE);
         setSunScale(2000);
-        setSunDistance(context.planet_diameter + 8000);
+        setSunDistance(planet_diameter + 8000);
         setSunMaterial(ResourcesUtil.sun);
         setSunlightColor(Color.WHITE);
         setDaySkyColor(Color.rgb(135, 206, 235));
