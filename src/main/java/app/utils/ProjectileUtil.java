@@ -29,7 +29,7 @@ public class ProjectileUtil extends StructureBuilder {
 
     public void shoot() {
         double initialVel = speed;
-        context.addFromGroup(EnvironmentUtil.GROUP_STRUCTURES, str);
+        context.addToGroup(EnvironmentUtil.GROUP_STRUCTURES, str);
 
         double velY = initialVel * Math.cos(Math.toRadians(context.context.getComponents().getCamera().getRotateY()));
 
