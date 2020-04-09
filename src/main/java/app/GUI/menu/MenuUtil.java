@@ -3,7 +3,6 @@ package app.GUI.menu;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.player.Inventory;
-import app.utils.Log;
 import app.utils.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -128,8 +127,8 @@ public class MenuUtil {
 
         curr_world_height_mult = context.getComponents().getEnvironment().getTerrainHeightMultiplier();
         curr_vegetation_mult = context.getComponents().getEnvironment().getVegetationDensityPercent();
-        curr_render_distance = context.getComponents().getEnvironment().getTerrainRenderDistance();
-        curr_terrain_has_water = context.getComponents().getEnvironment().isTerrain_should_have_water();
+        curr_render_distance = context.getComponents().getEnvironment().getTerrainGenerateDistance();
+        curr_terrain_has_water = context.getComponents().getEnvironment().getTerrainShouldHaveWater();
 
         curr_sun_scale = context.getComponents().getEnvironment().getSkybox().getSunScale();
         curr_moon_scale = context.getComponents().getEnvironment().getSkybox().getMoonScale();
@@ -335,7 +334,7 @@ public class MenuUtil {
         Rectangle quitHitBox = mainMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
         quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.getWindow().getSTAGE().close(); }
+                    public void handle(MouseEvent me) { context.getWindow().getStage().close(); }
                 });
         quitHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -683,7 +682,7 @@ public class MenuUtil {
                         curr_render_distance+=5;
                         if(curr_render_distance>75)curr_render_distance=0;
                         renderDistanceMult.setText((int) curr_render_distance + " blocks");
-                        context.getComponents().getEnvironment().setTerrainRenderDistance(curr_render_distance);
+                        context.getComponents().getEnvironment().setTerrainGenerateDistance(curr_render_distance);
                     }
                 });
         renderDistanceHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -715,7 +714,7 @@ public class MenuUtil {
                         curr_terrain_has_water= !curr_terrain_has_water;
 
                         hasWaterChoice.setText(String.valueOf(curr_terrain_has_water));
-                        context.getComponents().getEnvironment().setTerrain_should_have_water(curr_terrain_has_water);
+                        context.getComponents().getEnvironment().setTerrainShouldHaveWater(curr_terrain_has_water);
                     }
                 });
         hasWaterHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,

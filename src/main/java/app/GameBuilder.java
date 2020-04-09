@@ -19,7 +19,6 @@ import app.player.PlayerUtil;
 public class GameBuilder {
     private static final String TAG = "CameraUtil";
 
-
     // MAIN GAME LOOP
     private final AnimationTimer GAME_ANIMATION_TIMER;
     private long TOTAL_RUNTIME = 0;
@@ -29,48 +28,48 @@ public class GameBuilder {
     private GameWindow GAME_WINDOW;
 
     public GameBuilder(Stage stg, int w, int h) {
-        Log.p(TAG,"CONSTRUCTOR");
-        Log.p(TAG,"Creating Game Window with dimensions: " + w + " x " + h);
+        Log.p(TAG, "CONSTRUCTOR");
+        Log.p(TAG, "Creating Game Window with dimensions: " + w + " x " + h);
 
-
-        new GameWindow(stg,w,h);
+        new GameWindow(stg, w, h);
         new GameFX(this);
         new GameComponents(this);
 
         GAME_ANIMATION_TIMER = new AnimationTimer() {
-            long last = 0;
-            int frames = 0;
-            double dt = 0;
+            long reading_last = 0;
+            int reading_frames = 0;
+            double deltaT = 0;
+
             @Override
             public void handle(long now) {
                 if (!((PauseMenu) getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
                     if (getComponents().getGameSceneControls() != null) {
-                        getComponents().getGameSceneControls().update_handler(dt);
+                        getComponents().getGameSceneControls().update_handler(deltaT);
                     }
                     if (getComponents().getEnvironment() != null) {
                         getComponents().getEnvironment().update_handler();
                     }
                     if (getComponents().getPlayer() != null) {
-                        getComponents().getPlayer().update_handler(dt);
+                        getComponents().getPlayer().update_handler(deltaT);
                     }
-                    frames++;
-                    long curr = System.currentTimeMillis();
+                    reading_frames++;
+                    long reading_current = System.currentTimeMillis();
 
-                    if(GAME_EFFECTS.trippy){
-                        getEffects().EFFECT_COLOR_ADJUST.setHue(Math.sin(curr/1000.0));
-                        getEffects().EFFECT_COLOR_ADJUST.setContrast((Math.sin(curr/15000.0))/5);
-                        getEffects().EFFECT_BLOOM.setThreshold(Math.sin(curr/5000.0)/2+1);
+                    if (GAME_EFFECTS.PROPERTY_IS_TRIPPY_MODE) {
+                        getEffects().EFFECT_COLOR_ADJUST.setHue(Math.sin(reading_current / 1000.0));
+                        getEffects().EFFECT_COLOR_ADJUST.setContrast((Math.sin(reading_current / 15000.0)) / 5);
+                        getEffects().EFFECT_BLOOM.setThreshold(Math.sin(reading_current / 5000.0) / 2 + 1);
                     }
 
-                    if (curr - last > 1000.0) {
-                    Log.p(TAG,"HEARTBEAT -> " + TOTAL_RUNTIME + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
-                        dt = 60.0 / frames;
-                        if (dt > 5) {
-                            dt = 1;
+                    if (reading_current - reading_last > 1000.0) {
+                        Log.p(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + reading_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
+                        deltaT = 60.0 / reading_frames;
+                        if (deltaT > 5) {
+                            deltaT = 1;
                         }
-                        frames = 0;
+                        reading_last = reading_current;
+                        reading_frames = 0;
                         TOTAL_RUNTIME++;
-                        last = curr;
                     }
                 }
             }
@@ -78,17 +77,19 @@ public class GameBuilder {
     }
 
 
-    public GameComponents getComponents(){
+    public GameComponents getComponents() {
         return GAME_COMPONENTS;
     }
 
-    public GameFX getEffects(){
+    public GameFX getEffects() {
         return GAME_EFFECTS;
     }
 
-    public GameWindow getWindow() {return GAME_WINDOW;}
+    public GameWindow getWindow() {
+        return GAME_WINDOW;
+    }
 
-    public class GameWindow{
+    public class GameWindow {
         public Stage STAGE;
         private final int WINDOW_WIDTH;
         private final int WINDOW_HEIGHT;
@@ -104,7 +105,7 @@ public class GameBuilder {
         private final Group GAME_GROUP;
         // Each scene contains it's own Group, which is used to hold the scene's children in a container
 
-        GameWindow(Stage stg, int w, int h){
+        GameWindow(Stage stg, int w, int h) {
             GAME_WINDOW = this;
 
             STAGE = stg;
@@ -142,10 +143,9 @@ public class GameBuilder {
             STAGE.show();
         }
 
-        public Stage getSTAGE() {
+        public Stage getStage() {
             return STAGE;
         }
-
         public Scene getCurrentScene() {
             return SCENE_CURRENT;
         }
@@ -167,7 +167,6 @@ public class GameBuilder {
         public int getWindowWidth() {
             return WINDOW_WIDTH;
         }
-
         public int getWindowHeight() {
             return WINDOW_HEIGHT;
         }
@@ -176,25 +175,6 @@ public class GameBuilder {
             STAGE.close();
         }
 
-        public void moveCursor(double screenX, double screenY) {
-            Platform.runLater(() -> {
-                Robot robot = new Robot();
-                robot.mouseMove(screenX, screenY);
-            });
-        }
-
-        public void centerCursor() {
-            moveCursor((int) STAGE.getX() + WINDOW_WIDTH / 2, (int) STAGE.getY() + WINDOW_HEIGHT / 2);
-        }
-
-        public void hideCursor() {
-//        getCurrentScene().setCursor(Cursor.NONE);
-        }
-
-
-        public void showCursor(Cursor c) {
-            getCurrentScene().setCursor(c);
-        }
 
         public void lockCursor(boolean state) {
             if (state) {
@@ -202,22 +182,40 @@ public class GameBuilder {
                 hideCursor();
             }
         }
+        public void centerCursor() {
+            moveCursor((int) STAGE.getX() + WINDOW_WIDTH / 2, (int) STAGE.getY() + WINDOW_HEIGHT / 2);
+        }
+
+        public void showCursor(Cursor c) {
+            getCurrentScene().setCursor(c);
+        }
+        public void hideCursor() {
+            getCurrentScene().setCursor(Cursor.NONE);
+        }
+
+        public void moveCursor(double screenX, double screenY) {
+            Platform.runLater(() -> {
+                Robot robot = new Robot();
+                robot.mouseMove(screenX, screenY);
+            });
+        }
     }
 
-    public class GameComponents{
+    public class GameComponents {
 
-        private HUDUtil hud_util = null; // The HUDUtil class contains the other SubScene which is placed in the SCENE_ROOT together with SCENE_GAME
+        private HUDUtil UTIL_HUD; // The HUDUtil class contains the other SubScene which is placed in the SCENE_ROOT together with SCENE_GAME
         // Other scenes are defined within the MenuUtil class in order to draw the main menu
-        private MenuUtil menu_util = null;
+        private MenuUtil UTIL_MENU;
 
         // Other helper utils
-        private PlayerUtil player_util = null;
-        private CameraUtil cam_util = null;
-        private EnvironmentUtil env_util = null;
-        private ControlsUtil ctrls_util = null;
+        private PlayerUtil UTIL_PLAYER;
+        private CameraUtil UTIL_CAMERA;
+        private EnvironmentUtil UTIL_ENVIRONMENT;
+        private ControlsUtil UTIL_CONTROLS;
 
-        GameComponents(GameBuilder ctx){
+        GameComponents(GameBuilder ctx) {
             GAME_COMPONENTS = this;
+
             setCamera(new CameraUtil(ctx));
             setGameSceneControls(new ControlsUtil(ctx));
             setPlayer(new PlayerUtil(ctx));
@@ -226,58 +224,58 @@ public class GameBuilder {
             setHUD(new HUDUtil(ctx));
         }
 
+        public CameraUtil getCamera() {
+            return UTIL_CAMERA;
+        }
+
         public void setCamera(CameraUtil cam) {
-            cam_util = cam;
+            UTIL_CAMERA = cam;
             getWindow().getGameSubscene().setCamera(cam.getCamera());
         }
 
-        public CameraUtil getCamera() {
-            return cam_util;
+        public ControlsUtil getGameSceneControls() {
+            return UTIL_CONTROLS;
         }
 
         public void setGameSceneControls(ControlsUtil ctrls) {
-            ctrls_util = ctrls;
-            ctrls_util.apply(getWindow().getRootScene());
-        }
-
-        public ControlsUtil getGameSceneControls() {
-            return ctrls_util;
-        }
-
-        public void setPlayer(PlayerUtil player) {
-            player_util = player;
-            getWindow().getGameSubsceneGroup().getChildren().add(player_util.getGroup());
+            UTIL_CONTROLS = ctrls;
+            UTIL_CONTROLS.apply(getWindow().getRootScene());
         }
 
         public PlayerUtil getPlayer() {
-            return player_util;
+            return UTIL_PLAYER;
         }
 
-        public void setEnvironment(EnvironmentUtil env) {
-            env_util = env;
-            getWindow().getGameSubsceneGroup().getChildren().add(env_util.getWorldGroup());
+        public void setPlayer(PlayerUtil player) {
+            UTIL_PLAYER = player;
+            getWindow().getGameSubsceneGroup().getChildren().add(UTIL_PLAYER.getGroup());
         }
 
         public EnvironmentUtil getEnvironment() {
-            return env_util;
+            return UTIL_ENVIRONMENT;
         }
 
-        public void setMenu(MenuUtil ut) {
-            menu_util = ut;
+        public void setEnvironment(EnvironmentUtil env) {
+            UTIL_ENVIRONMENT = env;
+            getWindow().getGameSubsceneGroup().getChildren().add(UTIL_ENVIRONMENT.getWorldGroup());
         }
 
         public MenuUtil getMenu() {
-            return menu_util;
+            return UTIL_MENU;
         }
 
-        public void setHUD(HUDUtil hud) {
-            hud_util = hud;
-            getWindow().getRootSceneGroup().getChildren().add(hud.getSubScene());
-            hud_util.drawHUD();
+        public void setMenu(MenuUtil ut) {
+            UTIL_MENU = ut;
         }
 
         public HUDUtil getHUD() {
-            return hud_util;
+            return UTIL_HUD;
+        }
+
+        public void setHUD(HUDUtil hud) {
+            UTIL_HUD = hud;
+            getWindow().getRootSceneGroup().getChildren().add(hud.getSubScene());
+            UTIL_HUD.drawHUD();
         }
     }
 
@@ -289,15 +287,15 @@ public class GameBuilder {
         private Bloom EFFECT_BLOOM;
         private ColorAdjust EFFECT_COLOR_ADJUST;
         private SepiaTone EFFECT_SEPIA_TONE;
-        boolean trippy;
+        boolean PROPERTY_IS_TRIPPY_MODE;
 
-        GameFX(GameBuilder ctx){
+        GameFX(GameBuilder ctx) {
             context = ctx;
             GAME_EFFECTS = this;
             resetEffects();
         }
 
-        public void resetEffects(){
+        public void resetEffects() {
             EFFECT_MOTION_BLUR = new MotionBlur();
             EFFECT_BLOOM = new Bloom();
             EFFECT_BLOOM.setInput(EFFECT_MOTION_BLUR);
@@ -314,129 +312,132 @@ public class GameBuilder {
             getWindow().getGameSubscene().setEffect(EFFECT_SEPIA_TONE);
         }
 
-        public void setTripMode(boolean val){
-            trippy = val;
-        }
-        public boolean getTripMode(){
-            return trippy;
+        public boolean getTripMode() {
+            return PROPERTY_IS_TRIPPY_MODE;
         }
 
-        public double getContrast(){
+        public void setTripMode(boolean val) {
+            PROPERTY_IS_TRIPPY_MODE = val;
+        }
+
+        public double getContrast() {
             return EFFECT_COLOR_ADJUST.getContrast();
         }
-        public void setContrast(double val){
-            try{
-                if(val >= -1 && val <= 1){
+
+        public void setContrast(double val) {
+            try {
+                if (val >= -1 && val <= 1) {
                     EFFECT_COLOR_ADJUST.setContrast(val);
-                } else{
+                } else {
                     throw new IndexOutOfBoundsException();
                 }
-            }catch(IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
         }
 
-        public double getBrightness(){
+        public double getBrightness() {
             return EFFECT_COLOR_ADJUST.getBrightness();
         }
 
-        public void setBrightness(double val){
-            try{
-                if(val >= -1 && val <= 1){
+        public void setBrightness(double val) {
+            try {
+                if (val >= -1 && val <= 1) {
                     EFFECT_COLOR_ADJUST.setBrightness(val);
-                } else{
+                } else {
                     throw new IndexOutOfBoundsException();
                 }
-            }catch(IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
         }
 
-        public double getSaturation(){
+        public double getSaturation() {
             return EFFECT_COLOR_ADJUST.getSaturation();
         }
 
-        public void setSaturation(double val){
-            try{
-                if(val >= -1 && val <= 1){
+        public void setSaturation(double val) {
+            try {
+                if (val >= -1 && val <= 1) {
                     EFFECT_COLOR_ADJUST.setSaturation(val);
-                } else{
+                } else {
                     throw new IndexOutOfBoundsException();
                 }
-            }catch(IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
         }
 
-        public double getHue(){
+        public double getHue() {
             return EFFECT_COLOR_ADJUST.getHue();
         }
 
-        public void setHue(double val){
-            try{
-                if(val >= -1 && val <= 1){
+        public void setHue(double val) {
+            try {
+                if (val >= -1 && val <= 1) {
                     EFFECT_COLOR_ADJUST.setHue(val);
-                } else{
+                } else {
                     throw new IndexOutOfBoundsException();
                 }
-            }catch(IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
         }
 
-        public double getBloom(){
+        public double getBloom() {
             return EFFECT_BLOOM.getThreshold();
         }
 
-        public void setBloom(double val){
-            try{
-                if(val >= 0 && val <= 1){
+        public void setBloom(double val) {
+            try {
+                if (val >= 0 && val <= 1) {
                     EFFECT_BLOOM.setThreshold(val);
-                } else{
+                } else {
                     throw new IndexOutOfBoundsException();
                 }
-            }catch(IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
         }
 
-        public double getSepiaTone(){
+        public double getSepiaTone() {
             return EFFECT_SEPIA_TONE.getLevel();
         }
-        public void setSepiaTone(double val){
-            try{
-                if(val >= 0 && val <= 1){
+
+        public void setSepiaTone(double val) {
+            try {
+                if (val >= 0 && val <= 1) {
                     EFFECT_SEPIA_TONE.setLevel(val);
-                } else{
+                } else {
                     throw new IndexOutOfBoundsException();
                 }
-            }catch(IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
         }
 
-        public boolean getMotionBlurEnabled(){
+        public boolean getMotionBlurEnabled() {
             return EFFECT_MOTION_BLUR_ENABLED;
         }
 
-        public void setMotionBlurEnabled(boolean val){
+        public void setMotionBlurEnabled(boolean val) {
             EFFECT_MOTION_BLUR_ENABLED = val;
         }
 
-        public double getMotionBlur(){
+        public double getMotionBlur() {
             return EFFECT_SEPIA_TONE.getLevel();
         }
-        public void setMotionBlur(double val){
-            try{
-                if(val >= 0){
+
+        public void setMotionBlur(double val) {
+            try {
+                if (val >= 0) {
                     EFFECT_MOTION_BLUR.setRadius(val);
-                } else{
+                } else {
                     throw new IndexOutOfBoundsException();
                 }
-            }catch(IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
         }
     }
-
 }
