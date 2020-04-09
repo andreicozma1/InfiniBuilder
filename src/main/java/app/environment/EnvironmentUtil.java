@@ -118,6 +118,7 @@ public class EnvironmentUtil {
         playerz = getWorldZFromPlayerZ(playerz);
 
         GROUP_TERRAIN.getChildren().clear();
+
         for (int i = (int) (-terrain_generate_distance / 2.0 + playerx); i <= terrain_generate_distance / 2.0 + playerx; i++) {
             for (int j = (int) (-terrain_generate_distance / 2.0 + playerz); j <= terrain_generate_distance / 2.0 + playerz; j++) {
                 Point2D key = new Point2D(i, j);
@@ -126,7 +127,8 @@ public class EnvironmentUtil {
 
 //                  TODO -- START FROM PLAYER GOING UP AND DOWN FOR EFFICIENCY
 //                  for(int k = (int)Math.floor(-context.getComponents().getPlayer().getPos_y()/getBlockDim()); k <= 255; k++){
-                    for (int k = -100; k <= 100; k++) {
+                    for (int k = (int)Math.floor(-context.getComponents().getPlayer().getPos_y()/getBlockDim())-100;
+                         k <= (int)Math.floor(-context.getComponents().getPlayer().getPos_y()/getBlockDim())+100; k++) {
 
                         if (worldColumn.containsKey(k)) {
                             Point2D left = new Point2D(i - 1, j);
@@ -149,8 +151,12 @@ public class EnvironmentUtil {
                                     int z = j * getBlockDim();
                                     Pair<Double, Double> pr = worldColumn.get(k);
                                     double y = pr.getValue() * getBlockDim();
-
-                                    structure_map.put(new Point3D(i, k, j), create_platform(x, y, z, true, true));
+                                    if(pr== worldColumn.firstEntry().getValue()){
+                                        structure_map.put(new Point3D(i, k, j), create_platform(x, y, z, false, true));
+                                    }
+                                    else{
+                                        structure_map.put(new Point3D(i, k, j), create_platform(x, y, z, true, true));
+                                    }
                                 } else {
                                     GROUP_TERRAIN.getChildren().add(structure_map.get(new Point3D(i, k, j)));
                                 }
@@ -184,6 +190,7 @@ public class EnvironmentUtil {
             box.getShape().setMaterial(ResourcesUtil.stone);
             box.getProps().setPROPERTY_ITEM_TAG("Stone");
             if (Math.random() > 1 - vegDens) {
+
                 Base_Model tree = modelUtil.getRandomMatching(new String[]{"peak", "rock"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                 tree.setScaleAll(15 + Math.random() * 20);
@@ -325,7 +332,42 @@ public class EnvironmentUtil {
     }
 
     // TODO - FIX
-    public void placeObject(Point2D pos, StructureBuilder str, boolean removeExtras) {
+    public void placeObject(Point3D pos, StructureBuilder str, boolean removeExtras) {
+        double xPos = pos.getX();
+        double yPos = pos.getY();
+        double zPos = pos.getZ();
+
+
+
+
+        Point2D origLoc = new Point2D(xPos, zPos);
+
+        System.out.println("placeObject() " + str.getProps().getPROPERTY_ITEM_TAG() + " at " + origLoc);
+
+
+//        if (!terrain_map.containsKey(origLoc)) {
+//            create_platform(xPos,yPos, zPos,true,true);
+//        } else{
+//            boolean foundDestructible = false;
+//            for(Node e : terrain_map.get(origLoc).){
+//                if(((StructureBuilder)e).getProps().getPROPERTY_DESTRUCTIBLE()){
+//                    foundDestructible = true;
+//                }
+//            }
+//            if(removeExtras && foundDestructible){
+//                create_platform(xPos,yPos, zPos,true,true);
+//            }
+//        }
+//
+//        str.getTransforms().removeAll(str.getTransforms());
+//        str.setTranslateIndependent(0,0,0);
+//        str.setScaleAll(getBlockDim());
+//
+//        StructureBuilder orig = terrain_map.get(origLoc);
+//        str.setTranslateY(-orig.getBoundsInParent().getHeight());
+//        terrain_map_height.put(origLoc, terrain_map_height.get(origLoc) - str.getHeight());
+//        orig.getChildren().add(str);
+
         /*
         double xPos = getWorldXFromPlayerX(pos.getX());
         double zPos = getWorldZFromPlayerZ(pos.getY());
