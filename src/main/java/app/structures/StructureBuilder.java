@@ -5,6 +5,7 @@ import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Sphere;
 import app.structures.objects.Base_Structure;
 import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.paint.Material;
 
@@ -97,9 +98,15 @@ public abstract class StructureBuilder extends Group implements Interactable {
 
 
     @Override
-    public void place(EnvironmentUtil e, Point2D pos) {
+    public void placeAtExactPoint(EnvironmentUtil e, Point3D pos) {
         // right click action usually
         e.placeObject(pos, this, false);
+    }
+
+    @Override
+    public void placeOnGround(EnvironmentUtil e, Point3D pos) {
+        // right click action usually
+        // TODO - Implement for 3D implementation
     }
 
     @Override

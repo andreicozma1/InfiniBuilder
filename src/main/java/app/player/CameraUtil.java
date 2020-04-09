@@ -48,7 +48,7 @@ public class CameraUtil {
             height /= 2;
             height += height * context.getComponents().getPlayer().crouch_multiplier;
         }
-        cam.getTransforms().add(new Translate(context.getComponents().getPlayer().getPos_x(), - context.getComponents().getPlayer().getPos_y() - height, context.getComponents().getPlayer().getPos_z()));
+        cam.getTransforms().add(new Translate(context.getComponents().getPlayer().getPositionX(), context.getComponents().getPlayer().getPositionYwithHeight(), context.getComponents().getPlayer().getPositionZ()));
         cam.getTransforms().add(new Rotate(rotx % 360, Rotate.Y_AXIS));
         cam.getTransforms().add(new Rotate(roty % 360, Rotate.X_AXIS));
 

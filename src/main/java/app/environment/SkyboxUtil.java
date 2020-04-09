@@ -11,8 +11,6 @@ import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import app.utils.ResourcesUtil;
 
-import javax.swing.text.html.HTML;
-
 public class SkyboxUtil {
     private static final String TAG = "SkyboxUtil";
 
@@ -165,8 +163,8 @@ public class SkyboxUtil {
     }
 
     private void rotateClouds(double time) {
-        clouds.setTranslateX(context.context.getComponents().getPlayer().getPos_x());
-        clouds.setTranslateZ(context.context.getComponents().getPlayer().getPos_z());
+        clouds.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
+        clouds.setTranslateZ(context.context.getComponents().getPlayer().getPositionZ());
 
         clouds_rotate_z.setAngle(clouds_rotate_z.getAngle() + clouds_rotate_speed);
         clouds_rotate_y.setAngle(clouds_rotate_y.getAngle() + clouds_rotate_speed);
@@ -203,12 +201,12 @@ public class SkyboxUtil {
 
         // position the sun relative to the player's position
         // the sun is a full 180 degrees (pi) away from the moon, so the sin and cos values are flipped on the sun compared to the moon
-        sunlight.setTranslateX(context.context.getComponents().getPlayer().getPos_x());
+        sunlight.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
         sunlight.setTranslateY(sindist);
-        sunlight.setTranslateZ(cosdist + context.context.getComponents().getPlayer().getPos_z());
-        sun.setTranslateX(context.context.getComponents().getPlayer().getPos_x());
+        sunlight.setTranslateZ(cosdist + context.context.getComponents().getPlayer().getPositionZ());
+        sun.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
         sun.setTranslateY(sindist);
-        sun.setTranslateZ(cosdist + context.context.getComponents().getPlayer().getPos_z());
+        sun.setTranslateZ(cosdist + context.context.getComponents().getPlayer().getPositionZ());
 
 
         sun_rotate.setAngle(sun_rotate.getAngle() + sun_rotation_speed);
@@ -220,9 +218,9 @@ public class SkyboxUtil {
         double sindist = sin * dist;
         double cos = Math.cos(time);
         double cosdist = cos * dist;
-        big_star.setTranslateX(sindist + context.context.getComponents().getPlayer().getPos_x());
+        big_star.setTranslateX(sindist + context.context.getComponents().getPlayer().getPositionX());
         big_star.setTranslateY(sindist);
-        big_star.setTranslateZ(cosdist + context.context.getComponents().getPlayer().getPos_z());
+        big_star.setTranslateZ(cosdist + context.context.getComponents().getPlayer().getPositionZ());
         big_star_rotate.setAngle(big_star_rotate.getAngle() + big_star_rotate_speed);
     }
 
@@ -248,12 +246,12 @@ public class SkyboxUtil {
 
         // position the moon relative to the player's position
         // the moon is a full 180 degrees (pi) away from the sun, so the sin and cos values are flipped on the moon compared to the sun
-        moonlight.setTranslateX(context.context.getComponents().getPlayer().getPos_x());
+        moonlight.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
         moonlight.setTranslateY(-sindist);
-        moonlight.setTranslateZ(-cosdist + context.context.getComponents().getPlayer().getPos_z());
+        moonlight.setTranslateZ(-cosdist + context.context.getComponents().getPlayer().getPositionZ());
         moon.setTranslateY(-sindist);
-        moon.setTranslateX(context.context.getComponents().getPlayer().getPos_x());
-        moon.setTranslateZ(-cosdist + context.context.getComponents().getPlayer().getPos_z());
+        moon.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
+        moon.setTranslateZ(-cosdist + context.context.getComponents().getPlayer().getPositionZ());
 
         moon_rotate.setAngle(sun_rotate.getAngle() + moon_rotation_speed);
 

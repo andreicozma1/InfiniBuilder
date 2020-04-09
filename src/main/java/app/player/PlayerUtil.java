@@ -9,7 +9,6 @@ import app.utils.InventoryUtil;
 import app.utils.Log;
 import app.utils.ProjectileUtil;
 import app.utils.ResourcesUtil;
-import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
@@ -22,15 +21,15 @@ public class PlayerUtil {
     private static final String TAG = "PlayerUtil";
 
     public GameBuilder context;
-    private final Group player_group;
+    private final Group GROUP;
 
-    private final String player_name = "Steve";
-    private final int player_width = 10;
-    private final int player_height = 50;
+    private final String PROPERTY_NAME = "Steve";
+    private final int PROPERTY_WIDTH = 10;
+    private final int PROPERTY_HEIGHT = 50;
 
-    private double pos_x = 0;
-    private double pos_y = 0;
-    private double pos_z = 0;
+    private double POSITION_X = 0;
+    private double POSITION_Y = -200;
+    private double POSITION_Z = 0;
 
     private final double staminaRegenSpeed = .05;
     private final double staminaDepletionSpeed = 0.2;
@@ -66,17 +65,17 @@ public class PlayerUtil {
     InventoryUtil inventoryUtil;
 
     public PlayerUtil(GameBuilder ctx) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         context = ctx;
-        player_group = new Group();
+        GROUP = new Group();
 
-        inventoryUtil = new InventoryUtil(this,10);
+        inventoryUtil = new InventoryUtil(this, 10);
 
         uv_light = new PointLight();
         uv_light.setLightOn(false);
         uv_light.setColor(Color.DARKBLUE);
-        player_group.getChildren().add(uv_light);
+        GROUP.getChildren().add(uv_light);
 
         setJumpHeightMultiplier(1);
         setAutoJumpCutoffHeight(.5);
@@ -86,23 +85,20 @@ public class PlayerUtil {
     public void update_handler(double dt) {
         context.getComponents().getCamera().update_handler();
 
-        context.getComponents().getEnvironment().generateChunks3D(getPos_x(), getPos_z());
-//        context.getComponents().getEnvironment().generateChunks(getPos_x(), getPos_z());
-        context.getComponents().getEnvironment().showChunksAroundPlayer(getPos_x(), getPos_z());
+        context.getComponents().getEnvironment().generateChunks3D(getPositionX(), getPositionZ());
+        context.getComponents().getEnvironment().showChunksAroundPlayer(getPositionX(), getPositionZ());
 
-//        System.out.println("########## " + (int)Math.floor(-getPos_y()/context.getComponents().getEnvironment().getBlockDim()) + "   " + context.getComponents().getEnvironment().getWorldYFromPlayerPt2D(getPoint2D()));
-
-        player_group.setTranslateX(getPos_x());
-        player_group.setTranslateY(getPos_y() - player_height);
-        player_group.setTranslateZ(getPos_z());
-
+        GROUP.setTranslateX(getPositionX());
+        GROUP.setTranslateY(-getPositionYwithHeight() - PROPERTY_HEIGHT);
+        GROUP.setTranslateZ(getPositionZ());
 
         // Jumping Mechanism. As long as player is not in fly mode, execute mechanism
         if (!isFlyMode) {
-            // If the player initiated a jump and hasn't reached the top, move the player up
-
-            if (isJumping && pos_y < jump_height_initial + player_height * jump_height_multiplier) {
-                Log.p(TAG,"Jumping from " + jump_height_initial + " to " + (jump_height_initial + player_height * jump_height_multiplier));
+            // If the player initiated a jump and the current position of the player is grater than the calculated height to jump to,
+            // that means that the player has not gotten to that point in jumping yet so, move the player up
+            double jump_height_final = jump_height_initial -  PROPERTY_HEIGHT * jump_height_multiplier;
+            if (isJumping && getPositionYnoHeight() > jump_height_final) {
+                Log.p(TAG, "Jumping from " + jump_height_initial + " to " + jump_height_final);
                 moveUp(speedFly * dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
@@ -147,26 +143,10 @@ public class PlayerUtil {
             // Regenerate health if stamina > half
             getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() + healthRegenSpeed * dt);
         }
-
-
-
-        /* TODO - unfinished implementation for resetting the player's status bars if walking over a crystal.
-        if(context.getComponents().getEnvironment().terrain_map_block.containsKey(getPoint2D())){
-            if(context.getComponents().getEnvironment().terrain_map_block.get(context.getComponents().getEnvironment().getWorldPoint2D(getPoint2D())).getProps().getPROPERTY_ITEM_TAG().toLowerCase().contains("crystal")){
-                resetBars();
-            }
-        }
-        */
-
     }
-
-    public InventoryUtil getInventory(){
-        return inventoryUtil;
-    }
-
 
     public void shoot() {
-        Log.p(TAG,"shoot()");
+        Log.p(TAG, "shoot()");
         Base_Sphere sp = new Base_Sphere("Projectile", 5);
         sp.getShape().setMaterial(ResourcesUtil.metal);
 
@@ -179,32 +159,32 @@ public class PlayerUtil {
         Base_Structure inventory_item = ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().popCurrentItem();
         context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
 
-        Log.p(TAG,"placeObject() " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
+        Log.p(TAG, "placeObject() " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
 
         if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
             switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
                 case StructureBuilder.TYPE_OBJECT:
                     Base_Structure cb = StructureBuilder.resolve(inventory_item);
-                    cb.place(context.getComponents().getEnvironment(), getPoint2D());
+                    cb.placeAtExactPoint(context.getComponents().getEnvironment(), getPoint3D());
                     break;
                 default:
-                    inventory_item.place(context.getComponents().getEnvironment(), getPoint2D());
+                    inventory_item.placeAtExactPoint(context.getComponents().getEnvironment(), getPoint3D());
                     break;
             }
         }
     }
 
     public void jump() {
-        Log.p(TAG,"jump()");
+        Log.p(TAG, "jump()");
         isJumping = true;
         canJump = false;
-        jump_height_initial = getPos_y();
+        jump_height_initial = getPositionYnoHeight();
         isCrouching = false;
     }
 
 
     public Group getGroup() {
-        return player_group;
+        return GROUP;
     }
 
     public void setIsRunning(boolean run) {
@@ -233,8 +213,8 @@ public class PlayerUtil {
 
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_x = this.pos_x + Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
-        double new_z = this.pos_z + Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.POSITION_X + Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.POSITION_Z + Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
 
@@ -244,8 +224,8 @@ public class PlayerUtil {
         if (isFlyMode) val = speedFly;
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_x = this.pos_x - Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
-        double new_z = this.pos_z - Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.POSITION_X - Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.POSITION_Z - Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
 
@@ -256,8 +236,8 @@ public class PlayerUtil {
 
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_z = this.pos_z + Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
-        double new_x = this.pos_x - Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.POSITION_Z + Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.POSITION_X - Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
 
@@ -267,40 +247,41 @@ public class PlayerUtil {
         if (isFlyMode) val = speedFly;
         if (isCrouching) val *= crouch_multiplier;
 
-        double new_x = this.pos_x + Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
-        double new_z = this.pos_z - Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_x = this.POSITION_X + Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
+        double new_z = this.POSITION_Z - Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
     }
 
     public void handle_collision(double new_x, double new_z) {
-        double ground_level_x = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(new_x, getPos_y(),this.pos_z);
-        double ground_level_z = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(this.pos_x,getPos_y() ,new_z);
+        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new Point3D(new_x, getPositionYwithHeight(), this.POSITION_Z));
+        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new Point3D(this.POSITION_X, getPositionYwithHeight(), new_z));
 
-        if ((ground_level_x - pos_y < autoJumpCutoffHeight) || isClipMode) {
-            this.pos_x = new_x;
+        if ((POSITION_Y - ground_level_x  < autoJumpCutoffHeight) || isClipMode) {
+            this.POSITION_X = new_x;
         }
-        if ((ground_level_z - pos_y < autoJumpCutoffHeight) || isClipMode) {
-            this.pos_z = new_z;
+        if ((POSITION_Y - ground_level_z < autoJumpCutoffHeight) || isClipMode) {
+            this.POSITION_Z = new_z;
         }
     }
 
     public void moveUp(double val) {
-        this.pos_y += val;
+        this.POSITION_Y -= val;
         onGround = false;
     }
 
     public void moveDown(double val) {
-        double ground_level = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(getPos_x(),getPos_y() - player_height, getPos_z());
-        System.out.println("######## HERE0");
+        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPoint3D());
 
-        // if the player is above ground level, let the player fall
-        if (getPos_y() > ground_level || isClipMode) {
-            System.out.println("######## HERE1");
-            pos_y -= val;
+        // Player Y being smaller than ground level means the player is above ground. Up is -Y axis
+        if (getPositionYnoHeight() < ground_level || isClipMode) {
+            System.out.println("ABOVE GROUND");
+
+            POSITION_Y += val;
             speed_fall_initial += EnvironmentUtil.GRAVITY;
+
             // if the player is more than a block above the ground , set onGround = false;
-            if (pos_y - ground_level > context.getComponents().getEnvironment().getBlockDim()) {
+            if ((POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * 1.5) {
                 onGround = false;
             }
             if (!isOnGround() && !isRunning && !isFlyMode) {
@@ -312,35 +293,25 @@ public class PlayerUtil {
                     }
                 }
             }
-        } else if (pos_y != ground_level) {
-            System.out.println("######## HERE2");
 
+        } else if (getPositionYnoHeight() != ground_level) {
             if (!onGround && !isFlyMode) {
-                Log.p(TAG, "moveDown() -> Hit ground from height " + val);
                 if (val > 7) {
                     takeDamage(val*3);
                 }
             }
 
-            if (pos_y - ground_level > context.getComponents().getEnvironment().getBlockDim() * .75) {
-                System.out.println("######## HERE32");
-
+            if ((POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * .8) {
                 jump();
             } else {
-                System.out.println("######## HERE42 " + ground_level);
-
                 warpToGround();
             }
         }
-
-//        if (pos_y < -5000) {
-//            reset();
-//        }
     }
 
     private void warpToGround() {
-        double ground_level = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(getPos_x(), getPos_y() - player_height, getPos_z());
-        pos_y = ground_level;
+        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPoint3D());
+        POSITION_Y = ground_level;
         onGround = true;
         speed_fall_initial = 0;
     }
@@ -365,16 +336,19 @@ public class PlayerUtil {
         }
     }
 
-    public double getPos_x() {
-        return pos_x;
+    public double getPositionX() {
+        return POSITION_X;
     }
 
-    public double getPos_y() {
-        return pos_y;
+    public double getPositionYnoHeight() {
+        return POSITION_Y;
+    }
+    public double getPositionYwithHeight() {
+        return POSITION_Y - PROPERTY_HEIGHT;
     }
 
-    public double getPos_z() {
-        return pos_z;
+    public double getPositionZ() {
+        return POSITION_Z;
     }
 
     /**
@@ -382,8 +356,8 @@ public class PlayerUtil {
      *
      * @return
      */
-    public Point3D getPoint3D() {
-        return new Point3D(getPos_x(), -getPos_y(), getPos_z());
+    public PlayerPoint3D getPoint3D() {
+        return new PlayerPoint3D(getPositionX(), getPositionYwithHeight(), getPositionZ());
     }
 
     /**
@@ -391,23 +365,22 @@ public class PlayerUtil {
      *
      * @return
      */
-    public Point2D getPoint2D() {
-        return new Point2D(getPos_x(), getPos_z());
+    public PlayerPoint2D getPoint2D() {
+        return new PlayerPoint2D(getPositionX(), getPositionZ());
     }
 
     public double getPlayerHeight() {
-        return player_height;
+        return PROPERTY_HEIGHT;
     }
 
     public boolean isOnGround() {
         return onGround;
     }
 
-
     public void setPosition(double newx, double newy, double newz) {
-        pos_x = newx;
-        pos_y = newy;
-        pos_z = newz;
+        POSITION_X = newx;
+        POSITION_Y = newy;
+        POSITION_Z = newz;
     }
 
     public void reset() {
@@ -425,7 +398,7 @@ public class PlayerUtil {
         context.getComponents().getGameSceneControls().reset();
     }
 
-    public void resetBars(){
+    public void resetBars() {
         getHealthBar().setCurrStatus(getHealthBar().getMaxStatus());
         getStaminaBar().setCurrStatus(getStaminaBar().getMaxStatus());
     }
@@ -436,6 +409,9 @@ public class PlayerUtil {
         context.getComponents().getHUD().getElement(HUDUtil.DEATH).update();
     }
 
+    public InventoryUtil getInventory() {
+        return inventoryUtil;
+    }
 
     public void setUV_light(boolean state) {
         uv_light.setLightOn(state);
@@ -453,7 +429,6 @@ public class PlayerUtil {
             context.getComponents().getPlayer().isCrouching = !context.getComponents().getPlayer().isCrouching;
         }
     }
-
 
     public boolean getIsClipMode() {
         return isClipMode;
@@ -489,7 +464,7 @@ public class PlayerUtil {
     public void setAutoJumpCutoffHeight(double val) {
         try {
             if (val >= 0) {
-                this.autoJumpCutoffHeight = player_height * val;
+                this.autoJumpCutoffHeight = PROPERTY_HEIGHT * val;
             } else {
                 throw new IndexOutOfBoundsException();
             }

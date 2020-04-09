@@ -1,6 +1,7 @@
 package app.environment;
 
 import app.algorithms.Entry;
+import app.player.PlayerPoint3D;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Model;
 import app.structures.objects.Base_Structure;
@@ -24,7 +25,7 @@ public class EnvironmentUtil {
 
     public GameBuilder context;
 
-    private SkyboxUtil skybox = null;
+    private SkyboxUtil skybox;
     private final TDModelUtil modelUtil;
 
     public static Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
@@ -44,11 +45,11 @@ public class EnvironmentUtil {
 
 
     public double planet_diameter = 8000;
-    private final double water_level = 203;
-    private final double desert_level = 200;
+    private final double water_level = 303;
+    private final double desert_level = 300;
     private final double plains_level = 100;
     private final double hills_level = -50;
-    private final double peak_level = -180;
+    private final double peak_level = -300;
 
     public static double GRAVITY = .2;
 
@@ -71,8 +72,8 @@ public class EnvironmentUtil {
         setSkyBox(new SkyboxUtil(this));
 
         setTerrainRenderDistance(30);
-        setTerrainHeightMultiplier(35);
-        setVegetationDensityPercent(20);
+        setTerrainHeightMultiplier(50);
+        setVegetationDensityPercent(15);
 
         reset();
     }
@@ -126,9 +127,7 @@ public class EnvironmentUtil {
                     TreeMap<Integer, Pair> worldColumn = terrain_map.get(key);
 
 //                  TODO -- START FROM PLAYER GOING UP AND DOWN FOR EFFICIENCY
-//                  for(int k = (int)Math.floor(-context.getComponents().getPlayer().getPos_y()/getBlockDim()); k <= 255; k++){
-                    for (int k = (int)Math.floor(-context.getComponents().getPlayer().getPos_y()/getBlockDim())-100;
-                         k <= (int)Math.floor(-context.getComponents().getPlayer().getPos_y()/getBlockDim())+100; k++) {
+                    for (int k = -100; k <= 100; k++) {
 
                         if (worldColumn.containsKey(k)) {
                             Point2D left = new Point2D(i - 1, j);
@@ -140,11 +139,7 @@ public class EnvironmentUtil {
                                     (terrain_map.containsKey(left) && !terrain_map.get(left).containsKey(k - 1)) ||
                                     (terrain_map.containsKey(right) && !terrain_map.get(right).containsKey(k - 1)) ||
                                     (terrain_map.containsKey(forwards) && !terrain_map.get(forwards).containsKey(k - 1)) ||
-                                    (terrain_map.containsKey(backwards) && !terrain_map.get(backwards).containsKey(k - 1)) ||
-                                    (terrain_map.containsKey(left) && !terrain_map.get(left).containsKey(k)) ||
-                                    (terrain_map.containsKey(right) && !terrain_map.get(right).containsKey(k)) ||
-                                    (terrain_map.containsKey(forwards) && !terrain_map.get(forwards).containsKey(k)) ||
-                                    (terrain_map.containsKey(backwards) && !terrain_map.get(backwards).containsKey(k))) {
+                                    (terrain_map.containsKey(backwards) && !terrain_map.get(backwards).containsKey(k - 1))) {
 
                                 if (!structure_map.containsKey(new Point3D(i, k, j))) {
                                     int x = i * getBlockDim();
@@ -283,6 +278,11 @@ public class EnvironmentUtil {
         return b;
     }
 
+    public void reset() {
+        terrain_simplex_alg = new SimplexUtil(300, .5, (int) System.currentTimeMillis());
+        terrain_map.clear();
+        structure_map.clear();
+    }
 
     private double getSimplexHeight(double pollx, double pollz) {
         return terrain_simplex_alg.getNoise((int) (pollx), (int) (pollz)) * terrain_multiplier_height;
@@ -298,26 +298,15 @@ public class EnvironmentUtil {
         return (int) Math.round((playerz) / getBlockDim());
     }
 
-    public double getWorldYFromPlayerPt2D(Point2D pt) {
-        // requires the getZ() from playerUtil
-        return getSimplexHeight(getWorldXFromPlayerX(pt.getX()), getWorldZFromPlayerZ(pt.getY()));
-    }
-
-    /**
-     * Polls the terrain height map and returns the terrain height based on the player's x and z coordinates
-     *
-     * @param playerx
-     * @param playerz
-     * @return
-     */
-    public double getTerrainYfromPlayerXYZ(double playerx, double playery, double playerz) {
+    public double getClosestGroundLevel(PlayerPoint3D world_coords) {
         // requires the getX() and getZ() from PlayerUtil
-        Point2D pt = new Point2D(getWorldXFromPlayerX(playerx), getWorldZFromPlayerZ(playerz));
+        Point2D pt = new Point2D(getWorldXFromPlayerX(world_coords.getX()), getWorldZFromPlayerZ(world_coords.getZ()));
         if (terrain_map.containsKey(pt)) {
-//            int y = (int)Math.floor(-playery/getBlockDim());
-            for (int i = -100; i <= 255; i++) {
+            int y = (int)Math.floor(world_coords.getY()/getBlockDim());
+            for (int i = y; i <= 255; i++) {
                 if (terrain_map.get(pt).containsKey(i)) {
-                    return -i * getBlockDim();
+                    Pair<Double, Double> result = terrain_map.get(pt).get(i);
+                    return result.getValue() * getBlockDim();
                 }
             }
             return Integer.MAX_VALUE;
@@ -327,10 +316,6 @@ public class EnvironmentUtil {
         }
     }
 
-    public Point2D getWorldPoint2D(Point2D pt) {
-        return new Point2D(getWorldXFromPlayerX(pt.getX()), getWorldZFromPlayerZ(pt.getY()));
-    }
-
     // TODO - FIX
     public void placeObject(Point3D pos, StructureBuilder str, boolean removeExtras) {
         double xPos = pos.getX();
@@ -338,12 +323,11 @@ public class EnvironmentUtil {
         double zPos = pos.getZ();
 
 
+        System.out.println("placeObject() " + str.getProps().getPROPERTY_ITEM_TAG() + " at " + pos);
 
+        if(terrain_map.containsKey(new Point2D(xPos,zPos))){
 
-        Point2D origLoc = new Point2D(xPos, zPos);
-
-        System.out.println("placeObject() " + str.getProps().getPROPERTY_ITEM_TAG() + " at " + origLoc);
-
+        }
 
 //        if (!terrain_map.containsKey(origLoc)) {
 //            create_platform(xPos,yPos, zPos,true,true);
@@ -404,9 +388,10 @@ public class EnvironmentUtil {
     }
 
     public void clearSpot(Point2D pos) {
+        // TODO - TO FIX!!!!
         double xPos = getWorldXFromPlayerX(pos.getX());
         double zPos = getWorldZFromPlayerZ(pos.getY());
-//        TO FIX!!!!
+
 //        create_platform(xPos,zPos,true,false);
     }
 
@@ -434,12 +419,6 @@ public class EnvironmentUtil {
 
     public int getBlockDim() {
         return terrain_block_dim;
-    }
-
-    public void reset() {
-        terrain_simplex_alg = new SimplexUtil(100, 0.4, (int) System.currentTimeMillis());
-        terrain_map.clear();
-        structure_map.clear();
     }
 
     public double getTerrainHeightMultiplier() {

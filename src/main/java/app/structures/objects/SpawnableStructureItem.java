@@ -4,6 +4,7 @@ import app.environment.EnvironmentUtil;
 import app.structures.SpawnableStructure;
 import app.structures.StructureBuilder;
 import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import javafx.scene.paint.Material;
 
 import java.util.Map;
@@ -48,11 +49,11 @@ public class SpawnableStructureItem extends Base_Cube{
     }
 
     @Override
-    public void place(EnvironmentUtil e, Point2D startingPos) {
-        spawnable.build(e.context);
-        for (Map.Entry<Point2D, StructureBuilder> point2DStructureBuilderEntry : spawnable.block_map.entries()) {
-            e.placeObject((Point2D) ((Map.Entry) point2DStructureBuilderEntry).getKey(), (StructureBuilder) ((Map.Entry) point2DStructureBuilderEntry).getValue(), true);
-        }
+    public void placeAtExactPoint(EnvironmentUtil e, Point3D startingPos) {
+//        spawnable.build(e.context);
+//        for (Map.Entry<Point2D, StructureBuilder> point2DStructureBuilderEntry : spawnable.block_map.entries()) {
+//            e.placeObject((Point2D) ((Map.Entry) point2DStructureBuilderEntry).getKey(), (StructureBuilder) ((Map.Entry) point2DStructureBuilderEntry).getValue(), true);
+//        }
     }
 
     @Override

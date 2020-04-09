@@ -7,7 +7,7 @@ import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
-  /*
+/*
 public class PyramidUtil implements SpawnableStructure {
 
     private static final String TAG = "PyramidUtil";
@@ -89,8 +89,6 @@ public class PyramidUtil implements SpawnableStructure {
             }
         }
     }
-
-
 }
-    */
+*/
 

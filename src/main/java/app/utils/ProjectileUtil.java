@@ -36,9 +36,9 @@ public class ProjectileUtil extends StructureBuilder {
         double startrotX = Math.toRadians(context.context.getComponents().getCamera().getRotateX());
         double startrotY = Math.toRadians(context.context.getComponents().getCamera().getRotateY());
 
-        final double[] posx = {context.context.getComponents().getPlayer().getPos_x()};
-        final double[] posy = {-context.context.getComponents().getPlayer().getPos_y() - context.context.getComponents().getPlayer().getPlayerHeight()};
-        final double[] posz = {context.context.getComponents().getPlayer().getPos_z()};
+        final double[] posx = {context.context.getComponents().getPlayer().getPositionX()};
+        final double[] posy = {-context.context.getComponents().getPlayer().getPositionYwithHeight() - context.context.getComponents().getPlayer().getPlayerHeight()};
+        final double[] posz = {context.context.getComponents().getPlayer().getPositionZ()};
 
 
         System.out.println(posx[0] + "   " + posy[0] + "   " + posz[0]);
