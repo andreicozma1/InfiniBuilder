@@ -5,7 +5,6 @@ import app.GUI.HUD.*;
 import app.structures.maze.MazeUtil;
 import app.structures.objects.SpawnableStructureItem;
 import app.structures.path.PathUtil;
-import app.structures.pyramid.PyramidUtil;
 import app.utils.InventoryUtil;
 import app.utils.ResourcesUtil;
 import app.structures.objects.Base_Cube;
@@ -42,8 +41,8 @@ public class MainExecution extends Application {
         SpawnableStructureItem mazeitem = new SpawnableStructureItem(maze, "Maze Generator", ResourcesUtil.sun, game.getComponents().getEnvironment().getBlockDim());
         SpawnableStructureItem maze2item = new SpawnableStructureItem(maze2, "Maze Generator2", ResourcesUtil.moon, game.getComponents().getEnvironment().getBlockDim());
 
-        PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
-        SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
+//        PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
+//        SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
 
 
         PathUtil path = new PathUtil(game.getComponents().getEnvironment().getBlockDim(),3,3,1,3,ResourcesUtil.moon);
@@ -60,7 +59,7 @@ public class MainExecution extends Application {
         game.getComponents().getPlayer().getInventory().addItem(sand, 10);
         game.getComponents().getPlayer().getInventory().addItem(mazeitem, 99);
         game.getComponents().getPlayer().getInventory().addItem(maze2item, 99);
-        game.getComponents().getPlayer().getInventory().addItem(pyrmItem, 99);
+//        game.getComponents().getPlayer().getInventory().addItem(pyrmItem, 99);
         game.getComponents().getPlayer().getInventory().addItem(pathItem, 99);
         game.getComponents().getPlayer().getInventory().addItem(path2Item, 99);
         game.getComponents().getPlayer().getInventory().setCurrentIndex(0);

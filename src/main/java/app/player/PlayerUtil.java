@@ -96,7 +96,7 @@ public class PlayerUtil {
         player_group.setTranslateY(getPos_y() - player_height);
         player_group.setTranslateZ(getPos_z());
 
-        /*
+
         // Jumping Mechanism. As long as player is not in fly mode, execute mechanism
         if (!isFlyMode) {
             // If the player initiated a jump and hasn't reached the top, move the player up
@@ -148,7 +148,7 @@ public class PlayerUtil {
             getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() + healthRegenSpeed * dt);
         }
 
-         */
+
 
         /* TODO - unfinished implementation for resetting the player's status bars if walking over a crystal.
         if(context.getComponents().getEnvironment().terrain_map_block.containsKey(getPoint2D())){
@@ -274,8 +274,8 @@ public class PlayerUtil {
     }
 
     public void handle_collision(double new_x, double new_z) {
-        double ground_level_x = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(new_x, this.pos_z);
-        double ground_level_z = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(this.pos_x, new_z);
+        double ground_level_x = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(new_x, getPos_y(),this.pos_z);
+        double ground_level_z = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(this.pos_x,getPos_y() ,new_z);
 
         if ((ground_level_x - pos_y < autoJumpCutoffHeight) || isClipMode) {
             this.pos_x = new_x;
@@ -291,10 +291,12 @@ public class PlayerUtil {
     }
 
     public void moveDown(double val) {
-        double ground_level = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(getPos_x(), getPos_z());
+        double ground_level = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(getPos_x(),getPos_y() - player_height, getPos_z());
+        System.out.println("######## HERE0");
 
         // if the player is above ground level, let the player fall
         if (getPos_y() > ground_level || isClipMode) {
+            System.out.println("######## HERE1");
             pos_y -= val;
             speed_fall_initial += EnvironmentUtil.GRAVITY;
             // if the player is more than a block above the ground , set onGround = false;
@@ -311,6 +313,8 @@ public class PlayerUtil {
                 }
             }
         } else if (pos_y != ground_level) {
+            System.out.println("######## HERE2");
+
             if (!onGround && !isFlyMode) {
                 Log.p(TAG, "moveDown() -> Hit ground from height " + val);
                 if (val > 7) {
@@ -318,9 +322,13 @@ public class PlayerUtil {
                 }
             }
 
-            if (ground_level - pos_y > context.getComponents().getEnvironment().getBlockDim() * .75) {
+            if (pos_y - ground_level > context.getComponents().getEnvironment().getBlockDim() * .75) {
+                System.out.println("######## HERE32");
+
                 jump();
             } else {
+                System.out.println("######## HERE42 " + ground_level);
+
                 warpToGround();
             }
         }
@@ -331,7 +339,7 @@ public class PlayerUtil {
     }
 
     private void warpToGround() {
-        double ground_level = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(getPos_x(), getPos_z());
+        double ground_level = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(getPos_x(), getPos_y() - player_height, getPos_z());
         pos_y = ground_level;
         onGround = true;
         speed_fall_initial = 0;

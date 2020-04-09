@@ -7,8 +7,9 @@ import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
-
+  /*
 public class PyramidUtil implements SpawnableStructure {
+
     private static final String TAG = "PyramidUtil";
 
     private final double cellDim;
@@ -47,7 +48,7 @@ public class PyramidUtil implements SpawnableStructure {
             for (k = 0; k < baseSideSize; k++) {
                 double x_pos = startingX + j * cellDim;
                 double y_pos = startingZ + k * cellDim;
-                double new_height = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(x_pos, y_pos);
+                double new_height = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(x_pos, y_pos);
                 if (new_height < min_height) {
                     min_height = new_height;
                 }
@@ -69,7 +70,7 @@ public class PyramidUtil implements SpawnableStructure {
                 for (k = i; k < baseSideSize - i; k++) {
                     double x_pos = startingX + j * cellDim;
                     double y_pos = startingZ + k * cellDim;
-                    double hi = context.getComponents().getEnvironment().getTerrainYfromPlayerXZ(x_pos, y_pos);
+                    double hi = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(x_pos, y_pos);
 
                     System.out.println(j + "  " + k + " CURRENT " + hi + "   DIFF " + (min_height - (i+1) * cellDim));
 
@@ -88,5 +89,8 @@ public class PyramidUtil implements SpawnableStructure {
             }
         }
     }
+
+
 }
+    */
 
