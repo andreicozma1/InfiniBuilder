@@ -63,7 +63,8 @@ public class Crosshair extends HUDElement {
     public void setScreenHeight(double screenHeight) { this.screenHeight = screenHeight; }
     public void setCrosshairHeight(double crosshairHeight) { this.crosshairHeight = crosshairHeight; }
     public void setDistBeforeCrosshair(double distBeforeCrosshair) { this.distBeforeCrosshair = distBeforeCrosshair; }
-    public void toggleCrosshair() { isShowing = !isShowing; }
+    public void toggleCrosshair() { isShowing = !isShowing;
+    update();}
     public void setScreenWidth(double screenWidth) { this.screenWidth = screenWidth; }
     public void setBorder(boolean border) { isBorder = border; }
     public void setCrosshairBorderWidth(double crosshairBorderWidth) { this.crosshairBorderWidth = crosshairBorderWidth; }
@@ -78,6 +79,7 @@ public class Crosshair extends HUDElement {
      * Update will update the hud group to reflect the changes to the crosshair.
      */
     public void update() {
+        getGroup().getChildren().clear();
         // declare variables
         double x;
         double y;
