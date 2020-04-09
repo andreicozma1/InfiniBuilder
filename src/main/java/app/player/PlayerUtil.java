@@ -70,7 +70,7 @@ public class PlayerUtil {
         context = ctx;
         GROUP = new Group();
 
-        inventoryUtil = new InventoryUtil(this, 10);
+        inventoryUtil = new InventoryUtil(this, 50);
 
         uv_light = new PointLight();
         uv_light.setLightOn(false);

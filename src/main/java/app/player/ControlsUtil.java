@@ -1,6 +1,8 @@
 package app.player;
 
+import app.GUI.HUD.HUDElements.Crosshair;
 import app.GUI.HUD.HUDElements.DeathMenu;
+import app.GUI.HUD.HUDElements.ItemInfo;
 import app.GUI.HUD.HUDUtil;
 import app.GUI.HUD.HUDElements.PauseMenu;
 import app.utils.Log;
@@ -55,10 +57,16 @@ public class ControlsUtil {
                     context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
                 }
                 if (scrollEvent.getDeltaY() < 0) {
-                    ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
-                    context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                    if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed()){
+                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
+                        context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                    }else{
+                        if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex() != ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed()-1){
+                            ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
+                            context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                        }
+                    }
                 }
-
                 System.out.println("onScroll() " + ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
             }
         });
@@ -114,6 +122,31 @@ public class ControlsUtil {
                     }
 
                     switch (event.getCode()) {
+                        case TAB:
+                            ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
+                            ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+                            ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).setSelected(-1);
+                            if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex() > ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1) {
+                                ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1);
+                            }
+                            ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).update();
+                            break;
+                        case R:
+                            if(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSelected()==-1){
+                                ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).setSelected(
+                                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex()
+                                );
+                            }else {
+                                ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).swap(
+                                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSelected(),
+                                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex()
+                                );
+                            }
+                            ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).update();
+                            break;
+                        case E:
+                            ((ItemInfo) context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).toggleItemInfo();
+                            break;
                         case SPACE:
                             context.getComponents().getPlayer().canJump = true;
                             break;
@@ -134,9 +167,7 @@ public class ControlsUtil {
                         case P:
                             context.getComponents().getEnvironment().getSkybox().cycleModes();
                             break;
-                        case M:
-                            break;
-                        case R:
+                        case BACK_SPACE:
                             context.getComponents().getCamera().reset();
                             break;
                         case SHIFT:

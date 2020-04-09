@@ -2,6 +2,7 @@ package app.GUI.HUD;
 
 import app.GUI.HUD.HUDElements.*;
 import app.GameBuilder;
+import app.player.ControlsUtil;
 import app.player.Inventory;
 import app.utils.Log;
 import javafx.geometry.Point2D;
@@ -29,6 +30,8 @@ public class HUDUtil {
     public static final String DEATH = "DEATH";
     public static final String CROSSHAIR = "CROSSHAIR";
     public static final String PLAYER_INFO = "PLAYER_INFO";
+    public static final String ITEM_INFO = "ITEM_INFO";
+    public static final String MINIMAP = "MINIMAP";
 
 
     public static final String EDGE_BOTTOM = "edge_bottom";
@@ -109,29 +112,29 @@ public class HUDUtil {
         this.addElement(stamina);
 
         // this is here as an example of how to use the setColorInterpolation
-        StatusBar temperature = new StatusBar(   HUDUtil.TEMPERATURE,
-                new Point2D(85,10),
-                100,
-                15,
-                200,
-                Color.BLUE,
-                Color.DARKGRAY);
-        temperature.setColorInterpolation(Color.RED,Color.BLUE);  // (full color, empty color)
-        temperature.setCurrStatus(90);
-        temperature.setVertical(true);
-        temperature.setBorder(true);
-        temperature.setDefaultDirection(false);
-        temperature.setBorderColor(Color.WHITE);
-        temperature.setArcHeight(20);
-        temperature.setArcWidth(20);
-        temperature.update();
-        this.addElement(temperature);
+//        StatusBar temperature = new StatusBar(   HUDUtil.TEMPERATURE,
+//                new Point2D(85,10),
+//                100,
+//                15,
+//                200,
+//                Color.BLUE,
+//                Color.DARKGRAY);
+//        temperature.setColorInterpolation(Color.RED,Color.BLUE);  // (full color, empty color)
+//        temperature.setCurrStatus(90);
+//        temperature.setVertical(true);
+//        temperature.setBorder(true);
+//        temperature.setDefaultDirection(false);
+//        temperature.setBorderColor(Color.WHITE);
+//        temperature.setArcHeight(20);
+//        temperature.setArcWidth(20);
+//        temperature.update();
+//        this.addElement(temperature);
 
 
         Inventory inv = new Inventory(  HUDUtil.INVENTORY,
                 new Point2D(200,100),
                 context.getComponents().getPlayer().getInventory(),
-                50,50,5,Color.WHITE,Color.GREY );
+                50,50,5,10,Color.WHITE,Color.GREY );
         inv.fixToEdge(HUDUtil.EDGE_BOTTOM);
         inv.setDisplayNumbers(true);
         inv.update();
@@ -143,6 +146,15 @@ public class HUDUtil {
         crosshair.update();
         this.addElement(crosshair);
 
+        Minimap minimap = new Minimap(HUDUtil.MINIMAP,new Point2D( context.getWindow().getWindowWidth()-140,15),context,125,125);
+        minimap.update();
+        this.addElement(minimap);
+
+
+        ItemInfo itemInfo = new ItemInfo(HUDUtil.ITEM_INFO,new Point2D(100,200),context,250,300);
+        itemInfo.update();
+        this.addElement(itemInfo);
+
         PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE,
                 new Point2D(100,200),context,257,165,context.getWindow().getWindowWidth(),context.getWindow().getWindowHeight());
         pauseMenu.update();
@@ -151,7 +163,7 @@ public class HUDUtil {
         DeathMenu deathMenu = new DeathMenu(HUDUtil.DEATH,new Point2D(100,200),context,257,165,context.getWindow().getWindowWidth(),context.getWindow().getWindowHeight());
         deathMenu.update();
         this.addElement(deathMenu);
+
     }
 
 }
-

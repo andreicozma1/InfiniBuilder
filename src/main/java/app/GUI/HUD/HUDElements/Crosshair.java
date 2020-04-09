@@ -63,7 +63,7 @@ public class Crosshair extends HUDElement {
     public void setScreenHeight(double screenHeight) { this.screenHeight = screenHeight; }
     public void setCrosshairHeight(double crosshairHeight) { this.crosshairHeight = crosshairHeight; }
     public void setDistBeforeCrosshair(double distBeforeCrosshair) { this.distBeforeCrosshair = distBeforeCrosshair; }
-    public void setShowing(boolean showing) { isShowing = showing; }
+    public void toggleCrosshair() { isShowing = !isShowing; }
     public void setScreenWidth(double screenWidth) { this.screenWidth = screenWidth; }
     public void setBorder(boolean border) { isBorder = border; }
     public void setCrosshairBorderWidth(double crosshairBorderWidth) { this.crosshairBorderWidth = crosshairBorderWidth; }

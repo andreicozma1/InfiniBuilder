@@ -1,6 +1,8 @@
 package app.GUI.menu;
 
+import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
+import app.player.Inventory;
 import app.utils.Log;
 import app.utils.ResourcesUtil;
 import javafx.event.EventHandler;
@@ -81,8 +83,14 @@ public class MenuUtil {
     // graphics settings
     private double curr_sepia_tone;
     private double curr_bloom;
+    private double curr_contrast;
+    private double curr_saturation;
+    private double curr_hue;
+    private double curr_brightness;
     private boolean is_trip_mode;
     private boolean is_motion_blur;
+
+
 
     // static strings to access any menu from the menuGroupHashMap
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
@@ -141,6 +149,10 @@ public class MenuUtil {
         curr_bloom = context.getEffects().getBloom();
         is_trip_mode = context.getEffects().getTripMode();
         is_motion_blur = context.getEffects().getMotionBlurEnabled();
+        curr_contrast = context.getEffects().getContrast();
+        curr_saturation = context.getEffects().getSaturation();
+        curr_hue = context.getEffects().getHue();
+        curr_brightness = context.getEffects().getBrightness();
 
         buildMainMenu();
         buildControlsMenu();
@@ -225,6 +237,8 @@ public class MenuUtil {
                     public void handle(MouseEvent me) {
                         context.getComponents().getEnvironment().reset();
                         context.getWindow().showScene(context.getWindow().getRootScene());
+                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).update();
+
                     }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1352,10 +1366,130 @@ public class MenuUtil {
                     }
                 });
 
+        Text contrastArrow = graphicsMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text contrastText= graphicsMenu.drawText("./Contrast", 95, 340, Color.WHITE, options);
+        Text contrastMult = graphicsMenu.drawText(Double.toString(curr_contrast) , 550, 340, Color.WHITE, options);
+        Rectangle contrastHitBox = graphicsMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        contrastHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_contrast += .1;
+                        if(curr_contrast >1) curr_contrast = 0.0;
+                        contrastMult.setText(Double.toString(curr_contrast));
+                        context.getEffects().setContrast(curr_contrast);
+                    }
+                });
+        contrastHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        contrastArrow.setText(doubleArrow);
+                        contrastText.setFill(GREEN);
+                        contrastMult.setFill(GREEN);
+                    }
+                });
+        contrastHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        contrastArrow.setText(singleArrow);
+                        contrastText.setFill(Color.WHITE);
+                        contrastMult.setFill(Color.WHITE);
+                    }
+                });
+
+        Text saturationArrow = graphicsMenu.drawText(singleArrow, 50, 390, GREEN, options);
+        Text saturationText= graphicsMenu.drawText("./Saturation", 95, 390, Color.WHITE, options);
+        Text saturationMult = graphicsMenu.drawText(Double.toString(curr_saturation) , 550, 390, Color.WHITE, options);
+        Rectangle saturationHitBox = graphicsMenu.drawRectangle(50,370,600,30,0,0,Color.TRANSPARENT);
+        saturationHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_saturation += .1;
+                        if(curr_saturation >1) curr_saturation = 0.0;
+                        saturationMult.setText(Double.toString(curr_saturation));
+                        context.getEffects().setContrast(curr_saturation);
+                    }
+                });
+        saturationHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        saturationArrow.setText(doubleArrow);
+                        saturationText.setFill(GREEN);
+                        saturationMult.setFill(GREEN);
+                    }
+                });
+        saturationHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        saturationArrow.setText(singleArrow);
+                        saturationText.setFill(Color.WHITE);
+                        saturationMult.setFill(Color.WHITE);
+                    }
+                });
+
+        Text hueArrow = graphicsMenu.drawText(singleArrow, 50, 440, GREEN, options);
+        Text hueText= graphicsMenu.drawText("./Hue", 95, 440, Color.WHITE, options);
+        Text hueMult = graphicsMenu.drawText(Double.toString(curr_hue) , 550, 440, Color.WHITE, options);
+        Rectangle hueHitBox = graphicsMenu.drawRectangle(50,420,600,30,0,0,Color.TRANSPARENT);
+        hueHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_hue += .1;
+                        if(curr_hue >1) curr_hue = 0.0;
+                        hueMult.setText(Double.toString(curr_hue));
+                        context.getEffects().setContrast(curr_hue);
+                    }
+                });
+        hueHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        hueArrow.setText(doubleArrow);
+                        hueText.setFill(GREEN);
+                        hueMult.setFill(GREEN);
+                    }
+                });
+        hueHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        hueArrow.setText(singleArrow);
+                        hueText.setFill(Color.WHITE);
+                        hueMult.setFill(Color.WHITE);
+                    }
+                });
+
+        Text brightnessArrow = graphicsMenu.drawText(singleArrow, 50, 490, GREEN, options);
+        Text brightnessText= graphicsMenu.drawText("./Brightness", 95, 490, Color.WHITE, options);
+        Text brightnessMult = graphicsMenu.drawText(Double.toString(curr_brightness) , 550, 490, Color.WHITE, options);
+        Rectangle brightnessHitBox = graphicsMenu.drawRectangle(50,470,600,30,0,0,Color.TRANSPARENT);
+        brightnessHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_brightness += .1;
+                        if(curr_brightness >1) curr_brightness = 0.0;
+                        brightnessMult.setText(Double.toString(curr_brightness));
+                        context.getEffects().setContrast(curr_brightness);
+                    }
+                });
+        brightnessHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        brightnessArrow.setText(doubleArrow);
+                        brightnessText.setFill(GREEN);
+                        brightnessMult.setFill(GREEN);
+                    }
+                });
+        brightnessHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        brightnessArrow.setText(singleArrow);
+                        brightnessText.setFill(Color.WHITE);
+                        brightnessMult.setFill(Color.WHITE);
+                    }
+                });
+
         //quit handler
-        Text returnArrow = graphicsMenu.drawText(singleArrow, 50, 390, GREEN, options);
-        Text returnText = graphicsMenu.drawText("./Back", 95, 390, Color.WHITE, options);
-        Rectangle returnHitBox = graphicsMenu.drawRectangle(50,370,600,30,0,0,Color.TRANSPARENT);
+        Text returnArrow = graphicsMenu.drawText(singleArrow, 50, 540, GREEN, options);
+        Text returnText = graphicsMenu.drawText("./Back", 95, 540, Color.WHITE, options);
+        Rectangle returnHitBox = graphicsMenu.drawRectangle(50,520,600,30,0,0,Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
