@@ -19,7 +19,6 @@ import app.player.PlayerUtil;
 public class GameBuilder {
     private static final String TAG = "CameraUtil";
 
-
     // MAIN GAME LOOP
     private final AnimationTimer GAME_ANIMATION_TIMER;
     private long TOTAL_RUNTIME = 0;
@@ -32,46 +31,45 @@ public class GameBuilder {
         Log.p(TAG, "CONSTRUCTOR");
         Log.p(TAG, "Creating Game Window with dimensions: " + w + " x " + h);
 
-
         new GameWindow(stg, w, h);
         new GameFX(this);
         new GameComponents(this);
 
         GAME_ANIMATION_TIMER = new AnimationTimer() {
-            long last = 0;
-            int frames = 0;
-            double dt = 0;
+            long reading_last = 0;
+            int reading_frames = 0;
+            double deltaT = 0;
 
             @Override
             public void handle(long now) {
                 if (!((PauseMenu) getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
                     if (getComponents().getGameSceneControls() != null) {
-                        getComponents().getGameSceneControls().update_handler(dt);
+                        getComponents().getGameSceneControls().update_handler(deltaT);
                     }
                     if (getComponents().getEnvironment() != null) {
                         getComponents().getEnvironment().update_handler();
                     }
                     if (getComponents().getPlayer() != null) {
-                        getComponents().getPlayer().update_handler(dt);
+                        getComponents().getPlayer().update_handler(deltaT);
                     }
-                    frames++;
-                    long curr = System.currentTimeMillis();
+                    reading_frames++;
+                    long reading_current = System.currentTimeMillis();
 
                     if (GAME_EFFECTS.PROPERTY_IS_TRIPPY_MODE) {
-                        getEffects().EFFECT_COLOR_ADJUST.setHue(Math.sin(curr / 1000.0));
-                        getEffects().EFFECT_COLOR_ADJUST.setContrast((Math.sin(curr / 15000.0)) / 5);
-                        getEffects().EFFECT_BLOOM.setThreshold(Math.sin(curr / 5000.0) / 2 + 1);
+                        getEffects().EFFECT_COLOR_ADJUST.setHue(Math.sin(reading_current / 1000.0));
+                        getEffects().EFFECT_COLOR_ADJUST.setContrast((Math.sin(reading_current / 15000.0)) / 5);
+                        getEffects().EFFECT_BLOOM.setThreshold(Math.sin(reading_current / 5000.0) / 2 + 1);
                     }
 
-                    if (curr - last > 1000.0) {
-                        Log.p(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + curr + ") -> FPS: " + frames + " -> DeltaT: " + dt);
-                        dt = 60.0 / frames;
-                        if (dt > 5) {
-                            dt = 1;
+                    if (reading_current - reading_last > 1000.0) {
+                        Log.p(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + reading_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
+                        deltaT = 60.0 / reading_frames;
+                        if (deltaT > 5) {
+                            deltaT = 1;
                         }
-                        frames = 0;
+                        reading_last = reading_current;
+                        reading_frames = 0;
                         TOTAL_RUNTIME++;
-                        last = curr;
                     }
                 }
             }
