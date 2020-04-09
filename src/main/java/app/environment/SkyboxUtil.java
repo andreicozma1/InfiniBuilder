@@ -13,8 +13,7 @@ import app.utils.ResourcesUtil;
 
 public class SkyboxUtil {
     private static final String TAG = "SkyboxUtil";
-
-
+    
     private final EnvironmentUtil context;
     private final Group group_skybox;
 
