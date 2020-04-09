@@ -1,5 +1,8 @@
 package app.algorithms;
 
+/**
+ * Edge holds two vertexes for the GraphUtil implementation.
+ */
 public class Edge {
     public int v1;
     public int v2;
