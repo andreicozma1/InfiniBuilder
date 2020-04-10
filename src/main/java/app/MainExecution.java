@@ -1,5 +1,6 @@
 package app;
 
+import app.structures.maze.MazeUtil;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.SpawnableStructureItem;
 import app.structures.path.PathUtil;
@@ -33,12 +34,11 @@ public class MainExecution extends Application {
         Base_Cube dirt = new Base_Cube("Grass", ResourcesUtil.grass, game.getComponents().getEnvironment().getBlockDim());
         Base_Cube grass = new Base_Cube("Dirt", ResourcesUtil.dirt, game.getComponents().getEnvironment().getBlockDim());
         Base_Cube sand = new Base_Cube("Sand", ResourcesUtil.sand, game.getComponents().getEnvironment().getBlockDim());
-        // 1586226789454
 
-//        MazeUtil maze = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 20, 2,3, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED);
-//        MazeUtil maze2 = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, 3,ResourcesUtil.metal,  MazeUtil.GENERATOR_RANDOM_SEED, true);
-//        SpawnableStructureItem mazeitem = new SpawnableStructureItem(maze, "Maze Generator", ResourcesUtil.sun, game.getComponents().getEnvironment().getBlockDim());
-//        SpawnableStructureItem maze2item = new SpawnableStructureItem(maze2, "Maze Generator2", ResourcesUtil.moon, game.getComponents().getEnvironment().getBlockDim());
+        MazeUtil maze = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 20, 2,3, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED);
+        MazeUtil maze2 = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, 3,ResourcesUtil.metal,  MazeUtil.GENERATOR_RANDOM_SEED, true);
+        SpawnableStructureItem mazeitem = new SpawnableStructureItem(maze, "Maze Generator", ResourcesUtil.sun, game.getComponents().getEnvironment().getBlockDim());
+        SpawnableStructureItem maze2item = new SpawnableStructureItem(maze2, "Maze Generator2", ResourcesUtil.moon, game.getComponents().getEnvironment().getBlockDim());
 
 //        PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
 //        SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
@@ -54,8 +54,8 @@ public class MainExecution extends Application {
         game.getComponents().getPlayer().getInventory().addItem(4, grass, 40);
         game.getComponents().getPlayer().getInventory().addItem(dirt, 15);
         game.getComponents().getPlayer().getInventory().addItem(sand, 10);
-//        game.getComponents().getPlayer().getInventory().addItem(mazeitem, 99);
-//        game.getComponents().getPlayer().getInventory().addItem(maze2item, 99);
+        game.getComponents().getPlayer().getInventory().addItem(mazeitem, 99);
+        game.getComponents().getPlayer().getInventory().addItem(maze2item, 99);
 //        game.getComponents().getPlayer().getInventory().addItem(pyrmItem, 99);
         game.getComponents().getPlayer().getInventory().addItem(pathItem, 99);
         game.getComponents().getPlayer().getInventory().addItem(path2Item, 99);

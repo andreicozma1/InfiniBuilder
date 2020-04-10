@@ -24,7 +24,7 @@ public class Crosshair extends HUDElement {
 
 
     /**
-     * Constructor will initialize all values and update the hud group
+     * Constructor will initialize all values and update the hud group.
      *
      * @param elementTag
      * @param screenWidth

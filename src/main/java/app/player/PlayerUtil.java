@@ -155,6 +155,7 @@ public class PlayerUtil {
                     Log.p(TAG, "placeObject() -> Copy created. Scale: X: " + cb.getScaleX() + " Y: " + cb.getScaleY() + " Z: " + cb.getScaleZ() + "; Width: " + cb.getWidth() + " Height: " + cb.getHeight() + " Depth: " + cb.getDepth() + "; Props: " + cb.getProps().toString());
                     cb.placeObject(context.getComponents().getEnvironment(), getPlayerPoint3D(), true);
                     break;
+                    case StructureBuilder.TYPE_STRUCTURE_2D:
                 default:
                     inventory_item.placeObject(context.getComponents().getEnvironment(), getPlayerPoint3D(), true);
                     break;
