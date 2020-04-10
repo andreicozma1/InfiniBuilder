@@ -46,7 +46,7 @@ public class CameraUtil {
         double height = context.getComponents().getPlayer().getPlayerHeight();
         if(context.getComponents().getPlayer().isCrouching){
             height /= 2;
-            height += height * context.getComponents().getPlayer().crouch_multiplier;
+            height += height * context.getComponents().getPlayer().PROPERTY_MULTIPLIER_CROUCH_HEIGHT;
         }
         PERSPECTIVE_CAMERA.getTransforms().add(new Translate(context.getComponents().getPlayer().getPositionX(), context.getComponents().getPlayer().getPositionYnoHeight() - height, context.getComponents().getPlayer().getPositionZ()));
         PERSPECTIVE_CAMERA.getTransforms().add(new Rotate(ROTATION_X % 360, Rotate.Y_AXIS));

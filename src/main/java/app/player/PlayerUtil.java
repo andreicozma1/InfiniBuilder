@@ -21,6 +21,7 @@ public class PlayerUtil {
 
     public GameBuilder context;
     private final Group GROUP;
+    private InventoryUtil UTIL_INVENTORY;
 
     private final String PROPERTY_NAME = "Steve";
     private final int PROPERTY_WIDTH = 10;
@@ -30,38 +31,31 @@ public class PlayerUtil {
     private double POSITION_Y = -200;
     private double POSITION_Z = 0;
 
-    private final double staminaRegenSpeed = .05;
-    private final double staminaDepletionSpeed = 0.2;
-    private final double healthRegenSpeed = .008;
+    private final double PROPERTY_STATUS_STAMINA_REGEN_SPD = .05;
+    private final double PROPERTY_STATUS_STAMINA_DEPLETE_SPD = 0.2;
+    private final double PROPERTY_STATUS_HEALTH_REGEN_SPD = .008;
 
-    private double runMultiplier;
-    double speedForward = 3;
-    double speedBackward = 2;
-    double speedSide = 2;
-    double speedFly = 5;
-    private double speed_fall_initial = 0; // Original speed before gravity is applied;
+    private double PROPERTY_MULTIPLIER_RUN;
+    private double PROPERTY_MULTIPLIER_JUMP;
+    private double PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP;
+    double PROPERTY_MULTIPLIER_CROUCH_HEIGHT = .4;
 
-    private double jump_height_initial;
-
-    private double jump_height_multiplier;
-
-    private double maxAutoJumpHeightMultiplier;
+    double PROPERTY_SPEED_FORWARD = 3;
+    double PROPERTY_SPEED_BACKWARD = 2;
+    double PROPERTY_SPEED_SIDE = 2;
+    double PROPERTY_SPEED_FLY = 5;
 
     boolean canJump = true;
     private boolean isJumping = false;
     boolean isRunning = false;
     boolean isCrouching = false;
-    double crouch_multiplier = .4;
+    boolean isOnGround = true;
 
     private boolean isClipMode = false;
     boolean isFlyMode = false;
 
-    boolean onGround = true;
-
     private final PointLight uv_light;
     private boolean uv_light_state = false;
-
-    InventoryUtil inventoryUtil;
 
     public PlayerUtil(GameBuilder ctx) {
         Log.p(TAG, "CONSTRUCTOR");
@@ -69,7 +63,7 @@ public class PlayerUtil {
         context = ctx;
         GROUP = new Group();
 
-        inventoryUtil = new InventoryUtil(this, 50);
+        UTIL_INVENTORY = new InventoryUtil(this, 50);
 
         uv_light = new PointLight();
         uv_light.setLightOn(false);
@@ -80,6 +74,9 @@ public class PlayerUtil {
         setMaxAutoJumpHeightMultiplier(1.5);
         setRunMultiplier(1.10);
     }
+
+    private double speed_fall_initial = 0; // Original speed before gravity is applied; Only used in update_handler to call moveDown
+    private double jump_height_initial;
 
     public void update_handler(double dt) {
         context.getComponents().getCamera().update_handler();
@@ -95,10 +92,10 @@ public class PlayerUtil {
         if (!isFlyMode) {
             // If the player initiated a jump and the current position of the player is grater than the calculated height to jump to,
             // that means that the player has not gotten to that point in jumping yet so, move the player up
-            double jump_height_final = jump_height_initial -  PROPERTY_HEIGHT * jump_height_multiplier;
+            double jump_height_final = jump_height_initial -  PROPERTY_HEIGHT * PROPERTY_MULTIPLIER_JUMP;
             if (isJumping && getPositionYnoHeight() > jump_height_final) {
                 Log.p(TAG, "Jumping from " + jump_height_initial + " to " + jump_height_final);
-                moveUp(speedFly * dt);
+                moveUp(PROPERTY_SPEED_FLY * dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
                 isJumping = false;
@@ -118,7 +115,7 @@ public class PlayerUtil {
             }
         } else {
             if (getStaminaBar().getCurrStatus() < getStaminaBar().getMaxStatus()) {
-                getStaminaBar().setCurrStatus(getStaminaBar().getCurrStatus() + staminaRegenSpeed * dt);
+                getStaminaBar().setCurrStatus(getStaminaBar().getCurrStatus() + PROPERTY_STATUS_STAMINA_REGEN_SPD * dt);
             }
             if (curr_fov > context.getComponents().getCamera().getFOVdefault()) {
                 context.getComponents().getCamera().getCamera().setFieldOfView(curr_fov - 5);
@@ -140,7 +137,7 @@ public class PlayerUtil {
 
         if (getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus() / 2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()) {
             // Regenerate health if stamina > half
-            getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() + healthRegenSpeed * dt);
+            getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() + PROPERTY_STATUS_HEALTH_REGEN_SPD * dt);
         }
     }
 
@@ -185,9 +182,9 @@ public class PlayerUtil {
 
             // if the player is more than a block above the ground , set onGround = false;
             if ((POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * 1.5) {
-                onGround = false;
+                isOnGround = false;
             }
-            if (!onGround && !isRunning && !isFlyMode) {
+            if (!isOnGround && !isRunning && !isFlyMode) {
                 Log.p(TAG, "moveDown() -> Falling at speed " + val);
                 if (context.getComponents().getCamera().getCamera().getFieldOfView() < 120) {
                     context.getComponents().getCamera().getCamera().setFieldOfView(context.getComponents().getCamera().getFOVdefault() + val * 5);
@@ -198,7 +195,7 @@ public class PlayerUtil {
             }
 
         } else if (getPositionYnoHeight() != ground_level) {
-            if (!onGround && !isFlyMode) {
+            if (!isOnGround && !isFlyMode) {
                 if (val > 7) {
                     takeDamage(val*3);
                 }
@@ -214,7 +211,7 @@ public class PlayerUtil {
 
     public void moveUp(double val) {
         this.POSITION_Y -= val;
-        onGround = false;
+        isOnGround = false;
     }
 
     /**
@@ -226,21 +223,21 @@ public class PlayerUtil {
         double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z));
         double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(this.POSITION_X, getPositionYwithHeight(), new_z));
 
-        if ((POSITION_Y - ground_level_x  < context.getComponents().getEnvironment().getBlockDim() * maxAutoJumpHeightMultiplier) || isClipMode) {
+        if ((POSITION_Y - ground_level_x  < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP) || isClipMode) {
             this.POSITION_X = new_x;
         }
-        if ((POSITION_Y - ground_level_z < context.getComponents().getEnvironment().getBlockDim() * maxAutoJumpHeightMultiplier) || isClipMode) {
+        if ((POSITION_Y - ground_level_z < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP) || isClipMode) {
             this.POSITION_Z = new_z;
         }
     }
 
     public void moveForward(double val) {
-        if (isFlyMode) val = speedFly;
-        if (isCrouching) val *= crouch_multiplier;
+        if (isFlyMode) val = PROPERTY_SPEED_FLY;
+        if (isCrouching) val *= PROPERTY_MULTIPLIER_CROUCH_HEIGHT;
 
         if (isRunning) {
-            val *= runMultiplier;
-            getStaminaBar().setCurrStatus(getStaminaBar().getCurrStatus() - staminaDepletionSpeed);
+            val *= PROPERTY_MULTIPLIER_RUN;
+            getStaminaBar().setCurrStatus(getStaminaBar().getCurrStatus() - PROPERTY_STATUS_STAMINA_DEPLETE_SPD);
         }
 
         double new_x = this.POSITION_X + Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
@@ -250,8 +247,8 @@ public class PlayerUtil {
     }
 
     public void moveBackward(double val) {
-        if (isFlyMode) val = speedFly;
-        if (isCrouching) val *= crouch_multiplier;
+        if (isFlyMode) val = PROPERTY_SPEED_FLY;
+        if (isCrouching) val *= PROPERTY_MULTIPLIER_CROUCH_HEIGHT;
 
         double new_x = this.POSITION_X - Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
         double new_z = this.POSITION_Z - Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
@@ -260,8 +257,8 @@ public class PlayerUtil {
     }
 
     public void moveLeft(double val) {
-        if (isFlyMode) val = speedFly;
-        if (isCrouching) val *= crouch_multiplier;
+        if (isFlyMode) val = PROPERTY_SPEED_FLY;
+        if (isCrouching) val *= PROPERTY_MULTIPLIER_CROUCH_HEIGHT;
 
         double new_z = this.POSITION_Z + Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
         double new_x = this.POSITION_X - Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
@@ -270,8 +267,8 @@ public class PlayerUtil {
     }
 
     public void moveRight(double val) {
-        if (isFlyMode) val = speedFly;
-        if (isCrouching) val *= crouch_multiplier;
+        if (isFlyMode) val = PROPERTY_SPEED_FLY;
+        if (isCrouching) val *= PROPERTY_MULTIPLIER_CROUCH_HEIGHT;
 
         double new_x = this.POSITION_X + Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
         double new_z = this.POSITION_Z - Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
@@ -306,7 +303,7 @@ public class PlayerUtil {
     private void warpToGround() {
         double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPoint3D());
         POSITION_Y = ground_level;
-        onGround = true;
+        isOnGround = true;
         speed_fall_initial = 0;
     }
 
@@ -357,7 +354,7 @@ public class PlayerUtil {
     }
 
     public InventoryUtil getInventory() {
-        return inventoryUtil;
+        return UTIL_INVENTORY;
     }
 
     public Group getGroup() {
@@ -399,12 +396,12 @@ public class PlayerUtil {
     }
 
     public double getMaxAutoJumpHeightMultiplier() {
-        return maxAutoJumpHeightMultiplier;
+        return PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP;
     }
     public void setMaxAutoJumpHeightMultiplier(double val) {
         try {
             if (val >= 0) {
-                this.maxAutoJumpHeightMultiplier = val;
+                this.PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP = val;
             } else {
                 throw new IndexOutOfBoundsException();
             }
@@ -415,12 +412,12 @@ public class PlayerUtil {
     }
 
     public double getFlySpeed() {
-        return speedFly;
+        return PROPERTY_SPEED_FLY;
     }
     public void setFlySpeed(double spd) {
         try {
             if (spd >= 0) {
-                speedFly = spd;
+                PROPERTY_SPEED_FLY = spd;
             } else {
                 throw new IndexOutOfBoundsException();
             }
@@ -430,12 +427,12 @@ public class PlayerUtil {
     }
 
     public double getRunMultiplier() {
-        return runMultiplier;
+        return PROPERTY_MULTIPLIER_RUN;
     }
     public void setRunMultiplier(double mult) {
         try {
             if (mult >= 0) {
-                runMultiplier = mult;
+                PROPERTY_MULTIPLIER_RUN = mult;
             } else {
                 throw new IndexOutOfBoundsException();
             }
@@ -445,12 +442,12 @@ public class PlayerUtil {
     }
 
     public double getJumpHeightMultiplier() {
-        return jump_height_multiplier;
+        return PROPERTY_MULTIPLIER_JUMP;
     }
     public void setJumpHeightMultiplier(double mult) {
         try {
             if (mult >= 0) {
-                jump_height_multiplier = mult;
+                PROPERTY_MULTIPLIER_JUMP = mult;
             } else {
                 throw new IndexOutOfBoundsException();
             }

@@ -22,7 +22,6 @@ public class ControlsUtil {
 
     public static ArrayList<KeyCode> pressed;
 
-
     public ControlsUtil(GameBuilder ctx) {
         Log.p(TAG,"CONSTRUCTOR");
 
@@ -183,7 +182,6 @@ public class ControlsUtil {
     }
 
     public void update_handler(double dt) {
-
         for (KeyCode e : pressed) {
             switch (e) {
                 case Q:
@@ -191,42 +189,39 @@ public class ControlsUtil {
                 case E:
                     break;
                 case W:
-                    context.getComponents().getPlayer().moveForward(context.getComponents().getPlayer().speedForward * dt);
+                    context.getComponents().getPlayer().moveForward(context.getComponents().getPlayer().PROPERTY_SPEED_FORWARD * dt);
                     break;
                 case A:
-                    context.getComponents().getPlayer().moveLeft(context.getComponents().getPlayer().speedSide * dt);
+                    context.getComponents().getPlayer().moveLeft(context.getComponents().getPlayer().PROPERTY_SPEED_SIDE * dt);
                     break;
                 case S:
-                    context.getComponents().getPlayer().moveBackward(context.getComponents().getPlayer().speedBackward * dt);
+                    context.getComponents().getPlayer().moveBackward(context.getComponents().getPlayer().PROPERTY_SPEED_BACKWARD * dt);
                     break;
                 case D:
-                    context.getComponents().getPlayer().moveRight(context.getComponents().getPlayer().speedSide * dt);
+                    context.getComponents().getPlayer().moveRight(context.getComponents().getPlayer().PROPERTY_SPEED_SIDE * dt);
                     break;
 
                 case SPACE:
-//                    System.out.println(context.getComponents().getPlayer().isFlyMode);
                     if (context.getComponents().getPlayer().isFlyMode) {
-                        context.getComponents().getPlayer().moveUp(context.getComponents().getPlayer().speedFly * dt);
+                        context.getComponents().getPlayer().moveUp(context.getComponents().getPlayer().PROPERTY_SPEED_FLY * dt);
                     } else {
-                        if (context.getComponents().getPlayer().onGround && context.getComponents().getPlayer().canJump) {
+                        if (context.getComponents().getPlayer().isOnGround && context.getComponents().getPlayer().canJump) {
                             context.getComponents().getPlayer().jump();
                         }
                     }
                     break;
                 case SHIFT:
                     if (context.getComponents().getPlayer().isFlyMode) {
-                        context.getComponents().getPlayer().moveDown(context.getComponents().getPlayer().speedFly * dt);
+                        context.getComponents().getPlayer().moveDown(context.getComponents().getPlayer().PROPERTY_SPEED_FLY * dt);
                     } else {
                         context.getComponents().getPlayer().setIsRunning(true);
                     }
                     break;
             }
         }
-
     }
 
     public void reset(){
         pressed.clear();
     }
-
 }
