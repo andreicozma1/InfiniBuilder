@@ -312,26 +312,18 @@ public class EnvironmentUtil {
 //      public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();   // key: x,z value: world column (key: non rounded y position value: pair)
 //      HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
-        System.out.println("placeObject() " + str.getProps().getPROPERTY_ITEM_TAG() + " at " + pos);
-
         // if the x z coordinate exists
         if(MAP_GENERATED.containsKey(new Point2D(xPos,zPos))){
             // get the world column with the x z coordinate
             TreeMap<Integer, Pair> worldColumn =  MAP_GENERATED.get(new Point2D(xPos,zPos));
             // if there is not already a block at the y pos
 
-            System.out.println(worldColumn.keySet());
             if(!worldColumn.containsKey(yPos)){
 
                 // insert a block at the y pos in the column
-
-//                str.getTransforms().removeAll(str.getTransforms());
-                str.setTranslateIndependent(xPos*getBlockDim(),getClosestGroundLevel(pos,true) - getBlockDim(),zPos*getBlockDim());
-//                str.setScaleAll(getBlockDim());
-
+                str.setTranslateIndependent(xPos*getBlockDim(),getClosestGroundLevel(pos,true) - str.getHeight(),zPos*getBlockDim());
                 MAP_RENDERING.put(new Point3D(xPos,yPos,zPos), str);
-
-                worldColumn.put(yPos, new Pair<>((double)getSimplexHeight3D(xPos,yPos,zPos), (getClosestGroundLevel(pos,true) -str.getHeight())/getBlockDim()));
+                worldColumn.put(yPos, new Pair<>((double)getSimplexHeight3D(xPos,yPos,zPos), (getClosestGroundLevel(pos,true) - str.getHeight())/getBlockDim()));
             }
         }
     }
