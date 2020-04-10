@@ -1405,7 +1405,7 @@ public class MenuUtil {
                         curr_saturation += .1;
                         if(curr_saturation >1) curr_saturation = 0.0;
                         saturationMult.setText(Double.toString(curr_saturation));
-                        context.getEffects().setContrast(curr_saturation);
+                        context.getEffects().setSaturation(curr_saturation);
                     }
                 });
         saturationHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1435,7 +1435,7 @@ public class MenuUtil {
                         curr_hue += .1;
                         if(curr_hue >1) curr_hue = 0.0;
                         hueMult.setText(Double.toString(curr_hue));
-                        context.getEffects().setContrast(curr_hue);
+                        context.getEffects().setHue(curr_hue);
                     }
                 });
         hueHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1465,7 +1465,7 @@ public class MenuUtil {
                         curr_brightness += .1;
                         if(curr_brightness >1) curr_brightness = 0.0;
                         brightnessMult.setText(Double.toString(curr_brightness));
-                        context.getEffects().setContrast(curr_brightness);
+                        context.getEffects().setBrightness(curr_brightness);
                     }
                 });
         brightnessHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
