@@ -328,7 +328,7 @@ public class EnvironmentUtil {
                 // insert a block at the y pos in the column
 
                 str.getTransforms().removeAll(str.getTransforms());
-                str.setTranslateIndependent(xPos*getBlockDim(),yPos-str.getHeight(),zPos*getBlockDim());
+                str.setTranslateIndependent(xPos*getBlockDim(),yPos - getBlockDim(),zPos*getBlockDim());
                 str.setScaleAll(getBlockDim());
 
                 MAP_RENDERING.put(new Point3D(xPos,(int)Math.floor(yPos/getBlockDim())-1,zPos), str);
