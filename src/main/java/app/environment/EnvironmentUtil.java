@@ -140,7 +140,7 @@ public class EnvironmentUtil {
                                     Pair<Double, Double> pr = worldColumn.get(k);
                                     double y = pr.getValue() * getBlockDim();
                                     if (pr == worldColumn.firstEntry().getValue()) {
-                                        MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, false, true));
+                                        MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, false, false));
                                     } else {
                                         MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, true, true));
                                     }
