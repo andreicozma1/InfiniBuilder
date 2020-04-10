@@ -2,14 +2,16 @@ package app.algorithms;
 
 /**
  * Entry is a type casted entry used for a priority queue.
+ *
  * @param <T2>
  */
 public class Entry<T2> implements Comparable<Entry> {
-    private int key;
-    private T2 value;
+    private final int key;
+    private final T2 value;
 
     /**
      * The constructor takes in the entries key and value.
+     *
      * @param key
      * @param value
      */
@@ -19,11 +21,17 @@ public class Entry<T2> implements Comparable<Entry> {
     }
 
     // Getters
-    public int getKey() { return key; }
-    public T2 getValue() { return value; }
+    public int getKey() {
+        return key;
+    }
+
+    public T2 getValue() {
+        return value;
+    }
 
     /**
      * This function is a comparator function the priority queue uses to sort each entry.
+     *
      * @param other
      * @return
      */

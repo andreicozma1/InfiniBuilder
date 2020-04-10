@@ -1,20 +1,22 @@
 package app;
 
+import app.GUI.HUD.HUDElements.PauseMenu;
 import app.GUI.HUD.HUDUtil;
-import app.GUI.HUD.HUDElements.*;
-import app.environment.EnvironmentUtil;
 import app.GUI.menu.MenuUtil;
+import app.environment.EnvironmentUtil;
+import app.player.CameraUtil;
+import app.player.ControlsUtil;
+import app.player.PlayerUtil;
 import app.utils.Log;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.*;
-import javafx.scene.Cursor;
-import javafx.scene.effect.*;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.MotionBlur;
+import javafx.scene.effect.SepiaTone;
 import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
-import app.player.CameraUtil;
-import app.player.ControlsUtil;
-import app.player.PlayerUtil;
 
 public class GameBuilder {
     private static final String TAG = "CameraUtil";
@@ -90,12 +92,8 @@ public class GameBuilder {
     }
 
     public class GameWindow {
-        public Stage STAGE;
         private final int WINDOW_WIDTH;
         private final int WINDOW_HEIGHT;
-
-        private Scene SCENE_CURRENT; // hold the current scene displayed to the user
-
         // This scene holds other SubScenes, such as SCENE_GAME which is used to render the 3D world with a PerspectiveCamera, as well as the 2D HUD as an overlay
         // Controls are set on the root scene.
         private final Scene ROOT_SCENE;
@@ -103,6 +101,8 @@ public class GameBuilder {
         // This subscene is a child of SCENE_ROOT.
         private final SubScene GAME_SCENE;
         private final Group GAME_GROUP;
+        public Stage STAGE;
+        private Scene SCENE_CURRENT; // hold the current scene displayed to the user
         // Each scene contains it's own Group, which is used to hold the scene's children in a container
 
         GameWindow(Stage stg, int w, int h) {
@@ -145,6 +145,7 @@ public class GameBuilder {
         public Stage getStage() {
             return STAGE;
         }
+
         public Scene getCurrentScene() {
             return SCENE_CURRENT;
         }
@@ -152,6 +153,7 @@ public class GameBuilder {
         public Scene getRootScene() {
             return ROOT_SCENE;
         }
+
         public Group getRootSceneGroup() {
             return ROOT_GROUP;
         }
@@ -159,6 +161,7 @@ public class GameBuilder {
         public SubScene getGameSubscene() {
             return GAME_SCENE;
         }
+
         public Group getGameSubsceneGroup() {
             return GAME_GROUP;
         }
@@ -166,6 +169,7 @@ public class GameBuilder {
         public int getWindowWidth() {
             return WINDOW_WIDTH;
         }
+
         public int getWindowHeight() {
             return WINDOW_HEIGHT;
         }
@@ -181,6 +185,7 @@ public class GameBuilder {
                 hideCursor();
             }
         }
+
         public void centerCursor() {
             moveCursor((int) STAGE.getX() + WINDOW_WIDTH / 2, (int) STAGE.getY() + WINDOW_HEIGHT / 2);
         }
@@ -188,6 +193,7 @@ public class GameBuilder {
         public void showCursor(Cursor c) {
             getCurrentScene().setCursor(c);
         }
+
         public void hideCursor() {
             getCurrentScene().setCursor(Cursor.NONE);
         }
@@ -279,14 +285,13 @@ public class GameBuilder {
     }
 
     public class GameFX {
-        GameBuilder context;
-
         public MotionBlur EFFECT_MOTION_BLUR;
+        GameBuilder context;
+        boolean PROPERTY_IS_TRIPPY_MODE;
         private boolean EFFECT_MOTION_BLUR_ENABLED;
         private Bloom EFFECT_BLOOM;
         private ColorAdjust EFFECT_COLOR_ADJUST;
         private SepiaTone EFFECT_SEPIA_TONE;
-        boolean PROPERTY_IS_TRIPPY_MODE;
 
         GameFX(GameBuilder ctx) {
             context = ctx;

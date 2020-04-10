@@ -1,56 +1,49 @@
 package app.utils;
 
-import app.MainExecution;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
 import javafx.scene.paint.PhongMaterial;
 
-import java.net.URI;
 import java.util.*;
 
 public class ResourcesUtil {
     private static final String TAG = "ResourcesUtil";
 
     public static List<String> world_types_sorted;
-
-    public static Map<String, Material> world_types = new HashMap<String, Material>(){
-        {
-            put("Default",null);
-            put("Grass",grass);
-            put("Dirt",dirt);
-            put("Moss",moss);
-            put("Sand",sand);
-            put("Metal",metal);
-            put("Water",water);
-            put("Lava",sun);
-            put("Moon Rock",moon);
-        }
-    };
-
-
     public static PhongMaterial stone;
     public static PhongMaterial grass;
     public static PhongMaterial dirt;
     public static PhongMaterial moss;
     public static PhongMaterial sand;
-
     public static PhongMaterial blue;
     public static PhongMaterial green;
     public static PhongMaterial red;
     public static PhongMaterial purple;
-
     public static PhongMaterial sun;
     public static PhongMaterial moon;
     public static PhongMaterial big_star;
     public static PhongMaterial clouds;
     public static PhongMaterial water;
     public static PhongMaterial metal;
-
+    public static Map<String, Material> world_types = new HashMap<String, Material>() {
+        {
+            put("Default", null);
+            put("Grass", grass);
+            put("Dirt", dirt);
+            put("Moss", moss);
+            put("Sand", sand);
+            put("Metal", metal);
+            put("Water", water);
+            put("Lava", sun);
+            put("Moon Rock", moon);
+        }
+    };
     Application context;
+
     public ResourcesUtil(Application app) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         context = app;
         setupMaterials();
@@ -120,7 +113,7 @@ public class ResourcesUtil {
     }
 
 
-    public Image getImage(String path){
+    public Image getImage(String path) {
 //        ClassLoader classLoader = this.getClass().getClassLoader();
         return new Image(getClass().getResourceAsStream(path));
     }

@@ -1,6 +1,5 @@
 package app.utils;
 
-import app.GameBuilder;
 import app.player.PlayerUtil;
 import app.structures.objects.Base_Structure;
 
@@ -10,18 +9,17 @@ import java.util.HashMap;
 
 public class InventoryUtil {
     private static final String TAG = "InventoryUtil";
-    public PlayerUtil context;
-
     private final ArrayList<Base_Structure> inventory;
     private final HashMap<String, Integer> indexes = new HashMap<String, Integer>();
     private final HashMap<String, Integer> sizes = new HashMap<String, Integer>();
+    public PlayerUtil context;
     private int inventorySize = 0;
     private int currentIndex = 0;
     private boolean isCycle = false;
     private Base_Structure currentItem = new Base_Structure();
 
     public InventoryUtil(PlayerUtil ctx, int inventorySize) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         context = ctx;
         this.inventorySize = inventorySize;
@@ -45,24 +43,17 @@ public class InventoryUtil {
         return (currentIndex == index);
     }
 
-    public void setIsCycle(boolean isCycle) { this.isCycle = isCycle; }
+    public void setIsCycle(boolean isCycle) {
+        this.isCycle = isCycle;
+    }
 
-    public boolean isCycle() { return isCycle; }
+    public boolean isCycle() {
+        return isCycle;
+    }
 
     public int getCurrentIndex() {
         return currentIndex;
     }
-
-    public int getItemSize(Base_Structure Base_Structure){
-        return sizes.getOrDefault(Base_Structure.getProps().getPROPERTY_ITEM_TAG(), 0);
-    }
-
-    public int getIndexSize(int index){ return getItemSize(getItem(index)); }
-
-    public Base_Structure popCurrentItem(){
-        return popItem(currentIndex);
-    }
-
 
     public void setCurrentIndex(int currentIndex) {
 
@@ -73,15 +64,25 @@ public class InventoryUtil {
         currentItem = inventory.get(currentIndex);
     }
 
+    public int getItemSize(Base_Structure Base_Structure) {
+        return sizes.getOrDefault(Base_Structure.getProps().getPROPERTY_ITEM_TAG(), 0);
+    }
 
-    public int moveCurrIndex(int delta){
-        if(isCycle){
-            currentIndex = (currentIndex+delta)%inventorySize;
-        }
-        else{
+    public int getIndexSize(int index) {
+        return getItemSize(getItem(index));
+    }
+
+    public Base_Structure popCurrentItem() {
+        return popItem(currentIndex);
+    }
+
+    public int moveCurrIndex(int delta) {
+        if (isCycle) {
+            currentIndex = (currentIndex + delta) % inventorySize;
+        } else {
             currentIndex += delta;
-            if(currentIndex<0)currentIndex=0;
-            else if(currentIndex>=inventorySize)currentIndex=inventorySize-1;
+            if (currentIndex < 0) currentIndex = 0;
+            else if (currentIndex >= inventorySize) currentIndex = inventorySize - 1;
         }
 
         currentItem = inventory.get(currentIndex);
@@ -90,10 +91,10 @@ public class InventoryUtil {
 
     public int moveUpInventory() {
         currentIndex++;
-        if(isCycle){
-            if (currentIndex==inventorySize)currentIndex = 0;
-        }else{
-            if (currentIndex==inventorySize)currentIndex = inventorySize-1;
+        if (isCycle) {
+            if (currentIndex == inventorySize) currentIndex = 0;
+        } else {
+            if (currentIndex == inventorySize) currentIndex = inventorySize - 1;
         }
 
         currentItem = inventory.get(currentIndex);
@@ -102,10 +103,10 @@ public class InventoryUtil {
 
     public int moveDownInventory() {
         currentIndex--;
-        if(isCycle){
-            if (currentIndex==-1)currentIndex = inventorySize-1;
-        }else{
-            if (currentIndex==-1)currentIndex = 0;
+        if (isCycle) {
+            if (currentIndex == -1) currentIndex = inventorySize - 1;
+        } else {
+            if (currentIndex == -1) currentIndex = 0;
         }
 
         currentItem = inventory.get(currentIndex);
@@ -134,14 +135,13 @@ public class InventoryUtil {
         }
 
         Base_Structure tmp = inventory.get(index);
-        System.out.println("POP ITEMMMM " + tmp.getScaleX() + " " + tmp.getScaleY()+ " " + tmp.getScaleZ());
+        System.out.println("POP ITEMMMM " + tmp.getScaleX() + " " + tmp.getScaleY() + " " + tmp.getScaleZ());
 
         System.out.println("/////////// " + tmp.getShape());
         if (tmp.getProps().getPROPERTY_ITEM_TAG() == Base_Structure.UNDEFINED_TAG) {
             // if there is no item in the inventory
             System.out.println("No Item at index " + index);
-        }
-        else if (sizes.get(tmp.getProps().getPROPERTY_ITEM_TAG()) == 1) {
+        } else if (sizes.get(tmp.getProps().getPROPERTY_ITEM_TAG()) == 1) {
             // if last item in the item stack
             System.out.println("Index " + index + " is now empty");
             sizes.remove(tmp.getProps().getPROPERTY_ITEM_TAG());

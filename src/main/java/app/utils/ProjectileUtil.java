@@ -2,8 +2,8 @@ package app.utils;
 
 import app.environment.EnvironmentUtil;
 import app.player.PlayerPoint3D;
-import javafx.animation.AnimationTimer;
 import app.structures.StructureBuilder;
+import javafx.animation.AnimationTimer;
 
 public class ProjectileUtil extends StructureBuilder {
     private static final String TAG = "ProjectileUtil";
@@ -13,7 +13,7 @@ public class ProjectileUtil extends StructureBuilder {
     private double speed;
 
     public ProjectileUtil(EnvironmentUtil ctx, StructureBuilder obj) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         context = ctx;
         object = obj;
@@ -35,18 +35,18 @@ public class ProjectileUtil extends StructureBuilder {
 
 
         AnimationTimer at = new AnimationTimer() {
+            final double initialVel = speed;
             double posx = context.context.getComponents().getPlayer().getPositionX();
             double posy = context.context.getComponents().getPlayer().getPositionYwithHeight();
             double posz = context.context.getComponents().getPlayer().getPositionZ();
-
-            double initialVel = speed;
             double initialVelY = 0;
 
             boolean isOnGround = false;
             long onGroundTimestamp;
+
             @Override
             public void handle(long l) {
-                if(!isOnGround){
+                if (!isOnGround) {
 //                    System.out.println(posy +  "   " + context.getClosestGroundLevel(new PlayerPoint3D(posx,posy,posz)));
                     posx += initialVel * Math.sin(startrotX) * Math.cos(startrotY);
                     posy -= initialVel * Math.sin(startrotY) + initialVelY;
@@ -54,18 +54,18 @@ public class ProjectileUtil extends StructureBuilder {
                     posz += initialVel * Math.cos(startrotX) * Math.cos(startrotY);
                     object.setTranslateIndependent(posx, posy, posz);
 
-                    if(posy > context.getClosestGroundLevel(new PlayerPoint3D(posx,posy,posz),true) - context.getBlockDim()/2.0 - object.getHeight()/2) {
+                    if (posy > context.getClosestGroundLevel(new PlayerPoint3D(posx, posy, posz), true) - context.getBlockDim() / 2.0 - object.getHeight() / 2) {
                         isOnGround = true;
                         onGroundTimestamp = System.currentTimeMillis();
                     }
-                } else{
-                    if((System.currentTimeMillis() - onGroundTimestamp)/1000 > 10){
+                } else {
+                    if ((System.currentTimeMillis() - onGroundTimestamp) / 1000 > 10) {
                         context.removeFromGroup(EnvironmentUtil.GROUP_OTHER, object);
                         this.stop();
                     }
                 }
 
-                if(posy > EnvironmentUtil.LIMIT_MIN){
+                if (posy > EnvironmentUtil.LIMIT_MIN) {
                     context.removeFromGroup(EnvironmentUtil.GROUP_OTHER, object);
                     this.stop();
                 }

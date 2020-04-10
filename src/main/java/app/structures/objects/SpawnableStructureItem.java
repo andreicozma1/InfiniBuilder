@@ -1,15 +1,10 @@
 package app.structures.objects;
 
-import app.environment.EnvironmentUtil;
 import app.structures.SpawnableStructure;
 import app.structures.StructureBuilder;
-import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
 import javafx.scene.paint.Material;
 
-import java.util.Map;
-
-public class SpawnableStructureItem extends Base_Cube{
+public class SpawnableStructureItem extends Base_Cube {
     private final SpawnableStructure spawnable;
 
     public SpawnableStructureItem(SpawnableStructure str, String ITEM_TAG, double width, double height, double depth) {

@@ -2,11 +2,9 @@ package app.utils;
 
 import app.structures.objects.Base_Model;
 import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
-
 import javafx.scene.Node;
 
 import java.io.*;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -27,13 +25,13 @@ public class TDModelUtil {
     private final String EXTENSION_3DS = "3ds";
 
     public TDModelUtil() {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         obj_importer = new TdsModelImporter();
         resources = new HashMap<>();
 
         String s = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-        Log.p(TAG,"Execution source: " + s);
+        Log.p(TAG, "Execution source: " + s);
 
         if (s.endsWith(".jar")) {
             // ONLY DO IF JAR

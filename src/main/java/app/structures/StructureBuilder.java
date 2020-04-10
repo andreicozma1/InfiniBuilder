@@ -3,10 +3,7 @@ package app.structures;
 import app.environment.EnvironmentUtil;
 import app.player.PlayerPoint3D;
 import app.structures.objects.Base_Cube;
-import app.structures.objects.Base_Sphere;
 import app.structures.objects.Base_Structure;
-import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.paint.Material;
 
@@ -103,29 +100,29 @@ public abstract class StructureBuilder extends Group implements Interactable {
         private boolean PROPERTY_DESTRUCTIBLE = false;
         private Material PROPERTY_MATERIAL;
 
-        public void setICON_MATERIAL(Material mat){
-            PROPERTY_MATERIAL = mat;
-        }
-        public Material getICON_MATERIAL(){
+        public Material getICON_MATERIAL() {
             return PROPERTY_MATERIAL;
         }
 
-        public void setPROPERTY_ITEM_TYPE(int t) {
-            PROPERTY_ITEM_TYPE = t;
+        public void setICON_MATERIAL(Material mat) {
+            PROPERTY_MATERIAL = mat;
         }
 
         public int getPROPERTY_ITEM_TYPE() {
             return PROPERTY_ITEM_TYPE;
         }
 
-        public void setPROPERTY_OBJECT_TYPE(int t) {
-            PROPERTY_OBJECT_TYPE = t;
+        public void setPROPERTY_ITEM_TYPE(int t) {
+            PROPERTY_ITEM_TYPE = t;
         }
 
         public int getPROPERTY_OBJECT_TYPE() {
             return PROPERTY_OBJECT_TYPE;
         }
 
+        public void setPROPERTY_OBJECT_TYPE(int t) {
+            PROPERTY_OBJECT_TYPE = t;
+        }
 
         public String getPROPERTY_ITEM_TAG() {
             return PROPERTY_ITEM_TAG;

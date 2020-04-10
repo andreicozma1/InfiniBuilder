@@ -1,29 +1,25 @@
 package app.player;
 
+import app.GameBuilder;
 import app.utils.Log;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import app.GameBuilder;
 
 public class CameraUtil {
     private static final String TAG = "CameraUtil";
-
-    private final GameBuilder context;
     private static PerspectiveCamera PERSPECTIVE_CAMERA;
-
+    private final GameBuilder context;
+    private final int PROPERTY_ANGLE_BOUND_DOWN = -90; // degrees
+    private final int PROPERTY_ANGLE_BOUND_UP = 90; // degrees
     private int PROPERTY_FOV_DEFAULT;
     private double PROPERTY_FOV_RUNNING_MULTIPLIER;
     private double PROPERTY_FOV_TIRED_MULTIPLIER;
-
-    private final int PROPERTY_ANGLE_BOUND_DOWN = -90; // degrees
-    private final int PROPERTY_ANGLE_BOUND_UP = 90; // degrees
-
     private double ROTATION_X = 0;
     private double ROTATION_Y = 0;
 
     public CameraUtil(GameBuilder ctx) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         context = ctx;
         PERSPECTIVE_CAMERA = new PerspectiveCamera(true);
@@ -44,7 +40,7 @@ public class CameraUtil {
         PERSPECTIVE_CAMERA.getTransforms().clear();
 
         double height = context.getComponents().getPlayer().getPlayerHeight();
-        if(context.getComponents().getPlayer().isCrouching){
+        if (context.getComponents().getPlayer().isCrouching) {
             height /= 2;
             height += height * context.getComponents().getPlayer().PROPERTY_MULTIPLIER_CROUCH_HEIGHT;
         }
@@ -73,6 +69,7 @@ public class CameraUtil {
     public int getFOVdefault() {
         return PROPERTY_FOV_DEFAULT;
     }
+
     public void setFOVdefault(int def) {
         try {
             if (def >= 0) {
@@ -88,6 +85,7 @@ public class CameraUtil {
     public double getFOVrunningMultiplier() {
         return PROPERTY_FOV_RUNNING_MULTIPLIER;
     }
+
     public void setFOVrunningMultiplier(double mult) {
         try {
             if (mult >= 0) {
@@ -104,6 +102,7 @@ public class CameraUtil {
     public double getFOVtiredMultiplier() {
         return PROPERTY_FOV_TIRED_MULTIPLIER;
     }
+
     public void setFOVtiredMultiplier(double mult) {
         try {
             if (mult >= 0) {
@@ -116,7 +115,7 @@ public class CameraUtil {
         }
     }
 
-    public void reset(){
+    public void reset() {
         setRotateX(0);
         setRotateY(0);
     }
@@ -124,6 +123,7 @@ public class CameraUtil {
     public double getRotateX() {
         return ROTATION_X;
     }
+
     public void setRotateX(double val) {
         ROTATION_X = val;
     }
@@ -131,6 +131,7 @@ public class CameraUtil {
     public double getRotateY() {
         return ROTATION_Y;
     }
+
     public void setRotateY(double val) {
         ROTATION_Y = val;
     }

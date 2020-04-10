@@ -1,28 +1,24 @@
 package app.structures.maze;
 
-import app.algorithms.Edge;
+import app.GameBuilder;
 import app.structures.SpawnableStructure;
 import app.utils.Log;
-import javafx.geometry.Point2D;
-import app.structures.objects.Base_Cube;
-import app.GameBuilder;
 import javafx.scene.paint.Material;
 
 
 public class MazeUtil implements SpawnableStructure {
-    private static final String TAG = "MazeUtil";
 
+    private static final String TAG = "MazeUtil";
+    public static Long GENERATOR_RANDOM_SEED = null;
     private final int cellWidth;
     private final double cellDim;
     private final int mazeRows;
     private final int mazeCols;
-    private Long seed = null;
     private final boolean isTrapped;
     private final Material mazeMaterial;
-    private MazeGenerator mazeGenerator;
     private final int height;
-
-    public static Long GENERATOR_RANDOM_SEED = null;
+    private Long seed = null;
+    private MazeGenerator mazeGenerator;
 
     public MazeUtil(double cellDim,
                     int mazeRows,
@@ -30,7 +26,7 @@ public class MazeUtil implements SpawnableStructure {
                     int mazeHeight,
                     int cellWidth,
                     Material mazeMaterial) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
@@ -48,7 +44,7 @@ public class MazeUtil implements SpawnableStructure {
                     int mazeHeight,
                     Material mazeMaterial,
                     Long seed) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
@@ -68,7 +64,7 @@ public class MazeUtil implements SpawnableStructure {
                     Material mazeMaterial,
                     Long seed,
                     boolean isTrapped) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
@@ -84,6 +80,7 @@ public class MazeUtil implements SpawnableStructure {
 
     @Override
     public void build(GameBuilder context) {
+        /*
         block_map.clear();
 
         if (this.seed == null) {
@@ -241,6 +238,6 @@ public class MazeUtil implements SpawnableStructure {
             }
             currZ += cellDim;
         }
-
+*/
     }
 }

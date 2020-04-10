@@ -9,7 +9,8 @@ public class Base_Structure extends StructureBuilder {
     public Shape3D getShape() {
         return shape;
     }
-    public void setShape(Shape3D sh){
+
+    public void setShape(Shape3D sh) {
         shape = sh;
     }
 }

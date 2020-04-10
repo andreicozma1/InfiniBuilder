@@ -7,9 +7,9 @@ import java.util.*;
  */
 public class GraphUtil {
     //global variables
-    private int V;                              // Number of nodes
-    private List<Integer> w;                    // Weights when leaving each node
-    private HashMap<Integer,List<Edge>> e;      // Edges(v1->v2) indexed by the v1
+    private final int V;                              // Number of nodes
+    private final List<Integer> w;                    // Weights when leaving each node
+    private final HashMap<Integer, List<Edge>> e;      // Edges(v1->v2) indexed by the v1
 
 
     // if there are no weights given in the constructor each node is given a weight value of 1
@@ -17,38 +17,46 @@ public class GraphUtil {
 
     /**
      * Constructor takes in the number of nodes and sets each node's weight to 1.
+     *
      * @param v
      */
-    public GraphUtil(int v){
+    public GraphUtil(int v) {
         // initialize global variables
         this.V = v;
         w = new ArrayList<Integer>(Collections.nCopies(V, 1));
         e = new HashMap<>();
-        for(int i = 0 ; i < V ; i++)e.put(i,new ArrayList<>());
+        for (int i = 0; i < V; i++) e.put(i, new ArrayList<>());
     }
 
     /**
      * Constructor takes in a list of weights that corresponds to each node's weight.
+     *
      * @param weights
      */
-    public GraphUtil(List<Integer> weights){
+    public GraphUtil(List<Integer> weights) {
         // initialize global variables
         this.V = weights.size();
         w = weights;
         e = new HashMap<>();
-        for(int i = 0 ; i < V ; i++)e.put(i,new ArrayList<>());
+        for (int i = 0; i < V; i++) e.put(i, new ArrayList<>());
     }
 
     // Getters
-    public int getNumVertices() { return V; }
-    public List<Integer> getWeights() { return w; }
+    public int getNumVertices() {
+        return V;
+    }
+
+    public List<Integer> getWeights() {
+        return w;
+    }
 
     /**
      * Add a directed edge from v1 to v2
+     *
      * @param edge
      */
-    public void addEdge(Edge edge){
-        if(edge.v1<0 || edge.v2<0 || edge.v1>=V || edge.v2>=V){
+    public void addEdge(Edge edge) {
+        if (edge.v1 < 0 || edge.v2 < 0 || edge.v1 >= V || edge.v2 >= V) {
             System.out.println("Bad Edge");
             return;
         }
@@ -56,13 +64,15 @@ public class GraphUtil {
     }
 
     //********************************************************************************
+
     /**
      * Depth First Search to find a path from the start pos to the end pos.
+     *
      * @param start
      * @param end
      * @return
      */
-    public List<Integer> DFS(int start, int end){
+    public List<Integer> DFS(int start, int end) {
         // declare variables
         int i;
         int cV;                                                                         // current Vertex
@@ -73,52 +83,52 @@ public class GraphUtil {
         Stack<Integer> frontier = new Stack<>();                                       // stack to keep track of what the depth first search needs to visit next
 
         // error checking
-        if( start<0 || end<0 || start>=V || end>=V ){
+        if (start < 0 || end < 0 || start >= V || end >= V) {
             System.out.println("start and end position must be in bounds");
             return null;
-        }else if( start == end ){
+        } else if (start == end) {
             System.out.println("start position is equal to the end position");
             return null;
         }
 
         // set up starting node
-        visited.set(start,true);
+        visited.set(start, true);
         frontier.push(start);
 
         // iterate until find end or visited all nodes it could
-        while(!frontier.isEmpty()){
+        while (!frontier.isEmpty()) {
             // pop from the frontier
             cV = frontier.pop();
 
-            for(i = 0 ; i < e.get(cV).size() ;i++){
+            for (i = 0; i < e.get(cV).size(); i++) {
                 // if reaches the ending node
 
-                if(e.get(cV).get(i).v2==end){
-                    prev.set(e.get(cV).get(i).v2,e.get(cV).get(i).v1);
+                if (e.get(cV).get(i).v2 == end) {
+                    prev.set(e.get(cV).get(i).v2, e.get(cV).get(i).v1);
                     frontier.clear();
                     foundPath = true;
                     break;
                 }
                 // add the adjacent nodes to the
-                else if(!visited.get(e.get(cV).get(i).v2)){
-                    prev.set(e.get(cV).get(i).v2,e.get(cV).get(i).v1);
-                    visited.set(e.get(cV).get(i).v2,true);
+                else if (!visited.get(e.get(cV).get(i).v2)) {
+                    prev.set(e.get(cV).get(i).v2, e.get(cV).get(i).v1);
+                    visited.set(e.get(cV).get(i).v2, true);
                     frontier.add(e.get(cV).get(i).v2);
                 }
             }
         }
 
         // if could not find path
-        if(!foundPath){
-            System.out.println("Could not find a path from "+start+" to "+end);
+        if (!foundPath) {
+            System.out.println("Could not find a path from " + start + " to " + end);
             return null;
         }
-        System.out.println("Found a path from "+start+" to "+end);
+        System.out.println("Found a path from " + start + " to " + end);
 
         // backtrace to find the path
         cV = end;
-        while(cV != -1){
-            path.add(0,cV);
+        while (cV != -1) {
+            path.add(0, cV);
             cV = prev.get(cV);
         }
 
@@ -126,13 +136,15 @@ public class GraphUtil {
     }
 
     //********************************************************************************
+
     /**
      * Breadth First Search to find a path from the start pos to the end pos.
+     *
      * @param start
      * @param end
      * @return
      */
-    public List<Integer> BFS(int start, int end){
+    public List<Integer> BFS(int start, int end) {
         // declare variables
         int i;
         int cV;                                                                         // current Vertex
@@ -143,65 +155,67 @@ public class GraphUtil {
         LinkedList<Integer> frontier = new LinkedList<>();                              // queue to keep track of what the breadth first search needs to visit next
 
         // error checking
-        if( start<0 || end<0 || start>=V || end>=V ){
+        if (start < 0 || end < 0 || start >= V || end >= V) {
             System.out.println("start and end position must be in bounds");
             return null;
-        }else if( start == end ){
+        } else if (start == end) {
             System.out.println("start position is equal to the end position");
             return null;
         }
 
         // set up starting node
-        visited.set(start,true);
+        visited.set(start, true);
         frontier.add(start);
 
         // iterate until find end or visited all nodes it could
-        while(!frontier.isEmpty()){
+        while (!frontier.isEmpty()) {
             // pop from the frontier
             cV = frontier.poll();
 
-            for(i = 0 ; i < e.get(cV).size() ;i++){
+            for (i = 0; i < e.get(cV).size(); i++) {
                 // if reaches the ending node
 
-                if(e.get(cV).get(i).v2==end){
-                    prev.set(e.get(cV).get(i).v2,e.get(cV).get(i).v1);
+                if (e.get(cV).get(i).v2 == end) {
+                    prev.set(e.get(cV).get(i).v2, e.get(cV).get(i).v1);
                     frontier.clear();
                     foundPath = true;
                     break;
                 }
                 // add the adjacent nodes to the
-                else if(!visited.get(e.get(cV).get(i).v2)){
-                    prev.set(e.get(cV).get(i).v2,e.get(cV).get(i).v1);
-                    visited.set(e.get(cV).get(i).v2,true);
+                else if (!visited.get(e.get(cV).get(i).v2)) {
+                    prev.set(e.get(cV).get(i).v2, e.get(cV).get(i).v1);
+                    visited.set(e.get(cV).get(i).v2, true);
                     frontier.add(e.get(cV).get(i).v2);
                 }
             }
         }
 
         // if could not find path
-        if(!foundPath){
-            System.out.println("Could not find a path from "+start+" to "+end);
+        if (!foundPath) {
+            System.out.println("Could not find a path from " + start + " to " + end);
             return null;
         }
-        System.out.println("Found a path from "+start+" to "+end);
+        System.out.println("Found a path from " + start + " to " + end);
 
         // backtrace to find the path
         cV = end;
-        while(cV != -1){
-            path.add(0,cV);
+        while (cV != -1) {
+            path.add(0, cV);
             cV = prev.get(cV);
         }
         return path;
     }
 
     //********************************************************************************
+
     /**
      * Dijkstras shortest path algorithm to find the shortest path from start to end
+     *
      * @param start
      * @param end
      * @return
      */
-    public List<Integer> Dijkstra(int start, int end){
+    public List<Integer> Dijkstra(int start, int end) {
         // declare variables
         int i;
         int cV;                                                                                 // current Vertex
@@ -215,29 +229,29 @@ public class GraphUtil {
         PriorityQueue<Entry<Integer>> frontier = new PriorityQueue<>();                         // holds the values as a (dist,vertex) pair
 
         // error checking
-        if( start<0 || end<0 || start>=V || end>=V ){
+        if (start < 0 || end < 0 || start >= V || end >= V) {
             System.out.println("start and end position must be in bounds");
             return null;
-        }else if( start == end ){
+        } else if (start == end) {
             System.out.println("start position is equal to the end position");
             return null;
         }
 
         // set up starting node
-        dist.set(start,0);
-        frontier.add(new Entry(0,start));
+        dist.set(start, 0);
+        frontier.add(new Entry(0, start));
 
         // iterate until find end or visited all nodes it could
-        while(!frontier.isEmpty()) {
+        while (!frontier.isEmpty()) {
             // get current vertex data
-            cV = (int)frontier.poll().getValue();
-            System.out.println("currNode "+cV);
+            cV = frontier.poll().getValue();
+            System.out.println("currNode " + cV);
 
             // current node is marked
             if (visited.get(cV)) continue;
 
             // if found end
-            if (cV == end){
+            if (cV == end) {
                 foundPath = true;
                 break;
             }
@@ -267,15 +281,15 @@ public class GraphUtil {
         }
 
         // if could not find path
-        if(!foundPath){
-            System.out.println("Could not find a path from "+start+" to "+end);
+        if (!foundPath) {
+            System.out.println("Could not find a path from " + start + " to " + end);
             return null;
         }
 
         // backtrace path
         cV = end;
-        while (cV!=-1){
-            path.add(0,cV);
+        while (cV != -1) {
+            path.add(0, cV);
             cV = prev.get(cV);
         }
         return path;
@@ -284,13 +298,13 @@ public class GraphUtil {
     /**
      * Prints out each vertex with its weight and each of its adjacent vertexes.
      */
-    public void print(){
-        int i,j;
-        for( i = 0 ; i < w.size() ; i++ ){
-            System.out.print("V " + i +" ("+w.get(i)+ ") : ");
-            if(e.containsKey(i)){
-                for( j = 0 ; j < e.get(i).size() ; j++ ) {
-                    System.out.print(e.get(i).get(j).v2+" ");
+    public void print() {
+        int i, j;
+        for (i = 0; i < w.size(); i++) {
+            System.out.print("V " + i + " (" + w.get(i) + ") : ");
+            if (e.containsKey(i)) {
+                for (j = 0; j < e.get(i).size(); j++) {
+                    System.out.print(e.get(i).get(j).v2 + " ");
                 }
             }
             System.out.println();

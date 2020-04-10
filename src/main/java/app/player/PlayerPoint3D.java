@@ -1,6 +1,5 @@
 package app.player;
 
-import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 
 public class PlayerPoint3D extends Point3D {

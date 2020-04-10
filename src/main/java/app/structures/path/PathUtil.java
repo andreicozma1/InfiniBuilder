@@ -8,7 +8,6 @@ import app.structures.SpawnableStructure;
 import app.structures.maze.MazeGenerator;
 import app.structures.objects.Base_Cube;
 import app.utils.Log;
-import app.utils.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
@@ -16,19 +15,19 @@ import java.util.List;
 
 
 // eventually I want to add the ability to change the distance in between vertexes
-public class PathUtil  implements SpawnableStructure {
+public class PathUtil implements SpawnableStructure {
     public final static String TAG = "PathUtil";
 
-    private int pathRows;
-    private int pathCols;
-    private int pathWidth;
-    private int edgeLength;
+    private final int pathRows;
+    private final int pathCols;
+    private final int pathWidth;
+    private final int edgeLength;
+    private final double cellDim;
+    private final Material pathMaterial;
     private int startLoc;
     private int endLoc;
-    private double cellDim;
     private boolean findShortestPath;
     private Long seed = null;
-    private Material pathMaterial;
     private Material shortestPathMaterial;
     private List<Integer> path;
     private MazeGenerator mazeGenerator;
@@ -49,7 +48,7 @@ public class PathUtil  implements SpawnableStructure {
         this.edgeLength = edgeLength;
         this.pathMaterial = pathMaterial;
         startLoc = 0;
-        endLoc = pathRows*pathCols - 1;
+        endLoc = pathRows * pathCols - 1;
         findShortestPath = false;
     }
 
@@ -71,7 +70,7 @@ public class PathUtil  implements SpawnableStructure {
         this.pathMaterial = pathMaterial;
         this.seed = seed;
         startLoc = 0;
-        endLoc = pathRows*pathCols - 1;
+        endLoc = pathRows * pathCols - 1;
         findShortestPath = false;
     }
 
@@ -80,7 +79,7 @@ public class PathUtil  implements SpawnableStructure {
         this.shortestPathMaterial = shortestPathMaterial;
     }
 
-    public void setStartEndLocation(int startLoc, int endLoc){
+    public void setStartEndLocation(int startLoc, int endLoc) {
         this.startLoc = startLoc;
         this.endLoc = endLoc;
     }
@@ -112,15 +111,15 @@ public class PathUtil  implements SpawnableStructure {
         }
 
         // if the user wants to show the shortest path on the path
-        if(this.findShortestPath) {
+        if (this.findShortestPath) {
             // read the deleted edges into the graph
-            graph = new GraphUtil(pathRows*pathCols);
+            graph = new GraphUtil(pathRows * pathCols);
             for (Edge w : mazeGenerator.getDeletedWalls()) {
-                graph.addEdge(new Edge(w.v1,w.v2));
-                graph.addEdge(new Edge(w.v2,w.v1));
+                graph.addEdge(new Edge(w.v1, w.v2));
+                graph.addEdge(new Edge(w.v2, w.v1));
             }
-            path = graph.Dijkstra(startLoc,endLoc);
-            if(path == null)findShortestPath = false;
+            path = graph.Dijkstra(startLoc, endLoc);
+            if (path == null) findShortestPath = false;
         }
 
 
@@ -134,8 +133,8 @@ public class PathUtil  implements SpawnableStructure {
                 if (mi % 2 == 0 && mj % 2 == 0) {
                     Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                     cube.getShape().setMaterial(pathMaterial);
-                    System.out.println(currX+" "+currZ);
-                    block_map.put(new Point2D(startingX + cellDim*j , startingZ + cellDim *i), cube);
+                    System.out.println(currX + " " + currZ);
+                    block_map.put(new Point2D(startingX + cellDim * j, startingZ + cellDim * i), cube);
                 }
                 currX += cellDim;
 
@@ -186,59 +185,59 @@ public class PathUtil  implements SpawnableStructure {
         }
 
         // if a path has been found draw it
-        if(findShortestPath){
+        if (findShortestPath) {
 
             currIndex = 0;
             nextIndex = 1;
-            mi = ((2*(startLoc%pathCols))*pathWidth)+(pathWidth/2);   // individual cube coordinates
-            mj = ((2*(startLoc/pathCols))*pathWidth)+(pathWidth/2);
-            i = ((2*(endLoc%pathCols))*pathWidth)+(pathWidth/2);
-            j = ((2*(endLoc/pathCols))*pathWidth)+(pathWidth/2);
-            currX = startingX+mi*cellDim;
-            currZ = startingZ+mj*cellDim;
-            while(true){
+            mi = ((2 * (startLoc % pathCols)) * pathWidth) + (pathWidth / 2);   // individual cube coordinates
+            mj = ((2 * (startLoc / pathCols)) * pathWidth) + (pathWidth / 2);
+            i = ((2 * (endLoc % pathCols)) * pathWidth) + (pathWidth / 2);
+            j = ((2 * (endLoc / pathCols)) * pathWidth) + (pathWidth / 2);
+            currX = startingX + mi * cellDim;
+            currZ = startingZ + mj * cellDim;
+            while (true) {
                 // draw the cube
-                Base_Cube cube = new Base_Cube("Path Block", cellDim,2,cellDim);
+                Base_Cube cube = new Base_Cube("Path Block", cellDim, 2, cellDim);
                 cube.getShape().setMaterial(shortestPathMaterial);
                 block_map.put(new Point2D(currX, currZ), cube);
 
                 // if reached the end of the path
-                if(mj==j && mi==i){
+                if (mj == j && mi == i) {
                     break;
                 }
 
                 // set currIndex and next Index
-                if( mj==((2*(path.get(nextIndex)%pathCols))*pathWidth)+(pathWidth/2) && mi==((2*(path.get(nextIndex)/pathCols))*pathWidth)+(pathWidth/2) ){
+                if (mj == ((2 * (path.get(nextIndex) % pathCols)) * pathWidth) + (pathWidth / 2) && mi == ((2 * (path.get(nextIndex) / pathCols)) * pathWidth) + (pathWidth / 2)) {
                     currIndex++;
                     nextIndex++;
                 }
 
                 // change the coordinates to draw next block
                 //up
-                if (path.get(currIndex)==path.get(nextIndex)-pathCols){
+                if (path.get(currIndex) == path.get(nextIndex) - pathCols) {
                     System.out.println("up");
-                    currZ+=cellDim;
+                    currZ += cellDim;
                     mi++;
 
                 }
                 //down
-                else if(path.get(currIndex)==path.get(nextIndex)+pathCols){
+                else if (path.get(currIndex) == path.get(nextIndex) + pathCols) {
                     System.out.println("down");
-                    currZ-=cellDim;
+                    currZ -= cellDim;
                     mi--;
 
                 }
 
                 //left
-                else if(path.get(currIndex)==path.get(nextIndex)-1){
+                else if (path.get(currIndex) == path.get(nextIndex) - 1) {
                     System.out.println("right");
-                    currX+=cellDim;
+                    currX += cellDim;
                     mj++;
                 }
                 //right
-                else if(path.get(currIndex)==path.get(nextIndex)+1){
+                else if (path.get(currIndex) == path.get(nextIndex) + 1) {
                     System.out.println("left");
-                    currX-=cellDim;
+                    currX -= cellDim;
                     mj--;
                 }
             }

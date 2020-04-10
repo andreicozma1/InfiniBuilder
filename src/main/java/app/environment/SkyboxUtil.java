@@ -1,64 +1,64 @@
 package app.environment;
 
 import app.utils.Log;
+import app.utils.ResourcesUtil;
 import javafx.geometry.Point3D;
-import javafx.scene.*;
+import javafx.scene.AmbientLight;
+import javafx.scene.DepthTest;
+import javafx.scene.Group;
+import javafx.scene.PointLight;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.CullFace;
 import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
-import app.utils.ResourcesUtil;
 
 public class SkyboxUtil {
-    private static final String TAG = "SkyboxUtil";
-    
-    private final EnvironmentUtil context;
-    private final Group group_skybox;
-
-    private AmbientLight ambient = null;
-    private int sun_moon_period_multiplier = 128;
-    private int big_planet_period_multiplier = 128;
-    private final double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
-    private double sun_rotation_speed = .05;
-    private double moon_rotation_speed = .05;
-    private final double big_star_rotate_speed = .005;
-
     public static final int MODE_CYCLE = 0;
     public static final int MODE_DAY = 1;
     public static final int MODE_NIGHT = 2;
-    private int MODE_CURR;
-
+    private static final String TAG = "SkyboxUtil";
+    private final EnvironmentUtil context;
+    private final Group group_skybox;
+    private final double sun_offset_ratio = 0; // value between -1 and 1 (shifts sin up)
+    private final double big_star_rotate_speed = .005;
     //TODO? Put these in classes?
     private final Sphere sun;
     private final Rotate sun_rotate;
     private final PointLight sunlight;
-    private double sun_distance;
-    Color suncolor;
-    Color dayskycolor;
-    Color sunset_color;
-
     //TODO? Put these in classes?
     private final Sphere moon;
     private final Rotate moon_rotate;
     private final PointLight moonlight;
-    private double moon_distance;
-    Color mooncolor;
-    Color nightskycolor;
-
     private final Sphere big_star;
     private final Rotate big_star_rotate;
-    private double big_star_distance;
-
     private final Sphere clouds;
     private final double clouds_rotate_speed;
     private final Rotate clouds_rotate_x;
     private final Rotate clouds_rotate_y;
     private final Rotate clouds_rotate_z;
     private final double clouds_height;
-
     public double planet_diameter = 8000;
+    Color suncolor;
+    Color dayskycolor;
+    Color sunset_color;
+    Color mooncolor;
+    Color nightskycolor;
+    private AmbientLight ambient = null;
+    private int sun_moon_period_multiplier = 128;
+    private int big_planet_period_multiplier = 128;
+    private double sun_rotation_speed = .05;
+    private double moon_rotation_speed = .05;
+    private int MODE_CURR;
+    private double sun_distance;
+    private double moon_distance;
+    private double big_star_distance;
+    /**
+     *
+     */
+
+    private double fixed_time = -1; // set as default to -1 to track whether the user set it manually
 
     /**
      * Constructor for SkyboxUtil. This initializes
@@ -66,7 +66,7 @@ public class SkyboxUtil {
      * @param envir
      */
     public SkyboxUtil(EnvironmentUtil envir) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         context = envir;
         group_skybox = new Group();
@@ -130,12 +130,6 @@ public class SkyboxUtil {
 
         group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight, big_star, clouds);
     }
-
-    /**
-     *
-     */
-
-    private double fixed_time = -1; // set as default to -1 to track whether the user set it manually
     // if this variable is not -1, use this value as the game_time value
 
     void update_handler() {
@@ -143,7 +137,7 @@ public class SkyboxUtil {
         double game_time;
         switch (MODE_CURR) {
             case MODE_DAY:
-                game_time = -Math.PI / 2 / 6.5* sun_moon_period_multiplier;
+                game_time = -Math.PI / 2 / 6.5 * sun_moon_period_multiplier;
                 break;
             case MODE_NIGHT:
                 game_time = Math.PI / 2 / 6.5 * sun_moon_period_multiplier;
@@ -157,9 +151,9 @@ public class SkyboxUtil {
                 break;
         }
 
-        rotateSun(game_time / sun_moon_period_multiplier *6.5, sun_distance);
-        rotateMoon(game_time / sun_moon_period_multiplier *6.5, moon_distance);
-        rotateBigStar(game_time / big_planet_period_multiplier*6.5, big_star_distance);
+        rotateSun(game_time / sun_moon_period_multiplier * 6.5, sun_distance);
+        rotateMoon(game_time / sun_moon_period_multiplier * 6.5, moon_distance);
+        rotateBigStar(game_time / big_planet_period_multiplier * 6.5, big_star_distance);
         rotateClouds(game_time);
     }
 
@@ -258,11 +252,18 @@ public class SkyboxUtil {
 
     }
 
+    public double getSunScale() {
+        return sun.getScaleX();
+    }
 
     public void setSunScale(double scale) {
         sun.setScaleX(scale);
         sun.setScaleY(scale);
         sun.setScaleZ(scale);
+    }
+
+    public double getMoonScale() {
+        return moon.getScaleX();
     }
 
     public void setMoonScale(double scale) {
@@ -271,23 +272,14 @@ public class SkyboxUtil {
         moon.setScaleZ(scale);
     }
 
+    public double getBigStarScale() {
+        return big_star.getScaleX();
+    }
 
     public void setBigStarScale(double scale) {
         big_star.setScaleX(scale);
         big_star.setScaleY(scale);
         big_star.setScaleZ(scale);
-    }
-
-    public double getSunScale() {
-        return sun.getScaleX();
-    }
-
-    public double getMoonScale() {
-        return moon.getScaleX();
-    }
-
-    public double getBigStarScale() {
-        return big_star.getScaleX();
     }
 
     public void setSunMaterial(PhongMaterial mat) {
@@ -318,20 +310,20 @@ public class SkyboxUtil {
         return sun_distance;
     }
 
-    public double getMoonDistance() {
-        return moon_distance;
-    }
-
-    public double getBigStarDistance() {
-        return big_star_distance;
-    }
-
     public void setSunDistance(double dist) {
         sun_distance = clouds_height + dist;
     }
 
+    public double getMoonDistance() {
+        return moon_distance;
+    }
+
     public void setMoonDistance(double dist) {
         moon_distance = clouds_height + dist;
+    }
+
+    public double getBigStarDistance() {
+        return big_star_distance;
     }
 
     public void setBigStarDistance(double dist) {
@@ -356,13 +348,13 @@ public class SkyboxUtil {
     }
 
     public void setSun_moon_period_multiplier(int num) {
-        try{
-            if(num > 0){
+        try {
+            if (num > 0) {
                 sun_moon_period_multiplier = num;
-            } else{
+            } else {
                 throw new IndexOutOfBoundsException();
             }
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
@@ -372,13 +364,13 @@ public class SkyboxUtil {
     }
 
     public void setBig_planet_period_multiplier(int num) {
-        try{
-            if(num > 0){
+        try {
+            if (num > 0) {
                 big_planet_period_multiplier = num;
-            } else{
+            } else {
                 throw new IndexOutOfBoundsException();
             }
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     }
@@ -396,13 +388,13 @@ public class SkyboxUtil {
     }
 
     public void setFixedTime(double t) {
-        try{
-            if(t >= -1){
+        try {
+            if (t >= -1) {
                 fixed_time = t;
-            } else{
+            } else {
                 throw new IndexOutOfBoundsException();
             }
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
     } // -1 uses System Time. Any other value locks it to a specific time
@@ -411,12 +403,12 @@ public class SkyboxUtil {
         return group_skybox;
     }
 
-    public void setMode(int mode_new) {
-        MODE_CURR = mode_new;
-    }
-
     public int getMode() {
         return MODE_CURR;
+    }
+
+    public void setMode(int mode_new) {
+        MODE_CURR = mode_new;
     }
 
     public void cycleModes() {

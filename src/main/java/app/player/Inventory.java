@@ -7,10 +7,10 @@ import app.structures.StructureBuilder;
 import app.utils.InventoryUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -41,7 +41,10 @@ public class Inventory extends HUDElement {
     private final double slotWidth;
     private final double slotHeight;
     private final double borderWidth;
-    private int slotsDisplayed;
+    private final int slotsDisplayed;
+    private final double screenWidth;
+    private final double screenHeight;
+    public GameBuilder context;
     private int swapSlot1;
     private int swapSlot2;
     private int selected = -1;
@@ -55,10 +58,6 @@ public class Inventory extends HUDElement {
     private Paint selectedItemColor = Color.YELLOW;
     private Paint emptyItemColor = Color.DARKGRAY;
     private Paint borderColor = Color.BLACK;
-    private double screenWidth;
-    private double screenHeight;
-
-    public GameBuilder context;
 
 
     public Inventory(String elementTag,
@@ -124,57 +123,44 @@ public class Inventory extends HUDElement {
         return panelColor;
     }
 
-    public Paint getSlotColor() {
-        return slotColor;
-    }
-
-    public Paint getSelectedItemColor() {
-        return selectedItemColor;
-    }
-
-    public Paint getEmptyItemColor() {
-        return emptyItemColor;
-    }
-
-    public Paint getBorderColor() {
-        return borderColor;
-    }
-
-    public boolean isVertical() {
-        return isVertical;
-    }
-
-    public boolean isDisplayNumbers() {
-        return displayNumbers;
-    }
-
-    public boolean isExtendedInventoryDisplayed() {
-        return isExtendedInventoryDisplayed;
-    }
-
     public void setPanelColor(Paint panelColor) {
         this.panelColor = panelColor;
+    }
+
+    public Paint getSlotColor() {
+        return slotColor;
     }
 
     public void setSlotColor(Paint slotColor) {
         this.slotColor = slotColor;
     }
 
+    public Paint getSelectedItemColor() {
+        return selectedItemColor;
+    }
+
     public void setSelectedItemColor(Paint selectedItemColor) {
         this.selectedItemColor = selectedItemColor;
+    }
+
+    public Paint getEmptyItemColor() {
+        return emptyItemColor;
     }
 
     public void setEmptyItemColor(Paint emptyItemColor) {
         this.emptyItemColor = emptyItemColor;
     }
 
+    public Paint getBorderColor() {
+        return borderColor;
+    }
+
     public void setBorderColor(Paint borderColor) {
         this.borderColor = borderColor;
     }
 
-    public void toggleExtendedInventoryDisplayed() {
-        isExtendedInventoryDisplayed = !isExtendedInventoryDisplayed;
-        update();
+    public boolean isVertical() {
+        return isVertical;
     }
 
     public void setVertical(boolean vertical) {
@@ -186,16 +172,29 @@ public class Inventory extends HUDElement {
         }
     }
 
+    public boolean isDisplayNumbers() {
+        return displayNumbers;
+    }
+
     public void setDisplayNumbers(boolean displayNumbers) {
         this.displayNumbers = displayNumbers;
     }
 
-    public void setSelected(int selected) {
-        this.selected = selected;
+    public boolean isExtendedInventoryDisplayed() {
+        return isExtendedInventoryDisplayed;
+    }
+
+    public void toggleExtendedInventoryDisplayed() {
+        isExtendedInventoryDisplayed = !isExtendedInventoryDisplayed;
+        update();
     }
 
     public int getSelected() {
         return selected;
+    }
+
+    public void setSelected(int selected) {
+        this.selected = selected;
     }
 
     public void swap(int s1, int s2) {

@@ -2,7 +2,6 @@ package app.GUI.menu;
 
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
-import app.player.Inventory;
 import app.utils.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -15,83 +14,13 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import java.util.*;
+import java.util.HashMap;
 
 
 public class MenuUtil {
 
-    // class variables
-    Scene SCENE_MENU;
-    GameBuilder context;
-    private final String singleArrow = ">";
-    private final String doubleArrow = ">>";
-    private final Font title = Font.font("Monospaced",FontWeight.BOLD,FontPosture.REGULAR,30);
-    private final Font options = Font.font("Monospaced",FontWeight.NORMAL,FontPosture.REGULAR,25);
-    private final Color GREEN = Color.valueOf("#20C20E");
-
-
-
-    // main menu group
-    InterfaceBuilder mainMenu;
-
-    // settings groups
-    InterfaceBuilder settingsMenu;
-    InterfaceBuilder environmentMenu;
-    InterfaceBuilder skyBoxMenu;
-    InterfaceBuilder playerMenu;
-    InterfaceBuilder cameraMenu;
-    InterfaceBuilder graphicsMenu;
-
-    // menu to explain the controls
-    InterfaceBuilder controlsMenu;
-
-    // menu to explain the project
-    InterfaceBuilder aboutMenu;
-
-
-
-    // variables for the settings menu return state
-    private String settingsReturnState;
     public static final String PAUSE = "PAUSE";
     public static final String MAIN = "MAIN";
-
-    // world generation settings
-    private int curr_world_type = 0;
-    private double curr_world_height_mult;
-    private double curr_vegetation_mult;
-    private double curr_render_distance;
-    private boolean curr_terrain_has_water;
-
-    // sky box settings
-    private double curr_sun_scale;
-    private double curr_moon_scale;
-    private double curr_big_star_scale;
-    private int curr_sun_moon_period;
-    private int curr_big_star_period;
-
-    // player settings
-    private double curr_fly_speed;
-    private double curr_jump_height;
-    private double curr_run_speed;
-    private double curr_jump_cut_off_height;
-
-    // camera settings
-    private int curr_fov_default;
-    private double curr_fov_running;
-    private double curr_fov_tired;
-
-    // graphics settings
-    private double curr_sepia_tone;
-    private double curr_bloom;
-    private double curr_contrast;
-    private double curr_saturation;
-    private double curr_hue;
-    private double curr_brightness;
-    private boolean is_trip_mode;
-    private boolean is_motion_blur;
-
-
-
     // static strings to access any menu from the menuGroupHashMap
     public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
     public static String GROUP_CONTROLS = "GROUP_CONTROLS";
@@ -102,10 +31,62 @@ public class MenuUtil {
     public static String GROUP_CAMERA = "GROUP_CAMERA";
     public static String GROUP_ABOUT = "GROUP_ABOUT";
     public static String GROUP_GRAPHICS = "GROUP_GRAPHICS";
-
+    private final String singleArrow = ">";
+    private final String doubleArrow = ">>";
+    private final Font title = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR, 30);
+    private final Font options = Font.font("Monospaced", FontWeight.NORMAL, FontPosture.REGULAR, 25);
+    private final Color GREEN = Color.valueOf("#20C20E");
+    public HashMap<String, Group> menuGroupMap = new HashMap<>();
+    // class variables
+    Scene SCENE_MENU;
+    GameBuilder context;
+    // main menu group
+    InterfaceBuilder mainMenu;
+    // settings groups
+    InterfaceBuilder settingsMenu;
+    InterfaceBuilder environmentMenu;
+    InterfaceBuilder skyBoxMenu;
+    InterfaceBuilder playerMenu;
+    InterfaceBuilder cameraMenu;
+    InterfaceBuilder graphicsMenu;
+    // menu to explain the controls
+    InterfaceBuilder controlsMenu;
+    // menu to explain the project
+    InterfaceBuilder aboutMenu;
     // variables to hold and keep track of the different menus
     String currentGroup;
-    public HashMap<String, Group> menuGroupMap = new HashMap<>();
+    // variables for the settings menu return state
+    private String settingsReturnState;
+    // world generation settings
+    private int curr_world_type = 0;
+    private double curr_world_height_mult;
+    private double curr_vegetation_mult;
+    private double curr_render_distance;
+    private boolean curr_terrain_has_water;
+    // sky box settings
+    private double curr_sun_scale;
+    private double curr_moon_scale;
+    private double curr_big_star_scale;
+    private int curr_sun_moon_period;
+    private int curr_big_star_period;
+    // player settings
+    private double curr_fly_speed;
+    private double curr_jump_height;
+    private double curr_run_speed;
+    private double curr_jump_cut_off_height;
+    // camera settings
+    private int curr_fov_default;
+    private double curr_fov_running;
+    private double curr_fov_tired;
+    // graphics settings
+    private double curr_sepia_tone;
+    private double curr_bloom;
+    private double curr_contrast;
+    private double curr_saturation;
+    private double curr_hue;
+    private double curr_brightness;
+    private boolean is_trip_mode;
+    private boolean is_motion_blur;
 
     public MenuUtil(GameBuilder ctx) {
         context = ctx;
@@ -116,7 +97,7 @@ public class MenuUtil {
         controlsMenu = new InterfaceBuilder();
         aboutMenu = new InterfaceBuilder();
         settingsMenu = new InterfaceBuilder();
-        environmentMenu= new InterfaceBuilder();
+        environmentMenu = new InterfaceBuilder();
         skyBoxMenu = new InterfaceBuilder();
         playerMenu = new InterfaceBuilder();
         cameraMenu = new InterfaceBuilder();
@@ -180,15 +161,15 @@ public class MenuUtil {
         addGroup(GROUP_CAMERA, cameraMenu.getGroup());
         addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
         addGroup(GROUP_ABOUT, aboutMenu.getGroup());
-        addGroup(GROUP_CONTROLS,aboutMenu.getGroup());
-        addGroup(GROUP_GRAPHICS,graphicsMenu.getGroup());
+        addGroup(GROUP_CONTROLS, aboutMenu.getGroup());
+        addGroup(GROUP_GRAPHICS, graphicsMenu.getGroup());
 
         setControlScheme();
     }
 
-    public void setControlScheme(){
+    public void setControlScheme() {
         SCENE_MENU.setOnKeyReleased(keyEvent -> {
-            switch(keyEvent.getCode()){
+            switch (keyEvent.getCode()) {
                 case ESCAPE:
                     context.getWindow().closeWindow();
                     break;
@@ -212,16 +193,18 @@ public class MenuUtil {
         SCENE_MENU.setRoot(menuGroupMap.get(name));
     }
 
-    public Scene getScene(){
+    public Scene getScene() {
         return SCENE_MENU;
     }
 
-    public void setSettingsReturnState(String state){settingsReturnState = state;}
+    public void setSettingsReturnState(String state) {
+        settingsReturnState = state;
+    }
 
     public void buildMainMenu() {
 
         // draw black backdrop
-        mainMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
+        mainMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
         //draw title
         mainMenu.drawText("ROOT@CS307:~$",
@@ -239,13 +222,13 @@ public class MenuUtil {
         // Start button handler
         Text startArrow = mainMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text startText = mainMenu.drawText("./Start_Game", 95, 140, Color.WHITE, options);
-        Rectangle startHitBox = mainMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        Rectangle startHitBox = mainMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
         startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         context.getComponents().getEnvironment().reset();
                         context.getWindow().showScene(context.getWindow().getRootScene());
-                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).update();
+                        context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
 
                     }
                 });
@@ -267,7 +250,7 @@ public class MenuUtil {
         //options handler
         Text settingsArrow = mainMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text settingsText = mainMenu.drawText("./Settings", 95, 190, Color.WHITE, options);
-        Rectangle settingsHitBox = mainMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        Rectangle settingsHitBox = mainMenu.drawRectangle(50, 170, 600, 30, 0, 0, Color.TRANSPARENT);
         settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
@@ -294,10 +277,12 @@ public class MenuUtil {
         //controls handler
         Text controlsArrow = mainMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text controlsText = mainMenu.drawText("./Controls", 95, 240, Color.WHITE, options);
-        Rectangle controlsHitBox = mainMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        Rectangle controlsHitBox = mainMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
         controlsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_CONTROLS); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_CONTROLS);
+                    }
                 });
         controlsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -317,10 +302,12 @@ public class MenuUtil {
         //about handler
         Text aboutArrow = mainMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text aboutText = mainMenu.drawText("./About", 95, 290, Color.WHITE, options);
-        Rectangle aboutHitBox = mainMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
+        Rectangle aboutHitBox = mainMenu.drawRectangle(50, 270, 600, 30, 0, 0, Color.TRANSPARENT);
         aboutHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_ABOUT); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_ABOUT);
+                    }
                 });
         aboutHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -340,10 +327,12 @@ public class MenuUtil {
         //quit handler
         Text quitArrow = mainMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text quitText = mainMenu.drawText("./Quit", 95, 340, Color.WHITE, options);
-        Rectangle quitHitBox = mainMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        Rectangle quitHitBox = mainMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
         quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { context.getWindow().getStage().close(); }
+                    public void handle(MouseEvent me) {
+                        context.getWindow().getStage().close();
+                    }
                 });
         quitHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -363,7 +352,7 @@ public class MenuUtil {
 
     public void buildControlsMenu() {
         // draw black backdrop
-        controlsMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
+        controlsMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
         //draw title
         controlsMenu.drawText("ROOT@CS307:~/Controls$",
@@ -381,10 +370,12 @@ public class MenuUtil {
         //quit handler
         Text returnArrow = controlsMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text returnText = controlsMenu.drawText("./Quit", 95, 340, Color.WHITE, options);
-        Rectangle returnHitBox = controlsMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        Rectangle returnHitBox = controlsMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_MAIN_MENU); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_MAIN_MENU);
+                    }
                 });
         returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -407,7 +398,7 @@ public class MenuUtil {
 
     public void buildSettingsMenu() {
         // draw black backdrop
-        settingsMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
+        settingsMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
         //draw title
         settingsMenu.drawText("ROOT@CS307:~/Settings$",
@@ -425,10 +416,12 @@ public class MenuUtil {
 
         Text environmentArrow = settingsMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text environmentText = settingsMenu.drawText("cd Environment_Settings", 95, 140, Color.WHITE, options);
-        Rectangle environmentHitBox = settingsMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        Rectangle environmentHitBox = settingsMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
         environmentHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_ENVIRONMENT); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_ENVIRONMENT);
+                    }
                 });
         environmentHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -447,10 +440,12 @@ public class MenuUtil {
 
         Text skyBoxArrow = settingsMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text skyBoxText = settingsMenu.drawText("cd SkyBox_Settings", 95, 190, Color.WHITE, options);
-        Rectangle skyBoxHitBox = settingsMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        Rectangle skyBoxHitBox = settingsMenu.drawRectangle(50, 170, 600, 30, 0, 0, Color.TRANSPARENT);
         skyBoxHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_SKYBOX); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_SKYBOX);
+                    }
                 });
         skyBoxHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -469,10 +464,12 @@ public class MenuUtil {
 
         Text playerArrow = settingsMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text playerText = settingsMenu.drawText("cd Player_Settings", 95, 240, Color.WHITE, options);
-        Rectangle playerHitBox = settingsMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        Rectangle playerHitBox = settingsMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
         playerHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_PLAYER); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_PLAYER);
+                    }
                 });
         playerHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -491,10 +488,12 @@ public class MenuUtil {
 
         Text cameraArrow = settingsMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text cameraText = settingsMenu.drawText("cd Camera_Settings", 95, 290, Color.WHITE, options);
-        Rectangle cameraHitBox = settingsMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
+        Rectangle cameraHitBox = settingsMenu.drawRectangle(50, 270, 600, 30, 0, 0, Color.TRANSPARENT);
         cameraHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_CAMERA); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_CAMERA);
+                    }
                 });
         cameraHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -512,10 +511,12 @@ public class MenuUtil {
                 });
         Text graphicsArrow = settingsMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text graphicsText = settingsMenu.drawText("cd Graphics_Settings", 95, 340, Color.WHITE, options);
-        Rectangle graphicsHitBox = settingsMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        Rectangle graphicsHitBox = settingsMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
         graphicsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_GRAPHICS); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_GRAPHICS);
+                    }
                 });
         graphicsHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -535,13 +536,13 @@ public class MenuUtil {
         //quit handler
         Text returnArrow = settingsMenu.drawText(singleArrow, 50, 390, GREEN, options);
         Text returnText = settingsMenu.drawText("cd ..", 95, 390, Color.WHITE, options);
-        Rectangle returnHitBox = settingsMenu.drawRectangle(50,370,600,30,0,0,Color.TRANSPARENT);
+        Rectangle returnHitBox = settingsMenu.drawRectangle(50, 370, 600, 30, 0, 0, Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        if(settingsReturnState==MAIN){
+                        if (settingsReturnState == MAIN) {
                             activateGroup(GROUP_MAIN_MENU);
-                        }else {
+                        } else {
                             context.getWindow().showScene(context.getWindow().getRootScene());
                         }
                     }
@@ -565,9 +566,9 @@ public class MenuUtil {
     }
 
 
-    public void buildEnvironmentMenu(){
+    public void buildEnvironmentMenu() {
         // draw black backdrop
-        environmentMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
+        environmentMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
         //draw title
         environmentMenu.drawText("ROOT@CS307:~/Settings/Environment$",
@@ -585,14 +586,14 @@ public class MenuUtil {
         // World Height Multiplier
 
         Text worldHeightArrow = environmentMenu.drawText(singleArrow, 50, 140, GREEN, options);
-        Text worldHeightText= environmentMenu.drawText("./World_Height_Multiplier", 95, 140, Color.WHITE, options);
+        Text worldHeightText = environmentMenu.drawText("./World_Height_Multiplier", 95, 140, Color.WHITE, options);
         Text worldHeightMult = environmentMenu.drawText((int) curr_world_height_mult + " blocks", 550, 140, Color.WHITE, options);
-        Rectangle worldHeightHitBox = environmentMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        Rectangle worldHeightHitBox = environmentMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
         worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_world_height_mult +=5;
-                        if(curr_world_height_mult >35) curr_world_height_mult = 0;
+                        curr_world_height_mult += 5;
+                        if (curr_world_height_mult > 35) curr_world_height_mult = 0;
                         worldHeightMult.setText((int) curr_world_height_mult + " blocks");
                         context.getComponents().getEnvironment().setTerrainHeightMultiplier(curr_world_height_mult);
                     }
@@ -617,15 +618,15 @@ public class MenuUtil {
         // Vegetation Multiplier
 
         Text vegetationArrow = environmentMenu.drawText(singleArrow, 50, 190, GREEN, options);
-        Text vegetationText= environmentMenu.drawText("./Vegetation_Percent", 95, 190, Color.WHITE, options);
-        Text vegetationMult = environmentMenu.drawText((int) curr_vegetation_mult +"%", 550, 190, Color.WHITE, options);
-        Rectangle vegetationHitBox = environmentMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        Text vegetationText = environmentMenu.drawText("./Vegetation_Percent", 95, 190, Color.WHITE, options);
+        Text vegetationMult = environmentMenu.drawText((int) curr_vegetation_mult + "%", 550, 190, Color.WHITE, options);
+        Rectangle vegetationHitBox = environmentMenu.drawRectangle(50, 170, 600, 30, 0, 0, Color.TRANSPARENT);
         vegetationHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_vegetation_mult+=5;
-                        if(curr_vegetation_mult>100)curr_vegetation_mult=0;
-                        vegetationMult.setText((int) curr_vegetation_mult +"%");
+                        curr_vegetation_mult += 5;
+                        if (curr_vegetation_mult > 100) curr_vegetation_mult = 0;
+                        vegetationMult.setText((int) curr_vegetation_mult + "%");
                         context.getComponents().getEnvironment().setVegetationDensityPercent(curr_vegetation_mult);
                     }
                 });
@@ -651,15 +652,15 @@ public class MenuUtil {
         Text worldTypeArrow = environmentMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text worldTypeText = environmentMenu.drawText("./World_Type", 95, 240, Color.WHITE, options);
         Text worldTypeChoice = environmentMenu.drawText(ResourcesUtil.world_types_sorted.get(curr_world_type), 550, 240, Color.WHITE, options);
-        Rectangle worldTypeHitBox = environmentMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        Rectangle worldTypeHitBox = environmentMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
         worldTypeHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_world_type++;
-                        if(curr_world_type == ResourcesUtil.world_types_sorted.size())curr_world_type = 0;
+                        if (curr_world_type == ResourcesUtil.world_types_sorted.size()) curr_world_type = 0;
                         String world_type = ResourcesUtil.world_types_sorted.get(curr_world_type);
                         worldTypeChoice.setText(world_type);
-                        System.out.println(world_type +" "+ResourcesUtil.world_types.get(world_type));
+                        System.out.println(world_type + " " + ResourcesUtil.world_types.get(world_type));
                         context.getComponents().getEnvironment().setTerrainBlockType(ResourcesUtil.world_types.get(world_type));
                     }
                 });
@@ -682,14 +683,14 @@ public class MenuUtil {
 
         // render distance
         Text renderDistanceArrow = environmentMenu.drawText(singleArrow, 50, 290, GREEN, options);
-        Text renderDistanceText= environmentMenu.drawText("./Render_Distance", 95, 290, Color.WHITE, options);
+        Text renderDistanceText = environmentMenu.drawText("./Render_Distance", 95, 290, Color.WHITE, options);
         Text renderDistanceMult = environmentMenu.drawText((int) curr_render_distance + " blocks", 550, 290, Color.WHITE, options);
-        Rectangle renderDistanceHitBox = environmentMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
+        Rectangle renderDistanceHitBox = environmentMenu.drawRectangle(50, 270, 600, 30, 0, 0, Color.TRANSPARENT);
         renderDistanceHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_render_distance+=5;
-                        if(curr_render_distance>75)curr_render_distance=0;
+                        curr_render_distance += 5;
+                        if (curr_render_distance > 75) curr_render_distance = 0;
                         renderDistanceMult.setText((int) curr_render_distance + " blocks");
                         context.getComponents().getEnvironment().setTerrainGenerateDistance(curr_render_distance);
                     }
@@ -715,12 +716,12 @@ public class MenuUtil {
         // if the terrain has water
         Text hasWaterArrow = environmentMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text hasWaterText = environmentMenu.drawText("./Has_Water", 95, 340, Color.WHITE, options);
-        Text hasWaterChoice = environmentMenu.drawText( String.valueOf(curr_terrain_has_water), 550, 340, Color.WHITE, options);
-        Rectangle hasWaterHitBox = environmentMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        Text hasWaterChoice = environmentMenu.drawText(String.valueOf(curr_terrain_has_water), 550, 340, Color.WHITE, options);
+        Rectangle hasWaterHitBox = environmentMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
         hasWaterHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_terrain_has_water= !curr_terrain_has_water;
+                        curr_terrain_has_water = !curr_terrain_has_water;
 
                         hasWaterChoice.setText(String.valueOf(curr_terrain_has_water));
                         context.getComponents().getEnvironment().setTerrainShouldHaveWater(curr_terrain_has_water);
@@ -746,10 +747,12 @@ public class MenuUtil {
         //quit handler
         Text returnArrow = environmentMenu.drawText(singleArrow, 50, 390, GREEN, options);
         Text returnText = environmentMenu.drawText("./Back", 95, 390, Color.WHITE, options);
-        Rectangle returnHitBox = environmentMenu.drawRectangle(50,370,600,30,0,0,Color.TRANSPARENT);
+        Rectangle returnHitBox = environmentMenu.drawRectangle(50, 370, 600, 30, 0, 0, Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_SETTINGS);
+                    }
                 });
         returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -769,9 +772,9 @@ public class MenuUtil {
     }
 
 
-    public void buildSkyBoxMenu(){
+    public void buildSkyBoxMenu() {
         // draw black backdrop
-        skyBoxMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
+        skyBoxMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
         //draw title
         skyBoxMenu.drawText("ROOT@CS307:~/Settings/SkyBox$",
@@ -789,14 +792,14 @@ public class MenuUtil {
         // sun size multiplier
         Text sunArrow = skyBoxMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text sunText = skyBoxMenu.drawText("./Sun_Scale", 95, 140, Color.WHITE, options);
-        Text sunMult = skyBoxMenu.drawText(Integer.toString((int)curr_sun_scale), 550, 140, Color.WHITE, options);
-        Rectangle sunHitBox = skyBoxMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        Text sunMult = skyBoxMenu.drawText(Integer.toString((int) curr_sun_scale), 550, 140, Color.WHITE, options);
+        Rectangle sunHitBox = skyBoxMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
         sunHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_sun_scale +=500;
-                        if(curr_sun_scale == 10500) curr_sun_scale = 0;
-                        sunMult.setText(Integer.toString((int)curr_sun_scale));
+                        curr_sun_scale += 500;
+                        if (curr_sun_scale == 10500) curr_sun_scale = 0;
+                        sunMult.setText(Integer.toString((int) curr_sun_scale));
                         context.getComponents().getEnvironment().getSkybox().setSunScale(curr_sun_scale);
                     }
                 });
@@ -819,15 +822,15 @@ public class MenuUtil {
 
         // moon size multiplier
         Text moonArrow = skyBoxMenu.drawText(singleArrow, 50, 190, GREEN, options);
-        Text moonText= skyBoxMenu.drawText("./Moon_Scale", 95, 190, Color.WHITE, options);
-        Text moonMult = skyBoxMenu.drawText(Integer.toString((int)curr_moon_scale), 550, 190, Color.WHITE, options);
-        Rectangle moonHitBox = skyBoxMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        Text moonText = skyBoxMenu.drawText("./Moon_Scale", 95, 190, Color.WHITE, options);
+        Text moonMult = skyBoxMenu.drawText(Integer.toString((int) curr_moon_scale), 550, 190, Color.WHITE, options);
+        Rectangle moonHitBox = skyBoxMenu.drawRectangle(50, 170, 600, 30, 0, 0, Color.TRANSPARENT);
         moonHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_moon_scale +=500;
-                        if(curr_moon_scale == 8000) curr_moon_scale = 0;
-                        moonMult.setText(Integer.toString((int)curr_moon_scale));
+                        curr_moon_scale += 500;
+                        if (curr_moon_scale == 8000) curr_moon_scale = 0;
+                        moonMult.setText(Integer.toString((int) curr_moon_scale));
                         context.getComponents().getEnvironment().getSkybox().setMoonScale(curr_moon_scale);
                     }
                 });
@@ -850,15 +853,15 @@ public class MenuUtil {
 
         // big star size multiplier
         Text bigStarArrow = skyBoxMenu.drawText(singleArrow, 50, 240, GREEN, options);
-        Text bigStarText= skyBoxMenu.drawText("./Big_Star_Scale", 95, 240, Color.WHITE, options);
-        Text bigStarMult = skyBoxMenu.drawText(Integer.toString((int)curr_big_star_scale), 550, 240, Color.WHITE, options);
-        Rectangle bigStarHitBox = skyBoxMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        Text bigStarText = skyBoxMenu.drawText("./Big_Star_Scale", 95, 240, Color.WHITE, options);
+        Text bigStarMult = skyBoxMenu.drawText(Integer.toString((int) curr_big_star_scale), 550, 240, Color.WHITE, options);
+        Rectangle bigStarHitBox = skyBoxMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
         bigStarHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_big_star_scale +=500;
-                        if(curr_big_star_scale == 10500) curr_big_star_scale = 0;
-                        bigStarMult.setText(Integer.toString((int)curr_big_star_scale));
+                        curr_big_star_scale += 500;
+                        if (curr_big_star_scale == 10500) curr_big_star_scale = 0;
+                        bigStarMult.setText(Integer.toString((int) curr_big_star_scale));
                         context.getComponents().getEnvironment().getSkybox().setBigStarScale(curr_big_star_scale);
                     }
                 });
@@ -881,14 +884,14 @@ public class MenuUtil {
 
         // period multiplier for sun / moon  . cannot be 0. exponential up to 256
         Text sunMoonPeriodArrow = skyBoxMenu.drawText(singleArrow, 50, 290, GREEN, options);
-        Text sunMoonPeriodText= skyBoxMenu.drawText("./Sun_Moon_Period_Multiplier", 95, 290, Color.WHITE, options);
+        Text sunMoonPeriodText = skyBoxMenu.drawText("./Sun_Moon_Period_Multiplier", 95, 290, Color.WHITE, options);
         Text sunMoonPeriodMult = skyBoxMenu.drawText(curr_sun_moon_period + " sec", 550, 290, Color.WHITE, options);
-        Rectangle sunMoonPeriodHitBox = skyBoxMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
+        Rectangle sunMoonPeriodHitBox = skyBoxMenu.drawRectangle(50, 270, 600, 30, 0, 0, Color.TRANSPARENT);
         sunMoonPeriodHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_sun_moon_period *= 2;
-                        if(curr_sun_moon_period > 256) curr_sun_moon_period = 2;
+                        if (curr_sun_moon_period > 256) curr_sun_moon_period = 2;
                         sunMoonPeriodMult.setText(curr_sun_moon_period + " sec");
                         context.getComponents().getEnvironment().getSkybox().setSun_moon_period_multiplier(curr_sun_moon_period);
                     }
@@ -912,14 +915,14 @@ public class MenuUtil {
 
         // period multiplier for big star
         Text bigStarPeriodArrow = skyBoxMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text bigStarPeriodText= skyBoxMenu.drawText("./Big_Star_Period_Multiplier", 95, 340, Color.WHITE, options);
+        Text bigStarPeriodText = skyBoxMenu.drawText("./Big_Star_Period_Multiplier", 95, 340, Color.WHITE, options);
         Text bigStarPeriodMult = skyBoxMenu.drawText(curr_big_star_period + " sec", 550, 340, Color.WHITE, options);
-        Rectangle bigStarPeriodHitBox = skyBoxMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        Rectangle bigStarPeriodHitBox = skyBoxMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
         bigStarPeriodHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_big_star_period *= 2;
-                        if(curr_big_star_period > 256) curr_big_star_period = 2;
+                        if (curr_big_star_period > 256) curr_big_star_period = 2;
                         bigStarPeriodMult.setText(curr_big_star_period + " sec");
                         context.getComponents().getEnvironment().getSkybox().setBig_planet_period_multiplier(curr_big_star_period);
                     }
@@ -942,14 +945,15 @@ public class MenuUtil {
                 });
 
 
-
         //quit handler
         Text returnArrow = skyBoxMenu.drawText(singleArrow, 50, 440, GREEN, options);
         Text returnText = skyBoxMenu.drawText("./Back", 95, 440, Color.WHITE, options);
-        Rectangle returnHitBox = skyBoxMenu.drawRectangle(50,420,600,30,0,0,Color.TRANSPARENT);
+        Rectangle returnHitBox = skyBoxMenu.drawRectangle(50, 420, 600, 30, 0, 0, Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_SETTINGS);
+                    }
                 });
         returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -968,9 +972,9 @@ public class MenuUtil {
     }
 
 
-    public void buildPlayerMenu(){
+    public void buildPlayerMenu() {
         // draw black backdrop
-        playerMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
+        playerMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
         //draw title
         playerMenu.drawText("ROOT@CS307:~/Settings/Player$",
@@ -987,15 +991,15 @@ public class MenuUtil {
 
 
         Text playerFlySpeedArrow = playerMenu.drawText(singleArrow, 50, 140, GREEN, options);
-        Text playerFlySpeedText= playerMenu.drawText("./Fly_Speed", 95, 140, Color.WHITE, options);
-        Text playerFlySpeedMult = playerMenu.drawText(Integer.toString((int)curr_fly_speed), 550, 140, Color.WHITE, options);
-        Rectangle playerFlySpeedHitBox = playerMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        Text playerFlySpeedText = playerMenu.drawText("./Fly_Speed", 95, 140, Color.WHITE, options);
+        Text playerFlySpeedMult = playerMenu.drawText(Integer.toString((int) curr_fly_speed), 550, 140, Color.WHITE, options);
+        Rectangle playerFlySpeedHitBox = playerMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
         playerFlySpeedHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_fly_speed +=1;
-                        if(curr_fly_speed>10) curr_fly_speed =1;
-                        playerFlySpeedMult.setText(Integer.toString((int)curr_fly_speed));
+                        curr_fly_speed += 1;
+                        if (curr_fly_speed > 10) curr_fly_speed = 1;
+                        playerFlySpeedMult.setText(Integer.toString((int) curr_fly_speed));
                         context.getComponents().getPlayer().setFlySpeed(curr_fly_speed);
                     }
                 });
@@ -1018,14 +1022,14 @@ public class MenuUtil {
 
 
         Text playerJumpHeightArrow = playerMenu.drawText(singleArrow, 50, 190, GREEN, options);
-        Text playerJumpHeightText= playerMenu.drawText("./Jump_Height_Multiplier", 95, 190, Color.WHITE, options);
+        Text playerJumpHeightText = playerMenu.drawText("./Jump_Height_Multiplier", 95, 190, Color.WHITE, options);
         Text playerJumpHeightMult = playerMenu.drawText(Double.toString(curr_jump_height), 550, 190, Color.WHITE, options);
-        Rectangle playerJumpHeightHitBox = playerMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        Rectangle playerJumpHeightHitBox = playerMenu.drawRectangle(50, 170, 600, 30, 0, 0, Color.TRANSPARENT);
         playerJumpHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_jump_height +=.5;
-                        if(curr_jump_height>10) curr_jump_height = 0;
+                        curr_jump_height += .5;
+                        if (curr_jump_height > 10) curr_jump_height = 0;
                         playerJumpHeightMult.setText(Double.toString(curr_jump_height));
                         context.getComponents().getPlayer().setJumpHeightMultiplier(curr_jump_height);
                     }
@@ -1052,12 +1056,12 @@ public class MenuUtil {
         Text playerRunSpeedArrow = playerMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text playerRunSpeedText = playerMenu.drawText("./Run_Speed_Multiplier", 95, 240, Color.WHITE, options);
         Text playerRunSpeedMult = playerMenu.drawText(Double.toString(curr_run_speed), 550, 240, Color.WHITE, options);
-        Rectangle playerRunSpeedHitBox = playerMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        Rectangle playerRunSpeedHitBox = playerMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
         playerRunSpeedHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_run_speed +=.25;
-                        if(curr_run_speed>5) curr_run_speed = .5;
+                        curr_run_speed += .25;
+                        if (curr_run_speed > 5) curr_run_speed = .5;
                         playerRunSpeedMult.setText(Double.toString(curr_run_speed));
                         context.getComponents().getPlayer().setRunMultiplier(curr_run_speed);
                     }
@@ -1082,14 +1086,14 @@ public class MenuUtil {
         // player run multiplier
         Text jumpCutoffHeightArrow = playerMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text jumpCutoffHeightText = playerMenu.drawText("./Jump_Cut_Off_Height", 95, 290, Color.WHITE, options);
-        Text jumpCutoffHeightMult = playerMenu.drawText(Double.toString(curr_jump_cut_off_height)+" blocks", 550, 290, Color.WHITE, options);
-        Rectangle jumpCutoffHeightHitBox = playerMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
+        Text jumpCutoffHeightMult = playerMenu.drawText(curr_jump_cut_off_height + " blocks", 550, 290, Color.WHITE, options);
+        Rectangle jumpCutoffHeightHitBox = playerMenu.drawRectangle(50, 270, 600, 30, 0, 0, Color.TRANSPARENT);
         jumpCutoffHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_jump_cut_off_height +=.5;
-                        if(curr_jump_cut_off_height>5) curr_jump_cut_off_height = .5;
-                        jumpCutoffHeightMult.setText(Double.toString(curr_jump_cut_off_height)+" blocks");
+                        curr_jump_cut_off_height += .5;
+                        if (curr_jump_cut_off_height > 5) curr_jump_cut_off_height = .5;
+                        jumpCutoffHeightMult.setText(curr_jump_cut_off_height + " blocks");
                         context.getComponents().getPlayer().setMaxAutoJumpHeightMultiplier(curr_jump_cut_off_height);
                     }
                 });
@@ -1114,10 +1118,12 @@ public class MenuUtil {
         //quit handler
         Text returnArrow = playerMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text returnText = playerMenu.drawText("./Back", 95, 340, Color.WHITE, options);
-        Rectangle returnHitBox = playerMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        Rectangle returnHitBox = playerMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_SETTINGS);
+                    }
                 });
         returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -1136,9 +1142,9 @@ public class MenuUtil {
     }
 
 
-    public void buildCameraMenu(){
+    public void buildCameraMenu() {
         // draw black backdrop
-        cameraMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
+        cameraMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
         //draw title
         cameraMenu.drawText("ROOT@CS307:~/Settings/Camera$",
@@ -1155,14 +1161,14 @@ public class MenuUtil {
 
         // default fov
         Text defaultFovArrow = cameraMenu.drawText(singleArrow, 50, 140, GREEN, options);
-        Text defaultFovText= cameraMenu.drawText("./Default_FOV", 95, 140, Color.WHITE, options);
+        Text defaultFovText = cameraMenu.drawText("./Default_FOV", 95, 140, Color.WHITE, options);
         Text defaultFovMult = cameraMenu.drawText(curr_fov_default + " deg", 550, 140, Color.WHITE, options);
-        Rectangle defaultFovHitBox = cameraMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        Rectangle defaultFovHitBox = cameraMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
         defaultFovHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_fov_default +=5;
-                        if(curr_fov_default > 100) curr_fov_default = 20;
+                        curr_fov_default += 5;
+                        if (curr_fov_default > 100) curr_fov_default = 20;
                         defaultFovMult.setText(curr_fov_default + " deg");
                         context.getComponents().getCamera().setFOVdefault(curr_fov_default);
                     }
@@ -1186,14 +1192,14 @@ public class MenuUtil {
 
         // running fov
         Text runningFovArrow = cameraMenu.drawText(singleArrow, 50, 190, GREEN, options);
-        Text runningFovText= cameraMenu.drawText("./Running_FOV_Multiplier", 95, 190, Color.WHITE, options);
+        Text runningFovText = cameraMenu.drawText("./Running_FOV_Multiplier", 95, 190, Color.WHITE, options);
         Text runningFovMult = cameraMenu.drawText(Math.floor(curr_fov_running * 100) / 100 + " x Default", 550, 190, Color.WHITE, options);
-        Rectangle runningFovHitBox = cameraMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        Rectangle runningFovHitBox = cameraMenu.drawRectangle(50, 170, 600, 30, 0, 0, Color.TRANSPARENT);
         runningFovHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_fov_running += .25;
-                        if(curr_fov_running > 3) curr_fov_running = 1;
+                        if (curr_fov_running > 3) curr_fov_running = 1;
                         runningFovMult.setText(Math.floor(curr_fov_running * 100) / 100 + " x Default");
                         context.getComponents().getCamera().setFOVrunningMultiplier(curr_fov_running);
                     }
@@ -1217,14 +1223,14 @@ public class MenuUtil {
 
         // tired fov
         Text tiredFovArrow = cameraMenu.drawText(singleArrow, 50, 240, GREEN, options);
-        Text tiredFovText= cameraMenu.drawText("./Tired_FOV_Multiplier", 95, 240, Color.WHITE, options);
+        Text tiredFovText = cameraMenu.drawText("./Tired_FOV_Multiplier", 95, 240, Color.WHITE, options);
         Text tiredFovMult = cameraMenu.drawText(Math.floor(curr_fov_tired * 100) / 100 + " x Default", 550, 240, Color.WHITE, options);
-        Rectangle tiredFovHitBox = cameraMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        Rectangle tiredFovHitBox = cameraMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
         tiredFovHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_fov_tired -= .1;
-                        if(curr_fov_tired < .5) curr_fov_tired = 1;
+                        if (curr_fov_tired < .5) curr_fov_tired = 1;
                         tiredFovMult.setText(Math.floor(curr_fov_tired * 100) / 100 + " x Default");
                         context.getComponents().getCamera().setFOVtiredMultiplier(curr_fov_tired);
                     }
@@ -1249,10 +1255,12 @@ public class MenuUtil {
         //quit handler
         Text returnArrow = cameraMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text returnText = cameraMenu.drawText("./Back", 95, 340, Color.WHITE, options);
-        Rectangle returnHitBox = cameraMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        Rectangle returnHitBox = cameraMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_SETTINGS);
+                    }
                 });
         returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -1270,9 +1278,9 @@ public class MenuUtil {
                 });
     }
 
-    public void buildGraphicsMenu(){
+    public void buildGraphicsMenu() {
         // draw black backdrop
-        graphicsMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
+        graphicsMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
         //draw title
         graphicsMenu.drawText("ROOT@CS307:~$ ./About",
@@ -1288,14 +1296,14 @@ public class MenuUtil {
                 title);
 
         Text sepiaToneArrow = graphicsMenu.drawText(singleArrow, 50, 140, GREEN, options);
-        Text sepiaToneText= graphicsMenu.drawText("./Sepia_Tone", 95, 140, Color.WHITE, options);
-        Text sepiaToneMult = graphicsMenu.drawText(Double.toString(curr_sepia_tone) , 550, 140, Color.WHITE, options);
-        Rectangle sepiaToneHitBox = graphicsMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
+        Text sepiaToneText = graphicsMenu.drawText("./Sepia_Tone", 95, 140, Color.WHITE, options);
+        Text sepiaToneMult = graphicsMenu.drawText(Double.toString(curr_sepia_tone), 550, 140, Color.WHITE, options);
+        Rectangle sepiaToneHitBox = graphicsMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
         sepiaToneHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_sepia_tone += .1;
-                        if(curr_sepia_tone >1) curr_sepia_tone = 0.0;
+                        if (curr_sepia_tone > 1) curr_sepia_tone = 0.0;
                         sepiaToneMult.setText(Double.toString(curr_sepia_tone));
                         context.getEffects().setSepiaTone(curr_sepia_tone);
                     }
@@ -1318,14 +1326,14 @@ public class MenuUtil {
                 });
 
         Text bloomArrow = graphicsMenu.drawText(singleArrow, 50, 190, GREEN, options);
-        Text bloomText= graphicsMenu.drawText("./Bloom", 95, 190, Color.WHITE, options);
-        Text bloomMult = graphicsMenu.drawText(Double.toString(curr_bloom) , 550, 190, Color.WHITE, options);
-        Rectangle bloomHitBox = graphicsMenu.drawRectangle(50,170,600,30,0,0,Color.TRANSPARENT);
+        Text bloomText = graphicsMenu.drawText("./Bloom", 95, 190, Color.WHITE, options);
+        Text bloomMult = graphicsMenu.drawText(Double.toString(curr_bloom), 550, 190, Color.WHITE, options);
+        Rectangle bloomHitBox = graphicsMenu.drawRectangle(50, 170, 600, 30, 0, 0, Color.TRANSPARENT);
         bloomHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_bloom += .1;
-                        if(curr_bloom >1) curr_bloom = 0.0;
+                        if (curr_bloom > 1) curr_bloom = 0.0;
                         bloomMult.setText(Double.toString(curr_bloom));
                         context.getEffects().setBloom(curr_bloom);
                     }
@@ -1348,9 +1356,9 @@ public class MenuUtil {
                 });
 
         Text tripModeArrow = graphicsMenu.drawText(singleArrow, 50, 240, GREEN, options);
-        Text tripModeText= graphicsMenu.drawText("./Trip_Mode", 95, 240, Color.WHITE, options);
-        Text tripModeMult = graphicsMenu.drawText(String.valueOf(is_trip_mode) , 550, 240, Color.WHITE, options);
-        Rectangle tripModeHitBox = graphicsMenu.drawRectangle(50,220,600,30,0,0,Color.TRANSPARENT);
+        Text tripModeText = graphicsMenu.drawText("./Trip_Mode", 95, 240, Color.WHITE, options);
+        Text tripModeMult = graphicsMenu.drawText(String.valueOf(is_trip_mode), 550, 240, Color.WHITE, options);
+        Rectangle tripModeHitBox = graphicsMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
         tripModeHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
@@ -1377,9 +1385,9 @@ public class MenuUtil {
                 });
 
         Text motionBlurArrow = graphicsMenu.drawText(singleArrow, 50, 290, GREEN, options);
-        Text motionBlurText= graphicsMenu.drawText("./Motion_Blur", 95, 290, Color.WHITE, options);
-        Text motionBlurMult = graphicsMenu.drawText(String.valueOf(is_motion_blur) , 550, 290, Color.WHITE, options);
-        Rectangle motionBlurHitBox = graphicsMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
+        Text motionBlurText = graphicsMenu.drawText("./Motion_Blur", 95, 290, Color.WHITE, options);
+        Text motionBlurMult = graphicsMenu.drawText(String.valueOf(is_motion_blur), 550, 290, Color.WHITE, options);
+        Rectangle motionBlurHitBox = graphicsMenu.drawRectangle(50, 270, 600, 30, 0, 0, Color.TRANSPARENT);
         motionBlurHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
@@ -1406,14 +1414,14 @@ public class MenuUtil {
                 });
 
         Text contrastArrow = graphicsMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text contrastText= graphicsMenu.drawText("./Contrast", 95, 340, Color.WHITE, options);
-        Text contrastMult = graphicsMenu.drawText(Double.toString(curr_contrast) , 550, 340, Color.WHITE, options);
-        Rectangle contrastHitBox = graphicsMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        Text contrastText = graphicsMenu.drawText("./Contrast", 95, 340, Color.WHITE, options);
+        Text contrastMult = graphicsMenu.drawText(Double.toString(curr_contrast), 550, 340, Color.WHITE, options);
+        Rectangle contrastHitBox = graphicsMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
         contrastHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_contrast += .1;
-                        if(curr_contrast >1) curr_contrast = 0.0;
+                        if (curr_contrast > 1) curr_contrast = 0.0;
                         contrastMult.setText(Double.toString(curr_contrast));
                         context.getEffects().setContrast(curr_contrast);
                     }
@@ -1436,14 +1444,14 @@ public class MenuUtil {
                 });
 
         Text saturationArrow = graphicsMenu.drawText(singleArrow, 50, 390, GREEN, options);
-        Text saturationText= graphicsMenu.drawText("./Saturation", 95, 390, Color.WHITE, options);
-        Text saturationMult = graphicsMenu.drawText(Double.toString(curr_saturation) , 550, 390, Color.WHITE, options);
-        Rectangle saturationHitBox = graphicsMenu.drawRectangle(50,370,600,30,0,0,Color.TRANSPARENT);
+        Text saturationText = graphicsMenu.drawText("./Saturation", 95, 390, Color.WHITE, options);
+        Text saturationMult = graphicsMenu.drawText(Double.toString(curr_saturation), 550, 390, Color.WHITE, options);
+        Rectangle saturationHitBox = graphicsMenu.drawRectangle(50, 370, 600, 30, 0, 0, Color.TRANSPARENT);
         saturationHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_saturation += .1;
-                        if(curr_saturation >1) curr_saturation = 0.0;
+                        if (curr_saturation > 1) curr_saturation = 0.0;
                         saturationMult.setText(Double.toString(curr_saturation));
                         context.getEffects().setSaturation(curr_saturation);
                     }
@@ -1466,14 +1474,14 @@ public class MenuUtil {
                 });
 
         Text hueArrow = graphicsMenu.drawText(singleArrow, 50, 440, GREEN, options);
-        Text hueText= graphicsMenu.drawText("./Hue", 95, 440, Color.WHITE, options);
-        Text hueMult = graphicsMenu.drawText(Double.toString(curr_hue) , 550, 440, Color.WHITE, options);
-        Rectangle hueHitBox = graphicsMenu.drawRectangle(50,420,600,30,0,0,Color.TRANSPARENT);
+        Text hueText = graphicsMenu.drawText("./Hue", 95, 440, Color.WHITE, options);
+        Text hueMult = graphicsMenu.drawText(Double.toString(curr_hue), 550, 440, Color.WHITE, options);
+        Rectangle hueHitBox = graphicsMenu.drawRectangle(50, 420, 600, 30, 0, 0, Color.TRANSPARENT);
         hueHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_hue += .1;
-                        if(curr_hue >1) curr_hue = 0.0;
+                        if (curr_hue > 1) curr_hue = 0.0;
                         hueMult.setText(Double.toString(curr_hue));
                         context.getEffects().setHue(curr_hue);
                     }
@@ -1496,14 +1504,14 @@ public class MenuUtil {
                 });
 
         Text brightnessArrow = graphicsMenu.drawText(singleArrow, 50, 490, GREEN, options);
-        Text brightnessText= graphicsMenu.drawText("./Brightness", 95, 490, Color.WHITE, options);
-        Text brightnessMult = graphicsMenu.drawText(Double.toString(curr_brightness) , 550, 490, Color.WHITE, options);
-        Rectangle brightnessHitBox = graphicsMenu.drawRectangle(50,470,600,30,0,0,Color.TRANSPARENT);
+        Text brightnessText = graphicsMenu.drawText("./Brightness", 95, 490, Color.WHITE, options);
+        Text brightnessMult = graphicsMenu.drawText(Double.toString(curr_brightness), 550, 490, Color.WHITE, options);
+        Rectangle brightnessHitBox = graphicsMenu.drawRectangle(50, 470, 600, 30, 0, 0, Color.TRANSPARENT);
         brightnessHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_brightness += .1;
-                        if(curr_brightness >1) curr_brightness = 0.0;
+                        if (curr_brightness > 1) curr_brightness = 0.0;
                         brightnessMult.setText(Double.toString(curr_brightness));
                         context.getEffects().setBrightness(curr_brightness);
                     }
@@ -1528,10 +1536,12 @@ public class MenuUtil {
         //quit handler
         Text returnArrow = graphicsMenu.drawText(singleArrow, 50, 540, GREEN, options);
         Text returnText = graphicsMenu.drawText("./Back", 95, 540, Color.WHITE, options);
-        Rectangle returnHitBox = graphicsMenu.drawRectangle(50,520,600,30,0,0,Color.TRANSPARENT);
+        Rectangle returnHitBox = graphicsMenu.drawRectangle(50, 520, 600, 30, 0, 0, Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_SETTINGS); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_SETTINGS);
+                    }
                 });
         returnHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -1554,7 +1564,7 @@ public class MenuUtil {
     // ABOUT MENU
     public void buildAboutMenu() {
         // draw black backdrop
-        aboutMenu.drawRectangle(0,0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(),0,0, Color.BLACK);
+        aboutMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
         //draw title
         aboutMenu.drawText("ROOT@CS307:~$ ./About",
@@ -1572,10 +1582,12 @@ public class MenuUtil {
         //quit handler
         Text quitArrow = aboutMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text quitText = aboutMenu.drawText("./Main_Menu", 95, 340, Color.WHITE, options);
-        Rectangle quitHitBox = aboutMenu.drawRectangle(50,320,600,30,0,0,Color.TRANSPARENT);
+        Rectangle quitHitBox = aboutMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
         quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) { activateGroup(GROUP_MAIN_MENU); }
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_MAIN_MENU);
+                    }
                 });
         quitHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {

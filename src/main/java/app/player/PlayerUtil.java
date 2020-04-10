@@ -1,9 +1,12 @@
 package app.player;
 
-import app.GUI.HUD.HUDElements.*;
+import app.GUI.HUD.HUDElements.DeathMenu;
+import app.GUI.HUD.HUDElements.StatusBar;
 import app.GUI.HUD.HUDUtil;
+import app.GameBuilder;
 import app.environment.EnvironmentUtil;
 import app.structures.StructureBuilder;
+import app.structures.objects.Base_Sphere;
 import app.structures.objects.Base_Structure;
 import app.utils.InventoryUtil;
 import app.utils.Log;
@@ -12,51 +15,41 @@ import app.utils.ResourcesUtil;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
-import app.structures.objects.Base_Sphere;
-import app.GameBuilder;
 
 public class PlayerUtil {
 
     private static final String TAG = "PlayerUtil";
-
-    public GameBuilder context;
     private final Group GROUP;
-    private InventoryUtil UTIL_INVENTORY;
-
+    private final InventoryUtil UTIL_INVENTORY;
     private final String PROPERTY_NAME = "Steve";
     private final int PROPERTY_WIDTH = 10;
     private final int PROPERTY_HEIGHT = 50;
-
-    private double POSITION_X = 0;
-    private double POSITION_Y = -200;
-    private double POSITION_Z = 0;
-
     private final double PROPERTY_STATUS_STAMINA_REGEN_SPD = .05;
     private final double PROPERTY_STATUS_STAMINA_DEPLETE_SPD = 0.2;
     private final double PROPERTY_STATUS_HEALTH_REGEN_SPD = .008;
-
-    private double PROPERTY_MULTIPLIER_RUN;
-    private double PROPERTY_MULTIPLIER_JUMP;
-    private double PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP;
+    private final PointLight uv_light;
+    public GameBuilder context;
     double PROPERTY_MULTIPLIER_CROUCH_HEIGHT = .4;
-
     double PROPERTY_SPEED_FORWARD = 3;
     double PROPERTY_SPEED_BACKWARD = 2;
     double PROPERTY_SPEED_SIDE = 2;
     double PROPERTY_SPEED_FLY = 5;
-
     boolean canJump = true;
-    private boolean isJumping = false;
     boolean isRunning = false;
     boolean isCrouching = false;
     boolean isOnGround = true;
-
-    private boolean isClipMode = false;
     boolean isFlyMode = false;
-
-    private final PointLight uv_light;
+    private double POSITION_X = 0;
+    private double POSITION_Y = -200;
+    private double POSITION_Z = 0;
+    private double PROPERTY_MULTIPLIER_RUN;
+    private double PROPERTY_MULTIPLIER_JUMP;
+    private double PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP;
+    private boolean isJumping = false;
+    private boolean isClipMode = false;
     private boolean uv_light_state = false;
-
+    private double speed_fall_initial = 0; // Original speed before gravity is applied; Only used in update_handler to call moveDown
+    private double jump_height_initial;
     public PlayerUtil(GameBuilder ctx) {
         Log.p(TAG, "CONSTRUCTOR");
 
@@ -75,9 +68,6 @@ public class PlayerUtil {
         setRunMultiplier(1.10);
     }
 
-    private double speed_fall_initial = 0; // Original speed before gravity is applied; Only used in update_handler to call moveDown
-    private double jump_height_initial;
-
     public void update_handler(double dt) {
         context.getComponents().getCamera().update_handler();
 
@@ -92,7 +82,7 @@ public class PlayerUtil {
         if (!isFlyMode) {
             // If the player initiated a jump and the current position of the player is grater than the calculated height to jump to,
             // that means that the player has not gotten to that point in jumping yet so, move the player up
-            double jump_height_final = jump_height_initial -  PROPERTY_HEIGHT * PROPERTY_MULTIPLIER_JUMP;
+            double jump_height_final = jump_height_initial - PROPERTY_HEIGHT * PROPERTY_MULTIPLIER_JUMP;
             if (isJumping && getPositionYnoHeight() > jump_height_final) {
                 Log.p(TAG, "Jumping from " + jump_height_initial + " to " + jump_height_final);
                 moveUp(PROPERTY_SPEED_FLY * dt);
@@ -161,18 +151,18 @@ public class PlayerUtil {
             switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
                 case StructureBuilder.TYPE_OBJECT:
                     Base_Structure cb = StructureBuilder.resolve(inventory_item);
-                    Log.p(TAG,"placeObject() -> Copy created. Scale: X: " + cb.getScaleX() + " Y: " + cb.getScaleY() + " Z: " + cb.getScaleZ() + "; Width: " + cb.getWidth() + " Height: " + cb.getHeight() + " Depth: " + cb.getDepth() + "; Props: " + cb.getProps().toString());
-                    cb.placeObject(context.getComponents().getEnvironment(), getPlayerPoint3D(),true);
+                    Log.p(TAG, "placeObject() -> Copy created. Scale: X: " + cb.getScaleX() + " Y: " + cb.getScaleY() + " Z: " + cb.getScaleZ() + "; Width: " + cb.getWidth() + " Height: " + cb.getHeight() + " Depth: " + cb.getDepth() + "; Props: " + cb.getProps().toString());
+                    cb.placeObject(context.getComponents().getEnvironment(), getPlayerPoint3D(), true);
                     break;
                 default:
-                    inventory_item.placeObject(context.getComponents().getEnvironment(), getPlayerPoint3D(),true);
+                    inventory_item.placeObject(context.getComponents().getEnvironment(), getPlayerPoint3D(), true);
                     break;
             }
         }
     }
 
     public void moveDown(double val) {
-        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(),true);
+        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(), true);
 
         // Player Y being smaller than ground level means the player is above ground. Up is -Y axis
         if (getPositionYnoHeight() < ground_level || isClipMode) {
@@ -198,7 +188,7 @@ public class PlayerUtil {
         } else if (getPositionYnoHeight() != ground_level) {
             if (!isOnGround && !isFlyMode) {
                 if (val > 7) {
-                    takeDamage(val*3);
+                    takeDamage(val * 3);
                 }
             }
 
@@ -217,14 +207,15 @@ public class PlayerUtil {
 
     /**
      * Function used by moveForward, moveBackward, moveLeft, moveRight
+     *
      * @param new_x
      * @param new_z
      */
     public void handle_collision(double new_x, double new_z) {
-        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z),true);
-        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(this.POSITION_X, getPositionYwithHeight(), new_z),true);
+        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z), true);
+        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(this.POSITION_X, getPositionYwithHeight(), new_z), true);
 
-        if ((POSITION_Y - ground_level_x  < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP) || isClipMode) {
+        if ((POSITION_Y - ground_level_x < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP) || isClipMode) {
             this.POSITION_X = new_x;
         }
         if ((POSITION_Y - ground_level_z < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP) || isClipMode) {
@@ -302,7 +293,7 @@ public class PlayerUtil {
     }
 
     private void warpToGround() {
-        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(),true);
+        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(), true);
         POSITION_Y = ground_level;
         isOnGround = true;
         speed_fall_initial = 0;
@@ -311,12 +302,15 @@ public class PlayerUtil {
     public double getPositionX() {
         return POSITION_X;
     }
+
     public double getPositionYnoHeight() {
         return POSITION_Y;
     }
+
     public double getPositionYwithHeight() {
         return POSITION_Y - PROPERTY_HEIGHT;
     }
+
     public double getPositionZ() {
         return POSITION_Z;
     }
@@ -338,6 +332,7 @@ public class PlayerUtil {
     public PlayerPoint3D getPlayerPoint3D() {
         return new PlayerPoint3D(getPositionX(), getPositionYwithHeight(), getPositionZ());
     }
+
     public void setPosition(double newx, double newy, double newz) {
         POSITION_X = newx;
         POSITION_Y = newy;
@@ -349,6 +344,7 @@ public class PlayerUtil {
         uv_light.setLightOn(state);
         uv_light_state = state;
     }
+
     public void toggleUVlight() {
         Log.p(TAG, "toggleUVlight()");
         setUV_light(!uv_light_state);
@@ -376,9 +372,11 @@ public class PlayerUtil {
     public boolean getIsClipMode() {
         return isClipMode;
     }
+
     public void setIsClipMode(boolean val) {
         isClipMode = val;
     }
+
     public void toggleIsClipMode() {
         Log.p(TAG, "toggleIsClipMode()");
         setIsClipMode(!getIsClipMode());
@@ -387,10 +385,12 @@ public class PlayerUtil {
     public boolean getIsFlyMode() {
         return isFlyMode;
     }
+
     public void setIsFlyMode(boolean val) {
         isFlyMode = val;
         speed_fall_initial = 0;
     }
+
     public void toggleIsFlyMode() {
         Log.p(TAG, "toggleIsFlyMode()");
         setIsFlyMode(!getIsFlyMode());
@@ -399,6 +399,7 @@ public class PlayerUtil {
     public double getMaxAutoJumpHeightMultiplier() {
         return PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP;
     }
+
     public void setMaxAutoJumpHeightMultiplier(double val) {
         try {
             if (val >= 0) {
@@ -415,6 +416,7 @@ public class PlayerUtil {
     public double getFlySpeed() {
         return PROPERTY_SPEED_FLY;
     }
+
     public void setFlySpeed(double spd) {
         try {
             if (spd >= 0) {
@@ -430,6 +432,7 @@ public class PlayerUtil {
     public double getRunMultiplier() {
         return PROPERTY_MULTIPLIER_RUN;
     }
+
     public void setRunMultiplier(double mult) {
         try {
             if (mult >= 0) {
@@ -445,6 +448,7 @@ public class PlayerUtil {
     public double getJumpHeightMultiplier() {
         return PROPERTY_MULTIPLIER_JUMP;
     }
+
     public void setJumpHeightMultiplier(double mult) {
         try {
             if (mult >= 0) {

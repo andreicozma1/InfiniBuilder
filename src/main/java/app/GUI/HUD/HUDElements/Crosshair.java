@@ -1,7 +1,6 @@
 package app.GUI.HUD.HUDElements;
 
 
-import app.GUI.HUD.HUDElements.HUDElement;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -26,6 +25,7 @@ public class Crosshair extends HUDElement {
 
     /**
      * Constructor will initialize all values and update the hud group
+     *
      * @param elementTag
      * @param screenWidth
      * @param screenHeight
@@ -34,8 +34,8 @@ public class Crosshair extends HUDElement {
      * @param distBeforeCrosshair
      * @param crosshairColor
      */
-    public Crosshair(String elementTag, double screenWidth, double screenHeight,double crosshairWidth, double crosshairHeight, double distBeforeCrosshair, Paint crosshairColor){
-        super(elementTag, new Point2D(0,0));
+    public Crosshair(String elementTag, double screenWidth, double screenHeight, double crosshairWidth, double crosshairHeight, double distBeforeCrosshair, Paint crosshairColor) {
+        super(elementTag, new Point2D(0, 0));
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.crosshairColor = crosshairColor;
@@ -47,33 +47,88 @@ public class Crosshair extends HUDElement {
     }
 
     // Getters
-    public double getScreenWidth() { return screenWidth; }
-    public double getScreenHeight() { return screenHeight; }
-    public double getCrosshairWidth() { return crosshairWidth; }
-    public double getCrosshairHeight() { return crosshairHeight; }
-    public double getCrosshairBorderWidth() { return crosshairBorderWidth; }
-    public double getDistBeforeCrosshair() { return distBeforeCrosshair; }
-    public Paint getCrosshairColor() { return crosshairColor; }
-    public Paint getCrosshairBorderColor() { return crosshairBorderColor; }
-    public boolean isBorder() { return isBorder; }
-    public boolean isShowing() { return isShowing; }
+    public double getScreenWidth() {
+        return screenWidth;
+    }
+
+    public void setScreenWidth(double screenWidth) {
+        this.screenWidth = screenWidth;
+    }
+
+    public double getScreenHeight() {
+        return screenHeight;
+    }
+
+    public void setScreenHeight(double screenHeight) {
+        this.screenHeight = screenHeight;
+    }
+
+    public double getCrosshairWidth() {
+        return crosshairWidth;
+    }
 
     // Setters
-    public void setCrosshairWidth(double crosshairWidth) { this.crosshairWidth = crosshairWidth; }
-    public void setScreenHeight(double screenHeight) { this.screenHeight = screenHeight; }
-    public void setCrosshairHeight(double crosshairHeight) { this.crosshairHeight = crosshairHeight; }
-    public void setDistBeforeCrosshair(double distBeforeCrosshair) { this.distBeforeCrosshair = distBeforeCrosshair; }
-    public void toggleCrosshair() { isShowing = !isShowing;
-    update();}
-    public void setScreenWidth(double screenWidth) { this.screenWidth = screenWidth; }
-    public void setBorder(boolean border) { isBorder = border; }
-    public void setCrosshairBorderWidth(double crosshairBorderWidth) { this.crosshairBorderWidth = crosshairBorderWidth; }
-    public void setCrosshairColor(Paint crosshairColor) { this.crosshairColor = crosshairColor; }
+    public void setCrosshairWidth(double crosshairWidth) {
+        this.crosshairWidth = crosshairWidth;
+    }
+
+    public double getCrosshairHeight() {
+        return crosshairHeight;
+    }
+
+    public void setCrosshairHeight(double crosshairHeight) {
+        this.crosshairHeight = crosshairHeight;
+    }
+
+    public double getCrosshairBorderWidth() {
+        return crosshairBorderWidth;
+    }
+
+    public void setCrosshairBorderWidth(double crosshairBorderWidth) {
+        this.crosshairBorderWidth = crosshairBorderWidth;
+    }
+
+    public double getDistBeforeCrosshair() {
+        return distBeforeCrosshair;
+    }
+
+    public void setDistBeforeCrosshair(double distBeforeCrosshair) {
+        this.distBeforeCrosshair = distBeforeCrosshair;
+    }
+
+    public Paint getCrosshairColor() {
+        return crosshairColor;
+    }
+
+    public void setCrosshairColor(Paint crosshairColor) {
+        this.crosshairColor = crosshairColor;
+    }
+
+    public Paint getCrosshairBorderColor() {
+        return crosshairBorderColor;
+    }
+
     public void setCrosshairBorderColor(Paint crosshairBorderColor) {
         isBorder = true;
         this.crosshairBorderColor = crosshairBorderColor;
     }
 
+    public boolean isBorder() {
+        return isBorder;
+    }
+
+    public void setBorder(boolean border) {
+        isBorder = border;
+    }
+
+    public boolean isShowing() {
+        return isShowing;
+    }
+
+    public void toggleCrosshair() {
+        isShowing = !isShowing;
+        update();
+    }
 
     /**
      * Update will update the hud group to reflect the changes to the crosshair.
@@ -85,35 +140,35 @@ public class Crosshair extends HUDElement {
         double y;
 
         // if the crosshair is turned on draw it onto the group
-        if(isShowing) {
+        if (isShowing) {
             // set the x for the up and down parts of the crosshair
-            x = (screenWidth/2) - (crosshairWidth/2);
+            x = (screenWidth / 2) - (crosshairWidth / 2);
 
             //draw up
-            y = (screenHeight/2) - crosshairHeight-distBeforeCrosshair;
-            getGroup().getChildren().add(drawRect(x,y,crosshairWidth,crosshairHeight,crosshairColor,isBorder,crosshairBorderColor,crosshairBorderWidth));
+            y = (screenHeight / 2) - crosshairHeight - distBeforeCrosshair;
+            getGroup().getChildren().add(drawRect(x, y, crosshairWidth, crosshairHeight, crosshairColor, isBorder, crosshairBorderColor, crosshairBorderWidth));
             //draw down
-            y = (screenHeight/2) +distBeforeCrosshair;
-            getGroup().getChildren().add(drawRect(x,y,crosshairWidth,crosshairHeight,crosshairColor,isBorder,crosshairBorderColor,crosshairBorderWidth));
+            y = (screenHeight / 2) + distBeforeCrosshair;
+            getGroup().getChildren().add(drawRect(x, y, crosshairWidth, crosshairHeight, crosshairColor, isBorder, crosshairBorderColor, crosshairBorderWidth));
 
             // set the y for the left and right parts of the crosshair
-            y = (screenHeight/2) - (crosshairWidth/2);
+            y = (screenHeight / 2) - (crosshairWidth / 2);
 
             //draw left
-            x = (screenWidth/2) - crosshairHeight - distBeforeCrosshair;
-            getGroup().getChildren().add(drawRect(x,y,crosshairHeight,crosshairWidth,crosshairColor,isBorder,crosshairBorderColor,crosshairBorderWidth));
+            x = (screenWidth / 2) - crosshairHeight - distBeforeCrosshair;
+            getGroup().getChildren().add(drawRect(x, y, crosshairHeight, crosshairWidth, crosshairColor, isBorder, crosshairBorderColor, crosshairBorderWidth));
 
             //draw right
-            x = (screenWidth/2) + distBeforeCrosshair;
-            getGroup().getChildren().add(drawRect(x,y,crosshairHeight,crosshairWidth,crosshairColor,isBorder,crosshairBorderColor,crosshairBorderWidth));
+            x = (screenWidth / 2) + distBeforeCrosshair;
+            getGroup().getChildren().add(drawRect(x, y, crosshairHeight, crosshairWidth, crosshairColor, isBorder, crosshairBorderColor, crosshairBorderWidth));
         }
     }
 
     // helper function to draw each of the parts of the crosshair
-    private Rectangle drawRect(double x , double y, double crosshairWidth,double crosshairHeight,Paint crosshairColor,boolean isBorder,Paint crosshairBorderColor,double crosshairBorderWidth){
-        Rectangle rect = new Rectangle(x,y,crosshairWidth,crosshairHeight);
+    private Rectangle drawRect(double x, double y, double crosshairWidth, double crosshairHeight, Paint crosshairColor, boolean isBorder, Paint crosshairBorderColor, double crosshairBorderWidth) {
+        Rectangle rect = new Rectangle(x, y, crosshairWidth, crosshairHeight);
         rect.setFill(crosshairColor);
-        if (isBorder){
+        if (isBorder) {
             rect.setStroke(crosshairBorderColor);
             rect.setStrokeWidth(crosshairBorderWidth);
         }

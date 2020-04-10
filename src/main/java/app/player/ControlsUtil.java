@@ -3,27 +3,25 @@ package app.player;
 import app.GUI.HUD.HUDElements.Crosshair;
 import app.GUI.HUD.HUDElements.DeathMenu;
 import app.GUI.HUD.HUDElements.ItemInfo;
-import app.GUI.HUD.HUDUtil;
 import app.GUI.HUD.HUDElements.PauseMenu;
+import app.GUI.HUD.HUDUtil;
+import app.GameBuilder;
 import app.utils.Log;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import app.GameBuilder;
 
 import java.util.ArrayList;
 
 public class ControlsUtil {
     private static final String TAG = "ControlsUtil";
-
+    public static ArrayList<KeyCode> pressed;
     private final GameBuilder context;
     double last_mouse_x;
     double last_mouse_y;
 
-    public static ArrayList<KeyCode> pressed;
-
     public ControlsUtil(GameBuilder ctx) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.p(TAG, "CONSTRUCTOR");
 
         context = ctx;
         pressed = new ArrayList<>();
@@ -56,11 +54,11 @@ public class ControlsUtil {
                     context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
                 }
                 if (scrollEvent.getDeltaY() < 0) {
-                    if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed()){
+                    if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed()) {
                         ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
                         context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
-                    }else{
-                        if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex() != ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed()-1){
+                    } else {
+                        if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex() != ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1) {
                             ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
                             context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
                         }
@@ -100,7 +98,7 @@ public class ControlsUtil {
 
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
 
-            if(event.getCode() == KeyCode.ESCAPE){
+            if (event.getCode() == KeyCode.ESCAPE) {
                 reset();
                 ((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).setPaused(!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused());
             }
@@ -128,20 +126,20 @@ public class ControlsUtil {
                             if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex() > ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1) {
                                 ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1);
                             }
-                            ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).update();
+                            context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
                             break;
                         case R:
-                            if(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSelected()==-1){
+                            if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSelected() == -1) {
                                 ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).setSelected(
                                         ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex()
                                 );
-                            }else {
+                            } else {
                                 ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).swap(
                                         ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSelected(),
                                         ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex()
                                 );
                             }
-                            ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).update();
+                            context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
                             break;
                         case E:
                             ((ItemInfo) context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).toggleItemInfo();
@@ -221,7 +219,7 @@ public class ControlsUtil {
         }
     }
 
-    public void reset(){
+    public void reset() {
         pressed.clear();
     }
 }

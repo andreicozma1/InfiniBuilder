@@ -1,57 +1,52 @@
 package app.environment;
 
+import app.GameBuilder;
+import app.algorithms.SimplexUtil;
 import app.player.PlayerPoint3D;
+import app.structures.StructureBuilder;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Model;
 import app.structures.objects.Base_Structure;
 import app.utils.Log;
+import app.utils.ResourcesUtil;
+import app.utils.TDModelUtil;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
-import javafx.scene.*;
-import app.algorithms.SimplexUtil;
+import javafx.scene.Group;
 import javafx.scene.paint.Material;
 import javafx.scene.shape.CullFace;
-import app.utils.TDModelUtil;
-import app.structures.StructureBuilder;
-import app.utils.ResourcesUtil;
-import app.GameBuilder;
 import javafx.util.Pair;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class EnvironmentUtil {
 
+    public static final double LIMIT_MIN = 1000;
+    public static final double LIMIT_MAX = -1000;
     private static final String TAG = "EnvironmentUtil";
-
-    public GameBuilder context;
-
-    private SkyboxUtil UTIL_SKYBOX;
-    private final TDModelUtil UTIL_MODEL;
-    private SimplexUtil UTIL_SIMPLEX;
-
     public static Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
     public static Group GROUP_TERRAIN;
     public static Group GROUP_OTHER;
-
+    public static double GRAVITY = .2;
+    private final TDModelUtil UTIL_MODEL;
     private final int PROPERTY_BLOCK_DIM = 20;
-
-    private double PROPERTY_TERRAIN_GENERATE_DISTANCE;
-    private double PROPERTY_TERRAIN_HEIGHT_MULTIPLIER;
-    private double PROPERTY_TERRAIN_VEGETATION_DENSITY_PERCENT;
-
-    private boolean PROPERTY_TERRAIN_HAS_WATER = true;
-    private Material PROPERTY_TERRAIN_IS_SINGLE_MATERIAL = null; // Default terrain generation if 'null'
-
     private final double PROPERTY_WATER_LEVEL = 303;
     private final double PROPERTY_DESERT_LEVEL = 300;
     private final double PROPERTY_PLAINS_LEVEL = 100;
     private final double PROPERTY_HILLS_LEVEL = -50;
     private final double PROPERTY_PEAK_LEVEL = -300;
-
-    public static final double LIMIT_MIN = 1000;
-    public static final double LIMIT_MAX = -1000;
-
-    public static double GRAVITY = .2;
+    public GameBuilder context;
+    public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
+    HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
+    private SkyboxUtil UTIL_SKYBOX;
+    private SimplexUtil UTIL_SIMPLEX;
+    private double PROPERTY_TERRAIN_GENERATE_DISTANCE;
+    private double PROPERTY_TERRAIN_HEIGHT_MULTIPLIER;
+    private double PROPERTY_TERRAIN_VEGETATION_DENSITY_PERCENT;
+    private boolean PROPERTY_TERRAIN_HAS_WATER = true;
+    private Material PROPERTY_TERRAIN_IS_SINGLE_MATERIAL = null; // Default terrain generation if 'null'
 
     /**
      * Constructor initializes an EnvironmentUtil object based on the parent WindowUtil, which will become the class' context
@@ -87,8 +82,6 @@ public class EnvironmentUtil {
         }
     }
 
-    public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
-
     public void generateMap(double playerx, double playerz) {
         playerx = convertAbsoluteToTerrainPos(playerx);
         playerz = convertAbsoluteToTerrainPos(playerz);
@@ -101,7 +94,7 @@ public class EnvironmentUtil {
                     double starting_y = getSimplexHeight(i, j);
 
                     for (double k = starting_y; k <= 100; k++) {
-                        worldColumn.put((int) Math.floor(k), new Pair<>(getSimplexHeight3D(i,k,j), k));
+                        worldColumn.put((int) Math.floor(k), new Pair<>(getSimplexHeight3D(i, k, j), k));
                     }
 
                     MAP_GENERATED.put(new Point2D(i, j), worldColumn);
@@ -109,8 +102,6 @@ public class EnvironmentUtil {
             }
         }
     }
-
-    HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
     public void renderMap(double playerx, double playerz) {
         playerx = convertAbsoluteToTerrainPos(playerx);
@@ -144,10 +135,9 @@ public class EnvironmentUtil {
                                     int z = j * getBlockDim();
                                     Pair<Double, Double> pr = worldColumn.get(k);
                                     double y = pr.getValue() * getBlockDim();
-                                    if(pr== worldColumn.firstEntry().getValue()){
+                                    if (pr == worldColumn.firstEntry().getValue()) {
                                         MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, false, true));
-                                    }
-                                    else{
+                                    } else {
                                         MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, true, true));
                                     }
                                 } else {
@@ -274,7 +264,7 @@ public class EnvironmentUtil {
         return UTIL_SIMPLEX.getNoise((int) (pollx), (int) (pollz)) * PROPERTY_TERRAIN_HEIGHT_MULTIPLIER;
     }
 
-    private double getSimplexHeight3D(double pollx, double polly, double pollz){
+    private double getSimplexHeight3D(double pollx, double polly, double pollz) {
         return UTIL_SIMPLEX.getNoise((int) (pollx), (int) (pollz));
     }
 
@@ -287,13 +277,13 @@ public class EnvironmentUtil {
         // requires the getX() and getZ() from PlayerUtil
         Point2D pt = new Point2D(convertAbsoluteToTerrainPos(world_coords.getX()), convertAbsoluteToTerrainPos(world_coords.getZ()));
         if (MAP_GENERATED.containsKey(pt)) {
-            int y = (int)Math.floor(world_coords.getY()/getBlockDim());
+            int y = (int) Math.floor(world_coords.getY() / getBlockDim());
             for (int i = y; i <= 255; i++) {
                 if (MAP_GENERATED.get(pt).containsKey(i)) {
-                    if(absolute){
+                    if (absolute) {
                         Pair<Double, Double> result = MAP_GENERATED.get(pt).get(i);
                         return result.getValue() * getBlockDim();
-                    } else{
+                    } else {
                         return i;
                     }
                 }
@@ -307,32 +297,25 @@ public class EnvironmentUtil {
 
     public void placeObject(PlayerPoint3D pos, StructureBuilder str, boolean shouldStack) {
         int xPos = convertAbsoluteToTerrainPos(pos.getX());
-        int yPos = (int)getClosestGroundLevel(pos,false)-1;
+        int yPos = (int) getClosestGroundLevel(pos, false) - 1;
         int zPos = convertAbsoluteToTerrainPos(pos.getZ());
 //      public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();   // key: x,z value: world column (key: non rounded y position value: pair)
 //      HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
         // if the x z coordinate exists
-        if(MAP_GENERATED.containsKey(new Point2D(xPos,zPos))){
+        if (MAP_GENERATED.containsKey(new Point2D(xPos, zPos))) {
             // get the world column with the x z coordinate
-            TreeMap<Integer, Pair> worldColumn =  MAP_GENERATED.get(new Point2D(xPos,zPos));
+            TreeMap<Integer, Pair> worldColumn = MAP_GENERATED.get(new Point2D(xPos, zPos));
             // if there is not already a block at the y pos
 
-            if(!worldColumn.containsKey(yPos)){
+            if (!worldColumn.containsKey(yPos)) {
 
                 // insert a block at the y pos in the column
-                str.setTranslateIndependent(xPos*getBlockDim(),getClosestGroundLevel(pos,true) - str.getHeight(),zPos*getBlockDim());
-                MAP_RENDERING.put(new Point3D(xPos,yPos,zPos), str);
-                worldColumn.put(yPos, new Pair<>((double)getSimplexHeight3D(xPos,yPos,zPos), (getClosestGroundLevel(pos,true) - str.getHeight())/getBlockDim()));
+                str.setTranslateIndependent(xPos * getBlockDim(), getClosestGroundLevel(pos, true) - str.getHeight(), zPos * getBlockDim());
+                MAP_RENDERING.put(new Point3D(xPos, yPos, zPos), str);
+                worldColumn.put(yPos, new Pair<>(getSimplexHeight3D(xPos, yPos, zPos), (getClosestGroundLevel(pos, true) - str.getHeight()) / getBlockDim()));
             }
         }
-    }
-
-    public void clearSpot(Point2D pos) {
-        // TODO - TO FIX!!!!
-        double xPos = convertAbsoluteToTerrainPos(pos.getX());
-        double zPos = convertAbsoluteToTerrainPos(pos.getY());
-
     }
 
     public Group getWorldGroup() {

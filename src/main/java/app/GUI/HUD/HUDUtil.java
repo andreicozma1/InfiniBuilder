@@ -2,7 +2,6 @@ package app.GUI.HUD;
 
 import app.GUI.HUD.HUDElements.*;
 import app.GameBuilder;
-import app.player.ControlsUtil;
 import app.player.Inventory;
 import app.utils.Log;
 import javafx.geometry.Point2D;
@@ -14,12 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HUDUtil {
-    private static final String TAG = "HudUtil";
-
-    public GameBuilder context;
-    private final SubScene subScene;
-    private final Group HUDGroup = new Group();
-
     public static final String HEALTH = "HEALTH";
     public static final String STAMINA = "STAMINA";
     public static final String HUNGER = "HUNGER";
@@ -32,54 +25,63 @@ public class HUDUtil {
     public static final String PLAYER_INFO = "PLAYER_INFO";
     public static final String ITEM_INFO = "ITEM_INFO";
     public static final String MINIMAP = "MINIMAP";
-
-
     public static final String EDGE_BOTTOM = "edge_bottom";
     public static final String EDGE_TOP = "edge_top";
     public static final String EDGE_LEFT = "edge_left";
     public static final String EDGE_RIGHT = "edge_right";
-
+    private static final String TAG = "HudUtil";
+    private final SubScene subScene;
+    private final Group HUDGroup = new Group();
     private final Map<String, HUDElement> elements = new HashMap<>();
+    public GameBuilder context;
 
-    public HUDUtil(GameBuilder ctx){
-        Log.p(TAG,"CONSTRUCTOR");
+    public HUDUtil(GameBuilder ctx) {
+        Log.p(TAG, "CONSTRUCTOR");
         context = ctx;
         subScene = new SubScene(HUDGroup, ctx.getWindow().getWindowWidth(), ctx.getWindow().getWindowHeight());
     }
 
-    public Group getHUDGroup(){ return HUDGroup; }
-    public HUDElement getElement(String tag){ return elements.get(tag); }
-    public SubScene getSubScene() { return subScene; }
+    public Group getHUDGroup() {
+        return HUDGroup;
+    }
 
-    public void addElement(HUDElement element){
+    public HUDElement getElement(String tag) {
+        return elements.get(tag);
+    }
+
+    public SubScene getSubScene() {
+        return subScene;
+    }
+
+    public void addElement(HUDElement element) {
         elements.put(element.getElementTag(), element);
         HUDGroup.getChildren().add(element.getGroup());
     }
 
-    public void removeElement(String tag){
-        if(elements.containsKey(tag)) {
+    public void removeElement(String tag) {
+        if (elements.containsKey(tag)) {
             HUDGroup.getChildren().remove(elements.get(tag));
             elements.remove(tag);
         }
     }
 
-    public void hideElement(String tag){
-        if(elements.containsKey(tag)) {
+    public void hideElement(String tag) {
+        if (elements.containsKey(tag)) {
             HUDGroup.getChildren().remove(elements.get(tag));
             elements.remove(tag);
         }
     }
 
-    public void showElement(String tag){
-        if(elements.containsKey(tag)) {
+    public void showElement(String tag) {
+        if (elements.containsKey(tag)) {
             HUDGroup.getChildren().add(elements.get(tag).getGroup());
         }
     }
 
-    public void drawHUD(){
+    public void drawHUD() {
         //health bar
-        StatusBar health = new StatusBar(   HUDUtil.HEALTH,
-                new Point2D(25,10),
+        StatusBar health = new StatusBar(HUDUtil.HEALTH,
+                new Point2D(25, 10),
                 100,
                 15,
                 200,
@@ -95,8 +97,8 @@ public class HUDUtil {
         this.addElement(health);
 
         //stamina bar
-        StatusBar stamina = new StatusBar(   HUDUtil.STAMINA,
-                new Point2D(55,10),
+        StatusBar stamina = new StatusBar(HUDUtil.STAMINA,
+                new Point2D(55, 10),
                 100,
                 15,
                 200,
@@ -131,36 +133,36 @@ public class HUDUtil {
 //        this.addElement(temperature);
 
 
-        Inventory inv = new Inventory(  HUDUtil.INVENTORY,
-                new Point2D(200,100),
+        Inventory inv = new Inventory(HUDUtil.INVENTORY,
+                new Point2D(200, 100),
                 context.getComponents().getPlayer().getInventory(),
-                50,50,5,10,Color.WHITE,Color.GREY );
+                50, 50, 5, 10, Color.WHITE, Color.GREY);
         inv.fixToEdge(HUDUtil.EDGE_BOTTOM);
         inv.setDisplayNumbers(true);
         inv.update();
         this.addElement(inv);
 
-        Crosshair crosshair = new Crosshair(HUDUtil.CROSSHAIR,context.getWindow().getWindowWidth(),context.getWindow().getWindowHeight(),3,25,5,Color.WHITE);
+        Crosshair crosshair = new Crosshair(HUDUtil.CROSSHAIR, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 3, 25, 5, Color.WHITE);
         crosshair.setCrosshairBorderWidth(1);
         crosshair.setCrosshairBorderColor(Color.BLACK);
         crosshair.update();
         this.addElement(crosshair);
 
-        Minimap minimap = new Minimap(HUDUtil.MINIMAP,new Point2D( context.getWindow().getWindowWidth()-140,15),context,125,125);
+        Minimap minimap = new Minimap(HUDUtil.MINIMAP, new Point2D(context.getWindow().getWindowWidth() - 140, 15), context, 125, 125);
         minimap.update();
         this.addElement(minimap);
 
 
-        ItemInfo itemInfo = new ItemInfo(HUDUtil.ITEM_INFO,new Point2D(100,200),context,250,300);
+        ItemInfo itemInfo = new ItemInfo(HUDUtil.ITEM_INFO, new Point2D(100, 200), context, 250, 300);
         itemInfo.update();
         this.addElement(itemInfo);
 
         PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE,
-                new Point2D(100,200),context,257,165,context.getWindow().getWindowWidth(),context.getWindow().getWindowHeight());
+                new Point2D(100, 200), context, 257, 165, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
         pauseMenu.update();
         this.addElement(pauseMenu);
 
-        DeathMenu deathMenu = new DeathMenu(HUDUtil.DEATH,new Point2D(100,200),context,257,165,context.getWindow().getWindowWidth(),context.getWindow().getWindowHeight());
+        DeathMenu deathMenu = new DeathMenu(HUDUtil.DEATH, new Point2D(100, 200), context, 257, 165, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
         deathMenu.update();
         this.addElement(deathMenu);
 

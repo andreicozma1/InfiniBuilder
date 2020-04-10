@@ -1,6 +1,5 @@
 package app.GUI.HUD.HUDElements;
 
-import app.GUI.HUD.HUDElements.HUDElement;
 import app.GUI.menu.InterfaceBuilder;
 import app.GUI.menu.MenuUtil;
 import app.GameBuilder;
@@ -18,16 +17,11 @@ import javafx.scene.text.Text;
 
 public class DeathMenu extends HUDElement {
     private static final String TAG = "DeathMenu";
-
-    private double width;
-    private double height;
     private final double screenWidth;
     private final double screenHeight;
     private final double backdropBorderWidth = 5;
     private final double arcW = 0;
     private final double arcH = 0;
-    private boolean isCentered = true;
-    private boolean isDead = false;
     private final String singleArrow = ">";
     private final String doubleArrow = ">>";
     private final GameBuilder context;
@@ -37,10 +31,12 @@ public class DeathMenu extends HUDElement {
     private final Paint textPaint = Color.WHITE;
     private final Color GREEN = Color.valueOf("#20C20E");
     private final InterfaceBuilder pause;
-
-    private final Font pauseTitle = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR,20);
-
-    private final Font pauseText = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR,15);
+    private final Font pauseTitle = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR, 20);
+    private final Font pauseText = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR, 15);
+    private double width;
+    private double height;
+    private boolean isCentered = true;
+    private boolean isDead = false;
 
     public DeathMenu(String elementTag,
                      Point2D pos,
@@ -48,67 +44,83 @@ public class DeathMenu extends HUDElement {
                      double width,
                      double height,
                      double screenWidth,
-                     double screenHeight){
-        super(elementTag,pos);
+                     double screenHeight) {
+        super(elementTag, pos);
         this.context = context;
         this.menuUtil = context.getComponents().getMenu();
         this.width = width;
-        this.height =  height;
+        this.height = height;
         this.screenHeight = screenHeight;
         this.screenWidth = screenWidth;
         pause = new InterfaceBuilder();
         update();
     }
 
+    public void setCentered(boolean centered) {
+        isCentered = centered;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
     public void setDead(boolean dead) {
         isDead = dead;
         update();
     }
-    public void setHeight(double height) { this.height = height; }
-    public void setWidth(double width) { this.width = width; }
-    public void setCentered(boolean centered) { isCentered = centered; }
 
-    public boolean isDead() { return isDead; }
-    public double getHeight() { return height; }
-    public double getWidth() { return width; }
+    public double getHeight() {
+        return height;
+    }
 
+    public void setHeight(double height) {
+        this.height = height;
+    }
 
-    public void update(){
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void update() {
         getGroup().getChildren().clear();
 
-        if(isDead){
+        if (isDead) {
             double x = getPos().getX();
             double y = getPos().getY();
-            if(isCentered) {
-                x = screenWidth/2-width/2;
-                y = screenHeight/2-height/2;
+            if (isCentered) {
+                x = screenWidth / 2 - width / 2;
+                y = screenHeight / 2 - height / 2;
 
             }
 
             // draw black backdrop
-            Rectangle backdrop = pause.drawRectangle((float)x,(float)y,width,height,0,0, Color.BLACK);
+            Rectangle backdrop = pause.drawRectangle((float) x, (float) y, width, height, 0, 0, Color.BLACK);
             backdrop.setStroke(Color.WHITE);
             backdrop.setStrokeWidth(4);
 
             //draw title
             pause.drawText("PLAYER_HAS_DIED",
-                    (float)x+20,
-                    (float)y+35,
+                    (float) x + 20,
+                    (float) y + 35,
                     GREEN,
                     pauseTitle);
 
             pause.drawText("-------------",
-                    (float)x+20,
-                    (float)y+55,
+                    (float) x + 20,
+                    (float) y + 55,
                     Color.WHITE,
                     pauseTitle);
 
 
             //**************************************************************************\
             // RESUME GAME
-            Text respawnArrow = pause.drawText(singleArrow, x+20, y+80, GREEN, pauseText);
-            Text respawnText = pause.drawText("./Respawn", x+45, y+80, Color.WHITE, pauseText);
-            Rectangle respawnHitBox = pause.drawRectangle(x,y+65,width,20,0,0,Color.TRANSPARENT);
+            Text respawnArrow = pause.drawText(singleArrow, x + 20, y + 80, GREEN, pauseText);
+            Text respawnText = pause.drawText("./Respawn", x + 45, y + 80, Color.WHITE, pauseText);
+            Rectangle respawnHitBox = pause.drawRectangle(x, y + 65, width, 20, 0, 0, Color.TRANSPARENT);
             respawnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
@@ -135,9 +147,9 @@ public class DeathMenu extends HUDElement {
 
             //**************************************************************************\
             // GOTO SETTINGS
-            Text settingsArrow = pause.drawText(singleArrow, x+20, y+110, GREEN, pauseText);
-            Text settingsText = pause.drawText("./New_Game", x+45, y+110, Color.WHITE, pauseText);
-            Rectangle settingsHitBox = pause.drawRectangle(x,y+95,width,20,0,0,Color.TRANSPARENT);
+            Text settingsArrow = pause.drawText(singleArrow, x + 20, y + 110, GREEN, pauseText);
+            Text settingsText = pause.drawText("./New_Game", x + 45, y + 110, Color.WHITE, pauseText);
+            Rectangle settingsHitBox = pause.drawRectangle(x, y + 95, width, 20, 0, 0, Color.TRANSPARENT);
             settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
@@ -165,9 +177,9 @@ public class DeathMenu extends HUDElement {
 
             //**************************************************************************\
             // GOTO MAIN MENU
-            Text mainMenuArrow = pause.drawText(singleArrow, x+20, y+140, GREEN, pauseText);
-            Text mainMenuText = pause.drawText("./Exit_To_Main_Menu", x+45, y+140, Color.WHITE, pauseText);
-            Rectangle mainMenuHitBox = pause.drawRectangle(x,y+125,width,20,0,0,Color.TRANSPARENT);
+            Text mainMenuArrow = pause.drawText(singleArrow, x + 20, y + 140, GREEN, pauseText);
+            Text mainMenuText = pause.drawText("./Exit_To_Main_Menu", x + 45, y + 140, Color.WHITE, pauseText);
+            Rectangle mainMenuHitBox = pause.drawRectangle(x, y + 125, width, 20, 0, 0, Color.TRANSPARENT);
             mainMenuHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
