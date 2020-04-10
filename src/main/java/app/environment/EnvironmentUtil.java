@@ -25,11 +25,11 @@ public class EnvironmentUtil {
 
     public static final double LIMIT_MIN = 1000;
     public static final double LIMIT_MAX = -1000;
+    public static final double GRAVITY = .2;
     private static final String TAG = "EnvironmentUtil";
     public static Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
     public static Group GROUP_TERRAIN;
     public static Group GROUP_OTHER;
-    public static double GRAVITY = .2;
     private final TDModelUtil UTIL_MODEL;
     private final int PROPERTY_BLOCK_DIM = 20;
     private final double PROPERTY_WATER_LEVEL = 303;
@@ -38,8 +38,8 @@ public class EnvironmentUtil {
     private final double PROPERTY_HILLS_LEVEL = -50;
     private final double PROPERTY_PEAK_LEVEL = -300;
     public GameBuilder context;
-    public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
-    HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
+    private final Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
+    private final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
     private SkyboxUtil UTIL_SKYBOX;
     private SimplexUtil UTIL_SIMPLEX;
     private double PROPERTY_TERRAIN_GENERATE_DISTANCE;

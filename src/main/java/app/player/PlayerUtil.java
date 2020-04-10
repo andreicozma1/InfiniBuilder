@@ -29,10 +29,10 @@ public class PlayerUtil {
     private final double PROPERTY_STATUS_HEALTH_REGEN_SPD = .008;
     private final PointLight uv_light;
     public GameBuilder context;
-    double PROPERTY_MULTIPLIER_CROUCH_HEIGHT = .4;
-    double PROPERTY_SPEED_FORWARD = 3;
-    double PROPERTY_SPEED_BACKWARD = 2;
-    double PROPERTY_SPEED_SIDE = 2;
+    final double PROPERTY_MULTIPLIER_CROUCH_HEIGHT = .4;
+    final double PROPERTY_SPEED_FORWARD = 3;
+    final double PROPERTY_SPEED_BACKWARD = 2;
+    final double PROPERTY_SPEED_SIDE = 2;
     double PROPERTY_SPEED_FLY = 5;
     boolean canJump = true;
     boolean isRunning = false;
@@ -50,6 +50,7 @@ public class PlayerUtil {
     private boolean uv_light_state = false;
     private double speed_fall_initial = 0; // Original speed before gravity is applied; Only used in update_handler to call moveDown
     private double jump_height_initial;
+
     public PlayerUtil(GameBuilder ctx) {
         Log.p(TAG, "CONSTRUCTOR");
 
