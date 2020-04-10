@@ -318,7 +318,10 @@ public class EnvironmentUtil {
             // if there is not already a block at the y pos
             if(!worldColumn.containsKey(yPos)){
                 // insert a block at the y pos in the column
-                worldColumn.put(yPos, new Pair<>(0, 0));
+                worldColumn.put(yPos, new Pair<>((double)getSimplexHeight3D(xPos,yPos,zPos), (double)yPos));
+                str.getTransforms().removeAll(str.getTransforms());
+                str.setTranslateIndependent(pos.getX(),pos.getY()+context.getComponents().getPlayer().getPlayerHeight(),pos.getZ());
+//                str.setScaleAll(getBlockDim());
 
                 // insert in to the map rendering
                 MAP_RENDERING.put(new Point3D(xPos,yPos,zPos), str);
