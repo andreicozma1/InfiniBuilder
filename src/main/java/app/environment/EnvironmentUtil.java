@@ -303,38 +303,29 @@ public class EnvironmentUtil {
 
     // TODO - FIX
     public void placeObject(Point3D pos, StructureBuilder str, boolean removeExtras) {
-        double xPos = pos.getX();
-        double yPos = pos.getY();
-        double zPos = pos.getZ();
+        int xPos = convertToTerrainPos(pos.getX());
+        int yPos = convertToTerrainPos(pos.getY());;
+        int zPos = convertToTerrainPos(pos.getZ());;
+//      public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();   // key: x,z value: world column (key: non rounded y position value: pair)
+//      HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
         System.out.println("placeObject() " + str.getProps().getPROPERTY_ITEM_TAG() + " at " + pos);
 
+        // if the x z coordinate exists
         if(MAP_GENERATED.containsKey(new Point2D(xPos,zPos))){
+            // get the world column with the x z coordinate
+            TreeMap<Integer, Pair> worldColumn =  MAP_GENERATED.get(new Point2D(xPos,zPos));
+            // if there is not already a block at the y pos
+            if(!worldColumn.containsKey(yPos)){
+                // insert a block at the y pos in the column
+                worldColumn.put(yPos, new Pair<>(0, 0));
+
+                // insert in to the map rendering
+                MAP_RENDERING.put(new Point3D(xPos,yPos,zPos), str);
+            }
 
         }
 
-//        if (!terrain_map.containsKey(origLoc)) {
-//            create_platform(xPos,yPos, zPos,true,true);
-//        } else{
-//            boolean foundDestructible = false;
-//            for(Node e : terrain_map.get(origLoc).){
-//                if(((StructureBuilder)e).getProps().getPROPERTY_DESTRUCTIBLE()){
-//                    foundDestructible = true;
-//                }
-//            }
-//            if(removeExtras && foundDestructible){
-//                create_platform(xPos,yPos, zPos,true,true);
-//            }
-//        }
-//
-//        str.getTransforms().removeAll(str.getTransforms());
-//        str.setTranslateIndependent(0,0,0);
-//        str.setScaleAll(getBlockDim());
-//
-//        StructureBuilder orig = terrain_map.get(origLoc);
-//        str.setTranslateY(-orig.getBoundsInParent().getHeight());
-//        terrain_map_height.put(origLoc, terrain_map_height.get(origLoc) - str.getHeight());
-//        orig.getChildren().add(str);
 
         /*
         double xPos = getWorldXFromPlayerX(pos.getX());
