@@ -73,6 +73,7 @@ public class MenuUtil {
     private double curr_fly_speed;
     private double curr_jump_height;
     private double curr_run_speed;
+    private double curr_jump_cut_off_height;
 
     // camera settings
     private int curr_fov_default;
@@ -125,25 +126,31 @@ public class MenuUtil {
 
         settingsReturnState = MAIN;
 
+        // environment settings defaults
         curr_world_height_mult = context.getComponents().getEnvironment().getTerrainHeightMultiplier();
         curr_vegetation_mult = context.getComponents().getEnvironment().getVegetationDensityPercent();
         curr_render_distance = context.getComponents().getEnvironment().getTerrainGenerateDistance();
         curr_terrain_has_water = context.getComponents().getEnvironment().getTerrainShouldHaveWater();
 
+        // sky box settings defaults
         curr_sun_scale = context.getComponents().getEnvironment().getSkybox().getSunScale();
         curr_moon_scale = context.getComponents().getEnvironment().getSkybox().getMoonScale();
         curr_big_star_scale = context.getComponents().getEnvironment().getSkybox().getBigStarScale();
         curr_sun_moon_period = context.getComponents().getEnvironment().getSkybox().getSun_moon_period_multiplier();
         curr_big_star_period = context.getComponents().getEnvironment().getSkybox().getBig_planet_period_multiplier();
 
+        // player settings defaults
         curr_fly_speed = context.getComponents().getPlayer().getFlySpeed();
         curr_jump_height = context.getComponents().getPlayer().getJumpHeightMultiplier();
         curr_run_speed = context.getComponents().getPlayer().getRunMultiplier();
+        curr_jump_cut_off_height = context.getComponents().getPlayer().getMaxAutoJumpHeightMultiplier();
 
+        // camera settings defaults
         curr_fov_default = context.getComponents().getCamera().getFOVdefault();
         curr_fov_running = context.getComponents().getCamera().getFOVrunningMultiplier();
         curr_fov_tired = context.getComponents().getCamera().getFOVtiredMultiplier();
 
+        // graphics settings defaults
         curr_sepia_tone = context.getEffects().getSepiaTone();
         curr_bloom = context.getEffects().getBloom();
         is_trip_mode = context.getEffects().getTripMode();
@@ -153,6 +160,7 @@ public class MenuUtil {
         curr_hue = context.getEffects().getHue();
         curr_brightness = context.getEffects().getBrightness();
 
+        // build each menu
         buildMainMenu();
         buildControlsMenu();
         buildSettingsMenu();
@@ -163,6 +171,7 @@ public class MenuUtil {
         buildAboutMenu();
         buildGraphicsMenu();
 
+        // add each menu to the group map with its key so that they can be quickly accessed
         addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
         addGroup(GROUP_SETTINGS, settingsMenu.getGroup());
         addGroup(GROUP_ENVIRONMENT, environmentMenu.getGroup());
@@ -779,7 +788,7 @@ public class MenuUtil {
 
         // sun size multiplier
         Text sunArrow = skyBoxMenu.drawText(singleArrow, 50, 140, GREEN, options);
-        Text sunText= skyBoxMenu.drawText("./Sun_Scale", 95, 140, Color.WHITE, options);
+        Text sunText = skyBoxMenu.drawText("./Sun_Scale", 95, 140, Color.WHITE, options);
         Text sunMult = skyBoxMenu.drawText(Integer.toString((int)curr_sun_scale), 550, 140, Color.WHITE, options);
         Rectangle sunHitBox = skyBoxMenu.drawRectangle(50,120,600,30,0,0,Color.TRANSPARENT);
         sunHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
@@ -1038,6 +1047,8 @@ public class MenuUtil {
                     }
                 });
 
+
+        // player run multiplier
         Text playerRunSpeedArrow = playerMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text playerRunSpeedText = playerMenu.drawText("./Run_Speed_Multiplier", 95, 240, Color.WHITE, options);
         Text playerRunSpeedMult = playerMenu.drawText(Double.toString(curr_run_speed), 550, 240, Color.WHITE, options);
@@ -1069,6 +1080,35 @@ public class MenuUtil {
                 });
 
         // player run multiplier
+        Text jumpCutoffHeightArrow = playerMenu.drawText(singleArrow, 50, 290, GREEN, options);
+        Text jumpCutoffHeightText = playerMenu.drawText("./Jump_Cut_Off_Height", 95, 290, Color.WHITE, options);
+        Text jumpCutoffHeightMult = playerMenu.drawText(Double.toString(curr_jump_cut_off_height)+" blocks", 550, 290, Color.WHITE, options);
+        Rectangle jumpCutoffHeightHitBox = playerMenu.drawRectangle(50,270,600,30,0,0,Color.TRANSPARENT);
+        jumpCutoffHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        curr_jump_cut_off_height +=.5;
+                        if(curr_jump_cut_off_height>5) curr_jump_cut_off_height = .5;
+                        jumpCutoffHeightMult.setText(Double.toString(curr_jump_cut_off_height)+" blocks");
+                        context.getComponents().getPlayer().setMaxAutoJumpHeightMultiplier(curr_jump_cut_off_height);
+                    }
+                });
+        jumpCutoffHeightHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        jumpCutoffHeightArrow.setText(doubleArrow);
+                        jumpCutoffHeightText.setFill(GREEN);
+                        jumpCutoffHeightMult.setFill(GREEN);
+                    }
+                });
+        jumpCutoffHeightHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        jumpCutoffHeightArrow.setText(singleArrow);
+                        jumpCutoffHeightText.setFill(Color.WHITE);
+                        jumpCutoffHeightMult.setFill(Color.WHITE);
+                    }
+                });
 
 
         //quit handler
