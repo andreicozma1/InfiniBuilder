@@ -77,7 +77,7 @@ public class PlayerUtil {
         GROUP.getChildren().add(uv_light);
 
         setJumpHeightMultiplier(1);
-        setMaxAutoJumpHeightMultiplier(.5);
+        setMaxAutoJumpHeightMultiplier(1.5);
         setRunMultiplier(1.10);
     }
 
@@ -173,26 +173,64 @@ public class PlayerUtil {
         }
     }
 
-    public void jump() {
-        Log.p(TAG, "jump()");
-        isJumping = true;
-        canJump = false;
-        jump_height_initial = getPositionYnoHeight();
-        isCrouching = false;
+    public void moveDown(double val) {
+        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPoint3D());
+
+        // Player Y being smaller than ground level means the player is above ground. Up is -Y axis
+        if (getPositionYnoHeight() < ground_level || isClipMode) {
+            System.out.println("ABOVE GROUND");
+
+            POSITION_Y += val;
+            speed_fall_initial += EnvironmentUtil.GRAVITY;
+
+            // if the player is more than a block above the ground , set onGround = false;
+            if ((POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * 1.5) {
+                onGround = false;
+            }
+            if (!onGround && !isRunning && !isFlyMode) {
+                Log.p(TAG, "moveDown() -> Falling at speed " + val);
+                if (context.getComponents().getCamera().getCamera().getFieldOfView() < 120) {
+                    context.getComponents().getCamera().getCamera().setFieldOfView(context.getComponents().getCamera().getFOVdefault() + val * 5);
+                    if (context.getEffects().getMotionBlurEnabled()) {
+                        context.getEffects().EFFECT_MOTION_BLUR.setRadius(context.getEffects().EFFECT_MOTION_BLUR.getRadius() + val / 2);
+                    }
+                }
+            }
+
+        } else if (getPositionYnoHeight() != ground_level) {
+            if (!onGround && !isFlyMode) {
+                if (val > 7) {
+                    takeDamage(val*3);
+                }
+            }
+
+            if ((POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * getMaxAutoJumpHeightMultiplier()) {
+                jump();
+            } else {
+                warpToGround();
+            }
+        }
     }
 
-    public void setIsRunning(boolean run) {
-        StatusBar bar = (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.STAMINA);
+    public void moveUp(double val) {
+        this.POSITION_Y -= val;
+        onGround = false;
+    }
 
-        if (!isRunning && run && bar.getCurrStatus() > bar.getMaxStatus() / 3) {
-            isRunning = true;
-        } else if (isRunning && run && bar.getCurrStatus() > 0) {
-            isRunning = true;
-        } else {
-            if (isRunning) {
-                takeDamage(1);
-            }
-            isRunning = false;
+    /**
+     * Function used by moveForward, moveBackward, moveLeft, moveRight
+     * @param new_x
+     * @param new_z
+     */
+    public void handle_collision(double new_x, double new_z) {
+        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z));
+        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(this.POSITION_X, getPositionYwithHeight(), new_z));
+
+        if ((POSITION_Y - ground_level_x  < context.getComponents().getEnvironment().getBlockDim() * maxAutoJumpHeightMultiplier) || isClipMode) {
+            this.POSITION_X = new_x;
+        }
+        if ((POSITION_Y - ground_level_z < context.getComponents().getEnvironment().getBlockDim() * maxAutoJumpHeightMultiplier) || isClipMode) {
+            this.POSITION_Z = new_z;
         }
     }
 
@@ -229,7 +267,6 @@ public class PlayerUtil {
         double new_x = this.POSITION_X - Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
-
     }
 
     public void moveRight(double val) {
@@ -242,59 +279,27 @@ public class PlayerUtil {
         handle_collision(new_x, new_z);
     }
 
-    public void handle_collision(double new_x, double new_z) {
-        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z));
-        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(this.POSITION_X, getPositionYwithHeight(), new_z));
 
-        if ((POSITION_Y - ground_level_x  < maxAutoJumpHeightMultiplier) || isClipMode) {
-            this.POSITION_X = new_x;
-        }
-        if ((POSITION_Y - ground_level_z < maxAutoJumpHeightMultiplier) || isClipMode) {
-            this.POSITION_Z = new_z;
-        }
+    public void jump() {
+        Log.p(TAG, "jump()");
+        isJumping = true;
+        canJump = false;
+        jump_height_initial = getPositionYnoHeight();
+        isCrouching = false;
     }
 
-    public void moveUp(double val) {
-        this.POSITION_Y -= val;
-        onGround = false;
-    }
+    public void setIsRunning(boolean run) {
+        StatusBar bar = (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.STAMINA);
 
-    public void moveDown(double val) {
-        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPoint3D());
-
-        // Player Y being smaller than ground level means the player is above ground. Up is -Y axis
-        if (getPositionYnoHeight() < ground_level || isClipMode) {
-            System.out.println("ABOVE GROUND");
-
-            POSITION_Y += val;
-            speed_fall_initial += EnvironmentUtil.GRAVITY;
-
-            // if the player is more than a block above the ground , set onGround = false;
-            if ((POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * 1.5) {
-                onGround = false;
+        if (!isRunning && run && bar.getCurrStatus() > bar.getMaxStatus() / 3) {
+            isRunning = true;
+        } else if (isRunning && run && bar.getCurrStatus() > 0) {
+            isRunning = true;
+        } else {
+            if (isRunning) {
+                takeDamage(1);
             }
-            if (!onGround && !isRunning && !isFlyMode) {
-                Log.p(TAG, "moveDown() -> Falling at speed " + val);
-                if (context.getComponents().getCamera().getCamera().getFieldOfView() < 120) {
-                    context.getComponents().getCamera().getCamera().setFieldOfView(context.getComponents().getCamera().getFOVdefault() + val * 5);
-                    if (context.getEffects().getMotionBlurEnabled()) {
-                        context.getEffects().EFFECT_MOTION_BLUR.setRadius(context.getEffects().EFFECT_MOTION_BLUR.getRadius() + val / 2);
-                    }
-                }
-            }
-
-        } else if (getPositionYnoHeight() != ground_level) {
-            if (!onGround && !isFlyMode) {
-                if (val > 7) {
-                    takeDamage(val*3);
-                }
-            }
-
-            if ((POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * .8) {
-                jump();
-            } else {
-                warpToGround();
-            }
+            isRunning = false;
         }
     }
 
@@ -304,8 +309,6 @@ public class PlayerUtil {
         onGround = true;
         speed_fall_initial = 0;
     }
-
-
 
     public double getPositionX() {
         return POSITION_X;
@@ -396,12 +399,12 @@ public class PlayerUtil {
     }
 
     public double getMaxAutoJumpHeightMultiplier() {
-        return maxAutoJumpHeightMultiplier / getPlayerHeight();
+        return maxAutoJumpHeightMultiplier;
     }
     public void setMaxAutoJumpHeightMultiplier(double val) {
         try {
             if (val >= 0) {
-                this.maxAutoJumpHeightMultiplier = getPlayerHeight() * val;
+                this.maxAutoJumpHeightMultiplier = val;
             } else {
                 throw new IndexOutOfBoundsException();
             }
