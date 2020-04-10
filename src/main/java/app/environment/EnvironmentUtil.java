@@ -194,8 +194,8 @@ public class EnvironmentUtil {
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PLAINS_LEVEL) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.grass)) {
-            box.getShape().setMaterial(ResourcesUtil.grass);
+        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PLAINS_LEVEL) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.grass_01)) {
+            box.getShape().setMaterial(ResourcesUtil.grass_01);
             box.getProps().setPROPERTY_ITEM_TAG("Grass");
 
             if (Math.random() > 1 - vegDens) {
