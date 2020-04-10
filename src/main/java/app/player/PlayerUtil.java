@@ -81,8 +81,8 @@ public class PlayerUtil {
     public void update_handler(double dt) {
         context.getComponents().getCamera().update_handler();
 
-        context.getComponents().getEnvironment().generateChunks3D(getPositionX(), getPositionZ());
-        context.getComponents().getEnvironment().showChunksAroundPlayer(getPositionX(), getPositionZ());
+        context.getComponents().getEnvironment().generateMap(getPositionX(), getPositionZ());
+        context.getComponents().getEnvironment().renderMap(getPositionX(), getPositionZ());
 
         GROUP.setTranslateX(getPositionX());
         GROUP.setTranslateY(-getPositionYwithHeight() - PROPERTY_HEIGHT);

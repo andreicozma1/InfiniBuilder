@@ -89,7 +89,7 @@ public class EnvironmentUtil {
 
     public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
 
-    public void generateChunks3D(double playerx, double playerz) {
+    public void generateMap(double playerx, double playerz) {
         playerx = convertToTerrainPos(playerx);
         playerz = convertToTerrainPos(playerz);
         for (int i = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx); i <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx; i++) {
@@ -112,7 +112,7 @@ public class EnvironmentUtil {
 
     HashMap<Point3D, StructureBuilder> MAP_RENDERED = new HashMap();
 
-    public void showChunksAroundPlayer(double playerx, double playerz) {
+    public void renderMap(double playerx, double playerz) {
         playerx = convertToTerrainPos(playerx);
         playerz = convertToTerrainPos(playerz);
 
