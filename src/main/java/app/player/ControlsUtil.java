@@ -208,7 +208,7 @@ public class ControlsUtil {
                     if (context.getComponents().getPlayer().isFlyMode) {
                         context.getComponents().getPlayer().moveUp(context.getComponents().getPlayer().speedFly * dt);
                     } else {
-                        if (context.getComponents().getPlayer().isOnGround() && context.getComponents().getPlayer().canJump) {
+                        if (context.getComponents().getPlayer().onGround && context.getComponents().getPlayer().canJump) {
                             context.getComponents().getPlayer().jump();
                         }
                     }

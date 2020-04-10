@@ -9,7 +9,6 @@ import app.utils.InventoryUtil;
 import app.utils.Log;
 import app.utils.ProjectileUtil;
 import app.utils.ResourcesUtil;
-import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
@@ -57,7 +56,7 @@ public class PlayerUtil {
     private boolean isClipMode = false;
     boolean isFlyMode = false;
 
-    private boolean onGround = true;
+    boolean onGround = true;
 
     private final PointLight uv_light;
     private boolean uv_light_state = false;
@@ -111,7 +110,7 @@ public class PlayerUtil {
         // Running mechanism. Changes camera FOV incrementally from 45 to 60 when running and from 60 to 45 when not running
         double curr_fov = context.getComponents().getCamera().getCamera().getFieldOfView();
         if (isRunning) {
-            if (curr_fov < context.getComponents().getCamera().getFov_default() * context.getComponents().getCamera().getFov_running_multiplier()) {
+            if (curr_fov < context.getComponents().getCamera().getFOVdefault() * context.getComponents().getCamera().getFOVrunningMultiplier()) {
                 context.getComponents().getCamera().getCamera().setFieldOfView(curr_fov + 1);
                 if (context.getEffects().getMotionBlurEnabled()) {
                     context.getEffects().EFFECT_MOTION_BLUR.setRadius(context.getEffects().EFFECT_MOTION_BLUR.getRadius() + .5);
@@ -121,9 +120,9 @@ public class PlayerUtil {
             if (getStaminaBar().getCurrStatus() < getStaminaBar().getMaxStatus()) {
                 getStaminaBar().setCurrStatus(getStaminaBar().getCurrStatus() + staminaRegenSpeed * dt);
             }
-            if (curr_fov > context.getComponents().getCamera().getFov_default()) {
+            if (curr_fov > context.getComponents().getCamera().getFOVdefault()) {
                 context.getComponents().getCamera().getCamera().setFieldOfView(curr_fov - 5);
-            } else if (curr_fov < context.getComponents().getCamera().getFov_default() - 2) {
+            } else if (curr_fov < context.getComponents().getCamera().getFOVdefault() - 2) {
                 context.getComponents().getCamera().getCamera().setFieldOfView(curr_fov + 2);
             }
             if (context.getEffects().getMotionBlurEnabled()) {
@@ -182,11 +181,6 @@ public class PlayerUtil {
         isCrouching = false;
     }
 
-
-    public Group getGroup() {
-        return GROUP;
-    }
-
     public void setIsRunning(boolean run) {
         StatusBar bar = (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.STAMINA);
 
@@ -203,21 +197,18 @@ public class PlayerUtil {
     }
 
     public void moveForward(double val) {
-        // If the player is running, move forward by the specified runMultiplier amount
         if (isFlyMode) val = speedFly;
-        StatusBar bar = (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.STAMINA);
+        if (isCrouching) val *= crouch_multiplier;
+
         if (isRunning) {
             val *= runMultiplier;
-            bar.setCurrStatus(bar.getCurrStatus() - staminaDepletionSpeed);
+            getStaminaBar().setCurrStatus(getStaminaBar().getCurrStatus() - staminaDepletionSpeed);
         }
-
-        if (isCrouching) val *= crouch_multiplier;
 
         double new_x = this.POSITION_X + Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
         double new_z = this.POSITION_Z + Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
-
     }
 
     public void moveBackward(double val) {
@@ -228,12 +219,10 @@ public class PlayerUtil {
         double new_z = this.POSITION_Z - Math.cos(context.getComponents().getCamera().getRotateX() / 57.3) * val;
 
         handle_collision(new_x, new_z);
-
     }
 
     public void moveLeft(double val) {
         if (isFlyMode) val = speedFly;
-
         if (isCrouching) val *= crouch_multiplier;
 
         double new_z = this.POSITION_Z + Math.sin(context.getComponents().getCamera().getRotateX() / 57.3) * val;
@@ -284,10 +273,10 @@ public class PlayerUtil {
             if ((POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * 1.5) {
                 onGround = false;
             }
-            if (!isOnGround() && !isRunning && !isFlyMode) {
+            if (!onGround && !isRunning && !isFlyMode) {
                 Log.p(TAG, "moveDown() -> Falling at speed " + val);
                 if (context.getComponents().getCamera().getCamera().getFieldOfView() < 120) {
-                    context.getComponents().getCamera().getCamera().setFieldOfView(context.getComponents().getCamera().getFov_default() + val * 5);
+                    context.getComponents().getCamera().getCamera().setFieldOfView(context.getComponents().getCamera().getFOVdefault() + val * 5);
                     if (context.getEffects().getMotionBlurEnabled()) {
                         context.getEffects().EFFECT_MOTION_BLUR.setRadius(context.getEffects().EFFECT_MOTION_BLUR.getRadius() + val / 2);
                     }
@@ -316,48 +305,19 @@ public class PlayerUtil {
         speed_fall_initial = 0;
     }
 
-    public StatusBar getStaminaBar() {
-        return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.STAMINA);
-    }
 
-    public StatusBar getHealthBar() {
-        return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.HEALTH);
-    }
-
-    public double getHealth() {
-        return getHealthBar().getCurrStatus();
-    }
-
-    public void takeDamage(double d) {
-        Log.p(TAG, "takeDamage() -> Took " + d + " damage");
-        getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() - d);
-        if (getHealthBar().getCurrStatus() == 0) {
-            die();
-        }
-    }
 
     public double getPositionX() {
         return POSITION_X;
     }
-
     public double getPositionYnoHeight() {
         return POSITION_Y;
     }
     public double getPositionYwithHeight() {
         return POSITION_Y - PROPERTY_HEIGHT;
     }
-
     public double getPositionZ() {
         return POSITION_Z;
-    }
-
-    /**
-     * Returns the 3D placement of the character in the world (X, Y, Z coords)
-     *
-     * @return
-     */
-    public PlayerPoint3D getPoint3D() {
-        return new PlayerPoint3D(getPositionX(), getPositionYwithHeight(), getPositionZ());
     }
 
     /**
@@ -369,58 +329,40 @@ public class PlayerUtil {
         return new PlayerPoint2D(getPositionX(), getPositionZ());
     }
 
-    public double getPlayerHeight() {
-        return PROPERTY_HEIGHT;
+    /**
+     * Returns the 3D placement of the character in the world (X, Y, Z coords)
+     *
+     * @return
+     */
+    public PlayerPoint3D getPoint3D() {
+        return new PlayerPoint3D(getPositionX(), getPositionYwithHeight(), getPositionZ());
     }
-
-    public boolean isOnGround() {
-        return onGround;
-    }
-
     public void setPosition(double newx, double newy, double newz) {
         POSITION_X = newx;
         POSITION_Y = newy;
         POSITION_Z = newz;
     }
 
-    public void reset() {
-        Log.p(TAG, "reset()");
-        setPosition(0, 0, 0);
 
-        isClipMode = false;
-        isRunning = false;
-        isFlyMode = false;
-        isJumping = false;
-
-        resetBars();
-        context.getComponents().getCamera().reset();
-        context.getEffects().resetEffects();
-        context.getComponents().getGameSceneControls().reset();
+    public void setUV_light(boolean state) {
+        uv_light.setLightOn(state);
+        uv_light_state = state;
     }
-
-    public void resetBars() {
-        getHealthBar().setCurrStatus(getHealthBar().getMaxStatus());
-        getStaminaBar().setCurrStatus(getStaminaBar().getMaxStatus());
-    }
-
-    public void die() {
-        Log.p(TAG, "die()");
-        ((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).setDead(true);
-        context.getComponents().getHUD().getElement(HUDUtil.DEATH).update();
+    public void toggleUVlight() {
+        Log.p(TAG, "toggleUVlight()");
+        setUV_light(!uv_light_state);
     }
 
     public InventoryUtil getInventory() {
         return inventoryUtil;
     }
 
-    public void setUV_light(boolean state) {
-        uv_light.setLightOn(state);
-        uv_light_state = state;
+    public Group getGroup() {
+        return GROUP;
     }
 
-    public void toggleUVlight() {
-        Log.p(TAG, "toggleUVlight()");
-        setUV_light(!uv_light_state);
+    public double getPlayerHeight() {
+        return PROPERTY_HEIGHT;
     }
 
     public void toggleCrouch() {
@@ -433,11 +375,9 @@ public class PlayerUtil {
     public boolean getIsClipMode() {
         return isClipMode;
     }
-
     public void setIsClipMode(boolean val) {
         isClipMode = val;
     }
-
     public void toggleIsClipMode() {
         Log.p(TAG, "toggleIsClipMode()");
         setIsClipMode(!getIsClipMode());
@@ -446,12 +386,10 @@ public class PlayerUtil {
     public boolean getIsFlyMode() {
         return isFlyMode;
     }
-
     public void setIsFlyMode(boolean val) {
         isFlyMode = val;
         speed_fall_initial = 0;
     }
-
     public void toggleIsFlyMode() {
         Log.p(TAG, "toggleIsFlyMode()");
         setIsFlyMode(!getIsFlyMode());
@@ -460,11 +398,10 @@ public class PlayerUtil {
     public double getAutoJumpCutoffHeight() {
         return autoJumpCutoffHeight / getPlayerHeight();
     }
-
     public void setAutoJumpCutoffHeight(double val) {
         try {
             if (val >= 0) {
-                this.autoJumpCutoffHeight = PROPERTY_HEIGHT * val;
+                this.autoJumpCutoffHeight = getPlayerHeight() * val;
             } else {
                 throw new IndexOutOfBoundsException();
             }
@@ -474,11 +411,9 @@ public class PlayerUtil {
 
     }
 
-
     public double getFlySpeed() {
         return speedFly;
     }
-
     public void setFlySpeed(double spd) {
         try {
             if (spd >= 0) {
@@ -494,7 +429,6 @@ public class PlayerUtil {
     public double getRunMultiplier() {
         return runMultiplier;
     }
-
     public void setRunMultiplier(double mult) {
         try {
             if (mult >= 0) {
@@ -507,11 +441,9 @@ public class PlayerUtil {
         }
     }
 
-
     public double getJumpHeightMultiplier() {
         return jump_height_multiplier;
     }
-
     public void setJumpHeightMultiplier(double mult) {
         try {
             if (mult >= 0) {
@@ -522,6 +454,52 @@ public class PlayerUtil {
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
         }
+    }
+
+    public StatusBar getStaminaBar() {
+        return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.STAMINA);
+    }
+
+    public StatusBar getHealthBar() {
+        return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.HEALTH);
+    }
+
+    public double getHealth() {
+        return getHealthBar().getCurrStatus();
+    }
+
+    public void resetBars() {
+        getHealthBar().setCurrStatus(getHealthBar().getMaxStatus());
+        getStaminaBar().setCurrStatus(getStaminaBar().getMaxStatus());
+    }
+
+    public void takeDamage(double d) {
+        Log.p(TAG, "takeDamage() -> Took " + d + " damage");
+        getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() - d);
+        if (getHealthBar().getCurrStatus() == 0) {
+            die();
+        }
+    }
+
+    public void die() {
+        Log.p(TAG, "die()");
+        ((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).setDead(true);
+        context.getComponents().getHUD().getElement(HUDUtil.DEATH).update();
+    }
+
+    public void reset() {
+        Log.p(TAG, "reset()");
+        setPosition(0, 0, 0);
+
+        isClipMode = false;
+        isRunning = false;
+        isFlyMode = false;
+        isJumping = false;
+
+        resetBars();
+        context.getComponents().getCamera().reset();
+        context.getEffects().resetEffects();
+        context.getComponents().getGameSceneControls().reset();
     }
 }
 

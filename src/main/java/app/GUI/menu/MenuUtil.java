@@ -140,9 +140,9 @@ public class MenuUtil {
         curr_jump_height = context.getComponents().getPlayer().getJumpHeightMultiplier();
         curr_run_speed = context.getComponents().getPlayer().getRunMultiplier();
 
-        curr_fov_default = context.getComponents().getCamera().getFov_default();
-        curr_fov_running = context.getComponents().getCamera().getFov_running_multiplier();
-        curr_fov_tired = context.getComponents().getCamera().getFov_tired_multiplier();
+        curr_fov_default = context.getComponents().getCamera().getFOVdefault();
+        curr_fov_running = context.getComponents().getCamera().getFOVrunningMultiplier();
+        curr_fov_tired = context.getComponents().getCamera().getFOVtiredMultiplier();
 
         curr_sepia_tone = context.getEffects().getSepiaTone();
         curr_bloom = context.getEffects().getBloom();
@@ -1124,7 +1124,7 @@ public class MenuUtil {
                         curr_fov_default +=5;
                         if(curr_fov_default > 100) curr_fov_default = 20;
                         defaultFovMult.setText(curr_fov_default + " deg");
-                        context.getComponents().getCamera().setFov_default(curr_fov_default);
+                        context.getComponents().getCamera().setFOVdefault(curr_fov_default);
                     }
                 });
         defaultFovHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1155,7 +1155,7 @@ public class MenuUtil {
                         curr_fov_running += .25;
                         if(curr_fov_running > 3) curr_fov_running = 1;
                         runningFovMult.setText(Math.floor(curr_fov_running * 100) / 100 + " x Default");
-                        context.getComponents().getCamera().setFov_running_multiplier(curr_fov_running);
+                        context.getComponents().getCamera().setFOVrunningMultiplier(curr_fov_running);
                     }
                 });
         runningFovHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1186,7 +1186,7 @@ public class MenuUtil {
                         curr_fov_tired -= .1;
                         if(curr_fov_tired < .5) curr_fov_tired = 1;
                         tiredFovMult.setText(Math.floor(curr_fov_tired * 100) / 100 + " x Default");
-                        context.getComponents().getCamera().setFov_tired_multiplier(curr_fov_tired);
+                        context.getComponents().getCamera().setFOVtiredMultiplier(curr_fov_tired);
                     }
                 });
         tiredFovHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
