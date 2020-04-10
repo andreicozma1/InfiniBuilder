@@ -49,7 +49,6 @@ public class ResourcesUtil {
         setupMaterials();
         world_types_sorted = new ArrayList<>(world_types.keySet());
         Collections.sort(world_types_sorted);
-
     }
 
     public void setupMaterials() {
@@ -57,25 +56,36 @@ public class ResourcesUtil {
         stone.setDiffuseMap(getImage("/textures/stone.jpg"));
 
         grass = new PhongMaterial();
-        grass.setDiffuseMap(getImage("/textures/grass.jpg"));
-//
-
+        grass.setDiffuseMap(getImage("/textures/grass/grass01.jpg"));
+        grass.setSpecularMap(getImage("/textures/grass/grass01_s.jpg"));
+        grass.setBumpMap(getImage("/textures/grass/grass01_n.jpg"));
 
         dirt = new PhongMaterial();
         dirt.setDiffuseMap(getImage("/textures/dirt.jpg"));
 
-
         moss = new PhongMaterial();
         moss.setDiffuseMap(getImage("/textures/moss.jpg"));
-
 
         sand = new PhongMaterial();
         sand.setDiffuseMap(getImage("/textures/sand.jpg"));
 
+        metal = new PhongMaterial();
+        metal.setDiffuseMap(getImage("/textures/metal.jpg"));
+        metal.setSpecularMap(getImage("/textures/metal.jpg"));
+
+        water = new PhongMaterial();
+        water.setDiffuseMap(getImage("/textures/water.jpg"));
+
+        // THESE STAY THE SAME
+
+        clouds = new PhongMaterial();
+        clouds.setDiffuseMap(getImage("/textures/clouds.png"));
 
         sun = new PhongMaterial();
         sun.setDiffuseMap(getImage("/textures/sun.jpg"));
         sun.setSelfIlluminationMap(getImage("/textures/sun.jpg"));
+        sun.setSpecularMap(getImage("/textures/sun.jpg"));
+        sun.setSpecularPower(1);
 
         moon = new PhongMaterial();
         moon.setDiffuseMap(getImage("/textures/moon.jpg"));
@@ -84,15 +94,6 @@ public class ResourcesUtil {
         big_star = new PhongMaterial();
         big_star.setDiffuseMap(getImage("/textures/planet.png"));
         big_star.setSelfIlluminationMap(getImage("/textures/planet.png"));
-
-        metal = new PhongMaterial();
-        metal.setDiffuseMap(getImage("/textures/metal.jpg"));
-
-        clouds = new PhongMaterial();
-        clouds.setDiffuseMap(getImage("/textures/clouds.png"));
-
-        water = new PhongMaterial();
-        water.setDiffuseMap(getImage("/textures/water.jpg"));
 
         blue = new PhongMaterial();
         blue.setDiffuseColor(Color.BLUE);
@@ -114,7 +115,6 @@ public class ResourcesUtil {
 
 
     public Image getImage(String path) {
-//        ClassLoader classLoader = this.getClass().getClassLoader();
         return new Image(getClass().getResourceAsStream(path));
     }
 }

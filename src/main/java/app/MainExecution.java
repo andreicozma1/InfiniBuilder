@@ -34,6 +34,7 @@ public class MainExecution extends Application {
         Base_Cube dirt = new Base_Cube("Grass", ResourcesUtil.grass, game.getComponents().getEnvironment().getBlockDim());
         Base_Cube grass = new Base_Cube("Dirt", ResourcesUtil.dirt, game.getComponents().getEnvironment().getBlockDim());
         Base_Cube sand = new Base_Cube("Sand", ResourcesUtil.sand, game.getComponents().getEnvironment().getBlockDim());
+        Base_Cube metal = new Base_Cube("Metal", ResourcesUtil.metal, game.getComponents().getEnvironment().getBlockDim());
 
         MazeUtil maze = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 20, 2,3, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED);
         MazeUtil maze2 = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, 3,ResourcesUtil.metal,  MazeUtil.GENERATOR_RANDOM_SEED, true);
@@ -54,6 +55,7 @@ public class MainExecution extends Application {
         game.getComponents().getPlayer().getInventory().addItem(4, grass, 40);
         game.getComponents().getPlayer().getInventory().addItem(dirt, 15);
         game.getComponents().getPlayer().getInventory().addItem(sand, 10);
+        game.getComponents().getPlayer().getInventory().addItem(metal,50);
         game.getComponents().getPlayer().getInventory().addItem(mazeitem, 99);
         game.getComponents().getPlayer().getInventory().addItem(maze2item, 99);
 //        game.getComponents().getPlayer().getInventory().addItem(pyrmItem, 99);
