@@ -167,7 +167,6 @@ public class PlayerUtil {
 
         // Player Y being smaller than ground level means the player is above ground. Up is -Y axis
         if (getPositionYnoHeight() < ground_level || isClipMode) {
-            System.out.println("ABOVE GROUND");
 
             POSITION_Y += val;
             speed_fall_initial += EnvironmentUtil.GRAVITY;
@@ -177,7 +176,7 @@ public class PlayerUtil {
                 isOnGround = false;
             }
             if (!isOnGround && !isRunning && !isFlyMode) {
-                Log.p(TAG, "moveDown() -> Falling at speed " + val);
+//                Log.p(TAG, "moveDown() -> Falling at speed " + val);
                 if (context.getComponents().getCamera().getCamera().getFieldOfView() < 120) {
                     context.getComponents().getCamera().getCamera().setFieldOfView(context.getComponents().getCamera().getFOVdefault() + val * 5);
                     if (context.getEffects().getMotionBlurEnabled()) {

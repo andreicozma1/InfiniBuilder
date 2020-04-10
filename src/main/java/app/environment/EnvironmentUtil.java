@@ -37,9 +37,9 @@ public class EnvironmentUtil {
     private final double PROPERTY_PLAINS_LEVEL = 100;
     private final double PROPERTY_HILLS_LEVEL = -50;
     private final double PROPERTY_PEAK_LEVEL = -300;
-    public GameBuilder context;
     private final Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
     private final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
+    public GameBuilder context;
     private SkyboxUtil UTIL_SKYBOX;
     private SimplexUtil UTIL_SIMPLEX;
     private double PROPERTY_TERRAIN_GENERATE_DISTANCE;
@@ -88,19 +88,23 @@ public class EnvironmentUtil {
         for (int i = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx); i <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx; i++) {
             for (int j = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerz); j <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerz; j++) {
                 if (!MAP_GENERATED.containsKey(new Point2D(i, j))) {
-
-                    TreeMap<Integer, Pair> worldColumn = new TreeMap<>();
-
-                    double starting_y = getSimplexHeight(i, j);
-
-                    for (double k = starting_y; k <= 100; k++) {
-                        worldColumn.put((int) Math.floor(k), new Pair<>(getSimplexHeight3D(i, k, j), k));
-                    }
-
-                    MAP_GENERATED.put(new Point2D(i, j), worldColumn);
+                    generateMapColumn(i, j);
                 }
             }
         }
+    }
+
+    public void generateMapColumn(int i, int j) {
+        // i and j are terrain coordinates not absolute coordinates
+        TreeMap<Integer, Pair> mapColumn = new TreeMap<>();
+
+        double starting_y = getSimplexHeight(i, j);
+
+        for (double k = starting_y; k <= 100; k++) {
+            mapColumn.put((int) Math.floor(k), new Pair<>(getSimplexHeight3D(i, k, j), k));
+        }
+
+        MAP_GENERATED.put(new Point2D(i, j), mapColumn);
     }
 
     public void renderMap(double playerx, double playerz) {
@@ -296,26 +300,45 @@ public class EnvironmentUtil {
     }
 
     public void placeObject(PlayerPoint3D pos, StructureBuilder str, boolean shouldStack) {
-        int xPos = convertAbsoluteToTerrainPos(pos.getX());
-        int yPos = (int) getClosestGroundLevel(pos, false) - 1;
-        int zPos = convertAbsoluteToTerrainPos(pos.getZ());
+        int xCurrent = convertAbsoluteToTerrainPos(pos.getX());
+        int yCurrent = (int) Math.floor(pos.getY());
+        int yAbove = (int) getClosestGroundLevel(pos, false) - 1;
+        int zCurrent = convertAbsoluteToTerrainPos(pos.getZ());
 //      public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();   // key: x,z value: world column (key: non rounded y position value: pair)
 //      HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
-        // if the x z coordinate exists
-        if (MAP_GENERATED.containsKey(new Point2D(xPos, zPos))) {
-            // get the world column with the x z coordinate
-            TreeMap<Integer, Pair> worldColumn = MAP_GENERATED.get(new Point2D(xPos, zPos));
-            // if there is not already a block at the y pos
+        // if the x z coordinate does not exist, create it
+        if (!MAP_GENERATED.containsKey(new Point2D(xCurrent, zCurrent))) {
+            generateMapColumn(xCurrent,zCurrent);
+        }
 
-            if (!worldColumn.containsKey(yPos)) {
+        // get the world column with the x z coordinate
+        TreeMap<Integer, Pair> worldColumn = MAP_GENERATED.get(new Point2D(xCurrent, zCurrent));
 
+        // if you want the block to be placed on top of the first-found ground-level block and there is not already a block at the y pos right above the ground level
+        if (shouldStack) {
+            if(!worldColumn.containsKey(yAbove)){
                 // insert a block at the y pos in the column
-                str.setTranslateIndependent(xPos * getBlockDim(), getClosestGroundLevel(pos, true) - str.getHeight(), zPos * getBlockDim());
-                MAP_RENDERING.put(new Point3D(xPos, yPos, zPos), str);
-                worldColumn.put(yPos, new Pair<>(getSimplexHeight3D(xPos, yPos, zPos), (getClosestGroundLevel(pos, true) - str.getHeight()) / getBlockDim()));
+                str.setTranslateIndependent(xCurrent * getBlockDim(), getClosestGroundLevel(pos, true) - str.getHeight(), zCurrent * getBlockDim());
+                MAP_RENDERING.put(new Point3D(xCurrent, yAbove, zCurrent), str);
+                worldColumn.put(yAbove, new Pair<>(getSimplexHeight3D(xCurrent, yAbove, zCurrent), (getClosestGroundLevel(pos, true) - str.getHeight()) / getBlockDim()));
+            }
+        } else{
+            // otherwise, if shouldStack is false we want to replace any pre-existing blocks with the new one instead of stacking it on top of the ground level
+            if(worldColumn.containsKey(yCurrent)){
+                // so, if the block already exists, replace it -- TODO
+
+                // Problem below is that MAP_RENDERING may not have the block;
+//                StructureBuilder existing = MAP_RENDERING.get(new Point3D(xCurrent, yAbove, zCurrent));
+//                str.setTranslateIndependent(existing.getTranslateX(), existing.getTranslateY(), existing.getTranslateZ());
+//                MAP_RENDERING.put(new Point3D(xCurrent, yCurrent, zCurrent), str);
+            } else{
+                // otherwise, if the block doesn't exist, create it
+
             }
         }
+
+
     }
 
     public Group getWorldGroup() {
