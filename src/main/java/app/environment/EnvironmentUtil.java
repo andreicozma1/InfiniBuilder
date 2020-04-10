@@ -110,7 +110,7 @@ public class EnvironmentUtil {
         }
     }
 
-    HashMap<Point3D, StructureBuilder> MAP_RENDERED = new HashMap();
+    HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
     public void renderMap(double playerx, double playerz) {
         playerx = convertToTerrainPos(playerx);
@@ -139,19 +139,19 @@ public class EnvironmentUtil {
                                     (MAP_GENERATED.containsKey(forwards) && !MAP_GENERATED.get(forwards).containsKey(k - 1)) ||
                                     (MAP_GENERATED.containsKey(backwards) && !MAP_GENERATED.get(backwards).containsKey(k - 1))) {
 
-                                if (!MAP_RENDERED.containsKey(new Point3D(i, k, j))) {
+                                if (!MAP_RENDERING.containsKey(new Point3D(i, k, j))) {
                                     int x = i * getBlockDim();
                                     int z = j * getBlockDim();
                                     Pair<Double, Double> pr = worldColumn.get(k);
                                     double y = pr.getValue() * getBlockDim();
                                     if(pr== worldColumn.firstEntry().getValue()){
-                                        MAP_RENDERED.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, false, true));
+                                        MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, false, true));
                                     }
                                     else{
-                                        MAP_RENDERED.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, true, true));
+                                        MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, true, true));
                                     }
                                 } else {
-                                    GROUP_TERRAIN.getChildren().add(MAP_RENDERED.get(new Point3D(i, k, j)));
+                                    GROUP_TERRAIN.getChildren().add(MAP_RENDERING.get(new Point3D(i, k, j)));
                                 }
 
                             } else {
@@ -267,7 +267,7 @@ public class EnvironmentUtil {
     public void reset() {
         UTIL_SIMPLEX = new SimplexUtil(300, .5, (int) System.currentTimeMillis());
         MAP_GENERATED.clear();
-        MAP_RENDERED.clear();
+        MAP_RENDERING.clear();
     }
 
     private double getSimplexHeight(double pollx, double pollz) {
