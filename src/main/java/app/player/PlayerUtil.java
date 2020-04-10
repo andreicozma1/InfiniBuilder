@@ -45,7 +45,7 @@ public class PlayerUtil {
 
     private double jump_height_multiplier;
 
-    private double autoJumpCutoffHeight;
+    private double maxAutoJumpHeightMultiplier;
 
     boolean canJump = true;
     private boolean isJumping = false;
@@ -77,7 +77,7 @@ public class PlayerUtil {
         GROUP.getChildren().add(uv_light);
 
         setJumpHeightMultiplier(1);
-        setAutoJumpCutoffHeight(.5);
+        setMaxAutoJumpHeightMultiplier(.5);
         setRunMultiplier(1.10);
     }
 
@@ -246,10 +246,10 @@ public class PlayerUtil {
         double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z));
         double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(this.POSITION_X, getPositionYwithHeight(), new_z));
 
-        if ((POSITION_Y - ground_level_x  < autoJumpCutoffHeight) || isClipMode) {
+        if ((POSITION_Y - ground_level_x  < maxAutoJumpHeightMultiplier) || isClipMode) {
             this.POSITION_X = new_x;
         }
-        if ((POSITION_Y - ground_level_z < autoJumpCutoffHeight) || isClipMode) {
+        if ((POSITION_Y - ground_level_z < maxAutoJumpHeightMultiplier) || isClipMode) {
             this.POSITION_Z = new_z;
         }
     }
@@ -395,13 +395,13 @@ public class PlayerUtil {
         setIsFlyMode(!getIsFlyMode());
     }
 
-    public double getAutoJumpCutoffHeight() {
-        return autoJumpCutoffHeight / getPlayerHeight();
+    public double getMaxAutoJumpHeightMultiplier() {
+        return maxAutoJumpHeightMultiplier / getPlayerHeight();
     }
-    public void setAutoJumpCutoffHeight(double val) {
+    public void setMaxAutoJumpHeightMultiplier(double val) {
         try {
             if (val >= 0) {
-                this.autoJumpCutoffHeight = getPlayerHeight() * val;
+                this.maxAutoJumpHeightMultiplier = getPlayerHeight() * val;
             } else {
                 throw new IndexOutOfBoundsException();
             }
