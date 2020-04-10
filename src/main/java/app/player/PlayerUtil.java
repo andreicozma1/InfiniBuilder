@@ -161,10 +161,10 @@ public class PlayerUtil {
             switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
                 case StructureBuilder.TYPE_OBJECT:
                     Base_Structure cb = StructureBuilder.resolve(inventory_item);
-                    cb.placeAtExactPoint(context.getComponents().getEnvironment(), getPoint3D());
+                    cb.placeAtExactPoint(context.getComponents().getEnvironment(), getPoint3D(),true);
                     break;
                 default:
-                    inventory_item.placeAtExactPoint(context.getComponents().getEnvironment(), getPoint3D());
+                    inventory_item.placeAtExactPoint(context.getComponents().getEnvironment(), getPoint3D(),true);
                     break;
             }
         }

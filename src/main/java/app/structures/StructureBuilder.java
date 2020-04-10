@@ -1,6 +1,7 @@
 package app.structures;
 
 import app.environment.EnvironmentUtil;
+import app.player.PlayerPoint3D;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Sphere;
 import app.structures.objects.Base_Structure;
@@ -98,15 +99,9 @@ public abstract class StructureBuilder extends Group implements Interactable {
 
 
     @Override
-    public void placeAtExactPoint(EnvironmentUtil e, Point3D pos) {
+    public void placeAtExactPoint(EnvironmentUtil e, PlayerPoint3D pos, boolean shouldStack) {
         // right click action usually
-        e.placeObject(pos, this, false);
-    }
-
-    @Override
-    public void placeOnGround(EnvironmentUtil e, Point3D pos) {
-        // right click action usually
-        // TODO - Implement for 3D implementation
+        e.placeObject(pos, this, shouldStack);
     }
 
     @Override

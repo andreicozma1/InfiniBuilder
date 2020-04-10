@@ -302,29 +302,38 @@ public class EnvironmentUtil {
     }
 
     // TODO - FIX
-    public void placeObject(Point3D pos, StructureBuilder str, boolean removeExtras) {
+    public void placeObject(PlayerPoint3D pos, StructureBuilder str, boolean shouldStack) {
         int xPos = convertToTerrainPos(pos.getX());
-        int yPos = convertToTerrainPos(pos.getY());;
-        int zPos = convertToTerrainPos(pos.getZ());;
+        double yPos = getClosestGroundLevel(pos);
+        int zPos = convertToTerrainPos(pos.getZ());
 //      public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();   // key: x,z value: world column (key: non rounded y position value: pair)
 //      HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
         System.out.println("placeObject() " + str.getProps().getPROPERTY_ITEM_TAG() + " at " + pos);
+        System.out.println("placeObject() " + "xPos: " + xPos + "  yPos: " + yPos + " zPos: " + zPos);
 
         // if the x z coordinate exists
         if(MAP_GENERATED.containsKey(new Point2D(xPos,zPos))){
             // get the world column with the x z coordinate
             TreeMap<Integer, Pair> worldColumn =  MAP_GENERATED.get(new Point2D(xPos,zPos));
             // if there is not already a block at the y pos
-            if(!worldColumn.containsKey(yPos)){
-                // insert a block at the y pos in the column
-                worldColumn.put(yPos, new Pair<>((double)getSimplexHeight3D(xPos,yPos,zPos), (double)yPos));
-                str.getTransforms().removeAll(str.getTransforms());
-                str.setTranslateIndependent(pos.getX(),pos.getY()+context.getComponents().getPlayer().getPlayerHeight(),pos.getZ());
-//                str.setScaleAll(getBlockDim());
 
-                // insert in to the map rendering
-                MAP_RENDERING.put(new Point3D(xPos,yPos,zPos), str);
+
+            System.out.println(worldColumn.keySet());
+            if(!worldColumn.containsKey((int)Math.floor(yPos/getBlockDim())-1)){
+
+                System.out.println("ANDREIIII DOES NOT CONTAIN " + ((int)Math.floor(yPos/getBlockDim())-1));
+
+
+                // insert a block at the y pos in the column
+
+                str.getTransforms().removeAll(str.getTransforms());
+                str.setTranslateIndependent(xPos*getBlockDim(),yPos-str.getHeight(),zPos*getBlockDim());
+                str.setScaleAll(getBlockDim());
+
+                MAP_RENDERING.put(new Point3D(xPos,(int)Math.floor(yPos/getBlockDim())-1,zPos), str);
+
+                worldColumn.put((int)Math.floor(yPos/getBlockDim())-1, new Pair<>((double)getSimplexHeight3D(xPos,yPos,zPos), (yPos-str.getHeight())/getBlockDim()));
             }
 
         }
