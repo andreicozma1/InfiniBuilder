@@ -90,8 +90,8 @@ public class EnvironmentUtil {
     public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
 
     public void generateMap(double playerx, double playerz) {
-        playerx = convertToTerrainPos(playerx);
-        playerz = convertToTerrainPos(playerz);
+        playerx = convertAbsoluteToTerrainPos(playerx);
+        playerz = convertAbsoluteToTerrainPos(playerz);
         for (int i = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx); i <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx; i++) {
             for (int j = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerz); j <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerz; j++) {
                 if (!MAP_GENERATED.containsKey(new Point2D(i, j))) {
@@ -113,8 +113,8 @@ public class EnvironmentUtil {
     HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
     public void renderMap(double playerx, double playerz) {
-        playerx = convertToTerrainPos(playerx);
-        playerz = convertToTerrainPos(playerz);
+        playerx = convertAbsoluteToTerrainPos(playerx);
+        playerz = convertAbsoluteToTerrainPos(playerz);
 
         GROUP_TERRAIN.getChildren().clear();
 
@@ -278,20 +278,24 @@ public class EnvironmentUtil {
         return UTIL_SIMPLEX.getNoise((int) (pollx), (int) (pollz));
     }
 
-    public int convertToTerrainPos(double player_coord) {
+    public int convertAbsoluteToTerrainPos(double player_coord) {
         // requires the getX() from PlayerUtil
         return (int) Math.round((player_coord) / getBlockDim());
     }
 
-    public double getClosestGroundLevel(PlayerPoint3D world_coords) {
+    public double getClosestGroundLevel(PlayerPoint3D world_coords, boolean absolute) {
         // requires the getX() and getZ() from PlayerUtil
-        Point2D pt = new Point2D(convertToTerrainPos(world_coords.getX()), convertToTerrainPos(world_coords.getZ()));
+        Point2D pt = new Point2D(convertAbsoluteToTerrainPos(world_coords.getX()), convertAbsoluteToTerrainPos(world_coords.getZ()));
         if (MAP_GENERATED.containsKey(pt)) {
             int y = (int)Math.floor(world_coords.getY()/getBlockDim());
             for (int i = y; i <= 255; i++) {
                 if (MAP_GENERATED.get(pt).containsKey(i)) {
-                    Pair<Double, Double> result = MAP_GENERATED.get(pt).get(i);
-                    return result.getValue() * getBlockDim();
+                    if(absolute){
+                        Pair<Double, Double> result = MAP_GENERATED.get(pt).get(i);
+                        return result.getValue() * getBlockDim();
+                    } else{
+                        return i;
+                    }
                 }
             }
             return Integer.MAX_VALUE;
@@ -301,16 +305,14 @@ public class EnvironmentUtil {
         }
     }
 
-    // TODO - FIX
     public void placeObject(PlayerPoint3D pos, StructureBuilder str, boolean shouldStack) {
-        int xPos = convertToTerrainPos(pos.getX());
-        double yPos = getClosestGroundLevel(pos);
-        int zPos = convertToTerrainPos(pos.getZ());
+        int xPos = convertAbsoluteToTerrainPos(pos.getX());
+        int yPos = (int)getClosestGroundLevel(pos,false)-1;
+        int zPos = convertAbsoluteToTerrainPos(pos.getZ());
 //      public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();   // key: x,z value: world column (key: non rounded y position value: pair)
 //      HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
         System.out.println("placeObject() " + str.getProps().getPROPERTY_ITEM_TAG() + " at " + pos);
-        System.out.println("placeObject() " + "xPos: " + xPos + "  yPos: " + yPos + " zPos: " + zPos);
 
         // if the x z coordinate exists
         if(MAP_GENERATED.containsKey(new Point2D(xPos,zPos))){
@@ -318,66 +320,26 @@ public class EnvironmentUtil {
             TreeMap<Integer, Pair> worldColumn =  MAP_GENERATED.get(new Point2D(xPos,zPos));
             // if there is not already a block at the y pos
 
-
             System.out.println(worldColumn.keySet());
-            if(!worldColumn.containsKey((int)Math.floor(yPos/getBlockDim())-1)){
-
-                System.out.println("ANDREIIII DOES NOT CONTAIN " + ((int)Math.floor(yPos/getBlockDim())-1));
-
+            if(!worldColumn.containsKey(yPos)){
 
                 // insert a block at the y pos in the column
 
-                str.getTransforms().removeAll(str.getTransforms());
-                str.setTranslateIndependent(xPos*getBlockDim(),yPos - getBlockDim(),zPos*getBlockDim());
-                str.setScaleAll(getBlockDim());
+//                str.getTransforms().removeAll(str.getTransforms());
+                str.setTranslateIndependent(xPos*getBlockDim(),getClosestGroundLevel(pos,true) - getBlockDim(),zPos*getBlockDim());
+//                str.setScaleAll(getBlockDim());
 
-                MAP_RENDERING.put(new Point3D(xPos,(int)Math.floor(yPos/getBlockDim())-1,zPos), str);
+                MAP_RENDERING.put(new Point3D(xPos,yPos,zPos), str);
 
-                worldColumn.put((int)Math.floor(yPos/getBlockDim())-1, new Pair<>((double)getSimplexHeight3D(xPos,yPos,zPos), (yPos-str.getHeight())/getBlockDim()));
-            }
-
-        }
-
-
-        /*
-        double xPos = getWorldXFromPlayerX(pos.getX());
-        double zPos = getWorldZFromPlayerZ(pos.getY());
-
-
-        Point2D origLoc = new Point2D(xPos, zPos);
-
-        System.out.println("placeObject() " + str.getProps().getPROPERTY_ITEM_TAG() + " at " + origLoc);
-
-
-        if (!terrain_map_block.containsKey(origLoc)) {
-            create_platform(xPos,zPos,removeExtras,false);
-        } else{
-            boolean foundDestructible = false;
-            for(Node e : terrain_map_block.get(origLoc).getChildren()){
-                if(((StructureBuilder)e).getProps().getPROPERTY_DESTRUCTIBLE()){
-                    foundDestructible = true;
-                }
-            }
-            if(removeExtras && foundDestructible){
-                create_platform(xPos,zPos,removeExtras,true);
+                worldColumn.put(yPos, new Pair<>((double)getSimplexHeight3D(xPos,yPos,zPos), (getClosestGroundLevel(pos,true) -str.getHeight())/getBlockDim()));
             }
         }
-
-            str.getTransforms().removeAll(str.getTransforms());
-            str.setTranslateIndependent(0,0,0);
-            str.setScaleAll(getBlockDim());
-
-            StructureBuilder orig = terrain_map_block.get(origLoc);
-            str.setTranslateY(-orig.getBoundsInParent().getHeight());
-            terrain_map_height.put(origLoc, terrain_map_height.get(origLoc) - str.getHeight());
-            orig.getChildren().add(str);
-         */
     }
 
     public void clearSpot(Point2D pos) {
         // TODO - TO FIX!!!!
-        double xPos = convertToTerrainPos(pos.getX());
-        double zPos = convertToTerrainPos(pos.getY());
+        double xPos = convertAbsoluteToTerrainPos(pos.getX());
+        double zPos = convertAbsoluteToTerrainPos(pos.getY());
 
     }
 

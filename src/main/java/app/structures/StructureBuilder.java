@@ -32,28 +32,13 @@ public abstract class StructureBuilder extends Group implements Interactable {
 
     public static Base_Structure resolve(Base_Structure orig) {
         Base_Structure result = null;
-//        System.out.println("HERE2");
 
         switch (orig.getProps().getPROPERTY_OBJECT_TYPE()) {
             case OBJECT_TYPE_CUBE:
-//                System.out.println("HERE 3" + orig.getShape());
-
                 Base_Cube cube = new Base_Cube(orig.getProps().getPROPERTY_ITEM_TAG(), orig.getShape().getMaterial(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
                 result = cube;
                 break;
-//            case OBJECT_TYPE_SPHERE:
-//                Base_Sphere sphere = new Base_Sphere(orig.getProps().getPROPERTY_ITEM_TAG(), orig.getShape().getMaterial(), orig.getShape().getRadius(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
-//                result = sphere;
-//                break;
-            case OBJECT_TYPE_MODEL:
-                // TODO
-                break;
-            default:
-                Base_Cube def = new Base_Cube(UNDEFINED_TAG, orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
-                result = def;
-                break;
         }
-        System.out.println("Finished");
         result.setProps(orig.getProps());
         return result;
     }
@@ -78,7 +63,7 @@ public abstract class StructureBuilder extends Group implements Interactable {
     }
 
     public double getWidth() {
-        return this.getBoundsInLocal().getWidth();
+        return this.getBoundsInParent().getWidth();
     }
 
     public double getHeight() {
@@ -99,7 +84,7 @@ public abstract class StructureBuilder extends Group implements Interactable {
 
 
     @Override
-    public void placeAtExactPoint(EnvironmentUtil e, PlayerPoint3D pos, boolean shouldStack) {
+    public void placeObject(EnvironmentUtil e, PlayerPoint3D pos, boolean shouldStack) {
         // right click action usually
         e.placeObject(pos, this, shouldStack);
     }

@@ -1,6 +1,5 @@
 package app.utils;
 
-import app.GameBuilder;
 import app.environment.EnvironmentUtil;
 import app.player.PlayerPoint3D;
 import javafx.animation.AnimationTimer;
@@ -48,14 +47,14 @@ public class ProjectileUtil extends StructureBuilder {
             @Override
             public void handle(long l) {
                 if(!isOnGround){
-                    System.out.println(posy +  "   " + context.getClosestGroundLevel(new PlayerPoint3D(posx,posy,posz)));
+//                    System.out.println(posy +  "   " + context.getClosestGroundLevel(new PlayerPoint3D(posx,posy,posz)));
                     posx += initialVel * Math.sin(startrotX) * Math.cos(startrotY);
                     posy -= initialVel * Math.sin(startrotY) + initialVelY;
                     initialVelY -= EnvironmentUtil.GRAVITY;
                     posz += initialVel * Math.cos(startrotX) * Math.cos(startrotY);
                     object.setTranslateIndependent(posx, posy, posz);
 
-                    if(posy > context.getClosestGroundLevel(new PlayerPoint3D(posx,posy,posz)) - context.getBlockDim()/2.0 - object.getHeight()/2) {
+                    if(posy > context.getClosestGroundLevel(new PlayerPoint3D(posx,posy,posz),true) - context.getBlockDim()/2.0 - object.getHeight()/2) {
                         isOnGround = true;
                         onGroundTimestamp = System.currentTimeMillis();
                     }

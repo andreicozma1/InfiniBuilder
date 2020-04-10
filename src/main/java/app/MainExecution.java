@@ -44,14 +44,12 @@ public class MainExecution extends Application {
 //        PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
 //        SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
 
-
         PathUtil path = new PathUtil(game.getComponents().getEnvironment().getBlockDim(),3,3,1,3,ResourcesUtil.moon);
         path.setShortestPathMaterial(ResourcesUtil.red);
         SpawnableStructureItem pathItem = new SpawnableStructureItem(path,"Path",ResourcesUtil.purple,game.getComponents().getEnvironment().getBlockDim());
         PathUtil path2 = new PathUtil(game.getComponents().getEnvironment().getBlockDim(),40,40,3,3,ResourcesUtil.moon);
         path2.setShortestPathMaterial(ResourcesUtil.red);
         SpawnableStructureItem path2Item = new SpawnableStructureItem(path2,"Path2",ResourcesUtil.green,game.getComponents().getEnvironment().getBlockDim());
-
 
 
         game.getComponents().getPlayer().getInventory().addItem(4, grass, 40);
@@ -65,8 +63,6 @@ public class MainExecution extends Application {
         game.getComponents().getPlayer().getInventory().setCurrentIndex(0);
 
         // draws our game HUD
-
-
         game.getWindow().showScene(game.getComponents().getMenu().getScene());
     }
 

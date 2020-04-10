@@ -70,7 +70,7 @@ public class Inventory extends HUDElement {
                      int slotsDisplayed,
                      Paint panelColor,
                      Paint slotColor) {
-        super( elementTag, pos);
+        super(elementTag, pos);
         this.inventoryUtil = inventoryUtil;
         this.inventorySize = inventoryUtil.getInventorySize();
         this.slotWidth = slotWidth;
@@ -79,8 +79,8 @@ public class Inventory extends HUDElement {
         this.panelColor = panelColor;
         this.slotColor = slotColor;
         this.slotsDisplayed = slotsDisplayed;
-        totalWidth = ( slotsDisplayed * slotWidth )+( ( 1 + slotsDisplayed ) * borderWidth );
-        totalHeight = slotHeight + ( 2 * borderWidth );
+        totalWidth = (slotsDisplayed * slotWidth) + ((1 + slotsDisplayed) * borderWidth);
+        totalHeight = slotHeight + (2 * borderWidth);
         context = inventoryUtil.context.context;
         screenWidth = context.getWindow().getWindowWidth();
         screenHeight = context.getWindow().getWindowHeight();
@@ -88,83 +88,151 @@ public class Inventory extends HUDElement {
         update();
     }
 
-    public InventoryUtil getInventoryUtil() { return inventoryUtil; }
-    public int getInventorySize() { return inventorySize; }
-    public int getSlotsDisplayed() { return slotsDisplayed; }
-    public double getBorderWidth() { return borderWidth; }
-    public double getSlotHeight() { return slotHeight; }
-    public double getSlotWidth() { return slotWidth; }
-    public double getTotalHeight() { return totalHeight; }
-    public double getTotalWidth() { return totalWidth; }
-    public Paint getPanelColor() { return panelColor; }
-    public Paint getSlotColor() { return slotColor; }
-    public Paint getSelectedItemColor() { return selectedItemColor; }
-    public Paint getEmptyItemColor() { return emptyItemColor; }
-    public Paint getBorderColor() { return borderColor; }
-    public boolean isVertical() { return isVertical; }
-    public boolean isDisplayNumbers() { return displayNumbers; }
-    public boolean isExtendedInventoryDisplayed() { return isExtendedInventoryDisplayed; }
+    public InventoryUtil getInventoryUtil() {
+        return inventoryUtil;
+    }
 
-    public void setPanelColor(Paint panelColor) { this.panelColor = panelColor; }
-    public void setSlotColor(Paint slotColor) { this.slotColor = slotColor; }
-    public void setSelectedItemColor(Paint selectedItemColor) { this.selectedItemColor = selectedItemColor; }
-    public void setEmptyItemColor(Paint emptyItemColor) { this.emptyItemColor = emptyItemColor; }
-    public void setBorderColor(Paint borderColor) { this.borderColor = borderColor; }
+    public int getInventorySize() {
+        return inventorySize;
+    }
+
+    public int getSlotsDisplayed() {
+        return slotsDisplayed;
+    }
+
+    public double getBorderWidth() {
+        return borderWidth;
+    }
+
+    public double getSlotHeight() {
+        return slotHeight;
+    }
+
+    public double getSlotWidth() {
+        return slotWidth;
+    }
+
+    public double getTotalHeight() {
+        return totalHeight;
+    }
+
+    public double getTotalWidth() {
+        return totalWidth;
+    }
+
+    public Paint getPanelColor() {
+        return panelColor;
+    }
+
+    public Paint getSlotColor() {
+        return slotColor;
+    }
+
+    public Paint getSelectedItemColor() {
+        return selectedItemColor;
+    }
+
+    public Paint getEmptyItemColor() {
+        return emptyItemColor;
+    }
+
+    public Paint getBorderColor() {
+        return borderColor;
+    }
+
+    public boolean isVertical() {
+        return isVertical;
+    }
+
+    public boolean isDisplayNumbers() {
+        return displayNumbers;
+    }
+
+    public boolean isExtendedInventoryDisplayed() {
+        return isExtendedInventoryDisplayed;
+    }
+
+    public void setPanelColor(Paint panelColor) {
+        this.panelColor = panelColor;
+    }
+
+    public void setSlotColor(Paint slotColor) {
+        this.slotColor = slotColor;
+    }
+
+    public void setSelectedItemColor(Paint selectedItemColor) {
+        this.selectedItemColor = selectedItemColor;
+    }
+
+    public void setEmptyItemColor(Paint emptyItemColor) {
+        this.emptyItemColor = emptyItemColor;
+    }
+
+    public void setBorderColor(Paint borderColor) {
+        this.borderColor = borderColor;
+    }
+
     public void toggleExtendedInventoryDisplayed() {
         isExtendedInventoryDisplayed = !isExtendedInventoryDisplayed;
         update();
     }
 
     public void setVertical(boolean vertical) {
-        if(isVertical!=vertical){
+        if (isVertical != vertical) {
             double tmp = totalWidth;
             totalWidth = totalHeight;
             totalHeight = tmp;
             isVertical = vertical;
         }
     }
-    public void setDisplayNumbers(boolean displayNumbers) { this.displayNumbers = displayNumbers; }
 
-    public void setSelected(int selected){
+    public void setDisplayNumbers(boolean displayNumbers) {
+        this.displayNumbers = displayNumbers;
+    }
+
+    public void setSelected(int selected) {
         this.selected = selected;
     }
 
-    public int getSelected(){ return selected; }
-    public void swap(int s1,int s2){
-        inventoryUtil.swapItems(s1,s2);
+    public int getSelected() {
+        return selected;
+    }
+
+    public void swap(int s1, int s2) {
+        inventoryUtil.swapItems(s1, s2);
         selected = -1;
     }
 
-    public void fixToEdge(String edge){
+    public void fixToEdge(String edge) {
         double x = 0;
         double y = 0;
 
-        switch(edge){
+        switch (edge) {
             case HUDUtil.EDGE_BOTTOM:
                 setVertical(false);
-                x = inventoryUtil.context.context.getWindow().getWindowWidth()/2.0 - totalWidth/2;
+                x = inventoryUtil.context.context.getWindow().getWindowWidth() / 2.0 - totalWidth / 2;
                 y = inventoryUtil.context.context.getWindow().getWindowHeight() - totalHeight;
                 break;
             case HUDUtil.EDGE_TOP:
                 setVertical(false);
-                x = inventoryUtil.context.context.getWindow().getWindowWidth()/2.0 - totalWidth/2;
+                x = inventoryUtil.context.context.getWindow().getWindowWidth() / 2.0 - totalWidth / 2;
                 break;
             case HUDUtil.EDGE_LEFT:
                 setVertical(true);
-                y = inventoryUtil.context.context.getWindow().getWindowHeight()/2.0- totalHeight/2;
+                y = inventoryUtil.context.context.getWindow().getWindowHeight() / 2.0 - totalHeight / 2;
                 break;
             case HUDUtil.EDGE_RIGHT:
                 setVertical(true);
                 x = inventoryUtil.context.context.getWindow().getWindowWidth() - totalWidth;
-                y = inventoryUtil.context.context.getWindow().getWindowHeight()/2.0 - totalHeight/2;
+                y = inventoryUtil.context.context.getWindow().getWindowHeight() / 2.0 - totalHeight / 2;
                 break;
         }
 
         System.out.println(x + "  " + y);
-        setPos(new Point2D(x,y));
+        setPos(new Point2D(x, y));
     }
 
-    public void update(){
+    public void update() {
 
         int i;
 
@@ -181,24 +249,26 @@ public class Inventory extends HUDElement {
         getGroup().getChildren().add(inventoryBackdrop);
 
         // draw each individual panel
-        for ( i = 0 ; i < slotsDisplayed ; i++ ) {
+        for (i = 0; i < slotsDisplayed; i++) {
             Rectangle slotBackdrop = new Rectangle();
+
+            System.out.println("INVENTORY UPDATE: " + inventoryUtil.getItem(i).getWidth());
 
             // calculate start of the inventory box
             double currSlotY;
             double currSlotX;
 
-            if(isVertical){
+            if (isVertical) {
                 currSlotY = (getPos().getY() + borderWidth) + (i * (slotHeight + borderWidth));
                 currSlotX = getPos().getX() + borderWidth;
-            }else{
+            } else {
                 currSlotY = getPos().getY() + borderWidth;
                 currSlotX = (getPos().getX() + borderWidth) + (i * (slotWidth + borderWidth));
             }
 
             // draw the slot border
             if (inventoryUtil.isCurrentIndex(i)) slotBackdrop.setFill(selectedItemColor);
-            else if(i == selected)slotBackdrop.setFill(Color.BLUE);
+            else if (i == selected) slotBackdrop.setFill(Color.BLUE);
             else slotBackdrop.setFill(slotColor);
 
             slotBackdrop.setX(currSlotX);
@@ -208,51 +278,56 @@ public class Inventory extends HUDElement {
             slotBackdrop.setStroke(borderColor);
             getGroup().getChildren().add(slotBackdrop);
 
-            // draw each item
-            Group item = inventoryUtil.getItem(i);
-            item.setTranslateX(currSlotX+(slotWidth/2.0));
-            item.setTranslateY(currSlotY+(slotHeight/2.0));
-            item.setScaleX(slotWidth/2);
-            item.setScaleY(slotWidth/2);
-            item.setScaleZ(slotWidth/2);
-            item.getTransforms().setAll(new Rotate(25,Rotate.X_AXIS),new Rotate(25,Rotate.Y_AXIS));
-            item.toFront();
-            getGroup().getChildren().add(item);
+            if (inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
+                // draw each item
+                Group item = StructureBuilder.resolve(inventoryUtil.getItem(i));
+                item.setTranslateX(currSlotX + (slotWidth / 2.0));
+                item.setTranslateY(currSlotY + (slotHeight / 2.0));
+                item.setScaleX(slotWidth / 2);
+                item.setScaleY(slotWidth / 2);
+                item.setScaleZ(slotWidth / 2);
+                item.getTransforms().setAll(new Rotate(25, Rotate.X_AXIS), new Rotate(25, Rotate.Y_AXIS));
+                item.toFront();
+                getGroup().getChildren().add(item);
 
-            if(displayNumbers && inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG ){
-                Label itemAmount = new Label( "" + inventoryUtil.getIndexSize(i) );
-                itemAmount.setFont(Font.font("Monospaced", FontWeight.EXTRA_BOLD, FontPosture.REGULAR,15));
-                itemAmount.setTextAlignment(TextAlignment.RIGHT);
-                itemAmount.setTranslateX(currSlotX+slotWidth-15);
-                itemAmount.setTranslateY(currSlotY+slotHeight-15);
-                getGroup().getChildren().add(itemAmount);
+                if (displayNumbers) {
+                    Label itemAmount = new Label("" + inventoryUtil.getIndexSize(i));
+                    itemAmount.setFont(Font.font("Monospaced", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 15));
+                    itemAmount.setTextAlignment(TextAlignment.RIGHT);
+                    itemAmount.setTranslateX(currSlotX + slotWidth - 15);
+                    itemAmount.setTranslateY(currSlotY + slotHeight - 15);
+                    getGroup().getChildren().add(itemAmount);
+                }
             }
+
         }
 
-        if(isExtendedInventoryDisplayed){
+        if (isExtendedInventoryDisplayed) {
             double h;
             if (inventorySize % slotsDisplayed != 0) {
-                h = ((((inventorySize-slotsDisplayed)/slotsDisplayed)+1) * slotWidth) + ((((inventorySize-slotsDisplayed)/slotsDisplayed)+2) * borderWidth) ;
-            }else{
-                h = ((((inventorySize-slotsDisplayed)/slotsDisplayed)) * slotWidth) + ((((inventorySize-slotsDisplayed)/slotsDisplayed)+1) * borderWidth) ;
+                h = ((((inventorySize - slotsDisplayed) / slotsDisplayed) + 1) * slotWidth) + ((((inventorySize - slotsDisplayed) / slotsDisplayed) + 2) * borderWidth);
+            } else {
+                h = ((((inventorySize - slotsDisplayed) / slotsDisplayed)) * slotWidth) + ((((inventorySize - slotsDisplayed) / slotsDisplayed) + 1) * borderWidth);
             }
-            double eX = screenWidth/2 - totalWidth/2 + borderWidth;
-            double eY = screenHeight/2 - h/2 ;
+            double eX = screenWidth / 2 - totalWidth / 2 + borderWidth;
+            double eY = screenHeight / 2 - h / 2;
 
-            Rectangle extendedInventoryBackdrop = new Rectangle(screenWidth/2 - totalWidth/2,screenHeight/2 - h/2,totalWidth,h);
+            Rectangle extendedInventoryBackdrop = new Rectangle(screenWidth / 2 - totalWidth / 2, screenHeight / 2 - h / 2, totalWidth, h);
             extendedInventoryBackdrop.setFill(panelColor);
             extendedInventoryBackdrop.setStroke(borderColor);
 //            extendedInventoryBackdrop.setStrokeWidth(borderWidth);
             getGroup().getChildren().add(extendedInventoryBackdrop);
 
-            for(i = slotsDisplayed; i < inventorySize ;i++){
+            for (i = slotsDisplayed; i < inventorySize; i++) {
+
+
                 Rectangle slotBackdrop = new Rectangle();
 
                 // calculate start of the inventory box
                 double currSlotY;
                 double currSlotX;
-                int currRow = (i-slotsDisplayed) / slotsDisplayed;
-                int currCol = (i-slotsDisplayed) % slotsDisplayed;
+                int currRow = (i - slotsDisplayed) / slotsDisplayed;
+                int currCol = (i - slotsDisplayed) % slotsDisplayed;
 
 
                 currSlotY = eY + borderWidth + (currRow * (slotWidth + borderWidth));
@@ -260,7 +335,7 @@ public class Inventory extends HUDElement {
 
                 // draw the slot border
                 if (inventoryUtil.isCurrentIndex(i)) slotBackdrop.setFill(selectedItemColor);
-                else if(i == selected)slotBackdrop.setFill(Color.BLUE);
+                else if (i == selected) slotBackdrop.setFill(Color.BLUE);
                 else slotBackdrop.setFill(slotColor);
 
                 slotBackdrop.setX(currSlotX);
@@ -270,24 +345,26 @@ public class Inventory extends HUDElement {
                 slotBackdrop.setStroke(borderColor);
                 getGroup().getChildren().add(slotBackdrop);
 
-                // draw each item
-                Group item = inventoryUtil.getItem(i);
-                item.setTranslateX(currSlotX+(slotWidth/2.0));
-                item.setTranslateY(currSlotY+(slotHeight/2.0));
-                item.setScaleX(slotWidth/2);
-                item.setScaleY(slotWidth/2);
-                item.setScaleZ(slotWidth/2);
-                item.getTransforms().setAll(new Rotate(25,Rotate.X_AXIS),new Rotate(25,Rotate.Y_AXIS));
-                item.toFront();
-                getGroup().getChildren().add(item);
+                if (inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
+                    // draw each item
+                    Group item = StructureBuilder.resolve(inventoryUtil.getItem(i));
+                    item.setTranslateX(currSlotX + (slotWidth / 2.0));
+                    item.setTranslateY(currSlotY + (slotHeight / 2.0));
+                    item.setScaleX(slotWidth / 2);
+                    item.setScaleY(slotWidth / 2);
+                    item.setScaleZ(slotWidth / 2);
+                    item.getTransforms().setAll(new Rotate(25, Rotate.X_AXIS), new Rotate(25, Rotate.Y_AXIS));
+                    item.toFront();
+                    getGroup().getChildren().add(item);
 
-                if(displayNumbers && inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG ){
-                    Label itemAmount = new Label( "" + inventoryUtil.getIndexSize(i) );
-                    itemAmount.setFont(Font.font("Monospaced", FontWeight.EXTRA_BOLD, FontPosture.REGULAR,15));
-                    itemAmount.setTextAlignment(TextAlignment.RIGHT);
-                    itemAmount.setTranslateX(currSlotX+slotWidth-15);
-                    itemAmount.setTranslateY(currSlotY+slotHeight-15);
-                    getGroup().getChildren().add(itemAmount);
+                    if (displayNumbers) {
+                        Label itemAmount = new Label("" + inventoryUtil.getIndexSize(i));
+                        itemAmount.setFont(Font.font("Monospaced", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 15));
+                        itemAmount.setTextAlignment(TextAlignment.RIGHT);
+                        itemAmount.setTranslateX(currSlotX + slotWidth - 15);
+                        itemAmount.setTranslateY(currSlotY + slotHeight - 15);
+                        getGroup().getChildren().add(itemAmount);
+                    }
                 }
             }
         }

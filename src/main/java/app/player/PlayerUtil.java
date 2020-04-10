@@ -161,17 +161,18 @@ public class PlayerUtil {
             switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
                 case StructureBuilder.TYPE_OBJECT:
                     Base_Structure cb = StructureBuilder.resolve(inventory_item);
-                    cb.placeAtExactPoint(context.getComponents().getEnvironment(), getPoint3D(),true);
+                    Log.p(TAG,"placeObject() -> Copy created. Scale: X: " + cb.getScaleX() + " Y: " + cb.getScaleY() + " Z: " + cb.getScaleZ() + "; Width: " + cb.getWidth() + " Height: " + cb.getHeight() + " Depth: " + cb.getDepth() + "; Props: " + cb.getProps().toString());
+                    cb.placeObject(context.getComponents().getEnvironment(), getPlayerPoint3D(),true);
                     break;
                 default:
-                    inventory_item.placeAtExactPoint(context.getComponents().getEnvironment(), getPoint3D(),true);
+                    inventory_item.placeObject(context.getComponents().getEnvironment(), getPlayerPoint3D(),true);
                     break;
             }
         }
     }
 
     public void moveDown(double val) {
-        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPoint3D());
+        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(),true);
 
         // Player Y being smaller than ground level means the player is above ground. Up is -Y axis
         if (getPositionYnoHeight() < ground_level || isClipMode) {
@@ -220,8 +221,8 @@ public class PlayerUtil {
      * @param new_z
      */
     public void handle_collision(double new_x, double new_z) {
-        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z));
-        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(this.POSITION_X, getPositionYwithHeight(), new_z));
+        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z),true);
+        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(this.POSITION_X, getPositionYwithHeight(), new_z),true);
 
         if ((POSITION_Y - ground_level_x  < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP) || isClipMode) {
             this.POSITION_X = new_x;
@@ -301,7 +302,7 @@ public class PlayerUtil {
     }
 
     private void warpToGround() {
-        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPoint3D());
+        double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(),true);
         POSITION_Y = ground_level;
         isOnGround = true;
         speed_fall_initial = 0;
@@ -334,7 +335,7 @@ public class PlayerUtil {
      *
      * @return
      */
-    public PlayerPoint3D getPoint3D() {
+    public PlayerPoint3D getPlayerPoint3D() {
         return new PlayerPoint3D(getPositionX(), getPositionYwithHeight(), getPositionZ());
     }
     public void setPosition(double newx, double newy, double newz) {
