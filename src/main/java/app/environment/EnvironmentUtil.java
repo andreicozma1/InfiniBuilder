@@ -20,6 +20,7 @@ import javafx.util.Pair;
 import java.util.*;
 
 public class EnvironmentUtil {
+
     private static final String TAG = "EnvironmentUtil";
 
     public GameBuilder context;
@@ -30,7 +31,7 @@ public class EnvironmentUtil {
 
     public static Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
     public static Group GROUP_TERRAIN;
-    public static Group GROUP_STRUCTURES;
+    public static Group GROUP_OTHER;
 
     private final int PROPERTY_BLOCK_DIM = 20;
 
@@ -41,12 +42,14 @@ public class EnvironmentUtil {
     private boolean PROPERTY_TERRAIN_HAS_WATER = true;
     private Material PROPERTY_TERRAIN_IS_SINGLE_MATERIAL = null; // Default terrain generation if 'null'
 
-
     private final double PROPERTY_WATER_LEVEL = 303;
     private final double PROPERTY_DESERT_LEVEL = 300;
     private final double PROPERTY_PLAINS_LEVEL = 100;
     private final double PROPERTY_HILLS_LEVEL = -50;
     private final double PROPERTY_PEAK_LEVEL = -300;
+
+    public static final double LIMIT_MIN = 1000;
+    public static final double LIMIT_MAX = -1000;
 
     public static double GRAVITY = .2;
 
@@ -63,8 +66,8 @@ public class EnvironmentUtil {
         UTIL_MODEL = new TDModelUtil();
 
         GROUP_TERRAIN = new Group();
-        GROUP_STRUCTURES = new Group();
-        GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN, GROUP_STRUCTURES); // add the subgroups to the parent group
+        GROUP_OTHER = new Group();
+        GROUP_WORLD.getChildren().addAll(GROUP_TERRAIN, GROUP_OTHER); // add the subgroups to the parent group
 
         setSkyBox(new SkyboxUtil(this));
 

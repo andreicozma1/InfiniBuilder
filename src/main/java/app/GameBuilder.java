@@ -129,7 +129,6 @@ public class GameBuilder {
             if (SCENE_CURRENT == ROOT_SCENE) {
                 System.out.println("Switched to Game Scene");
                 getComponents().getEnvironment().getSkybox().resetLighting();
-                hideCursor();
 
                 GAME_ANIMATION_TIMER.start();
             }

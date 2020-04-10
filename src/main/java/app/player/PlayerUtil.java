@@ -143,7 +143,7 @@ public class PlayerUtil {
 
     public void shoot() {
         Log.p(TAG, "shoot()");
-        Base_Sphere sp = new Base_Sphere("Projectile", 5);
+        Base_Sphere sp = new Base_Sphere("Projectile", 3);
         sp.getShape().setMaterial(ResourcesUtil.metal);
 
         ProjectileUtil proj = new ProjectileUtil(context.getComponents().getEnvironment(), sp);
