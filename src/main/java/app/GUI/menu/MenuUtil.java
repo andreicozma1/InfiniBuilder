@@ -32,6 +32,7 @@ public class MenuUtil {
     public static String GROUP_CAMERA = "GROUP_CAMERA";
     public static String GROUP_ABOUT = "GROUP_ABOUT";
     public static String GROUP_GRAPHICS = "GROUP_GRAPHICS";
+    public static String GROUP_HUD = "GROUP_HUD";
     private final String singleArrow = ">";
     private final String doubleArrow = ">>";
     private final Font title = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR, 30);
@@ -146,7 +147,7 @@ public class MenuUtil {
         curr_brightness = context.getEffects().getBrightness();
 
         // hud settings defaults
-//        is_ext_inventory_toggle = ((Inventory)context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isToggle();
+        is_ext_inventory_toggle = ((Inventory)context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isToggle();
 
 
         // build each menu
@@ -159,6 +160,7 @@ public class MenuUtil {
         buildCameraMenu();
         buildAboutMenu();
         buildGraphicsMenu();
+        buildHUDMenu();
 
         // add each menu to the group map with its key so that they can be quickly accessed
         addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
@@ -171,6 +173,7 @@ public class MenuUtil {
         addGroup(GROUP_ABOUT, aboutMenu.getGroup());
         addGroup(GROUP_CONTROLS, aboutMenu.getGroup());
         addGroup(GROUP_GRAPHICS, graphicsMenu.getGroup());
+        addGroup(GROUP_HUD,hudMenu.getGroup());
 
         setControlScheme();
     }
@@ -541,10 +544,34 @@ public class MenuUtil {
                     }
                 });
 
+        Text hudArrow = settingsMenu.drawText(singleArrow, 50, 390, GREEN, options);
+        Text hudText = settingsMenu.drawText("cd HUD_Settings", 95, 390, Color.WHITE, options);
+        Rectangle hudHitBox = settingsMenu.drawRectangle(50, 370, 600, 30, 0, 0, Color.TRANSPARENT);
+        hudHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_HUD);
+                    }
+                });
+        hudHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        hudArrow.setText(doubleArrow);
+                        hudText.setFill(GREEN);
+                    }
+                });
+        hudHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        hudArrow.setText(singleArrow);
+                        hudText.setFill(Color.WHITE);
+                    }
+                });
+
         //quit handler
-        Text returnArrow = settingsMenu.drawText(singleArrow, 50, 390, GREEN, options);
-        Text returnText = settingsMenu.drawText("cd ..", 95, 390, Color.WHITE, options);
-        Rectangle returnHitBox = settingsMenu.drawRectangle(50, 370, 600, 30, 0, 0, Color.TRANSPARENT);
+        Text returnArrow = settingsMenu.drawText(singleArrow, 50, 440, GREEN, options);
+        Text returnText = settingsMenu.drawText("cd ..", 95, 440, Color.WHITE, options);
+        Rectangle returnHitBox = settingsMenu.drawRectangle(50, 420, 600, 30, 0, 0, Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
@@ -1291,7 +1318,7 @@ public class MenuUtil {
         graphicsMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
         //draw title
-        graphicsMenu.drawText("ROOT@CS307:~$ ./About",
+        graphicsMenu.drawText("ROOT@CS307::~/Settings/Graphics$",
                 50,
                 50,
                 GREEN,
@@ -1563,6 +1590,49 @@ public class MenuUtil {
                     public void handle(MouseEvent me) {
                         returnArrow.setText(singleArrow);
                         returnText.setFill(Color.WHITE);
+                    }
+                });
+    }
+
+    public void buildHUDMenu(){
+        // draw black backdrop
+        hudMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
+
+        //draw title
+        hudMenu.drawText("ROOT@CS307::~/Settings/HUD$",
+                50,
+                50,
+                GREEN,
+                title);
+
+        hudMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+
+        //quit handler
+        Text quitArrow = hudMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text quitText = hudMenu.drawText("./Back", 95, 340, Color.WHITE, options);
+        Rectangle quitHitBox = hudMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
+        quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        activateGroup(GROUP_SETTINGS);
+                    }
+                });
+        quitHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        quitArrow.setText(doubleArrow);
+                        quitText.setFill(GREEN);
+                    }
+                });
+        quitHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        quitArrow.setText(singleArrow);
+                        quitText.setFill(Color.WHITE);
                     }
                 });
     }
