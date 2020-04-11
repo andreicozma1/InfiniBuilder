@@ -1,1 +1,2 @@
-./mvnw validate clean package
+./mvnw validate
+./mvnw clean install
