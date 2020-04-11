@@ -67,6 +67,7 @@ public class PlayerUtil {
         setJumpHeightMultiplier(1);
         setMaxAutoJumpHeightMultiplier(1.5);
         setRunMultiplier(1.10);
+        setFlySpeed(10);
     }
 
     public void update_handler(double dt) {
@@ -211,8 +212,8 @@ public class PlayerUtil {
      * @param new_z
      */
     public void handle_collision(double new_x, double new_z) {
-        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z), true);
-        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new PlayerPoint3D(this.POSITION_X, getPositionYwithHeight(), new_z), true);
+        double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new AbsolutePoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z), true);
+        double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new AbsolutePoint3D(this.POSITION_X, getPositionYwithHeight(), new_z), true);
 
         if ((POSITION_Y - ground_level_x < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP) || isClipMode) {
             this.POSITION_X = new_x;
@@ -319,8 +320,8 @@ public class PlayerUtil {
      *
      * @return
      */
-    public PlayerPoint2D getPoint2D() {
-        return new PlayerPoint2D(getPositionX(), getPositionZ());
+    public AbsolutePoint2D getPoint2D() {
+        return new AbsolutePoint2D(getPositionX(), getPositionZ());
     }
 
     /**
@@ -328,8 +329,8 @@ public class PlayerUtil {
      *
      * @return
      */
-    public PlayerPoint3D getPlayerPoint3D() {
-        return new PlayerPoint3D(getPositionX(), getPositionYwithHeight(), getPositionZ());
+    public AbsolutePoint3D getPlayerPoint3D() {
+        return new AbsolutePoint3D(getPositionX(), getPositionYwithHeight(), getPositionZ());
     }
 
     public void setPosition(double newx, double newy, double newz) {

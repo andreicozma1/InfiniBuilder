@@ -1,7 +1,7 @@
 package app.structures.objects;
 
 import app.environment.EnvironmentUtil;
-import app.player.PlayerPoint3D;
+import app.player.AbsolutePoint3D;
 import app.structures.SpawnableStructure;
 import app.structures.StructureBuilder;
 import javafx.geometry.Point2D;
@@ -49,11 +49,11 @@ public class SpawnableStructureItem extends Base_Cube {
     }
 
     @Override
-    public void placeObject(EnvironmentUtil e, PlayerPoint3D pos, boolean shouldStack) {
+    public void placeObject(EnvironmentUtil e, AbsolutePoint3D pos, boolean shouldStack) {
         spawnable.build(e.context);
         for (Map.Entry<Point2D, StructureBuilder> point2DStructureBuilderEntry : spawnable.block_map.entries()) {
             Point2D orig_pos = (Point2D) ((Map.Entry) point2DStructureBuilderEntry).getKey();
-            e.placeObject(new PlayerPoint3D(orig_pos.getX(),EnvironmentUtil.LIMIT_MAX,orig_pos.getY()), (StructureBuilder) ((Map.Entry) point2DStructureBuilderEntry).getValue(), true);
+            e.placeObject(new AbsolutePoint3D(orig_pos.getX(),EnvironmentUtil.LIMIT_MAX,orig_pos.getY()), (StructureBuilder) ((Map.Entry) point2DStructureBuilderEntry).getValue(), true);
         }
     }
 

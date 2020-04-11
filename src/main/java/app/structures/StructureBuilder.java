@@ -1,7 +1,7 @@
 package app.structures;
 
 import app.environment.EnvironmentUtil;
-import app.player.PlayerPoint3D;
+import app.player.AbsolutePoint3D;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Structure;
 import javafx.scene.Group;
@@ -81,7 +81,7 @@ public abstract class StructureBuilder extends Group implements Interactable {
 
 
     @Override
-    public void placeObject(EnvironmentUtil e, PlayerPoint3D pos, boolean shouldStack) {
+    public void placeObject(EnvironmentUtil e, AbsolutePoint3D pos, boolean shouldStack) {
         // right click action usually
         e.placeObject(pos, this, shouldStack);
     }

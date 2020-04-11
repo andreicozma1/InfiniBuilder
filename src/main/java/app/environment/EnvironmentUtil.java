@@ -2,7 +2,7 @@ package app.environment;
 
 import app.GameBuilder;
 import app.algorithms.SimplexUtil;
-import app.player.PlayerPoint3D;
+import app.player.AbsolutePoint3D;
 import app.structures.StructureBuilder;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.Base_Model;
@@ -109,7 +109,7 @@ public class EnvironmentUtil {
         // i and j are terrain coordinates not absolute coordinates
         TreeMap<Integer, Pair> mapColumn = new TreeMap<>();
 
-        double starting_y = getSimplexHeight(i, j);
+        double starting_y = getSimplexHeight2D(i, j);
 
         for (double k = starting_y; k <= 100; k++) {
             mapColumn.put((int) Math.floor(k), new Pair<>(getSimplexHeight3D(i, k, j), k));
@@ -140,10 +140,10 @@ public class EnvironmentUtil {
                             Point2D backwards = new Point2D(i, j - 1);
 
                             if (!worldColumn.containsKey(k - 1) || !worldColumn.containsKey(k + 1) ||
-                                    (MAP_GENERATED.containsKey(left) && !MAP_GENERATED.get(left).containsKey(k)) ||
-                                    (MAP_GENERATED.containsKey(right) && !MAP_GENERATED.get(right).containsKey(k)) ||
-                                    (MAP_GENERATED.containsKey(forwards) && !MAP_GENERATED.get(forwards).containsKey(k)) ||
-                                    (MAP_GENERATED.containsKey(backwards) && !MAP_GENERATED.get(backwards).containsKey(k))) {
+                                    (MAP_GENERATED.containsKey(left) && !MAP_GENERATED.get(left).containsKey(k-1)) ||
+                                    (MAP_GENERATED.containsKey(right) && !MAP_GENERATED.get(right).containsKey(k-1)) ||
+                                    (MAP_GENERATED.containsKey(forwards) && !MAP_GENERATED.get(forwards).containsKey(k-1)) ||
+                                    (MAP_GENERATED.containsKey(backwards) && !MAP_GENERATED.get(backwards).containsKey(k-1))) {
 
                                 if (!MAP_RENDERING.containsKey(new Point3D(i, k, j))) {
                                     int x = i * getBlockDim();
@@ -355,18 +355,22 @@ public class EnvironmentUtil {
         return b;
     }
 
+    SimplexUtil UTIL_SIMPLEX_2;
+
     public void reset() {
-        UTIL_SIMPLEX = new SimplexUtil(300, .5, (int) context.time_current);
+        UTIL_SIMPLEX = new SimplexUtil(100, .40, (int) context.time_current);
+        UTIL_SIMPLEX_2 = new SimplexUtil(2000, .6, (int) context.time_current*2);
+
         MAP_GENERATED.clear();
         MAP_RENDERING.clear();
     }
 
-    private double getSimplexHeight(double pollx, double pollz) {
-        return UTIL_SIMPLEX.getNoise((int) (pollx), (int) (pollz)) * PROPERTY_TERRAIN_HEIGHT_MULTIPLIER;
+    private double getSimplexHeight2D(double pollx, double pollz) {
+        return UTIL_SIMPLEX.getNoise(pollx,pollz) * UTIL_SIMPLEX_2.getNoise(pollz,pollx) * 5 * PROPERTY_TERRAIN_HEIGHT_MULTIPLIER;
     }
 
     private double getSimplexHeight3D(double pollx, double polly, double pollz) {
-        return UTIL_SIMPLEX.getNoise((int) (pollx), (int) (pollz));
+        return UTIL_SIMPLEX.getNoise(pollx, polly,pollz);
     }
 
     public int convertAbsoluteToTerrainPos(double player_coord) {
@@ -374,7 +378,7 @@ public class EnvironmentUtil {
         return (int) Math.round((player_coord) / getBlockDim());
     }
 
-    public double getClosestGroundLevel(PlayerPoint3D world_coords, boolean absolute) {
+    public double getClosestGroundLevel(AbsolutePoint3D world_coords, boolean absolute) {
         // requires the getX() and getZ() from PlayerUtil
         Point2D pt = new Point2D(convertAbsoluteToTerrainPos(world_coords.getX()), convertAbsoluteToTerrainPos(world_coords.getZ()));
         if (MAP_GENERATED.containsKey(pt)) {
@@ -396,7 +400,7 @@ public class EnvironmentUtil {
         }
     }
 
-    public void placeObject(PlayerPoint3D pos, StructureBuilder str, boolean shouldStack) {
+    public void placeObject(AbsolutePoint3D pos, StructureBuilder str, boolean shouldStack) {
         int xCurrent = convertAbsoluteToTerrainPos(pos.getX());
         int yCurrent = (int) Math.floor(pos.getY());
         int yAbove = (int) getClosestGroundLevel(pos, false) - 1;
