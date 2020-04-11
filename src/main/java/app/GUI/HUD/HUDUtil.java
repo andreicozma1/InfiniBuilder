@@ -105,9 +105,11 @@ public class HUDUtil {
                 Color.RED,
                 Color.valueOf("400000"));
         health.setVertical(false);
+        health.setBorder(true);
+        health.setBorderWidth(1);
         health.setDefaultDirection(true);
-        health.setArcHeight(15);
-        health.setArcWidth(15);
+        health.setArcHeight(10);
+        health.setArcWidth(10);
         health.update();
         this.addElement(health);
 
@@ -120,9 +122,11 @@ public class HUDUtil {
                 Color.BLUE,
                 Color.valueOf("010048"));
         stamina.setVertical(false);
+        stamina.setBorder(true);
+        stamina.setBorderWidth(1);
         stamina.setDefaultDirection(true);
-        stamina.setArcHeight(15);
-        stamina.setArcWidth(15);
+        stamina.setArcHeight(10);
+        stamina.setArcWidth(10);
         stamina.update();
         this.addElement(stamina);
 
@@ -136,28 +140,30 @@ public class HUDUtil {
                 Color.DARKGRAY);
         hunger.setColorInterpolation(Color.GREEN,Color.RED);  // (full color, empty color)
         hunger.setCurrStatus(90);
+        hunger.setBorder(true);
+        hunger.setBorderWidth(1);
         hunger.setVertical(false);
         hunger.setDefaultDirection(true);
-        hunger.setArcHeight(15);
-        hunger.setArcWidth(15);
+        hunger.setArcHeight(10);
+        hunger.setArcWidth(10);
         hunger.update();
         this.addElement(hunger);
 
         int temp_width = 125;
+        int temp_height = 5;
         // this is here as an example of how to use the setColorInterpolation
         StatusBar temperature = new StatusBar(   HUDUtil.TEMPERATURE,
                 new Point2D(context.getWindow().getWindowWidth() - temp_width - 15,5),
                 100,
                 temp_width,
-                bar_height,
+                temp_height,
                 Color.BLUE,
                 Color.DARKGRAY);
         temperature.setColorInterpolation(Color.RED,Color.BLUE);  // (full color, empty color)
         temperature.setCurrStatus(90);
         temperature.setVertical(false);
+        temperature.setBorder(true);
         temperature.setDefaultDirection(false);
-        temperature.setArcHeight(15);
-        temperature.setArcWidth(15);
         temperature.update();
         this.addElement(temperature);
 
