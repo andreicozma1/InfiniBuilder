@@ -3,17 +3,17 @@
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 
 ## **INSTALLATION**
-#### COMPILATION DEPENDENCIES:
+#### 1. COMPILATION DEPENDENCIES:
 - Java 11 - Check version using `./mvnw --version`
 ```
 > sudo add-apt-repository ppa:openjdk-r/ppa && sudo apt-get update && sudo apt-get install openjdk-11-jdk
 ```
-#### USE THE INSTALLATION SCRIPT:
+#### 2. USE THE INSTALLATION SCRIPT:
 ```
 > ./install
 ```
 
-#### EXECUTION:
+#### 3. EXECUTION:
 ```
 > ./execute
 ```
