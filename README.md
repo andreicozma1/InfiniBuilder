@@ -2,20 +2,20 @@
 - Andrei Cozma & Hunter Price  
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 
-# INSTALLATION
-## COMPILATION DEPENDENCIES:
+## INSTALLATION
+### COMPILATION DEPENDENCIES:
 - Java 11 - Check version using `./mvnw --version`
 ```
-	> sudo add-apt-repository ppa:openjdk-r/ppa && sudo apt-get update && sudo apt-get install openjdk-11-jdk
+> sudo add-apt-repository ppa:openjdk-r/ppa && sudo apt-get update && sudo apt-get install openjdk-11-jdk
 ```
-## USE THE INSTALLATION SCRIPT:
+### USE THE INSTALLATION SCRIPT:
 ```
-	> ./install
+> ./install
 ```
 
-## EXECUTION:
+### EXECUTION:
 ```
-	> ./execute
+> ./execute
 ```
 
 # DETAILED MANUAL INSTALLATIONS STEPS
