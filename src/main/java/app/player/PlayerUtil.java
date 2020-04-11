@@ -12,6 +12,7 @@ import app.utils.InventoryUtil;
 import app.utils.Log;
 import app.utils.ProjectileUtil;
 import app.utils.ResourcesUtil;
+import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.PointLight;
 import javafx.scene.paint.Color;
@@ -71,6 +72,8 @@ public class PlayerUtil {
     }
 
     public void update_handler(double dt) {
+        context.getComponents().getCamera().update_handler();
+
         context.getComponents().getEnvironment().generateMap(getPositionX(), getPositionZ());
         context.getComponents().getEnvironment().renderMap(getPositionX(), getPositionZ());
 
@@ -148,17 +151,47 @@ public class PlayerUtil {
         Log.p(TAG, "placeObject() " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
 
         if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
-            switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
-                case StructureBuilder.TYPE_OBJECT:
-                    Base_Structure cb = StructureBuilder.resolve(inventory_item);
-                    Log.p(TAG, "placeObject() -> Copy created. Scale: X: " + cb.getScaleX() + " Y: " + cb.getScaleY() + " Z: " + cb.getScaleZ() + "; Width: " + cb.getWidth() + " Height: " + cb.getHeight() + " Depth: " + cb.getDepth() + "; Props: " + cb.getProps().toString());
-                    cb.placeObject(context.getComponents().getEnvironment(), getPlayerPoint3D(), true);
+            double posx = getPositionX();
+            double posy = getPositionYwithHeight();
+            double posz = getPositionZ();
+            double startrotX = Math.toRadians(context.getComponents().getCamera().getRotateX());
+            double startrotY = Math.toRadians(context.getComponents().getCamera().getRotateY());
+
+            double dist_traveled = 0;
+            while(true){
+                double posx_next = posx + .5 * Math.sin(startrotX) * Math.cos(startrotY);
+                double posy_next = posy - .5 * Math.sin(startrotY);
+                double posz_next = posz + .5 * Math.cos(startrotX) * Math.cos(startrotY);
+                dist_traveled += .5;
+                System.out.println("Dist traveled: " + dist_traveled + " posx: " + posx + " posy: " + posy + " posz: " + posz);
+
+                Point3D loc_next = new Point3D(context.getComponents().getEnvironment().convertAbsoluteToTerrainPos(posx_next), Math.floor(posy_next/context.getComponents().getEnvironment().getBlockDim()),context.getComponents().getEnvironment().convertAbsoluteToTerrainPos(posz_next));
+                if(dist_traveled > 200){
                     break;
-                    case StructureBuilder.TYPE_STRUCTURE_2D:
-                default:
-                    inventory_item.placeObject(context.getComponents().getEnvironment(), getPlayerPoint3D(), true);
+                }
+                if(context.getComponents().getEnvironment().MAP_RENDERING.containsKey(loc_next)){
+                    AbsolutePoint3D loc = new AbsolutePoint3D(posx,posy,posz);
+
+                    switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
+                        case StructureBuilder.TYPE_OBJECT:
+                            Base_Structure cb = StructureBuilder.resolve(inventory_item);
+                            Log.p(TAG, "placeObject() -> Copy created. Scale: X: " + cb.getScaleX() + " Y: " + cb.getScaleY() + " Z: " + cb.getScaleZ() + "; Width: " + cb.getWidth() + " Height: " + cb.getHeight() + " Depth: " + cb.getDepth() + "; Props: " + cb.getProps().toString());
+                            cb.placeObject(context.getComponents().getEnvironment(), loc, true);
+                            break;
+                        default:
+                            inventory_item.placeObject(context.getComponents().getEnvironment(), loc, true);
+                            break;
+                    }
                     break;
+                } else{
+                    posx = posx_next;
+                    posy = posy_next;
+                    posz = posz_next;
+                }
             }
+
+
+
         }
     }
 

@@ -47,10 +47,12 @@ public class EnvironmentUtil {
     private final double PROPERTY_PEAK_LEVEL_2 = -320;
     private final double PROPERTY_SNOW_LEVEL = -500;
     private final double PROPERTY_ICE_LEVEL = -700;
-    private double PROPERTY_VEGETATION_MAX_SIZE;
-    private final Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
-    private final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
+    public final Map<Point2D, TreeMap<Integer, Double>> MAP_GENERATED = new HashMap<>();
+    public final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
     public GameBuilder context;
+    SimplexUtil UTIL_SIMPLEX_2;
+    SimplexUtil UTIL_SIMPLEX_3;
+    private double PROPERTY_VEGETATION_MAX_SIZE;
     private SkyboxUtil UTIL_SKYBOX;
     private SimplexUtil UTIL_SIMPLEX;
     private double PROPERTY_TERRAIN_GENERATE_DISTANCE;
@@ -108,12 +110,16 @@ public class EnvironmentUtil {
 
     public void generateMapColumn(int i, int j) {
         // i and j are terrain coordinates not absolute coordinates
-        TreeMap<Integer, Pair> mapColumn = new TreeMap<>();
+        TreeMap<Integer, Double> mapColumn = new TreeMap<>();
 
         double starting_y = getSimplexHeight2D(i, j);
 
         for (double k = starting_y; k <= 100; k++) {
-            mapColumn.put((int) Math.floor(k), new Pair<>(getSimplexHeight3D(i, k, j), k));
+            double simplex3D = getSimplexHeight3D(i, k, j);
+            System.out.println("Simplex3d " + simplex3D);
+//            if (simplex3D > 0) {
+                mapColumn.put((int) Math.floor(k), k);
+//            }
         }
 
         MAP_GENERATED.put(new Point2D(i, j), mapColumn);
@@ -127,44 +133,55 @@ public class EnvironmentUtil {
 
         for (int i = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx); i <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx; i++) {
             for (int j = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerz); j <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerz; j++) {
-                Point2D key = new Point2D(i, j);
-                if (MAP_GENERATED.containsKey(key)) {
-                    TreeMap<Integer, Pair> worldColumn = MAP_GENERATED.get(key);
+                if (MAP_GENERATED.containsKey(new Point2D(i, j))) {
+                    generateRenderedMap(i, j);
+                }
+            }
+        }
+    }
+
+    public void generateRenderedMap(int i, int j) {
+        TreeMap<Integer, Double> worldColumn = MAP_GENERATED.get(new Point2D(i, j));
 
 //                  TODO -- START FROM PLAYER GOING UP AND DOWN FOR EFFICIENCY
-                    for (int k = -100; k <= 100; k++) {
+        for (int k = -100; k <= 100; k++) {
 
-                        if (worldColumn.containsKey(k)) {
-                            Point2D left = new Point2D(i - 1, j);
-                            Point2D right = new Point2D(i + 1, j);
-                            Point2D forwards = new Point2D(i, j + 1);
-                            Point2D backwards = new Point2D(i, j - 1);
+            if (worldColumn.containsKey(k)) {
+                Point2D left = new Point2D(i - 1, j);
+                Point2D right = new Point2D(i + 1, j);
+                Point2D forwards = new Point2D(i, j + 1);
+                Point2D backwards = new Point2D(i, j - 1);
 
-                            if (!worldColumn.containsKey(k - 1) || !worldColumn.containsKey(k + 1) ||
-                                    (MAP_GENERATED.containsKey(left) && !MAP_GENERATED.get(left).containsKey(k-1)) ||
-                                    (MAP_GENERATED.containsKey(right) && !MAP_GENERATED.get(right).containsKey(k-1)) ||
-                                    (MAP_GENERATED.containsKey(forwards) && !MAP_GENERATED.get(forwards).containsKey(k-1)) ||
-                                    (MAP_GENERATED.containsKey(backwards) && !MAP_GENERATED.get(backwards).containsKey(k-1))) {
+                if (!worldColumn.containsKey(k - 1) || !worldColumn.containsKey(k + 1) ||
+                        (MAP_GENERATED.containsKey(left) && !MAP_GENERATED.get(left).containsKey(k - 1)) ||
+                        (MAP_GENERATED.containsKey(right) && !MAP_GENERATED.get(right).containsKey(k - 1)) ||
+                        (MAP_GENERATED.containsKey(forwards) && !MAP_GENERATED.get(forwards).containsKey(k - 1)) ||
+                        (MAP_GENERATED.containsKey(backwards) && !MAP_GENERATED.get(backwards).containsKey(k - 1)) ||
+                        (MAP_GENERATED.containsKey(left) && !MAP_GENERATED.get(left).containsKey(k)) ||
+                        (MAP_GENERATED.containsKey(right) && !MAP_GENERATED.get(right).containsKey(k)) ||
+                        (MAP_GENERATED.containsKey(forwards) && !MAP_GENERATED.get(forwards).containsKey(k)) ||
+                        (MAP_GENERATED.containsKey(backwards) && !MAP_GENERATED.get(backwards).containsKey(k)) ||
+                        (MAP_GENERATED.containsKey(left) && !MAP_GENERATED.get(left).containsKey(k + 1)) ||
+                        (MAP_GENERATED.containsKey(right) && !MAP_GENERATED.get(right).containsKey(k + 1)) ||
+                        (MAP_GENERATED.containsKey(forwards) && !MAP_GENERATED.get(forwards).containsKey(k + 1)) ||
+                        (MAP_GENERATED.containsKey(backwards) && !MAP_GENERATED.get(backwards).containsKey(k + 1))) {
 
-                                if (!MAP_RENDERING.containsKey(new Point3D(i, k, j))) {
-                                    int x = i * getBlockDim();
-                                    int z = j * getBlockDim();
-                                    Pair<Double, Double> pr = worldColumn.get(k);
-                                    double y = pr.getValue() * getBlockDim();
-                                    if (pr == worldColumn.firstEntry().getValue()) {
-                                        MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, false, false));
-                                    } else {
-                                        MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, true, true));
-                                    }
-                                } else {
-                                    GROUP_TERRAIN.getChildren().add(MAP_RENDERING.get(new Point3D(i, k, j)));
-                                }
-
-                            } else {
-                                break;
-                            }
+                    if (!MAP_RENDERING.containsKey(new Point3D(i, k, j))) {
+                        int x = i * getBlockDim();
+                        int z = j * getBlockDim();
+                        Double pr = worldColumn.get(k);
+                        double y = pr * getBlockDim();
+                        if (pr.equals(worldColumn.firstEntry())) {
+                            MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, false, false));
+                        } else {
+                            MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, true, true));
                         }
+                    } else {
+                        GROUP_TERRAIN.getChildren().add(MAP_RENDERING.get(new Point3D(i, k, j)));
                     }
+
+                } else {
+                    break;
                 }
             }
         }
@@ -190,7 +207,7 @@ public class EnvironmentUtil {
         } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_SNOW_LEVEL) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.stone)) {
             box.getShape().setMaterial(ResourcesUtil.snow_01);
             box.getProps().setPROPERTY_ITEM_TAG("Snow01");
-            if (Math.random() > 1 - vegDens/5) {
+            if (Math.random() > 1 - vegDens / 5) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"peak", "rock"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                 tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
@@ -205,7 +222,7 @@ public class EnvironmentUtil {
             box.getShape().setMaterial(ResourcesUtil.stone);
             box.getProps().setPROPERTY_ITEM_TAG("Rock01");
 
-        }else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_HILLS_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
+        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_HILLS_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
             box.getShape().setMaterial(ResourcesUtil.grass_04);
             box.getProps().setPROPERTY_ITEM_TAG("Grass04");
 
@@ -216,7 +233,7 @@ public class EnvironmentUtil {
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
-        }  else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_HILLS_LEVEL_1) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
+        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_HILLS_LEVEL_1) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
             // TODO CHANGE MOSS TEXTURE
             box.getShape().setMaterial(ResourcesUtil.moss);
             box.getProps().setPROPERTY_ITEM_TAG("Moss");
@@ -295,7 +312,7 @@ public class EnvironmentUtil {
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
-        }else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_DESERT_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.sand)) {
+        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_DESERT_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.sand)) {
             box.getShape().setMaterial(ResourcesUtil.sand);
             box.getProps().setPROPERTY_ITEM_TAG("Sand02");
 
@@ -306,7 +323,7 @@ public class EnvironmentUtil {
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
-        }else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_DESERT_LEVEL_1) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.sand)) {
+        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_DESERT_LEVEL_1) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.sand)) {
             box.getShape().setMaterial(ResourcesUtil.sand_02);
             box.getProps().setPROPERTY_ITEM_TAG("Sand03");
 
@@ -359,22 +376,21 @@ public class EnvironmentUtil {
         return b;
     }
 
-    SimplexUtil UTIL_SIMPLEX_2;
-
     public void reset() {
         UTIL_SIMPLEX = new SimplexUtil(100, .40, (int) context.time_current);
-        UTIL_SIMPLEX_2 = new SimplexUtil(2000, .65, (int) context.time_current*2);
+        UTIL_SIMPLEX_2 = new SimplexUtil(2000, .65, (int) context.time_current * 2);
+        UTIL_SIMPLEX_3 = new SimplexUtil(5, .2, (int) context.time_current);
 
         MAP_GENERATED.clear();
         MAP_RENDERING.clear();
     }
 
     private double getSimplexHeight2D(double pollx, double pollz) {
-        return UTIL_SIMPLEX.getNoise(pollx,pollz) * UTIL_SIMPLEX_2.getNoise(pollz,pollx) * 5 * PROPERTY_TERRAIN_HEIGHT_MULTIPLIER;
+        return UTIL_SIMPLEX.getNoise(pollx, pollz) * UTIL_SIMPLEX_2.getNoise(pollz, pollx) * 5 * PROPERTY_TERRAIN_HEIGHT_MULTIPLIER;
     }
 
     private double getSimplexHeight3D(double pollx, double polly, double pollz) {
-        return UTIL_SIMPLEX.getNoise(pollx, polly,pollz);
+        return UTIL_SIMPLEX_2.getNoise(pollx, polly, pollz);
     }
 
     public int convertAbsoluteToTerrainPos(double player_coord) {
@@ -387,11 +403,11 @@ public class EnvironmentUtil {
         Point2D pt = new Point2D(convertAbsoluteToTerrainPos(world_coords.getX()), convertAbsoluteToTerrainPos(world_coords.getZ()));
         if (MAP_GENERATED.containsKey(pt)) {
             int y = (int) Math.floor(world_coords.getY() / getBlockDim());
-            for (int i = y; i <= 255; i++) {
+            for (int i = y; i <= LIMIT_MIN; i++) {
                 if (MAP_GENERATED.get(pt).containsKey(i)) {
                     if (absolute) {
-                        Pair<Double, Double> result = MAP_GENERATED.get(pt).get(i);
-                        return result.getValue() * getBlockDim();
+                        Double result = MAP_GENERATED.get(pt).get(i);
+                        return result * getBlockDim();
                     } else {
                         return i;
                     }
@@ -407,37 +423,38 @@ public class EnvironmentUtil {
     public void placeObject(AbsolutePoint3D pos, StructureBuilder str, boolean shouldStack) {
         int xCurrent = convertAbsoluteToTerrainPos(pos.getX());
         int yCurrent = (int) Math.floor(pos.getY());
-        int yAbove = (int) getClosestGroundLevel(pos, false) - 1;
         int zCurrent = convertAbsoluteToTerrainPos(pos.getZ());
 //      public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();   // key: x,z value: world column (key: non rounded y position value: pair)
 //      HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
         // if the x z coordinate does not exist, create it
         if (!MAP_GENERATED.containsKey(new Point2D(xCurrent, zCurrent))) {
-            generateMapColumn(xCurrent,zCurrent);
+            generateMapColumn(xCurrent, zCurrent);
         }
 
+        int yAbove = (int) getClosestGroundLevel(pos, false) - 1;
+
         // get the world column with the x z coordinate
-        TreeMap<Integer, Pair> worldColumn = MAP_GENERATED.get(new Point2D(xCurrent, zCurrent));
+        TreeMap<Integer, Double> worldColumn = MAP_GENERATED.get(new Point2D(xCurrent, zCurrent));
 
         // if you want the block to be placed on top of the first-found ground-level block and there is not already a block at the y pos right above the ground level
         if (shouldStack) {
-            if(!worldColumn.containsKey(yAbove)){
+            if (!worldColumn.containsKey(yAbove)) {
                 // insert a block at the y pos in the column
                 str.setTranslateIndependent(xCurrent * getBlockDim(), getClosestGroundLevel(pos, true) - str.getHeight(), zCurrent * getBlockDim());
                 MAP_RENDERING.put(new Point3D(xCurrent, yAbove, zCurrent), str);
-                worldColumn.put(yAbove, new Pair<>(getSimplexHeight3D(xCurrent, yAbove, zCurrent), (getClosestGroundLevel(pos, true) - str.getHeight()) / getBlockDim()));
+                worldColumn.put(yAbove, (getClosestGroundLevel(pos, true) - str.getHeight()) / getBlockDim());
             }
-        } else{
+        } else {
             // otherwise, if shouldStack is false we want to replace any pre-existing blocks with the new one instead of stacking it on top of the ground level
-            if(worldColumn.containsKey(yCurrent)){
+            if (worldColumn.containsKey(yCurrent)) {
                 // so, if the block already exists, replace it -- TODO
 
                 // Problem below is that MAP_RENDERING may not have the block;
 //                StructureBuilder existing = MAP_RENDERING.get(new Point3D(xCurrent, yAbove, zCurrent));
 //                str.setTranslateIndependent(existing.getTranslateX(), existing.getTranslateY(), existing.getTranslateZ());
 //                MAP_RENDERING.put(new Point3D(xCurrent, yCurrent, zCurrent), str);
-            } else{
+            } else {
                 // otherwise, if the block doesn't exist, create it
 
             }
