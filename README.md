@@ -2,7 +2,7 @@
 - Andrei Cozma & Hunter Price  
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 
-## INSTALLATION
+## - INSTALLATION
 #### COMPILATION DEPENDENCIES:
 - Java 11 - Check version using `./mvnw --version`
 ```
@@ -18,7 +18,7 @@
 > ./execute
 ```
 
-## DETAILED MANUAL INSTALLATIONS STEPS
+## - DETAILED MANUAL INSTALLATIONS STEPS
 ### MAVEN:
 - use the Maven Wrapper `./mvnw`  
 Otherwise install Maven (```sudo apt-get install maven```)
