@@ -1,18 +1,19 @@
-package app.utils;
+package app.structures.objects;
 
 import app.environment.EnvironmentUtil;
 import app.player.AbsolutePoint3D;
 import app.structures.StructureBuilder;
+import app.utils.Log;
 import javafx.animation.AnimationTimer;
 
-public class ProjectileUtil extends StructureBuilder {
+public class Base_Projectile extends Base_Structure {
     private static final String TAG = "ProjectileUtil";
 
     private final EnvironmentUtil context;
     private final StructureBuilder object;
     private double speed;
 
-    public ProjectileUtil(EnvironmentUtil ctx, StructureBuilder obj) {
+    public Base_Projectile(EnvironmentUtil ctx, StructureBuilder obj) {
         Log.p(TAG, "CONSTRUCTOR");
 
         context = ctx;
