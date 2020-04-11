@@ -3,34 +3,34 @@
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 
 ## INSTALLATION
-### COMPILATION DEPENDENCIES:
+#### COMPILATION DEPENDENCIES:
 - Java 11 - Check version using `./mvnw --version`
 ```
 > sudo add-apt-repository ppa:openjdk-r/ppa && sudo apt-get update && sudo apt-get install openjdk-11-jdk
 ```
-### USE THE INSTALLATION SCRIPT:
+#### USE THE INSTALLATION SCRIPT:
 ```
 > ./install
 ```
 
-### EXECUTION:
+#### EXECUTION:
 ```
 > ./execute
 ```
 
-# DETAILED MANUAL INSTALLATIONS STEPS
-## MAVEN:
+## DETAILED MANUAL INSTALLATIONS STEPS
+### MAVEN:
 - use the Maven Wrapper `./mvnw`  
 Otherwise install Maven (```sudo apt-get install maven```)
 
-## INSTALL INCLUDED PROJECT DEPENDENCIES:   
+### INSTALL INCLUDED PROJECT DEPENDENCIES:   
 ```
 	> ./mvnw validate
 ```
 
-## COMPILATION & INSTALLATION:  
+### COMPILATION & INSTALLATION:  
 
-### OPTION 1:  
+#### OPTION 1:  
 1. COMPILE  
 ```
 	> ./mvnw clean // delete compiled files, optional  
@@ -44,7 +44,7 @@ Otherwise install Maven (```sudo apt-get install maven```)
 (or)  
 	> ./mvnw exec:java  
 ```
-### OPTION 2:  
+#### OPTION 2:  
 1. PACKAGE  
 ```
 	> ./mvnw clean // delete compiled files, optional  
@@ -56,7 +56,7 @@ Otherwise install Maven (```sudo apt-get install maven```)
 ```
 	> java -jar target/307Proj.jar  
 ```
-### OPTION 3:  
+#### OPTION 3:  
 1. INSTALL  
 ```
 	> ./mvnw install // Compiles & Packages & Install into Local Repository  
@@ -65,7 +65,7 @@ Otherwise install Maven (```sudo apt-get install maven```)
 ```
 2. RUN with either of the Run options described above  
 
-### MAVEN LIFECYCLE:  
+#### MAVEN LIFECYCLE:  
 Usage: `> ./mvnw command`  
 1. process-resources
 2. compile
