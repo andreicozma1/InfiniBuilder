@@ -195,25 +195,11 @@ public class EnvironmentUtil {
         } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PEAK_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
             box.getShape().setMaterial(ResourcesUtil.stone);
             box.getProps().setPROPERTY_ITEM_TAG("Rock01");
-//
-//            if (Math.random() > 1 - vegDens) {
-//                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
-//                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-//                tree.setScaleAll(15 + Math.random() * 20);
-//                tree.setTranslateY(-tree.getHeight() / 2);
-//                b.getChildren().add(tree);
-//            }
+
         } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PEAK_LEVEL_1) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
             box.getShape().setMaterial(ResourcesUtil.stone);
             box.getProps().setPROPERTY_ITEM_TAG("Rock01");
-//
-//            if (Math.random() > 1 - vegDens) {
-//                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
-//                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-//                tree.setScaleAll(15 + Math.random() * 20);
-//                tree.setTranslateY(-tree.getHeight() / 2);
-//                b.getChildren().add(tree);
-//            }
+
         }else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_HILLS_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
             box.getShape().setMaterial(ResourcesUtil.grass_04);
             box.getProps().setPROPERTY_ITEM_TAG("Grass04");
@@ -285,25 +271,25 @@ public class EnvironmentUtil {
             box.getShape().setMaterial(ResourcesUtil.grass_01);
             box.getProps().setPROPERTY_ITEM_TAG("Grass02");
 
-//            if (Math.random() > 1 - vegDens) {
-//                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
-//                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-//                tree.setScaleAll(15 + Math.random() * 20);
-//                tree.setTranslateY(-tree.getHeight() / 2);
-//                b.getChildren().add(tree);
-//            }
+            if (Math.random() > 1 - vegDens) {
+                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setTranslateY(-tree.getHeight() / 2);
+                b.getChildren().add(tree);
+            }
         } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_DESERT_LEVEL_3) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.sand)) {
             // TODO - change to diff type of sand
             box.getShape().setMaterial(ResourcesUtil.sand_02);
             box.getProps().setPROPERTY_ITEM_TAG("Sand01");
 
-//            if (Math.random() > 1 - vegDens) {
-//                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
-//                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-//                tree.setScaleAll(15 + Math.random() * 20);
-//                tree.setTranslateY(-tree.getHeight() / 2);
-//                b.getChildren().add(tree);
-//            }
+            if (Math.random() > 1 - vegDens) {
+                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
+                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setTranslateY(-tree.getHeight() / 2);
+                b.getChildren().add(tree);
+            }
         }else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_DESERT_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.sand)) {
             box.getShape().setMaterial(ResourcesUtil.sand);
             box.getProps().setPROPERTY_ITEM_TAG("Sand02");
