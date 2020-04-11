@@ -175,7 +175,7 @@ public class ControlsUtil {
                         case P:
                             context.getComponents().getEnvironment().getSkybox().cycleModes();
                             break;
-                        case Z:
+                        case Q:
                             context.getComponents().getCamera().reset();
                             break;
                         case SHIFT:
