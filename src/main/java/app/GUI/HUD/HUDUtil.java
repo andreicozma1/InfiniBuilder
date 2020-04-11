@@ -46,9 +46,7 @@ public class HUDUtil {
         if(isShown){
             HUDGroup.getChildren().clear();
         }else{
-            for (Map.Entry mapElement : elements.entrySet()) {
-                HUDGroup.getChildren().add(((HUDElement)mapElement.getValue()).getGroup());
-            }
+            drawHUD();
         }
         isShown=!isShown;
     }
@@ -91,6 +89,8 @@ public class HUDUtil {
     }
 
     public void drawHUD() {
+
+        getHUDGroup().getChildren().clear();
         //health bar
         StatusBar health = new StatusBar(HUDUtil.HEALTH,
                 new Point2D(25, 10),

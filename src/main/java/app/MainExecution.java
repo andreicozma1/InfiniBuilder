@@ -57,12 +57,11 @@ public class MainExecution extends Application {
                 20,20,1,1,ResourcesUtil.black);
         Function funct;
         Variable v1,v2;
-        // f(x) =
+
+        // f(x) = x
         funct = new Function();
-        v1 = new Variable(true,3,true,1);
+        v1 = new Variable(true,1,true,1);
         funct.addVariable(v1);
-        v2 = new Variable(true,5,false,1);
-        funct.addVariable(v2);
         grapher.addFunction(funct);
 
         // f(x) = x^2
@@ -71,6 +70,19 @@ public class MainExecution extends Application {
         funct.addVariable(v1);
         grapher.addFunction(funct);
 
+        // f(x) = x^3
+        funct = new Function();
+        v1 = new Variable(true,1,true,3);
+        funct.addVariable(v1);
+        grapher.addFunction(funct);
+
+        // f(x) = 3x + 5
+        funct = new Function();
+        v1 = new Variable(true,3,true,1);
+        funct.addVariable(v1);
+        v2 = new Variable(true,5,false,1);
+        funct.addVariable(v2);
+        grapher.addFunction(funct);
 
         SpawnableStructureItem grapherItem = new SpawnableStructureItem(grapher,"line",ResourcesUtil.black,game.getComponents().getEnvironment().getBlockDim());
 
