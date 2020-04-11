@@ -105,7 +105,7 @@ public class GrapherUtil implements SpawnableStructure {
                 System.out.println("F("+x+") = "+y);
                 Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                 cube.getShape().setMaterial(functionMaterial);
-                block_map.put(new Point2D((x/xAxisScalePerBlock)*cellDim, y*cellDim), cube);
+                block_map.put(new Point2D((x/xAxisScalePerBlock)*cellDim+startingX,  y*cellDim+startingZ), cube);
 
             }
         }
