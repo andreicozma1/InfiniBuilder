@@ -65,8 +65,8 @@ public class PlayerUtil {
         uv_light.setColor(Color.DARKBLUE);
         GROUP.getChildren().add(uv_light);
 
-        setJumpHeightMultiplier(1);
-        setMaxAutoJumpHeightMultiplier(1.5);
+        setJumpHeightMultiplier(.8);
+        setMaxAutoJumpHeightMultiplier(1);
         setRunMultiplier(1.10);
         setFlySpeed(10);
     }
@@ -189,9 +189,6 @@ public class PlayerUtil {
                     posz = posz_next;
                 }
             }
-
-
-
         }
     }
 
@@ -221,7 +218,7 @@ public class PlayerUtil {
         } else if (getPositionYnoHeight() != ground_level) {
             if (!isOnGround && !isFlyMode) {
                 if (val > 7) {
-                    takeDamage(val * 3);
+                    takeDamage(val * 5);
                 }
             }
 
@@ -248,10 +245,10 @@ public class PlayerUtil {
         double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new AbsolutePoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z), true);
         double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new AbsolutePoint3D(this.POSITION_X, getPositionYwithHeight(), new_z), true);
 
-        if ((POSITION_Y - ground_level_x < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP) || isClipMode) {
+        if ((POSITION_Y - ground_level_x < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP*1.5) || isClipMode) {
             this.POSITION_X = new_x;
         }
-        if ((POSITION_Y - ground_level_z < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP) || isClipMode) {
+        if ((POSITION_Y - ground_level_z < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP*1.5) || isClipMode) {
             this.POSITION_Z = new_z;
         }
     }
