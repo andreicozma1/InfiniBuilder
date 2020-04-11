@@ -38,6 +38,7 @@ public class ControlsUtil {
 
                 context.getComponents().getCamera().rotateX(differencex);
                 context.getComponents().getCamera().rotateY(-differencey);
+                context.getComponents().getCamera().update_handler();
 
                 last_mouse_x = event.getSceneX();
                 last_mouse_y = event.getSceneY();
@@ -181,6 +182,7 @@ public class ControlsUtil {
 
     public void update_handler(double dt) {
         if(pressed.size()!=0){
+            context.getComponents().getCamera().update_handler();
             for (KeyCode e : pressed) {
                 switch (e) {
                     case Q:

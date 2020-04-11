@@ -133,7 +133,6 @@ public class SkyboxUtil {
     // if this variable is not -1, use this value as the game_time value
 
     void update_handler() {
-
         double game_time;
         switch (MODE_CURR) {
             case MODE_DAY:
@@ -154,17 +153,15 @@ public class SkyboxUtil {
         rotateSun(game_time / sun_moon_period_multiplier * 6.5, sun_distance);
         rotateMoon(game_time / sun_moon_period_multiplier * 6.5, moon_distance);
         rotateBigStar(game_time / big_planet_period_multiplier * 6.5, big_star_distance);
-        rotateClouds(game_time);
+        rotateClouds();
     }
 
-    private void rotateClouds(double time) {
+    private void rotateClouds() {
         clouds.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
         clouds.setTranslateZ(context.context.getComponents().getPlayer().getPositionZ());
 
         clouds_rotate_z.setAngle(clouds_rotate_z.getAngle() + clouds_rotate_speed);
         clouds_rotate_y.setAngle(clouds_rotate_y.getAngle() + clouds_rotate_speed);
-//System.out.println((Math.sin(time) + 1)/2);
-//        clouds.opacityProperty().setValue((Math.sin(time) + 1)/2);
     }
 
     private void rotateSun(double time, double dist) {

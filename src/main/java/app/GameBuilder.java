@@ -51,12 +51,6 @@ public class GameBuilder {
                     reading_frames++;
                     time_current = System.currentTimeMillis();
 
-                    if (GAME_EFFECTS.PROPERTY_IS_TRIPPY_MODE) {
-                        getEffects().EFFECT_COLOR_ADJUST.setHue(Math.sin(time_current / 1000.0));
-                        getEffects().EFFECT_COLOR_ADJUST.setContrast((Math.sin(time_current / 15000.0)) / 5);
-                        getEffects().EFFECT_BLOOM.setThreshold(Math.sin(time_current / 5000.0) / 2 + 1);
-                    }
-
                     if (time_current - reading_last > 1000.0) {
                         Log.p(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + time_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
                         deltaT = 60.0 / reading_frames;
@@ -66,6 +60,12 @@ public class GameBuilder {
                         reading_last = time_current;
                         reading_frames = 0;
                         TOTAL_RUNTIME++;
+                    }
+
+                    if (GAME_EFFECTS.PROPERTY_IS_TRIPPY_MODE) {
+                        getEffects().EFFECT_COLOR_ADJUST.setHue(Math.sin(time_current / 1000.0));
+                        getEffects().EFFECT_COLOR_ADJUST.setContrast((Math.sin(time_current / 15000.0)) / 5);
+                        getEffects().EFFECT_BLOOM.setThreshold(Math.sin(time_current / 5000.0) / 2 + 1);
                     }
 
                     if (getComponents().getGameSceneControls() != null) {
