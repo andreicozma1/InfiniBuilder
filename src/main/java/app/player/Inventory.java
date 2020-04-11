@@ -47,7 +47,7 @@ public class Inventory extends HUDElement {
     public GameBuilder context;
     private int selected = -1;
     private double totalWidth;
-    private double totalHeight;
+    public double totalHeight;
     private boolean isVertical = false;
     private boolean displayNumbers = false;
     private boolean isExtendedInventoryDisplayed = false;

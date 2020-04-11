@@ -91,58 +91,75 @@ public class HUDUtil {
     public void drawHUD() {
 
         getHUDGroup().getChildren().clear();
+        int bar_width = 272;
+        int bar_height = 10;
+        int health_pos = context.getWindow().getWindowWidth() / 2 - 2 - bar_width;
+        int stamina_pos = context.getWindow().getWindowWidth() / 2 + 2;
+
         //health bar
         StatusBar health = new StatusBar(HUDUtil.HEALTH,
-                new Point2D(25, 10),
+                new Point2D(health_pos, context.getWindow().getWindowHeight() - 72),
                 100,
-                10,
-                150,
+                bar_width,
+                bar_height,
                 Color.RED,
                 Color.valueOf("400000"));
-        health.setVertical(true);
-        health.setBorder(true);
-        health.setDefaultDirection(false);
-        health.setBorderColor(Color.WHITE);
-        health.setArcHeight(20);
-        health.setArcWidth(20);
+        health.setVertical(false);
+        health.setDefaultDirection(true);
+        health.setArcHeight(15);
+        health.setArcWidth(15);
         health.update();
         this.addElement(health);
 
         //stamina bar
         StatusBar stamina = new StatusBar(HUDUtil.STAMINA,
-                new Point2D(55, 10),
+                new Point2D(stamina_pos, context.getWindow().getWindowHeight() - 72),
                 100,
-                10,
-                150,
+                bar_width,
+                bar_height,
                 Color.BLUE,
                 Color.valueOf("010048"));
-        stamina.setVertical(true);
-        stamina.setBorder(true);
-        stamina.setDefaultDirection(false);
-        stamina.setBorderColor(Color.WHITE);
-        stamina.setArcHeight(20);
-        stamina.setArcWidth(20);
+        stamina.setVertical(false);
+        stamina.setDefaultDirection(true);
+        stamina.setArcHeight(15);
+        stamina.setArcWidth(15);
         stamina.update();
         this.addElement(stamina);
 
+
+        StatusBar hunger = new StatusBar(   HUDUtil.HUNGER,
+                new Point2D(stamina_pos,context.getWindow().getWindowHeight() - 72 - 12),
+                100,
+                bar_width,
+                bar_height,
+                Color.BLUE,
+                Color.DARKGRAY);
+        hunger.setColorInterpolation(Color.GREEN,Color.RED);  // (full color, empty color)
+        hunger.setCurrStatus(90);
+        hunger.setVertical(false);
+        hunger.setDefaultDirection(true);
+        hunger.setArcHeight(15);
+        hunger.setArcWidth(15);
+        hunger.update();
+        this.addElement(hunger);
+
+        int temp_width = 125;
         // this is here as an example of how to use the setColorInterpolation
-//        StatusBar temperature = new StatusBar(   HUDUtil.TEMPERATURE,
-//                new Point2D(85,10),
-//                100,
-//                15,
-//                200,
-//                Color.BLUE,
-//                Color.DARKGRAY);
-//        temperature.setColorInterpolation(Color.RED,Color.BLUE);  // (full color, empty color)
-//        temperature.setCurrStatus(90);
-//        temperature.setVertical(true);
-//        temperature.setBorder(true);
-//        temperature.setDefaultDirection(false);
-//        temperature.setBorderColor(Color.WHITE);
-//        temperature.setArcHeight(20);
-//        temperature.setArcWidth(20);
-//        temperature.update();
-//        this.addElement(temperature);
+        StatusBar temperature = new StatusBar(   HUDUtil.TEMPERATURE,
+                new Point2D(context.getWindow().getWindowWidth() - temp_width - 15,5),
+                100,
+                temp_width,
+                bar_height,
+                Color.BLUE,
+                Color.DARKGRAY);
+        temperature.setColorInterpolation(Color.RED,Color.BLUE);  // (full color, empty color)
+        temperature.setCurrStatus(90);
+        temperature.setVertical(false);
+        temperature.setDefaultDirection(false);
+        temperature.setArcHeight(15);
+        temperature.setArcWidth(15);
+        temperature.update();
+        this.addElement(temperature);
 
 
         Inventory inv = new Inventory(HUDUtil.INVENTORY,
