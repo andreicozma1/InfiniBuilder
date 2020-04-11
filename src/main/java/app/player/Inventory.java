@@ -45,14 +45,13 @@ public class Inventory extends HUDElement {
     private final double screenWidth;
     private final double screenHeight;
     public GameBuilder context;
-    private int swapSlot1;
-    private int swapSlot2;
     private int selected = -1;
     private double totalWidth;
     private double totalHeight;
     private boolean isVertical = false;
     private boolean displayNumbers = false;
     private boolean isExtendedInventoryDisplayed = false;
+    private boolean isToggle = true;
     private Paint panelColor;
     private Paint slotColor;
     private Paint selectedItemColor = Color.YELLOW;
@@ -171,6 +170,10 @@ public class Inventory extends HUDElement {
             isVertical = vertical;
         }
     }
+
+    public boolean isToggle() { return isToggle; }
+
+    public void setToggle(boolean toggle) { isToggle = toggle; }
 
     public boolean isDisplayNumbers() {
         return displayNumbers;

@@ -2,6 +2,7 @@ package app.GUI.menu;
 
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
+import app.player.Inventory;
 import app.utils.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -49,6 +50,7 @@ public class MenuUtil {
     InterfaceBuilder playerMenu;
     InterfaceBuilder cameraMenu;
     InterfaceBuilder graphicsMenu;
+    InterfaceBuilder hudMenu;
     // menu to explain the controls
     InterfaceBuilder controlsMenu;
     // menu to explain the project
@@ -74,6 +76,7 @@ public class MenuUtil {
     private double curr_jump_height;
     private double curr_run_speed;
     private double curr_jump_cut_off_height;
+    private boolean is_ext_inventory_toggle;
     // camera settings
     private int curr_fov_default;
     private double curr_fov_running;
@@ -102,6 +105,7 @@ public class MenuUtil {
         playerMenu = new InterfaceBuilder();
         cameraMenu = new InterfaceBuilder();
         graphicsMenu = new InterfaceBuilder();
+        hudMenu = new InterfaceBuilder();
 
         SCENE_MENU = new Scene(mainMenu.getGroup(), context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
 
@@ -140,6 +144,10 @@ public class MenuUtil {
         curr_saturation = context.getEffects().getSaturation();
         curr_hue = context.getEffects().getHue();
         curr_brightness = context.getEffects().getBrightness();
+
+        // hud settings defaults
+//        is_ext_inventory_toggle = ((Inventory)context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isToggle();
+
 
         // build each menu
         buildMainMenu();

@@ -30,6 +30,7 @@ public class HUDUtil {
     public static final String EDGE_LEFT = "edge_left";
     public static final String EDGE_RIGHT = "edge_right";
     private static final String TAG = "HudUtil";
+    private boolean isShown = true;
     private final SubScene subScene;
     private final Group HUDGroup = new Group();
     private final Map<String, HUDElement> elements = new HashMap<>();
@@ -39,6 +40,17 @@ public class HUDUtil {
         Log.p(TAG, "CONSTRUCTOR");
         context = ctx;
         subScene = new SubScene(HUDGroup, ctx.getWindow().getWindowWidth(), ctx.getWindow().getWindowHeight());
+    }
+
+    public void toggleHUD(){
+        if(isShown){
+            HUDGroup.getChildren().clear();
+        }else{
+            for (Map.Entry mapElement : elements.entrySet()) {
+                HUDGroup.getChildren().add(((HUDElement)mapElement.getValue()).getGroup());
+            }
+        }
+        isShown=!isShown;
     }
 
     public Group getHUDGroup() {

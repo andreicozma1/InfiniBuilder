@@ -101,7 +101,17 @@ public class ControlsUtil {
 
             if (event.getCode() == KeyCode.ESCAPE) {
                 reset();
-                ((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).setPaused(!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused());
+                if(((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()){
+                    ((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).toggleItemInfo();
+                    context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO).update();
+                }
+                else if(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed()){
+                    ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
+                    context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                }
+                else {
+                    ((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).setPaused(!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused());
+                }
             }
 
             if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
