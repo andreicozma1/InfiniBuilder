@@ -46,7 +46,7 @@ public class EnvironmentUtil {
     private final double PROPERTY_PEAK_LEVEL_1 = -300;
     private final double PROPERTY_PEAK_LEVEL_2 = -320;
     private final double PROPERTY_SNOW_LEVEL = -375;
-    private double PROPERTY_VEGETATION_MAX_SIZE = 20;
+    private double PROPERTY_VEGETATION_MAX_SIZE;
     private final Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
     private final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
     public GameBuilder context;
@@ -78,6 +78,7 @@ public class EnvironmentUtil {
 
         setTerrainGenerateDistance(30);
         setTerrainHeightMultiplier(50);
+        setTerrainVegetationMaxSize(20);
         setVegetationDensityPercent(15);
 
         reset();
@@ -139,10 +140,10 @@ public class EnvironmentUtil {
                             Point2D backwards = new Point2D(i, j - 1);
 
                             if (!worldColumn.containsKey(k - 1) || !worldColumn.containsKey(k + 1) ||
-                                    (MAP_GENERATED.containsKey(left) && !MAP_GENERATED.get(left).containsKey(k - 1)) ||
-                                    (MAP_GENERATED.containsKey(right) && !MAP_GENERATED.get(right).containsKey(k - 1)) ||
-                                    (MAP_GENERATED.containsKey(forwards) && !MAP_GENERATED.get(forwards).containsKey(k - 1)) ||
-                                    (MAP_GENERATED.containsKey(backwards) && !MAP_GENERATED.get(backwards).containsKey(k - 1))) {
+                                    (MAP_GENERATED.containsKey(left) && !MAP_GENERATED.get(left).containsKey(k)) ||
+                                    (MAP_GENERATED.containsKey(right) && !MAP_GENERATED.get(right).containsKey(k)) ||
+                                    (MAP_GENERATED.containsKey(forwards) && !MAP_GENERATED.get(forwards).containsKey(k)) ||
+                                    (MAP_GENERATED.containsKey(backwards) && !MAP_GENERATED.get(backwards).containsKey(k))) {
 
                                 if (!MAP_RENDERING.containsKey(new Point3D(i, k, j))) {
                                     int x = i * getBlockDim();
