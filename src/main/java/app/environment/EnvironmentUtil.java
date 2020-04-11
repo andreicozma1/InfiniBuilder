@@ -15,7 +15,6 @@ import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.paint.Material;
 import javafx.scene.shape.CullFace;
-import javafx.util.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +29,8 @@ public class EnvironmentUtil {
     public static Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
     public static Group GROUP_TERRAIN;
     public static Group GROUP_OTHER;
+    public final Map<Point2D, TreeMap<Integer, Double>> MAP_GENERATED = new HashMap<>();
+    public final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
     private final TDModelUtil UTIL_MODEL;
     private final int PROPERTY_BLOCK_DIM = 20;
     private final double PROPERTY_WATER_LEVEL = 303;
@@ -47,8 +48,6 @@ public class EnvironmentUtil {
     private final double PROPERTY_PEAK_LEVEL_2 = -320;
     private final double PROPERTY_SNOW_LEVEL = -500;
     private final double PROPERTY_ICE_LEVEL = -700;
-    public final Map<Point2D, TreeMap<Integer, Double>> MAP_GENERATED = new HashMap<>();
-    public final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
     public GameBuilder context;
     SimplexUtil UTIL_SIMPLEX_2;
     SimplexUtil UTIL_SIMPLEX_3;
@@ -118,7 +117,7 @@ public class EnvironmentUtil {
 //            double simplex3D = getSimplexHeight3D(i, k, j);
 //            System.out.println("Simplex3d " + simplex3D);
 //            if (simplex3D > 0) {
-                mapColumn.put((int) Math.floor(k), k);
+            mapColumn.put((int) Math.floor(k), k);
 //            }
         }
 

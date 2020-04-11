@@ -53,7 +53,7 @@ public class SpawnableStructureItem extends Base_Cube {
         spawnable.build(e.context);
         for (Map.Entry<Point2D, StructureBuilder> point2DStructureBuilderEntry : spawnable.block_map.entries()) {
             Point2D orig_pos = (Point2D) ((Map.Entry) point2DStructureBuilderEntry).getKey();
-            e.placeObject(new AbsolutePoint3D(orig_pos.getX(),EnvironmentUtil.LIMIT_MAX,orig_pos.getY()), (StructureBuilder) ((Map.Entry) point2DStructureBuilderEntry).getValue(), true);
+            e.placeObject(new AbsolutePoint3D(orig_pos.getX(), EnvironmentUtil.LIMIT_MAX, orig_pos.getY()), (StructureBuilder) ((Map.Entry) point2DStructureBuilderEntry).getValue(), true);
         }
     }
 

@@ -20,6 +20,10 @@ import javafx.scene.paint.Color;
 public class PlayerUtil {
 
     private static final String TAG = "PlayerUtil";
+    final double PROPERTY_MULTIPLIER_CROUCH_HEIGHT = .4;
+    final double PROPERTY_SPEED_FORWARD = 3;
+    final double PROPERTY_SPEED_BACKWARD = 2;
+    final double PROPERTY_SPEED_SIDE = 2;
     private final Group GROUP;
     private final InventoryUtil UTIL_INVENTORY;
     private final String PROPERTY_NAME = "Steve";
@@ -30,10 +34,6 @@ public class PlayerUtil {
     private final double PROPERTY_STATUS_HEALTH_REGEN_SPD = .008;
     private final PointLight uv_light;
     public GameBuilder context;
-    final double PROPERTY_MULTIPLIER_CROUCH_HEIGHT = .4;
-    final double PROPERTY_SPEED_FORWARD = 3;
-    final double PROPERTY_SPEED_BACKWARD = 2;
-    final double PROPERTY_SPEED_SIDE = 2;
     double PROPERTY_SPEED_FLY = 5;
     boolean canJump = true;
     boolean isRunning = false;
@@ -158,7 +158,7 @@ public class PlayerUtil {
             double startrotY = Math.toRadians(context.getComponents().getCamera().getRotateY());
 
             double dist_traveled = 0;
-            while(dist_traveled < 200){
+            while (dist_traveled < 200) {
                 double ray_speed = .5;
                 double posx_next = posx + ray_speed * Math.sin(startrotX) * Math.cos(startrotY);
                 double posy_next = posy - ray_speed * Math.sin(startrotY);
@@ -166,10 +166,10 @@ public class PlayerUtil {
                 dist_traveled += ray_speed;
                 System.out.println("Dist traveled: " + dist_traveled + " posx: " + posx + " posy: " + posy + " posz: " + posz);
 
-                Point3D loc_next = new Point3D(context.getComponents().getEnvironment().convertAbsoluteToTerrainPos(posx_next), Math.floor(posy_next/context.getComponents().getEnvironment().getBlockDim()),context.getComponents().getEnvironment().convertAbsoluteToTerrainPos(posz_next));
+                Point3D loc_next = new Point3D(context.getComponents().getEnvironment().convertAbsoluteToTerrainPos(posx_next), Math.floor(posy_next / context.getComponents().getEnvironment().getBlockDim()), context.getComponents().getEnvironment().convertAbsoluteToTerrainPos(posz_next));
 
-                if(context.getComponents().getEnvironment().MAP_RENDERING.containsKey(loc_next)){
-                    AbsolutePoint3D loc = new AbsolutePoint3D(posx,posy,posz);
+                if (context.getComponents().getEnvironment().MAP_RENDERING.containsKey(loc_next)) {
+                    AbsolutePoint3D loc = new AbsolutePoint3D(posx, posy, posz);
 
                     switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
                         case StructureBuilder.TYPE_OBJECT:
@@ -182,7 +182,7 @@ public class PlayerUtil {
                             break;
                     }
                     break;
-                } else{
+                } else {
                     posx = posx_next;
                     posy = posy_next;
                     posz = posz_next;
@@ -244,10 +244,10 @@ public class PlayerUtil {
         double ground_level_x = context.getComponents().getEnvironment().getClosestGroundLevel(new AbsolutePoint3D(new_x, getPositionYwithHeight(), this.POSITION_Z), true);
         double ground_level_z = context.getComponents().getEnvironment().getClosestGroundLevel(new AbsolutePoint3D(this.POSITION_X, getPositionYwithHeight(), new_z), true);
 
-        if ((POSITION_Y - ground_level_x < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP*1.5) || isClipMode) {
+        if ((POSITION_Y - ground_level_x < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP * 1.5) || isClipMode) {
             this.POSITION_X = new_x;
         }
-        if ((POSITION_Y - ground_level_z < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP*1.5) || isClipMode) {
+        if ((POSITION_Y - ground_level_z < context.getComponents().getEnvironment().getBlockDim() * PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP * 1.5) || isClipMode) {
             this.POSITION_Z = new_z;
         }
     }

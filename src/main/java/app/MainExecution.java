@@ -1,6 +1,8 @@
 package app;
 
-import app.structures.grapher.*;
+import app.structures.grapher.Function;
+import app.structures.grapher.GrapherUtil;
+import app.structures.grapher.Variable;
 import app.structures.maze.MazeUtil;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.SpawnableStructureItem;
@@ -37,38 +39,37 @@ public class MainExecution extends Application {
         Base_Cube sand = new Base_Cube("Sand", ResourcesUtil.sand, game.getComponents().getEnvironment().getBlockDim());
         Base_Cube metal = new Base_Cube("Metal", ResourcesUtil.metal, game.getComponents().getEnvironment().getBlockDim());
 
-        MazeUtil maze = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 20, 2,4, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED);
-        MazeUtil maze2 = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, 4,ResourcesUtil.metal,  MazeUtil.GENERATOR_RANDOM_SEED, true);
+        MazeUtil maze = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 20, 2, 4, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED);
+        MazeUtil maze2 = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, 4, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED, true);
         SpawnableStructureItem mazeitem = new SpawnableStructureItem(maze, "Maze Generator", ResourcesUtil.sun, game.getComponents().getEnvironment().getBlockDim());
         SpawnableStructureItem maze2item = new SpawnableStructureItem(maze2, "Maze Generator2", ResourcesUtil.moon, game.getComponents().getEnvironment().getBlockDim());
 
 //        PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
 //        SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
 
-        PathUtil path = new PathUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1,  ResourcesUtil.moon);
+        PathUtil path = new PathUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, ResourcesUtil.moon);
         path.setShortestPathMaterial(ResourcesUtil.red);
         SpawnableStructureItem pathItem = new SpawnableStructureItem(path, "Path", ResourcesUtil.purple, game.getComponents().getEnvironment().getBlockDim());
-        PathUtil path2 = new PathUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 40, 3,  ResourcesUtil.moon);
+        PathUtil path2 = new PathUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 40, 3, ResourcesUtil.moon);
         path2.setShortestPathMaterial(ResourcesUtil.red);
         SpawnableStructureItem path2Item = new SpawnableStructureItem(path2, "Path2", ResourcesUtil.green, game.getComponents().getEnvironment().getBlockDim());
 
         //create a function,
         Function line = new Function();
-        Variable v1 = new Variable(true,3,true,1);
+        Variable v1 = new Variable(true, 3, true, 1);
         line.addVariable(v1);
-        Variable v2 = new Variable(true,5,false,1);
+        Variable v2 = new Variable(true, 5, false, 1);
         line.addVariable(v2);
 
         GrapherUtil funct1 = new GrapherUtil(game.getComponents().getEnvironment().getBlockDim(),
-                20,20,1,1,line,ResourcesUtil.black,ResourcesUtil.red);
-        SpawnableStructureItem funct1Item = new SpawnableStructureItem(funct1,"line",ResourcesUtil.black,game.getComponents().getEnvironment().getBlockDim());
-
+                20, 20, 1, 1, line, ResourcesUtil.black, ResourcesUtil.red);
+        SpawnableStructureItem funct1Item = new SpawnableStructureItem(funct1, "line", ResourcesUtil.black, game.getComponents().getEnvironment().getBlockDim());
 
 
         game.getComponents().getPlayer().getInventory().addItem(4, grass, 40);
         game.getComponents().getPlayer().getInventory().addItem(dirt, 15);
         game.getComponents().getPlayer().getInventory().addItem(sand, 10);
-        game.getComponents().getPlayer().getInventory().addItem(metal,50);
+        game.getComponents().getPlayer().getInventory().addItem(metal, 50);
         game.getComponents().getPlayer().getInventory().addItem(mazeitem, 99);
         game.getComponents().getPlayer().getInventory().addItem(maze2item, 99);
 //        game.getComponents().getPlayer().getInventory().addItem(pyrmItem, 99);

@@ -23,13 +23,11 @@ public class GameBuilder {
 
     // MAIN GAME LOOP
     private final AnimationTimer GAME_ANIMATION_TIMER;
+    public long time_current;
     private long TOTAL_RUNTIME = 0;
-
     private GameFX GAME_EFFECTS;
     private GameComponents GAME_COMPONENTS;
     private GameWindow GAME_WINDOW;
-
-    public long time_current;
 
     public GameBuilder(Stage stg, int w, int h) {
         Log.p(TAG, "CONSTRUCTOR");

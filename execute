@@ -1,1 +1,1 @@
-java -jar -Xmx4096m -Xms2048m -Djavafx.animation.fullspeed=true -Dprism.dirtyopts=false -Dprism.verbose=false -Dquantum.multithreaded=true target/*.jar
+java -jar -Xmx4096m -Xms2048m -Dprism.dirtyopts=false -Dquantum.multithreaded=true target/*.jar

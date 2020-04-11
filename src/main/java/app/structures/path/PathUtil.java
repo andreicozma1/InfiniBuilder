@@ -8,7 +8,6 @@ import app.structures.SpawnableStructure;
 import app.structures.maze.MazeGenerator;
 import app.structures.objects.Base_Cube;
 import app.utils.Log;
-import app.utils.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
@@ -16,7 +15,7 @@ import java.util.List;
 
 
 // eventually I want to add the ability to change the distance in between vertexes
-public class PathUtil  implements SpawnableStructure {
+public class PathUtil implements SpawnableStructure {
     public final static String TAG = "PathUtil";
 
     private int pathRows;
@@ -46,7 +45,7 @@ public class PathUtil  implements SpawnableStructure {
         this.pathWidth = pathWidth;
         this.pathMaterial = pathMaterial;
         startLoc = 0;
-        endLoc = pathRows*pathCols - 1;
+        endLoc = pathRows * pathCols - 1;
         findShortestPath = false;
     }
 
@@ -66,7 +65,7 @@ public class PathUtil  implements SpawnableStructure {
         this.pathMaterial = pathMaterial;
         this.seed = seed;
         startLoc = 0;
-        endLoc = pathRows*pathCols - 1;
+        endLoc = pathRows * pathCols - 1;
         findShortestPath = false;
     }
 
@@ -75,7 +74,7 @@ public class PathUtil  implements SpawnableStructure {
         this.shortestPathMaterial = shortestPathMaterial;
     }
 
-    public void setStartEndLocation(int startLoc, int endLoc){
+    public void setStartEndLocation(int startLoc, int endLoc) {
         this.startLoc = startLoc;
         this.endLoc = endLoc;
     }
@@ -119,126 +118,126 @@ public class PathUtil  implements SpawnableStructure {
         }
 
 
-            // draw known path sections
-            currZ = startingZ;
-            for (i = 0; i < (pathRows * 2 - 1) * pathWidth; i++) {
-                mi = i / pathWidth;
-                currX = startingX;
-                for (j = 0; j < (pathCols * 2 - 1) * pathWidth; j++) {
-                    mj = j / pathWidth;
-                    if (mi % 2 == 0 && mj % 2 == 0) {
-                        Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
-                        cube.getShape().setMaterial(pathMaterial);
-                        System.out.println(currX + " " + currZ);
-                        block_map.put(new Point2D(startingX + cellDim * j, startingZ + cellDim * i), cube);
-                    }
-                    currX += cellDim;
-
+        // draw known path sections
+        currZ = startingZ;
+        for (i = 0; i < (pathRows * 2 - 1) * pathWidth; i++) {
+            mi = i / pathWidth;
+            currX = startingX;
+            for (j = 0; j < (pathCols * 2 - 1) * pathWidth; j++) {
+                mj = j / pathWidth;
+                if (mi % 2 == 0 && mj % 2 == 0) {
+                    Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
+                    cube.getShape().setMaterial(pathMaterial);
+                    System.out.println(currX + " " + currZ);
+                    block_map.put(new Point2D(startingX + cellDim * j, startingZ + cellDim * i), cube);
                 }
-                currZ += cellDim;
+                currX += cellDim;
+
             }
+            currZ += cellDim;
+        }
 
-            //draw generated path sections
-            for (Edge w : mazeGenerator.getDeletedWalls()) {
+        //draw generated path sections
+        for (Edge w : mazeGenerator.getDeletedWalls()) {
 
-                xindex1 = (2 * (w.v1 % pathCols));
-                zindex1 = (2 * (w.v1 / pathCols));
-                xindex2 = (2 * (w.v2 % pathCols));
-                zindex2 = (2 * (w.v2 / pathCols));
-                // wall separating vertical cells
-                if (xindex1 == xindex2) {
-                    // find vertical wall coordinate
-                    if (zindex1 < zindex2) {
-                        cellX = startingX + (xindex1 * cellDim);
-                        cellZ = startingZ + ((zindex1 + 1) * cellDim);
-                    } else {
-                        cellX = startingX + (xindex1 * cellDim);
-                        cellZ = startingZ + ((zindex2 + 1) * cellDim);
-                    }
-                }
-                // wall separating horizontal cells
-                else {
-                    // find horizontal wall coordinate
-                    if (xindex1 < xindex2) {
-                        cellX = startingX + ((xindex1 + 1) * cellDim);
-                        cellZ = startingZ + (zindex1 * cellDim);
-                    } else {
-                        cellX = startingX + ((xindex2 + 1) * cellDim);
-                        cellZ = startingZ + (zindex1 * cellDim);
-                    }
-                }
-                cellX = (cellX - startingX) * pathWidth + startingX;
-                cellZ = (cellZ - startingZ) * pathWidth + startingZ;
-
-                // loops here are for when the cells are thicker than one block
-                for (i = 0; i < pathWidth; i++) {
-                    for (j = 0; j < pathWidth; j++) {
-                        Base_Cube cube = new Base_Cube("Path Block", cellDim, cellDim, cellDim);
-                        cube.getShape().setMaterial(pathMaterial);
-                        block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), cube);
-                    }
+            xindex1 = (2 * (w.v1 % pathCols));
+            zindex1 = (2 * (w.v1 / pathCols));
+            xindex2 = (2 * (w.v2 % pathCols));
+            zindex2 = (2 * (w.v2 / pathCols));
+            // wall separating vertical cells
+            if (xindex1 == xindex2) {
+                // find vertical wall coordinate
+                if (zindex1 < zindex2) {
+                    cellX = startingX + (xindex1 * cellDim);
+                    cellZ = startingZ + ((zindex1 + 1) * cellDim);
+                } else {
+                    cellX = startingX + (xindex1 * cellDim);
+                    cellZ = startingZ + ((zindex2 + 1) * cellDim);
                 }
             }
+            // wall separating horizontal cells
+            else {
+                // find horizontal wall coordinate
+                if (xindex1 < xindex2) {
+                    cellX = startingX + ((xindex1 + 1) * cellDim);
+                    cellZ = startingZ + (zindex1 * cellDim);
+                } else {
+                    cellX = startingX + ((xindex2 + 1) * cellDim);
+                    cellZ = startingZ + (zindex1 * cellDim);
+                }
+            }
+            cellX = (cellX - startingX) * pathWidth + startingX;
+            cellZ = (cellZ - startingZ) * pathWidth + startingZ;
 
-
-            // if a path has been found draw it
-            if (findShortestPath) {
-
-                currIndex = 0;
-                nextIndex = 1;
-                mi = ((2 * (startLoc % pathCols)) * pathWidth) + (pathWidth / 2);
-                mj = ((2 * (startLoc / pathCols)) * pathWidth) + (pathWidth / 2);
-                i = ((2 * (endLoc % pathCols)) * pathWidth) + (pathWidth / 2);
-                j = ((2 * (endLoc / pathCols)) * pathWidth) + (pathWidth / 2);
-                currX = startingX + mi * cellDim;
-                currZ = startingZ + mj * cellDim;
-                while (true) {
-                    // draw the cube
+            // loops here are for when the cells are thicker than one block
+            for (i = 0; i < pathWidth; i++) {
+                for (j = 0; j < pathWidth; j++) {
                     Base_Cube cube = new Base_Cube("Path Block", cellDim, cellDim, cellDim);
-                    cube.getShape().setMaterial(shortestPathMaterial);
-                    block_map.put(new Point2D(currX, currZ), cube);
+                    cube.getShape().setMaterial(pathMaterial);
+                    block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), cube);
+                }
+            }
+        }
 
-                    // if reached the end of the path
-                    if (mj == j && mi == i) {
-                        break;
-                    }
 
-                    // set currIndex and next Index
-                    if (mj == ((2 * (path.get(nextIndex) % pathCols)) * pathWidth) + (pathWidth / 2) && mi == ((2 * (path.get(nextIndex) / pathCols)) * pathWidth) + (pathWidth / 2)) {
-                        currIndex++;
-                        nextIndex++;
-                    }
+        // if a path has been found draw it
+        if (findShortestPath) {
 
-                    // change the coordinates to draw next block
-                    //up
-                    if (path.get(currIndex) == path.get(nextIndex) - pathCols) {
-                        System.out.println("up");
-                        currZ += cellDim;
-                        mi++;
+            currIndex = 0;
+            nextIndex = 1;
+            mi = ((2 * (startLoc % pathCols)) * pathWidth) + (pathWidth / 2);
+            mj = ((2 * (startLoc / pathCols)) * pathWidth) + (pathWidth / 2);
+            i = ((2 * (endLoc % pathCols)) * pathWidth) + (pathWidth / 2);
+            j = ((2 * (endLoc / pathCols)) * pathWidth) + (pathWidth / 2);
+            currX = startingX + mi * cellDim;
+            currZ = startingZ + mj * cellDim;
+            while (true) {
+                // draw the cube
+                Base_Cube cube = new Base_Cube("Path Block", cellDim, cellDim, cellDim);
+                cube.getShape().setMaterial(shortestPathMaterial);
+                block_map.put(new Point2D(currX, currZ), cube);
 
-                    }
-                    //down
-                    else if (path.get(currIndex) == path.get(nextIndex) + pathCols) {
-                        System.out.println("down");
-                        currZ -= cellDim;
-                        mi--;
-
-                    }
-                    //left
-                    else if (path.get(currIndex) == path.get(nextIndex) - 1) {
-                        System.out.println("right");
-                        currX += cellDim;
-                        mj++;
-                    }
-                    //right
-                    else if (path.get(currIndex) == path.get(nextIndex) + 1) {
-                        System.out.println("left");
-                        currX -= cellDim;
-                        mj--;
-                    }
+                // if reached the end of the path
+                if (mj == j && mi == i) {
+                    break;
                 }
 
+                // set currIndex and next Index
+                if (mj == ((2 * (path.get(nextIndex) % pathCols)) * pathWidth) + (pathWidth / 2) && mi == ((2 * (path.get(nextIndex) / pathCols)) * pathWidth) + (pathWidth / 2)) {
+                    currIndex++;
+                    nextIndex++;
+                }
+
+                // change the coordinates to draw next block
+                //up
+                if (path.get(currIndex) == path.get(nextIndex) - pathCols) {
+                    System.out.println("up");
+                    currZ += cellDim;
+                    mi++;
+
+                }
+                //down
+                else if (path.get(currIndex) == path.get(nextIndex) + pathCols) {
+                    System.out.println("down");
+                    currZ -= cellDim;
+                    mi--;
+
+                }
+                //left
+                else if (path.get(currIndex) == path.get(nextIndex) - 1) {
+                    System.out.println("right");
+                    currX += cellDim;
+                    mj++;
+                }
+                //right
+                else if (path.get(currIndex) == path.get(nextIndex) + 1) {
+                    System.out.println("left");
+                    currX -= cellDim;
+                    mj--;
+                }
             }
+
+        }
 
     }
 }

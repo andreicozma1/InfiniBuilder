@@ -15,6 +15,7 @@ public class GrapherUtil implements SpawnableStructure {
     private Function function;
     private Material axisMaterial;
     private Material functionMaterial;
+
     public GrapherUtil(double cellDim,
                        int xAxisSize,
                        int yAxisSize,
@@ -22,7 +23,7 @@ public class GrapherUtil implements SpawnableStructure {
                        double yAxisScalePerBlock,
                        Function function,
                        Material axisMaterial,
-                       Material functionMaterial){
+                       Material functionMaterial) {
         this.cellDim = cellDim;
         this.xAxisSize = xAxisSize;
         this.yAxisSize = yAxisSize;
@@ -33,17 +34,45 @@ public class GrapherUtil implements SpawnableStructure {
         this.functionMaterial = functionMaterial;
     }
 
-    public int getXAxisSize() { return xAxisSize; }
-    public int getYAxisSize() { return yAxisSize; }
-    public double getXAxisScale() { return xAxisScalePerBlock; }
-    public double getYAxisScale() { return yAxisScalePerBlock; }
-    public Function getFunction() { return function; }
+    public int getXAxisSize() {
+        return xAxisSize;
+    }
 
-    public void setXAxisSize(int xAxisSize) { this.xAxisSize = xAxisSize; }
-    public void setYAxisSize(int yAxisSize) { this.yAxisSize = yAxisSize; }
-    public void setXAxisScale(double xAxisScale) { this.xAxisScalePerBlock = xAxisScale; }
-    public void setYAxisScale(double yAxisScale) { this.yAxisScalePerBlock = yAxisScale; }
-    public void setFunction(Function function) { this.function = function; }
+    public void setXAxisSize(int xAxisSize) {
+        this.xAxisSize = xAxisSize;
+    }
+
+    public int getYAxisSize() {
+        return yAxisSize;
+    }
+
+    public void setYAxisSize(int yAxisSize) {
+        this.yAxisSize = yAxisSize;
+    }
+
+    public double getXAxisScale() {
+        return xAxisScalePerBlock;
+    }
+
+    public void setXAxisScale(double xAxisScale) {
+        this.xAxisScalePerBlock = xAxisScale;
+    }
+
+    public double getYAxisScale() {
+        return yAxisScalePerBlock;
+    }
+
+    public void setYAxisScale(double yAxisScale) {
+        this.yAxisScalePerBlock = yAxisScale;
+    }
+
+    public Function getFunction() {
+        return function;
+    }
+
+    public void setFunction(Function function) {
+        this.function = function;
+    }
 
     @Override
     public void build(GameBuilder context) {
@@ -52,7 +81,7 @@ public class GrapherUtil implements SpawnableStructure {
         double startingZ = pos.getY();
         double currZ;
         double currX;
-        int i,j;
+        int i, j;
 
         double x, y;
         block_map.clear();
@@ -81,30 +110,29 @@ public class GrapherUtil implements SpawnableStructure {
 //        }
 
 
-
-        currZ = startingZ - yAxisSize*cellDim;
-        for(i = -yAxisSize; i < yAxisSize;i++) {
+        currZ = startingZ - yAxisSize * cellDim;
+        for (i = -yAxisSize; i < yAxisSize; i++) {
             Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
             cube.getShape().setMaterial(axisMaterial);
             block_map.put(new Point2D(startingX, currZ), cube);
-            currZ+=cellDim;
+            currZ += cellDim;
         }
         // draw x axis
-        currX = startingX - xAxisSize*cellDim;
-        for(i = -xAxisSize; i < xAxisSize;i++) {
+        currX = startingX - xAxisSize * cellDim;
+        for (i = -xAxisSize; i < xAxisSize; i++) {
             Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
             cube.getShape().setMaterial(axisMaterial);
             block_map.put(new Point2D(currX, startingZ), cube);
-            currX+=cellDim;
+            currX += cellDim;
         }
 
         //draw graph
-        for(x = -xAxisSize*xAxisScalePerBlock; x <= xAxisSize*xAxisScalePerBlock ; x+=xAxisScalePerBlock){
+        for (x = -xAxisSize * xAxisScalePerBlock; x <= xAxisSize * xAxisScalePerBlock; x += xAxisScalePerBlock) {
             y = function.compute(x);
-            System.out.println("F("+x+") = "+y);
+            System.out.println("F(" + x + ") = " + y);
             Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
             cube.getShape().setMaterial(functionMaterial);
-            block_map.put(new Point2D((x/xAxisScalePerBlock)*cellDim+startingX,  y*cellDim+startingZ), cube);
+            block_map.put(new Point2D((x / xAxisScalePerBlock) * cellDim + startingX, y * cellDim + startingZ), cube);
 
         }
     }

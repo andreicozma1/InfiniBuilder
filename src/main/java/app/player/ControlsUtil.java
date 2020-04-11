@@ -181,7 +181,7 @@ public class ControlsUtil {
     }
 
     public void update_handler(double dt) {
-        if(pressed.size()!=0){
+        if (pressed.size() != 0) {
             for (KeyCode e : pressed) {
                 switch (e) {
                     case Q:
