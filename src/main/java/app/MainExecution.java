@@ -1,5 +1,6 @@
 package app;
 
+import app.structures.grapher.*;
 import app.structures.maze.MazeUtil;
 import app.structures.objects.Base_Cube;
 import app.structures.objects.SpawnableStructureItem;
@@ -51,6 +52,18 @@ public class MainExecution extends Application {
         path2.setShortestPathMaterial(ResourcesUtil.red);
         SpawnableStructureItem path2Item = new SpawnableStructureItem(path2, "Path2", ResourcesUtil.green, game.getComponents().getEnvironment().getBlockDim());
 
+        //create a function,
+        Function line = new Function();
+        Variable v1 = new Variable(true,3,true,1);
+        line.addVariable(v1);
+        Variable v2 = new Variable(true,5,false,1);
+        line.addVariable(v2);
+
+        GrapherUtil funct1 = new GrapherUtil(game.getComponents().getEnvironment().getBlockDim(),
+                20,20,1,1,line,ResourcesUtil.black,ResourcesUtil.red);
+        SpawnableStructureItem funct1Item = new SpawnableStructureItem(funct1,"line",ResourcesUtil.black,game.getComponents().getEnvironment().getBlockDim());
+
+
 
         game.getComponents().getPlayer().getInventory().addItem(4, grass, 40);
         game.getComponents().getPlayer().getInventory().addItem(dirt, 15);
@@ -62,7 +75,7 @@ public class MainExecution extends Application {
         game.getComponents().getPlayer().getInventory().addItem(pathItem, 99);
         game.getComponents().getPlayer().getInventory().addItem(path2Item, 99);
         game.getComponents().getPlayer().getInventory().setCurrentIndex(0);
-
+        game.getComponents().getPlayer().getInventory().addItem(funct1Item, 99);
         // draws our game HUD
         game.getWindow().showScene(game.getComponents().getMenu().getScene());
     }
