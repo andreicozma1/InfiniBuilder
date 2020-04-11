@@ -45,7 +45,8 @@ public class EnvironmentUtil {
     private final double PROPERTY_HILLS_LEVEL_2 = -280;
     private final double PROPERTY_PEAK_LEVEL_1 = -300;
     private final double PROPERTY_PEAK_LEVEL_2 = -320;
-    private final double PROPERTY_SNOW_LEVEL = -375;
+    private final double PROPERTY_SNOW_LEVEL = -500;
+    private final double PROPERTY_ICE_LEVEL = -700;
     private double PROPERTY_VEGETATION_MAX_SIZE;
     private final Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
     private final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
@@ -183,7 +184,10 @@ public class EnvironmentUtil {
         Base_Cube box = new Base_Cube("Terrain Base", getBlockDim());
         b.getChildren().add(box);
 
-        if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_SNOW_LEVEL) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.stone)) {
+        if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_ICE_LEVEL) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.stone)) {
+            box.getShape().setMaterial(ResourcesUtil.ice_02);
+            box.getProps().setPROPERTY_ITEM_TAG("Ice01");
+        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_SNOW_LEVEL) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.stone)) {
             box.getShape().setMaterial(ResourcesUtil.snow_01);
             box.getProps().setPROPERTY_ITEM_TAG("Snow01");
             if (Math.random() > 1 - vegDens/5) {
@@ -359,7 +363,7 @@ public class EnvironmentUtil {
 
     public void reset() {
         UTIL_SIMPLEX = new SimplexUtil(100, .40, (int) context.time_current);
-        UTIL_SIMPLEX_2 = new SimplexUtil(2000, .6, (int) context.time_current*2);
+        UTIL_SIMPLEX_2 = new SimplexUtil(2000, .65, (int) context.time_current*2);
 
         MAP_GENERATED.clear();
         MAP_RENDERING.clear();
