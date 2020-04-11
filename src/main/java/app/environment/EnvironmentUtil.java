@@ -169,9 +169,9 @@ public class EnvironmentUtil {
                     if (!MAP_RENDERING.containsKey(new Point3D(i, k, j))) {
                         int x = i * getBlockDim();
                         int z = j * getBlockDim();
-                        Double pr = worldColumn.get(k);
+                        double pr = worldColumn.get(k);
                         double y = pr * getBlockDim();
-                        if (pr.equals(worldColumn.firstEntry())) {
+                        if (k == worldColumn.firstKey()) {
                             MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, false, false));
                         } else {
                             MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, true, true));
