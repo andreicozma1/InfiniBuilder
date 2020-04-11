@@ -21,6 +21,7 @@ public class PlayerUtil {
 
     private static final String TAG = "PlayerUtil";
     final double PROPERTY_MULTIPLIER_CROUCH_HEIGHT = .4;
+    final double PROPERTY_SPEED_JUMP = 5;
     final double PROPERTY_SPEED_FORWARD = 3;
     final double PROPERTY_SPEED_BACKWARD = 2;
     final double PROPERTY_SPEED_SIDE = 2;
@@ -88,7 +89,7 @@ public class PlayerUtil {
             double jump_height_final = jump_height_initial - PROPERTY_HEIGHT * PROPERTY_MULTIPLIER_JUMP;
             if (isJumping && getPositionYnoHeight() > jump_height_final) {
                 Log.p(TAG, "Jumping from " + jump_height_initial + " to " + jump_height_final);
-                moveUp(PROPERTY_SPEED_FLY * dt);
+                moveUp(PROPERTY_SPEED_JUMP * dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
                 isJumping = false;

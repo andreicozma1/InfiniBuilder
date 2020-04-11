@@ -299,6 +299,7 @@ public class GameBuilder {
             context = ctx;
             GAME_EFFECTS = this;
             resetEffects();
+            setMotionBlurEnabled(true);
         }
 
         public void resetEffects() {
@@ -313,7 +314,6 @@ public class GameBuilder {
             setSepiaTone(0);
             setBloom(.88);
             setMotionBlur(0);
-            setMotionBlurEnabled(true);
 
             getWindow().getGameSubscene().setEffect(EFFECT_SEPIA_TONE);
         }
@@ -324,6 +324,7 @@ public class GameBuilder {
 
         public void setTripMode(boolean val) {
             PROPERTY_IS_TRIPPY_MODE = val;
+            resetEffects();
         }
 
         public double getContrast() {
