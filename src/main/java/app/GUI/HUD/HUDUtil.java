@@ -95,8 +95,8 @@ public class HUDUtil {
         StatusBar health = new StatusBar(HUDUtil.HEALTH,
                 new Point2D(25, 10),
                 100,
-                15,
-                200,
+                10,
+                150,
                 Color.RED,
                 Color.valueOf("400000"));
         health.setVertical(true);
@@ -112,8 +112,8 @@ public class HUDUtil {
         StatusBar stamina = new StatusBar(HUDUtil.STAMINA,
                 new Point2D(55, 10),
                 100,
-                15,
-                200,
+                10,
+                150,
                 Color.BLUE,
                 Color.valueOf("010048"));
         stamina.setVertical(true);
