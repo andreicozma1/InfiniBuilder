@@ -60,6 +60,7 @@ public class ResourcesUtil {
     public static PhongMaterial clouds;
     public static PhongMaterial water;
     public static PhongMaterial metal;
+    public static PhongMaterial grass;
     public static Map<String, PhongMaterial> world_types = new HashMap<String, PhongMaterial>() {
         {
             put("Default", null);
@@ -88,89 +89,89 @@ public class ResourcesUtil {
 
         asphalt_01 = new PhongMaterial();
         asphalt_01.setDiffuseMap(getImage("/textures/asphalt_01/asphalt01.jpg"));
-        asphalt_01.setBumpMap(getImage("/textures/asphalt_01/asphalt01_n.jpg"));
+//        asphalt_01.setBumpMap(getImage("/textures/asphalt_01/asphalt01_n.jpg"));
 
         brick_01 = new PhongMaterial();
         brick_01.setDiffuseMap(getImage("/textures/brick_01/brick01.jpg"));
-        brick_01.setBumpMap(getImage("/textures/brick_01/brick01_n.jpg"));
+//        brick_01.setBumpMap(getImage("/textures/brick_01/brick01_n.jpg"));
 
         dirt_01 = new PhongMaterial();
         dirt_01.setDiffuseMap(getImage("/textures/dirt_01/dirt01.jpg"));
-        dirt_01.setBumpMap(getImage("/textures/dirt_01/dirt01_n.jpg"));
+//        dirt_01.setBumpMap(getImage("/textures/dirt_01/dirt01_n.jpg"));
 
         grass_01 = new PhongMaterial();
         grass_01.setDiffuseMap(getImage("/textures/grass_01/grass01.jpg"));
-        grass_01.setSpecularMap(getImage("/textures/grass_01/grass01_s.jpg"));
-        grass_01.setBumpMap(getImage("/textures/grass_01/grass01_n.jpg"));
+//        grass_01.setSpecularMap(getImage("/textures/grass_01/grass01_s.jpg"));
+//        grass_01.setBumpMap(getImage("/textures/grass_01/grass01_n.jpg"));
 
         grass_02 = new PhongMaterial();
         grass_02.setDiffuseMap(getImage("/textures/grass_02/grass02.jpg"));
-        grass_02.setSpecularMap(getImage("/textures/grass_02/grass02_s.jpg"));
-        grass_02.setBumpMap(getImage("/textures/grass_02/grass02_n.jpg"));
+//        grass_02.setSpecularMap(getImage("/textures/grass_02/grass02_s.jpg"));
+//        grass_02.setBumpMap(getImage("/textures/grass_02/grass02_n.jpg"));
 
         grass_03 = new PhongMaterial();
         grass_03.setDiffuseMap(getImage("/textures/grass_03/grass03.jpg"));
-        grass_03.setSpecularMap(getImage("/textures/grass_03/grass03_s.jpg"));
-        grass_03.setBumpMap(getImage("/textures/grass_03/grass03_n.jpg"));
+//        grass_03.setSpecularMap(getImage("/textures/grass_03/grass03_s.jpg"));
+//        grass_03.setBumpMap(getImage("/textures/grass_03/grass03_n.jpg"));
 
         grass_04 = new PhongMaterial();
         grass_04.setDiffuseMap(getImage("/textures/grass_04/grass04.jpg"));
-        grass_04.setBumpMap(getImage("/textures/grass_04/grass04_n.jpg"));
+//        grass_04.setBumpMap(getImage("/textures/grass_04/grass04_n.jpg"));
 
         ice_01 = new PhongMaterial();
         ice_01.setDiffuseMap(getImage("/textures/ice_01/ice01.jpg"));
-        ice_01.setSpecularMap(getImage("/textures/ice_01/ice01_s.jpg"));
-        ice_01.setBumpMap(getImage("/textures/ice_01/ice01_n.jpg"));
+//        ice_01.setSpecularMap(getImage("/textures/ice_01/ice01_s.jpg"));
+//        ice_01.setBumpMap(getImage("/textures/ice_01/ice01_n.jpg"));
 
         ice_02 = new PhongMaterial();
         ice_02.setDiffuseMap(getImage("/textures/ice_02/ice02.jpg"));
-        ice_02.setBumpMap(getImage("/textures/ice_02/ice02_n.jpg"));
+//        ice_02.setBumpMap(getImage("/textures/ice_02/ice02_n.jpg"));
 
         lava_01 = new PhongMaterial();
         lava_01.setDiffuseMap(getImage("/textures/lava_01/lava01.jpg"));
-        lava_01.setBumpMap(getImage("/textures/lava_01/lava01_n.jpg"));
+//        lava_01.setBumpMap(getImage("/textures/lava_01/lava01_n.jpg"));
 
         metal_01 = new PhongMaterial();
         metal_01.setDiffuseMap(getImage("/textures/metal_01/metal01.png"));
-        metal_01.setBumpMap(getImage("/textures/metal_01/metal01_n.png"));
+//        metal_01.setBumpMap(getImage("/textures/metal_01/metal01_n.png"));
 
         metal_02 = new PhongMaterial();
         metal_02.setDiffuseMap(getImage("/textures/metal_02/metal02.png"));
-        metal_02.setBumpMap(getImage("/textures/metal_02/metal02_n.jpg"));
+//        metal_02.setBumpMap(getImage("/textures/metal_02/metal02_n.jpg"));
 
         mud_01 = new PhongMaterial();
         mud_01.setDiffuseMap(getImage("/textures/mud_01/mud01.jpg"));
-        mud_01.setBumpMap(getImage("/textures/mud_01/mud01_n.jpg"));
+//        mud_01.setBumpMap(getImage("/textures/mud_01/mud01_n.jpg"));
 
         pebbles_01 = new PhongMaterial();
         pebbles_01.setDiffuseMap(getImage("/textures/pebbles_01/pebbles01.jpg"));
-        pebbles_01.setBumpMap(getImage("/textures/pebbles_01/pebbles01_n.jpg"));
+//        pebbles_01.setBumpMap(getImage("/textures/pebbles_01/pebbles01_n.jpg"));
 
         rock_01 = new PhongMaterial();
         rock_01.setDiffuseMap(getImage("/textures/rock_01/rock01.jpg"));
-        rock_01.setBumpMap(getImage("/textures/rock_01/rock01_n.jpg"));
+//        rock_01.setBumpMap(getImage("/textures/rock_01/rock01_n.jpg"));
 
         rock_02 = new PhongMaterial();
         rock_02.setDiffuseMap(getImage("/textures/rock_02/rock02.jpg"));
-        rock_02.setBumpMap(getImage("/textures/rock_02/rock02_n.jpg"));
+//        rock_02.setBumpMap(getImage("/textures/rock_02/rock02_n.jpg"));
 
         sand_01 = new PhongMaterial();
         sand_01.setDiffuseMap(getImage("/textures/sand_01/sand01.png"));
-        sand_01.setSpecularMap(getImage("/textures/sand_01/sand01_s.png"));
-        sand_01.setBumpMap(getImage("/textures/sand_01/sand01_n.png"));
+//        sand_01.setSpecularMap(getImage("/textures/sand_01/sand01_s.png"));
+//        sand_01.setBumpMap(getImage("/textures/sand_01/sand01_n.png"));
 
         sand_02 = new PhongMaterial();
         sand_02.setDiffuseMap(getImage("/textures/sand_02/sand02.png"));
-        sand_02.setBumpMap(getImage("/textures/sand_02/sand02_n.png"));
+//        sand_02.setBumpMap(getImage("/textures/sand_02/sand02_n.png"));
 
         sand_03 = new PhongMaterial();
         sand_03.setDiffuseMap(getImage("/textures/sand_03/sand03.jpg"));
-        sand_03.setSpecularMap(getImage("/textures/sand_03/sand03_s.jpg"));
-        sand_03.setBumpMap(getImage("/textures/sand_03/sand03_n.jpg"));
+//        sand_03.setSpecularMap(getImage("/textures/sand_03/sand03_s.jpg"));
+//        sand_03.setBumpMap(getImage("/textures/sand_03/sand03_n.jpg"));
 
         snow_01 = new PhongMaterial();
         snow_01.setDiffuseMap(getImage("/textures/snow_01/snow01.jpg"));
-        snow_01.setBumpMap(getImage("/textures/snow_01/snow01_n.jpg"));
+//        snow_01.setBumpMap(getImage("/textures/snow_01/snow01_n.jpg"));
 
         stone_path_01 = new PhongMaterial();
         stone_path_01.setDiffuseMap(getImage("/textures/stone_path_01/stone_path01.jpg"));
@@ -227,6 +228,8 @@ public class ResourcesUtil {
         wood_planks_04.setBumpMap(getImage("/textures/wood_planks_04/wood_planks04_n.jpg"));
 
 
+        grass = new PhongMaterial();
+        grass.setDiffuseMap(getImage("/textures/grass.jpg"));
         stone = new PhongMaterial();
         stone.setDiffuseMap(getImage("/textures/stone.jpg"));
         dirt = new PhongMaterial();
