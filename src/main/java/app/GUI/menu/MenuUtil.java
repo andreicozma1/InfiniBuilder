@@ -1391,7 +1391,7 @@ public class MenuUtil {
                 });
 
         Text tripModeArrow = graphicsMenu.drawText(singleArrow, 50, 240, GREEN, options);
-        Text tripModeText = graphicsMenu.drawText("./Trip_Mode", 95, 240, Color.WHITE, options);
+        Text tripModeText = graphicsMenu.drawText("./Tr", 95, 240, Color.WHITE, options);
         Text tripModeMult = graphicsMenu.drawText(String.valueOf(is_trip_mode), 550, 240, Color.WHITE, options);
         Rectangle tripModeHitBox = graphicsMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
         tripModeHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,

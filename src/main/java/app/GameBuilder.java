@@ -19,7 +19,7 @@ import javafx.scene.robot.Robot;
 import javafx.stage.Stage;
 
 public class GameBuilder {
-    private static final String TAG = "CameraUtil";
+    private static final String TAG = "GameBuilder";
 
     // MAIN GAME LOOP
     private final AnimationTimer GAME_ANIMATION_TIMER;
