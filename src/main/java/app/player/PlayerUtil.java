@@ -10,7 +10,7 @@ import app.structures.objects.Base_Sphere;
 import app.structures.objects.Base_Structure;
 import app.utils.InventoryUtil;
 import app.utils.Log;
-import app.utils.ProjectileUtil;
+import app.structures.objects.Base_Projectile;
 import app.utils.ResourcesUtil;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -139,7 +139,7 @@ public class PlayerUtil {
         Base_Sphere sp = new Base_Sphere("Projectile", 3);
         sp.getShape().setMaterial(ResourcesUtil.metal);
 
-        ProjectileUtil proj = new ProjectileUtil(context.getComponents().getEnvironment(), sp);
+        Base_Projectile proj = new Base_Projectile(context.getComponents().getEnvironment(), sp);
         proj.setSpeed(10);
         proj.shoot();
     }

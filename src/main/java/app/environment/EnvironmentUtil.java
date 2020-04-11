@@ -445,8 +445,6 @@ public class EnvironmentUtil {
         } else {
 
         }
-
-
     }
 
     public Group getWorldGroup() {
