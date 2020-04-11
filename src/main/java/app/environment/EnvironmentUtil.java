@@ -46,6 +46,7 @@ public class EnvironmentUtil {
     private final double PROPERTY_PEAK_LEVEL_1 = -300;
     private final double PROPERTY_PEAK_LEVEL_2 = -320;
     private final double PROPERTY_SNOW_LEVEL = -375;
+    private double PROPERTY_VEGETATION_MAX_SIZE = 20;
     private final Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();
     private final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
     public GameBuilder context;
@@ -185,10 +186,9 @@ public class EnvironmentUtil {
             box.getShape().setMaterial(ResourcesUtil.snow_01);
             box.getProps().setPROPERTY_ITEM_TAG("Snow01");
             if (Math.random() > 1 - vegDens/5) {
-
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"peak", "rock"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -207,7 +207,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -219,7 +219,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -230,7 +230,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -241,7 +241,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -252,7 +252,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -263,7 +263,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -274,7 +274,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -286,7 +286,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -297,7 +297,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -308,7 +308,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -319,7 +319,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"dirt", "rock", "moss"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -340,7 +340,7 @@ public class EnvironmentUtil {
             if (Math.random() > 1 - vegDens) {
                 Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"sea", "water", "rock", "moss"});
                 tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * 20);
+                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                 tree.setTranslateY(-tree.getHeight() / 2);
                 b.getChildren().add(tree);
             }
@@ -505,6 +505,23 @@ public class EnvironmentUtil {
         try {
             if (dist >= 0) {
                 PROPERTY_TERRAIN_GENERATE_DISTANCE = dist; // bound the value given
+                reset();
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public double getTerrainVegetationMaxSize() {
+        return PROPERTY_VEGETATION_MAX_SIZE;
+    }
+
+    public void setTerrainVegetationMaxSize(double val) {
+        try {
+            if (val >= 0) {
+                PROPERTY_VEGETATION_MAX_SIZE = val; // bound the value given
                 reset();
             } else {
                 throw new IndexOutOfBoundsException();
