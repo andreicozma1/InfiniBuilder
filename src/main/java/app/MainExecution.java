@@ -57,7 +57,7 @@ public class MainExecution extends Application {
                 20,20,1,1,ResourcesUtil.black);
         Function funct;
         Variable v1,v2;
-        //f(x) = 3x + 5
+        // f(x) =
         funct = new Function();
         v1 = new Variable(true,3,true,1);
         funct.addVariable(v1);

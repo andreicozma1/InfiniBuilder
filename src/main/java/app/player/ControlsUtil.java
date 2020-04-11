@@ -166,7 +166,7 @@ public class ControlsUtil {
                         case X:
                             context.getComponents().getPlayer().toggleIsClipMode();
                             break;
-                        case C:
+                        case CONTROL:
                             context.getComponents().getPlayer().toggleCrouch();
                             break;
                         case U:
@@ -175,7 +175,7 @@ public class ControlsUtil {
                         case P:
                             context.getComponents().getEnvironment().getSkybox().cycleModes();
                             break;
-                        case BACK_SPACE:
+                        case Q:
                             context.getComponents().getCamera().reset();
                             break;
                         case SHIFT:

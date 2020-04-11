@@ -227,8 +227,9 @@ public class GameBuilder {
             setGameSceneControls(new ControlsUtil(ctx));
             setPlayer(new PlayerUtil(ctx));
             setEnvironment(new EnvironmentUtil(ctx));
-            setMenu(new MenuUtil(ctx));
             setHUD(new HUDUtil(ctx));
+
+            setMenu(new MenuUtil(ctx));
         }
 
         public CameraUtil getCamera() {
