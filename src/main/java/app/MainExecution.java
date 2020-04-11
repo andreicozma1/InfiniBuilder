@@ -54,10 +54,10 @@ public class MainExecution extends Application {
 
         //create a function,
         Function line = new Function();
-        Variable v1 = new Variable(true,3,true,1);
+        Variable v1 = new Variable(true,1,true,2);
         line.addVariable(v1);
-        Variable v2 = new Variable(true,5,false,1);
-        line.addVariable(v2);
+//        Variable v2 = new Variable(true,5,false,1);
+//        line.addVariable(v2);
 
         GrapherUtil funct1 = new GrapherUtil(game.getComponents().getEnvironment().getBlockDim(),
                 20,20,1,1,line,ResourcesUtil.black,ResourcesUtil.red);
