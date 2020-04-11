@@ -53,6 +53,7 @@ public class ResourcesUtil {
     public static PhongMaterial blue;
     public static PhongMaterial green;
     public static PhongMaterial red;
+    public static PhongMaterial black;
     public static PhongMaterial purple;
     public static PhongMaterial sun;
     public static PhongMaterial moon;
@@ -283,6 +284,11 @@ public class ResourcesUtil {
         purple = new PhongMaterial();
         purple.setDiffuseColor(Color.PURPLE);
         purple.setSpecularColor(Color.PURPLE);
+
+        black = new PhongMaterial();
+        black.setDiffuseColor(Color.BLACK);
+        black.setSpecularColor(Color.BLACK);
+
     }
 
 
