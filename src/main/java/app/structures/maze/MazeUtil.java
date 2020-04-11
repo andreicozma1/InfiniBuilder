@@ -135,12 +135,12 @@ public class MazeUtil implements SpawnableStructure {
                 currZ += cellDim;
             }
         }
-            // add vertical and horizontal generated walls to the map
-            // wall is vertical if xindex of two walls are equal
-            // wall is horizontal if xindex of two walls are not equal
-
-            // to find x index := 1 + [ 2 * ( mazeIndex % cols) ]
-            // to find z index := 1 + [ 2 * ( mazeIndex / cols) ]
+//             add vertical and horizontal generated walls to the map
+//             wall is vertical if xindex of two walls are equal
+//             wall is horizontal if xindex of two walls are not equal
+//
+//             to find x index := 1 + [ 2 * ( mazeIndex % cols) ]
+//             to find z index := 1 + [ 2 * ( mazeIndex / cols) ]
 //            for (Edge w : mazeGenerator.getWalls()) {
 //
 //                xindex1 = 1 + (2 * (w.v1 % mazeCols));
