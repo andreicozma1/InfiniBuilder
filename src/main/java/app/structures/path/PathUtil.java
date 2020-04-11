@@ -101,7 +101,7 @@ public class PathUtil  implements SpawnableStructure {
 
         // randomizes the seed if the user wants it to be randomized
         if (this.seed == null) {
-            mazeGenerator = new MazeGenerator(this.pathRows, this.pathCols, System.currentTimeMillis());
+            mazeGenerator = new MazeGenerator(this.pathRows, this.pathCols, context.time_current);
         } else {
             mazeGenerator = new MazeGenerator(this.pathRows, this.pathCols, this.seed);
         }

@@ -144,7 +144,7 @@ public class SkyboxUtil {
                 break;
             default:
                 if (fixed_time == -1) {
-                    game_time = System.currentTimeMillis() / (1000.0);
+                    game_time = context.context.time_current / (1000.0);
                 } else {
                     game_time = fixed_time;
                 }

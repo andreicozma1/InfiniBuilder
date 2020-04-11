@@ -180,41 +180,43 @@ public class ControlsUtil {
     }
 
     public void update_handler(double dt) {
-        for (KeyCode e : pressed) {
-            switch (e) {
-                case Q:
-                    break;
-                case E:
-                    break;
-                case W:
-                    context.getComponents().getPlayer().moveForward(context.getComponents().getPlayer().PROPERTY_SPEED_FORWARD * dt);
-                    break;
-                case A:
-                    context.getComponents().getPlayer().moveLeft(context.getComponents().getPlayer().PROPERTY_SPEED_SIDE * dt);
-                    break;
-                case S:
-                    context.getComponents().getPlayer().moveBackward(context.getComponents().getPlayer().PROPERTY_SPEED_BACKWARD * dt);
-                    break;
-                case D:
-                    context.getComponents().getPlayer().moveRight(context.getComponents().getPlayer().PROPERTY_SPEED_SIDE * dt);
-                    break;
+        if(pressed.size()!=0){
+            for (KeyCode e : pressed) {
+                switch (e) {
+                    case Q:
+                        break;
+                    case E:
+                        break;
+                    case W:
+                        context.getComponents().getPlayer().moveForward(context.getComponents().getPlayer().PROPERTY_SPEED_FORWARD * dt);
+                        break;
+                    case A:
+                        context.getComponents().getPlayer().moveLeft(context.getComponents().getPlayer().PROPERTY_SPEED_SIDE * dt);
+                        break;
+                    case S:
+                        context.getComponents().getPlayer().moveBackward(context.getComponents().getPlayer().PROPERTY_SPEED_BACKWARD * dt);
+                        break;
+                    case D:
+                        context.getComponents().getPlayer().moveRight(context.getComponents().getPlayer().PROPERTY_SPEED_SIDE * dt);
+                        break;
 
-                case SPACE:
-                    if (context.getComponents().getPlayer().isFlyMode) {
-                        context.getComponents().getPlayer().moveUp(context.getComponents().getPlayer().PROPERTY_SPEED_FLY * dt);
-                    } else {
-                        if (context.getComponents().getPlayer().isOnGround && context.getComponents().getPlayer().canJump) {
-                            context.getComponents().getPlayer().jump();
+                    case SPACE:
+                        if (context.getComponents().getPlayer().isFlyMode) {
+                            context.getComponents().getPlayer().moveUp(context.getComponents().getPlayer().PROPERTY_SPEED_FLY * dt);
+                        } else {
+                            if (context.getComponents().getPlayer().isOnGround && context.getComponents().getPlayer().canJump) {
+                                context.getComponents().getPlayer().jump();
+                            }
                         }
-                    }
-                    break;
-                case SHIFT:
-                    if (context.getComponents().getPlayer().isFlyMode) {
-                        context.getComponents().getPlayer().moveDown(context.getComponents().getPlayer().PROPERTY_SPEED_FLY * dt);
-                    } else {
-                        context.getComponents().getPlayer().setIsRunning(true);
-                    }
-                    break;
+                        break;
+                    case SHIFT:
+                        if (context.getComponents().getPlayer().isFlyMode) {
+                            context.getComponents().getPlayer().moveDown(context.getComponents().getPlayer().PROPERTY_SPEED_FLY * dt);
+                        } else {
+                            context.getComponents().getPlayer().setIsRunning(true);
+                        }
+                        break;
+                }
             }
         }
     }

@@ -87,7 +87,7 @@ public class MazeUtil implements SpawnableStructure {
         block_map.clear();
 
         if (this.seed == null) {
-            mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, System.currentTimeMillis());
+            mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, context.time_current);
         } else {
             mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, this.seed);
         }

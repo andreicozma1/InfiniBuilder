@@ -56,10 +56,10 @@ public class ProjectileUtil extends StructureBuilder {
 
                     if (posy > context.getClosestGroundLevel(new PlayerPoint3D(posx, posy, posz), true) - context.getBlockDim() / 2.0 - object.getHeight() / 2) {
                         isOnGround = true;
-                        onGroundTimestamp = System.currentTimeMillis();
+                        onGroundTimestamp = context.context.time_current;
                     }
                 } else {
-                    if ((System.currentTimeMillis() - onGroundTimestamp) / 1000 > 10) {
+                    if ((context.context.time_current - onGroundTimestamp) / 1000 > 10) {
                         context.removeFromGroup(EnvironmentUtil.GROUP_OTHER, object);
                         this.stop();
                     }

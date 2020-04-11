@@ -356,7 +356,7 @@ public class EnvironmentUtil {
     }
 
     public void reset() {
-        UTIL_SIMPLEX = new SimplexUtil(300, .5, (int) System.currentTimeMillis());
+        UTIL_SIMPLEX = new SimplexUtil(300, .5, (int) context.time_current);
         MAP_GENERATED.clear();
         MAP_RENDERING.clear();
     }

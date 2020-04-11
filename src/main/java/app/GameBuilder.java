@@ -29,6 +29,8 @@ public class GameBuilder {
     private GameComponents GAME_COMPONENTS;
     private GameWindow GAME_WINDOW;
 
+    public long time_current;
+
     public GameBuilder(Stage stg, int w, int h) {
         Log.p(TAG, "CONSTRUCTOR");
         Log.p(TAG, "Creating Game Window with dimensions: " + w + " x " + h);
@@ -45,6 +47,27 @@ public class GameBuilder {
             @Override
             public void handle(long now) {
                 if (!((PauseMenu) getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
+
+                    reading_frames++;
+                    time_current = System.currentTimeMillis();
+
+                    if (GAME_EFFECTS.PROPERTY_IS_TRIPPY_MODE) {
+                        getEffects().EFFECT_COLOR_ADJUST.setHue(Math.sin(time_current / 1000.0));
+                        getEffects().EFFECT_COLOR_ADJUST.setContrast((Math.sin(time_current / 15000.0)) / 5);
+                        getEffects().EFFECT_BLOOM.setThreshold(Math.sin(time_current / 5000.0) / 2 + 1);
+                    }
+
+                    if (time_current - reading_last > 1000.0) {
+                        Log.p(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + time_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
+                        deltaT = 60.0 / reading_frames;
+                        if (deltaT > 5) {
+                            deltaT = 1;
+                        }
+                        reading_last = time_current;
+                        reading_frames = 0;
+                        TOTAL_RUNTIME++;
+                    }
+
                     if (getComponents().getGameSceneControls() != null) {
                         getComponents().getGameSceneControls().update_handler(deltaT);
                     }
@@ -53,25 +76,6 @@ public class GameBuilder {
                     }
                     if (getComponents().getPlayer() != null) {
                         getComponents().getPlayer().update_handler(deltaT);
-                    }
-                    reading_frames++;
-                    long reading_current = System.currentTimeMillis();
-
-                    if (GAME_EFFECTS.PROPERTY_IS_TRIPPY_MODE) {
-                        getEffects().EFFECT_COLOR_ADJUST.setHue(Math.sin(reading_current / 1000.0));
-                        getEffects().EFFECT_COLOR_ADJUST.setContrast((Math.sin(reading_current / 15000.0)) / 5);
-                        getEffects().EFFECT_BLOOM.setThreshold(Math.sin(reading_current / 5000.0) / 2 + 1);
-                    }
-
-                    if (reading_current - reading_last > 1000.0) {
-                        Log.p(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + reading_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
-                        deltaT = 60.0 / reading_frames;
-                        if (deltaT > 5) {
-                            deltaT = 1;
-                        }
-                        reading_last = reading_current;
-                        reading_frames = 0;
-                        TOTAL_RUNTIME++;
                     }
                 }
             }
