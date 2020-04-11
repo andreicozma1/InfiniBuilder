@@ -25,6 +25,7 @@ public class StatusBar extends HUDElement {
     private boolean isVertical = false;
     private boolean isDefaultDirection = true;
     private boolean isColorInterpolated = false;
+    private boolean isShowing = true;
 
 
     public StatusBar(String elementTag,
@@ -138,6 +139,12 @@ public class StatusBar extends HUDElement {
         return isColorInterpolated;
     }
 
+    public boolean isShowing() { return isShowing; }
+    public void toggleStatusBar(){ isShowing = !isShowing; }
+
+    public boolean isEmpty() { return isEmpty; }
+    public boolean isFull(){return maxStatus == currStatus;}
+
     // setters
     public void setArcWidth(double arcWidth) {
         this.arcWidth = arcWidth;
@@ -167,63 +174,64 @@ public class StatusBar extends HUDElement {
 
     public void update() {
         getGroup().getChildren().clear();
+        if (isShowing) {
+            Paint currInnerPaint;
+            double innerWidth = (currStatus / maxStatus) * width;
+            double innerHeight = (currStatus / maxStatus) * height;
 
-        Paint currInnerPaint;
-        double innerWidth = (currStatus / maxStatus) * width;
-        double innerHeight = (currStatus / maxStatus) * height;
-
-        if (isColorInterpolated) {
-            currInnerPaint = emptyColor.interpolate(fullColor, currStatus / maxStatus);
-        } else {
-            currInnerPaint = innerBarColor;
-        }
-
-
-        //draw outer status bar
-        Rectangle outerStatusBar = new Rectangle(getPos().getX(),
-                getPos().getY(),
-                width,
-                height);
-        outerStatusBar.setFill(outerBarColor);
-        if (isBorder) {
-            outerStatusBar.setStroke(borderColor);
-            outerStatusBar.setStrokeWidth(borderWidth);
-        }
-        outerStatusBar.setArcWidth(arcWidth);
-        outerStatusBar.setArcHeight(arcHeight);
-
-        //draw inner status bar
-        Rectangle innerStatusBar;
-        if (isVertical) {
-            if (isDefaultDirection) {
-                innerStatusBar = new Rectangle(getPos().getX(),
-                        getPos().getY(),
-                        width,
-                        innerHeight);
+            if (isColorInterpolated) {
+                currInnerPaint = emptyColor.interpolate(fullColor, currStatus / maxStatus);
             } else {
-                innerStatusBar = new Rectangle(getPos().getX(),
-                        getPos().getY() + height - innerHeight,
-                        width,
-                        innerHeight);
+                currInnerPaint = innerBarColor;
             }
-        } else {
-            if (isDefaultDirection) {
-                innerStatusBar = new Rectangle(getPos().getX(),
-                        getPos().getY(),
-                        innerWidth,
-                        height);
-            } else {
-                innerStatusBar = new Rectangle(getPos().getX() + width - innerWidth,
-                        getPos().getY(),
-                        innerWidth,
-                        height);
-            }
-        }
 
-        innerStatusBar.setFill(currInnerPaint);
-        innerStatusBar.setArcWidth(arcWidth);
-        innerStatusBar.setArcHeight(arcHeight);
-        getGroup().getChildren().addAll(outerStatusBar, innerStatusBar);
+
+            //draw outer status bar
+            Rectangle outerStatusBar = new Rectangle(getPos().getX(),
+                    getPos().getY(),
+                    width,
+                    height);
+            outerStatusBar.setFill(outerBarColor);
+            if (isBorder) {
+                outerStatusBar.setStroke(borderColor);
+                outerStatusBar.setStrokeWidth(borderWidth);
+            }
+            outerStatusBar.setArcWidth(arcWidth);
+            outerStatusBar.setArcHeight(arcHeight);
+
+            //draw inner status bar
+            Rectangle innerStatusBar;
+            if (isVertical) {
+                if (isDefaultDirection) {
+                    innerStatusBar = new Rectangle(getPos().getX(),
+                            getPos().getY(),
+                            width,
+                            innerHeight);
+                } else {
+                    innerStatusBar = new Rectangle(getPos().getX(),
+                            getPos().getY() + height - innerHeight,
+                            width,
+                            innerHeight);
+                }
+            } else {
+                if (isDefaultDirection) {
+                    innerStatusBar = new Rectangle(getPos().getX(),
+                            getPos().getY(),
+                            innerWidth,
+                            height);
+                } else {
+                    innerStatusBar = new Rectangle(getPos().getX() + width - innerWidth,
+                            getPos().getY(),
+                            innerWidth,
+                            height);
+                }
+            }
+
+            innerStatusBar.setFill(currInnerPaint);
+            innerStatusBar.setArcWidth(arcWidth);
+            innerStatusBar.setArcHeight(arcHeight);
+            getGroup().getChildren().addAll(outerStatusBar, innerStatusBar);
+        }
     }
 
     public void printStatus() {
