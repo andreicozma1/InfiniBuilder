@@ -65,8 +65,8 @@ public class PlayerUtil {
         uv_light.setColor(Color.DARKBLUE);
         GROUP.getChildren().add(uv_light);
 
-        setJumpHeightMultiplier(.8);
-        setMaxAutoJumpHeightMultiplier(1);
+        setJumpHeightMultiplier(1);
+        setMaxAutoJumpHeightMultiplier(.8);
         setRunMultiplier(1.10);
         setFlySpeed(10);
     }
@@ -159,7 +159,7 @@ public class PlayerUtil {
 
             double dist_traveled = 0;
             while (dist_traveled < 200) {
-                double ray_speed = .5;
+                double ray_speed = 2;
                 double posx_next = posx + ray_speed * Math.sin(startrotX) * Math.cos(startrotY);
                 double posy_next = posy - ray_speed * Math.sin(startrotY);
                 double posz_next = posz + ray_speed * Math.cos(startrotX) * Math.cos(startrotY);
