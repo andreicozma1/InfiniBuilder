@@ -118,7 +118,6 @@ public class PathUtil  implements SpawnableStructure {
             if (path == null) findShortestPath = false;
         }
 
-        for (int h = 0; h < 2; h++) {
 
             // draw known path sections
             currZ = startingZ;
@@ -240,6 +239,6 @@ public class PathUtil  implements SpawnableStructure {
                 }
 
             }
-        }
+
     }
 }
