@@ -139,7 +139,6 @@ public class HUDUtil {
                 Color.BLUE,
                 Color.DARKGRAY);
         hunger.setColorInterpolation(Color.GREEN,Color.RED);  // (full color, empty color)
-        hunger.setCurrStatus(90);
         hunger.setBorder(true);
         hunger.setBorderWidth(1);
         hunger.setVertical(false);

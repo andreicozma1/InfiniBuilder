@@ -33,6 +33,8 @@ public class PlayerUtil {
     private final double PROPERTY_STATUS_STAMINA_REGEN_SPD = .05;
     private final double PROPERTY_STATUS_STAMINA_DEPLETE_SPD = 0.2;
     private final double PROPERTY_STATUS_HEALTH_REGEN_SPD = .008;
+    private final double PROPERTY_STATUS_HEALTH_DEPLETE_SPD = .008;
+    private final double PROPERTY_STATUS_HUNGER_DEPLETE_SPD = 0.007;
     private final PointLight uv_light;
     public GameBuilder context;
     double PROPERTY_SPEED_FLY = 5;
@@ -129,9 +131,14 @@ public class PlayerUtil {
             }
         }
 
-        if (getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus() / 2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()) {
+        if (getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus() / 2 && getHungerBar().getCurrStatus() > getHungerBar().getMaxStatus() / 2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()) {
             // Regenerate health if stamina > half
             getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() + PROPERTY_STATUS_HEALTH_REGEN_SPD * dt);
+        }
+        if(getHungerBar().getCurrStatus() > 0){
+            getHungerBar().setCurrStatus(getHungerBar().getCurrStatus() - ((getStaminaBar().getMaxStatus() - getStaminaBar().getCurrStatus() * .5) / getStaminaBar().getMaxStatus()) * PROPERTY_STATUS_HUNGER_DEPLETE_SPD * dt);
+        } else{
+            getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() - PROPERTY_STATUS_HEALTH_DEPLETE_SPD * dt);
         }
     }
 
@@ -499,9 +506,19 @@ public class PlayerUtil {
         return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.HEALTH);
     }
 
+    public StatusBar getTempBar() {
+        return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.TEMPERATURE);
+    }
+
+    public StatusBar getHungerBar() {
+        return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.HUNGER);
+    }
+
+
     public void resetBars() {
         getHealthBar().setCurrStatus(getHealthBar().getMaxStatus());
         getStaminaBar().setCurrStatus(getStaminaBar().getMaxStatus());
+        getHungerBar().setCurrStatus(getHungerBar().getMaxStatus());
     }
 
     public void takeDamage(double d) {
