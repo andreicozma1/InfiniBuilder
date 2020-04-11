@@ -115,8 +115,8 @@ public class EnvironmentUtil {
         double starting_y = getSimplexHeight2D(i, j);
 
         for (double k = starting_y; k <= 100; k++) {
-            double simplex3D = getSimplexHeight3D(i, k, j);
-            System.out.println("Simplex3d " + simplex3D);
+//            double simplex3D = getSimplexHeight3D(i, k, j);
+//            System.out.println("Simplex3d " + simplex3D);
 //            if (simplex3D > 0) {
                 mapColumn.put((int) Math.floor(k), k);
 //            }
@@ -424,8 +424,6 @@ public class EnvironmentUtil {
         int xCurrent = convertAbsoluteToTerrainPos(pos.getX());
         int yCurrent = (int) Math.floor(pos.getY());
         int zCurrent = convertAbsoluteToTerrainPos(pos.getZ());
-//      public Map<Point2D, TreeMap<Integer, Pair>> MAP_GENERATED = new HashMap<>();   // key: x,z value: world column (key: non rounded y position value: pair)
-//      HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
 
         // if the x z coordinate does not exist, create it
         if (!MAP_GENERATED.containsKey(new Point2D(xCurrent, zCurrent))) {
@@ -446,18 +444,7 @@ public class EnvironmentUtil {
                 worldColumn.put(yAbove, (getClosestGroundLevel(pos, true) - str.getHeight()) / getBlockDim());
             }
         } else {
-            // otherwise, if shouldStack is false we want to replace any pre-existing blocks with the new one instead of stacking it on top of the ground level
-            if (worldColumn.containsKey(yCurrent)) {
-                // so, if the block already exists, replace it -- TODO
 
-                // Problem below is that MAP_RENDERING may not have the block;
-//                StructureBuilder existing = MAP_RENDERING.get(new Point3D(xCurrent, yAbove, zCurrent));
-//                str.setTranslateIndependent(existing.getTranslateX(), existing.getTranslateY(), existing.getTranslateZ());
-//                MAP_RENDERING.put(new Point3D(xCurrent, yCurrent, zCurrent), str);
-            } else {
-                // otherwise, if the block doesn't exist, create it
-
-            }
         }
 
 
