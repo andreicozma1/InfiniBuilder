@@ -12,6 +12,7 @@
 ```
 > ./install
 ```
+- This compiles and packages the program into a .JAR exacutable file in the `target` folder
 
 #### 3. EXECUTION:
 ```
