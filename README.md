@@ -2,15 +2,30 @@
 - Andrei Cozma & Hunter Price  
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 
-## MAVEN:
-If you want to use mvn command install Maven
-- Maven (```sudo apt-get install maven```)  
-Otherwise use the Maven Wrapper `./mvnw` 
+# INSTALLATION
+## COMPILATION DEPENDENCIES:
+- Java 11 - Check version using `./mvnw --version`
+```
+	> sudo add-apt-repository ppa:openjdk-r/ppa && sudo apt-get update && sudo apt-get install openjdk-11-jdk
+```
+## USE THE INSTALLATION SCRIPT:
+```
+	> ./install
+```
 
-## INSTALL DEPENDENCIES:   
+## EXECUTION:
+```
+	> ./execute
+```
+
+# DETAILED MANUAL INSTALLATIONS STEPS
+## MAVEN:
+- use the Maven Wrapper `./mvnw`  
+Otherwise install Maven (```sudo apt-get install maven```)
+
+## INSTALL INCLUDED PROJECT DEPENDENCIES:   
 ```
 	> ./mvnw validate
-	> ./mvnw site
 ```
 
 ## COMPILATION & INSTALLATION:  
