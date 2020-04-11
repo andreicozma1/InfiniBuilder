@@ -158,17 +158,16 @@ public class PlayerUtil {
             double startrotY = Math.toRadians(context.getComponents().getCamera().getRotateY());
 
             double dist_traveled = 0;
-            while(true){
-                double posx_next = posx + .5 * Math.sin(startrotX) * Math.cos(startrotY);
-                double posy_next = posy - .5 * Math.sin(startrotY);
-                double posz_next = posz + .5 * Math.cos(startrotX) * Math.cos(startrotY);
-                dist_traveled += .5;
+            while(dist_traveled < 200){
+                double ray_speed = .5;
+                double posx_next = posx + ray_speed * Math.sin(startrotX) * Math.cos(startrotY);
+                double posy_next = posy - ray_speed * Math.sin(startrotY);
+                double posz_next = posz + ray_speed * Math.cos(startrotX) * Math.cos(startrotY);
+                dist_traveled += ray_speed;
                 System.out.println("Dist traveled: " + dist_traveled + " posx: " + posx + " posy: " + posy + " posz: " + posz);
 
                 Point3D loc_next = new Point3D(context.getComponents().getEnvironment().convertAbsoluteToTerrainPos(posx_next), Math.floor(posy_next/context.getComponents().getEnvironment().getBlockDim()),context.getComponents().getEnvironment().convertAbsoluteToTerrainPos(posz_next));
-                if(dist_traveled > 200){
-                    break;
-                }
+
                 if(context.getComponents().getEnvironment().MAP_RENDERING.containsKey(loc_next)){
                     AbsolutePoint3D loc = new AbsolutePoint3D(posx,posy,posz);
 
@@ -497,10 +496,6 @@ public class PlayerUtil {
 
     public StatusBar getHealthBar() {
         return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.HEALTH);
-    }
-
-    public double getHealth() {
-        return getHealthBar().getCurrStatus();
     }
 
     public void resetBars() {
