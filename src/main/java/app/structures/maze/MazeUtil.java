@@ -1,29 +1,28 @@
 package app.structures.maze;
 
-import app.GameBuilder;
 import app.algorithms.Edge;
-import app.player.PlayerPoint3D;
 import app.structures.SpawnableStructure;
-import app.structures.objects.Base_Cube;
 import app.utils.Log;
 import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
+import app.structures.objects.Base_Cube;
+import app.GameBuilder;
 import javafx.scene.paint.Material;
 
 
 public class MazeUtil implements SpawnableStructure {
-
     private static final String TAG = "MazeUtil";
-    public static Long GENERATOR_RANDOM_SEED = null;
+
     private final int cellWidth;
     private final double cellDim;
     private final int mazeRows;
     private final int mazeCols;
+    private Long seed = null;
     private final boolean isTrapped;
     private final Material mazeMaterial;
-    private final int height;
-    private Long seed = null;
     private MazeGenerator mazeGenerator;
+    private final int height;
+
+    public static Long GENERATOR_RANDOM_SEED = null;
 
     public MazeUtil(double cellDim,
                     int mazeRows,
@@ -31,7 +30,7 @@ public class MazeUtil implements SpawnableStructure {
                     int mazeHeight,
                     int cellWidth,
                     Material mazeMaterial) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.p(TAG,"CONSTRUCTOR");
 
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
@@ -49,7 +48,7 @@ public class MazeUtil implements SpawnableStructure {
                     int mazeHeight,
                     Material mazeMaterial,
                     Long seed) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.p(TAG,"CONSTRUCTOR");
 
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
@@ -69,7 +68,7 @@ public class MazeUtil implements SpawnableStructure {
                     Material mazeMaterial,
                     Long seed,
                     boolean isTrapped) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.p(TAG,"CONSTRUCTOR");
 
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
@@ -85,7 +84,6 @@ public class MazeUtil implements SpawnableStructure {
 
     @Override
     public void build(GameBuilder context) {
-
         block_map.clear();
 
         if (this.seed == null) {
@@ -126,63 +124,60 @@ public class MazeUtil implements SpawnableStructure {
                         Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                         cube.getShape().setMaterial(mazeMaterial);
                         block_map.put(new Point2D(currX, currZ), cube);
-//                        context.getComponents().getEnvironment().placeObject((PlayerPoint3D) new Point3D(currX, 0, currZ), cube, true);
-
-
                     }
                     currX += cellDim;
                 }
                 currZ += cellDim;
             }
+
+            // add vertical and horizontal generated walls to the map
+            // wall is vertical if xindex of two walls are equal
+            // wall is horizontal if xindex of two walls are not equal
+
+            // to find x index := 1 + [ 2 * ( mazeIndex % cols) ]
+            // to find z index := 1 + [ 2 * ( mazeIndex / cols) ]
+            for (Edge w : mazeGenerator.getWalls()) {
+
+                xindex1 = 1 + (2 * (w.v1 % mazeCols));
+                zindex1 = 1 + (2 * (w.v1 / mazeCols));
+                xindex2 = 1 + (2 * (w.v2 % mazeCols));
+                zindex2 = 1 + (2 * (w.v2 / mazeCols));
+                // wall separating vertical cells
+                if (xindex1 == xindex2) {
+                    // find vertical wall coordinate
+                    if (zindex1 < zindex2) {
+                        cellX = startingX + (xindex1 * cellDim);
+                        cellZ = startingZ + ((zindex1 + 1) * cellDim);
+                    } else {
+                        cellX = startingX + (xindex1 * cellDim);
+                        cellZ = startingZ + ((zindex2 + 1) * cellDim);
+                    }
+                }
+                // wall separating horizontal cells
+                else {
+                    // find horizontal wall coordinate
+                    if (xindex1 < xindex2) {
+                        cellX = startingX + ((xindex1 + 1) * cellDim);
+                        cellZ = startingZ + (zindex1 * cellDim);
+                    } else {
+                        cellX = startingX + ((xindex2 + 1) * cellDim);
+                        cellZ = startingZ + (zindex1 * cellDim);
+                    }
+                }
+                cellX = (cellX - startingX) * cellWidth + startingX;
+                cellZ = (cellZ - startingZ) * cellWidth + startingZ;
+
+                // loops here are for when the cells are thicker than one block
+                for (i = 0; i < cellWidth; i++) {
+                    for (j = 0; j < cellWidth; j++) {
+                        Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
+                        cube.getShape().setMaterial(mazeMaterial);
+                        block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), cube);
+                    }
+                }
+            }
+
         }
-//             add vertical and horizontal generated walls to the map
-//             wall is vertical if xindex of two walls are equal
-//             wall is horizontal if xindex of two walls are not equal
-//
-//             to find x index := 1 + [ 2 * ( mazeIndex % cols) ]
-//             to find z index := 1 + [ 2 * ( mazeIndex / cols) ]
-//            for (Edge w : mazeGenerator.getWalls()) {
-//
-//                xindex1 = 1 + (2 * (w.v1 % mazeCols));
-//                zindex1 = 1 + (2 * (w.v1 / mazeCols));
-//                xindex2 = 1 + (2 * (w.v2 % mazeCols));
-//                zindex2 = 1 + (2 * (w.v2 / mazeCols));
-//                // wall separating vertical cells
-//                if (xindex1 == xindex2) {
-//                    // find vertical wall coordinate
-//                    if (zindex1 < zindex2) {
-//                        cellX = startingX + (xindex1 * cellDim);
-//                        cellZ = startingZ + ((zindex1 + 1) * cellDim);
-//                    } else {
-//                        cellX = startingX + (xindex1 * cellDim);
-//                        cellZ = startingZ + ((zindex2 + 1) * cellDim);
-//                    }
-//                }
-//                // wall separating horizontal cells
-//                else {
-//                    // find horizontal wall coordinate
-//                    if (xindex1 < xindex2) {
-//                        cellX = startingX + ((xindex1 + 1) * cellDim);
-//                        cellZ = startingZ + (zindex1 * cellDim);
-//                    } else {
-//                        cellX = startingX + ((xindex2 + 1) * cellDim);
-//                        cellZ = startingZ + (zindex1 * cellDim);
-//                    }
-//                }
-//                cellX = (cellX - startingX) * cellWidth + startingX;
-//                cellZ = (cellZ - startingZ) * cellWidth + startingZ;
-//
-//                // loops here are for when the cells are thicker than one block
-//                for (i = 0; i < cellWidth; i++) {
-//                    for (j = 0; j < cellWidth; j++) {
-//                        Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
-//                        cube.getShape().setMaterial(mazeMaterial);
-//                        block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), cube);
-//                    }
-//                }
-//            }
-//
-//        }
 
         // clear the spots where there are no walls generated
         for (Edge w : mazeGenerator.getDeletedWalls()) {
