@@ -1,6 +1,7 @@
 package app.GUI.menu;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,6 +24,11 @@ public class InterfaceBuilder extends Parent {
 
     public void setGroup(Group Group) {
         this.group = group;
+    }
+
+    public Node addNode(Node n){
+        group.getChildren().add(n);
+        return n;
     }
 
     public Line drawLine(double x1, double y1, double x2, double y2, Paint paint) {

@@ -186,7 +186,6 @@ public class HUDUtil {
         minimap.update();
         this.addElement(minimap);
 
-
         ItemInfo itemInfo = new ItemInfo(HUDUtil.ITEM_INFO, new Point2D(100, 200), context, 250, 300);
         itemInfo.update();
         this.addElement(itemInfo);

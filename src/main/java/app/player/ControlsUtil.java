@@ -53,6 +53,9 @@ public class ControlsUtil {
                 if (scrollEvent.getDeltaY() < 0) {
                     context.getComponents().getPlayer().setInventoryIndexOffset(-1);
                 }
+                if(((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()){
+                    ((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).update();
+                }
                 System.out.println("onScroll() " + ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
             }
         });
@@ -129,6 +132,9 @@ public class ControlsUtil {
                             index = 9;
                         }
                         context.getComponents().getPlayer().setInventoryIndex(index);
+                        if(((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()){
+                            ((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).update();
+                        }
                     }
 
                     switch (event.getCode()) {
