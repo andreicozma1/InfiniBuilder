@@ -56,7 +56,7 @@ public class ControlsUtil {
                 if(((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()){
                     ((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).update();
                 }
-                L.p("onScroll() " + ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
+                Log.p(TAG,"onScroll() " + ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
 
             }
         });

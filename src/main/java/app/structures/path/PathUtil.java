@@ -193,7 +193,7 @@ public class PathUtil implements SpawnableStructure {
             currZ = startingZ + mj * cellDim;
             while (true) {
                 // draw the cube
-                Base_Cube cube = new Base_Cube("Path Block", cellDim, cellDim/2, cellDim);
+                Base_Cube cube = new Base_Cube("Path Block", cellDim, cellDim, cellDim);
                 cube.getShape().setMaterial(shortestPathMaterial);
                 block_map.put(new Point2D(currX, currZ), cube);
 
