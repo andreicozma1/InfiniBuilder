@@ -77,8 +77,10 @@ public class SkyboxUtil {
         group_skybox = new Group();
         MODE_CURR = MODE_CYCLE;
 
-        setAmbientLight(new AmbientLight());
-        setDefaultAmbientColor(Color.rgb(100,100,100));
+        setDefaultAmbientColor(Color.rgb(90,90,90));
+        AmbientLight amb = new AmbientLight();
+        amb.setColor(defaultAmbientColor);
+        setAmbientLight(amb);
 
         sunset_color = Color.rgb(253, 94, 83);
 
@@ -178,8 +180,8 @@ public class SkyboxUtil {
             if (sin > 1) {
                 sin = 1;
             }
-//            System.out.println(sin);
             if (sky_color == null) {
+                ambient.setColor(Color.rgb((int)(defaultAmbientColor.getRed() * 255),(int)(defaultAmbientColor.getGreen()*255),(int)(defaultAmbientColor.getBlue()*255)));
                 sunlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (suncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (suncolor.getGreen() * sin * 255))), (int) (sin * ((sunset_color.getBlue() * (1 - sin) * 255) + (suncolor.getBlue() * sin * 255)))));
                 context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (dayskycolor.getBlue() * sin * 255))));
             } else {
@@ -238,7 +240,6 @@ public class SkyboxUtil {
             sin -= sun_offset_ratio;
 //            sin *= (1/sun_offset);
             if (sky_color == null) {
-                System.out.println(defaultAmbientColor.getRed() * 255 - 80 * sin);
                 ambient.setColor(Color.rgb((int)(defaultAmbientColor.getRed() * 255 - 80 * sin),(int)(defaultAmbientColor.getGreen()*255 - 80 * sin),(int)(defaultAmbientColor.getBlue()*255 - 80 * sin)));
                 moonlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (mooncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (mooncolor.getGreen() * sin * 255))), (int) (sin * (sunset_color.getBlue() * (1 - sin) * 255) + (mooncolor.getBlue() * sin * 255))));
                 context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (nightskycolor.getBlue() * sin * 255))));
