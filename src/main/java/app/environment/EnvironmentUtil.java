@@ -549,6 +549,7 @@ public class EnvironmentUtil {
 
     public void setTerrainBlockType(Material mat) {
         PROPERTY_TERRAIN_IS_SINGLE_MATERIAL = mat;
+        reset();
     }
 
     public boolean getTerrainShouldHaveWater() {
