@@ -46,6 +46,7 @@ public class PlayerUtil {
     boolean isFlyMode = false;
     boolean isUnderWater = false;
     boolean isSwitchingItem = false;
+    private boolean isCrouchToggle = false;
     AnimationTimer switchAnimation;
     AnimationTimer placeAnimation;
     private double POSITION_X = 0;
@@ -334,6 +335,10 @@ public class PlayerUtil {
         this.POSITION_Y -= val;
         isOnGround = false;
     }
+
+    public boolean isCrouchToggle() { return isCrouchToggle; }
+
+    public void setCrouchToggle(boolean crouchToggle) { isCrouchToggle = crouchToggle; }
 
     /**
      * Function used by moveForward, moveBackward, moveLeft, moveRight

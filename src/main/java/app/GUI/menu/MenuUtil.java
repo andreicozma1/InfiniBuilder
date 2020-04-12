@@ -38,7 +38,6 @@ public class MenuUtil {
     private final Font title = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR, 30);
     private final Font options = Font.font("Monospaced", FontWeight.NORMAL, FontPosture.REGULAR, 25);
     private final Color GREEN = Color.valueOf("#20C20E");
-    private final boolean is_ext_inventory_toggle;
     public HashMap<String, Group> menuGroupMap = new HashMap<>();
     // class variables
     Scene SCENE_MENU;
@@ -78,6 +77,7 @@ public class MenuUtil {
     private double curr_jump_height;
     private double curr_run_speed;
     private double curr_jump_cut_off_height;
+    private boolean is_crouch_toggle;
     // camera settings
     private int curr_fov_default;
     private double curr_fov_running;
@@ -91,6 +91,10 @@ public class MenuUtil {
     private double curr_brightness;
     private boolean is_trip_mode;
     private boolean is_motion_blur;
+    // hud settings
+    private boolean is_ext_inventory_toggle;
+
+
 
     public MenuUtil(GameBuilder ctx) {
         context = ctx;
@@ -130,6 +134,8 @@ public class MenuUtil {
         curr_jump_height = context.getComponents().getPlayer().getJumpHeightMultiplier();
         curr_run_speed = context.getComponents().getPlayer().getRunMultiplier();
         curr_jump_cut_off_height = context.getComponents().getPlayer().getMaxAutoJumpHeightMultiplier();
+        is_crouch_toggle = context.getComponents().getPlayer().isCrouchToggle();
+
 
         // camera settings defaults
         curr_fov_default = context.getComponents().getCamera().getFOVdefault();
@@ -1117,7 +1123,7 @@ public class MenuUtil {
                     }
                 });
 
-        // player run multiplier
+        // player auto jump
         Text jumpCutoffHeightArrow = playerMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text jumpCutoffHeightText = playerMenu.drawText("./Jump_Cut_Off_Height", 95, 290, Color.WHITE, options);
         Text jumpCutoffHeightMult = playerMenu.drawText(curr_jump_cut_off_height + " blocks", 550, 290, Color.WHITE, options);
@@ -1148,11 +1154,43 @@ public class MenuUtil {
                     }
                 });
 
+        Text crouchToggleArrow = playerMenu.drawText(singleArrow, 50, 340, GREEN, options);
+        Text crouchToggleText = playerMenu.drawText("./Crouch", 95, 340, Color.WHITE, options);
+        Text crouchToggleMult;
+        if(is_crouch_toggle)crouchToggleMult = playerMenu.drawText("TOGGLE", 550, 340, Color.WHITE, options);
+        else crouchToggleMult = playerMenu.drawText("HOLD", 550, 340, Color.WHITE, options);
+        Rectangle crouchToggleHitBox = playerMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
+        crouchToggleHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        is_crouch_toggle = !is_crouch_toggle;
+                        if(is_crouch_toggle) crouchToggleMult.setText("TOGGLE");
+                        else crouchToggleMult.setText("HOLD");
+                        context.getComponents().getPlayer().setCrouchToggle(is_crouch_toggle);
+                    }
+                });
+        crouchToggleHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        crouchToggleArrow.setText(doubleArrow);
+                        crouchToggleText.setFill(GREEN);
+                        crouchToggleMult.setFill(GREEN);
+                    }
+                });
+        crouchToggleHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        crouchToggleArrow.setText(singleArrow);
+                        crouchToggleText.setFill(Color.WHITE);
+                        crouchToggleMult.setFill(Color.WHITE);
+                    }
+                });
 
         //quit handler
-        Text returnArrow = playerMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text returnText = playerMenu.drawText("./Back", 95, 340, Color.WHITE, options);
-        Rectangle returnHitBox = playerMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
+        Text returnArrow = playerMenu.drawText(singleArrow, 50, 390, GREEN, options);
+        Text returnText = playerMenu.drawText("./Back", 95, 390, Color.WHITE, options);
+        Rectangle returnHitBox = playerMenu.drawRectangle(50, 370, 600, 30, 0, 0, Color.TRANSPARENT);
+
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
@@ -1609,6 +1647,39 @@ public class MenuUtil {
                 85,
                 Color.WHITE,
                 title);
+
+        //  is_ext_inventory_toggle
+        Text extInvToggleArrow = hudMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text extInvToggleText = hudMenu.drawText("./Extended_Inventory", 95, 140, Color.WHITE, options);
+        Text extInvToggleMult;
+        if(is_ext_inventory_toggle) extInvToggleMult = hudMenu.drawText("TOGGLE", 550, 140, Color.WHITE, options);
+        else extInvToggleMult = hudMenu.drawText("HOLD", 550, 140, Color.WHITE, options);
+        Rectangle extInvToggleHitBox = hudMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
+        extInvToggleHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        is_ext_inventory_toggle = !is_ext_inventory_toggle;
+                        if(is_ext_inventory_toggle) extInvToggleMult.setText("TOGGLE");
+                        else extInvToggleMult.setText("HOLD");
+                        ((Inventory)context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).setToggle(is_ext_inventory_toggle);
+                    }
+                });
+        extInvToggleHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        extInvToggleArrow.setText(doubleArrow);
+                        extInvToggleText.setFill(GREEN);
+                        extInvToggleMult.setFill(GREEN);
+                    }
+                });
+        extInvToggleHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        extInvToggleArrow.setText(singleArrow);
+                        extInvToggleText.setFill(Color.WHITE);
+                        extInvToggleMult.setFill(Color.WHITE);
+                    }
+                });
 
         //quit handler
         Text quitArrow = hudMenu.drawText(singleArrow, 50, 340, GREEN, options);

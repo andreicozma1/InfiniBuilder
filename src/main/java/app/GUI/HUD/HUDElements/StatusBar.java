@@ -143,9 +143,7 @@ public class StatusBar extends HUDElement {
         return isShowing;
     }
 
-    public void toggleStatusBar() {
-        isShowing = !isShowing;
-    }
+    public void toggleStatusBar() { isShowing = !isShowing; }
 
     public boolean isEmpty() {
         return isEmpty;

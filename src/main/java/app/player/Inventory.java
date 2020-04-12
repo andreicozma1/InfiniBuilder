@@ -51,7 +51,7 @@ public class Inventory extends HUDElement {
     private boolean isVertical = false;
     private boolean displayNumbers = false;
     private boolean isExtendedInventoryDisplayed = false;
-    private boolean isToggle = true;
+    private boolean isToggle = false;
     private Paint panelColor;
     private Paint slotColor;
     private Paint selectedItemColor = Color.YELLOW;

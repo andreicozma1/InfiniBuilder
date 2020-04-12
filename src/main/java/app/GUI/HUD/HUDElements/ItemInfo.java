@@ -87,17 +87,14 @@ public class ItemInfo extends HUDElement {
             getGroup().getChildren().add(itemName);
 
             // draw each item
-            Group item = inventoryUtil.getCurrentItem();
+            Group item = StructureBuilder.resolve( inventoryUtil.getCurrentItem());
             item.setTranslateX(x + width / 2.0);
             item.setTranslateY(y + height / 2.0);
-            item.setScaleX(width / 2);
-            item.setScaleY(width / 2);
-            item.setScaleZ(width / 2);
+            item.maxWidth(width);
+            item.maxHeight(width);
             item.getTransforms().setAll(new Rotate(25, Rotate.X_AXIS), new Rotate(25, Rotate.Y_AXIS));
             item.toFront();
             getGroup().getChildren().add(item);
-
-
         }
     }
 }
