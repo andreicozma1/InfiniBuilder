@@ -95,7 +95,7 @@ public class ControlsUtil {
                         }
                         break;
                     case C:
-                        if (!context.getComponents().getPlayer().isCrouchToggle()) {
+                        if (!context.getComponents().getPlayer().isCrouchToggle() && !context.getComponents().getPlayer().isCrouching) {
                             context.getComponents().getPlayer().toggleCrouch();
                         }
                         break;
