@@ -134,11 +134,15 @@ public class PlayerUtil {
         if (getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus() / 2 && getHungerBar().getCurrStatus() > getHungerBar().getMaxStatus() / 2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()) {
             // Regenerate health if stamina > half
             getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() + PROPERTY_STATUS_HEALTH_REGEN_SPD * dt);
+        } else if(getHealthBar().getCurrStatus() < getHealthBar().getMaxStatus()/3){
+                if(context.getEffects().getSaturation() > -1) {
+                    context.getEffects().setSaturation(1 / (getHealthBar().getMaxStatus() / 3) * getHealthBar().getCurrStatus() - 1);
+                }
         }
         if(getHungerBar().getCurrStatus() > 0){
             getHungerBar().setCurrStatus(getHungerBar().getCurrStatus() - ((getStaminaBar().getMaxStatus() - getStaminaBar().getCurrStatus() * .5) / getStaminaBar().getMaxStatus()) * PROPERTY_STATUS_HUNGER_DEPLETE_SPD * dt);
         } else{
-            getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() - PROPERTY_STATUS_HEALTH_DEPLETE_SPD * dt);
+            takeDamage(PROPERTY_STATUS_HEALTH_DEPLETE_SPD * dt);
         }
     }
 
@@ -323,7 +327,7 @@ public class PlayerUtil {
             isRunning = true;
         } else {
             if (isRunning) {
-                takeDamage(1);
+                takeDamage(getHealthBar().getMaxStatus()/25);
             }
             isRunning = false;
         }
@@ -524,6 +528,7 @@ public class PlayerUtil {
     public void takeDamage(double d) {
         Log.p(TAG, "takeDamage() -> Took " + d + " damage");
         getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() - d);
+
         if (getHealthBar().getCurrStatus() == 0) {
             die();
         }
