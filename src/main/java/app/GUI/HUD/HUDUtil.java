@@ -192,11 +192,11 @@ public class HUDUtil {
         this.addElement(itemInfo);
 
         PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE,
-                new Point2D(100, 200), context, 257, 165, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
+                new Point2D(100, 200), context, 307, 205, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
         pauseMenu.update();
         this.addElement(pauseMenu);
 
-        DeathMenu deathMenu = new DeathMenu(HUDUtil.DEATH, new Point2D(100, 200), context, 257, 165, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
+        DeathMenu deathMenu = new DeathMenu(HUDUtil.DEATH, new Point2D(100, 200), context, 307, 205, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
         deathMenu.update();
         this.addElement(deathMenu);
 

@@ -107,23 +107,23 @@ public class DeathMenu extends HUDElement {
 
             //draw title
             pause.drawText("PLAYER_HAS_DIED",
-                    (float) x + 20,
-                    (float) y + 35,
+                    (float) x + 45,
+                    (float) y + 55,
                     GREEN,
                     pauseTitle);
 
             pause.drawText("-------------",
-                    (float) x + 20,
-                    (float) y + 55,
+                    (float) x + 45,
+                    (float) y + 75,
                     Color.WHITE,
                     pauseTitle);
 
 
             //**************************************************************************\
             // RESUME GAME
-            Text respawnArrow = pause.drawText(singleArrow, x + 20, y + 80, GREEN, pauseText);
-            Text respawnText = pause.drawText("./Respawn", x + 45, y + 80, Color.WHITE, pauseText);
-            Rectangle respawnHitBox = pause.drawRectangle(x, y + 65, width, 20, 0, 0, Color.TRANSPARENT);
+            Text respawnArrow = pause.drawText(singleArrow, x + 45, y + 100, GREEN, pauseText);
+            Text respawnText = pause.drawText("./Respawn", x + 70, y + 100, Color.WHITE, pauseText);
+            Rectangle respawnHitBox = pause.drawRectangle(x, y + 85, width, 20, 0, 0, Color.TRANSPARENT);
             respawnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
@@ -150,9 +150,9 @@ public class DeathMenu extends HUDElement {
 
             //**************************************************************************\
             // GOTO SETTINGS
-            Text settingsArrow = pause.drawText(singleArrow, x + 20, y + 110, GREEN, pauseText);
-            Text settingsText = pause.drawText("./New_Game", x + 45, y + 110, Color.WHITE, pauseText);
-            Rectangle settingsHitBox = pause.drawRectangle(x, y + 95, width, 20, 0, 0, Color.TRANSPARENT);
+            Text settingsArrow = pause.drawText(singleArrow, x + 45, y + 130, GREEN, pauseText);
+            Text settingsText = pause.drawText("./New_Game", x + 70, y + 130, Color.WHITE, pauseText);
+            Rectangle settingsHitBox = pause.drawRectangle(x, y + 145, width, 20, 0, 0, Color.TRANSPARENT);
             settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
@@ -180,9 +180,9 @@ public class DeathMenu extends HUDElement {
 
             //**************************************************************************\
             // GOTO MAIN MENU
-            Text mainMenuArrow = pause.drawText(singleArrow, x + 20, y + 140, GREEN, pauseText);
-            Text mainMenuText = pause.drawText("./Exit_To_Main_Menu", x + 45, y + 140, Color.WHITE, pauseText);
-            Rectangle mainMenuHitBox = pause.drawRectangle(x, y + 125, width, 20, 0, 0, Color.TRANSPARENT);
+            Text mainMenuArrow = pause.drawText(singleArrow, x + 45, y + 160, GREEN, pauseText);
+            Text mainMenuText = pause.drawText("./Exit_To_Main_Menu", x + 70, y + 160, Color.WHITE, pauseText);
+            Rectangle mainMenuHitBox = pause.drawRectangle(x, y + 145, width, 20, 0, 0, Color.TRANSPARENT);
             mainMenuHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
