@@ -145,7 +145,7 @@ public class PlayerUtil {
             if (getStaminaBar().getCurrStatus() < getStaminaBar().getMaxStatus()) {
                 getStaminaBar().setCurrStatus(getStaminaBar().getCurrStatus() + PROPERTY_STATUS_STAMINA_REGEN_SPD * dt);
             }
-            if (isOnGround || isFlyMode) {
+            if (isOnGround || isFlyMode || isUnderWater) {
                 if (curr_fov > context.getComponents().getCamera().getFOVdefault()) {
                     context.getComponents().getCamera().getCamera().setFieldOfView(curr_fov - 5);
                 } else if (curr_fov < context.getComponents().getCamera().getFOVdefault() - 2) {
@@ -165,34 +165,37 @@ public class PlayerUtil {
             }
         }
 
-        double closest_ground = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(), true);
-        if (getPositionYwithHeight() + 10 > context.getComponents().getEnvironment().PROPERTY_WATER_LEVEL && getPositionYwithHeight() < closest_ground) {
-            if (!isUnderWater) {
-                context.getEffects().setMotionBlur(30);
-                context.getComponents().getEnvironment().getSkybox().sky_color = Color.DARKBLUE;
-                context.getComponents().getEnvironment().getSkybox().setCloudsVisible(false);
-                context.getComponents().getEnvironment().getSkybox().setPlanetsVisible(false);
-                updateHoldingGroup(true);
-                context.getEffects().setBrightness(-0.6);
-                isUnderWater = true;
-            }
-        } else {
-            if (isUnderWater) {
-                if (context.getEffects().getBrightness() != 0) {
-                    context.getEffects().setBrightness(0);
+        if(context.getComponents().getEnvironment().getTerrainShouldHaveWater()){
+            double closest_ground = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(), true);
+            if (getPositionYwithHeight() + 10 > context.getComponents().getEnvironment().PROPERTY_WATER_LEVEL && getPositionYwithHeight() < closest_ground) {
+                if (!isUnderWater) {
+                    context.getEffects().setMotionBlur(30);
+                    context.getComponents().getEnvironment().getSkybox().sky_color = Color.DARKBLUE;
+                    context.getComponents().getEnvironment().getSkybox().setCloudsVisible(false);
+                    context.getComponents().getEnvironment().getSkybox().setPlanetsVisible(false);
+                    updateHoldingGroup(true);
+                    context.getEffects().setBrightness(-0.6);
+                    isUnderWater = true;
                 }
-                if (context.getComponents().getEnvironment().getSkybox().getShouldHaveClouds() && !context.getComponents().getEnvironment().getSkybox().getCloudsVisibile()) {
-                    context.getComponents().getEnvironment().getSkybox().setCloudsVisible(true);
+            } else {
+                if (isUnderWater) {
+                    if (context.getEffects().getBrightness() != 0) {
+                        context.getEffects().setBrightness(0);
+                    }
+                    if (context.getComponents().getEnvironment().getSkybox().getShouldHaveClouds() && !context.getComponents().getEnvironment().getSkybox().getCloudsVisibile()) {
+                        context.getComponents().getEnvironment().getSkybox().setCloudsVisible(true);
+                    }
+                    if (context.getComponents().getEnvironment().getSkybox().getShouldHavePlanets() && !context.getComponents().getEnvironment().getSkybox().getPlanetsVisible()) {
+                        context.getComponents().getEnvironment().getSkybox().setPlanetsVisible(true);
+                    }
+                    if (context.getComponents().getEnvironment().getSkybox().sky_color != null) {
+                        context.getComponents().getEnvironment().getSkybox().sky_color = null;
+                    }
+                    isUnderWater = false;
                 }
-                if (context.getComponents().getEnvironment().getSkybox().getShouldHavePlanets() && !context.getComponents().getEnvironment().getSkybox().getPlanetsVisible()) {
-                    context.getComponents().getEnvironment().getSkybox().setPlanetsVisible(true);
-                }
-                if (context.getComponents().getEnvironment().getSkybox().sky_color != null) {
-                    context.getComponents().getEnvironment().getSkybox().sky_color = null;
-                }
-                isUnderWater = false;
             }
         }
+
 
         if (getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus() / 2 && getHungerBar().getCurrStatus() > getHungerBar().getMaxStatus() / 2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()) {
             // Regenerate health if stamina > half
@@ -686,12 +689,7 @@ public class PlayerUtil {
         Base_Structure inventoryItem = UTIL_INVENTORY.getCurrentItem();
 
         if (!inventoryItem.getProps().getPROPERTY_ITEM_TAG().equals(StructureBuilder.UNDEFINED_TAG)) {
-            Base_Structure new_item = StructureBuilder.resolve(inventoryItem);
-            double scale = new_item.getBoundsInParent().getWidth() / 2;
-            new_item.setScaleAll(scale);
-            new_item.setTranslateZ(20);
-            new_item.setTranslateY(8);
-            new_item.setTranslateX(10);
+
 
             if (switchAnimation != null) {
                 switchAnimation.stop();
@@ -707,6 +705,13 @@ public class PlayerUtil {
                     double angle = (Math.sin((l - animation_start) / 170000000.0)) * 30;
                     GROUP_ROTATE_LEFT_RIGHT.setAngle(GROUP_ROTATE_LEFT_RIGHT.getAngle() + angle);
                     GROUP_ROTATE_UP_DOWN.setAngle(GROUP_ROTATE_UP_DOWN.getAngle() + angle);
+
+                    Base_Structure new_item = StructureBuilder.resolve(inventoryItem);
+                    double scale = new_item.getBoundsInParent().getWidth() / 2;
+                    new_item.setScaleAll(scale);
+                    new_item.setTranslateZ(20);
+                    new_item.setTranslateY(8);
+                    new_item.setTranslateX(10);
                     if (angle > 29 && !HOLDING_GROUP.getChildren().contains(new_item)) {
                         if(shouldHide){
                             HOLDING_GROUP.getChildren().clear();
@@ -728,7 +733,6 @@ public class PlayerUtil {
         }
 
     }
-
 
     public void performPlaceAnimation() {
         if (placeAnimation != null) {
@@ -755,6 +759,9 @@ public class PlayerUtil {
     }
 
     public boolean isInWater() {
+        if(!context.getComponents().getEnvironment().getTerrainShouldHaveWater()){
+            return false;
+        }
         return (getPositionYwithHeight() + getPlayerHeight() > context.getComponents().getEnvironment().PROPERTY_WATER_LEVEL);
     }
 

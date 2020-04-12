@@ -556,5 +556,6 @@ public class EnvironmentUtil {
 
     public void setTerrainShouldHaveWater(boolean val) {
         PROPERTY_TERRAIN_HAS_WATER = val;
+        reset();
     }
 }
