@@ -1,5 +1,6 @@
 package app.GUI.HUD.HUDElements;
 
+import app.GUI.HUD.HUDUtil;
 import app.GUI.menu.InterfaceBuilder;
 import app.GUI.menu.MenuUtil;
 import app.GameBuilder;
@@ -126,6 +127,7 @@ public class PauseMenu extends HUDElement {
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
                             isPaused = false;
+                            if(!((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing())((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
                             update();
                         }
                     });

@@ -152,7 +152,7 @@ public class DeathMenu extends HUDElement {
             // GOTO SETTINGS
             Text settingsArrow = pause.drawText(singleArrow, x + 45, y + 130, GREEN, pauseText);
             Text settingsText = pause.drawText("./New_Game", x + 70, y + 130, Color.WHITE, pauseText);
-            Rectangle settingsHitBox = pause.drawRectangle(x, y + 145, width, 20, 0, 0, Color.TRANSPARENT);
+            Rectangle settingsHitBox = pause.drawRectangle(x, y + 115, width, 20, 0, 0, Color.TRANSPARENT);
             settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {

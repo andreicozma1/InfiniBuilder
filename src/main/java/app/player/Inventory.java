@@ -16,6 +16,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
+import org.apache.commons.collections4.functors.FalsePredicate;
 
 
 /*
@@ -51,7 +52,7 @@ public class Inventory extends HUDElement {
     private boolean isVertical = false;
     private boolean displayNumbers = false;
     private boolean isExtendedInventoryDisplayed = false;
-    private boolean isToggle = true;
+    private boolean isToggle = false;
     private Paint panelColor;
     private Paint slotColor;
     private Paint selectedItemColor = Color.YELLOW;

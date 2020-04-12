@@ -99,7 +99,6 @@ public class ControlsUtil {
                         if (!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isToggle()) {
                             if(!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed())((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
                             if(((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing())((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
-
                         }
                         break;
                 }
@@ -142,7 +141,13 @@ public class ControlsUtil {
                     switch (event.getCode()) {
                         case TAB:
                             ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
+                            if(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed() &&
+                                    ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()){
+                                ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+                            }else if(!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed() &&
+                                !((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()){
                             ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+                        }
                             ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).setSelected(-1);
                             if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex() > ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1) {
                                 ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1);
@@ -169,6 +174,7 @@ public class ControlsUtil {
                             context.getComponents().getPlayer().canJump = true;
                             break;
                         case ESCAPE:
+                            if(!((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing())((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
                             break;
                         case F:
                             context.getComponents().getPlayer().toggleIsFlyMode();
