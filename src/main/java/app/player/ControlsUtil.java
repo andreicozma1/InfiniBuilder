@@ -44,9 +44,6 @@ public class ControlsUtil {
 
         game_scene.setOnScroll(scrollEvent -> {
             if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
-
-                Log.p(TAG,"setOnScroll " + scrollEvent.getTextDeltaY());
-
                 if (scrollEvent.getDeltaY() > 0) {
                     context.getComponents().getPlayer().setInventoryIndexOffset(1);
                 }
@@ -54,10 +51,8 @@ public class ControlsUtil {
                     context.getComponents().getPlayer().setInventoryIndexOffset(-1);
                 }
                 if(((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()){
-                    ((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).update();
+                    context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO).update();
                 }
-                Log.p(TAG,"onScroll() " + ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
-
             }
         });
 
@@ -255,6 +250,7 @@ public class ControlsUtil {
     }
 
     public void reset() {
+        Log.p(TAG,"reset()");
         pressed.clear();
     }
 }

@@ -116,6 +116,7 @@ public class CameraUtil {
     }
 
     public void reset() {
+        Log.p(TAG,"reset()");
         setRotateX(0);
         setRotateY(0);
     }

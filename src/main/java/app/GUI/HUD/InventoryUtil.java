@@ -131,26 +131,26 @@ public class InventoryUtil {
      */
     public Base_Structure popItem(int index) {
         if (index < 0 || index >= inventorySize) {
-            System.out.println("The given index is not in range");
+            Log.p(TAG,"The given index is not in range");
             return new Base_Structure();
         }
 
         Base_Structure tmp = inventory.get(index);
-        System.out.println("POP ITEMMMM " + tmp.getScaleX() + " " + tmp.getScaleY() + " " + tmp.getScaleZ());
+        Log.p(TAG,"POP ITEMMMM " + tmp.getScaleX() + " " + tmp.getScaleY() + " " + tmp.getScaleZ());
 
-        System.out.println("/////////// " + tmp.getShape());
+        Log.p(TAG,"/////////// " + tmp.getShape());
         if (tmp.getProps().getPROPERTY_ITEM_TAG() == Base_Structure.UNDEFINED_TAG) {
             // if there is no item in the inventory
-            System.out.println("No Item at index " + index);
+            Log.p(TAG,"No Item at index " + index);
         } else if (sizes.get(tmp.getProps().getPROPERTY_ITEM_TAG()) == 1) {
             // if last item in the item stack
-            System.out.println("Index " + index + " is now empty");
+            Log.p(TAG,"Index " + index + " is now empty");
             sizes.remove(tmp.getProps().getPROPERTY_ITEM_TAG());
             indexes.remove(tmp.getProps().getPROPERTY_ITEM_TAG());
             inventory.set(index, new Base_Structure());
         } else {
             // if there are items left over in the item stack
-            System.out.println("Index " + index + " now has " + (sizes.get(tmp.getProps().getPROPERTY_ITEM_TAG()) - 1) + " items");
+            Log.p(TAG,"Index " + index + " now has " + (sizes.get(tmp.getProps().getPROPERTY_ITEM_TAG()) - 1) + " items");
             sizes.put(tmp.getProps().getPROPERTY_ITEM_TAG(), sizes.get(tmp.getProps().getPROPERTY_ITEM_TAG()) - 1);
         }
 
@@ -173,7 +173,7 @@ public class InventoryUtil {
         }
         // if item is not in the inventory
         else {
-            System.out.println("Inventory does not contain given item");
+            Log.p(TAG,"Inventory does not contain given item");
             return -1;
         }
     }
@@ -187,11 +187,11 @@ public class InventoryUtil {
      */
     public Base_Structure popItem(int index, int size) {
         if (size < 1) {
-            System.out.println("Size must be greater than 0");
+            Log.p(TAG,"Size must be greater than 0");
             return new Base_Structure();
         }
         if (index < 0 || index >= inventorySize) {
-            System.out.println("The given index is not in range");
+            Log.p(TAG,"The given index is not in range");
             return new Base_Structure();
         }
         Base_Structure tmp = inventory.get(index);
@@ -199,12 +199,12 @@ public class InventoryUtil {
         if (sizeAfterPop < 0) sizeAfterPop = 0;
         // if there is no item in the inventory
         if (tmp.getProps().getPROPERTY_ITEM_TAG() == Base_Structure.UNDEFINED_TAG) {
-            System.out.println("No Item at index " + index);
+            Log.p(TAG,"No Item at index " + index);
         }
 
         // if last item in the item stack
         else if (sizeAfterPop == 0) {
-            System.out.println("Index " + index + " is now empty");
+            Log.p(TAG,"Index " + index + " is now empty");
             sizes.remove(tmp.getProps().getPROPERTY_ITEM_TAG());
             indexes.remove(tmp.getProps().getPROPERTY_ITEM_TAG());
             inventory.set(index, new Base_Structure());
@@ -213,7 +213,7 @@ public class InventoryUtil {
 
         // if there are items left over in the item stack
         else {
-            System.out.println("Index " + index + " now has " + (sizeAfterPop) + " items");
+            Log.p(TAG,"Index " + index + " now has " + (sizeAfterPop) + " items");
             sizes.put(tmp.getProps().getPROPERTY_ITEM_TAG(), sizeAfterPop);
         }
 
@@ -229,7 +229,7 @@ public class InventoryUtil {
      */
     public int popItem(Base_Structure item, int size) {
         if (size < 1) {
-            System.out.println("Size must be greater than 0");
+            Log.p(TAG,"Size must be greater than 0");
             return -1;
         }
 
@@ -242,7 +242,7 @@ public class InventoryUtil {
         }
         // if item is not in the inventory
         else {
-            System.out.println("Inventory does not contain given item");
+            Log.p(TAG,"Inventory does not contain given item");
             return -1;
         }
     }
@@ -254,7 +254,6 @@ public class InventoryUtil {
 
     // if the item isn't already in the inventory it will fill up the inventory from index 0 to inventorySize-1
     public void addItem(Base_Structure item) {
-        System.out.println("Adding item " + item.getProps().getPROPERTY_ITEM_TAG());
 
         if (indexes.containsKey(item.getProps().getPROPERTY_ITEM_TAG())) {
             addItem(indexes.get(item.getProps().getPROPERTY_ITEM_TAG()), item);
@@ -269,7 +268,6 @@ public class InventoryUtil {
     }
 
     public void addItem(Base_Structure item, int size) {
-        System.out.println("Adding item " + item.getProps().getPROPERTY_ITEM_TAG());
 
         if (indexes.containsKey(item.getProps().getPROPERTY_ITEM_TAG())) {
             addItem(indexes.get(item.getProps().getPROPERTY_ITEM_TAG()), item, size);
@@ -285,61 +283,58 @@ public class InventoryUtil {
 
     // will place the item at the given index
     public void addItem(int index, Base_Structure item) {
-        System.out.println("Adding item " + item.getProps().getPROPERTY_ITEM_TAG());
+        Log.p(TAG,"Adding item " + item.getProps().getPROPERTY_ITEM_TAG() + " to index " + index);
 
         if (index < 0 || index >= inventorySize) {
-            System.out.println("The given index is not in range");
+            Log.p(TAG,"The given index is not in range");
         }
 
         String itemTag = item.getProps().getPROPERTY_ITEM_TAG();
 
         // if the index is empty
         if (inventory.get(index).getProps().getPROPERTY_ITEM_TAG() == Base_Structure.UNDEFINED_TAG) {
-            System.out.println("Added the given item to the given index");
+            Log.p(TAG,"Added the given item to the given index");
             inventory.set(index, item);
             sizes.put(itemTag, 1);
             indexes.put(itemTag, index);
         }
         //if the index contains the correct item
         else if (inventory.get(index).getProps().getPROPERTY_ITEM_TAG() == itemTag) {
-            System.out.println("Incremented the number of items at the given index");
+            Log.p(TAG,"Incremented the number of items at the given index");
             sizes.put(itemTag, sizes.get(itemTag) + 1);
         }
         // if the item at the index does not match the given item
         else {
-            System.out.println("Given item does not match the item at the given index");
+            Log.p(TAG,"Given item does not match the item at the given index");
         }
     }
 
     public void addItem(int index, Base_Structure item, int size) {
 
-
-        System.out.println("Adding item " + item.getProps().getPROPERTY_ITEM_TAG());
+        Log.p(TAG,"Adding item " + item.getProps().getPROPERTY_ITEM_TAG() + " of size " + size + " at index " + index);
 
         if (size < 1) {
-            System.out.println("Size must be greater than 0");
+            Log.p(TAG,"Size must be greater than 0");
         }
         if (index < 0 || index >= inventorySize) {
-            System.out.println("The given index is not in range");
+            Log.p(TAG,"The given index is not in range");
         }
-
-        System.out.println("ASDADSA " + item.getWidth() + "  " + item.getHeight() + "  " + item.getDepth());
 
         String itemTag = item.getProps().getPROPERTY_ITEM_TAG();
 
         // if the index is empty
         if (inventory.get(index).getProps().getPROPERTY_ITEM_TAG() == Base_Structure.UNDEFINED_TAG) {
-            System.out.println("Added the given item to the given index");
+            Log.p(TAG,"Added the given item to the given index");
             inventory.set(index, item);
             sizes.put(itemTag, size);
             indexes.put(itemTag, index);
         } else if (inventory.get(index).getProps().getPROPERTY_ITEM_TAG() == itemTag) {
             //if the index contains the correct item
-            System.out.println("Incremented the number of items at the given index");
+            Log.p(TAG,"Incremented the number of items at the given index");
             sizes.put(itemTag, sizes.get(itemTag) + size);
         } else {
             // if the item at the index does not match the given item
-            System.out.println("Given item does not match the item at the given index");
+            Log.p(TAG,"Given item does not match the item at the given index");
         }
     }
 
@@ -350,11 +345,11 @@ public class InventoryUtil {
 
     public void swapItems(int index1, int index2) {
         if (index1 < 0 || index1 >= inventorySize) {
-            System.out.println("index1 is not within the bounds of the inventory");
+            Log.p(TAG,"index1 is not within the bounds of the inventory");
             return;
         }
         if (index2 < 0 || index2 >= inventorySize) {
-            System.out.println("index2 is not within the bounds of the inventory");
+            Log.p(TAG,"index2 is not within the bounds of the inventory");
             return;
         }
 
@@ -381,7 +376,7 @@ public class InventoryUtil {
     // PRINT OUT THE CURRENT INVENTORY
 
     public void print() {
-        System.out.println("CURRENT INVENTORY::");
+        Log.p(TAG,"CURRENT INVENTORY::");
         for (int i = 0; i < inventory.size(); i++) {
             Base_Structure item = inventory.get(i);
             int size;
@@ -389,7 +384,7 @@ public class InventoryUtil {
             if (item.getProps().getPROPERTY_ITEM_TAG() == Base_Structure.UNDEFINED_TAG) size = 0;
             else size = sizes.get(item.getProps().getPROPERTY_ITEM_TAG());
 
-            System.out.println("Index = " + i +
+            Log.p(TAG,"Index = " + i +
                     " , Item = " + item.getProps().getPROPERTY_ITEM_TAG() +
                     " , Size = " + size +
                     " , CurrItem = " + isCurrentIndex(i));

@@ -129,13 +129,13 @@ public class GameBuilder {
             GAME_ANIMATION_TIMER.stop();
 
             if (SCENE_CURRENT == ROOT_SCENE) {
-                System.out.println("Switched to Game Scene");
+                Log.p(TAG,"Switched to Game Scene");
                 getComponents().getEnvironment().getSkybox().resetLighting();
 
                 GAME_ANIMATION_TIMER.start();
             }
             if (SCENE_CURRENT == getComponents().getMenu().getScene()) {
-                System.out.println("Switched to Menu Scene");
+                Log.p(TAG,"Switched to Menu Scene");
                 showCursor(Cursor.DEFAULT);
             }
 
@@ -303,6 +303,8 @@ public class GameBuilder {
         }
 
         public void resetEffects() {
+            Log.p(TAG,"resetEffects()");
+
             EFFECT_MOTION_BLUR = new MotionBlur();
             EFFECT_BLOOM = new Bloom();
             EFFECT_BLOOM.setInput(EFFECT_MOTION_BLUR);

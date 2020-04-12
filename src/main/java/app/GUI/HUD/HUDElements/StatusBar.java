@@ -1,9 +1,12 @@
 package app.GUI.HUD.HUDElements;
 
+import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+
+import java.lang.annotation.Target;
 
 
 public class StatusBar extends HUDElement {
@@ -26,6 +29,8 @@ public class StatusBar extends HUDElement {
     private boolean isDefaultDirection = true;
     private boolean isColorInterpolated = false;
     private boolean isShowing = true;
+    private static final String TAG = "StatusBar";
+
 
 
     public StatusBar(String elementTag,
@@ -65,11 +70,11 @@ public class StatusBar extends HUDElement {
     // set curr status ensures it never goes below zero
     public void setCurrStatus(double currStatus) {
         if (currStatus <= 0) {
-            System.out.println(getElementTag() + " is empty");
+            Log.p(TAG,getElementTag() + " is empty");
             currStatus = 0;
             isEmpty = true;
         } else if (currStatus >= maxStatus) {
-            System.out.println(getElementTag() + " is full");
+            Log.p(TAG,getElementTag() + " is full");
             currStatus = maxStatus;
             isEmpty = false;
         } else {
@@ -243,6 +248,6 @@ public class StatusBar extends HUDElement {
     }
 
     public void printStatus() {
-        System.out.println("CurrStatus = " + currStatus + ", MaxStatus = " + maxStatus);
+        Log.p(TAG,"CurrStatus = " + currStatus + ", MaxStatus = " + maxStatus);
     }
 }

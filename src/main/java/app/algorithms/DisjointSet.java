@@ -1,10 +1,13 @@
 package app.algorithms;
 
+import app.utils.Log;
+
 import java.util.ArrayList;
 
 // This is a Disjoint set implementation that unions by size and uses path compression
 // This is based off Dr. Plank's (UTK) implementation of a disjoint set
 public class DisjointSet {
+    private static final String TAG = "DisjointSet";
 
     // Lists that hold each nodes links and sizes
     private final ArrayList<Integer> links;
@@ -49,7 +52,7 @@ public class DisjointSet {
 
         // error checks the given input
         if (links.get(s1) != -1 || links.get(s2) != -1) {
-            System.out.println("Must call union on a set, not just an element.");
+            Log.p(TAG,"Must call union on a set, not just an element.");
             return -1;
         }
 
@@ -106,12 +109,12 @@ public class DisjointSet {
     public void Print() {
         int i;
 
-        System.out.println("\nNode:  ");
-        for (i = 0; i < links.size(); i++) System.out.println(i + " ");
-        System.out.println("\nLinks:  ");
-        for (i = 0; i < links.size(); i++) System.out.println(links.get(i) + " ");
-        System.out.println("\nSizes:  ");
-        for (i = 0; i < links.size(); i++) System.out.println(sizes.get(i) + " ");
-        System.out.println("\n");
+        Log.p(TAG,"\nNode:  ");
+        for (i = 0; i < links.size(); i++) Log.p(TAG,i + " ");
+        Log.p(TAG,"\nLinks:  ");
+        for (i = 0; i < links.size(); i++) Log.p(TAG,links.get(i) + " ");
+        Log.p(TAG,"\nSizes:  ");
+        for (i = 0; i < links.size(); i++) Log.p(TAG,sizes.get(i) + " ");
+        Log.p(TAG,"\n");
     }
 }

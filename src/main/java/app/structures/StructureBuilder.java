@@ -108,14 +108,6 @@ public abstract class StructureBuilder extends Group implements Interactable {
         private boolean PROPERTY_DESTRUCTIBLE = false;
         private Material PROPERTY_MATERIAL;
 
-        public Material getICON_MATERIAL() {
-            return PROPERTY_MATERIAL;
-        }
-
-        public void setICON_MATERIAL(Material mat) {
-            PROPERTY_MATERIAL = mat;
-        }
-
         public int getPROPERTY_ITEM_TYPE() {
             return PROPERTY_ITEM_TYPE;
         }

@@ -128,7 +128,7 @@ public class PathUtil implements SpawnableStructure {
                 if (mi % 2 == 0 && mj % 2 == 0) {
                     Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                     cube.getShape().setMaterial(pathMaterial);
-                    System.out.println(currX + " " + currZ);
+                    Log.p(TAG,currX + " " + currZ);
                     block_map.put(new Point2D(startingX + cellDim * j, startingZ + cellDim * i), cube);
                 }
                 currX += cellDim;
@@ -211,27 +211,27 @@ public class PathUtil implements SpawnableStructure {
                 // change the coordinates to draw next block
                 //up
                 if (path.get(currIndex) == path.get(nextIndex) - pathCols) {
-                    System.out.println("up");
+                    Log.p(TAG,"up");
                     currZ += cellDim;
                     mi++;
 
                 }
                 //down
                 else if (path.get(currIndex) == path.get(nextIndex) + pathCols) {
-                    System.out.println("down");
+                    Log.p(TAG,"down");
                     currZ -= cellDim;
                     mi--;
 
                 }
                 //left
                 else if (path.get(currIndex) == path.get(nextIndex) - 1) {
-                    System.out.println("right");
+                    Log.p(TAG,"right");
                     currX += cellDim;
                     mj++;
                 }
                 //right
                 else if (path.get(currIndex) == path.get(nextIndex) + 1) {
-                    System.out.println("left");
+                    Log.p(TAG,"left");
                     currX -= cellDim;
                     mj--;
                 }

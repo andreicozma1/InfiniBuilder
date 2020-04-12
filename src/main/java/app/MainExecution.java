@@ -3,6 +3,7 @@ import app.structures.grapher.*;
 import app.structures.maze.*;
 import app.structures.objects.*;
 import app.structures.path.*;
+import app.utils.Log;
 import app.utils.ResourcesUtil;
 import javafx.application.Application;
 import javafx.stage.Screen;
@@ -10,6 +11,8 @@ import javafx.stage.Stage;
 
 
 public class MainExecution extends Application {
+
+    private static final String TAG = "MainExecution";
 
     GameBuilder GAME;
     private int PRIMARY_WIDTH;
@@ -21,7 +24,8 @@ public class MainExecution extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        System.out.println("MainExecution");
+        Log.p(TAG,"start()");
+
         PRIMARY_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() / 2;
         PRIMARY_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() / 2;
 
@@ -46,15 +50,15 @@ public class MainExecution extends Application {
 
 //        PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
 //        SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
-
 //        game.getComponents().getPlayer().getInventory().addItem(pyrmItem, 99);
-
 
         // draws our game HUD
         GAME.getWindow().showScene(GAME.getComponents().getMenu().getScene());
     }
 
     public void addMazes(){
+        Log.p(TAG,"addMazes()");
+
         double rad = GAME.getComponents().getEnvironment().getBlockDim()/3.0;
         double height = GAME.getComponents().getEnvironment().getBlockDim();
 
@@ -68,6 +72,8 @@ public class MainExecution extends Application {
     }
 
     public void addPaths(){
+        Log.p(TAG,"addPaths()");
+
         double rad = GAME.getComponents().getEnvironment().getBlockDim()/3.0;
         double height = GAME.getComponents().getEnvironment().getBlockDim();
 
@@ -83,6 +89,8 @@ public class MainExecution extends Application {
     }
 
     public void addGrapher(){
+        Log.p(TAG,"addGrapher()");
+
         GrapherUtil grapher = new GrapherUtil(GAME.getComponents().getEnvironment().getBlockDim(),
                 20, 20, 1, 1, ResourcesUtil.black);
         Function funct;
@@ -116,6 +124,8 @@ public class MainExecution extends Application {
     }
 
     public void addAllBlocks(){
+        Log.p(TAG,"addAllBlocks()");
+
         for(String type: ResourcesUtil.MAP_ALL_MATERIALS.keySet()){
             Base_Cube cb = new Base_Cube(type, ResourcesUtil.MAP_ALL_MATERIALS.get(type), GAME.getComponents().getEnvironment().getBlockDim());
             GAME.getComponents().getPlayer().getInventory().addItem(cb, 50);

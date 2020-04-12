@@ -48,7 +48,7 @@ public class Base_Projectile extends Base_Structure {
             @Override
             public void handle(long l) {
                 if (!isOnGround) {
-//                    System.out.println(posy +  "   " + context.getClosestGroundLevel(new PlayerPoint3D(posx,posy,posz)));
+//                    Log.p(TAG,posy +  "   " + context.getClosestGroundLevel(new PlayerPoint3D(posx,posy,posz)));
                     posx += initialVel * Math.sin(startrotX) * Math.cos(startrotY);
                     posy -= initialVel * Math.sin(startrotY) + initialVelY;
                     initialVelY -= EnvironmentUtil.GRAVITY;

@@ -5,6 +5,7 @@ import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.structures.StructureBuilder;
 import app.GUI.HUD.InventoryUtil;
+import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -35,6 +36,8 @@ import javafx.scene.transform.Rotate;
 
 
 public class Inventory extends HUDElement {
+
+    private static final String TAG = "Inventory";
 
     private final InventoryUtil inventoryUtil;
     private final int inventorySize;
@@ -234,7 +237,7 @@ public class Inventory extends HUDElement {
                 break;
         }
 
-        System.out.println(x + "  " + y);
+        Log.p(TAG,x + "  " + y);
         setPos(new Point2D(x, y));
     }
 

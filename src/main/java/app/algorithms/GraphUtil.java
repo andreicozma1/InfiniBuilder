@@ -1,11 +1,15 @@
 package app.algorithms;
 
+import app.utils.Log;
+
 import java.util.*;
 
 /**
  * Graph util is an implementation of an adjacency list.
  */
 public class GraphUtil {
+    private static final String TAG = "GraphUtil";
+
     //global variables
     private final int V;                              // Number of nodes
     private final List<Integer> w;                    // Weights when leaving each node
@@ -57,7 +61,7 @@ public class GraphUtil {
      */
     public void addEdge(Edge edge) {
         if (edge.v1 < 0 || edge.v2 < 0 || edge.v1 >= V || edge.v2 >= V) {
-            System.out.println("Bad Edge");
+            Log.p(TAG,"Bad Edge");
             return;
         }
         e.get(edge.v1).add(edge);
@@ -84,10 +88,10 @@ public class GraphUtil {
 
         // error checking
         if (start < 0 || end < 0 || start >= V || end >= V) {
-            System.out.println("start and end position must be in bounds");
+            Log.p(TAG,"start and end position must be in bounds");
             return null;
         } else if (start == end) {
-            System.out.println("start position is equal to the end position");
+            Log.p(TAG,"start position is equal to the end position");
             return null;
         }
 
@@ -120,10 +124,10 @@ public class GraphUtil {
 
         // if could not find path
         if (!foundPath) {
-            System.out.println("Could not find a path from " + start + " to " + end);
+            Log.p(TAG,"Could not find a path from " + start + " to " + end);
             return null;
         }
-        System.out.println("Found a path from " + start + " to " + end);
+        Log.p(TAG,"Found a path from " + start + " to " + end);
 
         // backtrace to find the path
         cV = end;
@@ -156,10 +160,10 @@ public class GraphUtil {
 
         // error checking
         if (start < 0 || end < 0 || start >= V || end >= V) {
-            System.out.println("start and end position must be in bounds");
+            Log.p(TAG,"start and end position must be in bounds");
             return null;
         } else if (start == end) {
-            System.out.println("start position is equal to the end position");
+            Log.p(TAG,"start position is equal to the end position");
             return null;
         }
 
@@ -192,10 +196,10 @@ public class GraphUtil {
 
         // if could not find path
         if (!foundPath) {
-            System.out.println("Could not find a path from " + start + " to " + end);
+            Log.p(TAG,"Could not find a path from " + start + " to " + end);
             return null;
         }
-        System.out.println("Found a path from " + start + " to " + end);
+        Log.p(TAG,"Found a path from " + start + " to " + end);
 
         // backtrace to find the path
         cV = end;
@@ -230,10 +234,10 @@ public class GraphUtil {
 
         // error checking
         if (start < 0 || end < 0 || start >= V || end >= V) {
-            System.out.println("start and end position must be in bounds");
+            Log.p(TAG,"start and end position must be in bounds");
             return null;
         } else if (start == end) {
-            System.out.println("start position is equal to the end position");
+            Log.p(TAG,"start position is equal to the end position");
             return null;
         }
 
@@ -245,7 +249,7 @@ public class GraphUtil {
         while (!frontier.isEmpty()) {
             // get current vertex data
             cV = frontier.poll().getValue();
-            System.out.println("currNode " + cV);
+            Log.p(TAG,"currNode " + cV);
 
             // current node is marked
             if (visited.get(cV)) continue;
@@ -282,7 +286,7 @@ public class GraphUtil {
 
         // if could not find path
         if (!foundPath) {
-            System.out.println("Could not find a path from " + start + " to " + end);
+            Log.p(TAG,"Could not find a path from " + start + " to " + end);
             return null;
         }
 
@@ -307,7 +311,6 @@ public class GraphUtil {
                     System.out.print(e.get(i).get(j).v2 + " ");
                 }
             }
-            System.out.println();
         }
     }
 

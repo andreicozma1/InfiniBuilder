@@ -120,6 +120,7 @@ public class PlayerUtil {
             // that means that the player has not gotten to that point in jumping yet so, move the player up
             double jump_height_final = jump_height_initial - PROPERTY_HEIGHT * PROPERTY_MULTIPLIER_JUMP;
             if ((isJumping && getPositionYnoHeight() > jump_height_final)) {
+                Log.p(TAG,"update_handler() -> Jumping from " + getPositionYnoHeight() + " to " + jump_height_final);
                 moveUp(PROPERTY_SPEED_UP * dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
@@ -235,9 +236,10 @@ public class PlayerUtil {
     public void placeObject() {
         Base_Structure inventory_item = UTIL_INVENTORY.getCurrentItem();
 
-        Log.p(TAG, "placeObject() " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
 
         if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
+            Log.p(TAG, "placeObject() -> Attempting to place " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
+
             double posx = getPositionX();
             double posy = getPositionYwithHeight();
             double posz = getPositionZ();
@@ -245,7 +247,8 @@ public class PlayerUtil {
             double startrotY = Math.toRadians(context.getComponents().getCamera().getRotateY());
 
             double dist_traveled = 0;
-            while (dist_traveled < 200) {
+            int ray_distance_limit = 200;
+            while (dist_traveled < ray_distance_limit) {
                 double ray_speed = 2;
                 double posx_next = posx + ray_speed * Math.sin(startrotX) * Math.cos(startrotY);
                 double posy_next = posy - ray_speed * Math.sin(startrotY);
@@ -257,9 +260,8 @@ public class PlayerUtil {
                 if (context.getComponents().getEnvironment().MAP_RENDERING.containsKey(loc_next)) {
                     AbsolutePoint3D loc = new AbsolutePoint3D(posx, posy, posz);
 
-
                     performPlaceAnimation();
-
+                    Log.p(TAG, "placeObject() -> Action called for type: " + inventory_item.getProps().getPROPERTY_ITEM_TYPE());
                     switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
                         case StructureBuilder.TYPE_OBJECT:
                             Base_Structure cb = StructureBuilder.resolve(inventory_item);
@@ -280,6 +282,11 @@ public class PlayerUtil {
                     posz = posz_next;
                 }
             }
+            if(dist_traveled > ray_distance_limit){
+                Log.p(TAG,"placeObject() -> Cannot place that far!");
+            }
+        } else{
+            Log.p(TAG, "placeObject() -> Cannot place " + inventory_item.getProps().getPROPERTY_ITEM_TAG());
         }
     }
 
@@ -481,12 +488,13 @@ public class PlayerUtil {
     }
 
     public void setUV_light(boolean state) {
+        Log.p(TAG, "setUV_light() -> " + state);
+
         uv_light.setLightOn(state);
         uv_light_state = state;
     }
 
     public void toggleUVlight() {
-        Log.p(TAG, "toggleUVlight()");
         setUV_light(!uv_light_state);
     }
 
@@ -502,6 +510,7 @@ public class PlayerUtil {
         return PROPERTY_HEIGHT;
     }
 
+
     public void toggleCrouch() {
         if (!isFlyMode) {
             Log.p(TAG, "toggleCrouch()");
@@ -514,11 +523,12 @@ public class PlayerUtil {
     }
 
     public void setIsClipMode(boolean val) {
+        Log.p(TAG, "setIsClipMode() -> " + val);
+
         isClipMode = val;
     }
 
     public void toggleIsClipMode() {
-        Log.p(TAG, "toggleIsClipMode()");
         setIsClipMode(!getIsClipMode());
     }
 
@@ -527,12 +537,13 @@ public class PlayerUtil {
     }
 
     public void setIsFlyMode(boolean val) {
+        Log.p(TAG, "setIsFlyMode() -> " + val);
+
         isFlyMode = val;
         speed_fall_initial = 0;
     }
 
     public void toggleIsFlyMode() {
-        Log.p(TAG, "toggleIsFlyMode()");
         setIsFlyMode(!getIsFlyMode());
     }
 
@@ -543,6 +554,8 @@ public class PlayerUtil {
     public void setMaxAutoJumpHeightMultiplier(double val) {
         try {
             if (val >= 0) {
+                Log.p(TAG,"setMaxAutoJumpHeightMultiplier() -> " + val);
+
                 this.PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP = val;
             } else {
                 throw new IndexOutOfBoundsException();
@@ -560,6 +573,8 @@ public class PlayerUtil {
     public void setFlySpeed(double spd) {
         try {
             if (spd >= 0) {
+                Log.p(TAG,"setFlySpeed() -> " + spd);
+
                 PROPERTY_SPEED_FLY = spd;
             } else {
                 throw new IndexOutOfBoundsException();
@@ -576,6 +591,8 @@ public class PlayerUtil {
     public void setRunMultiplier(double mult) {
         try {
             if (mult >= 0) {
+                Log.p(TAG,"setRunMultiplier() -> " + mult);
+
                 PROPERTY_MULTIPLIER_RUN = mult;
             } else {
                 throw new IndexOutOfBoundsException();
@@ -592,6 +609,7 @@ public class PlayerUtil {
     public void setJumpHeightMultiplier(double mult) {
         try {
             if (mult >= 0) {
+                Log.p(TAG,"setJumpHeightMultiplier() -> " + mult);
                 PROPERTY_MULTIPLIER_JUMP = mult;
             } else {
                 throw new IndexOutOfBoundsException();
@@ -617,14 +635,15 @@ public class PlayerUtil {
         return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.HUNGER);
     }
 
-    public void resetBars() {
+    public void resetStatusBars() {
+        Log.p(TAG,"resetStatusBars()");
         getHealthBar().setCurrStatus(getHealthBar().getMaxStatus());
         getStaminaBar().setCurrStatus(getStaminaBar().getMaxStatus());
         getHungerBar().setCurrStatus(getHungerBar().getMaxStatus());
     }
 
     public void takeDamage(double d) {
-//        Log.p(TAG, "takeDamage() -> Took " + d + " damage");
+        Log.p(TAG, "takeDamage() -> Took " + d + " damage");
         getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() - d);
 
         if (getHealthBar().getCurrStatus() == 0) {
@@ -647,7 +666,7 @@ public class PlayerUtil {
         isFlyMode = false;
         isJumping = false;
 
-        resetBars();
+        resetStatusBars();
         context.getComponents().getCamera().reset();
         context.getEffects().resetEffects();
         context.getComponents().getGameSceneControls().reset();
@@ -659,6 +678,8 @@ public class PlayerUtil {
         double randomZ = Math.random() * 100000;
         setPosition(randomX, EnvironmentUtil.LIMIT_MAX, randomZ);
         didTeleport = true;
+
+        Log.p(TAG,"teleportRandom() -> X: " + randomX + "  Z: " + randomZ);
     }
 
     public void setInventoryIndexOffset(int i) {
@@ -674,6 +695,9 @@ public class PlayerUtil {
                 }
             }
         }
+
+        Base_Structure currItem = UTIL_INVENTORY.getCurrentItem();
+        Log.p(TAG,"setInventoryIndexOffset() -> " + i + " -> Tag: " + currItem.getProps().getPROPERTY_ITEM_TAG() + "; ItmType: " + currItem.getProps().getPROPERTY_ITEM_TYPE()+ "; ObjType: " + currItem.getProps().getPROPERTY_OBJECT_TYPE());
 
         updateHoldingGroup(false);
     }

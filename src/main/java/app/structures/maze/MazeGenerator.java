@@ -2,12 +2,15 @@ package app.structures.maze;
 
 import app.algorithms.DisjointSet;
 import app.algorithms.Edge;
+import app.utils.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class MazeGenerator {
+    private static final String TAG = "MazeGenerator";
+
     private final Random ran;
     private int rows;
     private int cols;
@@ -20,7 +23,7 @@ public class MazeGenerator {
         ran = new Random();
         this.cols = c;
         this.rows = r;
-        System.out.println(r * c);
+        Log.p(TAG,String.valueOf(r * c));
         this.seed = seed;
         ran.setSeed(this.seed);
         maze = new ArrayList<Edge>();
@@ -110,13 +113,13 @@ public class MazeGenerator {
 
     public void printWalls() {
         for (Edge w : maze) {
-            System.out.println("MAZE WALLS " + w.v1 + " " + w.v2);
+            Log.p(TAG,"MAZE WALLS " + w.v1 + " " + w.v2);
         }
     }
 
     public void printDeletedWalls() {
         for (Edge w : deletedEdges) {
-            System.out.println("MAZE WALLS " + w.v1 + " " + w.v2);
+            Log.p(TAG,"MAZE WALLS " + w.v1 + " " + w.v2);
         }
     }
 

@@ -3,6 +3,7 @@ package app.structures.grapher;
 import app.GameBuilder;
 import app.structures.SpawnableStructure;
 import app.structures.objects.Base_Cube;
+import app.utils.Log;
 import app.utils.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
@@ -12,6 +13,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GrapherUtil implements SpawnableStructure {
+    private static final String TAG = "GrapherUtil";
+
     private final double cellDim;
     private final List<Function> functions = new ArrayList<>();
     private final List<Material> functMats = new ArrayList<Material>(
@@ -129,7 +132,7 @@ public class GrapherUtil implements SpawnableStructure {
         for (i = 0; i < functions.size(); i++) {
             for (x = -xAxisSize * xAxisScalePerBlock; x <= xAxisSize * xAxisScalePerBlock; x += xAxisScalePerBlock) {
                 y = functions.get(i).compute(x);
-                System.out.println("F(" + x + ") = " + y);
+                Log.p(TAG,"F(" + x + ") = " + y);
                 Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                 cube.getShape().setMaterial(functMats.get(i));
                 block_map.put(new Point2D((x / xAxisScalePerBlock) * cellDim + startingX, y * cellDim + startingZ), cube);

@@ -3,6 +3,7 @@ package app.GUI.menu;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.GUI.HUD.HUDElements.Inventory;
+import app.utils.Log;
 import app.utils.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -19,6 +20,8 @@ import java.util.HashMap;
 
 
 public class MenuUtil {
+    private static final String TAG = "MenuUtil";
+
 
     public static final String PAUSE = "PAUSE";
     // static strings to access any menu from the menuGroupHashMap
@@ -215,6 +218,7 @@ public class MenuUtil {
     }
 
     public void activateGroup(String name) {
+        Log.p(TAG, "activateGroup() -> " + name);
         currentGroup = name;
         SCENE_MENU.setRoot(menuGroupMap.get(name));
     }
@@ -709,7 +713,6 @@ public class MenuUtil {
                         if (curr_world_type == ResourcesUtil.MAP_ALL_MATERIALS_SORTED.size()) curr_world_type = 0;
                         String world_type = ResourcesUtil.MAP_ALL_MATERIALS_SORTED.get(curr_world_type);
                         worldTypeChoice.setText(world_type);
-                        System.out.println(world_type + " " + ResourcesUtil.MAP_ALL_MATERIALS.get(world_type));
                         context.getComponents().getEnvironment().setTerrainBlockType(ResourcesUtil.MAP_ALL_MATERIALS.get(world_type));
                     }
                 });

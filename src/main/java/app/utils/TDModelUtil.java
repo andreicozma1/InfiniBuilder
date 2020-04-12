@@ -43,7 +43,8 @@ public class TDModelUtil {
                     JarEntry je = entries.nextElement();
 
                     if (je.getName().startsWith(FOLDER_NAME) && je.getName().endsWith(EXTENSION_3DS)) {
-                        System.out.println(je.getName());
+                        Log.p(TAG, "Found model at: " + je.getName());
+
                         Path path = Paths.get(je.getName());
                         InputStream is = this.getClass().getResourceAsStream("/" + je.getName());
 

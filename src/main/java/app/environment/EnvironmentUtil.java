@@ -369,13 +369,14 @@ public class EnvironmentUtil {
             }
         }
 
-
         b.setTranslateIndependent(x, y, z);
 
         return b;
     }
 
     public void reset() {
+        Log.p(TAG,"reset()");
+
         UTIL_SIMPLEX = new SimplexUtil(100, .40, (int) context.time_current);
         UTIL_SIMPLEX_2 = new SimplexUtil(2000, .65, (int) context.time_current * 2);
         UTIL_SIMPLEX_3 = new SimplexUtil(5, .2, (int) context.time_current);
@@ -479,6 +480,8 @@ public class EnvironmentUtil {
     public void setTerrainHeightMultiplier(double mult) {
         try {
             if (mult >= 0) {
+                Log.p(TAG,"setTerrainHeightMultiplier() -> " + mult);
+
                 PROPERTY_TERRAIN_HEIGHT_MULTIPLIER = mult; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
                 reset();
             } else {
@@ -497,6 +500,7 @@ public class EnvironmentUtil {
     public void setVegetationDensityPercent(double dens) {
         try {
             if (dens >= 0 && dens <= 100) {
+                Log.p(TAG,"setVegetationDensityPercent() -> " + dens);
                 PROPERTY_TERRAIN_VEGETATION_DENSITY_PERCENT = (dens / 100) / 6; // bound the value given from 0 to 100 to a reasonable max amount of trees
                 reset();
             } else {
@@ -514,6 +518,7 @@ public class EnvironmentUtil {
     public void setTerrainGenerateDistance(double dist) {
         try {
             if (dist >= 0) {
+                Log.p(TAG,"setTerrainVegetationMaxSize() -> " + dist);
                 PROPERTY_TERRAIN_GENERATE_DISTANCE = dist; // bound the value given
                 reset();
             } else {
@@ -531,6 +536,8 @@ public class EnvironmentUtil {
     public void setTerrainVegetationMaxSize(double val) {
         try {
             if (val >= 0) {
+                Log.p(TAG,"setTerrainVegetationMaxSize() -> " + val);
+
                 PROPERTY_VEGETATION_MAX_SIZE = val; // bound the value given
                 reset();
             } else {
@@ -546,6 +553,7 @@ public class EnvironmentUtil {
     }
 
     public void setTerrainBlockType(Material mat) {
+        Log.p(TAG,"setTerrainBlockType() -> " + mat);
         PROPERTY_TERRAIN_IS_SINGLE_MATERIAL = mat;
         reset();
     }
@@ -555,6 +563,7 @@ public class EnvironmentUtil {
     }
 
     public void setTerrainShouldHaveWater(boolean val) {
+        Log.p(TAG,"setTerrainShouldHaveWater() -> " + val);
         PROPERTY_TERRAIN_HAS_WATER = val;
         reset();
     }
