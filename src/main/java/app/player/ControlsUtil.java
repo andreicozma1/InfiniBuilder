@@ -94,7 +94,7 @@ public class ControlsUtil {
                                 ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
                         }
                         break;
-                    case CONTROL:
+                    case C:
                         if (!context.getComponents().getPlayer().isCrouchToggle()) {
                             context.getComponents().getPlayer().toggleCrouch();
                         }
@@ -182,7 +182,7 @@ public class ControlsUtil {
                         case X:
                             context.getComponents().getPlayer().toggleIsClipMode();
                             break;
-                        case CONTROL:
+                        case C:
                             context.getComponents().getPlayer().toggleCrouch();
                             break;
                         case U:
@@ -228,7 +228,6 @@ public class ControlsUtil {
                         break;
 
                     case SPACE:
-//                        System.out.println(context.getComponents().getPlayer().isUnderWater);
                         if (context.getComponents().getPlayer().isFlyMode) {
                             context.getComponents().getPlayer().moveUp(context.getComponents().getPlayer().PROPERTY_SPEED_FLY * dt);
                         } else if (context.getComponents().getPlayer().isUnderWater) {
