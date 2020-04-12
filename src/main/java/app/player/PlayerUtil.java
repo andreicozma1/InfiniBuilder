@@ -42,6 +42,7 @@ public class PlayerUtil {
     boolean canJump = true;
     boolean isRunning = false;
     boolean isCrouching = false;
+    boolean isCrouchToggle = false;
     boolean isOnGround = true;
     boolean isFlyMode = false;
     private double POSITION_X = 0;
@@ -357,6 +358,10 @@ public class PlayerUtil {
     public double getPositionZ() {
         return POSITION_Z;
     }
+
+    public boolean isCrouchToggle() { return isCrouchToggle; }
+
+    public void setCrouchToggle(boolean crouchToggle) { isCrouchToggle = crouchToggle; }
 
     /**
      * Returns the 2D placement of the character in the world (X and Z coords)

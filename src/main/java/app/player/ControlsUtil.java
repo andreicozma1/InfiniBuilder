@@ -97,8 +97,15 @@ public class ControlsUtil {
                 switch (event.getCode()) {
                     case TAB:
                         if (!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isToggle()) {
-                            if(!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed())((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
-                            if(((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing())((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+                            if (!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed())
+                                ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
+                            if (((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing())
+                                ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+                        }
+                        break;
+                    case CONTROL:
+                        if (!context.getComponents().getPlayer().isCrouchToggle()) {
+                            context.getComponents().getPlayer().toggleCrouch();
                         }
                         break;
                 }
@@ -183,7 +190,9 @@ public class ControlsUtil {
                             context.getComponents().getPlayer().toggleIsClipMode();
                             break;
                         case CONTROL:
-                            context.getComponents().getPlayer().toggleCrouch();
+//                            if(context.getComponents().getPlayer().isCrouchToggle()) {
+                                context.getComponents().getPlayer().toggleCrouch();
+//                            }
                             break;
                         case U:
                             context.getComponents().getPlayer().toggleUVlight();
