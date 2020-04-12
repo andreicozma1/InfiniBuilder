@@ -29,7 +29,7 @@ public class EnvironmentUtil {
     public static final double WATER_DRAG_COEFFICIENT = .1;
 
     private static final String TAG = "EnvironmentUtil";
-    public static Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
+    public static Group GROUP_WORLD; // CONTAINS TERRAIN AND OTHER
     public static Group GROUP_TERRAIN;
     public static Group GROUP_OTHER;
     public final Map<Point2D, TreeMap<Integer, Double>> MAP_GENERATED = new HashMap<>();
@@ -117,11 +117,7 @@ public class EnvironmentUtil {
         double starting_y = getSimplexHeight2D(i, j);
 
         for (double k = starting_y; k <= 100; k++) {
-//            double simplex3D = getSimplexHeight3D(i, k, j);
-//            System.out.println("Simplex3d " + simplex3D);
-//            if (simplex3D > 0) {
             mapColumn.put((int) Math.floor(k), k);
-//            }
         }
 
         MAP_GENERATED.put(new Point2D(i, j), mapColumn);
@@ -203,175 +199,178 @@ public class EnvironmentUtil {
         Base_Cube box = new Base_Cube("Terrain Base", getBlockDim());
         b.getChildren().add(box);
 
-        if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_ICE_LEVEL) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.stone)) {
-            box.getShape().setMaterial(ResourcesUtil.ice_02);
-            box.getProps().setPROPERTY_ITEM_TAG("Ice01");
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_SNOW_LEVEL) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.stone)) {
-            box.getShape().setMaterial(ResourcesUtil.snow_01);
-            box.getProps().setPROPERTY_ITEM_TAG("Snow01");
-            if (Math.random() > 1 - vegDens / 5) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"peak", "rock"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PEAK_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
-            box.getShape().setMaterial(ResourcesUtil.stone);
-            box.getProps().setPROPERTY_ITEM_TAG("Rock01");
-
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PEAK_LEVEL_1) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
-            box.getShape().setMaterial(ResourcesUtil.stone);
-            box.getProps().setPROPERTY_ITEM_TAG("Rock01");
-
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_HILLS_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
-            box.getShape().setMaterial(ResourcesUtil.grass_04);
-            box.getProps().setPROPERTY_ITEM_TAG("Grass04");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_HILLS_LEVEL_1) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.moss)) {
-            // TODO CHANGE MOSS TEXTURE
-            box.getShape().setMaterial(ResourcesUtil.moss);
-            box.getProps().setPROPERTY_ITEM_TAG("Moss");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PLAINS_LEVEL_5) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.grass_01)) {
-            box.getShape().setMaterial(ResourcesUtil.grass_01);
-            box.getProps().setPROPERTY_ITEM_TAG("Grass01");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PLAINS_LEVEL_4) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.grass_01)) {
-            box.getShape().setMaterial(ResourcesUtil.grass);
-            box.getProps().setPROPERTY_ITEM_TAG("Grass01");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PLAINS_LEVEL_3) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.grass_01)) {
-            box.getShape().setMaterial(ResourcesUtil.grass_01);
-            box.getProps().setPROPERTY_ITEM_TAG("Grass01");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PLAINS_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.grass_01)) {
-            box.getShape().setMaterial(ResourcesUtil.grass);
-            box.getProps().setPROPERTY_ITEM_TAG("Grass03");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_PLAINS_LEVEL_1) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.grass_01)) {
-            box.getShape().setMaterial(ResourcesUtil.grass_01);
-            box.getProps().setPROPERTY_ITEM_TAG("Grass02");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_DESERT_LEVEL_3) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.sand)) {
-            // TODO - change to diff type of sand
-            box.getShape().setMaterial(ResourcesUtil.sand_02);
-            box.getProps().setPROPERTY_ITEM_TAG("Sand01");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_DESERT_LEVEL_2) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.sand)) {
-            box.getShape().setMaterial(ResourcesUtil.sand);
-            box.getProps().setPROPERTY_ITEM_TAG("Sand02");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_DESERT_LEVEL_1) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.sand)) {
-            box.getShape().setMaterial(ResourcesUtil.sand_02);
-            box.getProps().setPROPERTY_ITEM_TAG("Sand03");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if ((PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null && y < PROPERTY_WATER_LEVEL) || (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == ResourcesUtil.dirt)) {
-            box.getShape().setMaterial(ResourcesUtil.dirt);
-            box.getProps().setPROPERTY_ITEM_TAG("Dirt");
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"dirt", "rock", "moss"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else if (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL == null) {
-            box.getShape().setMaterial(ResourcesUtil.dirt);
-            box.getProps().setPROPERTY_ITEM_TAG("Dirt");
-
-            if (PROPERTY_TERRAIN_HAS_WATER && !isDry) {
-                Base_Cube water = new Base_Cube("Water");
-                water.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                water.setScaleIndependent(getBlockDim(), .01, getBlockDim());
-                water.getShape().setMaterial(ResourcesUtil.water_01);
-                water.getShape().setCullFace(CullFace.BACK);
-                water.setTranslateY(-y + PROPERTY_WATER_LEVEL - getBlockDim() / 2.0);
-                b.getChildren().add(water);
-            }
-
-            if (Math.random() > 1 - vegDens) {
-                Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"sea", "water", "rock", "moss"});
-                tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
-                tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
-                tree.setTranslateY(-tree.getHeight() / 2);
-                b.getChildren().add(tree);
-            }
-        } else {
+        if(PROPERTY_TERRAIN_IS_SINGLE_MATERIAL!= null){
             box.getShape().setMaterial(PROPERTY_TERRAIN_IS_SINGLE_MATERIAL);
             box.getProps().setPROPERTY_ITEM_TAG("");
+        } else{
+            if ((y < PROPERTY_ICE_LEVEL)) {
+                box.getShape().setMaterial(ResourcesUtil.ice_02);
+                box.getProps().setPROPERTY_ITEM_TAG("ice_02");
+            } else if ((y < PROPERTY_SNOW_LEVEL)) {
+                box.getShape().setMaterial(ResourcesUtil.snow_01);
+                box.getProps().setPROPERTY_ITEM_TAG("snow_01");
+                if (Math.random() > 1 - vegDens / 5) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"peak", "rock"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_PEAK_LEVEL_2) {
+                box.getShape().setMaterial(ResourcesUtil.stone);
+                box.getProps().setPROPERTY_ITEM_TAG("stone");
+
+            } else if (y < PROPERTY_PEAK_LEVEL_1) {
+                box.getShape().setMaterial(ResourcesUtil.stone);
+                box.getProps().setPROPERTY_ITEM_TAG("stone");
+
+            } else if (y < PROPERTY_HILLS_LEVEL_2) {
+                box.getShape().setMaterial(ResourcesUtil.grass_04);
+                box.getProps().setPROPERTY_ITEM_TAG("grass_04");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_HILLS_LEVEL_1) {
+                // TODO CHANGE MOSS TEXTURE
+                box.getShape().setMaterial(ResourcesUtil.moss);
+                box.getProps().setPROPERTY_ITEM_TAG("moss");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_PLAINS_LEVEL_5) {
+                box.getShape().setMaterial(ResourcesUtil.grass_01);
+                box.getProps().setPROPERTY_ITEM_TAG("grass_01");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_PLAINS_LEVEL_4) {
+                box.getShape().setMaterial(ResourcesUtil.grass);
+                box.getProps().setPROPERTY_ITEM_TAG("grass");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_PLAINS_LEVEL_3) {
+                box.getShape().setMaterial(ResourcesUtil.grass_01);
+                box.getProps().setPROPERTY_ITEM_TAG("grass_01");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_PLAINS_LEVEL_2) {
+                box.getShape().setMaterial(ResourcesUtil.grass);
+                box.getProps().setPROPERTY_ITEM_TAG("grass");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_PLAINS_LEVEL_1) {
+                box.getShape().setMaterial(ResourcesUtil.grass_01);
+                box.getProps().setPROPERTY_ITEM_TAG("grass_01");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_DESERT_LEVEL_3) {
+                // TODO - change to diff type of sand
+                box.getShape().setMaterial(ResourcesUtil.sand_02);
+                box.getProps().setPROPERTY_ITEM_TAG("sand_02");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_DESERT_LEVEL_2) {
+                box.getShape().setMaterial(ResourcesUtil.sand);
+                box.getProps().setPROPERTY_ITEM_TAG("sand");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_DESERT_LEVEL_1) {
+                box.getShape().setMaterial(ResourcesUtil.sand_02);
+                box.getProps().setPROPERTY_ITEM_TAG("sand_02");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else if (y < PROPERTY_WATER_LEVEL) {
+                box.getShape().setMaterial(ResourcesUtil.dirt);
+                box.getProps().setPROPERTY_ITEM_TAG("dirt");
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"dirt", "rock", "moss"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            } else {
+                box.getShape().setMaterial(ResourcesUtil.dirt);
+                box.getProps().setPROPERTY_ITEM_TAG("dirt");
+
+                if (PROPERTY_TERRAIN_HAS_WATER && !isDry) {
+                    Base_Cube water = new Base_Cube("Water");
+                    water.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    water.setScaleIndependent(getBlockDim(), .01, getBlockDim());
+                    water.getShape().setMaterial(ResourcesUtil.water_01);
+                    water.getShape().setCullFace(CullFace.BACK);
+                    water.setTranslateY(-y + PROPERTY_WATER_LEVEL - getBlockDim() / 2.0);
+                    b.getChildren().add(water);
+                }
+
+                if (Math.random() > 1 - vegDens) {
+                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"sea", "water", "rock", "moss"});
+                    tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
+                    tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
+                    tree.setTranslateY(-tree.getHeight() / 2);
+                    b.getChildren().add(tree);
+                }
+            }
         }
+
 
         b.setTranslateIndependent(x, y, z);
 

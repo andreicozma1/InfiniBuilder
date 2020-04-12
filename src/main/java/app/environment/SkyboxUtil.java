@@ -240,7 +240,7 @@ public class SkyboxUtil {
             sin -= sun_offset_ratio;
 //            sin *= (1/sun_offset);
             if (sky_color == null) {
-                ambient.setColor(Color.rgb((int)(defaultAmbientColor.getRed() * 255 - 80 * sin),(int)(defaultAmbientColor.getGreen()*255 - 80 * sin),(int)(defaultAmbientColor.getBlue()*255 - 80 * sin)));
+                ambient.setColor(Color.rgb((int)(defaultAmbientColor.getRed() * 255 - 60 * sin),(int)(defaultAmbientColor.getGreen()*255 - 60 * sin),(int)(defaultAmbientColor.getBlue()*255 - 60 * sin)));
                 moonlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (mooncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (mooncolor.getGreen() * sin * 255))), (int) (sin * (sunset_color.getBlue() * (1 - sin) * 255) + (mooncolor.getBlue() * sin * 255))));
                 context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (nightskycolor.getBlue() * sin * 255))));
             } else {
