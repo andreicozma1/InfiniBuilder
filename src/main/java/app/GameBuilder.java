@@ -23,7 +23,7 @@ public class GameBuilder {
 
     // MAIN GAME LOOP
     private final AnimationTimer GAME_ANIMATION_TIMER;
-    public static long time_current;
+    public static long time_current = System.currentTimeMillis();
     private long TOTAL_RUNTIME = 0;
     private GameFX GAME_EFFECTS;
     private GameComponents GAME_COMPONENTS;
@@ -44,10 +44,10 @@ public class GameBuilder {
 
             @Override
             public void handle(long now) {
+                time_current = System.currentTimeMillis();
                 if (!((PauseMenu) getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
 
                     reading_frames++;
-                    time_current = System.currentTimeMillis();
 
                     if (time_current - reading_last > 1000.0) {
 //                        Log.d(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + time_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
