@@ -61,73 +61,7 @@ public class ResourcesUtil {
     public static PhongMaterial water;
     public static PhongMaterial metal;
     public static PhongMaterial grass;
-    public static Map<String, PhongMaterial> world_types = new HashMap<>() {
-        {
-            put("Default", null);
-
-            put("asphalt_01",asphalt_01);
-            put("brick_01",brick_01);
-
-            put("mud_01",mud_01);
-            put("dirt_01",dirt_01);
-            put("moss",moss);
-            put("grass",grass);
-            put("grass_01",grass_01);
-            put("grass_02",grass_02);
-            put("grass_03",grass_03);
-            put("grass_04",grass_04);
-
-            put("snow_01",snow_01);
-            put("ice_01",ice_01);
-            put("ice_02",ice_02);
-            put("lava_01",lava_01);
-
-            put("metal",metal);
-            put("metal_01",metal_01);
-            put("metal_02",metal_02);
-
-            put("pebbles_01",pebbles_01);
-            put("rock_01",rock_01);
-            put("rock_02",rock_02);
-
-            put("sand",sand);
-            put("sand_01",sand_01);
-            put("sand_02",sand_02);
-            put("sand_03",sand_03);
-
-            put("stone",stone);
-            put("stone_path_01",stone_path_01);
-            put("stone_path_02",stone_path_02);
-            put("stone_wall_01",stone_wall_01);
-            put("stone_wall_02",stone_wall_02);
-
-            put("water",water);
-            put("water_01",water_01);
-
-            put("wood_bark_01",wood_bark_01);
-            put("wood_bark_02",wood_bark_02);
-            put("wood_bark_03",wood_bark_03);
-
-            put("wood_planks_01",wood_planks_01);
-            put("wood_planks_02",wood_planks_02);
-            put("wood_planks_03",wood_planks_03);
-            put("wood_planks_04",wood_planks_04);
-
-            put("dirt",dirt);
-            put("blue",blue);
-            put("green",green);
-            put("red",red);
-            put("black",black);
-            put("purple",purple);
-
-            put("sun",sun);
-            put("moon",moon);
-            put("big_star",big_star);
-
-            put("clouds",clouds);
-
-        }
-    };
+    public static Map<String, PhongMaterial> world_types;
     Application context;
 
     public ResourcesUtil(Application app) {
@@ -135,6 +69,73 @@ public class ResourcesUtil {
 
         context = app;
         setupMaterials();
+        world_types = new HashMap<>() {
+            {
+                put("Default", null);
+
+                put("asphalt_01",asphalt_01);
+                put("brick_01",brick_01);
+
+                put("mud_01",mud_01);
+                put("dirt_01",dirt_01);
+                put("moss",moss);
+                put("grass",grass);
+                put("grass_01",grass_01);
+                put("grass_02",grass_02);
+                put("grass_03",grass_03);
+                put("grass_04",grass_04);
+
+                put("snow_01",snow_01);
+                put("ice_01",ice_01);
+                put("ice_02",ice_02);
+                put("lava_01",lava_01);
+
+                put("metal",metal);
+                put("metal_01",metal_01);
+                put("metal_02",metal_02);
+
+                put("pebbles_01",pebbles_01);
+                put("rock_01",rock_01);
+                put("rock_02",rock_02);
+
+                put("sand",sand);
+                put("sand_01",sand_01);
+                put("sand_02",sand_02);
+                put("sand_03",sand_03);
+
+                put("stone",stone);
+                put("stone_path_01",stone_path_01);
+                put("stone_path_02",stone_path_02);
+                put("stone_wall_01",stone_wall_01);
+                put("stone_wall_02",stone_wall_02);
+
+                put("water",water);
+                put("water_01",water_01);
+
+                put("wood_bark_01",wood_bark_01);
+                put("wood_bark_02",wood_bark_02);
+                put("wood_bark_03",wood_bark_03);
+
+                put("wood_planks_01",wood_planks_01);
+                put("wood_planks_02",wood_planks_02);
+                put("wood_planks_03",wood_planks_03);
+                put("wood_planks_04",wood_planks_04);
+
+                put("dirt",dirt);
+                put("blue",blue);
+                put("green",green);
+                put("red",red);
+                put("black",black);
+                put("purple",purple);
+
+                put("sun",sun);
+                put("moon",moon);
+                put("big_star",big_star);
+
+                put("clouds",clouds);
+
+            }
+        };
         world_types_sorted = new ArrayList<>(world_types.keySet());
         Collections.sort(world_types_sorted);
     }
