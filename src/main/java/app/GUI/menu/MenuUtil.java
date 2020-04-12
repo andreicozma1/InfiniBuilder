@@ -1611,6 +1611,39 @@ public class MenuUtil {
                 Color.WHITE,
                 title);
 
+//is_ext_inventory_toggle
+        Text extInvToggleArrow = hudMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text extInvToggleText = hudMenu.drawText("./Extended_Inventory", 95, 140, Color.WHITE, options);
+        Text extInvToggleMult;
+        if(is_ext_inventory_toggle) extInvToggleMult = hudMenu.drawText("TOGGLE", 550, 140, Color.WHITE, options);
+        else extInvToggleMult = hudMenu.drawText("HOLD", 550, 140, Color.WHITE, options);
+        Rectangle extInvToggleHitBox = hudMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
+        extInvToggleHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        is_ext_inventory_toggle = !is_ext_inventory_toggle;
+                        if(is_ext_inventory_toggle) extInvToggleMult.setText("TOGGLE");
+                        else extInvToggleMult.setText("HOLD");
+                        ((Inventory)context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).setToggle(is_ext_inventory_toggle);
+                    }
+                });
+        extInvToggleHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        extInvToggleArrow.setText(doubleArrow);
+                        extInvToggleText.setFill(GREEN);
+                        extInvToggleMult.setFill(GREEN);
+                    }
+                });
+        extInvToggleHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        extInvToggleArrow.setText(singleArrow);
+                        extInvToggleText.setFill(Color.WHITE);
+                        extInvToggleMult.setFill(Color.WHITE);
+                    }
+                });
+
         //quit handler
         Text quitArrow = hudMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text quitText = hudMenu.drawText("./Back", 95, 340, Color.WHITE, options);

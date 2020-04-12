@@ -94,6 +94,15 @@ public class ControlsUtil {
                     System.out.println("KEY_PRESSED " + event.getCode());
                     pressed.add(event.getCode());
                 }
+                switch (event.getCode()) {
+                    case TAB:
+                        if (!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isToggle()) {
+                            if(!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed())((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
+                            if(((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing())((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+
+                        }
+                        break;
+                }
             }
         });
 
