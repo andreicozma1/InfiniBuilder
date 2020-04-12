@@ -141,7 +141,7 @@ public class EnvironmentUtil {
     public void generateRenderedMap(int i, int j) {
         TreeMap<Integer, Double> worldColumn = MAP_GENERATED.get(new Point2D(i, j));
 
-//                  TODO -- START FROM PLAYER GOING UP AND DOWN FOR EFFICIENCY
+//      TODO -- START FROM PLAYER GOING UP AND DOWN FOR EFFICIENCY
         for (int k = -100; k <= 100; k++) {
 
             if (worldColumn.containsKey(k)) {
@@ -236,7 +236,6 @@ public class EnvironmentUtil {
                     b.getChildren().add(tree);
                 }
             } else if (y < PROPERTY_HILLS_LEVEL_1) {
-                // TODO CHANGE MOSS TEXTURE
                 box.getShape().setMaterial(ResourcesUtil.moss);
                 box.getProps().setPROPERTY_ITEM_TAG("moss");
 
@@ -303,7 +302,6 @@ public class EnvironmentUtil {
                     b.getChildren().add(tree);
                 }
             } else if (y < PROPERTY_DESERT_LEVEL_3) {
-                // TODO - change to diff type of sand
                 box.getShape().setMaterial(ResourcesUtil.sand_02);
                 box.getProps().setPROPERTY_ITEM_TAG("sand_02");
 
@@ -445,7 +443,7 @@ public class EnvironmentUtil {
                 str.setTranslateIndependent(xCurrent * getBlockDim(), getClosestGroundLevel(pos, true), zCurrent * getBlockDim());
             }
         } else {
-
+            // TODO
         }
     }
 

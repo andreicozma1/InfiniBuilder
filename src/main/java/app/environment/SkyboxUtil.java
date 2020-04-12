@@ -234,10 +234,8 @@ public class SkyboxUtil {
         // complement to the offset set on the sun.
         // this way, we check if the sun has already set, if so, we subtract the multiplier from the sun and multiply by 2
         // to achieve a value from 0 to 1 which we will use for calculating the intensity of the moon light
-        // TODO? use the .5 as a variable multiplier?
         if (sin >= sun_offset_ratio) {
             sin -= sun_offset_ratio;
-//            sin *= (1/sun_offset);
             if (sky_color == null) {
                 ambient.setColor(Color.rgb((int)(defaultAmbientColor.getRed() * 255 - 60 * sin),(int)(defaultAmbientColor.getGreen()*255 - 60 * sin),(int)(defaultAmbientColor.getBlue()*255 - 60 * sin)));
                 moonlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (mooncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (mooncolor.getGreen() * sin * 255))), (int) (sin * (sunset_color.getBlue() * (1 - sin) * 255) + (mooncolor.getBlue() * sin * 255))));
