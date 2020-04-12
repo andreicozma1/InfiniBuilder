@@ -632,8 +632,8 @@ public class MenuUtil {
         worldHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_world_height_mult += 5;
-                        if (curr_world_height_mult > 35) curr_world_height_mult = 0;
+                        curr_world_height_mult += 10;
+                        if (curr_world_height_mult > 100) curr_world_height_mult = 0;
                         worldHeightMult.setText((int) curr_world_height_mult + " blocks");
                         context.getComponents().getEnvironment().setTerrainHeightMultiplier(curr_world_height_mult);
                     }
