@@ -42,7 +42,7 @@ public class PlayerUtil {
     boolean canJump = true;
     boolean isRunning = false;
     boolean isCrouching = false;
-    boolean isCrouchToggle = false;
+    private boolean isCrouchToggle = false;
     boolean isOnGround = true;
     boolean isFlyMode = false;
     private double POSITION_X = 0;
