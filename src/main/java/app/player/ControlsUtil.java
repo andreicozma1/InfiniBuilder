@@ -110,6 +110,7 @@ public class ControlsUtil {
                     context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
                 }
                 else {
+                    ((Crosshair)context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
                     ((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).setPaused(!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused());
                 }
             }

@@ -11,7 +11,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class InterfaceBuilder extends Parent {
-    public Group group;
+    private Group group;
 
     public InterfaceBuilder() {
         group = new Group();

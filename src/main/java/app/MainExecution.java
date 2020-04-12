@@ -48,7 +48,7 @@ public class MainExecution extends Application {
         PathUtil path = new PathUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1,  ResourcesUtil.moon);
         path.setShortestPathMaterial(ResourcesUtil.red);
         SpawnableStructureItem pathItem = new SpawnableStructureItem(path, "Path", ResourcesUtil.purple, game.getComponents().getEnvironment().getBlockDim());
-        PathUtil path2 = new PathUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 40, 3,  ResourcesUtil.moon);
+        PathUtil path2 = new PathUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 20, 3,  ResourcesUtil.moon);
         path2.setShortestPathMaterial(ResourcesUtil.red);
         SpawnableStructureItem path2Item = new SpawnableStructureItem(path2, "Path2", ResourcesUtil.green, game.getComponents().getEnvironment().getBlockDim());
 
@@ -84,9 +84,7 @@ public class MainExecution extends Application {
         funct.addVariable(v2);
         grapher.addFunction(funct);
 
-        SpawnableStructureItem grapherItem = new SpawnableStructureItem(grapher,"line",ResourcesUtil.black,game.getComponents().getEnvironment().getBlockDim());
-
-
+        SpawnableStructureItem grapherItem = new SpawnableStructureItem(grapher,"grapher",ResourcesUtil.black,game.getComponents().getEnvironment().getBlockDim());
 
         game.getComponents().getPlayer().getInventory().addItem(4, grass, 40);
         game.getComponents().getPlayer().getInventory().addItem(dirt, 15);

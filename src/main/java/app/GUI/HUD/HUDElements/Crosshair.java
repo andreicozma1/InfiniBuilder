@@ -135,6 +135,7 @@ public class Crosshair extends HUDElement {
      */
     public void update() {
         getGroup().getChildren().clear();
+
         // declare variables
         double x;
         double y;

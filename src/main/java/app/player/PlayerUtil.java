@@ -1,5 +1,6 @@
 package app.player;
 
+import app.GUI.HUD.HUDElements.Crosshair;
 import app.GUI.HUD.HUDElements.DeathMenu;
 import app.GUI.HUD.HUDElements.StatusBar;
 import app.GUI.HUD.HUDUtil;
@@ -538,6 +539,7 @@ public class PlayerUtil {
     public void die() {
         Log.p(TAG, "die()");
         ((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).setDead(true);
+        ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
         context.getComponents().getHUD().getElement(HUDUtil.DEATH).update();
     }
 

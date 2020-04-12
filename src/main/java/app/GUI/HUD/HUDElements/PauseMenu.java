@@ -86,6 +86,7 @@ public class PauseMenu extends HUDElement {
 
     public void update() {
         getGroup().getChildren().clear();
+        pause.getGroup().getChildren().clear();
 
         if (isPaused) {
             double x = getPos().getX();
@@ -98,6 +99,7 @@ public class PauseMenu extends HUDElement {
 
             // draw black backdrop
             Rectangle backdrop = pause.drawRectangle((float) x, (float) y, width, height, 0, 0, Color.BLACK);
+            backdrop.setOpacity(.75);
             backdrop.setStroke(Color.WHITE);
             backdrop.setStrokeWidth(4);
 
