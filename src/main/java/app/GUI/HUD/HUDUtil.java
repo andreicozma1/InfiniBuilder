@@ -29,7 +29,7 @@ public class HUDUtil {
     public static final String EDGE_TOP = "edge_top";
     public static final String EDGE_LEFT = "edge_left";
     public static final String EDGE_RIGHT = "edge_right";
-    private static final String TAG = "HudUtil";
+    private static final String TAG = "HUDUtil";
     private final SubScene subScene;
     private final Group HUDGroup = new Group();
     private final Map<String, HUDElement> elements = new HashMap<>();

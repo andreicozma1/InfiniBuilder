@@ -8,8 +8,6 @@ import javafx.application.Application;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-import static app.utils.ResourcesUtil.world_types_sorted;
-
 
 public class MainExecution extends Application {
 
@@ -118,8 +116,8 @@ public class MainExecution extends Application {
     }
 
     public void addAllBlocks(){
-        for(String type: ResourcesUtil.world_types.keySet()){
-            Base_Cube cb = new Base_Cube(type, ResourcesUtil.world_types.get(type), GAME.getComponents().getEnvironment().getBlockDim());
+        for(String type: ResourcesUtil.MAP_ALL_MATERIALS.keySet()){
+            Base_Cube cb = new Base_Cube(type, ResourcesUtil.MAP_ALL_MATERIALS.get(type), GAME.getComponents().getEnvironment().getBlockDim());
             GAME.getComponents().getPlayer().getInventory().addItem(cb, 50);
         }
     }

@@ -691,17 +691,17 @@ public class MenuUtil {
 
         Text worldTypeArrow = environmentMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text worldTypeText = environmentMenu.drawText("./World_Type", 95, 240, Color.WHITE, options);
-        Text worldTypeChoice = environmentMenu.drawText(ResourcesUtil.world_types_sorted.get(curr_world_type), 550, 240, Color.WHITE, options);
+        Text worldTypeChoice = environmentMenu.drawText(ResourcesUtil.MAP_ALL_MATERIALS_SORTED.get(curr_world_type), 550, 240, Color.WHITE, options);
         Rectangle worldTypeHitBox = environmentMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
         worldTypeHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_world_type++;
-                        if (curr_world_type == ResourcesUtil.world_types_sorted.size()) curr_world_type = 0;
-                        String world_type = ResourcesUtil.world_types_sorted.get(curr_world_type);
+                        if (curr_world_type == ResourcesUtil.MAP_ALL_MATERIALS_SORTED.size()) curr_world_type = 0;
+                        String world_type = ResourcesUtil.MAP_ALL_MATERIALS_SORTED.get(curr_world_type);
                         worldTypeChoice.setText(world_type);
-                        System.out.println(world_type + " " + ResourcesUtil.world_types.get(world_type));
-                        context.getComponents().getEnvironment().setTerrainBlockType(ResourcesUtil.world_types.get(world_type));
+                        System.out.println(world_type + " " + ResourcesUtil.MAP_ALL_MATERIALS.get(world_type));
+                        context.getComponents().getEnvironment().setTerrainBlockType(ResourcesUtil.MAP_ALL_MATERIALS.get(world_type));
                     }
                 });
         worldTypeHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,

@@ -10,8 +10,6 @@ import java.util.*;
 public class ResourcesUtil {
     private static final String TAG = "ResourcesUtil";
 
-    public static List<String> world_types_sorted;
-
     public static PhongMaterial asphalt_01;
     public static PhongMaterial brick_01;
     public static PhongMaterial dirt_01;
@@ -61,15 +59,17 @@ public class ResourcesUtil {
     public static PhongMaterial water;
     public static PhongMaterial metal;
     public static PhongMaterial grass;
-    public static Map<String, PhongMaterial> world_types;
+    public static Map<String, PhongMaterial> MAP_ALL_MATERIALS;
+    public static List<String> MAP_ALL_MATERIALS_SORTED;
     Application context;
 
+    // TODO - Rewrite this class so that all textures are automatically read in to a hash-map upon load of the game
     public ResourcesUtil(Application app) {
         Log.p(TAG, "CONSTRUCTOR");
 
         context = app;
         setupMaterials();
-        world_types = new HashMap<>() {
+        MAP_ALL_MATERIALS = new HashMap<>() {
             {
                 put("Default", null);
 
@@ -136,11 +136,15 @@ public class ResourcesUtil {
 
             }
         };
-        world_types_sorted = new ArrayList<>(world_types.keySet());
-        Collections.sort(world_types_sorted);
+        Log.p(TAG,"Created MAP_ALL_MATERIALS");
+        MAP_ALL_MATERIALS_SORTED = new ArrayList<>(MAP_ALL_MATERIALS.keySet());
+        Collections.sort(MAP_ALL_MATERIALS_SORTED);
+        Log.p(TAG,"Sorted MAP_ALL_MATERIALS_SORTED");
+
     }
 
     public void setupMaterials() {
+        Log.p(TAG,"setupMaterials()");
 
         asphalt_01 = new PhongMaterial();
         asphalt_01.setDiffuseMap(getImage("/textures/asphalt_01/asphalt01.jpg"));

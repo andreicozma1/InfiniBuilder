@@ -77,7 +77,7 @@ public class TDModelUtil {
             for (File file : list_of_files) {
                 File[] list_of_files1 = file.listFiles();
                 for (File file1 : list_of_files1) {
-                    System.out.println(file1.getAbsolutePath());
+                    Log.p(TAG, "Found model at: " + file1.getAbsolutePath());
                     resources.put(file1.getName(), file1);
                 }
             }

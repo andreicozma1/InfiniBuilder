@@ -45,7 +45,7 @@ public class ControlsUtil {
         game_scene.setOnScroll(scrollEvent -> {
             if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
 
-                System.out.println("setOnScroll " + scrollEvent.getTextDeltaY());
+                Log.p(TAG,"setOnScroll " + scrollEvent.getTextDeltaY());
 
                 if (scrollEvent.getDeltaY() > 0) {
                     context.getComponents().getPlayer().setInventoryIndexOffset(1);
@@ -56,7 +56,8 @@ public class ControlsUtil {
                 if(((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()){
                     ((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).update();
                 }
-                System.out.println("onScroll() " + ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
+                L.p("onScroll() " + ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
+
             }
         });
 
@@ -67,7 +68,7 @@ public class ControlsUtil {
         game_scene.setOnMousePressed(event -> {
             if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
 
-                System.out.println("setOnMousePressed " + event.getButton());
+                Log.p(TAG,"setOnMousePressed " + event.getButton());
                 switch (event.getButton()) {
                     case SECONDARY:
                         context.getComponents().getPlayer().placeObject();
@@ -82,7 +83,7 @@ public class ControlsUtil {
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
                 if (!pressed.contains(event.getCode())) {
-                    System.out.println("KEY_PRESSED " + event.getCode());
+                    Log.p(TAG,"KEY_PRESSED " + event.getCode());
                     pressed.add(event.getCode());
                 }
                 switch (event.getCode()) {
@@ -123,7 +124,7 @@ public class ControlsUtil {
 
                 if (pressed.contains(event.getCode())) {
                     pressed.remove(event.getCode());
-                    System.out.println("KEY_RELEASED " + event.getCode());
+                    Log.p(TAG,"KEY_RELEASED " + event.getCode());
 
                     // Handle changing inventory spot with number keys
                     if (event.getCode().toString().toLowerCase().contains("digit")) {

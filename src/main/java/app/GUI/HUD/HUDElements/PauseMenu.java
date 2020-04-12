@@ -118,9 +118,11 @@ public class PauseMenu extends HUDElement {
 
             //**************************************************************************\
             // RESUME GAME
+
             Text returnArrow = pause.drawText(singleArrow, x + 20, y + 80, GREEN, pauseText);
-            Text returnText = pause.drawText("./Return_To_Game", x + 45, y + 80, Color.WHITE, pauseText);
+            Text returnText = pause.drawText("./Resume", x + 45, y + 80, Color.WHITE, pauseText);
             Rectangle returnHitBox = pause.drawRectangle(x, y + 65, width, 20, 0, 0, Color.TRANSPARENT);
+
             returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
@@ -174,9 +176,11 @@ public class PauseMenu extends HUDElement {
 
             //**************************************************************************\
             // GOTO MAIN MENU
+
             Text mainMenuArrow = pause.drawText(singleArrow, x + 20, y + 140, GREEN, pauseText);
-            Text mainMenuText = pause.drawText("./Exit_To_Main_Menu", x + 45, y + 140, Color.WHITE, pauseText);
+            Text mainMenuText = pause.drawText("./Quit", x + 45, y + 140, Color.WHITE, pauseText);
             Rectangle mainMenuHitBox = pause.drawRectangle(x, y + 125, width, 20, 0, 0, Color.TRANSPARENT);
+
             mainMenuHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent me) {
