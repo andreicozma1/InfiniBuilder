@@ -286,6 +286,7 @@ public class PlayerUtil {
             val *= (EnvironmentUtil.WATER_DRAG_COEFFICIENT);
         }
 
+
         double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(), true);
 
         // Player Y being smaller than ground level means the player is above ground. Up is -Y axis
@@ -301,7 +302,6 @@ public class PlayerUtil {
                 isOnGround = false;
             }
             if (!isOnGround && !isRunning && !isFlyMode && !isUnderWater) {
-//                Log.p(TAG, "moveDown() -> Falling at speed " + val);
                 if (context.getComponents().getCamera().getCamera().getFieldOfView() < 100) {
                     context.getComponents().getCamera().getCamera().setFieldOfView(context.getComponents().getCamera().getFOVdefault() + val * 5);
                     if (context.getEffects().getMotionBlurEnabled()) {
@@ -312,8 +312,8 @@ public class PlayerUtil {
 
         } else if (getPositionYnoHeight() != ground_level) {
             if (!isOnGround && !isFlyMode) {
-                if (val > 7) {
-                    takeDamage(val * 8);
+                if (val > 8) {
+                    takeDamage((val-8) * 8);
                 }
             }
 
