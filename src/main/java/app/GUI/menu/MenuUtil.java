@@ -38,6 +38,7 @@ public class MenuUtil {
     private final Font title = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR, 30);
     private final Font options = Font.font("Monospaced", FontWeight.NORMAL, FontPosture.REGULAR, 25);
     private final Color GREEN = Color.valueOf("#20C20E");
+    private final boolean is_ext_inventory_toggle;
     public HashMap<String, Group> menuGroupMap = new HashMap<>();
     // class variables
     Scene SCENE_MENU;
@@ -77,7 +78,6 @@ public class MenuUtil {
     private double curr_jump_height;
     private double curr_run_speed;
     private double curr_jump_cut_off_height;
-    private boolean is_ext_inventory_toggle;
     // camera settings
     private int curr_fov_default;
     private double curr_fov_running;
@@ -147,7 +147,7 @@ public class MenuUtil {
         curr_brightness = context.getEffects().getBrightness();
 
         // hud settings defaults
-        is_ext_inventory_toggle = ((Inventory)context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isToggle();
+        is_ext_inventory_toggle = ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isToggle();
 
 
         // build each menu
@@ -173,7 +173,7 @@ public class MenuUtil {
         addGroup(GROUP_ABOUT, aboutMenu.getGroup());
         addGroup(GROUP_CONTROLS, aboutMenu.getGroup());
         addGroup(GROUP_GRAPHICS, graphicsMenu.getGroup());
-        addGroup(GROUP_HUD,hudMenu.getGroup());
+        addGroup(GROUP_HUD, hudMenu.getGroup());
 
         setControlScheme();
     }
@@ -240,7 +240,6 @@ public class MenuUtil {
                         context.getComponents().getEnvironment().reset();
                         context.getWindow().showScene(context.getWindow().getRootScene());
                         context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
-
                     }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1594,7 +1593,7 @@ public class MenuUtil {
                 });
     }
 
-    public void buildHUDMenu(){
+    public void buildHUDMenu() {
         // draw black backdrop
         hudMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 

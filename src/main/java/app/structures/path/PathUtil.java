@@ -18,15 +18,15 @@ import java.util.List;
 public class PathUtil implements SpawnableStructure {
     public final static String TAG = "PathUtil";
 
-    private int pathRows;
-    private int pathCols;
-    private int pathWidth;
+    private final int pathRows;
+    private final int pathCols;
+    private final int pathWidth;
+    private final double cellDim;
+    private final Material pathMaterial;
     private int startLoc;
     private int endLoc;
-    private double cellDim;
     private boolean findShortestPath;
     private Long seed = null;
-    private Material pathMaterial;
     private Material shortestPathMaterial;
     private List<Integer> path;
     private MazeGenerator mazeGenerator;
@@ -81,7 +81,7 @@ public class PathUtil implements SpawnableStructure {
 
     @Override
     public void build(GameBuilder context) {
-        Point2D pos = context.getComponents().getPlayer().getPoint2D();
+        Point2D pos = context.getComponents().getPlayer().getPlayerPoint2D();
         double startingX = pos.getX();
         double startingZ = pos.getY();
         int i, j, mi, mj;

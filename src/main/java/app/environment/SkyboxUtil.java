@@ -40,6 +40,7 @@ public class SkyboxUtil {
     private final Rotate clouds_rotate_z;
     private final double clouds_height;
     public double planet_diameter = 8000;
+    public Color sky_color = null;
     Color suncolor;
     Color dayskycolor;
     Color sunset_color;
@@ -59,6 +60,10 @@ public class SkyboxUtil {
      */
 
     private double fixed_time = -1; // set as default to -1 to track whether the user set it manually
+    private boolean clouds_enabled;
+    private boolean planets_enabled;
+
+    Color defaultAmbientColor;
 
     /**
      * Constructor for SkyboxUtil. This initializes
@@ -72,9 +77,8 @@ public class SkyboxUtil {
         group_skybox = new Group();
         MODE_CURR = MODE_CYCLE;
 
-        AmbientLight amb = new AmbientLight();
-        amb.setColor(Color.rgb(100, 100, 100));
-        setAmbientLight(amb);
+        setAmbientLight(new AmbientLight());
+        setDefaultAmbientColor(Color.rgb(100,100,100));
 
         sunset_color = Color.rgb(253, 94, 83);
 
@@ -94,7 +98,7 @@ public class SkyboxUtil {
         clouds_rotate_y = new Rotate(0, new Point3D(0, 1, 0));
         clouds_rotate_z = new Rotate(0, new Point3D(0, 0, 1));
         clouds.getTransforms().setAll(clouds_rotate_x, clouds_rotate_y, clouds_rotate_z);
-
+        setShouldHaveClouds(true);
 
         big_star = new Sphere();
         big_star.setMaterial(ResourcesUtil.big_star);
@@ -103,7 +107,6 @@ public class SkyboxUtil {
         big_star_rotate = new Rotate(0, new Point3D(0, 1, 0));
         big_star.getTransforms().setAll(big_star_rotate);
 
-
         moon = new Sphere();
         moonlight = new PointLight();
         moonlight.setDepthTest(DepthTest.ENABLE);
@@ -111,10 +114,9 @@ public class SkyboxUtil {
         setMoonDistance(planet_diameter + 3000);
         setMoonMaterial(ResourcesUtil.moon);
         setMoonlightColor(Color.rgb(20, 20, 60));
-        setNightSkyColor(Color.rgb(10, 10, 35));
+        setNightSkyColor(Color.rgb(8, 8, 30));
         moon_rotate = new Rotate(0, new Point3D(0, 1, 0));
         moon.getTransforms().setAll(moon_rotate);
-
 
         sun = new Sphere();
         sunlight = new PointLight();
@@ -127,6 +129,7 @@ public class SkyboxUtil {
         sun_rotate = new Rotate(0, new Point3D(0, 1, 0));
         sun.getTransforms().setAll(sun_rotate);
 
+        setShouldHavePlanets(true);
 
         group_skybox.getChildren().addAll(sun, sunlight, moon, moonlight, big_star, clouds);
     }
@@ -156,14 +159,6 @@ public class SkyboxUtil {
         rotateClouds();
     }
 
-    private void rotateClouds() {
-        clouds.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
-        clouds.setTranslateZ(context.context.getComponents().getPlayer().getPositionZ());
-
-        clouds_rotate_z.setAngle(clouds_rotate_z.getAngle() + clouds_rotate_speed);
-        clouds_rotate_y.setAngle(clouds_rotate_y.getAngle() + clouds_rotate_speed);
-    }
-
     private void rotateSun(double time, double dist) {
         double sin = Math.sin(time);
         double sindist = sin * dist;
@@ -184,8 +179,13 @@ public class SkyboxUtil {
                 sin = 1;
             }
 //            System.out.println(sin);
-            sunlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (suncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (suncolor.getGreen() * sin * 255))), (int) (sin * ((sunset_color.getBlue() * (1 - sin) * 255) + (suncolor.getBlue() * sin * 255)))));
-            context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (dayskycolor.getBlue() * sin * 255))));
+            if (sky_color == null) {
+                sunlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (suncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (suncolor.getGreen() * sin * 255))), (int) (sin * ((sunset_color.getBlue() * (1 - sin) * 255) + (suncolor.getBlue() * sin * 255)))));
+                context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (dayskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (dayskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (dayskycolor.getBlue() * sin * 255))));
+            } else {
+                sunlight.setColor(sky_color);
+                context.context.getWindow().getGameSubscene().setFill(sky_color);
+            }
         } else {
             sunlight.setColor(Color.rgb(0, 0, 0));
         }
@@ -204,6 +204,13 @@ public class SkyboxUtil {
         sun_rotate.setAngle(sun_rotate.getAngle() + sun_rotation_speed);
     }
 
+    private void rotateClouds() {
+        clouds.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
+        clouds.setTranslateZ(context.context.getComponents().getPlayer().getPositionZ());
+
+        clouds_rotate_z.setAngle(clouds_rotate_z.getAngle() + clouds_rotate_speed);
+        clouds_rotate_y.setAngle(clouds_rotate_y.getAngle() + clouds_rotate_speed);
+    }
 
     private void rotateBigStar(double time, double dist) {
         double sin = Math.sin(time);
@@ -230,8 +237,16 @@ public class SkyboxUtil {
         if (sin >= sun_offset_ratio) {
             sin -= sun_offset_ratio;
 //            sin *= (1/sun_offset);
-            moonlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (mooncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (mooncolor.getGreen() * sin * 255))), (int) (sin * (sunset_color.getBlue() * (1 - sin) * 255) + (mooncolor.getBlue() * sin * 255))));
-            context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (nightskycolor.getBlue() * sin * 255))));
+            if (sky_color == null) {
+                System.out.println(defaultAmbientColor.getRed() * 255 - 80 * sin);
+                ambient.setColor(Color.rgb((int)(defaultAmbientColor.getRed() * 255 - 80 * sin),(int)(defaultAmbientColor.getGreen()*255 - 80 * sin),(int)(defaultAmbientColor.getBlue()*255 - 80 * sin)));
+                moonlight.setColor(Color.rgb((int) (sin * ((sunset_color.getRed() * (1 - sin) * 255) + (mooncolor.getRed() * sin * 255))), (int) (sin * ((sunset_color.getGreen() * (1 - sin) * 255) + (mooncolor.getGreen() * sin * 255))), (int) (sin * (sunset_color.getBlue() * (1 - sin) * 255) + (mooncolor.getBlue() * sin * 255))));
+                context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((sunset_color.getRed() * (1 - sin) * 255) + (nightskycolor.getRed() * sin * 255)), (int) ((sunset_color.getGreen() * (1 - sin) * 255) + (nightskycolor.getGreen() * sin * 255)), (int) ((sunset_color.getBlue() * (1 - sin) * 255) + (nightskycolor.getBlue() * sin * 255))));
+            } else {
+                sunlight.setColor(sky_color);
+                context.context.getWindow().getGameSubscene().setFill(sky_color);
+            }
+
         } else {
             moonlight.setColor(Color.rgb(0, 0, 0));
         }
@@ -422,4 +437,65 @@ public class SkyboxUtil {
         }
     }
 
+    // these functions are used to set the current status of the clouds
+    public boolean getCloudsVisibile() {
+        return clouds.getOpacity() == 1;
+    }
+
+    public void setCloudsVisible(boolean val) {
+        if (val) {
+            clouds.setOpacity(1);
+        } else {
+            clouds.setOpacity(0);
+        }
+    }
+
+
+    // these functions are used to globally enable or disable clouds;
+    public boolean getShouldHaveClouds() {
+        return clouds_enabled;
+    }
+
+    public void setShouldHaveClouds(boolean val) {
+        setCloudsVisible(val);
+        clouds_enabled = val;
+    }
+
+
+    // these functions are used to set the current status of the planets
+    public boolean getPlanetsVisible() {
+        return sun.getOpacity() == 1;
+    }
+
+    public void setPlanetsVisible(boolean val) {
+        if (val) {
+            sun.setOpacity(1);
+            moon.setOpacity(1);
+            big_star.setOpacity(1);
+
+        } else {
+            sun.setOpacity(0);
+            moon.setOpacity(0);
+            big_star.setOpacity(0);
+
+        }
+    }
+
+    // these functions are used to globally enable or disable planets;
+    public boolean getShouldHavePlanets() {
+        return planets_enabled;
+    }
+
+    public void setShouldHavePlanets(boolean val) {
+        setPlanetsVisible(val);
+        planets_enabled = val;
+    }
+
+    public Color getDefaultAmbientColor() {
+        return defaultAmbientColor;
+    }
+
+    public void setDefaultAmbientColor(Color defaultAmbientColor) {
+        this.defaultAmbientColor = defaultAmbientColor;
+    }
 }

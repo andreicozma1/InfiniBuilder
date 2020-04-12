@@ -25,7 +25,7 @@ public class InventoryUtil {
         this.inventorySize = inventorySize;
 
         // set the inventory items to all empty items
-        inventory = new ArrayList<Base_Structure>(inventorySize);
+        inventory = new ArrayList<>(inventorySize);
         for (int i = 0; i < inventorySize; i++) {
             inventory.add(i, new Base_Structure());
         }
@@ -114,7 +114,7 @@ public class InventoryUtil {
     }
 
     public Base_Structure getCurrentItem() {
-        return currentItem;
+        return inventory.get(currentIndex);
     }
 
     // --------------------------------------------------------------------------------------------

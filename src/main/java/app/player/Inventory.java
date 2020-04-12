@@ -45,9 +45,9 @@ public class Inventory extends HUDElement {
     private final double screenWidth;
     private final double screenHeight;
     public GameBuilder context;
+    public double totalHeight;
     private int selected = -1;
     private double totalWidth;
-    public double totalHeight;
     private boolean isVertical = false;
     private boolean displayNumbers = false;
     private boolean isExtendedInventoryDisplayed = false;
@@ -171,9 +171,13 @@ public class Inventory extends HUDElement {
         }
     }
 
-    public boolean isToggle() { return isToggle; }
+    public boolean isToggle() {
+        return isToggle;
+    }
 
-    public void setToggle(boolean toggle) { isToggle = toggle; }
+    public void setToggle(boolean toggle) {
+        isToggle = toggle;
+    }
 
     public boolean isDisplayNumbers() {
         return displayNumbers;
@@ -254,8 +258,6 @@ public class Inventory extends HUDElement {
         for (i = 0; i < slotsDisplayed; i++) {
             Rectangle slotBackdrop = new Rectangle();
 
-            System.out.println("INVENTORY UPDATE: " + inventoryUtil.getItem(i).getWidth());
-
             // calculate start of the inventory box
             double currSlotY;
             double currSlotX;
@@ -282,12 +284,13 @@ public class Inventory extends HUDElement {
 
             if (inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
                 // draw each item
-                Group item = StructureBuilder.resolve(inventoryUtil.getItem(i));
+                Group item = inventoryUtil.getItem(i);
                 item.setTranslateX(currSlotX + (slotWidth / 2.0));
                 item.setTranslateY(currSlotY + (slotHeight / 2.0));
-                item.setScaleX(slotWidth / 2);
-                item.setScaleY(slotWidth / 2);
-                item.setScaleZ(slotWidth / 2);
+
+                item.maxWidth(slotWidth);
+                item.maxHeight(slotHeight);
+
                 item.getTransforms().setAll(new Rotate(25, Rotate.X_AXIS), new Rotate(25, Rotate.Y_AXIS));
                 item.toFront();
                 getGroup().getChildren().add(item);
@@ -347,14 +350,15 @@ public class Inventory extends HUDElement {
                 slotBackdrop.setStroke(borderColor);
                 getGroup().getChildren().add(slotBackdrop);
 
-                if (inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
+                if (!inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG().equals(StructureBuilder.UNDEFINED_TAG)) {
                     // draw each item
-                    Group item = StructureBuilder.resolve(inventoryUtil.getItem(i));
+                    Group item = inventoryUtil.getItem(i);
                     item.setTranslateX(currSlotX + (slotWidth / 2.0));
                     item.setTranslateY(currSlotY + (slotHeight / 2.0));
-                    item.setScaleX(slotWidth / 2);
-                    item.setScaleY(slotWidth / 2);
-                    item.setScaleZ(slotWidth / 2);
+
+                    item.maxWidth(slotWidth);
+                    item.maxHeight(slotHeight);
+
                     item.getTransforms().setAll(new Rotate(25, Rotate.X_AXIS), new Rotate(25, Rotate.Y_AXIS));
                     item.toFront();
                     getGroup().getChildren().add(item);

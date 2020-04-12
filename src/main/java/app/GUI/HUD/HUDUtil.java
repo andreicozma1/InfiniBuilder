@@ -30,11 +30,11 @@ public class HUDUtil {
     public static final String EDGE_LEFT = "edge_left";
     public static final String EDGE_RIGHT = "edge_right";
     private static final String TAG = "HudUtil";
-    private boolean isShown = true;
     private final SubScene subScene;
     private final Group HUDGroup = new Group();
     private final Map<String, HUDElement> elements = new HashMap<>();
     public GameBuilder context;
+    private boolean isShown = true;
 
     public HUDUtil(GameBuilder ctx) {
         Log.p(TAG, "CONSTRUCTOR");
@@ -42,13 +42,13 @@ public class HUDUtil {
         subScene = new SubScene(HUDGroup, ctx.getWindow().getWindowWidth(), ctx.getWindow().getWindowHeight());
     }
 
-    public void toggleHUD(){
-        if(isShown){
+    public void toggleHUD() {
+        if (isShown) {
             HUDGroup.getChildren().clear();
-        }else{
+        } else {
             drawHUD();
         }
-        isShown=!isShown;
+        isShown = !isShown;
     }
 
     public Group getHUDGroup() {
@@ -131,14 +131,14 @@ public class HUDUtil {
         this.addElement(stamina);
 
 
-        StatusBar hunger = new StatusBar(   HUDUtil.HUNGER,
-                new Point2D(stamina_pos,context.getWindow().getWindowHeight() - 72 - 12),
+        StatusBar hunger = new StatusBar(HUDUtil.HUNGER,
+                new Point2D(stamina_pos, context.getWindow().getWindowHeight() - 72 - 12),
                 100,
                 bar_width,
                 bar_height,
                 Color.BLUE,
                 Color.DARKGRAY);
-        hunger.setColorInterpolation(Color.GREEN,Color.RED);  // (full color, empty color)
+        hunger.setColorInterpolation(Color.GREEN, Color.RED);  // (full color, empty color)
         hunger.setBorder(true);
         hunger.setBorderWidth(1);
         hunger.setVertical(false);
@@ -151,14 +151,14 @@ public class HUDUtil {
         int temp_width = 125;
         int temp_height = 5;
         // this is here as an example of how to use the setColorInterpolation
-        StatusBar temperature = new StatusBar(   HUDUtil.TEMPERATURE,
-                new Point2D(context.getWindow().getWindowWidth() - temp_width - 15,5),
+        StatusBar temperature = new StatusBar(HUDUtil.TEMPERATURE,
+                new Point2D(context.getWindow().getWindowWidth() - temp_width - 15, 5),
                 100,
                 temp_width,
                 temp_height,
                 Color.BLUE,
                 Color.DARKGRAY);
-        temperature.setColorInterpolation(Color.RED,Color.BLUE);  // (full color, empty color)
+        temperature.setColorInterpolation(Color.RED, Color.BLUE);  // (full color, empty color)
         temperature.setCurrStatus(90);
         temperature.setVertical(false);
         temperature.setBorder(true);

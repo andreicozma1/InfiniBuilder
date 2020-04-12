@@ -3,6 +3,7 @@ package app.structures;
 import app.environment.EnvironmentUtil;
 import app.player.AbsolutePoint3D;
 import app.structures.objects.Base_Cube;
+import app.structures.objects.Base_Sphere;
 import app.structures.objects.Base_Structure;
 import javafx.scene.Group;
 import javafx.scene.paint.Material;
@@ -32,8 +33,10 @@ public abstract class StructureBuilder extends Group implements Interactable {
 
         switch (orig.getProps().getPROPERTY_OBJECT_TYPE()) {
             case OBJECT_TYPE_CUBE:
-                Base_Cube cube = new Base_Cube(orig.getProps().getPROPERTY_ITEM_TAG(), orig.getShape().getMaterial(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
-                result = cube;
+                result = new Base_Cube(orig.getProps().getPROPERTY_ITEM_TAG(), orig.getShape().getMaterial(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
+                break;
+            case OBJECT_TYPE_SPHERE:
+                result = new Base_Sphere(orig.getProps().getPROPERTY_ITEM_TAG(), orig.getShape().getMaterial(), orig.getScaleX());
                 break;
         }
         result.setProps(orig.getProps());

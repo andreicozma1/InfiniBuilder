@@ -224,8 +224,8 @@ public class GameBuilder {
             GAME_COMPONENTS = this;
             setCamera(new CameraUtil(ctx));
             setGameSceneControls(new ControlsUtil(ctx));
-            setPlayer(new PlayerUtil(ctx));
             setEnvironment(new EnvironmentUtil(ctx));
+            setPlayer(new PlayerUtil(ctx));
             setHUD(new HUDUtil(ctx));
             setMenu(new MenuUtil(ctx));
             UTIL_HUD.drawHUD();

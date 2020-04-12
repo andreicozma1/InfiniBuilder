@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Function {
-    private List<Variable> variables;
+    private final List<Variable> variables;
 
     public Function() {
         variables = new ArrayList<>();

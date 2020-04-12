@@ -55,12 +55,14 @@ public class Base_Projectile extends Base_Structure {
                     posz += initialVel * Math.cos(startrotX) * Math.cos(startrotY);
                     object.setTranslateIndependent(posx, posy, posz);
 
-                    if (posy > context.getClosestGroundLevel(new AbsolutePoint3D(posx, posy, posz), true) - context.getBlockDim() / 2.0 - object.getHeight() / 2) {
+                    double ground = context.getClosestGroundLevel(new AbsolutePoint3D(posx, posy, posz), true) - context.getBlockDim() / 2.0 - object.getHeight() / 2;
+                    if (posy > ground) {
                         isOnGround = true;
+                        posy = ground;
                         onGroundTimestamp = context.context.time_current;
                     }
                 } else {
-                    if ((context.context.time_current - onGroundTimestamp) / 1000 > 10) {
+                    if ((context.context.time_current - onGroundTimestamp) / 1000 > 300) {
                         context.removeFromGroup(EnvironmentUtil.GROUP_OTHER, object);
                         this.stop();
                     }

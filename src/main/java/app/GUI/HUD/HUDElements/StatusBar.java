@@ -139,11 +139,21 @@ public class StatusBar extends HUDElement {
         return isColorInterpolated;
     }
 
-    public boolean isShowing() { return isShowing; }
-    public void toggleStatusBar(){ isShowing = !isShowing; }
+    public boolean isShowing() {
+        return isShowing;
+    }
 
-    public boolean isEmpty() { return isEmpty; }
-    public boolean isFull(){return maxStatus == currStatus;}
+    public void toggleStatusBar() {
+        isShowing = !isShowing;
+    }
+
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
+    public boolean isFull() {
+        return maxStatus == currStatus;
+    }
 
     // setters
     public void setArcWidth(double arcWidth) {

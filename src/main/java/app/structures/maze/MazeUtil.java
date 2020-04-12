@@ -91,7 +91,7 @@ public class MazeUtil implements SpawnableStructure {
         }
 
 
-        Point2D pos = context.getComponents().getPlayer().getPoint2D();
+        Point2D pos = context.getComponents().getPlayer().getPlayerPoint2D();
         double startingX = pos.getX() - (cellDim * cellWidth);
         double startingZ = pos.getY() - (cellDim * cellWidth);
 

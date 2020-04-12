@@ -25,15 +25,18 @@ public class EnvironmentUtil {
     public static final double LIMIT_MIN = 1000;
     public static final double LIMIT_MAX = -1000;
     public static final double GRAVITY = .2;
+    public static final double VELOCITY_TERMINAL = 25;
+    public static final double WATER_DRAG_COEFFICIENT = .1;
+
     private static final String TAG = "EnvironmentUtil";
     public static Group GROUP_WORLD; // CONTAINS TERRAIN, OBJECTS
     public static Group GROUP_TERRAIN;
     public static Group GROUP_OTHER;
     public final Map<Point2D, TreeMap<Integer, Double>> MAP_GENERATED = new HashMap<>();
     public final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
+    public final double PROPERTY_WATER_LEVEL = 303;
     private final TDModelUtil UTIL_MODEL;
     private final int PROPERTY_BLOCK_DIM = 20;
-    private final double PROPERTY_WATER_LEVEL = 303;
     private final double PROPERTY_DESERT_LEVEL_1 = 300;
     private final double PROPERTY_DESERT_LEVEL_2 = 290;
     private final double PROPERTY_DESERT_LEVEL_3 = 125;
@@ -384,11 +387,11 @@ public class EnvironmentUtil {
         MAP_RENDERING.clear();
     }
 
-    private double getSimplexHeight2D(double pollx, double pollz) {
+    public double getSimplexHeight2D(double pollx, double pollz) {
         return UTIL_SIMPLEX.getNoise(pollx, pollz) * UTIL_SIMPLEX_2.getNoise(pollz, pollx) * 5 * PROPERTY_TERRAIN_HEIGHT_MULTIPLIER;
     }
 
-    private double getSimplexHeight3D(double pollx, double polly, double pollz) {
+    public double getSimplexHeight3D(double pollx, double polly, double pollz) {
         return UTIL_SIMPLEX_2.getNoise(pollx, polly, pollz);
     }
 

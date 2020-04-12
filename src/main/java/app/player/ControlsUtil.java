@@ -48,22 +48,13 @@ public class ControlsUtil {
         game_scene.setOnScroll(scrollEvent -> {
             if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
 
-                System.out.println("setOnScroll " + scrollEvent.getDeltaY());
+                System.out.println("setOnScroll " + scrollEvent.getTextDeltaY());
 
                 if (scrollEvent.getDeltaY() > 0) {
-                    ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(-1);
-                    context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                    context.getComponents().getPlayer().setInventoryIndexOffset(1);
                 }
                 if (scrollEvent.getDeltaY() < 0) {
-                    if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed()) {
-                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
-                        context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
-                    } else {
-                        if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex() != ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1) {
-                            ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().moveCurrIndex(1);
-                            context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
-                        }
-                    }
+                    context.getComponents().getPlayer().setInventoryIndexOffset(-1);
                 }
                 System.out.println("onScroll() " + ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentItem().getProps().getPROPERTY_ITEM_TAG());
             }
@@ -101,15 +92,13 @@ public class ControlsUtil {
 
             if (event.getCode() == KeyCode.ESCAPE) {
                 reset();
-                if(((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()){
-                    ((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).toggleItemInfo();
+                if (((ItemInfo) context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()) {
+                    ((ItemInfo) context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).toggleItemInfo();
                     context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO).update();
-                }
-                else if(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed()){
+                } else if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed()) {
                     ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
                     context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
-                }
-                else {
+                } else {
                     ((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).setPaused(!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused());
                 }
             }
@@ -123,10 +112,10 @@ public class ControlsUtil {
                     // Handle changing inventory spot with number keys
                     if (event.getCode().toString().toLowerCase().contains("digit")) {
                         int index = Character.getNumericValue(event.getCode().toString().charAt(event.getCode().toString().length() - 1)) - 1;
-                        System.out.println("HERE " + index);
-
-                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(index);
-                        context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                        if (index == -1) {
+                            index = 9;
+                        }
+                        context.getComponents().getPlayer().setInventoryIndex(index);
                     }
 
                     switch (event.getCode()) {
@@ -151,6 +140,9 @@ public class ControlsUtil {
                                 );
                             }
                             context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                            break;
+                        case T:
+                            context.getComponents().getPlayer().teleportRandom();
                             break;
                         case E:
                             ((ItemInfo) context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).toggleItemInfo();
@@ -212,8 +204,11 @@ public class ControlsUtil {
                         break;
 
                     case SPACE:
+//                        System.out.println(context.getComponents().getPlayer().isUnderWater);
                         if (context.getComponents().getPlayer().isFlyMode) {
                             context.getComponents().getPlayer().moveUp(context.getComponents().getPlayer().PROPERTY_SPEED_FLY * dt);
+                        } else if (context.getComponents().getPlayer().isUnderWater) {
+                            context.getComponents().getPlayer().moveUp(context.getComponents().getPlayer().PROPERTY_SPEED_UP * dt);
                         } else {
                             if (context.getComponents().getPlayer().isOnGround && context.getComponents().getPlayer().canJump) {
                                 context.getComponents().getPlayer().jump();

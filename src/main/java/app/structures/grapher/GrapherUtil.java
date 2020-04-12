@@ -12,15 +12,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GrapherUtil implements SpawnableStructure {
-    private double cellDim;
+    private final double cellDim;
+    private final List<Function> functions = new ArrayList<>();
+    private final List<Material> functMats = new ArrayList<Material>(
+            Arrays.asList(ResourcesUtil.red, ResourcesUtil.blue, ResourcesUtil.green, ResourcesUtil.purple));
+    private final Material axisMaterial;
     private int xAxisSize;
     private int yAxisSize;
     private double xAxisScalePerBlock;
     private double yAxisScalePerBlock;
-    private List<Function> functions = new ArrayList<>();
-    private List<Material> functMats = new ArrayList<Material>(
-        Arrays.asList(ResourcesUtil.red, ResourcesUtil.blue,ResourcesUtil.green,ResourcesUtil.purple));
-    private Material axisMaterial;
 
     public GrapherUtil(double cellDim,
                        int xAxisSize,
@@ -89,14 +89,14 @@ public class GrapherUtil implements SpawnableStructure {
     }
 
     public void addFunction(Function function) {
-        if(functions.size()!=functMats.size()){
+        if (functions.size() != functMats.size()) {
             functions.add(function);
         }
     }
 
     @Override
     public void build(GameBuilder context) {
-        Point2D pos = context.getComponents().getPlayer().getPoint2D();
+        Point2D pos = context.getComponents().getPlayer().getPlayerPoint2D();
         double startingX = pos.getX();
         double startingZ = pos.getY();
         double currZ;
@@ -117,7 +117,7 @@ public class GrapherUtil implements SpawnableStructure {
         // draw x axis
         currX = startingX - xAxisSize * cellDim;
         for (i = -xAxisSize; i < xAxisSize; i++) {
-            if (i!=0) {
+            if (i != 0) {
                 Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                 cube.getShape().setMaterial(axisMaterial);
                 block_map.put(new Point2D(currX, startingZ), cube);
@@ -126,7 +126,7 @@ public class GrapherUtil implements SpawnableStructure {
         }
 
         //draw graph
-        for (i=0;i<functions.size();i++) {
+        for (i = 0; i < functions.size(); i++) {
             for (x = -xAxisSize * xAxisScalePerBlock; x <= xAxisSize * xAxisScalePerBlock; x += xAxisScalePerBlock) {
                 y = functions.get(i).compute(x);
                 System.out.println("F(" + x + ") = " + y);
