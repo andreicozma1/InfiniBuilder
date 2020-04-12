@@ -21,18 +21,17 @@ import java.util.HashMap;
 public class MenuUtil {
 
     public static final String PAUSE = "PAUSE";
-    public static final String MAIN = "MAIN";
     // static strings to access any menu from the menuGroupHashMap
-    public static String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
-    public static String GROUP_CONTROLS = "GROUP_CONTROLS";
-    public static String GROUP_SETTINGS = "GROUP_SETTINGS";
-    public static String GROUP_ENVIRONMENT = "GROUP_ENVIRONMENT";
-    public static String GROUP_SKYBOX = "GROUP_SKYBOX";
-    public static String GROUP_PLAYER = "GROUP_PLAYER";
-    public static String GROUP_CAMERA = "GROUP_CAMERA";
-    public static String GROUP_ABOUT = "GROUP_ABOUT";
-    public static String GROUP_GRAPHICS = "GROUP_GRAPHICS";
-    public static String GROUP_HUD = "GROUP_HUD";
+    public static final String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
+    public static final String GROUP_CONTROLS = "GROUP_CONTROLS";
+    public static final String GROUP_SETTINGS = "GROUP_SETTINGS";
+    public static final String GROUP_ENVIRONMENT = "GROUP_ENVIRONMENT";
+    public static final String GROUP_SKYBOX = "GROUP_SKYBOX";
+    public static final String GROUP_PLAYER = "GROUP_PLAYER";
+    public static final String GROUP_CAMERA = "GROUP_CAMERA";
+    public static final String GROUP_ABOUT = "GROUP_ABOUT";
+    public static final String GROUP_GRAPHICS = "GROUP_GRAPHICS";
+    public static final String GROUP_HUD = "GROUP_HUD";
     private final String singleArrow = ">";
     private final String doubleArrow = ">>";
     private final Font title = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR, 30);
@@ -114,7 +113,7 @@ public class MenuUtil {
 
         SCENE_MENU = new Scene(mainMenu.getGroup(), context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
 
-        settingsReturnState = MAIN;
+        settingsReturnState = GROUP_MAIN_MENU;
 
         // environment settings defaults
         curr_world_height_mult = context.getComponents().getEnvironment().getTerrainHeightMultiplier();
@@ -177,7 +176,6 @@ public class MenuUtil {
         addGroup(GROUP_CAMERA, cameraMenu.getGroup());
         addGroup(GROUP_CONTROLS, controlsMenu.getGroup());
         addGroup(GROUP_ABOUT, aboutMenu.getGroup());
-        addGroup(GROUP_CONTROLS, aboutMenu.getGroup());
         addGroup(GROUP_GRAPHICS, graphicsMenu.getGroup());
         addGroup(GROUP_HUD, hudMenu.getGroup());
 
@@ -188,7 +186,18 @@ public class MenuUtil {
         SCENE_MENU.setOnKeyReleased(keyEvent -> {
             switch (keyEvent.getCode()) {
                 case ESCAPE:
-                    context.getWindow().closeWindow();
+                    if(currentGroup == GROUP_MAIN_MENU) {
+                        context.getWindow().closeWindow();
+                    }else if(currentGroup==GROUP_CAMERA ||
+                            currentGroup==GROUP_ENVIRONMENT ||
+                            currentGroup==GROUP_SKYBOX ||
+                            currentGroup==GROUP_PLAYER ||
+                            currentGroup==GROUP_GRAPHICS ||
+                            currentGroup==GROUP_HUD){
+                        activateGroup(GROUP_SETTINGS);
+                    }else{
+                        activateGroup(GROUP_MAIN_MENU);
+                    }
                     break;
                 case ENTER:
 //                    TODO
@@ -270,7 +279,7 @@ public class MenuUtil {
         settingsHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        setSettingsReturnState(MAIN);
+                        setSettingsReturnState(GROUP_MAIN_MENU);
                         activateGroup(GROUP_SETTINGS);
                     }
                 });
@@ -580,7 +589,7 @@ public class MenuUtil {
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        if (settingsReturnState == MAIN) {
+                        if (settingsReturnState == GROUP_MAIN_MENU) {
                             activateGroup(GROUP_MAIN_MENU);
                         } else {
                             context.getWindow().showScene(context.getWindow().getRootScene());
@@ -1428,7 +1437,7 @@ public class MenuUtil {
                 });
 
         Text tripModeArrow = graphicsMenu.drawText(singleArrow, 50, 240, GREEN, options);
-        Text tripModeText = graphicsMenu.drawText("./Tr", 95, 240, Color.WHITE, options);
+        Text tripModeText = graphicsMenu.drawText("./Trippy", 95, 240, Color.WHITE, options);
         Text tripModeMult = graphicsMenu.drawText(String.valueOf(is_trip_mode), 550, 240, Color.WHITE, options);
         Rectangle tripModeHitBox = graphicsMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
         tripModeHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
