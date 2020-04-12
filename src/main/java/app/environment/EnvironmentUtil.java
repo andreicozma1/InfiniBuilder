@@ -440,9 +440,9 @@ public class EnvironmentUtil {
         if (shouldStack) {
             if (!worldColumn.containsKey(yAbove)) {
                 // insert a block at the y pos in the column
-                str.setTranslateIndependent(xCurrent * getBlockDim(), getClosestGroundLevel(pos, true) - str.getHeight(), zCurrent * getBlockDim());
+                worldColumn.put(yAbove, (getClosestGroundLevel(pos, true) - str.getBoundsInParent().getHeight()) / getBlockDim());
                 MAP_RENDERING.put(new Point3D(xCurrent, yAbove, zCurrent), str);
-                worldColumn.put(yAbove, (getClosestGroundLevel(pos, true) - str.getHeight()) / getBlockDim());
+                str.setTranslateIndependent(xCurrent * getBlockDim(), getClosestGroundLevel(pos, true), zCurrent * getBlockDim());
             }
         } else {
 

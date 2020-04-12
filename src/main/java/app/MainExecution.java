@@ -8,6 +8,8 @@ import javafx.application.Application;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import static app.utils.ResourcesUtil.world_types_sorted;
+
 
 public class MainExecution extends Application {
 
@@ -42,6 +44,7 @@ public class MainExecution extends Application {
         addMazes();
         addPaths();
         addGrapher();
+        addAllBlocks();
 
 //        PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
 //        SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
@@ -112,5 +115,12 @@ public class MainExecution extends Application {
         SpawnableStructureItem grapherItem = new SpawnableStructureItem(grapher, new Base_Cylinder("Grapher",ResourcesUtil.black, rad,height));
 
         GAME.getComponents().getPlayer().getInventory().addItem(grapherItem, 99);
+    }
+
+    public void addAllBlocks(){
+        for(String type: ResourcesUtil.world_types.keySet()){
+            Base_Cube cb = new Base_Cube(type, ResourcesUtil.world_types.get(type), GAME.getComponents().getEnvironment().getBlockDim());
+            GAME.getComponents().getPlayer().getInventory().addItem(cb, 50);
+        }
     }
 }

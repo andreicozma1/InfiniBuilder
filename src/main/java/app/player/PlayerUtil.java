@@ -70,7 +70,7 @@ public class PlayerUtil {
         Log.p(TAG, "CONSTRUCTOR");
 
         context = ctx;
-        UTIL_INVENTORY = new InventoryUtil(this, 50);
+        UTIL_INVENTORY = new InventoryUtil(this, 60);
 
         PLAYER_GROUP = new Group();
         HOLDING_GROUP = new Group();

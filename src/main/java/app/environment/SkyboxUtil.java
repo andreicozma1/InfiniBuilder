@@ -77,7 +77,7 @@ public class SkyboxUtil {
         group_skybox = new Group();
         MODE_CURR = MODE_CYCLE;
 
-        setDefaultAmbientColor(Color.rgb(90,90,90));
+        setDefaultAmbientColor(Color.rgb(100,100,100));
         AmbientLight amb = new AmbientLight();
         amb.setColor(defaultAmbientColor);
         setAmbientLight(amb);
@@ -201,7 +201,6 @@ public class SkyboxUtil {
         sun.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
         sun.setTranslateY(sindist);
         sun.setTranslateZ(cosdist + context.context.getComponents().getPlayer().getPositionZ());
-
 
         sun_rotate.setAngle(sun_rotate.getAngle() + sun_rotation_speed);
     }

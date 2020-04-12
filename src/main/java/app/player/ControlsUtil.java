@@ -146,7 +146,7 @@ public class ControlsUtil {
                             if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex() > ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1) {
                                 ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1);
                             }
-                            context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                            context.getComponents().getPlayer().updateHoldingGroup(false);
                             break;
                         case R:
                             if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSelected() == -1) {

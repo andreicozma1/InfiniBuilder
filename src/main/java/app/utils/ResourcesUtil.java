@@ -184,6 +184,8 @@ public class ResourcesUtil {
 
         lava_01 = new PhongMaterial();
         lava_01.setDiffuseMap(getImage("/textures/lava_01/lava01.jpg"));
+        lava_01.setSelfIlluminationMap(getImage("/textures/lava_01/lava01.jpg"));
+
 //        lava_01.setBumpMap(getImage("/textures/lava_01/lava01_n.jpg"));
 
         metal_01 = new PhongMaterial();
