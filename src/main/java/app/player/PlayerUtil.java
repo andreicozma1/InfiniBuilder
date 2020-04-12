@@ -1,6 +1,7 @@
 package app.player;
 
 import app.GUI.HUD.HUDElements.DeathMenu;
+import app.GUI.HUD.HUDElements.Inventory;
 import app.GUI.HUD.HUDElements.StatusBar;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
@@ -8,7 +9,7 @@ import app.environment.EnvironmentUtil;
 import app.structures.StructureBuilder;
 import app.structures.objects.Base_Projectile;
 import app.structures.objects.Base_Structure;
-import app.utils.InventoryUtil;
+import app.GUI.HUD.InventoryUtil;
 import app.utils.Log;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point3D;

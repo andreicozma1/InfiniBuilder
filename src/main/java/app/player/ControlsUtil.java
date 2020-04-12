@@ -1,9 +1,6 @@
 package app.player;
 
-import app.GUI.HUD.HUDElements.Crosshair;
-import app.GUI.HUD.HUDElements.DeathMenu;
-import app.GUI.HUD.HUDElements.ItemInfo;
-import app.GUI.HUD.HUDElements.PauseMenu;
+import app.GUI.HUD.HUDElements.*;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.utils.Log;

@@ -2,7 +2,7 @@ package app.GUI.menu;
 
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
-import app.player.Inventory;
+import app.GUI.HUD.HUDElements.Inventory;
 import app.utils.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.scene.Group;

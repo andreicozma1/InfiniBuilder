@@ -2,7 +2,7 @@ package app.GUI.HUD;
 
 import app.GUI.HUD.HUDElements.*;
 import app.GameBuilder;
-import app.player.Inventory;
+import app.GUI.HUD.HUDElements.Inventory;
 import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;

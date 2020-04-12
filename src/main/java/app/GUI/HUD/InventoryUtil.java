@@ -1,7 +1,8 @@
-package app.utils;
+package app.GUI.HUD;
 
 import app.player.PlayerUtil;
 import app.structures.objects.Base_Structure;
+import app.utils.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;

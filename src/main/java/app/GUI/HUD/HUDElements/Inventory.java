@@ -1,10 +1,10 @@
-package app.player;
+package app.GUI.HUD.HUDElements;
 
 import app.GUI.HUD.HUDElements.HUDElement;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.structures.StructureBuilder;
-import app.utils.InventoryUtil;
+import app.GUI.HUD.InventoryUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
