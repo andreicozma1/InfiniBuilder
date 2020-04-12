@@ -218,7 +218,7 @@ public class MenuUtil {
     }
 
     public void activateGroup(String name) {
-        Log.p(TAG, "activateGroup() -> " + name);
+        Log.d(TAG, "activateGroup() -> " + name);
         currentGroup = name;
         SCENE_MENU.setRoot(menuGroupMap.get(name));
     }

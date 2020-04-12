@@ -37,7 +37,7 @@ public class HUDUtil {
     private boolean isShown = true;
 
     public HUDUtil(GameBuilder ctx) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
         context = ctx;
         subScene = new SubScene(HUDGroup, ctx.getWindow().getWindowWidth(), ctx.getWindow().getWindowHeight());
     }

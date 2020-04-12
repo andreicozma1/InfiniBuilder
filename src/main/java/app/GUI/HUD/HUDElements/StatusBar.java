@@ -70,11 +70,11 @@ public class StatusBar extends HUDElement {
     // set curr status ensures it never goes below zero
     public void setCurrStatus(double currStatus) {
         if (currStatus <= 0) {
-            Log.p(TAG,getElementTag() + " is empty");
+            Log.d(TAG,getElementTag() + " is empty");
             currStatus = 0;
             isEmpty = true;
         } else if (currStatus >= maxStatus) {
-            Log.p(TAG,getElementTag() + " is full");
+            Log.d(TAG,getElementTag() + " is full");
             currStatus = maxStatus;
             isEmpty = false;
         } else {
@@ -248,6 +248,6 @@ public class StatusBar extends HUDElement {
     }
 
     public void printStatus() {
-        Log.p(TAG,"CurrStatus = " + currStatus + ", MaxStatus = " + maxStatus);
+        Log.d(TAG,"CurrStatus = " + currStatus + ", MaxStatus = " + maxStatus);
     }
 }

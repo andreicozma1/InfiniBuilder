@@ -28,7 +28,7 @@ public class MazeUtil implements SpawnableStructure {
                     int cellWidth,
                     int mazeHeight,
                     Material mazeMaterial) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
@@ -47,7 +47,7 @@ public class MazeUtil implements SpawnableStructure {
                     int mazeHeight,
                     Material mazeMaterial,
                     Long seed) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
@@ -67,7 +67,7 @@ public class MazeUtil implements SpawnableStructure {
                     Material mazeMaterial,
                     Long seed,
                     boolean isTrapped) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;
@@ -86,7 +86,7 @@ public class MazeUtil implements SpawnableStructure {
                     int mazeHeight,
                     Material mazeMaterial,
                     boolean isTrapped) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         this.mazeMaterial = mazeMaterial;
         this.cellDim = cellDim;

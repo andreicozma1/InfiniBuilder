@@ -12,7 +12,7 @@ public class PyramidUtil implements SpawnableStructure {
     public PyramidUtil(double cellDim,
                        int baseSideSize,
                        Material pyramidMaterial) {
-        Log.p(TAG,"CONSTRUCTOR");
+        Log.d(TAG,"CONSTRUCTOR");
 
         this.cellDim = cellDim;
         this.baseSideSize = baseSideSize;
@@ -52,29 +52,29 @@ public class PyramidUtil implements SpawnableStructure {
             }
         }
 
-        Log.p(TAG,"MIN HEIGHT " + min_height);
-        Log.p(TAG,"MAX HEIGHT " + max_height);
+        Log.d(TAG,"MIN HEIGHT " + min_height);
+        Log.d(TAG,"MAX HEIGHT " + max_height);
 
 
         //draw pyramid
         for (i = 0; i < height; i++) {
-            Log.p(TAG,"\n\nBUILDING Layer " + i);
+            Log.d(TAG,"\n\nBUILDING Layer " + i);
             for (j = i; j < baseSideSize - i; j++) {
                 for (k = i; k < baseSideSize - i; k++) {
                     double x_pos = startingX + j * cellDim;
                     double y_pos = startingZ + k * cellDim;
                     double hi = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(x_pos, y_pos);
 
-                    Log.p(TAG,j + "  " + k + " CURRENT " + hi + "   DIFF " + (min_height - (i+1) * cellDim));
+                    Log.d(TAG,j + "  " + k + " CURRENT " + hi + "   DIFF " + (min_height - (i+1) * cellDim));
 
                     if(hi >  max_height - (i + 1) * cellDim) {
-                        Log.p(TAG,"PLACED");
+                        Log.d(TAG,"PLACED");
                         Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                         cube.getProps().setPROPERTY_DESTRUCTIBLE(false);
                         cube.getShape().setMaterial(pyramidMaterial);
                         block_map.put(new Point2D(x_pos, y_pos), cube);
                     } else{
-                        Log.p(TAG,"DISCARDED");
+                        Log.d(TAG,"DISCARDED");
 
                     }
 

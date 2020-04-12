@@ -52,7 +52,7 @@ public class DisjointSet {
 
         // error checks the given input
         if (links.get(s1) != -1 || links.get(s2) != -1) {
-            Log.p(TAG,"Must call union on a set, not just an element.");
+            Log.d(TAG,"Must call union on a set, not just an element.");
             return -1;
         }
 
@@ -109,12 +109,12 @@ public class DisjointSet {
     public void Print() {
         int i;
 
-        Log.p(TAG,"\nNode:  ");
-        for (i = 0; i < links.size(); i++) Log.p(TAG,i + " ");
-        Log.p(TAG,"\nLinks:  ");
-        for (i = 0; i < links.size(); i++) Log.p(TAG,links.get(i) + " ");
-        Log.p(TAG,"\nSizes:  ");
-        for (i = 0; i < links.size(); i++) Log.p(TAG,sizes.get(i) + " ");
-        Log.p(TAG,"\n");
+        Log.d(TAG,"\nNode:  ");
+        for (i = 0; i < links.size(); i++) Log.d(TAG,i + " ");
+        Log.d(TAG,"\nLinks:  ");
+        for (i = 0; i < links.size(); i++) Log.d(TAG,links.get(i) + " ");
+        Log.d(TAG,"\nSizes:  ");
+        for (i = 0; i < links.size(); i++) Log.d(TAG,sizes.get(i) + " ");
+        Log.d(TAG,"\n");
     }
 }

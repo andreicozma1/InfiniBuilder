@@ -24,7 +24,7 @@ public class MainExecution extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Log.p(TAG,"start()");
+        Log.d(TAG,"start()");
 
         PRIMARY_WIDTH = (int) Screen.getPrimary().getBounds().getWidth() / 2;
         PRIMARY_HEIGHT = (int) Screen.getPrimary().getBounds().getHeight() / 2;
@@ -57,7 +57,7 @@ public class MainExecution extends Application {
     }
 
     public void addMazes(){
-        Log.p(TAG,"addMazes()");
+        Log.d(TAG,"addMazes()");
 
         double rad = GAME.getComponents().getEnvironment().getBlockDim()/3.0;
         double height = GAME.getComponents().getEnvironment().getBlockDim();
@@ -72,7 +72,7 @@ public class MainExecution extends Application {
     }
 
     public void addPaths(){
-        Log.p(TAG,"addPaths()");
+        Log.d(TAG,"addPaths()");
 
         double rad = GAME.getComponents().getEnvironment().getBlockDim()/3.0;
         double height = GAME.getComponents().getEnvironment().getBlockDim();
@@ -89,7 +89,7 @@ public class MainExecution extends Application {
     }
 
     public void addGrapher(){
-        Log.p(TAG,"addGrapher()");
+        Log.d(TAG,"addGrapher()");
 
         GrapherUtil grapher = new GrapherUtil(GAME.getComponents().getEnvironment().getBlockDim(),
                 20, 20, 1, 1, ResourcesUtil.black);
@@ -124,7 +124,7 @@ public class MainExecution extends Application {
     }
 
     public void addAllBlocks(){
-        Log.p(TAG,"addAllBlocks()");
+        Log.d(TAG,"addAllBlocks()");
 
         for(String type: ResourcesUtil.MAP_ALL_MATERIALS.keySet()){
             Base_Cube cb = new Base_Cube(type, ResourcesUtil.MAP_ALL_MATERIALS.get(type), GAME.getComponents().getEnvironment().getBlockDim());

@@ -25,13 +25,13 @@ public class TDModelUtil {
     private final String EXTENSION_3DS = "3ds";
 
     public TDModelUtil() {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         obj_importer = new TdsModelImporter();
         resources = new HashMap<>();
 
         String s = getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-        Log.p(TAG, "Execution source: " + s);
+        Log.d(TAG, "Execution source: " + s);
 
         if (s.endsWith(".jar")) {
             // ONLY DO IF JAR
@@ -43,7 +43,7 @@ public class TDModelUtil {
                     JarEntry je = entries.nextElement();
 
                     if (je.getName().startsWith(FOLDER_NAME) && je.getName().endsWith(EXTENSION_3DS)) {
-                        Log.p(TAG, "Found model at: " + je.getName());
+                        Log.d(TAG, "Found model at: " + je.getName());
 
                         Path path = Paths.get(je.getName());
                         InputStream is = this.getClass().getResourceAsStream("/" + je.getName());
@@ -78,7 +78,7 @@ public class TDModelUtil {
             for (File file : list_of_files) {
                 File[] list_of_files1 = file.listFiles();
                 for (File file1 : list_of_files1) {
-                    Log.p(TAG, "Found model at: " + file1.getAbsolutePath());
+                    Log.d(TAG, "Found model at: " + file1.getAbsolutePath());
                     resources.put(file1.getName(), file1);
                 }
             }

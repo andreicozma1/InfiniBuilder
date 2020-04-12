@@ -23,7 +23,7 @@ public class MazeGenerator {
         ran = new Random();
         this.cols = c;
         this.rows = r;
-        Log.p(TAG,String.valueOf(r * c));
+        Log.d(TAG,String.valueOf(r * c));
         this.seed = seed;
         ran.setSeed(this.seed);
         maze = new ArrayList<Edge>();
@@ -113,13 +113,13 @@ public class MazeGenerator {
 
     public void printWalls() {
         for (Edge w : maze) {
-            Log.p(TAG,"MAZE WALLS " + w.v1 + " " + w.v2);
+            Log.d(TAG,"MAZE WALLS " + w.v1 + " " + w.v2);
         }
     }
 
     public void printDeletedWalls() {
         for (Edge w : deletedEdges) {
-            Log.p(TAG,"MAZE WALLS " + w.v1 + " " + w.v2);
+            Log.d(TAG,"MAZE WALLS " + w.v1 + " " + w.v2);
         }
     }
 

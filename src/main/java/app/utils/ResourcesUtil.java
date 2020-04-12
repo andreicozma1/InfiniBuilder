@@ -65,7 +65,7 @@ public class ResourcesUtil {
 
     // TODO - Rewrite this class so that all textures are automatically read in to a hash-map upon load of the game
     public ResourcesUtil(Application app) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         context = app;
         setupMaterials();
@@ -136,15 +136,15 @@ public class ResourcesUtil {
 
             }
         };
-        Log.p(TAG,"Created MAP_ALL_MATERIALS");
+        Log.d(TAG,"Created MAP_ALL_MATERIALS");
         MAP_ALL_MATERIALS_SORTED = new ArrayList<>(MAP_ALL_MATERIALS.keySet());
         Collections.sort(MAP_ALL_MATERIALS_SORTED);
-        Log.p(TAG,"Sorted MAP_ALL_MATERIALS_SORTED");
+        Log.d(TAG,"Sorted MAP_ALL_MATERIALS_SORTED");
 
     }
 
     public void setupMaterials() {
-        Log.p(TAG,"setupMaterials()");
+        Log.d(TAG,"setupMaterials()");
 
         asphalt_01 = new PhongMaterial();
         asphalt_01.setDiffuseMap(getImage("/textures/asphalt_01/asphalt01.jpg"));

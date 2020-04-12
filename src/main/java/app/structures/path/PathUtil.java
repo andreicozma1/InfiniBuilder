@@ -37,7 +37,7 @@ public class PathUtil implements SpawnableStructure {
                     int pathCols,
                     int pathWidth,
                     Material pathMaterial) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         this.cellDim = cellDim;
         this.pathRows = pathRows;
@@ -56,7 +56,7 @@ public class PathUtil implements SpawnableStructure {
                     int pathWidth,
                     Material pathMaterial,
                     Long seed) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         this.cellDim = cellDim;
         this.pathRows = pathRows;
@@ -128,7 +128,7 @@ public class PathUtil implements SpawnableStructure {
                 if (mi % 2 == 0 && mj % 2 == 0) {
                     Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                     cube.getShape().setMaterial(pathMaterial);
-                    Log.p(TAG,currX + " " + currZ);
+                    Log.d(TAG,currX + " " + currZ);
                     block_map.put(new Point2D(startingX + cellDim * j, startingZ + cellDim * i), cube);
                 }
                 currX += cellDim;
@@ -211,27 +211,27 @@ public class PathUtil implements SpawnableStructure {
                 // change the coordinates to draw next block
                 //up
                 if (path.get(currIndex) == path.get(nextIndex) - pathCols) {
-                    Log.p(TAG,"up");
+                    Log.d(TAG,"up");
                     currZ += cellDim;
                     mi++;
 
                 }
                 //down
                 else if (path.get(currIndex) == path.get(nextIndex) + pathCols) {
-                    Log.p(TAG,"down");
+                    Log.d(TAG,"down");
                     currZ -= cellDim;
                     mi--;
 
                 }
                 //left
                 else if (path.get(currIndex) == path.get(nextIndex) - 1) {
-                    Log.p(TAG,"right");
+                    Log.d(TAG,"right");
                     currX += cellDim;
                     mj++;
                 }
                 //right
                 else if (path.get(currIndex) == path.get(nextIndex) + 1) {
-                    Log.p(TAG,"left");
+                    Log.d(TAG,"left");
                     currX -= cellDim;
                     mj--;
                 }

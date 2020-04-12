@@ -132,7 +132,7 @@ public class GrapherUtil implements SpawnableStructure {
         for (i = 0; i < functions.size(); i++) {
             for (x = -xAxisSize * xAxisScalePerBlock; x <= xAxisSize * xAxisScalePerBlock; x += xAxisScalePerBlock) {
                 y = functions.get(i).compute(x);
-                Log.p(TAG,"F(" + x + ") = " + y);
+                Log.d(TAG,"F(" + x + ") = " + y);
                 Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
                 cube.getShape().setMaterial(functMats.get(i));
                 block_map.put(new Point2D((x / xAxisScalePerBlock) * cellDim + startingX, y * cellDim + startingZ), cube);

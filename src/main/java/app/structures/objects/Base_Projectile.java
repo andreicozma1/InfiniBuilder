@@ -14,7 +14,7 @@ public class Base_Projectile extends Base_Structure {
     private double speed;
 
     public Base_Projectile(EnvironmentUtil ctx, StructureBuilder obj) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         context = ctx;
         object = obj;
@@ -48,7 +48,7 @@ public class Base_Projectile extends Base_Structure {
             @Override
             public void handle(long l) {
                 if (!isOnGround) {
-//                    Log.p(TAG,posy +  "   " + context.getClosestGroundLevel(new PlayerPoint3D(posx,posy,posz)));
+//                    Log.d(TAG,posy +  "   " + context.getClosestGroundLevel(new PlayerPoint3D(posx,posy,posz)));
                     posx += initialVel * Math.sin(startrotX) * Math.cos(startrotY);
                     posy -= initialVel * Math.sin(startrotY) + initialVelY;
                     initialVelY -= EnvironmentUtil.GRAVITY;

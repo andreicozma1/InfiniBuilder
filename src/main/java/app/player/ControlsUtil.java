@@ -18,7 +18,7 @@ public class ControlsUtil {
     double last_mouse_y;
 
     public ControlsUtil(GameBuilder ctx) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         context = ctx;
         pressed = new ArrayList<>();
@@ -63,7 +63,7 @@ public class ControlsUtil {
         game_scene.setOnMousePressed(event -> {
             if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
 
-                Log.p(TAG,"setOnMousePressed " + event.getButton());
+                Log.d(TAG,"setOnMousePressed " + event.getButton());
                 switch (event.getButton()) {
                     case SECONDARY:
                         context.getComponents().getPlayer().placeObject();
@@ -78,7 +78,7 @@ public class ControlsUtil {
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
             if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
                 if (!pressed.contains(event.getCode())) {
-                    Log.p(TAG,"KEY_PRESSED " + event.getCode());
+                    Log.d(TAG,"KEY_PRESSED " + event.getCode());
                     pressed.add(event.getCode());
                 }
                 switch (event.getCode()) {
@@ -119,7 +119,7 @@ public class ControlsUtil {
 
                 if (pressed.contains(event.getCode())) {
                     pressed.remove(event.getCode());
-                    Log.p(TAG,"KEY_RELEASED " + event.getCode());
+                    Log.d(TAG,"KEY_RELEASED " + event.getCode());
 
                     // Handle changing inventory spot with number keys
                     if (event.getCode().toString().toLowerCase().contains("digit")) {
@@ -250,7 +250,7 @@ public class ControlsUtil {
     }
 
     public void reset() {
-        Log.p(TAG,"reset()");
+        Log.d(TAG,"reset()");
         pressed.clear();
     }
 }

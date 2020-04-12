@@ -61,7 +61,7 @@ public class GraphUtil {
      */
     public void addEdge(Edge edge) {
         if (edge.v1 < 0 || edge.v2 < 0 || edge.v1 >= V || edge.v2 >= V) {
-            Log.p(TAG,"Bad Edge");
+            Log.d(TAG,"Bad Edge");
             return;
         }
         e.get(edge.v1).add(edge);
@@ -88,10 +88,10 @@ public class GraphUtil {
 
         // error checking
         if (start < 0 || end < 0 || start >= V || end >= V) {
-            Log.p(TAG,"start and end position must be in bounds");
+            Log.d(TAG,"start and end position must be in bounds");
             return null;
         } else if (start == end) {
-            Log.p(TAG,"start position is equal to the end position");
+            Log.d(TAG,"start position is equal to the end position");
             return null;
         }
 
@@ -124,10 +124,10 @@ public class GraphUtil {
 
         // if could not find path
         if (!foundPath) {
-            Log.p(TAG,"Could not find a path from " + start + " to " + end);
+            Log.d(TAG,"Could not find a path from " + start + " to " + end);
             return null;
         }
-        Log.p(TAG,"Found a path from " + start + " to " + end);
+        Log.d(TAG,"Found a path from " + start + " to " + end);
 
         // backtrace to find the path
         cV = end;
@@ -160,10 +160,10 @@ public class GraphUtil {
 
         // error checking
         if (start < 0 || end < 0 || start >= V || end >= V) {
-            Log.p(TAG,"start and end position must be in bounds");
+            Log.d(TAG,"start and end position must be in bounds");
             return null;
         } else if (start == end) {
-            Log.p(TAG,"start position is equal to the end position");
+            Log.d(TAG,"start position is equal to the end position");
             return null;
         }
 
@@ -196,10 +196,10 @@ public class GraphUtil {
 
         // if could not find path
         if (!foundPath) {
-            Log.p(TAG,"Could not find a path from " + start + " to " + end);
+            Log.d(TAG,"Could not find a path from " + start + " to " + end);
             return null;
         }
-        Log.p(TAG,"Found a path from " + start + " to " + end);
+        Log.d(TAG,"Found a path from " + start + " to " + end);
 
         // backtrace to find the path
         cV = end;
@@ -234,10 +234,10 @@ public class GraphUtil {
 
         // error checking
         if (start < 0 || end < 0 || start >= V || end >= V) {
-            Log.p(TAG,"start and end position must be in bounds");
+            Log.d(TAG,"start and end position must be in bounds");
             return null;
         } else if (start == end) {
-            Log.p(TAG,"start position is equal to the end position");
+            Log.d(TAG,"start position is equal to the end position");
             return null;
         }
 
@@ -249,7 +249,7 @@ public class GraphUtil {
         while (!frontier.isEmpty()) {
             // get current vertex data
             cV = frontier.poll().getValue();
-            Log.p(TAG,"currNode " + cV);
+            Log.d(TAG,"currNode " + cV);
 
             // current node is marked
             if (visited.get(cV)) continue;
@@ -286,7 +286,7 @@ public class GraphUtil {
 
         // if could not find path
         if (!foundPath) {
-            Log.p(TAG,"Could not find a path from " + start + " to " + end);
+            Log.d(TAG,"Could not find a path from " + start + " to " + end);
             return null;
         }
 
@@ -305,12 +305,14 @@ public class GraphUtil {
     public void print() {
         int i, j;
         for (i = 0; i < w.size(); i++) {
-            System.out.print("V " + i + " (" + w.get(i) + ") : ");
+            String output;
+            output =  + i + " (" + w.get(i) + ") : ";
             if (e.containsKey(i)) {
                 for (j = 0; j < e.get(i).size(); j++) {
-                    System.out.print(e.get(i).get(j).v2 + " ");
+                    output = output + e.get(i).get(j).v2 + " ";
                 }
             }
+            Log.i(TAG,output);
         }
     }
 

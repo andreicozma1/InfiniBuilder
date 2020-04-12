@@ -237,7 +237,7 @@ public class Inventory extends HUDElement {
                 break;
         }
 
-        Log.p(TAG,x + "  " + y);
+        Log.d(TAG,x + "  " + y);
         setPos(new Point2D(x, y));
     }
 

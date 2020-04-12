@@ -19,7 +19,7 @@ public class CameraUtil {
     private double ROTATION_Y = 0;
 
     public CameraUtil(GameBuilder ctx) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         context = ctx;
         PERSPECTIVE_CAMERA = new PerspectiveCamera(true);
@@ -116,7 +116,7 @@ public class CameraUtil {
     }
 
     public void reset() {
-        Log.p(TAG,"reset()");
+        Log.d(TAG,"reset()");
         setRotateX(0);
         setRotateY(0);
     }

@@ -67,7 +67,7 @@ public class PlayerUtil {
     private final Rotate GROUP_ROTATE_UP_DOWN;
 
     public PlayerUtil(GameBuilder ctx) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         context = ctx;
         UTIL_INVENTORY = new InventoryUtil(this, 60);
@@ -120,7 +120,7 @@ public class PlayerUtil {
             // that means that the player has not gotten to that point in jumping yet so, move the player up
             double jump_height_final = jump_height_initial - PROPERTY_HEIGHT * PROPERTY_MULTIPLIER_JUMP;
             if ((isJumping && getPositionYnoHeight() > jump_height_final)) {
-                Log.p(TAG,"update_handler() -> Jumping from " + getPositionYnoHeight() + " to " + jump_height_final);
+                Log.d(TAG,"update_handler() -> Jumping from " + getPositionYnoHeight() + " to " + jump_height_final);
                 moveUp(PROPERTY_SPEED_UP * dt);
             } else {
                 // if the player reached the top, set isJumping to false, and let the player fall.
@@ -215,7 +215,7 @@ public class PlayerUtil {
     }
 
     public void shoot() {
-        Log.p(TAG, "shoot()");
+        Log.d(TAG, "shoot()");
 
         Base_Structure inventory_item = UTIL_INVENTORY.getCurrentItem();
 
@@ -238,7 +238,7 @@ public class PlayerUtil {
 
 
         if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
-            Log.p(TAG, "placeObject() -> Attempting to place " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
+            Log.d(TAG, "placeObject() -> Attempting to place " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
 
             double posx = getPositionX();
             double posy = getPositionYwithHeight();
@@ -261,11 +261,11 @@ public class PlayerUtil {
                     AbsolutePoint3D loc = new AbsolutePoint3D(posx, posy, posz);
 
                     performPlaceAnimation();
-                    Log.p(TAG, "placeObject() -> Action called for type: " + inventory_item.getProps().getPROPERTY_ITEM_TYPE());
+                    Log.d(TAG, "placeObject() -> Action called for type: " + inventory_item.getProps().getPROPERTY_ITEM_TYPE());
                     switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
                         case StructureBuilder.TYPE_OBJECT:
                             Base_Structure cb = StructureBuilder.resolve(inventory_item);
-                            Log.p(TAG, "placeObject() -> Copy created. Scale: X: " + cb.getScaleX() + " Y: " + cb.getScaleY() + " Z: " + cb.getScaleZ() + "; Width: " + cb.getWidth() + " Height: " + cb.getHeight() + " Depth: " + cb.getDepth() + "; Props: " + cb.getProps().toString());
+                            Log.d(TAG, "placeObject() -> Copy created. Scale: X: " + cb.getScaleX() + " Y: " + cb.getScaleY() + " Z: " + cb.getScaleZ() + "; Width: " + cb.getWidth() + " Height: " + cb.getHeight() + " Depth: " + cb.getDepth() + "; Props: " + cb.getProps().toString());
                             cb.placeObject(context.getComponents().getEnvironment(), loc, true);
                             break;
                         default:
@@ -283,10 +283,10 @@ public class PlayerUtil {
                 }
             }
             if(dist_traveled > ray_distance_limit){
-                Log.p(TAG,"placeObject() -> Cannot place that far!");
+                Log.d(TAG,"placeObject() -> Cannot place that far!");
             }
         } else{
-            Log.p(TAG, "placeObject() -> Cannot place " + inventory_item.getProps().getPROPERTY_ITEM_TAG());
+            Log.d(TAG, "placeObject() -> Cannot place " + inventory_item.getProps().getPROPERTY_ITEM_TAG());
         }
     }
 
@@ -418,7 +418,7 @@ public class PlayerUtil {
     }
 
     public void jump() {
-        Log.p(TAG, "jump()");
+        Log.d(TAG, "jump()");
         isJumping = true;
         canJump = false;
         jump_height_initial = getPositionYnoHeight();
@@ -488,7 +488,7 @@ public class PlayerUtil {
     }
 
     public void setUV_light(boolean state) {
-        Log.p(TAG, "setUV_light() -> " + state);
+        Log.d(TAG, "setUV_light() -> " + state);
 
         uv_light.setLightOn(state);
         uv_light_state = state;
@@ -513,7 +513,7 @@ public class PlayerUtil {
 
     public void toggleCrouch() {
         if (!isFlyMode) {
-            Log.p(TAG, "toggleCrouch()");
+            Log.d(TAG, "toggleCrouch()");
             context.getComponents().getPlayer().isCrouching = !context.getComponents().getPlayer().isCrouching;
         }
     }
@@ -523,7 +523,7 @@ public class PlayerUtil {
     }
 
     public void setIsClipMode(boolean val) {
-        Log.p(TAG, "setIsClipMode() -> " + val);
+        Log.d(TAG, "setIsClipMode() -> " + val);
 
         isClipMode = val;
     }
@@ -537,7 +537,7 @@ public class PlayerUtil {
     }
 
     public void setIsFlyMode(boolean val) {
-        Log.p(TAG, "setIsFlyMode() -> " + val);
+        Log.d(TAG, "setIsFlyMode() -> " + val);
 
         isFlyMode = val;
         speed_fall_initial = 0;
@@ -554,7 +554,7 @@ public class PlayerUtil {
     public void setMaxAutoJumpHeightMultiplier(double val) {
         try {
             if (val >= 0) {
-                Log.p(TAG,"setMaxAutoJumpHeightMultiplier() -> " + val);
+                Log.d(TAG,"setMaxAutoJumpHeightMultiplier() -> " + val);
 
                 this.PROPERTY_MULTIPLIER_MAX_BLOCKS_AUTOJUMP = val;
             } else {
@@ -573,7 +573,7 @@ public class PlayerUtil {
     public void setFlySpeed(double spd) {
         try {
             if (spd >= 0) {
-                Log.p(TAG,"setFlySpeed() -> " + spd);
+                Log.d(TAG,"setFlySpeed() -> " + spd);
 
                 PROPERTY_SPEED_FLY = spd;
             } else {
@@ -591,7 +591,7 @@ public class PlayerUtil {
     public void setRunMultiplier(double mult) {
         try {
             if (mult >= 0) {
-                Log.p(TAG,"setRunMultiplier() -> " + mult);
+                Log.d(TAG,"setRunMultiplier() -> " + mult);
 
                 PROPERTY_MULTIPLIER_RUN = mult;
             } else {
@@ -609,7 +609,7 @@ public class PlayerUtil {
     public void setJumpHeightMultiplier(double mult) {
         try {
             if (mult >= 0) {
-                Log.p(TAG,"setJumpHeightMultiplier() -> " + mult);
+                Log.d(TAG,"setJumpHeightMultiplier() -> " + mult);
                 PROPERTY_MULTIPLIER_JUMP = mult;
             } else {
                 throw new IndexOutOfBoundsException();
@@ -636,14 +636,14 @@ public class PlayerUtil {
     }
 
     public void resetStatusBars() {
-        Log.p(TAG,"resetStatusBars()");
+        Log.d(TAG,"resetStatusBars()");
         getHealthBar().setCurrStatus(getHealthBar().getMaxStatus());
         getStaminaBar().setCurrStatus(getStaminaBar().getMaxStatus());
         getHungerBar().setCurrStatus(getHungerBar().getMaxStatus());
     }
 
     public void takeDamage(double d) {
-        Log.p(TAG, "takeDamage() -> Took " + d + " damage");
+        Log.d(TAG, "takeDamage() -> Took " + d + " damage");
         getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() - d);
 
         if (getHealthBar().getCurrStatus() == 0) {
@@ -652,13 +652,13 @@ public class PlayerUtil {
     }
 
     public void die() {
-        Log.p(TAG, "die()");
+        Log.d(TAG, "die()");
         ((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).setDead(true);
         context.getComponents().getHUD().getElement(HUDUtil.DEATH).update();
     }
 
     public void reset() {
-        Log.p(TAG, "reset()");
+        Log.d(TAG, "reset()");
         setPosition(0, 0, 0);
 
         isClipMode = false;
@@ -679,7 +679,7 @@ public class PlayerUtil {
         setPosition(randomX, EnvironmentUtil.LIMIT_MAX, randomZ);
         didTeleport = true;
 
-        Log.p(TAG,"teleportRandom() -> X: " + randomX + "  Z: " + randomZ);
+        Log.d(TAG,"teleportRandom() -> X: " + randomX + "  Z: " + randomZ);
     }
 
     public void setInventoryIndexOffset(int i) {
@@ -697,7 +697,7 @@ public class PlayerUtil {
         }
 
         Base_Structure currItem = UTIL_INVENTORY.getCurrentItem();
-        Log.p(TAG,"setInventoryIndexOffset() -> " + i + " -> Tag: " + currItem.getProps().getPROPERTY_ITEM_TAG() + "; ItmType: " + currItem.getProps().getPROPERTY_ITEM_TYPE()+ "; ObjType: " + currItem.getProps().getPROPERTY_OBJECT_TYPE());
+        Log.d(TAG,"setInventoryIndexOffset() -> " + i + " -> Tag: " + currItem.getProps().getPROPERTY_ITEM_TAG() + "; ItmType: " + currItem.getProps().getPROPERTY_ITEM_TYPE()+ "; ObjType: " + currItem.getProps().getPROPERTY_OBJECT_TYPE());
 
         updateHoldingGroup(false);
     }

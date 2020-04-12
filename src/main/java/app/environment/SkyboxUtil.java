@@ -71,7 +71,7 @@ public class SkyboxUtil {
      * @param envir
      */
     public SkyboxUtil(EnvironmentUtil envir) {
-        Log.p(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "CONSTRUCTOR");
 
         context = envir;
         group_skybox = new Group();

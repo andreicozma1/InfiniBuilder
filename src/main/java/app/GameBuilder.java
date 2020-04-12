@@ -23,15 +23,15 @@ public class GameBuilder {
 
     // MAIN GAME LOOP
     private final AnimationTimer GAME_ANIMATION_TIMER;
-    public long time_current;
+    public static long time_current;
     private long TOTAL_RUNTIME = 0;
     private GameFX GAME_EFFECTS;
     private GameComponents GAME_COMPONENTS;
     private GameWindow GAME_WINDOW;
 
     public GameBuilder(Stage stg, int w, int h) {
-        Log.p(TAG, "CONSTRUCTOR");
-        Log.p(TAG, "Creating Game Window with dimensions: " + w + " x " + h);
+        Log.d(TAG, "CONSTRUCTOR");
+        Log.d(TAG, "Creating Game Window with dimensions: " + w + " x " + h);
 
         new GameWindow(stg, w, h);
         new GameFX(this);
@@ -50,7 +50,7 @@ public class GameBuilder {
                     time_current = System.currentTimeMillis();
 
                     if (time_current - reading_last > 1000.0) {
-//                        Log.p(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + time_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
+//                        Log.d(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + time_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
                         deltaT = 60.0 / reading_frames;
                         if (deltaT > 5) {
                             deltaT = 1;
@@ -129,13 +129,13 @@ public class GameBuilder {
             GAME_ANIMATION_TIMER.stop();
 
             if (SCENE_CURRENT == ROOT_SCENE) {
-                Log.p(TAG,"Switched to Game Scene");
+                Log.d(TAG,"Switched to Game Scene");
                 getComponents().getEnvironment().getSkybox().resetLighting();
 
                 GAME_ANIMATION_TIMER.start();
             }
             if (SCENE_CURRENT == getComponents().getMenu().getScene()) {
-                Log.p(TAG,"Switched to Menu Scene");
+                Log.d(TAG,"Switched to Menu Scene");
                 showCursor(Cursor.DEFAULT);
             }
 
@@ -303,7 +303,7 @@ public class GameBuilder {
         }
 
         public void resetEffects() {
-            Log.p(TAG,"resetEffects()");
+            Log.d(TAG,"resetEffects()");
 
             EFFECT_MOTION_BLUR = new MotionBlur();
             EFFECT_BLOOM = new Bloom();
