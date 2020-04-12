@@ -181,7 +181,7 @@ public class DeathMenu extends HUDElement {
             //**************************************************************************\
             // GOTO MAIN MENU
             Text mainMenuArrow = pause.drawText(singleArrow, x + 45, y + 160, GREEN, pauseText);
-            Text mainMenuText = pause.drawText("./Exit_To_Main_Menu", x + 70, y + 160, Color.WHITE, pauseText);
+            Text mainMenuText = pause.drawText("./Quit", x + 70, y + 160, Color.WHITE, pauseText);
             Rectangle mainMenuHitBox = pause.drawRectangle(x, y + 145, width, 20, 0, 0, Color.TRANSPARENT);
             mainMenuHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                     new EventHandler<MouseEvent>() {
