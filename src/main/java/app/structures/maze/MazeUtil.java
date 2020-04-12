@@ -19,14 +19,14 @@ public class MazeUtil implements SpawnableStructure {
     private final boolean isTrapped;
     private final Material mazeMaterial;
     private final int height;
-    private Long seed = null;
+    private Long seed;
     private MazeGenerator mazeGenerator;
 
     public MazeUtil(double cellDim,
                     int mazeRows,
                     int mazeCols,
-                    int mazeHeight,
                     int cellWidth,
+                    int mazeHeight,
                     Material mazeMaterial) {
         Log.p(TAG, "CONSTRUCTOR");
 
@@ -37,6 +37,7 @@ public class MazeUtil implements SpawnableStructure {
         this.mazeCols = mazeCols;
         this.isTrapped = false;
         this.height = mazeHeight;
+        this.seed = GENERATOR_RANDOM_SEED;
     }
 
     public MazeUtil(double cellDim,
@@ -53,9 +54,9 @@ public class MazeUtil implements SpawnableStructure {
         this.cellWidth = cellWidth;
         this.mazeRows = mazeRows;
         this.mazeCols = mazeCols;
-        this.seed = seed;
         this.isTrapped = false;
         this.height = mazeHeight;
+        this.seed = seed;
     }
 
     public MazeUtil(double cellDim,
@@ -73,10 +74,28 @@ public class MazeUtil implements SpawnableStructure {
         this.cellWidth = cellWidth;
         this.mazeRows = mazeRows;
         this.mazeCols = mazeCols;
-        this.seed = seed;
         this.isTrapped = isTrapped;
         this.height = mazeHeight;
+        this.seed = seed;
+    }
 
+    public MazeUtil(double cellDim,
+                    int mazeRows,
+                    int mazeCols,
+                    int cellWidth,
+                    int mazeHeight,
+                    Material mazeMaterial,
+                    boolean isTrapped) {
+        Log.p(TAG, "CONSTRUCTOR");
+
+        this.mazeMaterial = mazeMaterial;
+        this.cellDim = cellDim;
+        this.cellWidth = cellWidth;
+        this.mazeRows = mazeRows;
+        this.mazeCols = mazeCols;
+        this.isTrapped = isTrapped;
+        this.height = mazeHeight;
+        this.seed = GENERATOR_RANDOM_SEED;
     }
 
 
@@ -177,6 +196,7 @@ public class MazeUtil implements SpawnableStructure {
 
         }
 
+        /*
         // clear the spots where there are no walls generated
         for (Edge w : mazeGenerator.getDeletedWalls()) {
 
@@ -239,6 +259,6 @@ public class MazeUtil implements SpawnableStructure {
             }
             currZ += cellDim;
         }
-
+*/
     }
 }

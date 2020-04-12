@@ -2,6 +2,7 @@ package app.structures.objects;
 
 import app.structures.StructureBuilder;
 import javafx.scene.paint.Material;
+import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
 
 public class Base_Sphere extends Base_Structure {
@@ -64,6 +65,14 @@ public class Base_Sphere extends Base_Structure {
         super.getChildren().add(this.getShape());
         getProps().setPROPERTY_ITEM_TAG(ITEM_TAG);
         this.getShape().setMaterial(mat);
+    }
+
+    public Base_Sphere(Base_Structure cyl) {
+        this.setShape(new Sphere(1));
+        this.getShape().setMaterial(cyl.getShape().getMaterial());
+        this.setScaleIndependent(cyl.getScaleX(),cyl.getScaleY(),cyl.getScaleZ());
+        this.setProps(cyl.getProps());
+        super.getChildren().add(this.getShape());
     }
 
 }

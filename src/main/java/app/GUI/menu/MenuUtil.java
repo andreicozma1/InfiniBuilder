@@ -245,7 +245,7 @@ public class MenuUtil {
                     public void handle(MouseEvent me) {
                         context.getComponents().getEnvironment().reset();
                         context.getWindow().showScene(context.getWindow().getRootScene());
-                        context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                        context.getComponents().getPlayer().reset();
                     }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,

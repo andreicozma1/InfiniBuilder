@@ -6,46 +6,23 @@ import app.structures.SpawnableStructure;
 import app.structures.StructureBuilder;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
+import javafx.scene.shape.Cylinder;
 
 import java.util.Map;
 
-public class SpawnableStructureItem extends Base_Cube {
+public class SpawnableStructureItem extends Base_Structure {
     private final SpawnableStructure spawnable;
 
-    public SpawnableStructureItem(SpawnableStructure str, String ITEM_TAG, double width, double height, double depth) {
-        super(ITEM_TAG, width, height, depth);
-        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_STRUCTURE_2D);
-        spawnable = str;
-    }
+    public SpawnableStructureItem(SpawnableStructure str, Base_Structure m) {
 
-    public SpawnableStructureItem(SpawnableStructure str, String ITEM_TAG, double all_side_length) {
-        super(ITEM_TAG, all_side_length);
-        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_STRUCTURE_2D);
         spawnable = str;
-    }
 
-    public SpawnableStructureItem(SpawnableStructure str, String ITEM_TAG) {
-        super(ITEM_TAG);
+        this.setShape(m.getShape());
+        this.getShape().setMaterial(m.getShape().getMaterial());
+        this.setScaleIndependent(m.getScaleX(),m.getScaleY(),m.getScaleZ());
+        this.setProps(m.getProps());
         getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_STRUCTURE_2D);
-        spawnable = str;
-    }
-
-    public SpawnableStructureItem(SpawnableStructure str, String ITEM_TAG, Material mat, double width, double height, double depth) {
-        super(ITEM_TAG, mat, width, height, depth);
-        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_STRUCTURE_2D);
-        spawnable = str;
-    }
-
-    public SpawnableStructureItem(SpawnableStructure str, String ITEM_TAG, Material mat, double all_side_length) {
-        super(ITEM_TAG, mat, all_side_length);
-        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_STRUCTURE_2D);
-        spawnable = str;
-    }
-
-    public SpawnableStructureItem(SpawnableStructure str, String ITEM_TAG, Material mat) {
-        super(ITEM_TAG, mat);
-        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_STRUCTURE_2D);
-        spawnable = str;
+        super.getChildren().add(this.getShape());
     }
 
     @Override

@@ -50,7 +50,7 @@ public class GameBuilder {
                     time_current = System.currentTimeMillis();
 
                     if (time_current - reading_last > 1000.0) {
-                        Log.p(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + time_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
+//                        Log.p(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + time_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
                         deltaT = 60.0 / reading_frames;
                         if (deltaT > 5) {
                             deltaT = 1;

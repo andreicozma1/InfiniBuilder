@@ -3,6 +3,7 @@ package app.structures;
 import app.environment.EnvironmentUtil;
 import app.player.AbsolutePoint3D;
 import app.structures.objects.Base_Cube;
+import app.structures.objects.Base_Cylinder;
 import app.structures.objects.Base_Sphere;
 import app.structures.objects.Base_Structure;
 import javafx.scene.Group;
@@ -18,7 +19,8 @@ public abstract class StructureBuilder extends Group implements Interactable {
 
     public static final int OBJECT_TYPE_CUBE = 0;
     public static final int OBJECT_TYPE_SPHERE = 1;
-    public static final int OBJECT_TYPE_MODEL = 2;
+    public static final int OBJECT_TYPE_CYLINDER = 2;
+    public static final int OBJECT_TYPE_MODEL = 3;
 
     StructureBuilder.properties p;
 
@@ -29,14 +31,17 @@ public abstract class StructureBuilder extends Group implements Interactable {
     }
 
     public static Base_Structure resolve(Base_Structure orig) {
-        Base_Structure result = null;
+        Base_Structure result = new Base_Structure();
 
         switch (orig.getProps().getPROPERTY_OBJECT_TYPE()) {
             case OBJECT_TYPE_CUBE:
-                result = new Base_Cube(orig.getProps().getPROPERTY_ITEM_TAG(), orig.getShape().getMaterial(), orig.getScaleX(), orig.getScaleY(), orig.getScaleZ());
+                result = new Base_Cube(orig);
                 break;
             case OBJECT_TYPE_SPHERE:
-                result = new Base_Sphere(orig.getProps().getPROPERTY_ITEM_TAG(), orig.getShape().getMaterial(), orig.getScaleX());
+                result = new Base_Sphere(orig);
+                break;
+            case OBJECT_TYPE_CYLINDER:
+                result = new Base_Cylinder(orig);
                 break;
         }
         result.setProps(orig.getProps());

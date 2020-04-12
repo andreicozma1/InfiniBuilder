@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 public class MainExecution extends Application {
 
+    GameBuilder GAME;
     private int PRIMARY_WIDTH;
     private int PRIMARY_HEIGHT;
 
@@ -27,32 +28,61 @@ public class MainExecution extends Application {
         // set up needed Utils for the game
         ResourcesUtil materials = new ResourcesUtil(this);
 
-        GameBuilder game = new GameBuilder(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
+        GAME = new GameBuilder(primaryStage, PRIMARY_WIDTH, PRIMARY_HEIGHT);
 
         // testing inventory Util with a base item that only holds the item tag
-        Base_Cube dirt = new Base_Cube("Grass", ResourcesUtil.grass_01, game.getComponents().getEnvironment().getBlockDim());
-        Base_Cube grass = new Base_Cube("Dirt", ResourcesUtil.dirt, game.getComponents().getEnvironment().getBlockDim());
-        Base_Cube sand = new Base_Cube("Sand", ResourcesUtil.sand, game.getComponents().getEnvironment().getBlockDim());
-        Base_Cube metal = new Base_Cube("Metal", ResourcesUtil.metal, game.getComponents().getEnvironment().getBlockDim());
-        Base_Sphere sp = new Base_Sphere("Sphare", ResourcesUtil.metal, 5);
 
-        MazeUtil maze = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 20, 2, 4, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED);
-        MazeUtil maze2 = new MazeUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, 4, ResourcesUtil.metal, MazeUtil.GENERATOR_RANDOM_SEED, true);
-        SpawnableStructureItem mazeitem = new SpawnableStructureItem(maze, "Maze Generator", ResourcesUtil.sun, game.getComponents().getEnvironment().getBlockDim());
-        SpawnableStructureItem maze2item = new SpawnableStructureItem(maze2, "Maze Generator2", ResourcesUtil.moon, game.getComponents().getEnvironment().getBlockDim());
+        Base_Sphere sp = new Base_Sphere("Sphere", ResourcesUtil.metal, 5);
+        GAME.getComponents().getPlayer().getInventory().addItem(sp, 50);
+
+
+        Base_Cylinder cyl = new Base_Cylinder("Cylinder",ResourcesUtil.brick_01,GAME.getComponents().getEnvironment().getBlockDim()/3.0,GAME.getComponents().getEnvironment().getBlockDim());
+        GAME.getComponents().getPlayer().getInventory().addItem(cyl, 50);
+
+        addMazes();
+        addPaths();
+        addGrapher();
 
 //        PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
 //        SpawnableStructureItem pyrmItem = new SpawnableStructureItem(pyramid,  "Pyramid", ResourcesUtil.red, game.getComponents().getEnvironment().getBlockDim());
 
-        PathUtil path = new PathUtil(game.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, ResourcesUtil.moon);
-        path.setShortestPathMaterial(ResourcesUtil.red);
-        SpawnableStructureItem pathItem = new SpawnableStructureItem(path, "Path", ResourcesUtil.purple, game.getComponents().getEnvironment().getBlockDim());
-        PathUtil path2 = new PathUtil(game.getComponents().getEnvironment().getBlockDim(), 20, 20, 3, ResourcesUtil.moon);
-        path2.setShortestPathMaterial(ResourcesUtil.red);
-        SpawnableStructureItem path2Item = new SpawnableStructureItem(path2, "Path2", ResourcesUtil.green, game.getComponents().getEnvironment().getBlockDim());
+//        game.getComponents().getPlayer().getInventory().addItem(pyrmItem, 99);
 
-        //create some functions
-        GrapherUtil grapher = new GrapherUtil(game.getComponents().getEnvironment().getBlockDim(),
+
+        // draws our game HUD
+        GAME.getWindow().showScene(GAME.getComponents().getMenu().getScene());
+    }
+
+    public void addMazes(){
+        double rad = GAME.getComponents().getEnvironment().getBlockDim()/3.0;
+        double height = GAME.getComponents().getEnvironment().getBlockDim();
+
+        MazeUtil maze = new MazeUtil(GAME.getComponents().getEnvironment().getBlockDim(), 3, 3, 2, 4, ResourcesUtil.metal);
+        MazeUtil maze2 = new MazeUtil(GAME.getComponents().getEnvironment().getBlockDim(), 10, 10, 3, 4, ResourcesUtil.metal, true);
+        SpawnableStructureItem mazeItem = new SpawnableStructureItem(maze, new Base_Cylinder("Maze",ResourcesUtil.snow_01, rad,height));
+        SpawnableStructureItem mazeItem2 = new SpawnableStructureItem(maze2, new Base_Cylinder("Maze2",ResourcesUtil.lava_01, rad,height));
+
+        GAME.getComponents().getPlayer().getInventory().addItem(mazeItem, 99);
+        GAME.getComponents().getPlayer().getInventory().addItem(mazeItem2, 99);
+    }
+
+    public void addPaths(){
+        double rad = GAME.getComponents().getEnvironment().getBlockDim()/3.0;
+        double height = GAME.getComponents().getEnvironment().getBlockDim();
+
+        PathUtil path = new PathUtil(GAME.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, ResourcesUtil.moon);
+        SpawnableStructureItem pathItem = new SpawnableStructureItem(path, new Base_Cylinder("Path",ResourcesUtil.moon, rad,height));
+
+        PathUtil path2 = new PathUtil(GAME.getComponents().getEnvironment().getBlockDim(), 20, 20, 3, ResourcesUtil.moon);
+        path2.setShortestPathMaterial(ResourcesUtil.red);
+        SpawnableStructureItem path2Item = new SpawnableStructureItem(path2, new Base_Cylinder("Path2",ResourcesUtil.sun, rad,height));
+
+        GAME.getComponents().getPlayer().getInventory().addItem(pathItem, 99);
+        GAME.getComponents().getPlayer().getInventory().addItem(path2Item, 99);
+    }
+
+    public void addGrapher(){
+        GrapherUtil grapher = new GrapherUtil(GAME.getComponents().getEnvironment().getBlockDim(),
                 20, 20, 1, 1, ResourcesUtil.black);
         Function funct;
         Variable v1, v2;
@@ -77,22 +107,10 @@ public class MainExecution extends Application {
         funct.addVariable(v2);
         grapher.addFunction(funct);
 
-        SpawnableStructureItem grapherItem = new SpawnableStructureItem(grapher, "grapher", ResourcesUtil.black, game.getComponents().getEnvironment().getBlockDim());
+        double rad = GAME.getComponents().getEnvironment().getBlockDim()/3.0;
+        double height = GAME.getComponents().getEnvironment().getBlockDim();
+        SpawnableStructureItem grapherItem = new SpawnableStructureItem(grapher, new Base_Cylinder("Grapher",ResourcesUtil.black, rad,height));
 
-        game.getComponents().getPlayer().getInventory().addItem(4, grass, 40);
-        game.getComponents().getPlayer().getInventory().addItem(dirt, 15);
-        game.getComponents().getPlayer().getInventory().addItem(sand, 10);
-        game.getComponents().getPlayer().getInventory().addItem(metal, 50);
-        game.getComponents().getPlayer().getInventory().addItem(mazeitem, 99);
-        game.getComponents().getPlayer().getInventory().addItem(maze2item, 99);
-//        game.getComponents().getPlayer().getInventory().addItem(pyrmItem, 99);
-        game.getComponents().getPlayer().getInventory().addItem(pathItem, 99);
-        game.getComponents().getPlayer().getInventory().addItem(path2Item, 99);
-        game.getComponents().getPlayer().getInventory().setCurrentIndex(0);
-        game.getComponents().getPlayer().getInventory().addItem(grapherItem, 99);
-        game.getComponents().getPlayer().getInventory().addItem(sp, 50);
-
-        // draws our game HUD
-        game.getWindow().showScene(game.getComponents().getMenu().getScene());
+        GAME.getComponents().getPlayer().getInventory().addItem(grapherItem, 99);
     }
 }

@@ -172,8 +172,8 @@ public class PlayerUtil {
                 context.getComponents().getEnvironment().getSkybox().sky_color = Color.DARKBLUE;
                 context.getComponents().getEnvironment().getSkybox().setCloudsVisible(false);
                 context.getComponents().getEnvironment().getSkybox().setPlanetsVisible(false);
-
-                context.getEffects().setBrightness(-0.8);
+                updateHoldingGroup(true);
+                context.getEffects().setBrightness(-0.6);
                 isUnderWater = true;
             }
         } else {
@@ -225,7 +225,7 @@ public class PlayerUtil {
             proj.setSpeed(10);
             proj.shoot();
         } else {
-            updateHoldingGroup();
+            updateHoldingGroup(false);
         }
     }
 
@@ -248,7 +248,6 @@ public class PlayerUtil {
                 double posy_next = posy - ray_speed * Math.sin(startrotY);
                 double posz_next = posz + ray_speed * Math.cos(startrotX) * Math.cos(startrotY);
                 dist_traveled += ray_speed;
-                System.out.println("Dist traveled: " + dist_traveled + " posx: " + posx + " posy: " + posy + " posz: " + posz);
 
                 Point3D loc_next = new Point3D(context.getComponents().getEnvironment().convertAbsoluteToTerrainPos(posx_next), Math.floor(posy_next / context.getComponents().getEnvironment().getBlockDim()), context.getComponents().getEnvironment().convertAbsoluteToTerrainPos(posz_next));
 
@@ -649,6 +648,7 @@ public class PlayerUtil {
         context.getComponents().getCamera().reset();
         context.getEffects().resetEffects();
         context.getComponents().getGameSceneControls().reset();
+        updateHoldingGroup(false);
     }
 
     public void teleportRandom() {
@@ -672,22 +672,21 @@ public class PlayerUtil {
             }
         }
 
-        updateHoldingGroup();
+        updateHoldingGroup(false);
     }
 
     public void setInventoryIndex(int i) {
         ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(i);
 
-        updateHoldingGroup();
+        updateHoldingGroup(false);
     }
 
-    public void updateHoldingGroup() {
+    public void updateHoldingGroup(boolean shouldHide) {
         context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
         Base_Structure inventoryItem = UTIL_INVENTORY.getCurrentItem();
 
         if (!inventoryItem.getProps().getPROPERTY_ITEM_TAG().equals(StructureBuilder.UNDEFINED_TAG)) {
             Base_Structure new_item = StructureBuilder.resolve(inventoryItem);
-            System.out.println(new_item.getScaleX());
             double scale = new_item.getBoundsInParent().getWidth() / 2;
             new_item.setScaleAll(scale);
             new_item.setTranslateZ(20);
@@ -699,7 +698,7 @@ public class PlayerUtil {
             }
             switchAnimation = new AnimationTimer() {
                 long animation_start = -1;
-
+                boolean finished = false;
                 @Override
                 public void handle(long l) {
                     if (animation_start == -1) {
@@ -708,11 +707,15 @@ public class PlayerUtil {
                     double angle = (Math.sin((l - animation_start) / 170000000.0)) * 30;
                     GROUP_ROTATE_LEFT_RIGHT.setAngle(GROUP_ROTATE_LEFT_RIGHT.getAngle() + angle);
                     GROUP_ROTATE_UP_DOWN.setAngle(GROUP_ROTATE_UP_DOWN.getAngle() + angle);
-                    System.out.println(l - animation_start + "   " + angle);
                     if (angle > 29 && !HOLDING_GROUP.getChildren().contains(new_item)) {
-                        HOLDING_GROUP.getChildren().setAll(new_item);
+                        if(shouldHide){
+                            HOLDING_GROUP.getChildren().clear();
+                        } else{
+                            HOLDING_GROUP.getChildren().setAll(new_item);
+                        }
+                        finished = true;
                     }
-                    if (angle <= -.01) {
+                    if (angle <= -.01 && finished) {
                         this.stop();
                         animation_start = -1;
                     }
@@ -742,7 +745,6 @@ public class PlayerUtil {
                 double angle = (Math.cos((l - animation_start) / 150000000.0)) * 25;
                 GROUP_ROTATE_LEFT_RIGHT.setAngle(GROUP_ROTATE_LEFT_RIGHT.getAngle() + angle);
                 GROUP_ROTATE_UP_DOWN.setAngle(GROUP_ROTATE_UP_DOWN.getAngle() + angle);
-                System.out.println(l - animation_start + "   " + angle);
                 if (angle <= -.01) {
                     this.stop();
                     animation_start = -1;
@@ -755,5 +757,6 @@ public class PlayerUtil {
     public boolean isInWater() {
         return (getPositionYwithHeight() + getPlayerHeight() > context.getComponents().getEnvironment().PROPERTY_WATER_LEVEL);
     }
+
 }
 
