@@ -4,6 +4,7 @@ import app.GUI.HUD.HUDElements.*;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.utils.Log;
+import javafx.animation.PauseTransition;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -26,9 +27,8 @@ public class ControlsUtil {
 
     public void apply(Scene game_scene) {
 
-
         game_scene.setOnMouseMoved(event -> {
-            if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
+            if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
 
                 double differencex = event.getSceneX() - last_mouse_x;
                 double differencey = event.getSceneY() - last_mouse_y;
@@ -43,25 +43,21 @@ public class ControlsUtil {
         });
 
         game_scene.setOnScroll(scrollEvent -> {
-            if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
+            if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
                 if (scrollEvent.getDeltaY() > 0) {
                     context.getComponents().getPlayer().setInventoryIndexOffset(1);
                 }
                 if (scrollEvent.getDeltaY() < 0) {
                     context.getComponents().getPlayer().setInventoryIndexOffset(-1);
                 }
-                if(((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()){
-                    context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO).update();
+                if(getItemInfo().isDisplayed()){
+                    getItemInfo().update();
                 }
             }
         });
 
-        game_scene.setOnMouseDragged(event -> {
-
-        });
-
         game_scene.setOnMousePressed(event -> {
-            if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
+            if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
 
                 Log.d(TAG,"setOnMousePressed " + event.getButton());
                 switch (event.getButton()) {
@@ -76,18 +72,18 @@ public class ControlsUtil {
         });
 
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
+            if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
                 if (!pressed.contains(event.getCode())) {
                     Log.d(TAG,"KEY_PRESSED " + event.getCode());
                     pressed.add(event.getCode());
                 }
                 switch (event.getCode()) {
                     case TAB:
-                        if (!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isToggle()) {
-                            if (!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed())
-                                ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
-                            if (((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing())
-                                ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+                        if (!getInventory().isToggle()) {
+                            if (!getInventory().isExtendedInventoryDisplayed())
+                                getInventory().toggleExtendedInventoryDisplayed();
+                            if (getCrosshair().isShowing())
+                                getCrosshair().toggleCrosshair();
                         }
                         break;
                     case C:
@@ -104,76 +100,76 @@ public class ControlsUtil {
 
             if (event.getCode() == KeyCode.ESCAPE) {
                 reset();
-                if (((ItemInfo) context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()) {
-                    ((ItemInfo) context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).toggleItemInfo();
-                    context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO).update();
-                } else if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed()) {
-                    ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
-                    context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                if (getItemInfo().isDisplayed()) {
+                    getItemInfo().toggleItemInfo();
+                    getItemInfo().update();
+                } else if (getInventory().isExtendedInventoryDisplayed()) {
+                    getInventory().toggleExtendedInventoryDisplayed();
+                    getInventory().update();
                 } else {
-                    ((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).setPaused(!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused());
+                    getPauseMenu().setPaused(!getPauseMenu().isPaused());
                 }
             }
 
-            if (!((PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused() && !((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).isDead()) {
+            if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
 
                 if (pressed.contains(event.getCode())) {
                     pressed.remove(event.getCode());
                     Log.d(TAG,"KEY_RELEASED " + event.getCode());
 
-                    // Handle changing inventory spot with number keys
+                    // Handle changing getInventory() spot with number keys
                     if (event.getCode().toString().toLowerCase().contains("digit")) {
                         int index = Character.getNumericValue(event.getCode().toString().charAt(event.getCode().toString().length() - 1)) - 1;
                         if (index == -1) {
                             index = 9;
                         }
                         context.getComponents().getPlayer().setInventoryIndex(index);
-                        if(((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()){
-                            ((ItemInfo)context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).update();
+                        if(getItemInfo().isDisplayed()){
+                            getItemInfo().update();
                         }
                     }
 
                     switch (event.getCode()) {
                         case TAB:
-                            ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).toggleExtendedInventoryDisplayed();
-                            if(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed() &&
-                                    ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()){
-                                ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
-                            }else if(!((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed() &&
-                                    !((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()){
-                                ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+                            getInventory().toggleExtendedInventoryDisplayed();
+                            if(getInventory().isExtendedInventoryDisplayed() &&
+                                    getCrosshair().isShowing()){
+                                getCrosshair().toggleCrosshair();
+                            }else if(!getInventory().isExtendedInventoryDisplayed() &&
+                                    !getCrosshair().isShowing()){
+                                getCrosshair().toggleCrosshair();
                             }
 
-                            ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).setSelected(-1);
-                            if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex() > ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1) {
-                                ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1);
+                            getInventory().setSelected(-1);
+                            if (getInventory().getInventoryUtil().getCurrentIndex() > getInventory().getSlotsDisplayed() - 1) {
+                                getInventory().getInventoryUtil().setCurrentIndex(getInventory().getSlotsDisplayed() - 1);
                             }
                             context.getComponents().getPlayer().updateHoldingGroup(false);
                             break;
                         case R:
-                            if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSelected() == -1) {
-                                ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).setSelected(
-                                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex()
+                            if (getInventory().getSelected() == -1) {
+                                getInventory().setSelected(
+                                        getInventory().getInventoryUtil().getCurrentIndex()
                                 );
                             } else {
-                                ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).swap(
-                                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSelected(),
-                                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().getCurrentIndex()
+                                getInventory().swap(
+                                        getInventory().getSelected(),
+                                        getInventory().getInventoryUtil().getCurrentIndex()
                                 );
                             }
-                            context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+                            getInventory().update();
                             break;
                         case T:
                             context.getComponents().getPlayer().teleportRandom();
                             break;
                         case E:
-                            ((ItemInfo) context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).toggleItemInfo();
+                            getItemInfo().toggleItemInfo();
                             break;
                         case SPACE:
                             context.getComponents().getPlayer().canJump = true;
                             break;
                         case ESCAPE:
-                            if(!((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing())((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+                            if(!getCrosshair().isShowing())getCrosshair().toggleCrosshair();
                             break;
                         case F:
                             context.getComponents().getPlayer().toggleIsFlyMode();
@@ -195,6 +191,10 @@ public class ControlsUtil {
                             break;
                         case SHIFT:
                             context.getComponents().getPlayer().isRunning = false;
+                            break;
+                        case CAPS:
+                            context.getComponents().getPlayer().toggleBoostFlySpeed();
+                            break;
                     }
                 }
             }
@@ -247,6 +247,26 @@ public class ControlsUtil {
                 }
             }
         }
+    }
+    
+    public ItemInfo getItemInfo(){
+       return (ItemInfo) context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO);
+    }
+    
+    public Inventory getInventory(){
+        return (Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY);
+    }
+    
+    public Crosshair getCrosshair(){
+        return (Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR);
+    }
+    
+    public PauseMenu getPauseMenu(){
+        return (PauseMenu) context.getComponents().getHUD().getElement(HUDUtil.PAUSE);
+    }
+    
+    public DeathMenu getDeathMenu(){
+        return (DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH);
     }
 
     public void reset() {

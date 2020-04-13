@@ -169,7 +169,7 @@ public class HUDUtil {
 
         Inventory inv = new Inventory(HUDUtil.INVENTORY,
                 new Point2D(200, 100),
-                context.getComponents().getPlayer().getInventory(),
+                context.getComponents().getPlayer().getInventoryUtil(),
                 50, 50, 5, 10, Color.WHITE, Color.GREY);
         inv.fixToEdge(HUDUtil.EDGE_BOTTOM);
         inv.setDisplayNumbers(true);

@@ -8,7 +8,6 @@ import app.GUI.HUD.InventoryUtil;
 import app.structures.objects.Base_Structure;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -43,7 +42,7 @@ public class ItemInfo extends HUDElement {
         this.height = height;
         this.screenHeight = context.getWindow().getWindowHeight();
         this.screenWidth = context.getWindow().getWindowWidth();
-        this.inventoryUtil = context.getComponents().getPlayer().getInventory();
+        this.inventoryUtil = context.getComponents().getPlayer().getInventoryUtil();
         info = new InterfaceBuilder();
         update();
     }
