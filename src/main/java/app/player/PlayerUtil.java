@@ -2,6 +2,7 @@ package app.player;
 
 import app.GUI.HUD.HUDElements.DeathMenu;
 import app.GUI.HUD.HUDElements.Inventory;
+import app.GUI.HUD.HUDElements.ItemInfo;
 import app.GUI.HUD.HUDElements.StatusBar;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
@@ -221,26 +222,29 @@ public class PlayerUtil {
         }
     }
 
-    public void shoot() {
+    public void shootAction() {
         Log.d(TAG, "shoot()");
 
-        BaseStructure inventory_item = UTIL_INVENTORY.getCurrentItem();
+        if(!((ItemInfo) context.getComponents().getHUD().getElement(HUDUtil.ITEM_INFO)).isDisplayed()){
+            BaseStructure inventory_item = UTIL_INVENTORY.getCurrentItem();
 
-        if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureProperties.UNDEFINED_TAG) {
-            BaseStructure duplicate = StructureBuilder.resolve(inventory_item);
+            if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureProperties.UNDEFINED_TAG) {
+                BaseStructure duplicate = StructureBuilder.resolve(inventory_item);
 
-            UTIL_INVENTORY.popCurrentItem();
-            performPlaceAnimation();
+                UTIL_INVENTORY.popCurrentItem();
+                performPlaceAnimation();
 
-            Base_Projectile proj = new Base_Projectile(context.getComponents().getEnvironment(), duplicate);
-            proj.setSpeed(10);
-            proj.shoot();
-        } else {
-            updateHoldingGroup(false);
+                Base_Projectile proj = new Base_Projectile(context.getComponents().getEnvironment(), duplicate);
+                proj.setSpeed(10);
+                proj.shoot();
+            } else {
+                updateHoldingGroup(false);
+            }
         }
+
     }
 
-    public void placeObject() {
+    public void placeAction() {
         BaseStructure inventory_item = UTIL_INVENTORY.getCurrentItem();
 
 

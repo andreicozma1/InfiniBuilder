@@ -4,7 +4,6 @@ import app.GUI.HUD.HUDElements.*;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.utils.Log;
-import javafx.animation.PauseTransition;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -62,10 +61,10 @@ public class ControlsUtil {
                 Log.d(TAG,"setOnMousePressed " + event.getButton());
                 switch (event.getButton()) {
                     case SECONDARY:
-                        context.getComponents().getPlayer().placeObject();
+                        context.getComponents().getPlayer().placeAction();
                         break;
                     case PRIMARY:
-                        context.getComponents().getPlayer().shoot();
+                        context.getComponents().getPlayer().shootAction();
                         break;
                 }
             }
