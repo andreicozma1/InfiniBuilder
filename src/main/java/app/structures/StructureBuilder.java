@@ -13,9 +13,8 @@ public abstract class StructureBuilder extends Group implements Interactable {
     public static final String UNDEFINED_TAG = "Undefined";
 
     public static final int TYPE_OBJECT = 0;
-    public static final int TYPE_STRUCTURE_2D = 1;
-    public static final int TYPE_STRUCTURE_3D = 2;
-    public static final int TYPE_WEAPON = 3;
+    public static final int TYPE_SPAWNABLE = 1;
+    public static final int TYPE_WEAPON = 2;
 
     public static final int OBJECT_TYPE_CUBE = 0;
     public static final int OBJECT_TYPE_SPHERE = 1;

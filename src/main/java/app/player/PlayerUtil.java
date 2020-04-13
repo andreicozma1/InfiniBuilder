@@ -754,11 +754,14 @@ public class PlayerUtil {
                     GROUP_ROTATE_UP_DOWN.setAngle(GROUP_ROTATE_UP_DOWN.getAngle() + angle);
 
                     Base_Structure new_item = StructureBuilder.resolve(inventoryItem);
-                    double scale = new_item.getBoundsInParent().getWidth() / 2;
-                    new_item.setScaleAll(scale);
-                    new_item.setTranslateZ(20);
-                    new_item.setTranslateY(8);
-                    new_item.setTranslateX(10);
+
+                    double scalex = new_item.getBoundsInParent().getWidth() / 2;
+                    double scaley = new_item.getBoundsInParent().getHeight() / 2;
+                    double scalez = new_item.getBoundsInParent().getDepth() / 2;
+
+                    new_item.setScaleIndependent(scalex,scaley,scalez);
+                    new_item.setTranslateIndependent(10,8,20);
+
                     if (angle > 29 && !HOLDING_GROUP.getChildren().contains(new_item)) {
                         if(shouldHide){
                             HOLDING_GROUP.getChildren().clear();

@@ -5,8 +5,6 @@ import app.player.AbsolutePoint3D;
 import app.structures.SpawnableStructure;
 import app.structures.StructureBuilder;
 import javafx.geometry.Point2D;
-import javafx.scene.paint.Material;
-import javafx.scene.shape.Cylinder;
 
 import java.util.Map;
 
@@ -21,7 +19,7 @@ public class SpawnableStructureItem extends Base_Structure {
         this.getShape().setMaterial(m.getShape().getMaterial());
         this.setScaleIndependent(m.getScaleX(),m.getScaleY(),m.getScaleZ());
         this.setProps(m.getProps());
-        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_STRUCTURE_2D);
+        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_SPAWNABLE);
         super.getChildren().add(this.getShape());
     }
 
