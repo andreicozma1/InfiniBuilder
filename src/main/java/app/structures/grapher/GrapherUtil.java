@@ -2,6 +2,7 @@ package app.structures.grapher;
 
 import app.GameBuilder;
 import app.structures.SpawnableStructure;
+import app.structures.StructureBuilder;
 import app.structures.objects.Base_Cube;
 import app.utils.Log;
 import app.utils.ResourcesUtil;
@@ -24,6 +25,8 @@ public class GrapherUtil implements SpawnableStructure {
     private int yAxisSize;
     private double xAxisScalePerBlock;
     private double yAxisScalePerBlock;
+    StructureBuilder.StructureProperties props;
+
 
     public GrapherUtil(double cellDim,
                        int xAxisSize,
@@ -139,5 +142,10 @@ public class GrapherUtil implements SpawnableStructure {
 
             }
         }
+    }
+
+    @Override
+    public void setProps(StructureBuilder.StructureProperties props) {
+        this.props = props;
     }
 }

@@ -5,6 +5,7 @@ import app.GameBuilder;
 import app.algorithms.Edge;
 import app.algorithms.GraphUtil;
 import app.structures.SpawnableStructure;
+import app.structures.StructureBuilder;
 import app.structures.maze.MazeGenerator;
 import app.structures.objects.Base_Cube;
 import app.utils.Log;
@@ -31,6 +32,7 @@ public class PathUtil implements SpawnableStructure {
     private List<Integer> path;
     private MazeGenerator mazeGenerator;
     private GraphUtil graph;
+    StructureBuilder.StructureProperties props;
 
     public PathUtil(double cellDim,
                     int pathRows,
@@ -239,5 +241,10 @@ public class PathUtil implements SpawnableStructure {
 
         }
 
+    }
+
+    @Override
+    public void setProps(StructureBuilder.StructureProperties props) {
+        this.props = props;
     }
 }
