@@ -70,7 +70,6 @@ public class MainExecution extends Application {
         SpawnableStructureItem mazeItem2 = new SpawnableStructureItem(maze2, new BaseCylinder("Maze2",ResourcesUtil.lava_01, rad,height));
 
 
-        mazeItem2.getSpawnableStructure().getProps().setPROPERTY_OBJECT_TYPE(StructureProperties.OBJECT_TYPE_CYLINDER);
         GAME.getComponents().getPlayer().getInventoryUtil().addItem(mazeItem, 99);
         GAME.getComponents().getPlayer().getInventoryUtil().addItem(mazeItem2, 99);
     }
@@ -86,6 +85,7 @@ public class MainExecution extends Application {
 
         PathUtil path2 = new PathUtil(GAME.getComponents().getEnvironment().getBlockDim(), 20, 20, 3, ResourcesUtil.moon);
         path2.setShortestPathMaterial(ResourcesUtil.red);
+        SpawnableStructureItem path2Item = new SpawnableStructureItem(path2, new BaseCylinder("Path2",ResourcesUtil.sun, rad,height));
 
         GAME.getComponents().getPlayer().getInventoryUtil().addItem(pathItem, 99);
         GAME.getComponents().getPlayer().getInventoryUtil().addItem(path2Item, 99);
