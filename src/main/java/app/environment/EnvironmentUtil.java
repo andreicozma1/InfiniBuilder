@@ -22,8 +22,8 @@ import java.util.TreeMap;
 
 public class EnvironmentUtil {
 
-    public static final double LIMIT_MIN = 1000;
-    public static final double LIMIT_MAX = -1000;
+    public static final double LIMIT_MIN = 500;
+    public static final double LIMIT_MAX = -500;
     public static final double GRAVITY = .2;
     public static final double VELOCITY_TERMINAL = 25;
     public static final double WATER_DRAG_COEFFICIENT = .1;
