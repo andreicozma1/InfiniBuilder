@@ -37,11 +37,11 @@ public class MainExecution extends Application {
         // testing inventory Util with a base item that only holds the item tag
 
         Base_Sphere sp = new Base_Sphere("Sphere", ResourcesUtil.metal, 5);
-        GAME.getComponents().getPlayer().getInventory().addItem(sp, 50);
+        GAME.getComponents().getPlayer().getInventoryUtil().addItem(sp, 50);
 
 
         Base_Cylinder cyl = new Base_Cylinder("Cylinder",ResourcesUtil.brick_01,GAME.getComponents().getEnvironment().getBlockDim()/3.0,GAME.getComponents().getEnvironment().getBlockDim());
-        GAME.getComponents().getPlayer().getInventory().addItem(cyl, 50);
+        GAME.getComponents().getPlayer().getInventoryUtil().addItem(cyl, 50);
 
         addMazes();
         addPaths();
@@ -67,8 +67,8 @@ public class MainExecution extends Application {
         SpawnableStructureItem mazeItem = new SpawnableStructureItem(maze, new Base_Cylinder("Maze",ResourcesUtil.snow_01, rad,height));
         SpawnableStructureItem mazeItem2 = new SpawnableStructureItem(maze2, new Base_Cylinder("Maze2",ResourcesUtil.lava_01, rad,height));
 
-        GAME.getComponents().getPlayer().getInventory().addItem(mazeItem, 99);
-        GAME.getComponents().getPlayer().getInventory().addItem(mazeItem2, 99);
+        GAME.getComponents().getPlayer().getInventoryUtil().addItem(mazeItem, 99);
+        GAME.getComponents().getPlayer().getInventoryUtil().addItem(mazeItem2, 99);
     }
 
     public void addPaths(){
@@ -84,8 +84,8 @@ public class MainExecution extends Application {
         path2.setShortestPathMaterial(ResourcesUtil.red);
         SpawnableStructureItem path2Item = new SpawnableStructureItem(path2, new Base_Cylinder("Path2",ResourcesUtil.sun, rad,height));
 
-        GAME.getComponents().getPlayer().getInventory().addItem(pathItem, 99);
-        GAME.getComponents().getPlayer().getInventory().addItem(path2Item, 99);
+        GAME.getComponents().getPlayer().getInventoryUtil().addItem(pathItem, 99);
+        GAME.getComponents().getPlayer().getInventoryUtil().addItem(path2Item, 99);
     }
 
     public void addGrapher(){
@@ -120,7 +120,7 @@ public class MainExecution extends Application {
         double height = GAME.getComponents().getEnvironment().getBlockDim();
         SpawnableStructureItem grapherItem = new SpawnableStructureItem(grapher, new Base_Cylinder("Grapher",ResourcesUtil.black, rad,height));
 
-        GAME.getComponents().getPlayer().getInventory().addItem(grapherItem, 99);
+        GAME.getComponents().getPlayer().getInventoryUtil().addItem(grapherItem, 99);
     }
 
     public void addAllBlocks(){
@@ -128,7 +128,7 @@ public class MainExecution extends Application {
 
         for(String type: ResourcesUtil.MAP_ALL_MATERIALS.keySet()){
             Base_Cube cb = new Base_Cube(type, ResourcesUtil.MAP_ALL_MATERIALS.get(type), GAME.getComponents().getEnvironment().getBlockDim());
-            GAME.getComponents().getPlayer().getInventory().addItem(cb, 50);
+            GAME.getComponents().getPlayer().getInventoryUtil().addItem(cb, 50);
         }
     }
 }

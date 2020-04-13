@@ -498,8 +498,12 @@ public class PlayerUtil {
         setUV_light(!uv_light_state);
     }
 
-    public InventoryUtil getInventory() {
+    public InventoryUtil getInventoryUtil() {
         return UTIL_INVENTORY;
+    }
+
+    public Inventory getInventory(){
+        return (Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY);
     }
 
     public Group getGroup() {
@@ -619,6 +623,11 @@ public class PlayerUtil {
         }
     }
 
+
+    public DeathMenu getDeathMenu(){
+        return (DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH);
+    }
+
     public StatusBar getStaminaBar() {
         return (StatusBar) context.getComponents().getHUD().getElement(HUDUtil.STAMINA);
     }
@@ -653,7 +662,7 @@ public class PlayerUtil {
 
     public void die() {
         Log.d(TAG, "die()");
-        ((DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH)).setDead(true);
+        getDeathMenu().setDead(true);
         context.getComponents().getHUD().getElement(HUDUtil.DEATH).update();
     }
 
@@ -684,26 +693,26 @@ public class PlayerUtil {
 
     public void setInventoryIndexOffset(int i) {
         if (i < 0) {
-            UTIL_INVENTORY.moveCurrIndex(i);
+            getInventoryUtil().moveCurrIndex(i);
         }
         if (i > 0) {
-            if (((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isExtendedInventoryDisplayed()) {
-                UTIL_INVENTORY.moveCurrIndex(i);
+            if (getInventory().isExtendedInventoryDisplayed()) {
+                getInventoryUtil().moveCurrIndex(i);
             } else {
-                if (UTIL_INVENTORY.getCurrentIndex() != ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getSlotsDisplayed() - 1) {
-                    UTIL_INVENTORY.moveCurrIndex(i);
+                if (getInventoryUtil().getCurrentIndex() != getInventory().getSlotsDisplayed() - 1) {
+                    getInventoryUtil().moveCurrIndex(i);
                 }
             }
         }
 
-        Base_Structure currItem = UTIL_INVENTORY.getCurrentItem();
+        Base_Structure currItem = getInventoryUtil().getCurrentItem();
         Log.d(TAG,"setInventoryIndexOffset() -> " + i + " -> Tag: " + currItem.getProps().getPROPERTY_ITEM_TAG() + "; ItmType: " + currItem.getProps().getPROPERTY_ITEM_TYPE()+ "; ObjType: " + currItem.getProps().getPROPERTY_OBJECT_TYPE());
 
         updateHoldingGroup(false);
     }
 
     public void setInventoryIndex(int i) {
-        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).getInventoryUtil().setCurrentIndex(i);
+        getInventoryUtil().setCurrentIndex(i);
 
         updateHoldingGroup(false);
     }
