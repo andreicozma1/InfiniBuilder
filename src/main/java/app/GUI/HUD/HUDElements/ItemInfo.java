@@ -6,13 +6,16 @@ import app.GameBuilder;
 import app.structures.StructureBuilder;
 import app.GUI.HUD.InventoryUtil;
 import app.structures.objects.Base_Structure;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 
 
@@ -22,6 +25,7 @@ public class ItemInfo extends HUDElement {
     private final double screenHeight;
     private final InventoryUtil inventoryUtil;
     private final GameBuilder context;
+    private int objectType;
     private double width;
     private double height;
     private boolean isDisplayed = false;
@@ -127,8 +131,51 @@ public class ItemInfo extends HUDElement {
                         Color.WHITE,
                         pauseText);
 
+                Text objectText = info.drawText("Object Type", 15, 140, Color.WHITE, pauseText);
+                Text objectType = info.drawText(determineObjectType(currItem.getProps().getPROPERTY_ITEM_TYPE()),50,140,Color.WHITE,pauseText);
+                Rectangle objectHitBox = info.drawRectangle(0, 135, width, 20, 0, 0, Color.TRANSPARENT);
+                objectHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                        new EventHandler<MouseEvent>() {
+                            public void handle(MouseEvent me) {
+                                switch(currItem.getProps().getPROPERTY_ITEM_TYPE()){
+                                    case StructureBuilder.OBJECT_TYPE_CUBE:
+                                        currItem.getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_SPHERE);
+                                        break;
+                                    case StructureBuilder.OBJECT_TYPE_SPHERE:
+                                        currItem.getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_CYLINDER);
+                                        break;
+                                    case StructureBuilder.OBJECT_TYPE_CYLINDER:
+                                        currItem.getProps().setPROPERTY_OBJECT_TYPE(StructureBuilder.OBJECT_TYPE_CUBE);
+                                        break;
+                                }
+                                objectType.setText()
+                            }
+                        });
+                objectHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                        new EventHandler<MouseEvent>() {
+                            public void handle(MouseEvent me) {
+                                objectText.setFill(GREEN);
+                                objectType.setFill(GREEN);
+                            }
+                        });
+                objectHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                        new EventHandler<MouseEvent>() {
+                            public void handle(MouseEvent me) {
+                                objectText.setFill(Color.WHITE);
+                                objectType.setFill(Color.WHITE);
+
+                            }
+                        });
+
             }
             getGroup().getChildren().add(info.getGroup());
         }
+    }
+
+    private String determineObjectType(int o){
+        if(o == StructureBuilder.OBJECT_TYPE_CUBE) return "CUBE";
+        if(o == StructureBuilder.OBJECT_TYPE_SPHERE) return "SPHERE";
+        if(o == StructureBuilder.OBJECT_TYPE_CYLINDER) return "CYLINDER";
+        return "MODEL";
     }
 }
