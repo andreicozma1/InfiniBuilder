@@ -82,7 +82,10 @@ public class ControlsUtil {
                         if (!getInventory().isToggle()) {
                             if (!getInventory().isExtendedInventoryDisplayed())
                                 getInventory().toggleExtendedInventoryDisplayed();
-                            if (getCrosshair().isShowing())
+                            if(getItemInfo().isDisplayed()){
+
+                            }
+                            else if (getCrosshair().isShowing())
                                 getCrosshair().toggleCrosshair();
                         }
                         break;
@@ -99,6 +102,8 @@ public class ControlsUtil {
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
 
             if (event.getCode() == KeyCode.ESCAPE) {
+
+                getCrosshair().toggleCrosshair();
                 reset();
                 if (getItemInfo().isDisplayed()) {
                     getItemInfo().toggleItemInfo();
@@ -148,13 +153,11 @@ public class ControlsUtil {
                         case C:
                             context.getComponents().getPlayer().toggleCrouch();
                             break;
-                        case ESCAPE:
-                            // TODO - Finish
-                            if(!getCrosshair().isShowing())getCrosshair().toggleCrosshair();
-                            break;
                         case TAB:
                             getInventory().toggleExtendedInventoryDisplayed();
-                            if(getInventory().isExtendedInventoryDisplayed() &&
+                            if(getItemInfo().isDisplayed()){
+
+                            }else if(getInventory().isExtendedInventoryDisplayed() &&
                                     getCrosshair().isShowing()){
                                 getCrosshair().toggleCrosshair();
                             }else if(!getInventory().isExtendedInventoryDisplayed() &&
@@ -169,6 +172,10 @@ public class ControlsUtil {
                             context.getComponents().getPlayer().updateHoldingGroup(false);
                             break;
                         case E:
+                            if(!getInventory().isExtendedInventoryDisplayed()){
+                                getCrosshair().toggleCrosshair();
+
+                            }
                             getItemInfo().toggleItemInfo();
                             break;
                         case R:
