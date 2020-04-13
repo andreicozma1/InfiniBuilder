@@ -5,8 +5,12 @@ import app.GameBuilder;
 import app.algorithms.Edge;
 import app.algorithms.GraphUtil;
 import app.structures.SpawnableStructureBuilder;
+import app.structures.StructureProperties;
 import app.structures.maze.MazeGenerator;
 import app.structures.objects.BaseCube;
+import app.structures.objects.BaseCylinder;
+import app.structures.objects.BaseSphere;
+import app.structures.objects.BaseStructure;
 import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
@@ -127,10 +131,20 @@ public class PathUtil extends SpawnableStructureBuilder {
             for (j = 0; j < (pathCols * 2 - 1) * pathWidth; j++) {
                 mj = j / pathWidth;
                 if (mi % 2 == 0 && mj % 2 == 0) {
-                    BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
-                    cube.getShape().setMaterial(pathMaterial);
-                    Log.d(TAG,currX + " " + currZ);
-                    block_map.put(new Point2D(startingX + cellDim * j, startingZ + cellDim * i), cube);
+                    BaseStructure item;
+                    switch (getProps().getPROPERTY_OBJECT_TYPE()){
+                        case StructureProperties.OBJECT_TYPE_CYLINDER:
+                            item = new BaseCylinder("Path",cellDim/2,cellDim);
+                            break;
+                        case StructureProperties.OBJECT_TYPE_SPHERE:
+                            item = new BaseSphere("Path",(float)cellDim/2);
+                            break;
+                        default:
+                            item = new BaseCube("Path", cellDim, cellDim, cellDim);
+                            break;
+                    }
+                    item.getShape().setMaterial(pathMaterial);
+                    block_map.put(new Point2D(currX, currZ), item);
                 }
                 currX += cellDim;
 
@@ -173,9 +187,20 @@ public class PathUtil extends SpawnableStructureBuilder {
             // loops here are for when the cells are thicker than one block
             for (i = 0; i < pathWidth; i++) {
                 for (j = 0; j < pathWidth; j++) {
-                    BaseCube cube = new BaseCube("Path Block", cellDim, cellDim, cellDim);
-                    cube.getShape().setMaterial(pathMaterial);
-                    block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), cube);
+                    BaseStructure item;
+                    switch (getProps().getPROPERTY_OBJECT_TYPE()){
+                        case StructureProperties.OBJECT_TYPE_CYLINDER:
+                            item = new BaseCylinder("Path",cellDim/2,cellDim);
+                            break;
+                        case StructureProperties.OBJECT_TYPE_SPHERE:
+                            item = new BaseSphere("Path",(float)cellDim/2);
+                            break;
+                        default:
+                            item = new BaseCube("Path", cellDim, cellDim, cellDim);
+                            break;
+                    }
+                    item.getShape().setMaterial(pathMaterial);
+                    block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), item);
                 }
             }
         }
@@ -194,9 +219,20 @@ public class PathUtil extends SpawnableStructureBuilder {
             currZ = startingZ + mj * cellDim;
             while (true) {
                 // draw the cube
-                BaseCube cube = new BaseCube("Path Block", cellDim, cellDim, cellDim);
-                cube.getShape().setMaterial(shortestPathMaterial);
-                block_map.put(new Point2D(currX, currZ), cube);
+                BaseStructure item;
+                switch (getProps().getPROPERTY_OBJECT_TYPE()){
+                    case StructureProperties.OBJECT_TYPE_CYLINDER:
+                        item = new BaseCylinder("Path",cellDim/2,cellDim);
+                        break;
+                    case StructureProperties.OBJECT_TYPE_SPHERE:
+                        item = new BaseSphere("Path",(float)cellDim/2);
+                        break;
+                    default:
+                        item = new BaseCube("Path", cellDim, cellDim, cellDim);
+                        break;
+                }
+                item.getShape().setMaterial(pathMaterial);
+                block_map.put(new Point2D(currX, currZ), item);
 
                 // if reached the end of the path
                 if (mj == j && mi == i) {

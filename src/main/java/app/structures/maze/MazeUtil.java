@@ -2,8 +2,14 @@ package app.structures.maze;
 
 import app.GameBuilder;
 import app.algorithms.Edge;
+import app.structures.SpawnableStructure;
 import app.structures.SpawnableStructureBuilder;
+import app.structures.StructureBuilder;
+import app.structures.StructureProperties;
 import app.structures.objects.BaseCube;
+import app.structures.objects.BaseCylinder;
+import app.structures.objects.BaseSphere;
+import app.structures.objects.BaseStructure;
 import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
@@ -154,7 +160,6 @@ public class MazeUtil extends SpawnableStructureBuilder {
             mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, this.seed);
         }
 
-
         Point2D pos = context.getComponents().getPlayer().getPlayerPoint2D();
         double startingX = pos.getX() - (cellDim * cellWidth);
         double startingZ = pos.getY() - (cellDim * cellWidth);
@@ -183,9 +188,20 @@ public class MazeUtil extends SpawnableStructureBuilder {
                     } else if (mi == mazeRows * 2 - 1 && mj == mazeCols * 2) {
 //                        context.getComponents().getEnvironment().clearSpot(new Point2D(currX, currZ));
                     } else if (mi == 0 || mi == mazeRows * 2 || mj == 0 || mj == mazeCols * 2 || (mi % 2 == 0 && mj % 2 == 0)) {
-                        BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
-                        cube.getShape().setMaterial(mazeMaterial);
-                        block_map.put(new Point2D(currX, currZ), cube);
+                        BaseStructure item;
+                        switch (getProps().getPROPERTY_OBJECT_TYPE()){
+                            case StructureProperties.OBJECT_TYPE_CYLINDER:
+                                item = new BaseCylinder("Maze Wall",cellDim/2,cellDim);
+                                break;
+                            case StructureProperties.OBJECT_TYPE_SPHERE:
+                                item = new BaseSphere("Maze Wall",(float)cellDim/2);
+                                break;
+                            default:
+                                item = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
+                                break;
+                        }
+                        item.getShape().setMaterial(mazeMaterial);
+                        block_map.put(new Point2D(currX, currZ), item);
                     }
                     currX += cellDim;
                 }
@@ -232,9 +248,20 @@ public class MazeUtil extends SpawnableStructureBuilder {
                 // loops here are for when the cells are thicker than one block
                 for (i = 0; i < cellWidth; i++) {
                     for (j = 0; j < cellWidth; j++) {
-                        BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
-                        cube.getShape().setMaterial(mazeMaterial);
-                        block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), cube);
+                        BaseStructure item;
+                        switch (getProps().getPROPERTY_OBJECT_TYPE()){
+                            case StructureProperties.OBJECT_TYPE_CYLINDER:
+                                item = new BaseCylinder("Maze Wall",cellDim/2,cellDim);
+                                break;
+                            case StructureProperties.OBJECT_TYPE_SPHERE:
+                                item = new BaseSphere("Maze Wall",(float)cellDim/2);
+                                break;
+                            default:
+                                item = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
+                                break;
+                        }
+                        item.getShape().setMaterial(mazeMaterial);
+                        block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), item);
                     }
                 }
             }

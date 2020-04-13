@@ -1,4 +1,5 @@
 package app;
+import app.structures.StructureProperties;
 import app.structures.grapher.*;
 import app.structures.maze.*;
 import app.structures.objects.*;
@@ -68,6 +69,8 @@ public class MainExecution extends Application {
         SpawnableStructureItem mazeItem = new SpawnableStructureItem(maze, new BaseCylinder("Maze",ResourcesUtil.snow_01, rad,height));
         SpawnableStructureItem mazeItem2 = new SpawnableStructureItem(maze2, new BaseCylinder("Maze2",ResourcesUtil.lava_01, rad,height));
 
+
+        mazeItem2.getSpawnableStructure().getProps().setPROPERTY_OBJECT_TYPE(StructureProperties.OBJECT_TYPE_CYLINDER);
         GAME.getComponents().getPlayer().getInventoryUtil().addItem(mazeItem, 99);
         GAME.getComponents().getPlayer().getInventoryUtil().addItem(mazeItem2, 99);
     }
