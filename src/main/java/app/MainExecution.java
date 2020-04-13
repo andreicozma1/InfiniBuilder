@@ -63,7 +63,7 @@ public class MainExecution extends Application {
         double height = GAME.getComponents().getEnvironment().getBlockDim();
 
         MazeUtil maze = new MazeUtil(GAME.getComponents().getEnvironment().getBlockDim(), 3, 3, 2, 4, ResourcesUtil.metal);
-        MazeUtil maze2 = new MazeUtil(GAME.getComponents().getEnvironment().getBlockDim(), 10, 10, 3, 4, ResourcesUtil.metal, true);
+        MazeUtil maze2 = new MazeUtil(GAME.getComponents().getEnvironment().getBlockDim(), 10, 5, 3, 4, ResourcesUtil.metal, true);
         SpawnableStructureItem mazeItem = new SpawnableStructureItem(maze, new Base_Cylinder("Maze",ResourcesUtil.snow_01, rad,height));
         SpawnableStructureItem mazeItem2 = new SpawnableStructureItem(maze2, new Base_Cylinder("Maze2",ResourcesUtil.lava_01, rad,height));
 
@@ -77,7 +77,7 @@ public class MainExecution extends Application {
         double rad = GAME.getComponents().getEnvironment().getBlockDim()/3.0;
         double height = GAME.getComponents().getEnvironment().getBlockDim();
 
-        PathUtil path = new PathUtil(GAME.getComponents().getEnvironment().getBlockDim(), 3, 3, 1, ResourcesUtil.moon);
+        PathUtil path = new PathUtil(GAME.getComponents().getEnvironment().getBlockDim(), 3, 6, 1, ResourcesUtil.moon);
         SpawnableStructureItem pathItem = new SpawnableStructureItem(path, new Base_Cylinder("Path",ResourcesUtil.moon, rad,height));
 
         PathUtil path2 = new PathUtil(GAME.getComponents().getEnvironment().getBlockDim(), 20, 20, 3, ResourcesUtil.moon);
