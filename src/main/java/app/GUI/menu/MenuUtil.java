@@ -8,14 +8,21 @@ import app.utils.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.application.HostServices;
+import javafx.application.*;
+import javafx.stage.Stage;
 
+import java.awt.*;
+import java.net.URI;
 import java.util.HashMap;
 
 
@@ -943,7 +950,7 @@ public class MenuUtil {
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_sun_moon_period *= 2;
-                        if (curr_sun_moon_period > 256) curr_sun_moon_period = 2;
+                        if (curr_sun_moon_period > 512) curr_sun_moon_period = 2;
                         sunMoonPeriodMult.setText(curr_sun_moon_period + " sec");
                         context.getComponents().getEnvironment().getSkybox().setSun_moon_period_multiplier(curr_sun_moon_period);
                     }
@@ -974,7 +981,7 @@ public class MenuUtil {
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         curr_big_star_period *= 2;
-                        if (curr_big_star_period > 256) curr_big_star_period = 2;
+                        if (curr_big_star_period > 512) curr_big_star_period = 2;
                         bigStarPeriodMult.setText(curr_big_star_period + " sec");
                         context.getComponents().getEnvironment().getSkybox().setBig_planet_period_multiplier(curr_big_star_period);
                     }
@@ -1112,7 +1119,7 @@ public class MenuUtil {
         playerRunSpeedHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        curr_run_speed += .25;
+                        curr_run_speed += 0.1;
                         if (curr_run_speed > 5) curr_run_speed = .5;
                         playerRunSpeedMult.setText(Double.toString(curr_run_speed));
                         context.getComponents().getPlayer().setRunMultiplier(curr_run_speed);
@@ -1738,6 +1745,84 @@ public class MenuUtil {
                 85,
                 Color.WHITE,
                 title);
+
+        aboutMenu.drawText("*GAME TITLE*",
+                50,
+                120,
+                Color.WHITE,
+                options);
+
+        aboutMenu.drawText("Developers: Andrei Cozma, Hunter Price" ,
+                50,
+                155,
+                Color.WHITE,
+                options);
+        aboutMenu.drawText("Links: " ,
+                50,
+                190,
+                Color.WHITE,
+                options);
+        Hyperlink github = new Hyperlink();
+        github.setText("GitHub,");
+        github.setOnAction(e -> {
+            try {
+                new ProcessBuilder("x-www-browser","https://github.com/andreicozma1/CS307FinalProject").start();
+            }catch(Exception exception){
+                exception.printStackTrace();
+            }
+        });
+        github.setBorder(Border.EMPTY);
+        github.setFont(options);
+        github.setTranslateX(147);
+        github.setTranslateY(160);
+        aboutMenu.addNode(github);
+
+
+        Hyperlink trello = new Hyperlink();
+        trello.setText("Trello,");
+        trello.setOnAction(e -> {
+            try {
+                new ProcessBuilder("x-www-browser","https://trello.com/b/ghb9XDRV/cs307-final-project").start();
+            }catch(Exception exception){
+                exception.printStackTrace();
+            }
+        });
+        trello.setBorder(Border.EMPTY);
+        trello.setFont(options);
+        trello.setTranslateX(250);
+        trello.setTranslateY(160);
+        aboutMenu.addNode(trello);
+
+        Hyperlink youtube = new Hyperlink();
+        youtube.setText("YouTube,");
+        youtube.setOnAction(e -> {
+            try {
+                new ProcessBuilder("x-www-browser","https://www.youtube.com/").start();
+            }catch(Exception exception){
+                exception.printStackTrace();
+            }
+        });
+        youtube.setBorder(Border.EMPTY);
+        youtube.setFont(options);
+        youtube.setTranslateX(353);
+        youtube.setTranslateY(160);
+        aboutMenu.addNode(youtube);
+
+        Hyperlink screenShots = new Hyperlink();
+        screenShots.setText("ScreenShots");
+        screenShots.setOnAction(e -> {
+            try {
+                new ProcessBuilder("x-www-browser","https://www.youtube.com/").start();
+            }catch(Exception exception){
+                exception.printStackTrace();
+            }
+        });
+        screenShots.setBorder(Border.EMPTY);
+        screenShots.setFont(options);
+        screenShots.setTranslateX(472);
+        screenShots.setTranslateY(160);
+        aboutMenu.addNode(screenShots);
+
 
         //quit handler
         Text quitArrow = aboutMenu.drawText(singleArrow, 50, 340, GREEN, options);
