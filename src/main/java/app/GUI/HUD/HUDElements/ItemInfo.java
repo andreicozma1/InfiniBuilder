@@ -3,17 +3,24 @@ package app.GUI.HUD.HUDElements;
 
 import app.GUI.menu.InterfaceBuilder;
 import app.GameBuilder;
+import app.structures.SpawnableStructure;
+import app.structures.SpawnableStructureBuilder;
 import app.structures.StructureBuilder;
 import app.GUI.HUD.InventoryUtil;
 import app.structures.StructureProperties;
 import app.structures.objects.BaseStructure;
+import app.structures.spawnable.SpawnableStructureItem;
+import app.utils.Log;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 
 
@@ -23,6 +30,7 @@ public class ItemInfo extends HUDElement {
     private final double screenHeight;
     private final InventoryUtil inventoryUtil;
     private final GameBuilder context;
+    private int objectType;
     private double width;
     private double height;
     private boolean isDisplayed = false;
@@ -122,14 +130,59 @@ public class ItemInfo extends HUDElement {
                 info.addNode(item);
 
 
-                info.drawText( currItem.getProps().getPROPERTY_ITEM_DESCRIPTION(),
+                info.drawText(currItem.getProps().getPROPERTY_ITEM_DESCRIPTION(),
                         (float) x + 15,
                         (float) y + 110,
                         Color.WHITE,
                         pauseText);
+                if (currItem.getProps().getPROPERTY_ITEM_TYPE() == StructureProperties.TYPE_SPAWNABLE) {
+                    Text objectText = info.drawText("Object Type", x + 15, y + 140, Color.WHITE, pauseText);
+                    Text objectType = info.drawText(determineObjectType(((SpawnableStructureItem)currItem).getSpawnableStructure().getProps().getPROPERTY_OBJECT_TYPE()), x + 150, y + 140, Color.WHITE, pauseText);
+                    Rectangle objectHitBox = info.drawRectangle(x + 0, y + 125, width, 20, 0, 0, Color.TRANSPARENT);
+                    objectHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                            new EventHandler<MouseEvent>() {
+                                public void handle(MouseEvent me) {
+                                    switch (((SpawnableStructureItem)currItem).getSpawnableStructure().getProps().getPROPERTY_OBJECT_TYPE()) {
+                                        case StructureProperties.OBJECT_TYPE_CUBE:
+                                            ((SpawnableStructureItem)currItem).getSpawnableStructure().getProps().setPROPERTY_OBJECT_TYPE(StructureProperties.OBJECT_TYPE_SPHERE);
+                                            break;
+                                        case StructureProperties.OBJECT_TYPE_SPHERE:
+                                            ((SpawnableStructureItem)currItem).getSpawnableStructure().getProps().setPROPERTY_OBJECT_TYPE(StructureProperties.OBJECT_TYPE_CYLINDER);
+                                            break;
+                                        case StructureProperties.OBJECT_TYPE_CYLINDER:
+                                            ((SpawnableStructureItem)currItem).getSpawnableStructure().getProps().setPROPERTY_OBJECT_TYPE(StructureProperties.OBJECT_TYPE_CUBE);
+                                            break;
+                                    }
+                                    objectType.setText(determineObjectType(((SpawnableStructureItem)currItem).getSpawnableStructure().getProps().getPROPERTY_OBJECT_TYPE()));
+                                    update();
+                                }
+                            });
+                    objectHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                            new EventHandler<MouseEvent>() {
+                                public void handle(MouseEvent me) {
+                                    objectText.setFill(GREEN);
+                                    objectType.setFill(GREEN);
+                                }
+                            });
+                    objectHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                            new EventHandler<MouseEvent>() {
+                                public void handle(MouseEvent me) {
+                                    objectText.setFill(Color.WHITE);
+                                    objectType.setFill(Color.WHITE);
 
+                                }
+                            });
+
+                }
             }
             getGroup().getChildren().add(info.getGroup());
         }
+    }
+
+    private String determineObjectType(int o){
+        if(o == StructureProperties.OBJECT_TYPE_CUBE) return "CUBE";
+        if(o == StructureProperties.OBJECT_TYPE_SPHERE) return "SPHERE";
+        if(o == StructureProperties.OBJECT_TYPE_CYLINDER) return "CYLINDER";
+        return "MODEL";
     }
 }
