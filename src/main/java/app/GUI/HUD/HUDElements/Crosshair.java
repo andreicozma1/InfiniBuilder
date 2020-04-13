@@ -1,6 +1,7 @@
 package app.GUI.HUD.HUDElements;
 
 
+import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -11,6 +12,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class Crosshair extends HUDElement {
     // global variables
+    private final String TAG = "CROSSHAIR";
     private double screenWidth;
     private double screenHeight;
     private double crosshairWidth;
@@ -127,6 +129,7 @@ public class Crosshair extends HUDElement {
 
     public void toggleCrosshair() {
         isShowing = !isShowing;
+        Log.d(TAG,"isShowing = "+isShowing);
         update();
     }
 

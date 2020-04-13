@@ -129,6 +129,7 @@ public class DeathMenu extends HUDElement {
                         public void handle(MouseEvent me) {
                             isDead = false;
                             context.getComponents().getPlayer().reset();
+                            ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
                             update();
                         }
                     });
@@ -158,7 +159,7 @@ public class DeathMenu extends HUDElement {
                         public void handle(MouseEvent me) {
                             isDead = false;
                             context.getComponents().getPlayer().reset();
-
+                            ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
                             context.getComponents().getEnvironment().reset();
                             update();
                         }
@@ -211,10 +212,10 @@ public class DeathMenu extends HUDElement {
             // add the interface builder to the pause menu group
             getGroup().getChildren().add(pause.getGroup());
 
-        } else {
-            if (!((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()) {
+        }
+            if (isDead&&((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()) {
                 ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
             }
-        }
+
     }
 }

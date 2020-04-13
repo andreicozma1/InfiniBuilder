@@ -1789,7 +1789,7 @@ public class MenuUtil {
         });
         trello.setBorder(Border.EMPTY);
         trello.setFont(options);
-        trello.setTranslateX(250);
+        trello.setTranslateX(255);
         trello.setTranslateY(160);
         aboutMenu.addNode(trello);
 
@@ -1797,14 +1797,14 @@ public class MenuUtil {
         youtube.setText("YouTube, ");
         youtube.setOnAction(e -> {
             try {
-                new ProcessBuilder("x-www-browser","https://www.youtube.com/").start();
+//                new ProcessBuilder("x-www-browser","https://www.youtube.com/").start();
             }catch(Exception exception){
                 exception.printStackTrace();
             }
         });
         youtube.setBorder(Border.EMPTY);
         youtube.setFont(options);
-        youtube.setTranslateX(353);
+        youtube.setTranslateX(363);
         youtube.setTranslateY(160);
         aboutMenu.addNode(youtube);
 
@@ -1819,7 +1819,7 @@ public class MenuUtil {
         });
         screenShots.setBorder(Border.EMPTY);
         screenShots.setFont(options);
-        screenShots.setTranslateX(472);
+        screenShots.setTranslateX(487);
         screenShots.setTranslateY(160);
         aboutMenu.addNode(screenShots);
 
@@ -1842,7 +1842,7 @@ public class MenuUtil {
 
         //quit handler
         Text quitArrow = aboutMenu.drawText(singleArrow, 50, 500, GREEN, options);
-        Text quitText = aboutMenu.drawText("./Main_Menu", 95, 500, Color.WHITE, options);
+        Text quitText = aboutMenu.drawText("./Back", 95, 500, Color.WHITE, options);
         Rectangle quitHitBox = aboutMenu.drawRectangle(50, 480, 600, 30, 0, 0, Color.TRANSPARENT);
         quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
