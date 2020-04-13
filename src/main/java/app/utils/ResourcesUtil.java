@@ -321,8 +321,8 @@ public class ResourcesUtil {
         sun.setSpecularPower(1);
 
         moon = new PhongMaterial();
-        moon.setDiffuseMap(getImage("/textures/moon.jpg"));
-        moon.setSelfIlluminationMap(getImage("/textures/moon.jpg"));
+        moon.setDiffuseMap(getImage("/textures/moon2.jpg"));
+        moon.setSelfIlluminationMap(getImage("/textures/moon2.jpg"));
 
         big_star = new PhongMaterial();
         big_star.setDiffuseMap(getImage("/textures/planet.png"));
