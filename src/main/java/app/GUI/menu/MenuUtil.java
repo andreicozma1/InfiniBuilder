@@ -1144,7 +1144,7 @@ public class MenuUtil {
 
         // player auto jump
         Text jumpCutoffHeightArrow = playerMenu.drawText(singleArrow, 50, 290, GREEN, options);
-        Text jumpCutoffHeightText = playerMenu.drawText("./Jump_Cut_Off_Height", 95, 290, Color.WHITE, options);
+        Text jumpCutoffHeightText = playerMenu.drawText("./Auto_Jump_Height", 95, 290, Color.WHITE, options);
         Text jumpCutoffHeightMult = playerMenu.drawText(curr_jump_cut_off_height + " blocks", 550, 290, Color.WHITE, options);
         Rectangle jumpCutoffHeightHitBox = playerMenu.drawRectangle(50, 270, 600, 30, 0, 0, Color.TRANSPARENT);
         jumpCutoffHeightHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
@@ -1823,11 +1823,27 @@ public class MenuUtil {
         screenShots.setTranslateY(160);
         aboutMenu.addNode(screenShots);
 
+        aboutMenu.drawText("Languages: Java" ,
+                50,
+                225,
+                Color.WHITE,
+                options);
+        aboutMenu.drawText("Build System: Maven" ,
+                50,
+                260,
+                Color.WHITE,
+                options);
+        aboutMenu.drawText("Libraries:\n-    JavaFx\n-    OpenSimplexNoise\n-    Apache Commons Collections 4\n-    Interactive Mesh" ,
+                50,
+                295,
+                Color.WHITE,
+                options);
+
 
         //quit handler
-        Text quitArrow = aboutMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text quitText = aboutMenu.drawText("./Main_Menu", 95, 340, Color.WHITE, options);
-        Rectangle quitHitBox = aboutMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
+        Text quitArrow = aboutMenu.drawText(singleArrow, 50, 500, GREEN, options);
+        Text quitText = aboutMenu.drawText("./Main_Menu", 95, 500, Color.WHITE, options);
+        Rectangle quitHitBox = aboutMenu.drawRectangle(50, 480, 600, 30, 0, 0, Color.TRANSPARENT);
         quitHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
