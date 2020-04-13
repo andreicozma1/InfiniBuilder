@@ -11,6 +11,8 @@ import javafx.scene.paint.Material;
 
 public abstract class StructureBuilder extends Group implements Interactable {
     public static final String UNDEFINED_TAG = "Undefined";
+    public static final String UNDEFINED_DESCRIPTION = "No description available";
+
 
     public static final int TYPE_OBJECT = 0;
     public static final int TYPE_SPAWNABLE = 1;
@@ -21,12 +23,10 @@ public abstract class StructureBuilder extends Group implements Interactable {
     public static final int OBJECT_TYPE_CYLINDER = 2;
     public static final int OBJECT_TYPE_MODEL = 3;
 
-    StructureBuilder.properties p;
+    private StructureProperties p;
 
     public StructureBuilder() {
-        p = new properties();
-        p.PROPERTY_ITEM_TYPE = TYPE_OBJECT;
-        p.PROPERTY_ITEM_TAG = UNDEFINED_TAG;
+        p = new StructureProperties();
     }
 
     public static Base_Structure resolve(Base_Structure orig) {
@@ -78,11 +78,11 @@ public abstract class StructureBuilder extends Group implements Interactable {
         return this.getBoundsInParent().getDepth();
     }
 
-    public properties getProps() {
+    public StructureProperties getProps() {
         return p;
     }
 
-    public void setProps(properties pr) {
+    public void setProps(StructureProperties pr) {
         p = pr;
     }
 
@@ -100,12 +100,19 @@ public abstract class StructureBuilder extends Group implements Interactable {
     }
 
 
-    public class properties {
+    public class StructureProperties {
         private int PROPERTY_ITEM_TYPE;
         private int PROPERTY_OBJECT_TYPE;
         private String PROPERTY_ITEM_TAG;
+        private String PROPERTY_ITEM_DESCRIPTION;
         private boolean PROPERTY_DESTRUCTIBLE = false;
         private Material PROPERTY_MATERIAL;
+
+        StructureProperties(){
+            PROPERTY_ITEM_TYPE = TYPE_OBJECT;
+            PROPERTY_ITEM_TAG = UNDEFINED_TAG;
+            PROPERTY_ITEM_DESCRIPTION = UNDEFINED_DESCRIPTION;
+        }
 
         public int getPROPERTY_ITEM_TYPE() {
             return PROPERTY_ITEM_TYPE;
