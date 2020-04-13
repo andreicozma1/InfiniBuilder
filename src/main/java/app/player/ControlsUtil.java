@@ -130,6 +130,28 @@ public class ControlsUtil {
                     }
 
                     switch (event.getCode()) {
+                        case SHIFT:
+                            context.getComponents().getPlayer().isRunning = false;
+                            break;
+                        case SPACE:
+                            context.getComponents().getPlayer().canJump = true;
+                            break;
+                        case F:
+                            context.getComponents().getPlayer().toggleIsFlyMode();
+                            break;
+                        case CAPS:
+                            context.getComponents().getPlayer().toggleBoostFlySpeed();
+                            break;
+                        case X:
+                            context.getComponents().getPlayer().toggleIsClipMode();
+                            break;
+                        case C:
+                            context.getComponents().getPlayer().toggleCrouch();
+                            break;
+                        case ESCAPE:
+                            // TODO - Finish
+                            if(!getCrosshair().isShowing())getCrosshair().toggleCrosshair();
+                            break;
                         case TAB:
                             getInventory().toggleExtendedInventoryDisplayed();
                             if(getInventory().isExtendedInventoryDisplayed() &&
@@ -146,6 +168,9 @@ public class ControlsUtil {
                             }
                             context.getComponents().getPlayer().updateHoldingGroup(false);
                             break;
+                        case E:
+                            getItemInfo().toggleItemInfo();
+                            break;
                         case R:
                             if (getInventory().getSelected() == -1) {
                                 getInventory().setSelected(
@@ -159,26 +184,17 @@ public class ControlsUtil {
                             }
                             getInventory().update();
                             break;
+                        case U:
+                            context.getComponents().getPlayer().toggleUVlight();
+                            break;
                         case T:
                             context.getComponents().getPlayer().teleportRandom();
                             break;
-                        case E:
-                            getItemInfo().toggleItemInfo();
+                        case P:
+                            context.getComponents().getEnvironment().getSkybox().cycleModes();
                             break;
-                        case SPACE:
-                            context.getComponents().getPlayer().canJump = true;
-                            break;
-                        case ESCAPE:
-                            if(!getCrosshair().isShowing())getCrosshair().toggleCrosshair();
-                            break;
-                        case F:
-                            context.getComponents().getPlayer().toggleIsFlyMode();
-                            break;
-                        case X:
-                            context.getComponents().getPlayer().toggleIsClipMode();
-                            break;
-                        case C:
-                            context.getComponents().getPlayer().toggleCrouch();
+                        case Q:
+                            context.getComponents().getCamera().reset();
                             break;
                         case J:
                             context.getComponents().getPlayer().setPositionY(context.getComponents().getPlayer().getPositionYwithHeight() - 1500);
@@ -187,39 +203,16 @@ public class ControlsUtil {
                         case K:
                             context.getComponents().getPlayer().takeDamage(25);
                             break;
-                        case U:
-                            context.getComponents().getPlayer().toggleUVlight();
-                            break;
-                        case P:
-                            context.getComponents().getEnvironment().getSkybox().cycleModes();
-                            break;
-                        case Q:
-                            context.getComponents().getCamera().reset();
-                            break;
-                        case SHIFT:
-                            context.getComponents().getPlayer().isRunning = false;
-                            break;
-                        case CAPS:
-                            context.getComponents().getPlayer().toggleBoostFlySpeed();
-                            break;
                     }
                 }
             }
         });
     }
 
-    public Scene getControllerForScene(Scene scn) {
-        return scn;
-    }
-
     public void update_handler(double dt) {
         if (pressed.size() != 0) {
             for (KeyCode e : pressed) {
                 switch (e) {
-                    case Q:
-                        break;
-                    case E:
-                        break;
                     case W:
                         context.getComponents().getPlayer().moveForward(context.getComponents().getPlayer().PROPERTY_SPEED_FORWARD * dt);
                         break;
@@ -274,6 +267,10 @@ public class ControlsUtil {
     
     public DeathMenu getDeathMenu(){
         return (DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH);
+    }
+
+    public Scene getControllerForScene(Scene scn) {
+        return scn;
     }
 
     public void reset() {
