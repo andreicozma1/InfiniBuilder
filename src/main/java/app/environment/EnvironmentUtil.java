@@ -383,6 +383,7 @@ public class EnvironmentUtil {
 
         MAP_GENERATED.clear();
         MAP_RENDERING.clear();
+        GROUP_OTHER.getChildren().clear();
     }
 
     public double getSimplexHeight2D(double pollx, double pollz) {
