@@ -1,4 +1,4 @@
-package app.structures.maze;
+package app.structures.spawnables.maze;
 
 import app.algorithms.DisjointSet;
 import app.algorithms.Edge;

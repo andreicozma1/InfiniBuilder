@@ -1,4 +1,4 @@
-package app.structures.grapher;
+package app.structures.spawnables.grapher;
 
 import app.GameBuilder;
 import app.structures.SpawnableStructureBuilder;

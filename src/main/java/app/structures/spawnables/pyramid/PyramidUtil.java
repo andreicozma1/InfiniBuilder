@@ -1,4 +1,4 @@
-package app.structures.pyramid;
+package app.structures.spawnables.pyramid;
 
 /*
 public class PyramidUtil implements SpawnableStructure {

@@ -1,4 +1,4 @@
-package app.structures.grapher;
+package app.structures.spawnables.grapher;
 
 import java.util.ArrayList;
 import java.util.List;

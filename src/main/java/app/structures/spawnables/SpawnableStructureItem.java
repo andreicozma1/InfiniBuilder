@@ -1,4 +1,4 @@
-package app.structures.spawnable;
+package app.structures.spawnables;
 
 import app.environment.EnvironmentUtil;
 import app.player.AbsolutePoint3D;

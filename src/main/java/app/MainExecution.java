@@ -1,10 +1,9 @@
 package app;
-import app.structures.StructureProperties;
-import app.structures.grapher.*;
-import app.structures.maze.*;
+import app.structures.spawnables.grapher.*;
+import app.structures.spawnables.maze.*;
 import app.structures.objects.*;
-import app.structures.path.*;
-import app.structures.spawnable.SpawnableStructureItem;
+import app.structures.spawnables.path.*;
+import app.structures.spawnables.SpawnableStructureItem;
 import app.utils.Log;
 import app.utils.ResourcesUtil;
 import javafx.application.Application;

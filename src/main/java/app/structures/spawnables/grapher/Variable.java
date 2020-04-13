@@ -1,4 +1,4 @@
-package app.structures.grapher;
+package app.structures.spawnables.grapher;
 
 public class Variable {
     private boolean isAddition;

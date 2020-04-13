@@ -1,4 +1,4 @@
-package app.structures.spawnable;
+package app.structures.spawnables;
 
 import app.structures.SpawnableStructure;
 import app.structures.StructureProperties;

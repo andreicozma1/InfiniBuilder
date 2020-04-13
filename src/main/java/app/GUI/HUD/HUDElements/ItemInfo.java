@@ -3,14 +3,10 @@ package app.GUI.HUD.HUDElements;
 
 import app.GUI.menu.InterfaceBuilder;
 import app.GameBuilder;
-import app.structures.SpawnableStructure;
-import app.structures.SpawnableStructureBuilder;
 import app.structures.StructureBuilder;
 import app.GUI.HUD.InventoryUtil;
 import app.structures.StructureProperties;
-import app.structures.objects.BaseStructure;
-import app.structures.spawnable.SpawnableStructureItem;
-import app.utils.Log;
+import app.structures.spawnables.SpawnableStructureItem;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
