@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 public class Log {
     // 0 1 2 3
-    public static boolean verbose = true;
+    public static boolean verbose = false;
 
     // error - prints if something goes wrong - important
     public static void e(String TAG, String message) { if (verbose) System.out.println("*E* -> "+ new Timestamp( GameBuilder.time_current ).getTime()+ " : "+ TAG + " : " + message); }
