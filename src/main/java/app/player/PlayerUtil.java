@@ -175,7 +175,7 @@ public class PlayerUtil {
 
         if(context.getComponents().getEnvironment().getTerrainShouldHaveWater()){
             double closest_ground = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(), true);
-            if (getPositionYwithHeight() + 10 > context.getComponents().getEnvironment().PROPERTY_WATER_LEVEL && getPositionYwithHeight() < closest_ground) {
+            if (!isOnGround && !isClipMode && getPositionYwithHeight() + 10 > context.getComponents().getEnvironment().PROPERTY_WATER_LEVEL && getPositionYwithHeight() < closest_ground) {
                 if (!isUnderWater) {
                     context.getEffects().setMotionBlur(30);
                     context.getComponents().getEnvironment().getSkybox().sky_color = Color.DARKBLUE;
@@ -786,6 +786,7 @@ public class PlayerUtil {
     }
 
     public void performPlaceAnimation() {
+
         if (placeAnimation != null) {
             placeAnimation.stop();
         }
@@ -807,6 +808,8 @@ public class PlayerUtil {
             }
         };
         placeAnimation.start();
+
+        updateHoldingGroup(false);
     }
 
     public boolean isInWater() {
