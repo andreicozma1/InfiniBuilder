@@ -195,6 +195,10 @@ public class ControlsUtil {
                             break;
                         case SHIFT:
                             context.getComponents().getPlayer().isRunning = false;
+                            break;
+                        case CAPS:
+                            context.getComponents().getPlayer().toggleBoostFlySpeed();
+                            break;
                     }
                 }
             }

@@ -789,5 +789,16 @@ public class PlayerUtil {
         return (getPositionYwithHeight() + getPlayerHeight() > context.getComponents().getEnvironment().PROPERTY_WATER_LEVEL);
     }
 
+    private boolean isBoostFlySpeed = false;
+    public void toggleBoostFlySpeed(){
+        if(isBoostFlySpeed){
+            setFlySpeed(getFlySpeed()/2);
+            isBoostFlySpeed = false;
+        } else{
+            setFlySpeed(getFlySpeed()*2);
+            isBoostFlySpeed = true;
+        }
+    }
+
 }
 
