@@ -106,7 +106,6 @@ public abstract class StructureBuilder extends Group implements Interactable {
         private String PROPERTY_ITEM_TAG;
         private String PROPERTY_ITEM_DESCRIPTION;
         private boolean PROPERTY_DESTRUCTIBLE = false;
-        private Material PROPERTY_MATERIAL;
 
         StructureProperties(){
             PROPERTY_ITEM_TYPE = TYPE_OBJECT;
@@ -144,6 +143,14 @@ public abstract class StructureBuilder extends Group implements Interactable {
 
         public void setPROPERTY_DESTRUCTIBLE(boolean val) {
             PROPERTY_DESTRUCTIBLE = val;
+        }
+
+        public String getPROPERTY_ITEM_DESCRIPTION() {
+            return PROPERTY_ITEM_DESCRIPTION;
+        }
+
+        public void setPROPERTY_ITEM_DESCRIPTION(String PROPERTY_ITEM_DESCRIPTION) {
+            this.PROPERTY_ITEM_DESCRIPTION = PROPERTY_ITEM_DESCRIPTION;
         }
     }
 
