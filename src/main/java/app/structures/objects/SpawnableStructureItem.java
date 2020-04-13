@@ -9,7 +9,7 @@ import javafx.geometry.Point2D;
 import java.util.Map;
 
 public class SpawnableStructureItem extends Base_Structure {
-    private final SpawnableStructure spawnable;
+    private SpawnableStructure spawnable;
 
     public SpawnableStructureItem(SpawnableStructure str, Base_Structure m) {
 
@@ -35,5 +35,9 @@ public class SpawnableStructureItem extends Base_Structure {
     @Override
     public void use() {
         super.use();
+    }
+
+    public SpawnableStructure getSpawnableStructure(){
+        return spawnable;
     }
 }

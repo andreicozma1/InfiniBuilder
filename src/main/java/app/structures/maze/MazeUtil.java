@@ -3,6 +3,7 @@ package app.structures.maze;
 import app.GameBuilder;
 import app.algorithms.Edge;
 import app.structures.SpawnableStructure;
+import app.structures.StructureBuilder;
 import app.structures.objects.Base_Cube;
 import app.utils.Log;
 import javafx.geometry.Point2D;
@@ -21,6 +22,7 @@ public class MazeUtil implements SpawnableStructure {
     private final int height;
     private Long seed;
     private MazeGenerator mazeGenerator;
+    StructureBuilder.StructureProperties props;
 
     public MazeUtil(double cellDim,
                     int mazeRows,
@@ -260,5 +262,10 @@ public class MazeUtil implements SpawnableStructure {
             currZ += cellDim;
         }
 */
+    }
+
+    @Override
+    public void setProps(StructureBuilder.StructureProperties props) {
+        this.props = props;
     }
 }

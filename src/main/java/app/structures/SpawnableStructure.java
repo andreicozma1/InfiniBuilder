@@ -9,4 +9,6 @@ public interface SpawnableStructure {
     MultiValuedMap<Point2D, StructureBuilder> block_map = new ArrayListValuedHashMap<>();
 
     void build(GameBuilder gameBuilder);
+
+    void setProps(StructureBuilder.StructureProperties props);
 }
