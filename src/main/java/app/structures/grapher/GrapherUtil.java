@@ -120,6 +120,7 @@ public class GrapherUtil extends SpawnableStructureBuilder {
             block_map.put(new Point2D(startingX, currZ), cube);
             currZ += cellDim;
         }
+
         // draw x axis
         currX = startingX - xAxisSize * cellDim;
         for (i = -xAxisSize; i < xAxisSize; i++) {

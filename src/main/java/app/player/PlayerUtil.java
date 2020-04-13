@@ -786,7 +786,6 @@ public class PlayerUtil {
         } else {
             HOLDING_GROUP.getChildren().clear();
         }
-
     }
 
     public void performPlaceAnimation() {
