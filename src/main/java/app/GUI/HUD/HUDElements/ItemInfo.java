@@ -119,6 +119,14 @@ public class ItemInfo extends HUDElement {
                 item.getTransforms().setAll(new Rotate(25, Rotate.X_AXIS), new Rotate(25, Rotate.Y_AXIS));
                 item.toFront();
                 info.addNode(item);
+
+
+                info.drawText( currItem.getProps().getPROPERTY_ITEM_DESCRIPTION(),
+                        (float) x + 15,
+                        (float) y + 110,
+                        Color.WHITE,
+                        pauseText);
+
             }
             getGroup().getChildren().add(info.getGroup());
         }

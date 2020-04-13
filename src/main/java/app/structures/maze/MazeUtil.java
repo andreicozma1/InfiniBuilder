@@ -13,10 +13,10 @@ import javafx.scene.paint.Material;
 public class MazeUtil implements SpawnableStructure {
     private static final String TAG = "MazeUtil";
     public static Long GENERATOR_RANDOM_SEED = null;
-    private final int cellWidth;
+    private int cellWidth;
     private final double cellDim;
-    private final int mazeRows;
-    private final int mazeCols;
+    private int mazeRows;
+    private int mazeCols;
     private final boolean isTrapped;
     private final Material mazeMaterial;
     private final int height;
@@ -99,6 +99,51 @@ public class MazeUtil implements SpawnableStructure {
         this.seed = GENERATOR_RANDOM_SEED;
     }
 
+    public void setCellWidth(int cellWidth) { this.cellWidth = cellWidth; }
+
+    public int getCellWidth() {
+        return cellWidth;
+    }
+
+    public double getCellDim() {
+        return cellDim;
+    }
+
+    public int getMazeRows() {
+        return mazeRows;
+    }
+
+    public void setMazeRows(int mazeRows) {
+        this.mazeRows = mazeRows;
+    }
+
+    public int getMazeCols() {
+        return mazeCols;
+    }
+
+    public void setMazeCols(int mazeCols) {
+        this.mazeCols = mazeCols;
+    }
+
+    public boolean isTrapped() {
+        return isTrapped;
+    }
+
+    public Material getMazeMaterial() {
+        return mazeMaterial;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public Long getSeed() {
+        return seed;
+    }
+
+    public void setSeed(Long seed) {
+        this.seed = seed;
+    }
 
     @Override
     public void build(GameBuilder context) {
