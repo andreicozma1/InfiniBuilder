@@ -205,8 +205,13 @@ public class MenuUtil {
                             currentGroup==GROUP_GRAPHICS ||
                             currentGroup==GROUP_HUD){
                         activateGroup(GROUP_SETTINGS);
-                    }else{
-                        activateGroup(GROUP_MAIN_MENU);
+                    }else {
+                        if (settingsReturnState == PAUSE) {
+                            context.getWindow().showScene(context.getWindow().getRootScene());
+
+                        } else {
+                            activateGroup(GROUP_MAIN_MENU);
+                        }
                     }
                     break;
                 case ENTER:
