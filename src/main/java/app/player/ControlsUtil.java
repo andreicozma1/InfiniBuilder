@@ -180,6 +180,13 @@ public class ControlsUtil {
                         case C:
                             context.getComponents().getPlayer().toggleCrouch();
                             break;
+                        case J:
+                            context.getComponents().getPlayer().setPositionY(context.getComponents().getPlayer().getPositionYwithHeight() - 1500);
+                            // TODO - Debug FOV not being set when falling from this without toggling fly mode
+                            break;
+                        case K:
+                            context.getComponents().getPlayer().takeDamage(25);
+                            break;
                         case U:
                             context.getComponents().getPlayer().toggleUVlight();
                             break;

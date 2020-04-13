@@ -106,8 +106,14 @@ public class PlayerUtil {
             didTeleport = false;
         }
 
+        double height = context.getComponents().getPlayer().getPlayerHeight();
+        if (context.getComponents().getPlayer().isCrouching) {
+            height /= 2;
+            height += height * context.getComponents().getPlayer().PROPERTY_MULTIPLIER_CROUCH_HEIGHT;
+        }
+
         PLAYER_GROUP.setTranslateX(getPositionX());
-        PLAYER_GROUP.setTranslateY(getPositionYwithHeight());
+        PLAYER_GROUP.setTranslateY(getPositionYnoHeight() - height);
         PLAYER_GROUP.setTranslateZ(getPositionZ());
         if (!isSwitchingItem) {
             GROUP_ROTATE_LEFT_RIGHT.setAngle(context.getComponents().getCamera().getRotateX());
@@ -296,7 +302,6 @@ public class PlayerUtil {
             val *= (EnvironmentUtil.WATER_DRAG_COEFFICIENT);
         }
 
-
         double ground_level = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(), true);
 
         // Player Y being smaller than ground level means the player is above ground. Up is -Y axis
@@ -450,6 +455,9 @@ public class PlayerUtil {
     public double getPositionX() {
         return POSITION_X;
     }
+    public void setPositionX(double pos) {
+        POSITION_X = pos;
+    }
 
     public double getPositionYnoHeight() {
         return POSITION_Y;
@@ -458,9 +466,21 @@ public class PlayerUtil {
     public double getPositionYwithHeight() {
         return POSITION_Y - PROPERTY_HEIGHT;
     }
+    public void setPositionY(double pos) {
+        POSITION_Y = pos;
+    }
 
     public double getPositionZ() {
         return POSITION_Z;
+    }
+    public void setPositionZ(double pos) {
+        POSITION_Z = pos;
+    }
+
+    public void setPositionIndependent(double newx, double newy, double newz) {
+        POSITION_X = newx;
+        POSITION_Y = newy;
+        POSITION_Z = newz;
     }
 
     /**
@@ -479,12 +499,6 @@ public class PlayerUtil {
      */
     public AbsolutePoint3D getPlayerPoint3D() {
         return new AbsolutePoint3D(getPositionX(), getPositionYwithHeight(), getPositionZ());
-    }
-
-    public void setPosition(double newx, double newy, double newz) {
-        POSITION_X = newx;
-        POSITION_Y = newy;
-        POSITION_Z = newz;
     }
 
     public void setUV_light(boolean state) {
@@ -668,7 +682,7 @@ public class PlayerUtil {
 
     public void reset() {
         Log.d(TAG, "reset()");
-        setPosition(0, 0, 0);
+        setPositionIndependent(0, 0, 0);
 
         isClipMode = false;
         isRunning = false;
@@ -685,7 +699,7 @@ public class PlayerUtil {
     public void teleportRandom() {
         double randomX = Math.random() * 100000;
         double randomZ = Math.random() * 100000;
-        setPosition(randomX, EnvironmentUtil.LIMIT_MAX, randomZ);
+        setPositionIndependent(randomX, EnvironmentUtil.LIMIT_MAX, randomZ);
         didTeleport = true;
 
         Log.d(TAG,"teleportRandom() -> X: " + randomX + "  Z: " + randomZ);
@@ -808,6 +822,5 @@ public class PlayerUtil {
             isBoostFlySpeed = true;
         }
     }
-
 }
 
