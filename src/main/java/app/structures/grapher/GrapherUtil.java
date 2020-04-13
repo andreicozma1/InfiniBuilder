@@ -25,7 +25,7 @@ public class GrapherUtil implements SpawnableStructure {
     private int yAxisSize;
     private double xAxisScalePerBlock;
     private double yAxisScalePerBlock;
-    StructureBuilder.StructureProperties props;
+
 
 
     public GrapherUtil(double cellDim,
@@ -145,7 +145,12 @@ public class GrapherUtil implements SpawnableStructure {
     }
 
     @Override
+    public StructureBuilder.StructureProperties getProps() {
+        return null;
+    }
+
+    @Override
     public void setProps(StructureBuilder.StructureProperties props) {
-        this.props = props;
+
     }
 }

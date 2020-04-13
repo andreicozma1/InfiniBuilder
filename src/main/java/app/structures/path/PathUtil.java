@@ -32,7 +32,7 @@ public class PathUtil implements SpawnableStructure {
     private List<Integer> path;
     private MazeGenerator mazeGenerator;
     private GraphUtil graph;
-    StructureBuilder.StructureProperties props;
+
 
     public PathUtil(double cellDim,
                     int pathRows,
@@ -244,7 +244,13 @@ public class PathUtil implements SpawnableStructure {
     }
 
     @Override
-    public void setProps(StructureBuilder.StructureProperties props) {
-        this.props = props;
+    public StructureBuilder.StructureProperties getProps() {
+        return null;
     }
+
+    @Override
+    public void setProps(StructureBuilder.StructureProperties props) {
+
+    }
+
 }

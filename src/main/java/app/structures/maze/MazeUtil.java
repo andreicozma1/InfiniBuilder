@@ -22,7 +22,6 @@ public class MazeUtil implements SpawnableStructure {
     private final int height;
     private Long seed;
     private MazeGenerator mazeGenerator;
-    StructureBuilder.StructureProperties props;
 
     public MazeUtil(double cellDim,
                     int mazeRows,
@@ -265,7 +264,12 @@ public class MazeUtil implements SpawnableStructure {
     }
 
     @Override
+    public StructureBuilder.StructureProperties getProps() {
+        return null;
+    }
+
+    @Override
     public void setProps(StructureBuilder.StructureProperties props) {
-        this.props = props;
+
     }
 }
