@@ -86,7 +86,6 @@ public class MainExecution extends Application {
 
         PathUtil path2 = new PathUtil(GAME.getComponents().getEnvironment().getBlockDim(), 20, 20, 3, ResourcesUtil.moon);
         path2.setShortestPathMaterial(ResourcesUtil.red);
-        SpawnableStructureItem path2Item = new SpawnableStructureItem(path2, new BaseCylinder("Path2",ResourcesUtil.sun, rad,height));
 
         GAME.getComponents().getPlayer().getInventoryUtil().addItem(pathItem, 99);
         GAME.getComponents().getPlayer().getInventoryUtil().addItem(path2Item, 99);

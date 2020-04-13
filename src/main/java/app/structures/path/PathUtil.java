@@ -231,7 +231,7 @@ public class PathUtil extends SpawnableStructureBuilder {
                         item = new BaseCube("Path", cellDim, cellDim, cellDim);
                         break;
                 }
-                item.getShape().setMaterial(pathMaterial);
+                item.getShape().setMaterial(shortestPathMaterial);
                 block_map.put(new Point2D(currX, currZ), item);
 
                 // if reached the end of the path
