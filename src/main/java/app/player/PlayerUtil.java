@@ -7,8 +7,9 @@ import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.environment.EnvironmentUtil;
 import app.structures.StructureBuilder;
-import app.structures.objects.Base_Projectile;
-import app.structures.objects.Base_Structure;
+import app.structures.StructureProperties;
+import app.structures.weapons.Base_Projectile;
+import app.structures.objects.BaseStructure;
 import app.GUI.HUD.InventoryUtil;
 import app.utils.Log;
 import javafx.animation.AnimationTimer;
@@ -223,10 +224,10 @@ public class PlayerUtil {
     public void shoot() {
         Log.d(TAG, "shoot()");
 
-        Base_Structure inventory_item = UTIL_INVENTORY.getCurrentItem();
+        BaseStructure inventory_item = UTIL_INVENTORY.getCurrentItem();
 
-        if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
-            Base_Structure duplicate = StructureBuilder.resolve(inventory_item);
+        if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureProperties.UNDEFINED_TAG) {
+            BaseStructure duplicate = StructureBuilder.resolve(inventory_item);
 
             UTIL_INVENTORY.popCurrentItem();
             performPlaceAnimation();
@@ -240,10 +241,10 @@ public class PlayerUtil {
     }
 
     public void placeObject() {
-        Base_Structure inventory_item = UTIL_INVENTORY.getCurrentItem();
+        BaseStructure inventory_item = UTIL_INVENTORY.getCurrentItem();
 
 
-        if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
+        if (inventory_item.getProps().getPROPERTY_ITEM_TAG() != StructureProperties.UNDEFINED_TAG) {
             Log.d(TAG, "placeObject() -> Attempting to place " + inventory_item.getProps().getPROPERTY_ITEM_TAG() + " " + inventory_item.getScaleX() + " " + inventory_item.getScaleY() + " " + inventory_item.getScaleZ());
 
             double posx = getPositionX();
@@ -269,8 +270,8 @@ public class PlayerUtil {
                     performPlaceAnimation();
                     Log.d(TAG, "placeObject() -> Action called for type: " + inventory_item.getProps().getPROPERTY_ITEM_TYPE());
                     switch (inventory_item.getProps().getPROPERTY_ITEM_TYPE()) {
-                        case StructureBuilder.TYPE_OBJECT:
-                            Base_Structure cb = StructureBuilder.resolve(inventory_item);
+                        case StructureProperties.TYPE_OBJECT:
+                            BaseStructure cb = StructureBuilder.resolve(inventory_item);
                             Log.d(TAG, "placeObject() -> Copy created. Scale: X: " + cb.getScaleX() + " Y: " + cb.getScaleY() + " Z: " + cb.getScaleZ() + "; Width: " + cb.getWidth() + " Height: " + cb.getHeight() + " Depth: " + cb.getDepth() + "; Props: " + cb.getProps().toString());
                             cb.placeObject(context.getComponents().getEnvironment(), loc, true);
                             break;
@@ -719,7 +720,7 @@ public class PlayerUtil {
             }
         }
 
-        Base_Structure currItem = getInventoryUtil().getCurrentItem();
+        BaseStructure currItem = getInventoryUtil().getCurrentItem();
         Log.d(TAG,"setInventoryIndexOffset() -> " + i + " -> Tag: " + currItem.getProps().getPROPERTY_ITEM_TAG() + "; ItmType: " + currItem.getProps().getPROPERTY_ITEM_TYPE()+ "; ObjType: " + currItem.getProps().getPROPERTY_OBJECT_TYPE());
 
         updateHoldingGroup(false);
@@ -733,9 +734,9 @@ public class PlayerUtil {
 
     public void updateHoldingGroup(boolean shouldHide) {
         context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
-        Base_Structure inventoryItem = UTIL_INVENTORY.getCurrentItem();
+        BaseStructure inventoryItem = UTIL_INVENTORY.getCurrentItem();
 
-        if (!inventoryItem.getProps().getPROPERTY_ITEM_TAG().equals(StructureBuilder.UNDEFINED_TAG)) {
+        if (!inventoryItem.getProps().getPROPERTY_ITEM_TAG().equals(StructureProperties.UNDEFINED_TAG)) {
 
 
             if (switchAnimation != null) {
@@ -753,7 +754,7 @@ public class PlayerUtil {
                     GROUP_ROTATE_LEFT_RIGHT.setAngle(GROUP_ROTATE_LEFT_RIGHT.getAngle() + angle);
                     GROUP_ROTATE_UP_DOWN.setAngle(GROUP_ROTATE_UP_DOWN.getAngle() + angle);
 
-                    Base_Structure new_item = StructureBuilder.resolve(inventoryItem);
+                    BaseStructure new_item = StructureBuilder.resolve(inventoryItem);
 
                     double scalex = new_item.getBoundsInParent().getWidth() / 2;
                     double scaley = new_item.getBoundsInParent().getHeight() / 2;

@@ -1,26 +1,18 @@
-package app.structures.objects;
+package app.structures.spawnable;
 
 import app.environment.EnvironmentUtil;
 import app.player.AbsolutePoint3D;
 import app.structures.SpawnableStructure;
 import app.structures.StructureBuilder;
+import app.structures.objects.BaseStructure;
 import javafx.geometry.Point2D;
 
 import java.util.Map;
 
-public class SpawnableStructureItem extends Base_Structure {
-    private SpawnableStructure spawnable;
+public class SpawnableStructureItem extends Base_Spawnable_item {
 
-    public SpawnableStructureItem(SpawnableStructure str, Base_Structure m) {
-
-        spawnable = str;
-
-        this.setShape(m.getShape());
-        this.getShape().setMaterial(m.getShape().getMaterial());
-        this.setScaleIndependent(m.getScaleX(),m.getScaleY(),m.getScaleZ());
-        this.setProps(m.getProps());
-        getProps().setPROPERTY_ITEM_TYPE(StructureBuilder.TYPE_SPAWNABLE);
-        super.getChildren().add(this.getShape());
+    public SpawnableStructureItem(SpawnableStructure str, BaseStructure m) {
+        super(str,m);
     }
 
     @Override
@@ -37,7 +29,4 @@ public class SpawnableStructureItem extends Base_Structure {
         super.use();
     }
 
-    public SpawnableStructure getSpawnableStructure(){
-        return spawnable;
-    }
 }

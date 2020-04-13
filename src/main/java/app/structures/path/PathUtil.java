@@ -4,10 +4,9 @@ package app.structures.path;
 import app.GameBuilder;
 import app.algorithms.Edge;
 import app.algorithms.GraphUtil;
-import app.structures.SpawnableStructure;
-import app.structures.StructureBuilder;
+import app.structures.SpawnableStructureBuilder;
 import app.structures.maze.MazeGenerator;
-import app.structures.objects.Base_Cube;
+import app.structures.objects.BaseCube;
 import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
@@ -16,7 +15,7 @@ import java.util.List;
 
 
 // eventually I want to add the ability to change the distance in between vertexes
-public class PathUtil implements SpawnableStructure {
+public class PathUtil extends SpawnableStructureBuilder {
     public final static String TAG = "PathUtil";
 
     private final int pathRows;
@@ -128,7 +127,7 @@ public class PathUtil implements SpawnableStructure {
             for (j = 0; j < (pathCols * 2 - 1) * pathWidth; j++) {
                 mj = j / pathWidth;
                 if (mi % 2 == 0 && mj % 2 == 0) {
-                    Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
+                    BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
                     cube.getShape().setMaterial(pathMaterial);
                     Log.d(TAG,currX + " " + currZ);
                     block_map.put(new Point2D(startingX + cellDim * j, startingZ + cellDim * i), cube);
@@ -174,7 +173,7 @@ public class PathUtil implements SpawnableStructure {
             // loops here are for when the cells are thicker than one block
             for (i = 0; i < pathWidth; i++) {
                 for (j = 0; j < pathWidth; j++) {
-                    Base_Cube cube = new Base_Cube("Path Block", cellDim, cellDim, cellDim);
+                    BaseCube cube = new BaseCube("Path Block", cellDim, cellDim, cellDim);
                     cube.getShape().setMaterial(pathMaterial);
                     block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), cube);
                 }
@@ -195,7 +194,7 @@ public class PathUtil implements SpawnableStructure {
             currZ = startingZ + mj * cellDim;
             while (true) {
                 // draw the cube
-                Base_Cube cube = new Base_Cube("Path Block", cellDim, cellDim, cellDim);
+                BaseCube cube = new BaseCube("Path Block", cellDim, cellDim, cellDim);
                 cube.getShape().setMaterial(shortestPathMaterial);
                 block_map.put(new Point2D(currX, currZ), cube);
 
@@ -243,14 +242,5 @@ public class PathUtil implements SpawnableStructure {
 
     }
 
-    @Override
-    public StructureBuilder.StructureProperties getProps() {
-        return null;
-    }
-
-    @Override
-    public void setProps(StructureBuilder.StructureProperties props) {
-
-    }
 
 }

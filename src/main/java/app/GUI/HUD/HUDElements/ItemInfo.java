@@ -5,7 +5,8 @@ import app.GUI.menu.InterfaceBuilder;
 import app.GameBuilder;
 import app.structures.StructureBuilder;
 import app.GUI.HUD.InventoryUtil;
-import app.structures.objects.Base_Structure;
+import app.structures.StructureProperties;
+import app.structures.objects.BaseStructure;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -89,7 +90,7 @@ public class ItemInfo extends HUDElement {
             backdrop.setOpacity(.75);
             backdrop.setStroke(Color.WHITE);
             backdrop.setStrokeWidth(4);
-            if(currItem.getProps().getPROPERTY_ITEM_TAG() == Base_Structure.UNDEFINED_TAG)itemTag = "No Item";
+            if(currItem.getProps().getPROPERTY_ITEM_TAG() == StructureProperties.UNDEFINED_TAG)itemTag = "No Item";
             else itemTag = currItem.getProps().getPROPERTY_ITEM_TAG();
             //draw title
             info.drawText(itemTag,
@@ -106,7 +107,7 @@ public class ItemInfo extends HUDElement {
 
             x = screenWidth / 2 - width / 2;
             y = screenHeight / 2 - height / 2;
-            if(currItem.getProps().getPROPERTY_ITEM_TAG() != Base_Structure.UNDEFINED_TAG) {
+            if(currItem.getProps().getPROPERTY_ITEM_TAG() != StructureProperties.UNDEFINED_TAG) {
                 // draw each item
                 Group item = StructureBuilder.resolve(inventoryUtil.getCurrentItem());
                 item.getTransforms().clear();

@@ -1,6 +1,6 @@
 package app.utils;
 
-import app.structures.objects.Base_Model;
+import app.structures.objects.BaseModel;
 import com.interactivemesh.jfx.importer.tds.TdsModelImporter;
 import javafx.scene.Node;
 
@@ -86,7 +86,7 @@ public class TDModelUtil {
     }
 
 
-    public Base_Model getRandomMatching(String[] pattern) {
+    public BaseModel getRandomMatching(String[] pattern) {
 
         ArrayList<String> matching = new ArrayList<String>();
 
@@ -100,7 +100,7 @@ public class TDModelUtil {
 
         int random_matching_index = (int) Math.floor(Math.random() * matching.size());
 
-        Base_Model result = new Base_Model();
+        BaseModel result = new BaseModel();
         if (random_matching_index >= 0 && matching.size() > 0) {
             String random_matching_filename = matching.get(random_matching_index);
             File random_file = resources.get(random_matching_filename);

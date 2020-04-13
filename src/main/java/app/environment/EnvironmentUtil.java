@@ -4,9 +4,9 @@ import app.GameBuilder;
 import app.algorithms.SimplexUtil;
 import app.player.AbsolutePoint3D;
 import app.structures.StructureBuilder;
-import app.structures.objects.Base_Cube;
-import app.structures.objects.Base_Model;
-import app.structures.objects.Base_Structure;
+import app.structures.objects.BaseCube;
+import app.structures.objects.BaseModel;
+import app.structures.objects.BaseStructure;
 import app.utils.Log;
 import app.utils.ResourcesUtil;
 import app.utils.TDModelUtil;
@@ -194,9 +194,9 @@ public class EnvironmentUtil {
             vegDens = PROPERTY_TERRAIN_VEGETATION_DENSITY_PERCENT;
         }
 
-        Base_Structure b = new Base_Structure();
+        BaseStructure b = new BaseStructure();
 
-        Base_Cube box = new Base_Cube("Terrain Base", getBlockDim());
+        BaseCube box = new BaseCube("Terrain Base", getBlockDim());
         b.getChildren().add(box);
 
         if(PROPERTY_TERRAIN_IS_SINGLE_MATERIAL!= null){
@@ -210,7 +210,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.snow_01);
                 box.getProps().setPROPERTY_ITEM_TAG("snow_01");
                 if (Math.random() > 1 - vegDens / 5) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"peak", "rock"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"peak", "rock"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -229,7 +229,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("grass_04");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -240,7 +240,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("moss");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -251,7 +251,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("grass_01");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -262,7 +262,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("grass");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -273,7 +273,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("grass_01");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -284,7 +284,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("grass");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -295,7 +295,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("grass_01");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -306,7 +306,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("sand_02");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -317,7 +317,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("sand");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -328,7 +328,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("sand_02");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -339,7 +339,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("dirt");
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"dirt", "rock", "moss"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"dirt", "rock", "moss"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);
@@ -350,7 +350,7 @@ public class EnvironmentUtil {
                 box.getProps().setPROPERTY_ITEM_TAG("dirt");
 
                 if (PROPERTY_TERRAIN_HAS_WATER && !isDry) {
-                    Base_Cube water = new Base_Cube("Water");
+                    BaseCube water = new BaseCube("Water");
                     water.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     water.setScaleIndependent(getBlockDim(), .01, getBlockDim());
                     water.getShape().setMaterial(ResourcesUtil.water_01);
@@ -360,7 +360,7 @@ public class EnvironmentUtil {
                 }
 
                 if (Math.random() > 1 - vegDens) {
-                    Base_Model tree = UTIL_MODEL.getRandomMatching(new String[]{"sea", "water", "rock", "moss"});
+                    BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"sea", "water", "rock", "moss"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
                     tree.setScaleAll(15 + Math.random() * PROPERTY_VEGETATION_MAX_SIZE);
                     tree.setTranslateY(-tree.getHeight() / 2);

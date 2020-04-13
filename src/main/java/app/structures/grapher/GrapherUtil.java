@@ -1,9 +1,8 @@
 package app.structures.grapher;
 
 import app.GameBuilder;
-import app.structures.SpawnableStructure;
-import app.structures.StructureBuilder;
-import app.structures.objects.Base_Cube;
+import app.structures.SpawnableStructureBuilder;
+import app.structures.objects.BaseCube;
 import app.utils.Log;
 import app.utils.ResourcesUtil;
 import javafx.geometry.Point2D;
@@ -13,7 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GrapherUtil implements SpawnableStructure {
+public class GrapherUtil extends SpawnableStructureBuilder {
+
     private static final String TAG = "GrapherUtil";
 
     private final double cellDim;
@@ -115,7 +115,7 @@ public class GrapherUtil implements SpawnableStructure {
 
         currZ = startingZ - yAxisSize * cellDim;
         for (i = -yAxisSize; i < yAxisSize; i++) {
-            Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
+            BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
             cube.getShape().setMaterial(axisMaterial);
             block_map.put(new Point2D(startingX, currZ), cube);
             currZ += cellDim;
@@ -124,7 +124,7 @@ public class GrapherUtil implements SpawnableStructure {
         currX = startingX - xAxisSize * cellDim;
         for (i = -xAxisSize; i < xAxisSize; i++) {
             if (i != 0) {
-                Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
+                BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
                 cube.getShape().setMaterial(axisMaterial);
                 block_map.put(new Point2D(currX, startingZ), cube);
             }
@@ -136,7 +136,7 @@ public class GrapherUtil implements SpawnableStructure {
             for (x = -xAxisSize * xAxisScalePerBlock; x <= xAxisSize * xAxisScalePerBlock; x += xAxisScalePerBlock) {
                 y = functions.get(i).compute(x);
                 Log.d(TAG,"F(" + x + ") = " + y);
-                Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
+                BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
                 cube.getShape().setMaterial(functMats.get(i));
                 block_map.put(new Point2D((x / xAxisScalePerBlock) * cellDim + startingX, y * cellDim + startingZ), cube);
 
@@ -144,13 +144,4 @@ public class GrapherUtil implements SpawnableStructure {
         }
     }
 
-    @Override
-    public StructureBuilder.StructureProperties getProps() {
-        return null;
-    }
-
-    @Override
-    public void setProps(StructureBuilder.StructureProperties props) {
-
-    }
 }

@@ -2,15 +2,14 @@ package app.structures.maze;
 
 import app.GameBuilder;
 import app.algorithms.Edge;
-import app.structures.SpawnableStructure;
-import app.structures.StructureBuilder;
-import app.structures.objects.Base_Cube;
+import app.structures.SpawnableStructureBuilder;
+import app.structures.objects.BaseCube;
 import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
 
-public class MazeUtil implements SpawnableStructure {
+public class MazeUtil extends SpawnableStructureBuilder {
     private static final String TAG = "MazeUtil";
     public static Long GENERATOR_RANDOM_SEED = null;
     private int cellWidth;
@@ -184,7 +183,7 @@ public class MazeUtil implements SpawnableStructure {
                     } else if (mi == mazeRows * 2 - 1 && mj == mazeCols * 2) {
 //                        context.getComponents().getEnvironment().clearSpot(new Point2D(currX, currZ));
                     } else if (mi == 0 || mi == mazeRows * 2 || mj == 0 || mj == mazeCols * 2 || (mi % 2 == 0 && mj % 2 == 0)) {
-                        Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
+                        BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
                         cube.getShape().setMaterial(mazeMaterial);
                         block_map.put(new Point2D(currX, currZ), cube);
                     }
@@ -233,7 +232,7 @@ public class MazeUtil implements SpawnableStructure {
                 // loops here are for when the cells are thicker than one block
                 for (i = 0; i < cellWidth; i++) {
                     for (j = 0; j < cellWidth; j++) {
-                        Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
+                        BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
                         cube.getShape().setMaterial(mazeMaterial);
                         block_map.put(new Point2D(cellX + cellDim * j, cellZ + cellDim * i), cube);
                     }
@@ -308,13 +307,4 @@ public class MazeUtil implements SpawnableStructure {
 */
     }
 
-    @Override
-    public StructureBuilder.StructureProperties getProps() {
-        return null;
-    }
-
-    @Override
-    public void setProps(StructureBuilder.StructureProperties props) {
-
-    }
 }

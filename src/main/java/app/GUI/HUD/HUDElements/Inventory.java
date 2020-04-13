@@ -5,6 +5,7 @@ import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.structures.StructureBuilder;
 import app.GUI.HUD.InventoryUtil;
+import app.structures.StructureProperties;
 import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -285,7 +286,7 @@ public class Inventory extends HUDElement {
             slotBackdrop.setStroke(borderColor);
             getGroup().getChildren().add(slotBackdrop);
 
-            if (inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureBuilder.UNDEFINED_TAG) {
+            if (inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureProperties.UNDEFINED_TAG) {
                 // draw each item
                 Group item = inventoryUtil.getItem(i);
                 item.setTranslateX(currSlotX + (slotWidth / 2.0));
@@ -353,7 +354,7 @@ public class Inventory extends HUDElement {
                 slotBackdrop.setStroke(borderColor);
                 getGroup().getChildren().add(slotBackdrop);
 
-                if (!inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG().equals(StructureBuilder.UNDEFINED_TAG)) {
+                if (!inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG().equals(StructureProperties.UNDEFINED_TAG)) {
                     // draw each item
                     Group item = inventoryUtil.getItem(i);
                     item.setTranslateX(currSlotX + (slotWidth / 2.0));
