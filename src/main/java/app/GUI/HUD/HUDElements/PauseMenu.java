@@ -1,5 +1,6 @@
 package app.GUI.HUD.HUDElements;
 
+import app.GUI.HUD.HUDUtil;
 import app.GUI.menu.InterfaceBuilder;
 import app.GUI.menu.MenuUtil;
 import app.GameBuilder;
@@ -210,6 +211,10 @@ public class PauseMenu extends HUDElement {
             // add the interface builder to the pause menu group
             getGroup().getChildren().add(pause.getGroup());
 
+        }else{
+            if(!((Crosshair)context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()){
+                ((Crosshair)context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+            }
         }
     }
 }
