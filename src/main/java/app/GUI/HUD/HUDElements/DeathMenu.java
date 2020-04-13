@@ -106,7 +106,7 @@ public class DeathMenu extends HUDElement {
             backdrop.setStrokeWidth(4);
 
             //draw title
-            pause.drawText("PLAYER_HAS_DIED",
+            pause.drawText("YOU DIED",
                     (float) x + 45,
                     (float) y + 55,
                     GREEN,

@@ -104,7 +104,7 @@ public class PauseMenu extends HUDElement {
             backdrop.setStrokeWidth(4);
 
             //draw title
-            pause.drawText("ROOT@CS307:~Pause$",
+            pause.drawText("GAME PAUSED",
                     (float) x + 45,
                     (float) y + 55,
                     GREEN,
