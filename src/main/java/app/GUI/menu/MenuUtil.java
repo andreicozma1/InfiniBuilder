@@ -1763,7 +1763,7 @@ public class MenuUtil {
                 Color.WHITE,
                 options);
         Hyperlink github = new Hyperlink();
-        github.setText("GitHub, ");
+        github.setText("GitHub,");
         github.setOnAction(e -> {
             try {
                 new ProcessBuilder("x-www-browser","https://github.com/andreicozma1/CS307FinalProject").start();
@@ -1779,7 +1779,7 @@ public class MenuUtil {
 
 
         Hyperlink trello = new Hyperlink();
-        trello.setText("Trello, ");
+        trello.setText("Trello,");
         trello.setOnAction(e -> {
             try {
                 new ProcessBuilder("x-www-browser","https://trello.com/b/ghb9XDRV/cs307-final-project").start();
@@ -1794,7 +1794,7 @@ public class MenuUtil {
         aboutMenu.addNode(trello);
 
         Hyperlink youtube = new Hyperlink();
-        youtube.setText("YouTube, ");
+        youtube.setText("YouTube,");
         youtube.setOnAction(e -> {
             try {
 //                new ProcessBuilder("x-www-browser","https://www.youtube.com/").start();
