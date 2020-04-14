@@ -1,6 +1,10 @@
 package app.structures.spawnables.grapher;
 
 import app.GameBuilder;
+import app.structures.StructureProperties;
+import app.structures.objects.BaseCylinder;
+import app.structures.objects.BaseSphere;
+import app.structures.objects.BaseStructure;
 import app.structures.spawnables.SpawnableStructureBuilder;
 import app.structures.objects.BaseCube;
 import app.utils.Log;
@@ -19,7 +23,7 @@ public class GrapherUtil extends SpawnableStructureBuilder {
     private final double cellDim;
     private final List<Function> functions = new ArrayList<>();
     private final List<Material> functMats = new ArrayList<Material>(
-            Arrays.asList(ResourcesUtil.red, ResourcesUtil.blue, ResourcesUtil.green, ResourcesUtil.purple));
+            Arrays.asList(ResourcesUtil.red, ResourcesUtil.blue, ResourcesUtil.purple, ResourcesUtil.green));
     private final Material axisMaterial;
     private int xAxisSize;
     private int yAxisSize;
@@ -115,9 +119,20 @@ public class GrapherUtil extends SpawnableStructureBuilder {
 
         currZ = startingZ - yAxisSize * cellDim;
         for (i = -yAxisSize; i < yAxisSize; i++) {
-            BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
-            cube.getShape().setMaterial(axisMaterial);
-            block_map.put(new Point2D(startingX, currZ), cube);
+            BaseStructure item;
+            switch (getProps().getPROPERTY_OBJECT_TYPE()){
+                case StructureProperties.OBJECT_TYPE_CYLINDER:
+                    item = new BaseCylinder("Grapher",cellDim/2,cellDim);
+                    break;
+                case StructureProperties.OBJECT_TYPE_SPHERE:
+                    item = new BaseSphere("Grapher",(float)cellDim/2);
+                    break;
+                default:
+                    item = new BaseCube("Grapher", cellDim, cellDim, cellDim);
+                    break;
+            }
+            item.getShape().setMaterial(axisMaterial);
+            block_map.put(new Point2D(startingX, currZ), item);
             currZ += cellDim;
         }
 
@@ -125,9 +140,20 @@ public class GrapherUtil extends SpawnableStructureBuilder {
         currX = startingX - xAxisSize * cellDim;
         for (i = -xAxisSize; i < xAxisSize; i++) {
             if (i != 0) {
-                BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
-                cube.getShape().setMaterial(axisMaterial);
-                block_map.put(new Point2D(currX, startingZ), cube);
+                BaseStructure item;
+                switch (getProps().getPROPERTY_OBJECT_TYPE()){
+                    case StructureProperties.OBJECT_TYPE_CYLINDER:
+                        item = new BaseCylinder("Grapher",cellDim/2,cellDim);
+                        break;
+                    case StructureProperties.OBJECT_TYPE_SPHERE:
+                        item = new BaseSphere("Grapher",(float)cellDim/2);
+                        break;
+                    default:
+                        item = new BaseCube("Grapher", cellDim, cellDim, cellDim);
+                        break;
+                }
+                item.getShape().setMaterial(axisMaterial);
+                block_map.put(new Point2D(currX, startingZ), item);
             }
             currX += cellDim;
         }
@@ -137,10 +163,21 @@ public class GrapherUtil extends SpawnableStructureBuilder {
             for (x = -xAxisSize * xAxisScalePerBlock; x <= xAxisSize * xAxisScalePerBlock; x += xAxisScalePerBlock) {
                 y = functions.get(i).compute(x);
                 Log.d(TAG,"F(" + x + ") = " + y);
-                BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
-                cube.getShape().setMaterial(functMats.get(i));
-                block_map.put(new Point2D((x / xAxisScalePerBlock) * cellDim + startingX, y * cellDim + startingZ), cube);
+                BaseStructure item;
+                switch (getProps().getPROPERTY_OBJECT_TYPE()){
+                    case StructureProperties.OBJECT_TYPE_CYLINDER:
+                        item = new BaseCylinder("Grapher",cellDim/2,cellDim);
+                        break;
+                    case StructureProperties.OBJECT_TYPE_SPHERE:
+                        item = new BaseSphere("Grapher",(float)cellDim/2);
+                        break;
+                    default:
+                        item = new BaseCube("Grapher", cellDim, cellDim, cellDim);
+                        break;
+                }
 
+                item.getShape().setMaterial(functMats.get(i));
+                block_map.put(new Point2D((x / xAxisScalePerBlock) * cellDim + startingX, y * cellDim + startingZ), item);
             }
         }
     }
