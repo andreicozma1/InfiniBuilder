@@ -17,6 +17,7 @@
 #### 3. EXECUTION:
 ```
 > ./execute
+- Alternatively, double click the 307Proj.jar file generated in the 'target' folder
 ```
 
 ## **DETAILED MANUAL INSTALLATIONS STEPS**
