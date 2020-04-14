@@ -1,6 +1,7 @@
 package app.GUI.HUD;
 
 import app.GUI.HUD.HUDElements.*;
+import app.GUI.menu.MenuUtil;
 import app.GameBuilder;
 import app.GUI.HUD.HUDElements.Inventory;
 import app.utils.Log;
@@ -31,16 +32,22 @@ public class HUDUtil {
     public static final String EDGE_RIGHT = "edge_right";
     private static final String TAG = "HUDUtil";
     private final SubScene subScene;
+    private final Group TotalHUDGroup = new Group();
     private final Group HUDGroup = new Group();
+    private final Group MenuHUDGroup = new Group();
     private final Map<String, HUDElement> elements = new HashMap<>();
     public GameBuilder context;
     private boolean isShown = true;
+    private boolean isHUDToggle = true;
+
 
     public HUDUtil(GameBuilder ctx) {
         Log.d(TAG, "CONSTRUCTOR");
         context = ctx;
-        subScene = new SubScene(HUDGroup, ctx.getWindow().getWindowWidth(), ctx.getWindow().getWindowHeight());
+        TotalHUDGroup.getChildren().addAll(MenuHUDGroup,HUDGroup);
+        subScene = new SubScene(TotalHUDGroup, ctx.getWindow().getWindowWidth(), ctx.getWindow().getWindowHeight());
     }
+    public boolean isShowing(){ return isShown; }
 
     public void toggleHUD() {
         if (isShown) {
@@ -51,9 +58,13 @@ public class HUDUtil {
         isShown = !isShown;
     }
 
+    public boolean isHUDToggle() { return isHUDToggle; }
+    public void setHUDToggle(boolean HUDToggle) { isHUDToggle = HUDToggle; }
+
     public Group getHUDGroup() {
         return HUDGroup;
     }
+    public Group getMenuHUDGroup() { return MenuHUDGroup; }
 
     public HUDElement getElement(String tag) {
         return elements.get(tag);
@@ -66,6 +77,10 @@ public class HUDUtil {
     public void addElement(HUDElement element) {
         elements.put(element.getElementTag(), element);
         HUDGroup.getChildren().add(element.getGroup());
+    }
+    public void addMenuElement(HUDElement element) {
+        elements.put(element.getElementTag(), element);
+        MenuHUDGroup.getChildren().add(element.getMenuGroup());
     }
 
     public void removeElement(String tag) {
@@ -193,11 +208,11 @@ public class HUDUtil {
         PauseMenu pauseMenu = new PauseMenu(HUDUtil.PAUSE,
                 new Point2D(100, 200), context, 307, 205, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
         pauseMenu.update();
-        this.addElement(pauseMenu);
+        this.addMenuElement(pauseMenu);
 
         DeathMenu deathMenu = new DeathMenu(HUDUtil.DEATH, new Point2D(100, 200), context, 307, 205, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
         deathMenu.update();
-        this.addElement(deathMenu);
+        this.addMenuElement(deathMenu);
 
     }
 

@@ -2,6 +2,7 @@ package app.player;
 
 import app.GUI.HUD.HUDElements.*;
 import app.GUI.HUD.HUDUtil;
+import app.GUI.menu.MenuUtil;
 import app.GameBuilder;
 import app.utils.Log;
 import javafx.scene.Scene;
@@ -93,6 +94,12 @@ public class ControlsUtil {
                             context.getComponents().getPlayer().toggleCrouch();
                         }
                         break;
+                    case BACK_QUOTE:
+                        if(context.getComponents().getHUD().isHUDToggle()) {
+                            context.getComponents().getHUD().toggleHUD();
+                            context.getComponents().getHUD().setHUDToggle(false);
+                        }
+                        break;
                 }
 
             }
@@ -101,7 +108,6 @@ public class ControlsUtil {
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
 
             if (event.getCode() == KeyCode.ESCAPE) {
-
                 getCrosshair().toggleCrosshair();
                 reset();
                 if (getItemInfo().isDisplayed()) {
@@ -113,6 +119,7 @@ public class ControlsUtil {
                 } else {
                     getPauseMenu().setPaused(!getPauseMenu().isPaused());
                 }
+
             }
 
             if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
@@ -189,6 +196,10 @@ public class ControlsUtil {
                                 );
                             }
                             getInventory().update();
+                            break;
+                        case BACK_QUOTE:
+                            context.getComponents().getHUD().toggleHUD();
+                            context.getComponents().getHUD().setHUDToggle(true);
                             break;
                         case U:
                             context.getComponents().getPlayer().toggleUVlight();

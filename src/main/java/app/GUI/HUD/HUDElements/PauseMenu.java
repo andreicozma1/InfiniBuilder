@@ -86,7 +86,7 @@ public class PauseMenu extends HUDElement {
     }
 
     public void update() {
-        getGroup().getChildren().clear();
+        getMenuGroup().getChildren().clear();
         pause.getGroup().getChildren().clear();
 
         if (isPaused) {
@@ -209,7 +209,7 @@ public class PauseMenu extends HUDElement {
 
 
             // add the interface builder to the pause menu group
-            getGroup().getChildren().add(pause.getGroup());
+            getMenuGroup().getChildren().add(pause.getGroup());
 
         }else{
             if(!((Crosshair)context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()){
