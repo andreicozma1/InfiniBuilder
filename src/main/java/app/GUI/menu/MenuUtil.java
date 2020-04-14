@@ -1,5 +1,6 @@
 package app.GUI.menu;
 
+import app.GUI.HUD.HUDElements.PauseMenu;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
 import app.GUI.HUD.HUDElements.Inventory;

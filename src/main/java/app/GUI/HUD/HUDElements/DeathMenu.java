@@ -87,7 +87,7 @@ public class DeathMenu extends HUDElement {
     }
 
     public void update() {
-        getGroup().getChildren().clear();
+        getMenuGroup().getChildren().clear();
         pause.getGroup().getChildren().clear();
 
         if (isDead) {
@@ -210,7 +210,7 @@ public class DeathMenu extends HUDElement {
 
 
             // add the interface builder to the pause menu group
-            getGroup().getChildren().add(pause.getGroup());
+            getMenuGroup().getChildren().add(pause.getGroup());
 
         }
             if (isDead&&((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()) {

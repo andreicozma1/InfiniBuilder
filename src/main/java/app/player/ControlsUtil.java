@@ -94,6 +94,12 @@ public class ControlsUtil {
                             context.getComponents().getPlayer().toggleCrouch();
                         }
                         break;
+                    case BACK_QUOTE:
+                        if(context.getComponents().getHUD().isHUDToggle()) {
+                            context.getComponents().getHUD().toggleHUD();
+                            context.getComponents().getHUD().setHUDToggle(false);
+                        }
+                        break;
                 }
 
             }
@@ -102,23 +108,18 @@ public class ControlsUtil {
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
 
             if (event.getCode() == KeyCode.ESCAPE) {
-                if(context.getComponents().getHUD().isShowing()) {
-                    getCrosshair().toggleCrosshair();
-                    reset();
-                    if (getItemInfo().isDisplayed()) {
-                        getItemInfo().toggleItemInfo();
-                        getItemInfo().update();
-                    } else if (getInventory().isExtendedInventoryDisplayed()) {
-                        getInventory().toggleExtendedInventoryDisplayed();
-                        getInventory().update();
-                    } else {
-                        getPauseMenu().setPaused(!getPauseMenu().isPaused());
-                    }
+                getCrosshair().toggleCrosshair();
+                reset();
+                if (getItemInfo().isDisplayed()) {
+                    getItemInfo().toggleItemInfo();
+                    getItemInfo().update();
+                } else if (getInventory().isExtendedInventoryDisplayed()) {
+                    getInventory().toggleExtendedInventoryDisplayed();
+                    getInventory().update();
+                } else {
+                    getPauseMenu().setPaused(!getPauseMenu().isPaused());
                 }
-                else{
-                    context.getWindow().showScene(context.getComponents().getMenu().getScene());
-                    context.getComponents().getMenu().activateGroup(MenuUtil.GROUP_MAIN_MENU);
-                }
+
             }
 
             if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
@@ -195,6 +196,10 @@ public class ControlsUtil {
                                 );
                             }
                             getInventory().update();
+                            break;
+                        case BACK_QUOTE:
+                            context.getComponents().getHUD().toggleHUD();
+                            context.getComponents().getHUD().setHUDToggle(true);
                             break;
                         case U:
                             context.getComponents().getPlayer().toggleUVlight();
