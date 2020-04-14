@@ -13,7 +13,9 @@ import app.structures.objects.BaseSphere;
 import app.structures.objects.BaseStructure;
 import app.utils.Log;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
+import javafx.scene.paint.PhongMaterial;
 
 import java.util.List;
 
@@ -31,7 +33,8 @@ public class PathUtil extends SpawnableStructureBuilder {
     private int endLoc;
     private boolean findShortestPath;
     private Long seed = null;
-    private Material shortestPathMaterial;
+    private Color startColor;
+    private Color endColor;
     private List<Integer> path;
     private MazeGenerator mazeGenerator;
     private GraphUtil graph;
@@ -74,9 +77,10 @@ public class PathUtil extends SpawnableStructureBuilder {
         findShortestPath = false;
     }
 
-    public void setShortestPathMaterial(Material shortestPathMaterial) {
+    public void setShortestPathMaterial(Color startColor, Color endColor) {
         this.findShortestPath = true;
-        this.shortestPathMaterial = shortestPathMaterial;
+        this.startColor = startColor;
+        this.endColor = endColor;
     }
 
     public void setStartEndLocation(int startLoc, int endLoc) {
@@ -231,6 +235,10 @@ public class PathUtil extends SpawnableStructureBuilder {
                         item = new BaseCube("Path", cellDim, cellDim, cellDim);
                         break;
                 }
+                PhongMaterial shortestPathMaterial= new PhongMaterial();
+                Color interpColor = startColor.interpolate(endColor,((double)currIndex)/path.size());
+                shortestPathMaterial.setDiffuseColor(interpColor);
+                shortestPathMaterial.setSpecularColor(interpColor);
                 item.getShape().setMaterial(shortestPathMaterial);
                 block_map.put(new Point2D(currX, currZ), item);
 

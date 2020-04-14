@@ -7,6 +7,7 @@ import app.structures.spawnables.SpawnableStructureItem;
 import app.utils.Log;
 import app.utils.ResourcesUtil;
 import javafx.application.Application;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -83,7 +84,7 @@ public class MainExecution extends Application {
         SpawnableStructureItem pathItem = new SpawnableStructureItem(path, new BaseCylinder("Path",ResourcesUtil.moon, rad,height));
 
         PathUtil path2 = new PathUtil(GAME.getComponents().getEnvironment().getBlockDim(), 20, 20, 3, ResourcesUtil.moon);
-        path2.setShortestPathMaterial(ResourcesUtil.red);
+        path2.setShortestPathMaterial(Color.RED,Color.BLUE);
         SpawnableStructureItem path2Item = new SpawnableStructureItem(path2, new BaseCylinder("Path2",ResourcesUtil.sun, rad,height));
 
         GAME.getComponents().getPlayer().getInventoryUtil().addItem(pathItem, 99);
