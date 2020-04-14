@@ -1,7 +1,7 @@
 package app.structures.spawnables.grapher;
 
 import app.GameBuilder;
-import app.structures.SpawnableStructureBuilder;
+import app.structures.spawnables.SpawnableStructureBuilder;
 import app.structures.objects.BaseCube;
 import app.utils.Log;
 import app.utils.ResourcesUtil;

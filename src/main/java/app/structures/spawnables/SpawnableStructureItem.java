@@ -9,7 +9,7 @@ import javafx.geometry.Point2D;
 
 import java.util.Map;
 
-public class SpawnableStructureItem extends Base_Spawnable_item {
+public class SpawnableStructureItem extends BaseSpawnableItem {
 
     public SpawnableStructureItem(SpawnableStructure str, BaseStructure m) {
         super(str,m);

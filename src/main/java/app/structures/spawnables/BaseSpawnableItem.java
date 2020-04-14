@@ -4,10 +4,10 @@ import app.structures.SpawnableStructure;
 import app.structures.StructureProperties;
 import app.structures.objects.BaseStructure;
 
-public abstract class Base_Spawnable_item extends BaseStructure {
+public abstract class BaseSpawnableItem extends BaseStructure {
     public SpawnableStructure spawnable;
 
-    Base_Spawnable_item(SpawnableStructure str, BaseStructure m){
+    BaseSpawnableItem(SpawnableStructure str, BaseStructure m){
         spawnable = str;
 
         this.setShape(m.getShape());

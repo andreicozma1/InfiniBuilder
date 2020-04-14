@@ -4,7 +4,7 @@ package app.structures.spawnables.path;
 import app.GameBuilder;
 import app.algorithms.Edge;
 import app.algorithms.GraphUtil;
-import app.structures.SpawnableStructureBuilder;
+import app.structures.spawnables.SpawnableStructureBuilder;
 import app.structures.StructureProperties;
 import app.structures.spawnables.maze.MazeGenerator;
 import app.structures.objects.BaseCube;
