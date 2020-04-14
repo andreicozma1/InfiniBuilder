@@ -492,6 +492,7 @@ public class MenuUtil {
                         //context.getComponents().getPlayer().setPlayerName(playerBox.getText());
                         context.getWindow().showScene(context.getWindow().getRootScene());
                         context.getComponents().getPlayer().reset();
+                        context.getComponents().getPlayer().teleportRandom();
                 }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
