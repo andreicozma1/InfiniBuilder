@@ -41,6 +41,7 @@ public class HUDUtil {
         context = ctx;
         subScene = new SubScene(HUDGroup, ctx.getWindow().getWindowWidth(), ctx.getWindow().getWindowHeight());
     }
+    public boolean isShowing(){ return isShown; }
 
     public void toggleHUD() {
         if (isShown) {

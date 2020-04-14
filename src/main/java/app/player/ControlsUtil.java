@@ -2,6 +2,7 @@ package app.player;
 
 import app.GUI.HUD.HUDElements.*;
 import app.GUI.HUD.HUDUtil;
+import app.GUI.menu.MenuUtil;
 import app.GameBuilder;
 import app.utils.Log;
 import javafx.scene.Scene;
@@ -101,17 +102,22 @@ public class ControlsUtil {
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
 
             if (event.getCode() == KeyCode.ESCAPE) {
-
-                getCrosshair().toggleCrosshair();
-                reset();
-                if (getItemInfo().isDisplayed()) {
-                    getItemInfo().toggleItemInfo();
-                    getItemInfo().update();
-                } else if (getInventory().isExtendedInventoryDisplayed()) {
-                    getInventory().toggleExtendedInventoryDisplayed();
-                    getInventory().update();
-                } else {
-                    getPauseMenu().setPaused(!getPauseMenu().isPaused());
+                if(context.getComponents().getHUD().isShowing()) {
+                    getCrosshair().toggleCrosshair();
+                    reset();
+                    if (getItemInfo().isDisplayed()) {
+                        getItemInfo().toggleItemInfo();
+                        getItemInfo().update();
+                    } else if (getInventory().isExtendedInventoryDisplayed()) {
+                        getInventory().toggleExtendedInventoryDisplayed();
+                        getInventory().update();
+                    } else {
+                        getPauseMenu().setPaused(!getPauseMenu().isPaused());
+                    }
+                }
+                else{
+                    context.getWindow().showScene(context.getComponents().getMenu().getScene());
+                    context.getComponents().getMenu().activateGroup(MenuUtil.GROUP_MAIN_MENU);
                 }
             }
 

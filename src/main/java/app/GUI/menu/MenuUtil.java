@@ -102,6 +102,7 @@ public class MenuUtil {
     private boolean is_motion_blur;
     // hud settings
     private boolean is_ext_inventory_toggle;
+    private boolean is_showing_hud;
 
 
 
@@ -163,7 +164,7 @@ public class MenuUtil {
 
         // hud settings defaults
         is_ext_inventory_toggle = ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).isToggle();
-
+        is_showing_hud = context.getComponents().getHUD().isShowing();
 
         // build each menu
         buildMainMenu();
@@ -1704,6 +1705,35 @@ public class MenuUtil {
                         extInvToggleMult.setFill(Color.WHITE);
                     }
                 });
+        Text showHudArrow = hudMenu.drawText(singleArrow, 50, 190, GREEN, options);
+        Text showHudText = hudMenu.drawText("./Show_HUD", 95, 190, Color.WHITE, options);
+        Text showHudMult = hudMenu.drawText(String.valueOf( is_showing_hud), 550, 190, Color.WHITE, options);
+        Rectangle showHudHitBox = hudMenu.drawRectangle(50, 170, 600, 30, 0, 0, Color.TRANSPARENT);
+        showHudHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        is_showing_hud = !is_showing_hud;
+                        showHudMult.setText(String.valueOf(is_showing_hud));
+                        context.getComponents().getHUD().toggleHUD();
+                    }
+                });
+        showHudHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        showHudArrow.setText(doubleArrow);
+                        showHudText.setFill(GREEN);
+                        showHudMult.setFill(GREEN);
+                    }
+                });
+        showHudHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        showHudArrow.setText(singleArrow);
+                        showHudText.setFill(Color.WHITE);
+                        showHudMult.setFill(Color.WHITE);
+                    }
+                });
+
 
         //quit handler
         Text quitArrow = hudMenu.drawText(singleArrow, 50, 340, GREEN, options);
