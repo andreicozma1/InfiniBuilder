@@ -34,7 +34,7 @@ public class PlayerUtil {
     private final String PROPERTY_NAME = "Steve";
     private final int PROPERTY_WIDTH = 10;
     private final int PROPERTY_HEIGHT = 50;
-    private final double PROPERTY_STATUS_STAMINA_REGEN_SPD = .05;
+    private final double PROPERTY_STATUS_STAMINA_REGEN_SPD = .07;
     private final double PROPERTY_STATUS_STAMINA_DEPLETE_SPD = 0.2;
     private final double PROPERTY_STATUS_HEALTH_REGEN_SPD = .008;
     private final double PROPERTY_STATUS_HEALTH_DEPLETE_SPD = .008;
@@ -205,7 +205,7 @@ public class PlayerUtil {
             }
         }
 
-
+        // STATUS BAR HANDLING
         if (getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus() / 2 && getHungerBar().getCurrStatus() > getHungerBar().getMaxStatus() / 2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()) {
             // Regenerate health if stamina > half
             getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() + PROPERTY_STATUS_HEALTH_REGEN_SPD * dt);
@@ -217,9 +217,24 @@ public class PlayerUtil {
         }
         if (getHungerBar().getCurrStatus() > 0) {
             getHungerBar().setCurrStatus(getHungerBar().getCurrStatus() - ((getStaminaBar().getMaxStatus() - getStaminaBar().getCurrStatus() * .5) / getStaminaBar().getMaxStatus()) * PROPERTY_STATUS_HUNGER_DEPLETE_SPD * dt);
+            if(getTempBar().getCurrStatus() < getTempBar().getMaxStatus()/2){
+                Log.d(TAG,"HUNGER");
+                getHungerBar().setCurrStatus(getHungerBar().getCurrStatus() - ((getTempBar().getMaxStatus() - getTempBar().getCurrStatus())/getTempBar().getMaxStatus())/40 * dt);
+            }
         } else {
             takeDamage(PROPERTY_STATUS_HEALTH_DEPLETE_SPD * dt);
         }
+
+        double val = (getTempBar().getMaxStatus()/(EnvironmentUtil.PROPERTY_DESERT_LEVEL_1 - EnvironmentUtil.PROPERTY_ICE_LEVEL)) *(getPositionYwithHeight()-EnvironmentUtil.PROPERTY_ICE_LEVEL);
+        if(val > 0 && val < getTempBar().getMaxStatus()){
+            getTempBar().setCurrStatus(val);
+            Log.d(TAG,"" + getTempBar().getCurrStatus());
+        }
+
+        if(getStaminaBar().getCurrStatus() > 0 && getTempBar().getCurrStatus() > getTempBar().getMaxStatus()*.7){
+            getStaminaBar().setCurrStatus(getStaminaBar().getCurrStatus() - (getTempBar().getCurrStatus()/getTempBar().getMaxStatus())/12 * dt);
+        }
+        // END STATUS BAR HANDLING
     }
 
     public void shootAction() {
