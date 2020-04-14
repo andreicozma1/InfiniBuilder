@@ -54,6 +54,7 @@ public class EnvironmentUtil {
     public GameBuilder context;
     SimplexUtil UTIL_SIMPLEX_2;
     SimplexUtil UTIL_SIMPLEX_3;
+    private int SEED = (int)System.currentTimeMillis();
     private double PROPERTY_VEGETATION_MAX_SIZE;
     private SkyboxUtil UTIL_SKYBOX;
     private SimplexUtil UTIL_SIMPLEX;
@@ -86,7 +87,7 @@ public class EnvironmentUtil {
         setTerrainVegetationMaxSize(20);
         setVegetationDensityPercent(15);
 
-        reset();
+        reset(-1);
     }
 
     /**
@@ -374,12 +375,12 @@ public class EnvironmentUtil {
         return b;
     }
 
-    public void reset() {
+    public void reset(int seed) {
         Log.d(TAG,"reset()");
 
-        UTIL_SIMPLEX = new SimplexUtil(100, .40, (int) context.time_current);
-        UTIL_SIMPLEX_2 = new SimplexUtil(2000, .65, (int) context.time_current * 2);
-        UTIL_SIMPLEX_3 = new SimplexUtil(5, .2, (int) context.time_current);
+        UTIL_SIMPLEX = new SimplexUtil(100, .40, (int) seed);
+        UTIL_SIMPLEX_2 = new SimplexUtil(2000, .65, (int) seed * 2);
+        UTIL_SIMPLEX_3 = new SimplexUtil(5, .2, (int) seed);
 
         MAP_GENERATED.clear();
         MAP_RENDERING.clear();
@@ -484,7 +485,7 @@ public class EnvironmentUtil {
                 Log.d(TAG,"setTerrainHeightMultiplier() -> " + mult);
 
                 PROPERTY_TERRAIN_HEIGHT_MULTIPLIER = mult; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
-                reset();
+                reset(SEED);
             } else {
                 throw new IndexOutOfBoundsException();
             }
@@ -492,6 +493,14 @@ public class EnvironmentUtil {
             e.printStackTrace();
         }
 
+    }
+
+    public int getSEED() {
+        return SEED;
+    }
+
+    public void setSEED(int SEED) {
+        this.SEED = SEED;
     }
 
     public double getVegetationDensityPercent() {
@@ -503,7 +512,7 @@ public class EnvironmentUtil {
             if (dens >= 0 && dens <= 100) {
                 Log.d(TAG,"setVegetationDensityPercent() -> " + dens);
                 PROPERTY_TERRAIN_VEGETATION_DENSITY_PERCENT = (dens / 100) / 6; // bound the value given from 0 to 100 to a reasonable max amount of trees
-                reset();
+                reset(SEED);
             } else {
                 throw new IndexOutOfBoundsException();
             }
@@ -521,7 +530,7 @@ public class EnvironmentUtil {
             if (dist >= 0) {
                 Log.d(TAG,"setTerrainVegetationMaxSize() -> " + dist);
                 PROPERTY_TERRAIN_GENERATE_DISTANCE = dist; // bound the value given
-                reset();
+                reset(SEED);
             } else {
                 throw new IndexOutOfBoundsException();
             }
@@ -540,7 +549,7 @@ public class EnvironmentUtil {
                 Log.d(TAG,"setTerrainVegetationMaxSize() -> " + val);
 
                 PROPERTY_VEGETATION_MAX_SIZE = val; // bound the value given
-                reset();
+                reset(SEED);
             } else {
                 throw new IndexOutOfBoundsException();
             }
@@ -556,7 +565,7 @@ public class EnvironmentUtil {
     public void setTerrainBlockType(Material mat) {
         Log.d(TAG,"setTerrainBlockType() -> " + mat);
         PROPERTY_TERRAIN_IS_SINGLE_MATERIAL = mat;
-        reset();
+        reset(SEED);
     }
 
     public boolean getTerrainShouldHaveWater() {
@@ -566,6 +575,6 @@ public class EnvironmentUtil {
     public void setTerrainShouldHaveWater(boolean val) {
         Log.d(TAG,"setTerrainShouldHaveWater() -> " + val);
         PROPERTY_TERRAIN_HAS_WATER = val;
-        reset();
+        reset(SEED);
     }
 }

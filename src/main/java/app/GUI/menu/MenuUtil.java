@@ -7,12 +7,18 @@ import app.GUI.HUD.HUDElements.Inventory;
 import app.utils.Log;
 import app.utils.ResourcesUtil;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -22,9 +28,9 @@ import javafx.application.HostServices;
 import javafx.application.*;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Random;
 
 
 public class MenuUtil {
@@ -34,6 +40,7 @@ public class MenuUtil {
     public static final String PAUSE = "PAUSE";
     // static strings to access any menu from the menuGroupHashMap
     public static final String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
+    public static final String GROUP_SET_SEED_MENU = "GROUP_SET_SEED_MENU";
     public static final String GROUP_CONTROLS = "GROUP_CONTROLS";
     public static final String GROUP_SETTINGS = "GROUP_SETTINGS";
     public static final String GROUP_ENVIRONMENT = "GROUP_ENVIRONMENT";
@@ -54,6 +61,8 @@ public class MenuUtil {
     GameBuilder context;
     // main menu group
     InterfaceBuilder mainMenu;
+    // set seed Group
+    InterfaceBuilder setSeedMenu;
     // settings groups
     InterfaceBuilder settingsMenu;
     InterfaceBuilder environmentMenu;
@@ -66,6 +75,10 @@ public class MenuUtil {
     InterfaceBuilder controlsMenu;
     // menu to explain the project
     InterfaceBuilder aboutMenu;
+
+
+    // environment seed
+    int seed = -1;
     // variables to hold and keep track of the different menus
     String currentGroup;
     // variables for the settings menu return state
@@ -122,6 +135,7 @@ public class MenuUtil {
         cameraMenu = new InterfaceBuilder();
         graphicsMenu = new InterfaceBuilder();
         hudMenu = new InterfaceBuilder();
+        setSeedMenu = new InterfaceBuilder();
 
         SCENE_MENU = new Scene(mainMenu.getGroup(), context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
 
@@ -169,6 +183,7 @@ public class MenuUtil {
 
         // build each menu
         buildMainMenu();
+        buildSetSeedMenu();
         buildControlsMenu();
         buildSettingsMenu();
         buildEnvironmentMenu();
@@ -181,6 +196,7 @@ public class MenuUtil {
 
         // add each menu to the group map with its key so that they can be quickly accessed
         addGroup(GROUP_MAIN_MENU, mainMenu.getGroup());
+        addGroup(GROUP_SET_SEED_MENU, setSeedMenu.getGroup());
         addGroup(GROUP_SETTINGS, settingsMenu.getGroup());
         addGroup(GROUP_ENVIRONMENT, environmentMenu.getGroup());
         addGroup(GROUP_SKYBOX, skyBoxMenu.getGroup());
@@ -270,9 +286,7 @@ public class MenuUtil {
         startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        context.getComponents().getEnvironment().reset();
-                        context.getWindow().showScene(context.getWindow().getRootScene());
-                        context.getComponents().getPlayer().reset();
+                        activateGroup(GROUP_SET_SEED_MENU);
                     }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -392,6 +406,114 @@ public class MenuUtil {
                     }
                 });
     }
+
+    public void buildSetSeedMenu(){
+        // draw black backdrop
+        setSeedMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
+
+        //draw title
+        setSeedMenu.drawText("ROOT@CS307:",
+                50,
+                50,
+                GREEN,
+                title);
+
+        setSeedMenu.drawText("-------------",
+                50,
+                85,
+                Color.WHITE,
+                title);
+        setSeedMenu.drawText("> Set_Seed",
+                50,
+                140,
+                Color.WHITE,
+                options);
+        TextField seedBox = new TextField("RANDOM");
+        seedBox.setText("RANDOM");
+        seedBox.setTranslateX(550);
+        seedBox.setTranslateY(105);
+        seedBox.setFont(options);
+        seedBox.setStyle("-fx-text-inner-color: GREEN;-fx-border-color: GREEN ;-fx-highlight-fill: null;-fx-highlight-text-fill: null;");
+        seedBox.setPrefWidth(300);
+        seedBox.setMaxWidth(300);
+        seedBox.setBackground(new Background(new BackgroundFill(Color.BLACK,new CornerRadii(0),new Insets(0))));
+        seedBox.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (!seedBox.getSelectedText().isEmpty()) {
+                    seedBox.deselect();
+                }
+            }
+        });
+        setSeedMenu.addNode(seedBox);
+
+
+        setSeedMenu.drawText("> Player_Name",
+                50,
+                190,
+                Color.WHITE,
+                options);
+        TextField playerBox = new TextField("Player");
+        playerBox.setTranslateX(550);
+        playerBox.setTranslateY(155);
+        playerBox.setFont(options);
+        playerBox.setStyle("-fx-text-inner-color: GREEN;-fx-border-color: GREEN ;-fx-highlight-fill: null;-fx-highlight-text-fill: null;");
+        playerBox.setPrefWidth(300);
+        playerBox.setMaxWidth(300);
+        playerBox.setBackground(new Background(new BackgroundFill(Color.BLACK,new CornerRadii(0),new Insets(0))));
+        playerBox.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (!playerBox.getSelectedText().isEmpty()) {
+                    playerBox.deselect();
+                }
+            }
+        });
+        setSeedMenu.addNode(playerBox);
+
+        // Start button handler
+        Text startArrow = setSeedMenu.drawText(singleArrow, 50, 240, Color.WHITE, options);
+        Text startText = setSeedMenu.drawText("./Start_Game", 95, 240, Color.WHITE, options);
+        Rectangle startHitBox = setSeedMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
+        startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        if(!seedBox.getText().equals("RANDOM")){
+                            int i;
+                            seed = 0;
+                            char[] str = seedBox.getText().toCharArray();
+                            for( i = 0;i <str.length;i++){
+                                seed += (int)str[i]*(i+1);
+                            }
+                            context.getComponents().getEnvironment().reset(seed);
+                        }
+                        else context.getComponents().getEnvironment().reset((int)System.currentTimeMillis());
+                        //TODO set player name
+                        //context.getComponents().getPlayer().setPlayerName(playerBox.getText());
+                        context.getWindow().showScene(context.getWindow().getRootScene());
+                        context.getComponents().getPlayer().reset();
+                }
+                });
+        startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        startArrow.setText(doubleArrow);
+                        startArrow.setFill(GREEN);
+                        startText.setFill(GREEN);
+                    }
+
+                });
+        startHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        startArrow.setText(singleArrow);
+                        startArrow.setFill(Color.WHITE);
+                        startText.setFill(Color.WHITE);
+                    }
+                });
+
+    }
+
 
     public void buildControlsMenu() {
         // draw black backdrop

@@ -160,7 +160,7 @@ public class DeathMenu extends HUDElement {
                             isDead = false;
                             context.getComponents().getPlayer().reset();
                             ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
-                            context.getComponents().getEnvironment().reset();
+                            context.getComponents().getEnvironment().reset((int)System.currentTimeMillis());
                             update();
                         }
                     });
