@@ -32,6 +32,7 @@ public class GameBuilder {
     public GameBuilder(Stage stg, int w, int h) {
         Log.d(TAG, "CONSTRUCTOR");
         Log.d(TAG, "Creating Game Window with dimensions: " + w + " x " + h);
+        stg.setResizable(false);
 
         new GameWindow(stg, w, h);
         new GameFX(this);
