@@ -1,5 +1,5 @@
 # CS307 Final Project  
-![Game Screen Shot](/gameScreenShot.png)
+![Game Screen Shot](/web/img.png)
 
 - Andrei Cozma & Hunter Price  
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
