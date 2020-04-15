@@ -8,8 +8,12 @@ import app.utils.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+/**
+ * Inventory util manages a set of base structures.
+ */
 public class InventoryUtil {
+
+    // global variables
     private static final String TAG = "InventoryUtil";
     private final ArrayList<BaseStructure> inventory;
     private final HashMap<String, Integer> indexes = new HashMap<String, Integer>();
@@ -20,6 +24,11 @@ public class InventoryUtil {
     private boolean isCycle = false;
     private BaseStructure currentItem = new BaseStructure();
 
+    /**
+     * Constructor takes a player to attach the inventory to and the size of the inventory.
+     * @param ctx
+     * @param inventorySize
+     */
     public InventoryUtil(PlayerUtil ctx, int inventorySize) {
         Log.d(TAG, "CONSTRUCTOR");
 
@@ -33,30 +42,18 @@ public class InventoryUtil {
         }
     }
 
-    public int getInventorySize() {
-        return inventorySize;
-    }
+    //getters
+    public int getInventorySize() { return inventorySize; }
+    public BaseStructure getItem(int index) { return inventory.get(index); }
+    public boolean isCurrentIndex(int index) { return (currentIndex == index); }
+    public boolean isCycle() { return isCycle; }
+    public int getCurrentIndex() { return currentIndex; }
+    public int getItemSize(BaseStructure Base_Structure) { return sizes.getOrDefault(Base_Structure.getProps().getPROPERTY_ITEM_TAG(), 0); }
+    public int getIndexSize(int index) { return getItemSize(getItem(index)); }
+    public BaseStructure getCurrentItem() { return inventory.get(currentIndex); }
 
-    public BaseStructure getItem(int index) {
-        return inventory.get(index);
-    }
-
-    public boolean isCurrentIndex(int index) {
-        return (currentIndex == index);
-    }
-
-    public void setIsCycle(boolean isCycle) {
-        this.isCycle = isCycle;
-    }
-
-    public boolean isCycle() {
-        return isCycle;
-    }
-
-    public int getCurrentIndex() {
-        return currentIndex;
-    }
-
+    //setters
+    public void setIsCycle(boolean isCycle) { this.isCycle = isCycle; }
     public void setCurrentIndex(int currentIndex) {
 
         // if the given index is out of range set it to the closest index
@@ -66,18 +63,11 @@ public class InventoryUtil {
         currentItem = inventory.get(currentIndex);
     }
 
-    public int getItemSize(BaseStructure Base_Structure) {
-        return sizes.getOrDefault(Base_Structure.getProps().getPROPERTY_ITEM_TAG(), 0);
-    }
 
-    public int getIndexSize(int index) {
-        return getItemSize(getItem(index));
-    }
+    // this will remove a single item from the current item
+    public BaseStructure popCurrentItem() { return popItem(currentIndex); }
 
-    public BaseStructure popCurrentItem() {
-        return popItem(currentIndex);
-    }
-
+    // this will move the current index and item up or down the inventory based on the delta
     public int moveCurrIndex(int delta) {
         if (isCycle) {
             currentIndex = (currentIndex + delta) % inventorySize;
@@ -91,6 +81,7 @@ public class InventoryUtil {
         return currentIndex;
     }
 
+    // this moves up the inventory by one index
     public int moveUpInventory() {
         currentIndex++;
         if (isCycle) {
@@ -99,10 +90,12 @@ public class InventoryUtil {
             if (currentIndex == inventorySize) currentIndex = inventorySize - 1;
         }
 
+        // return the new index
         currentItem = inventory.get(currentIndex);
         return currentIndex;
     }
 
+    // this moves down the inventory by one index
     public int moveDownInventory() {
         currentIndex--;
         if (isCycle) {
@@ -111,13 +104,11 @@ public class InventoryUtil {
             if (currentIndex == -1) currentIndex = 0;
         }
 
+        // return the new index
         currentItem = inventory.get(currentIndex);
         return currentIndex;
     }
 
-    public BaseStructure getCurrentItem() {
-        return inventory.get(currentIndex);
-    }
 
     // --------------------------------------------------------------------------------------------
     // --------------------------------------------------------------------------------------------
@@ -137,7 +128,7 @@ public class InventoryUtil {
         }
 
         BaseStructure tmp = inventory.get(index);
-        Log.d(TAG,"POP ITEMMMM " + tmp.getScaleX() + " " + tmp.getScaleY() + " " + tmp.getScaleZ());
+        Log.d(TAG,"POP ITEM " + tmp.getScaleX() + " " + tmp.getScaleY() + " " + tmp.getScaleZ());
 
         Log.d(TAG,"/////////// " + tmp.getShape());
         if (tmp.getProps().getPROPERTY_ITEM_TAG() == StructureProperties.UNDEFINED_TAG) {
@@ -268,6 +259,7 @@ public class InventoryUtil {
         }
     }
 
+    // added an item with the given size to the inventory
     public void addItem(BaseStructure item, int size) {
 
         if (indexes.containsKey(item.getProps().getPROPERTY_ITEM_TAG())) {
@@ -310,6 +302,7 @@ public class InventoryUtil {
         }
     }
 
+    // adds an item to the given index with the given size
     public void addItem(int index, BaseStructure item, int size) {
 
         Log.d(TAG,"Adding item " + item.getProps().getPROPERTY_ITEM_TAG() + " of size " + size + " at index " + index);

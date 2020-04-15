@@ -6,8 +6,11 @@ import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-
+/**
+ * Minimap is a hud element that will draw a top down view of the environment.
+ */
 public class Minimap extends HUDElement {
+    // global variables
     private static final String TAG = "Minimap";
     private final double screenWidth;
     private final double screenHeight;
@@ -17,7 +20,14 @@ public class Minimap extends HUDElement {
     private boolean isDisplayed = true;
     private StructureBuilder currItem;
 
-
+    /**
+     * Constructors to initialize variables and draw the minimap onto the hudgroup
+     * @param elementTag
+     * @param pos
+     * @param context
+     * @param width
+     * @param height
+     */
     public Minimap(String elementTag,
                    Point2D pos,
                    GameBuilder context,
@@ -32,31 +42,22 @@ public class Minimap extends HUDElement {
         update();
     }
 
+    // getters
+    public boolean isDisplayed() { return isDisplayed; }
+    public double getHeight() { return height; }
+    public double getWidth() { return width; }
+
+    // setters
+    public void setHeight(double height) { this.height = height; }
+    public void setWidth(double width) { this.width = width; }
     public void toggleMinimap() {
         isDisplayed = !isDisplayed;
         update();
     }
 
-    public boolean isDisplayed() {
-        return isDisplayed;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
+    /**
+     * redraws the group to reflect the changes to the minimap
+     */
     public void update() {
         getGroup().getChildren().clear();
 

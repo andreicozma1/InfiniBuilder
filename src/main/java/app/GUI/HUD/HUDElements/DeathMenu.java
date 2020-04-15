@@ -15,21 +15,18 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-
+/**
+ * DeathMenu is a hudElement that draws an interact able menu on the players death
+ */
 public class DeathMenu extends HUDElement {
+    // global variables
     private static final String TAG = "DeathMenu";
     private final double screenWidth;
     private final double screenHeight;
-    private final double backdropBorderWidth = 5;
-    private final double arcW = 0;
-    private final double arcH = 0;
     private final String singleArrow = ">";
     private final String doubleArrow = ">>";
     private final GameBuilder context;
     private final MenuUtil menuUtil;
-    private final Paint backdropPaint = Color.BLACK;
-    private final Paint backdropBorderPaint = Color.WHITE;
-    private final Paint textPaint = Color.WHITE;
     private final Color GREEN = Color.valueOf("#20C20E");
     private final InterfaceBuilder pause;
     private final Font pauseTitle = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR, 20);
@@ -39,6 +36,16 @@ public class DeathMenu extends HUDElement {
     private boolean isCentered = true;
     private boolean isDead = false;
 
+    /**
+     * Constructor to initialize the menu into the hud menu group.
+     * @param elementTag
+     * @param pos
+     * @param context
+     * @param width
+     * @param height
+     * @param screenWidth
+     * @param screenHeight
+     */
     public DeathMenu(String elementTag,
                      Point2D pos,
                      GameBuilder context,
@@ -57,36 +64,25 @@ public class DeathMenu extends HUDElement {
         update();
     }
 
-    public void setCentered(boolean centered) {
-        isCentered = centered;
-    }
-
-    public boolean isDead() {
-        return isDead;
-    }
-
+    // setters
+    public void setCentered(boolean centered) { isCentered = centered; }
+    public void setHeight(double height) { this.height = height; }
+    public void setWidth(double width) { this.width = width; }
     public void setDead(boolean dead) {
         isDead = dead;
         update();
     }
 
-    public double getHeight() {
-        return height;
-    }
+    // getters
+    public double getHeight() { return height; }
+    public double getWidth() { return width; }
+    public boolean isDead() { return isDead; }
 
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
+    /**
+     * Update will update the hud menu group to reflect the changes to the deathMenu.
+     */
     public void update() {
+        // clear the groups that this is drawn onto inorder to update the group
         getMenuGroup().getChildren().clear();
         pause.getGroup().getChildren().clear();
 

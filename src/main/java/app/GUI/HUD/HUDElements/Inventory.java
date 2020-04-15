@@ -33,13 +33,13 @@ import javafx.scene.transform.Rotate;
  */
 
 
-// have user set the sizes of the slots
-
-
+/**
+ * Inventory is a hud element that takes in a InventoryUtil and displays everything in it.
+ */
 public class Inventory extends HUDElement {
 
+    // global variables
     private static final String TAG = "Inventory";
-
     private final InventoryUtil inventoryUtil;
     private final int inventorySize;
     private final double slotWidth;
@@ -62,7 +62,18 @@ public class Inventory extends HUDElement {
     private Paint emptyItemColor = Color.DARKGRAY;
     private Paint borderColor = Color.BLACK;
 
-
+    /**
+     * Constructor initializes all values of the inventory that is shown on the HUD
+     * @param elementTag
+     * @param pos
+     * @param inventoryUtil
+     * @param slotWidth
+     * @param slotHeight
+     * @param borderWidth
+     * @param slotsDisplayed
+     * @param panelColor
+     * @param slotColor
+     */
     public Inventory(String elementTag,
                      Point2D pos,
                      InventoryUtil inventoryUtil,
@@ -90,82 +101,35 @@ public class Inventory extends HUDElement {
         update();
     }
 
-    public InventoryUtil getInventoryUtil() {
-        return inventoryUtil;
-    }
+    // getters
+    public InventoryUtil getInventoryUtil() { return inventoryUtil; }
+    public int getInventorySize() { return inventorySize; }
+    public int getSlotsDisplayed() { return slotsDisplayed; }
+    public double getBorderWidth() { return borderWidth; }
+    public double getSlotHeight() { return slotHeight; }
+    public double getSlotWidth() { return slotWidth; }
+    public double getTotalHeight() { return totalHeight; }
+    public double getTotalWidth() { return totalWidth; }
+    public Paint getPanelColor() { return panelColor; }
+    public Paint getSlotColor() { return slotColor; }
+    public Paint getSelectedItemColor() { return selectedItemColor; }
+    public Paint getEmptyItemColor() { return emptyItemColor; }
+    public Paint getBorderColor() { return borderColor; }
+    public boolean isVertical() { return isVertical; }
+    public boolean isToggle() { return isToggle; }
+    public boolean isDisplayNumbers() { return displayNumbers; }
+    public boolean isExtendedInventoryDisplayed() { return isExtendedInventoryDisplayed; }
+    public int getSelected() { return selected; }
 
-    public int getInventorySize() {
-        return inventorySize;
-    }
-
-    public int getSlotsDisplayed() {
-        return slotsDisplayed;
-    }
-
-    public double getBorderWidth() {
-        return borderWidth;
-    }
-
-    public double getSlotHeight() {
-        return slotHeight;
-    }
-
-    public double getSlotWidth() {
-        return slotWidth;
-    }
-
-    public double getTotalHeight() {
-        return totalHeight;
-    }
-
-    public double getTotalWidth() {
-        return totalWidth;
-    }
-
-    public Paint getPanelColor() {
-        return panelColor;
-    }
-
-    public void setPanelColor(Paint panelColor) {
-        this.panelColor = panelColor;
-    }
-
-    public Paint getSlotColor() {
-        return slotColor;
-    }
-
-    public void setSlotColor(Paint slotColor) {
-        this.slotColor = slotColor;
-    }
-
-    public Paint getSelectedItemColor() {
-        return selectedItemColor;
-    }
-
-    public void setSelectedItemColor(Paint selectedItemColor) {
-        this.selectedItemColor = selectedItemColor;
-    }
-
-    public Paint getEmptyItemColor() {
-        return emptyItemColor;
-    }
-
-    public void setEmptyItemColor(Paint emptyItemColor) {
-        this.emptyItemColor = emptyItemColor;
-    }
-
-    public Paint getBorderColor() {
-        return borderColor;
-    }
-
-    public void setBorderColor(Paint borderColor) {
-        this.borderColor = borderColor;
-    }
-
-    public boolean isVertical() {
-        return isVertical;
-    }
-
+    // setters
+    public void setPanelColor(Paint panelColor) { this.panelColor = panelColor; }
+    public void setSlotColor(Paint slotColor) { this.slotColor = slotColor; }
+    public void setSelectedItemColor(Paint selectedItemColor) { this.selectedItemColor = selectedItemColor; }
+    public void setEmptyItemColor(Paint emptyItemColor) { this.emptyItemColor = emptyItemColor; }
+    public void setBorderColor(Paint borderColor) { this.borderColor = borderColor; }
+    public void setToggle(boolean toggle) { isToggle = toggle; }
+    public void setDisplayNumbers(boolean displayNumbers) { this.displayNumbers = displayNumbers; }
+    public void setSelected(int selected) { this.selected = selected; }
     public void setVertical(boolean vertical) {
         if (isVertical != vertical) {
             double tmp = totalWidth;
@@ -174,49 +138,31 @@ public class Inventory extends HUDElement {
             isVertical = vertical;
         }
     }
-
-    public boolean isToggle() {
-        return isToggle;
-    }
-
-    public void setToggle(boolean toggle) {
-        isToggle = toggle;
-    }
-
-    public boolean isDisplayNumbers() {
-        return displayNumbers;
-    }
-
-    public void setDisplayNumbers(boolean displayNumbers) {
-        this.displayNumbers = displayNumbers;
-    }
-
-    public boolean isExtendedInventoryDisplayed() {
-        return isExtendedInventoryDisplayed;
-    }
-
     public void toggleExtendedInventoryDisplayed() {
         isExtendedInventoryDisplayed = !isExtendedInventoryDisplayed;
         update();
     }
 
-    public int getSelected() {
-        return selected;
-    }
 
-    public void setSelected(int selected) {
-        this.selected = selected;
-    }
-
+    /**
+     * swap will swap the given indexes in the hudutil. This is used when the player wants to swap blocks in their inventory.
+     * @param s1
+     * @param s2
+     */
     public void swap(int s1, int s2) {
         inventoryUtil.swapItems(s1, s2);
         selected = -1;
     }
 
+    /**
+     * This will fix the inventory bar to the sides of the screen. It takes in the static Inventory variables.
+     * @param edge
+     */
     public void fixToEdge(String edge) {
         double x = 0;
         double y = 0;
 
+        // determines the specific case and calculates the new x and y variables for the action
         switch (edge) {
             case HUDUtil.EDGE_BOTTOM:
                 setVertical(false);
@@ -238,14 +184,17 @@ public class Inventory extends HUDElement {
                 break;
         }
 
-        Log.d(TAG,x + "  " + y);
+        // sets the point to the calculated values
         setPos(new Point2D(x, y));
     }
 
+    /**
+     * Updates the inventory hud group and displays any changes made within it.
+     */
     public void update() {
-
         int i;
 
+        //clears the group inorder to update it
         getGroup().getChildren().clear();
 
         // draw inventory backdrop
@@ -253,7 +202,6 @@ public class Inventory extends HUDElement {
                 getPos().getY(),
                 totalWidth,
                 totalHeight);
-
         inventoryBackdrop.setStroke(borderColor);
         inventoryBackdrop.setFill(panelColor);
         getGroup().getChildren().add(inventoryBackdrop);
@@ -274,11 +222,12 @@ public class Inventory extends HUDElement {
                 currSlotX = (getPos().getX() + borderWidth) + (i * (slotWidth + borderWidth));
             }
 
-            // draw the slot border
+            // determines the color of the inventory slots
             if (inventoryUtil.isCurrentIndex(i)) slotBackdrop.setFill(selectedItemColor);
             else if (i == selected) slotBackdrop.setFill(Color.BLUE);
             else slotBackdrop.setFill(slotColor);
 
+            // draws the individual item backdrop
             slotBackdrop.setX(currSlotX);
             slotBackdrop.setY(currSlotY);
             slotBackdrop.setWidth(slotWidth);
@@ -286,19 +235,19 @@ public class Inventory extends HUDElement {
             slotBackdrop.setStroke(borderColor);
             getGroup().getChildren().add(slotBackdrop);
 
+            // if there is an item at the current item in the inventory util
             if (inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureProperties.UNDEFINED_TAG) {
                 // draw each item
                 Group item = inventoryUtil.getItem(i);
                 item.setTranslateX(currSlotX + (slotWidth / 2.0));
                 item.setTranslateY(currSlotY + (slotHeight / 2.0));
-
                 item.maxWidth(slotWidth);
                 item.maxHeight(slotHeight);
-
                 item.getTransforms().setAll(new Rotate(25, Rotate.X_AXIS), new Rotate(25, Rotate.Y_AXIS));
                 item.toFront();
                 getGroup().getChildren().add(item);
 
+                // displays the amount of the current item left
                 if (displayNumbers) {
                     Label itemAmount = new Label("" + inventoryUtil.getIndexSize(i));
                     itemAmount.setFont(Font.font("Monospaced", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 15));
@@ -311,7 +260,9 @@ public class Inventory extends HUDElement {
 
         }
 
+        // if the user shows the extended inventory
         if (isExtendedInventoryDisplayed) {
+            // calculates the height of the ext inventory based on the amount of items in the inventoryutil
             double h;
             if (inventorySize % slotsDisplayed != 0) {
                 h = ((((inventorySize - slotsDisplayed) / slotsDisplayed) + 1) * slotWidth) + ((((inventorySize - slotsDisplayed) / slotsDisplayed) + 2) * borderWidth);
@@ -321,15 +272,14 @@ public class Inventory extends HUDElement {
             double eX = screenWidth / 2 - totalWidth / 2 + borderWidth;
             double eY = screenHeight / 2 - h / 2;
 
+            // draws the ext inv backdrop
             Rectangle extendedInventoryBackdrop = new Rectangle(screenWidth / 2 - totalWidth / 2, screenHeight / 2 - h / 2, totalWidth, h);
             extendedInventoryBackdrop.setFill(panelColor);
             extendedInventoryBackdrop.setStroke(borderColor);
-//            extendedInventoryBackdrop.setStrokeWidth(borderWidth);
             getGroup().getChildren().add(extendedInventoryBackdrop);
 
+            // draws each item in the extended inventory
             for (i = slotsDisplayed; i < inventorySize; i++) {
-
-
                 Rectangle slotBackdrop = new Rectangle();
 
                 // calculate start of the inventory box
@@ -337,16 +287,15 @@ public class Inventory extends HUDElement {
                 double currSlotX;
                 int currRow = (i - slotsDisplayed) / slotsDisplayed;
                 int currCol = (i - slotsDisplayed) % slotsDisplayed;
-
-
                 currSlotY = eY + borderWidth + (currRow * (slotWidth + borderWidth));
                 currSlotX = (eX) + ((currCol) * (slotWidth + borderWidth));
 
-                // draw the slot border
+                // determines the color of each slot
                 if (inventoryUtil.isCurrentIndex(i)) slotBackdrop.setFill(selectedItemColor);
                 else if (i == selected) slotBackdrop.setFill(Color.BLUE);
                 else slotBackdrop.setFill(slotColor);
 
+                // draws the individual item backdrop
                 slotBackdrop.setX(currSlotX);
                 slotBackdrop.setY(currSlotY);
                 slotBackdrop.setWidth(slotWidth);
@@ -354,19 +303,20 @@ public class Inventory extends HUDElement {
                 slotBackdrop.setStroke(borderColor);
                 getGroup().getChildren().add(slotBackdrop);
 
+
+                // if there is an item at the current spot in the inventory
                 if (!inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG().equals(StructureProperties.UNDEFINED_TAG)) {
                     // draw each item
                     Group item = inventoryUtil.getItem(i);
                     item.setTranslateX(currSlotX + (slotWidth / 2.0));
                     item.setTranslateY(currSlotY + (slotHeight / 2.0));
-
                     item.maxWidth(slotWidth);
                     item.maxHeight(slotHeight);
-
                     item.getTransforms().setAll(new Rotate(25, Rotate.X_AXIS), new Rotate(25, Rotate.Y_AXIS));
                     item.toFront();
                     getGroup().getChildren().add(item);
 
+                    // displays the amount the item has left in the inventory util
                     if (displayNumbers) {
                         Label itemAmount = new Label("" + inventoryUtil.getIndexSize(i));
                         itemAmount.setFont(Font.font("Monospaced", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 15));

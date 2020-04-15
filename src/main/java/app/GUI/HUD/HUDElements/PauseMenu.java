@@ -15,13 +15,14 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-
+/**
+ * Pause menu is a hud element that displays a menu when the player pauses the game
+ */
 public class PauseMenu extends HUDElement {
+
+    // global variables
     private final double screenWidth;
     private final double screenHeight;
-    private final double backdropBorderWidth = 5;
-    private final double arcW = 0;
-    private final double arcH = 0;
     private final String singleArrow = ">";
     private final String doubleArrow = ">>";
     private final GameBuilder context;
@@ -38,6 +39,16 @@ public class PauseMenu extends HUDElement {
     private boolean isCentered = true;
     private boolean isPaused = false;
 
+    /**
+     * Constructor to initialize the variables and to draw it onto the hud menu group
+     * @param elementTag
+     * @param pos
+     * @param context
+     * @param width
+     * @param height
+     * @param screenWidth
+     * @param screenHeight
+     */
     public PauseMenu(String elementTag,
                      Point2D pos,
                      GameBuilder context,
@@ -56,40 +67,30 @@ public class PauseMenu extends HUDElement {
         update();
     }
 
-    public void setCentered(boolean centered) {
-        isCentered = centered;
-    }
+    // getters
+    public boolean isPaused() { return isPaused; }
+    public double getWidth() { return width; }
+    public double getHeight() { return height; }
 
-    public boolean isPaused() {
-        return isPaused;
-    }
-
+    // setters
+    public void setHeight(double height) { this.height = height;}
+    public void setWidth(double width) { this.width = width;}
+    public void setCentered(boolean centered) { isCentered = centered; }
     public void setPaused(boolean paused) {
         isPaused = paused;
         update();
     }
 
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
+    /**
+     * updates the screen and displays the changes to the pause menu
+     */
     public void update() {
+        // clears the groups in order to  update
         getMenuGroup().getChildren().clear();
         pause.getGroup().getChildren().clear();
 
         if (isPaused) {
+            // calculates where the pause menu is drawn
             double x = getPos().getX();
             double y = getPos().getY();
             if (isCentered) {
@@ -212,6 +213,7 @@ public class PauseMenu extends HUDElement {
             getMenuGroup().getChildren().add(pause.getGroup());
 
         }else{
+            // fixes the crosshair if the menu isnt displayed
             if(!((Crosshair)context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()){
                 ((Crosshair)context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
             }

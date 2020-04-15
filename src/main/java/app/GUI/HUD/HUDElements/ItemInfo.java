@@ -19,14 +19,17 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 
-
+/**
+ * This class is a hud element that displays information about any block in the inventory.
+ */
 public class ItemInfo extends HUDElement {
+
+    // global variables
     private static final String TAG = "ItemInfo";
     private final double screenWidth;
     private final double screenHeight;
     private final InventoryUtil inventoryUtil;
     private final GameBuilder context;
-    private int objectType;
     private double width;
     private double height;
     private boolean isDisplayed = false;
@@ -36,6 +39,14 @@ public class ItemInfo extends HUDElement {
     private final Font pauseText = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR, 15);
     private final Color GREEN = Color.valueOf("#20C20E");
 
+    /**
+     * Constructor to initialize variables add the element to the hud
+     * @param elementTag
+     * @param pos
+     * @param context
+     * @param width
+     * @param height
+     */
     public ItemInfo(String elementTag,
                     Point2D pos,
                     GameBuilder context,
@@ -52,36 +63,29 @@ public class ItemInfo extends HUDElement {
         update();
     }
 
+    // getters
+    public boolean isDisplayed() { return isDisplayed; }
+    public double getHeight() { return height; }
+    public double getWidth() { return width; }
+
+    //setters
+    public void setHeight(double height) { this.height = height; }
+    public void setWidth(double width) { this.width = width; }
     public void toggleItemInfo() {
         isDisplayed = !isDisplayed;
         update();
     }
 
-    public boolean isDisplayed() {
-        return isDisplayed;
-    }
-
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
+    /**
+     * update the item info to display the changes to the class
+     */
     public void update() {
+        // clear the group to draw the changes on to the sceen
         getGroup().getChildren().clear();
         info.getGroup().getChildren().clear();
 
         if (isDisplayed) {
+            // calculate where to place the item info box
             double x = getPos().getX();
             double y = getPos().getY();
             String itemTag;
@@ -111,6 +115,8 @@ public class ItemInfo extends HUDElement {
 
             x = screenWidth / 2 - width / 2;
             y = screenHeight / 2 - height / 2;
+
+            // if there is an item in the current index display  it
             if(currItem.getProps().getPROPERTY_ITEM_TAG() != StructureProperties.UNDEFINED_TAG) {
                 // draw each item
                 Group item = StructureBuilder.resolve(inventoryUtil.getCurrentItem());
@@ -125,19 +131,25 @@ public class ItemInfo extends HUDElement {
                 item.toFront();
                 info.addNode(item);
 
-
+                // draw the item description
                 info.drawText(currItem.getProps().getPROPERTY_ITEM_DESCRIPTION(),
                         (float) x + 15,
                         (float) y + 110,
                         Color.WHITE,
                         pauseText);
+
+                // if the item is a spawnable item then it has a special option to change the type of block it is drawn with
                 if (currItem.getProps().getPROPERTY_ITEM_TYPE() == StructureProperties.TYPE_SPAWNABLE) {
+
+                    // display the object changer button
                     Text objectText = info.drawText("Object Type", x + 15, y + 140, Color.WHITE, pauseText);
                     Text objectType = info.drawText(determineObjectType(((SpawnableStructureItem)currItem).getSpawnableStructure().getProps().getPROPERTY_OBJECT_TYPE()), x + 150, y + 140, Color.WHITE, pauseText);
                     Rectangle objectHitBox = info.drawRectangle(x + 0, y + 125, width, 20, 0, 0, Color.TRANSPARENT);
+                    // creates button functionality
                     objectHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                             new EventHandler<MouseEvent>() {
                                 public void handle(MouseEvent me) {
+                                    // this cycles through the types of blocks that the structure can be placed as
                                     switch (((SpawnableStructureItem)currItem).getSpawnableStructure().getProps().getPROPERTY_OBJECT_TYPE()) {
                                         case StructureProperties.OBJECT_TYPE_CUBE:
                                             ((SpawnableStructureItem)currItem).getSpawnableStructure().getProps().setPROPERTY_OBJECT_TYPE(StructureProperties.OBJECT_TYPE_SPHERE);
@@ -171,10 +183,11 @@ public class ItemInfo extends HUDElement {
 
                 }
             }
+            // adds the updated group to the hud
             getGroup().getChildren().add(info.getGroup());
         }
     }
-
+    // helper function to cycle through the types of items
     private String determineObjectType(int o){
         if(o == StructureProperties.OBJECT_TYPE_CUBE) return "CUBE";
         if(o == StructureProperties.OBJECT_TYPE_SPHERE) return "SPHERE";
