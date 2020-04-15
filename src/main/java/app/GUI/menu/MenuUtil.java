@@ -1542,6 +1542,36 @@ public class MenuUtil {
                     }
                 });
 
+        // trip mode toggle
+        Text tripModeArrow = cameraMenu.drawText(singleArrow, 50, 290, GREEN, options);
+        Text tripModeText = cameraMenu.drawText("./Trippy", 95, 290, Color.WHITE, options);
+        Text tripModeMult = cameraMenu.drawText(String.valueOf(is_trip_mode), 550, 290, Color.WHITE, options);
+        Rectangle tripModeHitBox = cameraMenu.drawRectangle(50, 270, 600, 30, 0, 0, Color.TRANSPARENT);
+        tripModeHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        is_trip_mode = !is_trip_mode;
+                        tripModeMult.setText(String.valueOf(is_trip_mode));
+                        context.getEffects().setTripMode(is_trip_mode);
+                    }
+                });
+        tripModeHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        tripModeArrow.setText(doubleArrow);
+                        tripModeText.setFill(GREEN);
+                        tripModeMult.setFill(GREEN);
+                    }
+                });
+        tripModeHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        tripModeArrow.setText(singleArrow);
+                        tripModeText.setFill(Color.WHITE);
+                        tripModeMult.setFill(Color.WHITE);
+                    }
+                });
+
         //quit handler
         Text returnArrow = cameraMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text returnText = cameraMenu.drawText("./Back", 95, 340, Color.WHITE, options);
@@ -1648,34 +1678,34 @@ public class MenuUtil {
                         bloomMult.setFill(Color.WHITE);
                     }
                 });
-
-        // trip mode toggle
-        Text tripModeArrow = graphicsMenu.drawText(singleArrow, 50, 240, GREEN, options);
-        Text tripModeText = graphicsMenu.drawText("./Trippy", 95, 240, Color.WHITE, options);
-        Text tripModeMult = graphicsMenu.drawText(String.valueOf(is_trip_mode), 550, 240, Color.WHITE, options);
-        Rectangle tripModeHitBox = graphicsMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
-        tripModeHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+        // brightness settings
+        Text brightnessArrow = graphicsMenu.drawText(singleArrow, 50, 240, GREEN, options);
+        Text brightnessText = graphicsMenu.drawText("./Brightness", 95, 240, Color.WHITE, options);
+        Text brightnessMult = graphicsMenu.drawText(Double.toString(curr_brightness), 550, 240, Color.WHITE, options);
+        Rectangle brightnessHitBox = graphicsMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
+        brightnessHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        is_trip_mode = !is_trip_mode;
-                        tripModeMult.setText(String.valueOf(is_trip_mode));
-                        context.getEffects().setTripMode(is_trip_mode);
+                        curr_brightness += .1;
+                        if (curr_brightness > 1) curr_brightness = 0.0;
+                        brightnessMult.setText(Double.toString(curr_brightness));
+                        context.getEffects().setBrightness(curr_brightness);
                     }
                 });
-        tripModeHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+        brightnessHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        tripModeArrow.setText(doubleArrow);
-                        tripModeText.setFill(GREEN);
-                        tripModeMult.setFill(GREEN);
+                        brightnessArrow.setText(doubleArrow);
+                        brightnessText.setFill(GREEN);
+                        brightnessMult.setFill(GREEN);
                     }
                 });
-        tripModeHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+        brightnessHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        tripModeArrow.setText(singleArrow);
-                        tripModeText.setFill(Color.WHITE);
-                        tripModeMult.setFill(Color.WHITE);
+                        brightnessArrow.setText(singleArrow);
+                        brightnessText.setFill(Color.WHITE);
+                        brightnessMult.setFill(Color.WHITE);
                     }
                 });
 
@@ -1802,41 +1832,10 @@ public class MenuUtil {
                     }
                 });
 
-        // brightness settings
-        Text brightnessArrow = graphicsMenu.drawText(singleArrow, 50, 490, GREEN, options);
-        Text brightnessText = graphicsMenu.drawText("./Brightness", 95, 490, Color.WHITE, options);
-        Text brightnessMult = graphicsMenu.drawText(Double.toString(curr_brightness), 550, 490, Color.WHITE, options);
-        Rectangle brightnessHitBox = graphicsMenu.drawRectangle(50, 470, 600, 30, 0, 0, Color.TRANSPARENT);
-        brightnessHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        curr_brightness += .1;
-                        if (curr_brightness > 1) curr_brightness = 0.0;
-                        brightnessMult.setText(Double.toString(curr_brightness));
-                        context.getEffects().setBrightness(curr_brightness);
-                    }
-                });
-        brightnessHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        brightnessArrow.setText(doubleArrow);
-                        brightnessText.setFill(GREEN);
-                        brightnessMult.setFill(GREEN);
-                    }
-                });
-        brightnessHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
-                new EventHandler<MouseEvent>() {
-                    public void handle(MouseEvent me) {
-                        brightnessArrow.setText(singleArrow);
-                        brightnessText.setFill(Color.WHITE);
-                        brightnessMult.setFill(Color.WHITE);
-                    }
-                });
-
         //quit handler
-        Text returnArrow = graphicsMenu.drawText(singleArrow, 50, 540, GREEN, options);
-        Text returnText = graphicsMenu.drawText("./Back", 95, 540, Color.WHITE, options);
-        Rectangle returnHitBox = graphicsMenu.drawRectangle(50, 520, 600, 30, 0, 0, Color.TRANSPARENT);
+        Text returnArrow = graphicsMenu.drawText(singleArrow, 50, 490, GREEN, options);
+        Text returnText = graphicsMenu.drawText("./Back", 95, 490, Color.WHITE, options);
+        Rectangle returnHitBox = graphicsMenu.drawRectangle(50, 470, 600, 30, 0, 0, Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
