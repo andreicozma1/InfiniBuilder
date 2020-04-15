@@ -8,6 +8,10 @@
 ```
 > sudo add-apt-repository ppa:openjdk-r/ppa && sudo apt-get update && sudo apt-get install openjdk-11-jdk
 ```
+- This is a link to where you can download the Java 11 Dependency
+```
+https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
+```
 #### 2. USE THE INSTALLATION SCRIPT:
 ```
 > ./install
