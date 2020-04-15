@@ -18,25 +18,70 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.application.HostServices;
-import javafx.application.*;
-import javafx.stage.Stage;
-
-import java.net.URI;
 import java.util.HashMap;
-import java.util.Random;
+
+/* -------------------------------------------------------------------------------------------------
+        Throughout this file you will see code structured like this. This will help to parse through
+        the code and read it a little easier.
+
+        ----- this section will instantiate the variables needed to make a button -----
+        Text startArrow = mainMenu.drawText(singleArrow, 50, 140, GREEN, options);
+        Text startText = mainMenu.drawText("./Start_Game", 95, 140, Color.WHITE, options);
+        Rectangle startHitBox = mainMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+        ----- this will control what the button does when its clicked on -----
+        startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+
+                        ----- this section will either change scene or change the setting -----
+                        activateGroup(GROUP_SET_SEED_MENU);
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+                    }
+                });
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+        ----- this section will highlight the text when the mouse hovers over it -----
+        startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        startArrow.setText(doubleArrow);
+                        startText.setFill(GREEN);
+                    }
+                });
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+        ----- this section will reset the color of the text when the mouse leaves the button -----
+        startHitBox.addEventHandler(MouseEvent.MOUSE_EXITED,
+                new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent me) {
+                        startArrow.setText(singleArrow);
+                        startText.setFill(Color.WHITE);
+                    }
+                });
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+   -------------------------------------------------------------------------------------------------
+*/
+
+
+
+
+/**
+ * Menu util builds and controls all of the non hud menus in the game.
+ */
 public class MenuUtil {
+    // tag for log statements
     private static final String TAG = "MenuUtil";
-
-
+    // used to control the return state from the pause menu
     public static final String PAUSE = "PAUSE";
     // static strings to access any menu from the menuGroupHashMap
     public static final String GROUP_MAIN_MENU = "GROUP_MAIN_MENU";
@@ -50,11 +95,13 @@ public class MenuUtil {
     public static final String GROUP_ABOUT = "GROUP_ABOUT";
     public static final String GROUP_GRAPHICS = "GROUP_GRAPHICS";
     public static final String GROUP_HUD = "GROUP_HUD";
+    // used for the design of the menus
     private final String singleArrow = ">";
     private final String doubleArrow = ">>";
     private final Font title = Font.font("Monospaced", FontWeight.BOLD, FontPosture.REGULAR, 30);
     private final Font options = Font.font("Monospaced", FontWeight.NORMAL, FontPosture.REGULAR, 25);
     private final Color GREEN = Color.valueOf("#20C20E");
+    // hashmap to keep track of each group indexed by a string
     public HashMap<String, Group> menuGroupMap = new HashMap<>();
     // class variables
     Scene SCENE_MENU;
@@ -75,8 +122,6 @@ public class MenuUtil {
     InterfaceBuilder controlsMenu;
     // menu to explain the project
     InterfaceBuilder aboutMenu;
-
-
     // environment seed
     int seed = -1;
     // variables to hold and keep track of the different menus
@@ -119,13 +164,15 @@ public class MenuUtil {
     private boolean is_showing_hud;
 
 
-
+    /**
+     * Constructor inititializes all menus
+     * @param ctx
+     */
     public MenuUtil(GameBuilder ctx) {
         context = ctx;
 
         // set up interfaces
         mainMenu = new InterfaceBuilder();
-
         controlsMenu = new InterfaceBuilder();
         aboutMenu = new InterfaceBuilder();
         settingsMenu = new InterfaceBuilder();
@@ -137,6 +184,7 @@ public class MenuUtil {
         hudMenu = new InterfaceBuilder();
         setSeedMenu = new InterfaceBuilder();
 
+        // create the scene for the menus
         SCENE_MENU = new Scene(mainMenu.getGroup(), context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
 
         settingsReturnState = GROUP_MAIN_MENU;
@@ -207,13 +255,17 @@ public class MenuUtil {
         addGroup(GROUP_GRAPHICS, graphicsMenu.getGroup());
         addGroup(GROUP_HUD, hudMenu.getGroup());
 
+        // set the controls for the menu
         setControlScheme();
     }
 
+
+    // set up the controls for the menus
     public void setControlScheme() {
         SCENE_MENU.setOnKeyReleased(keyEvent -> {
             switch (keyEvent.getCode()) {
                 case ESCAPE:
+                    // exit each menu until the main menu then close the game
                     if(currentGroup == GROUP_MAIN_MENU) {
                         context.getWindow().closeWindow();
                     }else if(currentGroup==GROUP_CAMERA ||
@@ -239,28 +291,31 @@ public class MenuUtil {
         });
     }
 
+    // adds group to the menu group map
     protected void addGroup(String name, Group group) {
         menuGroupMap.put(name, group);
     }
 
+    // removes group to the menu group map
     protected void removeGroup(String name) {
         menuGroupMap.remove(name);
     }
 
+    // activates the given group associated with the name
     public void activateGroup(String name) {
         Log.d(TAG, "activateGroup() -> " + name);
         currentGroup = name;
         SCENE_MENU.setRoot(menuGroupMap.get(name));
     }
 
-    public Scene getScene() {
-        return SCENE_MENU;
-    }
 
-    public void setSettingsReturnState(String state) {
-        settingsReturnState = state;
-    }
+    public Scene getScene() { return SCENE_MENU; }
 
+    // sets where the setting smenu will return to
+    public void setSettingsReturnState(String state) { settingsReturnState = state; }
+
+    //*****************************************************************************************************
+    // MAIN MENU
     public void buildMainMenu() {
 
         // draw black backdrop
@@ -407,6 +462,8 @@ public class MenuUtil {
                 });
     }
 
+    //*****************************************************************************************************
+    // SET SEED MENU
     public void buildSetSeedMenu(){
         // draw black backdrop
         setSeedMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
@@ -428,6 +485,8 @@ public class MenuUtil {
                 140,
                 Color.WHITE,
                 options);
+
+        // text box to enter the seed
         TextField seedBox = new TextField("RANDOM");
         seedBox.setText("RANDOM");
         seedBox.setTranslateX(550);
@@ -448,6 +507,7 @@ public class MenuUtil {
         setSeedMenu.addNode(seedBox);
 
 
+        // text box to set the players name
         setSeedMenu.drawText("> Player_Name",
                 50,
                 190,
@@ -515,7 +575,8 @@ public class MenuUtil {
 
     }
 
-
+    //*****************************************************************************************************
+    // CONTROLS MENU
     public void buildControlsMenu() {
         // draw black backdrop
         controlsMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
@@ -560,8 +621,7 @@ public class MenuUtil {
     }
 
     //*****************************************************************************************************
-
-
+    // SETTINGS MENU
     public void buildSettingsMenu() {
         // draw black backdrop
         settingsMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
@@ -579,7 +639,7 @@ public class MenuUtil {
                 Color.WHITE,
                 title);
 
-
+        // ENVIRONMENT MENU HANDLER
         Text environmentArrow = settingsMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text environmentText = settingsMenu.drawText("cd Environment_Settings", 95, 140, Color.WHITE, options);
         Rectangle environmentHitBox = settingsMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
@@ -604,6 +664,7 @@ public class MenuUtil {
                     }
                 });
 
+        // SKYBOX MENU HANDLER
         Text skyBoxArrow = settingsMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text skyBoxText = settingsMenu.drawText("cd SkyBox_Settings", 95, 190, Color.WHITE, options);
         Rectangle skyBoxHitBox = settingsMenu.drawRectangle(50, 170, 600, 30, 0, 0, Color.TRANSPARENT);
@@ -628,6 +689,7 @@ public class MenuUtil {
                     }
                 });
 
+        // PLAYER MENU HANDLER
         Text playerArrow = settingsMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text playerText = settingsMenu.drawText("cd Player_Settings", 95, 240, Color.WHITE, options);
         Rectangle playerHitBox = settingsMenu.drawRectangle(50, 220, 600, 30, 0, 0, Color.TRANSPARENT);
@@ -652,6 +714,7 @@ public class MenuUtil {
                     }
                 });
 
+        // CAMERA MENU HANDLER
         Text cameraArrow = settingsMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text cameraText = settingsMenu.drawText("cd Camera_Settings", 95, 290, Color.WHITE, options);
         Rectangle cameraHitBox = settingsMenu.drawRectangle(50, 270, 600, 30, 0, 0, Color.TRANSPARENT);
@@ -675,6 +738,8 @@ public class MenuUtil {
                         cameraText.setFill(Color.WHITE);
                     }
                 });
+
+        // GRAPHICS MENU HANDLER
         Text graphicsArrow = settingsMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text graphicsText = settingsMenu.drawText("cd Graphics_Settings", 95, 340, Color.WHITE, options);
         Rectangle graphicsHitBox = settingsMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
@@ -699,6 +764,7 @@ public class MenuUtil {
                     }
                 });
 
+        // HUD MENU HANDLER
         Text hudArrow = settingsMenu.drawText(singleArrow, 50, 390, GREEN, options);
         Text hudText = settingsMenu.drawText("cd HUD_Settings", 95, 390, Color.WHITE, options);
         Rectangle hudHitBox = settingsMenu.drawRectangle(50, 370, 600, 30, 0, 0, Color.TRANSPARENT);
@@ -723,7 +789,7 @@ public class MenuUtil {
                     }
                 });
 
-        //quit handler
+        //QUIT HANDLER
         Text returnArrow = settingsMenu.drawText(singleArrow, 50, 440, GREEN, options);
         Text returnText = settingsMenu.drawText("cd ..", 95, 440, Color.WHITE, options);
         Rectangle returnHitBox = settingsMenu.drawRectangle(50, 420, 600, 30, 0, 0, Color.TRANSPARENT);
@@ -755,7 +821,8 @@ public class MenuUtil {
 
     }
 
-
+    //*****************************************************************************************************
+    // ENVIRONMENT MENU
     public void buildEnvironmentMenu() {
         // draw black backdrop
         environmentMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
@@ -774,7 +841,6 @@ public class MenuUtil {
                 title);
 
         // World Height Multiplier
-
         Text worldHeightArrow = environmentMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text worldHeightText = environmentMenu.drawText("./World_Height_Multiplier", 95, 140, Color.WHITE, options);
         Text worldHeightMult = environmentMenu.drawText((int) curr_world_height_mult + " blocks", 550, 140, Color.WHITE, options);
@@ -806,7 +872,6 @@ public class MenuUtil {
                 });
 
         // Vegetation Multiplier
-
         Text vegetationArrow = environmentMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text vegetationText = environmentMenu.drawText("./Vegetation_Percent", 95, 190, Color.WHITE, options);
         Text vegetationMult = environmentMenu.drawText((int) curr_vegetation_mult + "%", 550, 190, Color.WHITE, options);
@@ -838,7 +903,6 @@ public class MenuUtil {
                 });
 
         // World type
-
         Text worldTypeArrow = environmentMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text worldTypeText = environmentMenu.drawText("./World_Type", 95, 240, Color.WHITE, options);
         Text worldTypeChoice = environmentMenu.drawText(ResourcesUtil.MAP_ALL_MATERIALS_SORTED.get(curr_world_type), 550, 240, Color.WHITE, options);
@@ -960,7 +1024,8 @@ public class MenuUtil {
 
     }
 
-
+    //*****************************************************************************************************
+    // SKYBOX MENU
     public void buildSkyBoxMenu() {
         // draw black backdrop
         skyBoxMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
@@ -1161,6 +1226,8 @@ public class MenuUtil {
     }
 
 
+    //*****************************************************************************************************
+    // PLAYER MENU
     public void buildPlayerMenu() {
         // draw black backdrop
         playerMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
@@ -1178,7 +1245,7 @@ public class MenuUtil {
                 Color.WHITE,
                 title);
 
-
+        // player fly speed
         Text playerFlySpeedArrow = playerMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text playerFlySpeedText = playerMenu.drawText("./Fly_Speed", 95, 140, Color.WHITE, options);
         Text playerFlySpeedMult = playerMenu.drawText(Integer.toString((int) curr_fly_speed), 550, 140, Color.WHITE, options);
@@ -1209,7 +1276,7 @@ public class MenuUtil {
                     }
                 });
 
-
+        // player jump height
         Text playerJumpHeightArrow = playerMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text playerJumpHeightText = playerMenu.drawText("./Jump_Height_Multiplier", 95, 190, Color.WHITE, options);
         Text playerJumpHeightMult = playerMenu.drawText(Double.toString(curr_jump_height), 550, 190, Color.WHITE, options);
@@ -1241,7 +1308,7 @@ public class MenuUtil {
                 });
 
 
-        // player run multiplier
+        // player run speed
         Text playerRunSpeedArrow = playerMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text playerRunSpeedText = playerMenu.drawText("./Run_Speed_Multiplier", 95, 240, Color.WHITE, options);
         Text playerRunSpeedMult = playerMenu.drawText(Double.toString(curr_run_speed), 550, 240, Color.WHITE, options);
@@ -1303,6 +1370,7 @@ public class MenuUtil {
                     }
                 });
 
+        // crouch toggle
         Text crouchToggleArrow = playerMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text crouchToggleText = playerMenu.drawText("./Crouch", 95, 340, Color.WHITE, options);
         Text crouchToggleMult;
@@ -1362,7 +1430,8 @@ public class MenuUtil {
                 });
     }
 
-
+    //*****************************************************************************************************
+    // CAMERA MENU
     public void buildCameraMenu() {
         // draw black backdrop
         cameraMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
@@ -1499,6 +1568,8 @@ public class MenuUtil {
                 });
     }
 
+    //*****************************************************************************************************
+    // GRAPHICS MENU
     public void buildGraphicsMenu() {
         // draw black backdrop
         graphicsMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
@@ -1516,6 +1587,7 @@ public class MenuUtil {
                 Color.WHITE,
                 title);
 
+        // sepia tone
         Text sepiaToneArrow = graphicsMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text sepiaToneText = graphicsMenu.drawText("./Sepia_Tone", 95, 140, Color.WHITE, options);
         Text sepiaToneMult = graphicsMenu.drawText(Double.toString(curr_sepia_tone), 550, 140, Color.WHITE, options);
@@ -1546,6 +1618,7 @@ public class MenuUtil {
                     }
                 });
 
+        // bloom settings
         Text bloomArrow = graphicsMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text bloomText = graphicsMenu.drawText("./Bloom", 95, 190, Color.WHITE, options);
         Text bloomMult = graphicsMenu.drawText(Double.toString(curr_bloom), 550, 190, Color.WHITE, options);
@@ -1576,6 +1649,7 @@ public class MenuUtil {
                     }
                 });
 
+        // trip mode toggle
         Text tripModeArrow = graphicsMenu.drawText(singleArrow, 50, 240, GREEN, options);
         Text tripModeText = graphicsMenu.drawText("./Trippy", 95, 240, Color.WHITE, options);
         Text tripModeMult = graphicsMenu.drawText(String.valueOf(is_trip_mode), 550, 240, Color.WHITE, options);
@@ -1605,6 +1679,7 @@ public class MenuUtil {
                     }
                 });
 
+        // motion blur toggle
         Text motionBlurArrow = graphicsMenu.drawText(singleArrow, 50, 290, GREEN, options);
         Text motionBlurText = graphicsMenu.drawText("./Motion_Blur", 95, 290, Color.WHITE, options);
         Text motionBlurMult = graphicsMenu.drawText(String.valueOf(is_motion_blur), 550, 290, Color.WHITE, options);
@@ -1634,6 +1709,7 @@ public class MenuUtil {
                     }
                 });
 
+        // contrast settings
         Text contrastArrow = graphicsMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text contrastText = graphicsMenu.drawText("./Contrast", 95, 340, Color.WHITE, options);
         Text contrastMult = graphicsMenu.drawText(Double.toString(curr_contrast), 550, 340, Color.WHITE, options);
@@ -1664,6 +1740,7 @@ public class MenuUtil {
                     }
                 });
 
+        // saturation settings
         Text saturationArrow = graphicsMenu.drawText(singleArrow, 50, 390, GREEN, options);
         Text saturationText = graphicsMenu.drawText("./Saturation", 95, 390, Color.WHITE, options);
         Text saturationMult = graphicsMenu.drawText(Double.toString(curr_saturation), 550, 390, Color.WHITE, options);
@@ -1694,6 +1771,7 @@ public class MenuUtil {
                     }
                 });
 
+        // hue settings
         Text hueArrow = graphicsMenu.drawText(singleArrow, 50, 440, GREEN, options);
         Text hueText = graphicsMenu.drawText("./Hue", 95, 440, Color.WHITE, options);
         Text hueMult = graphicsMenu.drawText(Double.toString(curr_hue), 550, 440, Color.WHITE, options);
@@ -1724,6 +1802,7 @@ public class MenuUtil {
                     }
                 });
 
+        // brightness settings
         Text brightnessArrow = graphicsMenu.drawText(singleArrow, 50, 490, GREEN, options);
         Text brightnessText = graphicsMenu.drawText("./Brightness", 95, 490, Color.WHITE, options);
         Text brightnessMult = graphicsMenu.drawText(Double.toString(curr_brightness), 550, 490, Color.WHITE, options);
@@ -1780,6 +1859,9 @@ public class MenuUtil {
                 });
     }
 
+
+    //*****************************************************************************************************
+    // HUD MENU
     public void buildHUDMenu() {
         // draw black backdrop
         hudMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
@@ -1797,7 +1879,7 @@ public class MenuUtil {
                 Color.WHITE,
                 title);
 
-        //  is_ext_inventory_toggle
+        //  Extended Inventory toggle
         Text extInvToggleArrow = hudMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text extInvToggleText = hudMenu.drawText("./Extended_Inventory", 95, 140, Color.WHITE, options);
         Text extInvToggleMult;
@@ -1829,6 +1911,8 @@ public class MenuUtil {
                         extInvToggleMult.setFill(Color.WHITE);
                     }
                 });
+
+        // hud toggle
         Text showHudArrow = hudMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text showHudText = hudMenu.drawText("./Show_HUD", 95, 190, Color.WHITE, options);
         Text showHudMult = hudMenu.drawText(String.valueOf( is_showing_hud), 550, 190, Color.WHITE, options);
@@ -1911,16 +1995,21 @@ public class MenuUtil {
                 Color.WHITE,
                 options);
 
+        // DEVELOPERS
         aboutMenu.drawText("Developers: Andrei Cozma, Hunter Price" ,
                 50,
                 155,
                 Color.WHITE,
                 options);
+
+        // LINKS
         aboutMenu.drawText("Links: " ,
                 50,
                 190,
                 Color.WHITE,
                 options);
+
+        // GITHUB LINK
         Hyperlink github = new Hyperlink();
         github.setText("GitHub,");
         github.setOnAction(e -> {
@@ -1936,7 +2025,7 @@ public class MenuUtil {
         github.setTranslateY(160);
         aboutMenu.addNode(github);
 
-
+        // TRELLO LINK
         Hyperlink trello = new Hyperlink();
         trello.setText("Trello,");
         trello.setOnAction(e -> {
@@ -1952,11 +2041,12 @@ public class MenuUtil {
         trello.setTranslateY(160);
         aboutMenu.addNode(trello);
 
+        // YOUTUBE LINK
         Hyperlink youtube = new Hyperlink();
         youtube.setText("YouTube,");
         youtube.setOnAction(e -> {
             try {
-//                new ProcessBuilder("x-www-browser","https://www.youtube.com/").start();
+                new ProcessBuilder("x-www-browser","https://www.youtube.com/").start();
             }catch(Exception exception){
                 exception.printStackTrace();
             }
@@ -1967,6 +2057,7 @@ public class MenuUtil {
         youtube.setTranslateY(160);
         aboutMenu.addNode(youtube);
 
+        // SCREENSHOTS LINK
         Hyperlink screenShots = new Hyperlink();
         screenShots.setText("Screenshots");
         screenShots.setOnAction(e -> {
@@ -1982,16 +2073,20 @@ public class MenuUtil {
         screenShots.setTranslateY(160);
         aboutMenu.addNode(screenShots);
 
+        // LANGUAGES
         aboutMenu.drawText("Languages: Java" ,
                 50,
                 225,
                 Color.WHITE,
                 options);
+
+        //BUILD SYSTEM
         aboutMenu.drawText("Build System: Maven" ,
                 50,
                 260,
                 Color.WHITE,
                 options);
+        // LIBRARIES
         aboutMenu.drawText("Libraries:\n-    JavaFX\n-    OpenSimplexNoise\n-    Apache Commons Collections 4\n-    Interactive Mesh" ,
                 50,
                 295,
