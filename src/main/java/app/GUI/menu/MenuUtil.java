@@ -9,14 +9,13 @@ import app.utils.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -593,11 +592,45 @@ public class MenuUtil {
                 85,
                 Color.WHITE,
                 title);
+        Text t = new Text("WASD \t\t-- To move player\n" +
+                "MOUSE\t\t-- To move camera\n" +
+                "ESCAPE\t\t-- Pause\n" +
+                "SPACE\t\t-- Jump\n" +
+                "SHIFT\t\t-- Sprint\n" +
+                "CAPS\t\t-- Toggle fly speed boost\n" +
+                "TILDE\t\t-- Toggle HUD\n" +
+                "TAB\t\t-- Toggle extended Inventory\n" +
+                "F\t\t-- Toggle fly mode\n" +
+                "X \t\t-- Toggle no clip mode\n" +
+                "C \t\t-- Toggle crouch\n" +
+                "Q\t\t-- Reset Camera\n" +
+                "P\t\t-- Cycle Skybox\n" +
+                "T \t\t-- Teleport to a random place\n" +
+                "U\t\t-- Toggle UV night mode");
+        t.setFill(GREEN);
+        t.setFont(options);
+        VBox sc = new VBox();
+        sc.setStyle("-fx-background-color: BLACK ;-fx-highlight-fill: null;-fx-highlight-text-fill: null;");
+
+        sc.setSpacing(10);
+        sc.getChildren().add(t);
+        sc.setPadding(new Insets(10));
+        ScrollPane sp = new ScrollPane(sc);
+        sp.setPrefViewportHeight(250);
+        sp.setPannable(true);
+        sp.setTranslateX(50);
+        sp.setTranslateY(120);
+        sp.setStyle("-fx-text-inner-color: GREEN;-fx-border-color: GREEN; -fx-background-color: BLACK ;-fx-highlight-fill: null;-fx-highlight-text-fill: null;");
+        sp.setFitToHeight(true);
+        sp.setPrefViewportWidth(700);
+        sp.setHmax(250);
+        sp.setHvalue(250);
+        controlsMenu.addNode(sp);
 
         //quit handler
-        Text returnArrow = controlsMenu.drawText(singleArrow, 50, 340, GREEN, options);
-        Text returnText = controlsMenu.drawText("./Quit", 95, 340, Color.WHITE, options);
-        Rectangle returnHitBox = controlsMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
+        Text returnArrow = controlsMenu.drawText(singleArrow, 50, 440, GREEN, options);
+        Text returnText = controlsMenu.drawText("./Quit", 95, 440, Color.WHITE, options);
+        Rectangle returnHitBox = controlsMenu.drawRectangle(50, 420, 600, 30, 0, 0, Color.TRANSPARENT);
         returnHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {

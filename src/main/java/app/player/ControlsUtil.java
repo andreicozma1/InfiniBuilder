@@ -11,13 +11,21 @@ import javafx.scene.input.KeyEvent;
 
 import java.util.ArrayList;
 
+/**
+ * Controls Util sets the game controls for the player
+ */
 public class ControlsUtil {
+    // global variables
     private static final String TAG = "ControlsUtil";
     public static ArrayList<KeyCode> pressed;
     private final GameBuilder context;
     double last_mouse_x;
     double last_mouse_y;
 
+    /**
+     * Constructor initializes the array list that holds the keys pressed.
+     * @param ctx
+     */
     public ControlsUtil(GameBuilder ctx) {
         Log.d(TAG, "CONSTRUCTOR");
 
@@ -25,8 +33,10 @@ public class ControlsUtil {
         pressed = new ArrayList<>();
     }
 
+    // this the main function that sets each of the controls and keybinds
     public void apply(Scene game_scene) {
 
+        // This handles the mouse movement and links it to the camera movement
         game_scene.setOnMouseMoved(event -> {
             if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
 
@@ -42,6 +52,7 @@ public class ControlsUtil {
             }
         });
 
+        // this handles the mouse scroll events and updates the inventory using the scroll
         game_scene.setOnScroll(scrollEvent -> {
             if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
                 if (scrollEvent.getDeltaY() > 0) {
@@ -56,6 +67,7 @@ public class ControlsUtil {
             }
         });
 
+        // this handles the mouse clicks and places or throws objects based on the click
         game_scene.setOnMousePressed(event -> {
             if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
 
@@ -71,13 +83,16 @@ public class ControlsUtil {
             }
         });
 
+        // this handles the key binds when a key is initially pressed
         game_scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            // only works if the game is not paused and the player is not dead
             if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
                 if (!pressed.contains(event.getCode())) {
                     Log.d(TAG,"KEY_PRESSED " + event.getCode());
                     pressed.add(event.getCode());
                 }
                 switch (event.getCode()) {
+                    // tab will toggle the extended inventory
                     case TAB:
                         if (!getInventory().isToggle()) {
                             if (!getInventory().isExtendedInventoryDisplayed())
@@ -89,11 +104,13 @@ public class ControlsUtil {
                                 getCrosshair().toggleCrosshair();
                         }
                         break;
+                    // C will make the player crouch
                     case C:
                         if (!context.getComponents().getPlayer().isCrouchToggle() && !context.getComponents().getPlayer().isCrouching) {
                             context.getComponents().getPlayer().toggleCrouch();
                         }
                         break;
+                    // BACK_QUOTE will toggle the appearance of the hud
                     case BACK_QUOTE:
                         if(context.getComponents().getHUD().isHUDToggle()) {
                             context.getComponents().getHUD().toggleHUD();
@@ -105,8 +122,9 @@ public class ControlsUtil {
             }
         });
 
+        // this handles the key presses when the keys are released
         game_scene.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-
+            // escape will pause or unpause the game
             if (event.getCode() == KeyCode.ESCAPE) {
                 getCrosshair().toggleCrosshair();
                 reset();
@@ -122,6 +140,7 @@ public class ControlsUtil {
 
             }
 
+            // these keys only work when the game is not paused and the player is not dead
             if (!getPauseMenu().isPaused() && !getDeathMenu().isDead()) {
 
                 if (pressed.contains(event.getCode())) {
@@ -159,8 +178,12 @@ public class ControlsUtil {
                         case C:
                             context.getComponents().getPlayer().toggleCrouch();
                             break;
+
                         case TAB:
+                            // tab toggles the extended inventory
                             getInventory().toggleExtendedInventoryDisplayed();
+
+                            // fixes the crosshair
                             if(getItemInfo().isDisplayed()){
 
                             }else if(getInventory().isExtendedInventoryDisplayed() &&
@@ -171,6 +194,7 @@ public class ControlsUtil {
                                 getCrosshair().toggleCrosshair();
                             }
 
+                            // fixes the current inventory item
                             getInventory().setSelected(-1);
                             if (getInventory().getInventoryUtil().getCurrentIndex() > getInventory().getSlotsDisplayed() - 1) {
                                 getInventory().getInventoryUtil().setCurrentIndex(getInventory().getSlotsDisplayed() - 1);
@@ -178,6 +202,7 @@ public class ControlsUtil {
                             context.getComponents().getPlayer().updateHoldingGroup(false);
                             break;
                         case E:
+                            // shows the current item info
                             if(!getInventory().isExtendedInventoryDisplayed()){
                                 getCrosshair().toggleCrosshair();
 
@@ -185,6 +210,7 @@ public class ControlsUtil {
                             getItemInfo().toggleItemInfo();
                             break;
                         case R:
+                            // r swaps two blocks
                             if (getInventory().getSelected() == -1) {
                                 getInventory().setSelected(
                                         getInventory().getInventoryUtil().getCurrentIndex()
@@ -226,6 +252,7 @@ public class ControlsUtil {
         });
     }
 
+    // this handles the list of pressed keys for the players menus
     public void update_handler(double dt) {
         if (pressed.size() != 0) {
             for (KeyCode e : pressed) {
