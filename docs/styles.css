@@ -6,25 +6,31 @@
     right:0;
     bottom: 10%;
 }
+#frontSection h1{
+    font-size:14vmin;
+}
 #frontSection h2{
-    font-size: 5.5vmin;
+    font-size: 6vmin;
 }
 #frontSection h3{
-    font-size: 1.2vmin;
+    font-size: 1.8vmin;
     margin-bottom: 10%;
 }
 #frontSection *{
     padding: 5px;
     margin:0;
 }
+#downloadBtn{
+    font-size: 6vmin;
+}
 
-.header{
-    font-size: 7em;
+#downloadTitle{
+    font-size: 10vmin;
 }
 
 a{
     color: lightgreen;
-    font-size: 3em;
+    font-size: 6vh;
     cursor: pointer;
 }
 
@@ -39,15 +45,15 @@ a{
     display: block;
     background-color:lightgreen;
     color: black;
-    padding: 1em;
-    font-size: 1.2em;
+    padding: 2em;
+    font-size: 70%;
     margin:auto;
     margin-top:1em;
     width:20em;
 }
 
 #homeBtn{
-    width: 5em;
+    width: 1em;
     text-decoration: none;
 }
 
@@ -59,4 +65,5 @@ html,body{
     font-family: 'Press Start 2P', cursive;
     color: white;
     text-align: center;
+    overflow: hidden;
 }
