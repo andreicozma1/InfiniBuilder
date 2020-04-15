@@ -1,7 +1,8 @@
 # CS307 Final Project  
+![Game Screen Shot](/gameScreenShot.png)
+
 - Andrei Cozma & Hunter Price  
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
-
 ## **INSTALLATION**
 #### 1. COMPILATION DEPENDENCIES:
 - Java 11 - Check version using `./mvnw --version`
