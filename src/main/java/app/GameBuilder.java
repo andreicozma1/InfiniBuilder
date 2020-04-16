@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 public class GameBuilder {
     private static final String TAG = "GameBuilder";
 
-    // MAIN GAME LOOP
     private final AnimationTimer GAME_ANIMATION_TIMER;
     public static long time_current = System.currentTimeMillis();
     private long TOTAL_RUNTIME = 0;
@@ -29,15 +28,25 @@ public class GameBuilder {
     private GameComponents GAME_COMPONENTS;
     private GameWindow GAME_WINDOW;
 
+    /**
+     * GameBuilder constructor takes in the primaryStage from MainExecution
+     * as well as a width and a height corresponding to the size of the window to be drawn
+     * @param stg
+     * @param w
+     * @param h
+     */
     public GameBuilder(Stage stg, int w, int h) {
         Log.d(TAG, "CONSTRUCTOR");
         Log.d(TAG, "Creating Game Window with dimensions: " + w + " x " + h);
         stg.setResizable(false);
 
+        // Initialize the 3 Primary game components
         new GameWindow(stg, w, h);
         new GameFX(this);
         new GameComponents(this);
 
+        // Primary Game-Loop, which runs at 60FPS and is meant to handle
+        // all operations that need to be calculated every tick
         GAME_ANIMATION_TIMER = new AnimationTimer() {
             long reading_last = 0;
             int reading_frames = 0;
@@ -81,33 +90,65 @@ public class GameBuilder {
         };
     }
 
-
+    /**
+     * Getter for GameComponents
+     * Used to be able to reference all connected classes from one main Context (GameBuilder)
+     * @return
+     */
     public GameComponents getComponents() {
         return GAME_COMPONENTS;
     }
 
+    /**
+     * Getter for GameFX
+     * Used to be able to reference all effects applied to the game scene from the main context
+     * @return
+     */
     public GameFX getEffects() {
         return GAME_EFFECTS;
     }
 
+    /**
+     * Getter for GameWindow
+     * Used to be able to reference all window-related operations from the main context
+     */
     public GameWindow getWindow() {
         return GAME_WINDOW;
     }
 
+    /**
+     * One of the 3 primary subclasses of GameBuilder
+     * GameWindow handles everything related to the window.
+     */
     public class GameWindow {
         private final int WINDOW_WIDTH;
         private final int WINDOW_HEIGHT;
-        // This scene holds other SubScenes, such as SCENE_GAME which is used to render the 3D world with a PerspectiveCamera, as well as the 2D HUD as an overlay
-        // Controls are set on the root scene.
+
+        // The root scene holds other SubScenes, such as GAME_SCENE which is used to
+        // render the 3D world with a PerspectiveCamera, as well as the 2D HUD as an overlay
+        // Game Controls are set on the root scene since we want to use them all throughout.
         private final Scene ROOT_SCENE;
         private final Group ROOT_GROUP;
-        // This subscene is a child of SCENE_ROOT.
+
+        // This subscene is a child of SCENE_ROOT, and is responsible for holding all
+        // in-game elements, such as the environment, skybox, etc.
         private final SubScene GAME_SCENE;
         private final Group GAME_GROUP;
-        public Stage STAGE;
-        private Scene SCENE_CURRENT; // hold the current scene displayed to the user
         // Each scene contains it's own Group, which is used to hold the scene's children in a container
 
+        // The stage is responsible for rendering our scenes to the window
+        public Stage STAGE;
+        private Scene SCENE_CURRENT; // Keep track of which scene is currently displayed to the user
+
+        /**
+         * GameWindow constructor saves an instance of itself to GameBuilder
+         * in order to be able to reference these subclasses from anywhere within the game.
+         * It also initializes our Root Scene and Game Scene
+         * (as well as the element groups partaining to each of them)
+         * @param stg
+         * @param w
+         * @param h
+         */
         GameWindow(Stage stg, int w, int h) {
             GAME_WINDOW = this;
 
@@ -116,15 +157,24 @@ public class GameBuilder {
             WINDOW_WIDTH = w;
             WINDOW_HEIGHT = h;
 
+            // First, set up the game group and subscene based on our given width and height
+            // This game group hold everything pertaining to the actual in-game
             GAME_GROUP = new Group();
             GAME_SCENE = new SubScene(GAME_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT, true, SceneAntialiasing.BALANCED);
 
+            // Second, set up the root group and scene based on our given width and height
+            // This root group will hold the game scene itself.
             ROOT_GROUP = new Group();
             ROOT_SCENE = new Scene(ROOT_GROUP, WINDOW_WIDTH, WINDOW_HEIGHT);
             ROOT_GROUP.getChildren().add(GAME_SCENE);
         }
 
 
+        /**
+         * Function used to be able to switch between scenes,
+         * such as going from the Main Menu to the game, and vice-versa
+         * @param NEXT_SCENE
+         */
         public void showScene(Scene NEXT_SCENE) {
             SCENE_CURRENT = NEXT_SCENE;
             GAME_ANIMATION_TIMER.stop();
@@ -132,7 +182,6 @@ public class GameBuilder {
             if (SCENE_CURRENT == ROOT_SCENE) {
                 Log.d(TAG,"Switched to Game Scene");
                 getComponents().getEnvironment().getSkybox().resetLighting();
-
                 GAME_ANIMATION_TIMER.start();
             }
             if (SCENE_CURRENT == getComponents().getMenu().getScene()) {
@@ -140,8 +189,9 @@ public class GameBuilder {
                 showCursor(Cursor.DEFAULT);
             }
 
+            // Finally, set the scene to the stage and show it
             STAGE.setScene(SCENE_CURRENT);
-            STAGE.setTitle("307FinalProject");
+            STAGE.setTitle("InfiniBuilder");
             STAGE.show();
         }
 
@@ -181,7 +231,6 @@ public class GameBuilder {
             STAGE.close();
         }
 
-
         public void lockCursor(boolean state) {
             if (state) {
                 centerCursor();
@@ -189,8 +238,12 @@ public class GameBuilder {
             }
         }
 
+        /**
+         * centerCursor function moves the user's mouse pointer to the center of the screen based
+         * on the window's width and height
+         */
         public void centerCursor() {
-            moveCursor((int) STAGE.getX() + WINDOW_WIDTH / 2, (int) STAGE.getY() + WINDOW_HEIGHT / 2);
+            moveCursor((int) STAGE.getX() + WINDOW_WIDTH / 2.0, (int) STAGE.getY() + WINDOW_HEIGHT / 2.0);
         }
 
         public void showCursor(Cursor c) {
@@ -201,6 +254,11 @@ public class GameBuilder {
             getCurrentScene().setCursor(Cursor.NONE);
         }
 
+        /**
+         * This function handles moving the host's mouse pointer to any arbitrary X and Y coordinate
+         * @param screenX
+         * @param screenY
+         */
         public void moveCursor(double screenX, double screenY) {
             Platform.runLater(() -> {
                 Robot robot = new Robot();
@@ -209,9 +267,14 @@ public class GameBuilder {
         }
     }
 
+    /**
+     * One of the 3 primary subclasses of GameBuilder
+     * Handles operations and access of any came component from within the GameBuilder context.
+     */
     public class GameComponents {
 
-        private HUDUtil UTIL_HUD; // The HUDUtil class contains the other SubScene which is placed in the SCENE_ROOT together with SCENE_GAME
+        // The HUDUtil class contains the other SubScene which is placed in the SCENE_ROOT together with SCENE_GAME
+        private HUDUtil UTIL_HUD;
         // Other scenes are defined within the MenuUtil class in order to draw the main menu
         private MenuUtil UTIL_MENU;
 
@@ -221,8 +284,15 @@ public class GameBuilder {
         private EnvironmentUtil UTIL_ENVIRONMENT;
         private ControlsUtil UTIL_CONTROLS;
 
+        /**
+         * GameComponents constructor saves it's instance to GameBuilder,
+         * such that it's components can be referenced anywhere based on the saved GameBuilder context
+         * @param ctx
+         */
         GameComponents(GameBuilder ctx) {
             GAME_COMPONENTS = this;
+            // The constructor creates instances of each component and then saves them
+            // to their corresponding variables
             setCamera(new CameraUtil(ctx));
             setGameSceneControls(new ControlsUtil(ctx));
             setEnvironment(new EnvironmentUtil(ctx));
@@ -287,22 +357,38 @@ public class GameBuilder {
         }
     }
 
+    /**
+     * One of the 3 primary subclasses of GameBuilder
+     * GameFX handles all game effects, such as motion blur, bloom, color adjust, sepia tone, etc.
+     */
     public class GameFX {
-        public MotionBlur EFFECT_MOTION_BLUR;
         GameBuilder context;
+
+        public MotionBlur EFFECT_MOTION_BLUR;
         boolean PROPERTY_IS_TRIPPY_MODE;
         private boolean EFFECT_MOTION_BLUR_ENABLED;
         private Bloom EFFECT_BLOOM;
         private ColorAdjust EFFECT_COLOR_ADJUST;
         private SepiaTone EFFECT_SEPIA_TONE;
 
+        /**
+         * GameFX Constructor saves an instance of itself to GameBuilder such that
+         * it can be referenced from anywhere within the game.
+         * @param ctx
+         */
         GameFX(GameBuilder ctx) {
             context = ctx;
             GAME_EFFECTS = this;
+            // first-time set up of the effects
             resetEffects();
+            // set up default setting - motion blur enabled.
             setMotionBlurEnabled(true);
         }
 
+        /**
+         * resetEffects function sets up the motion blur, bloom, color adjust, and sepia tone effects
+         * Each one of these must be an input of the other in order for the effects to be blended.
+         */
         public void resetEffects() {
             Log.d(TAG,"resetEffects()");
 
@@ -314,10 +400,13 @@ public class GameBuilder {
             EFFECT_SEPIA_TONE = new SepiaTone();
             EFFECT_SEPIA_TONE.setInput(EFFECT_COLOR_ADJUST);
 
+            // set up default setting - sepia tone to 0
             setSepiaTone(0);
             setBloom(1);
             setMotionBlur(0);
 
+            // finally, we only want these effects to be shown in-game
+            // so set them on the Game Subscene
             getWindow().getGameSubscene().setEffect(EFFECT_SEPIA_TONE);
         }
 
@@ -426,10 +515,16 @@ public class GameBuilder {
             }
         }
 
+
         public boolean getMotionBlurEnabled() {
             return EFFECT_MOTION_BLUR_ENABLED;
         }
 
+        /**
+         * MotionBlurEnabled determines whether motion blur should appear at all within the game
+         * This is a global boolean that disables or enables the motion blur completely
+         * @return
+         */
         public void setMotionBlurEnabled(boolean val) {
             EFFECT_MOTION_BLUR_ENABLED = val;
         }
@@ -438,6 +533,11 @@ public class GameBuilder {
             return EFFECT_SEPIA_TONE.getLevel();
         }
 
+        /**
+         * This setting determines the level intensity of the motion blur applied.
+         * If motion blur is globally disabled, it does nothing.
+         * @param val
+         */
         public void setMotionBlur(double val) {
             try {
                 if (val >= 0) {

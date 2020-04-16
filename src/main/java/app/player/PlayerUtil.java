@@ -179,7 +179,7 @@ public class PlayerUtil {
             if (getPositionYwithHeight() + 10 > context.getComponents().getEnvironment().PROPERTY_WATER_LEVEL && getPositionYwithHeight() < closest_ground) {
                 if (!isUnderWater) {
                     context.getEffects().setMotionBlur(30);
-                    context.getComponents().getEnvironment().getSkybox().sky_color = Color.DARKBLUE;
+                    context.getComponents().getEnvironment().getSkybox().SKY_COLOR = Color.DARKBLUE;
                     context.getComponents().getEnvironment().getSkybox().setCloudsVisible(false);
                     context.getComponents().getEnvironment().getSkybox().setPlanetsVisible(false);
                     updateHoldingGroup(true);
@@ -197,8 +197,8 @@ public class PlayerUtil {
                     if (context.getComponents().getEnvironment().getSkybox().getShouldHavePlanets() && !context.getComponents().getEnvironment().getSkybox().getPlanetsVisible()) {
                         context.getComponents().getEnvironment().getSkybox().setPlanetsVisible(true);
                     }
-                    if (context.getComponents().getEnvironment().getSkybox().sky_color != null) {
-                        context.getComponents().getEnvironment().getSkybox().sky_color = null;
+                    if (context.getComponents().getEnvironment().getSkybox().SKY_COLOR != null) {
+                        context.getComponents().getEnvironment().getSkybox().SKY_COLOR = null;
                     }
                     isUnderWater = false;
                 }
