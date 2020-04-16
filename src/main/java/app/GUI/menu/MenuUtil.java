@@ -592,26 +592,25 @@ public class MenuUtil {
                 85,
                 Color.WHITE,
                 title);
-        Text t = new Text("WASD \t\t-- To move player\n" +
-                "MOUSE\t\t-- To move camera\n" +
-                "ESCAPE\t\t-- Pause\n" +
-                "SPACE\t\t-- Jump\n" +
-                "SHIFT\t\t-- Sprint\n" +
-                "CAPS\t\t-- Toggle fly speed boost\n" +
-                "TILDE\t\t-- Toggle HUD\n" +
-                "TAB\t\t-- Toggle extended Inventory\n" +
-                "F\t\t-- Toggle fly mode\n" +
-                "X \t\t-- Toggle no clip mode\n" +
-                "C \t\t-- Toggle crouch\n" +
-                "Q\t\t-- Reset Camera\n" +
-                "P\t\t-- Cycle Skybox\n" +
-                "T \t\t-- Teleport to a random place\n" +
-                "U\t\t-- Toggle UV night mode");
+        Text t = new Text("WASD \t\t--> Move Player\n" +
+                "MOUSE\t\t--> Move Camera\n" +
+                "ESCAPE\t\t--> Pause\n" +
+                "SPACE\t\t--> Jump\n" +
+                "SHIFT\t\t--> Sprint\n" +
+                "CAPS\t\t--> Toggle Fly Speed Boost\n" +
+                "TILDE\t\t--> Toggle HUD\n" +
+                "TAB\t\t--> Toggle Extended Inventory\n" +
+                "F\t\t--> Toggle Fly Mode\n" +
+                "X \t\t--> Toggle No Clip Mode\n" +
+                "C \t\t--> Toggle Crouch\n" +
+                "Q\t\t--> Reset Camera\n" +
+                "P\t\t--> Cycle Skybox Modes\n" +
+                "T \t\t--> Random Teleport\n" +
+                "U\t\t--> Toggle UV Night Mode");
         t.setFill(GREEN);
         t.setFont(options);
         VBox sc = new VBox();
         sc.setStyle("-fx-background-color: BLACK ;-fx-highlight-fill: null;-fx-highlight-text-fill: null;");
-
         sc.setSpacing(10);
         sc.getChildren().add(t);
         sc.setPadding(new Insets(10));
