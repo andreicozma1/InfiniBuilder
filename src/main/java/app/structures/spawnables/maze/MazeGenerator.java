@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Maze Generator will randomly create a set of walls that define the walls of a maze.
+ */
 public class MazeGenerator {
+    // global variables
     private static final String TAG = "MazeGenerator";
-
     private final Random ran;
     private int rows;
     private int cols;
@@ -19,6 +22,12 @@ public class MazeGenerator {
     private List<Edge> deletedEdges;
     private DisjointSet disjointSet;
 
+    /**
+     * Constructor takes in everything it needs to create a random maze.
+     * @param r
+     * @param c
+     * @param seed
+     */
     public MazeGenerator(int r, int c, long seed) {
         ran = new Random();
         this.cols = c;
@@ -30,42 +39,24 @@ public class MazeGenerator {
         deletedEdges = new ArrayList<Edge>();
         disjointSet = new DisjointSet(this.rows * this.cols);
 
+        // generate then break the walls randomly
         generateWalls();
         breakWalls();
     }
 
-    public int getCols() {
-        return cols;
-    }
+    // getters
+    public int getCols() { return cols; }
+    public int getRows() { return rows; }
+    public long getSeed() { return seed; }
+    public List<Edge> getWalls() { return maze; }
+    public List<Edge> getDeletedWalls() { return deletedEdges; }
 
-    public void setCols(int cols) {
-        this.cols = cols;
-    }
+    // setters
+    public void setCols(int cols) { this.cols = cols; }
+    public void setRows(int rows) { this.rows = rows; }
+    public void setSeed(long seed) { this.seed = seed; }
 
-    public int getRows() {
-        return rows;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
-    public long getSeed() {
-        return seed;
-    }
-
-    public void setSeed(long seed) {
-        this.seed = seed;
-    }
-
-    public List<Edge> getWalls() {
-        return maze;
-    }
-
-    public List<Edge> getDeletedWalls() {
-        return deletedEdges;
-    }
-
+    // this will create a new maze for the current class to hold
     public void resetMaze() {
         ran.setSeed(this.seed);
         disjointSet = new DisjointSet(this.rows * this.cols);
@@ -75,6 +66,7 @@ public class MazeGenerator {
         breakWalls();
     }
 
+    // this will generate a grid of walls that separate each node of the maze
     private void generateWalls() {
 
         int r, c;
@@ -94,9 +86,9 @@ public class MazeGenerator {
                 maze.add(tmpEdge);
             }
         }
-
     }
 
+    // this will break random walls until every node of the maze is connected
     private void breakWalls() {
         //  loops until every index in the disjoint set is joined together
         while (disjointSet.getSize(disjointSet.Find(0)) != rows * cols) {
@@ -111,12 +103,14 @@ public class MazeGenerator {
         }
     }
 
+    // prints out the walls
     public void printWalls() {
         for (Edge w : maze) {
             Log.d(TAG,"MAZE WALLS " + w.v1 + " " + w.v2);
         }
     }
 
+    // prints out the deleted walls
     public void printDeletedWalls() {
         for (Edge w : deletedEdges) {
             Log.d(TAG,"MAZE WALLS " + w.v1 + " " + w.v2);

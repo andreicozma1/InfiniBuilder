@@ -20,10 +20,13 @@ import javafx.scene.paint.PhongMaterial;
 import java.util.List;
 
 
-// eventually I want to add the ability to change the distance in between vertexes
+/**
+ * Path util will draw a random set of paths and then load the paths into
+ * an adjacency list and find the shortest path through the path.
+ */
 public class PathUtil extends SpawnableStructureBuilder {
+    // global variables
     public final static String TAG = "PathUtil";
-
     private final int pathRows;
     private final int pathCols;
     private final int pathWidth;
@@ -39,6 +42,8 @@ public class PathUtil extends SpawnableStructureBuilder {
     private MazeGenerator mazeGenerator;
     private GraphUtil graph;
 
+    // CONSTRUCTORS
+    // one takes a seed the other will generate a random path based on the time
 
     public PathUtil(double cellDim,
                     int pathRows,
@@ -56,7 +61,6 @@ public class PathUtil extends SpawnableStructureBuilder {
         endLoc = pathRows * pathCols - 1;
         findShortestPath = false;
     }
-
 
     public PathUtil(double cellDim,
                     int pathRows,
@@ -77,19 +81,23 @@ public class PathUtil extends SpawnableStructureBuilder {
         findShortestPath = false;
     }
 
+    // this will enable the shortest path to be drawn over the maze
     public void setShortestPathMaterial(Color startColor, Color endColor) {
         this.findShortestPath = true;
         this.startColor = startColor;
         this.endColor = endColor;
     }
 
+    // this will change the starting and ending location of the shortest path
     public void setStartEndLocation(int startLoc, int endLoc) {
         this.startLoc = startLoc;
         this.endLoc = endLoc;
     }
 
+    // this will draw the structure into the environment at the players location
     @Override
     public void build(GameBuilder context) {
+        // declare variables
         Point2D pos = context.getComponents().getPlayer().getPlayerPoint2D();
         double startingX = pos.getX();
         double startingZ = pos.getY();
@@ -105,6 +113,7 @@ public class PathUtil extends SpawnableStructureBuilder {
         double currX;
         double currZ;
 
+        // clear the block map
         block_map.clear();
 
         // randomizes the seed if the user wants it to be randomized
@@ -135,6 +144,7 @@ public class PathUtil extends SpawnableStructureBuilder {
             for (j = 0; j < (pathCols * 2 - 1) * pathWidth; j++) {
                 mj = j / pathWidth;
                 if (mi % 2 == 0 && mj % 2 == 0) {
+                    // place down the correct base structure
                     BaseStructure item;
                     switch (getProps().getPROPERTY_OBJECT_TYPE()){
                         case StructureProperties.OBJECT_TYPE_CYLINDER:
@@ -191,6 +201,7 @@ public class PathUtil extends SpawnableStructureBuilder {
             // loops here are for when the cells are thicker than one block
             for (i = 0; i < pathWidth; i++) {
                 for (j = 0; j < pathWidth; j++) {
+                    // place down the correct base structure
                     BaseStructure item;
                     switch (getProps().getPROPERTY_OBJECT_TYPE()){
                         case StructureProperties.OBJECT_TYPE_CYLINDER:
@@ -222,7 +233,7 @@ public class PathUtil extends SpawnableStructureBuilder {
             currX = startingX + mi * cellDim;
             currZ = startingZ + mj * cellDim;
             while (true) {
-                // draw the cube
+                // place down the correct base structure
                 BaseStructure item;
                 switch (getProps().getPROPERTY_OBJECT_TYPE()){
                     case StructureProperties.OBJECT_TYPE_CYLINDER:

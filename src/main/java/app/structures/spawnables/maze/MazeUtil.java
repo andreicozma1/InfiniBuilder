@@ -14,6 +14,8 @@ import javafx.scene.paint.Material;
 
 
 public class MazeUtil extends SpawnableStructureBuilder {
+
+    // global variables
     private static final String TAG = "MazeUtil";
     public static Long GENERATOR_RANDOM_SEED = null;
     private int cellWidth;
@@ -25,6 +27,9 @@ public class MazeUtil extends SpawnableStructureBuilder {
     private final int height;
     private Long seed;
     private MazeGenerator mazeGenerator;
+
+    //CONSTRUCTORS
+    // each take in different parameters to specify different parameters the user might want.
 
     public MazeUtil(double cellDim,
                     int mazeRows,
@@ -102,67 +107,39 @@ public class MazeUtil extends SpawnableStructureBuilder {
         this.seed = GENERATOR_RANDOM_SEED;
     }
 
+    // getters
+    public int getCellWidth() { return cellWidth; }
+    public double getCellDim() { return cellDim; }
+    public int getMazeRows() { return mazeRows; }
+    public int getMazeCols() { return mazeCols; }
+    public boolean isTrapped() { return isTrapped; }
+    public Material getMazeMaterial() { return mazeMaterial; }
+    public int getHeight() { return height; }
+    public Long getSeed() { return seed; }
+
+    // setters
     public void setCellWidth(int cellWidth) { this.cellWidth = cellWidth; }
+    public void setMazeRows(int mazeRows) { this.mazeRows = mazeRows; }
+    public void setMazeCols(int mazeCols) { this.mazeCols = mazeCols; }
+    public void setSeed(Long seed) { this.seed = seed; }
 
-    public int getCellWidth() {
-        return cellWidth;
-    }
-
-    public double getCellDim() {
-        return cellDim;
-    }
-
-    public int getMazeRows() {
-        return mazeRows;
-    }
-
-    public void setMazeRows(int mazeRows) {
-        this.mazeRows = mazeRows;
-    }
-
-    public int getMazeCols() {
-        return mazeCols;
-    }
-
-    public void setMazeCols(int mazeCols) {
-        this.mazeCols = mazeCols;
-    }
-
-    public boolean isTrapped() {
-        return isTrapped;
-    }
-
-    public Material getMazeMaterial() {
-        return mazeMaterial;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public Long getSeed() {
-        return seed;
-    }
-
-    public void setSeed(Long seed) {
-        this.seed = seed;
-    }
-
+    // build will place the structure into the environment
     @Override
     public void build(GameBuilder context) {
+        // clear the blockmap
         block_map.clear();
 
+        // creates the maze based off user input
         if (this.seed == null) {
             mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, context.time_current);
         } else {
             mazeGenerator = new MazeGenerator(this.mazeRows, this.mazeCols, this.seed);
         }
 
+        // declare and set up variables
         Point2D pos = context.getComponents().getPlayer().getPlayerPoint2D();
         double startingX = pos.getX() - (cellDim * cellWidth);
         double startingZ = pos.getY() - (cellDim * cellWidth);
-
-
         int i, j, mi, mj;
         double currX;
         double currZ;

@@ -16,10 +16,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Grapher Util is a spawnable structure builder that the player can place into the environment. It has the
+ * ability to graph multiple functions on an axis into the world.
+ */
 public class GrapherUtil extends SpawnableStructureBuilder {
 
+    // global variables
     private static final String TAG = "GrapherUtil";
-
     private final double cellDim;
     private final List<Function> functions = new ArrayList<>();
     private final List<Material> functMats = new ArrayList<Material>(
@@ -30,8 +34,17 @@ public class GrapherUtil extends SpawnableStructureBuilder {
     private double xAxisScalePerBlock;
     private double yAxisScalePerBlock;
 
+    // CONSTRUTORS
 
-
+    /**
+     * Constructor takes in no functions and relies on the user adding functions on their own.
+     * @param cellDim
+     * @param xAxisSize
+     * @param yAxisSize
+     * @param xAxisScalePerBlock
+     * @param yAxisScalePerBlock
+     * @param axisMaterial
+     */
     public GrapherUtil(double cellDim,
                        int xAxisSize,
                        int yAxisSize,
@@ -46,6 +59,16 @@ public class GrapherUtil extends SpawnableStructureBuilder {
         this.axisMaterial = axisMaterial;
     }
 
+    /**
+     * Constructor takes in a singular function to graph.
+     * @param cellDim
+     * @param xAxisSize
+     * @param yAxisSize
+     * @param xAxisScalePerBlock
+     * @param yAxisScalePerBlock
+     * @param function
+     * @param axisMaterial
+     */
     public GrapherUtil(double cellDim,
                        int xAxisSize,
                        int yAxisSize,
@@ -62,61 +85,43 @@ public class GrapherUtil extends SpawnableStructureBuilder {
         this.axisMaterial = axisMaterial;
     }
 
-    public int getXAxisSize() {
-        return xAxisSize;
-    }
 
-    public void setXAxisSize(int xAxisSize) {
-        this.xAxisSize = xAxisSize;
-    }
+    // getters
+    public int getXAxisSize() { return xAxisSize; }
+    public int getYAxisSize() { return yAxisSize;}
+    public double getXAxisScale() { return xAxisScalePerBlock; }
+    public double getYAxisScale() { return yAxisScalePerBlock; }
+    public List<Function> getFunctions() { return functions; }
 
-    public int getYAxisSize() {
-        return yAxisSize;
-    }
+    // setters
+    public void setXAxisSize(int xAxisSize) { this.xAxisSize = xAxisSize; }
+    public void setYAxisSize(int yAxisSize) { this.yAxisSize = yAxisSize; }
+    public void setXAxisScale(double xAxisScale) { this.xAxisScalePerBlock = xAxisScale; }
+    public void setYAxisScale(double yAxisScale) { this.yAxisScalePerBlock = yAxisScale; }
 
-    public void setYAxisSize(int yAxisSize) {
-        this.yAxisSize = yAxisSize;
-    }
-
-    public double getXAxisScale() {
-        return xAxisScalePerBlock;
-    }
-
-    public void setXAxisScale(double xAxisScale) {
-        this.xAxisScalePerBlock = xAxisScale;
-    }
-
-    public double getYAxisScale() {
-        return yAxisScalePerBlock;
-    }
-
-    public void setYAxisScale(double yAxisScale) {
-        this.yAxisScalePerBlock = yAxisScale;
-    }
-
-    public List<Function> getFunctions() {
-        return functions;
-    }
-
+    // adds a function to the grapher
     public void addFunction(Function function) {
         if (functions.size() != functMats.size()) {
             functions.add(function);
         }
     }
 
+    // build will draw the classes information on to the environment at the players location
     @Override
     public void build(GameBuilder context) {
+        // declare variables
         Point2D pos = context.getComponents().getPlayer().getPlayerPoint2D();
         double startingX = pos.getX();
         double startingZ = pos.getY();
         double currZ;
         double currX;
         int i, j;
-
         double x, y;
+
+        // clear the block map to draw a new one
         block_map.clear();
 
-
+        //this will draw the y axis of the graph
         currZ = startingZ - yAxisSize * cellDim;
         for (i = -yAxisSize; i < yAxisSize; i++) {
             BaseStructure item;
@@ -136,10 +141,11 @@ public class GrapherUtil extends SpawnableStructureBuilder {
             currZ += cellDim;
         }
 
-        // draw x axis
+        //this will draw the x axis of the graph
         currX = startingX - xAxisSize * cellDim;
         for (i = -xAxisSize; i < xAxisSize; i++) {
             if (i != 0) {
+                // draw the correct base object into the environment
                 BaseStructure item;
                 switch (getProps().getPROPERTY_OBJECT_TYPE()){
                     case StructureProperties.OBJECT_TYPE_CYLINDER:
@@ -158,11 +164,12 @@ public class GrapherUtil extends SpawnableStructureBuilder {
             currX += cellDim;
         }
 
-        //draw graph
+        // this will draw each function the class holds onto the graph
         for (i = 0; i < functions.size(); i++) {
             for (x = -xAxisSize * xAxisScalePerBlock; x <= xAxisSize * xAxisScalePerBlock; x += xAxisScalePerBlock) {
                 y = functions.get(i).compute(x);
                 Log.d(TAG,"F(" + x + ") = " + y);
+                // draw the correct base object into the environment
                 BaseStructure item;
                 switch (getProps().getPROPERTY_OBJECT_TYPE()){
                     case StructureProperties.OBJECT_TYPE_CYLINDER:
@@ -175,7 +182,6 @@ public class GrapherUtil extends SpawnableStructureBuilder {
                         item = new BaseCube("Grapher", cellDim, cellDim, cellDim);
                         break;
                 }
-
                 item.getShape().setMaterial(functMats.get(i));
                 block_map.put(new Point2D((x / xAxisScalePerBlock) * cellDim + startingX, y * cellDim + startingZ), item);
             }
