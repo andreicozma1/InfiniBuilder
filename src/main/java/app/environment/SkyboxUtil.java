@@ -41,6 +41,7 @@ public class SkyboxUtil {
     private final Rotate CLOUDS_ROTATE_Z;
     private final double CLOUDS_HEIGHT;
     public static double PROPERTY_PLANET_DIAMETER = 8000;
+    // TODO - Add setter for fixed sky color as well as Settings option
     public Color SKY_COLOR = null;
     Color SUN_COLOR;
     Color SKY_COLOR_DAY;
@@ -143,16 +144,25 @@ public class SkyboxUtil {
         GROUP_SKYBOX.getChildren().addAll(SUN_OBJECT, SUN_LIGHT, MOON_OBJECT, MOON_LIGHT, BIG_STAR_OBJECT, CLOUDS_OBJECT);
     }
 
+    /**
+     * Main handler which runs every tick of the game
+     * This is responsible for updating all Skybox elements' position in the sky based on the current time
+     */
     void update_handler() {
         double game_time;
+        // Perform calculations based on the current mode that is set.
         switch (MODE_CURR) {
             case MODE_DAY:
+                // calculate the current value for DAY mode;
                 game_time = -Math.PI / 2 / 6.5 * SUN_MOON_PERIOD_MULTIPLIER;
                 break;
             case MODE_NIGHT:
+                // calculate current value for NIGHT mode;
                 game_time = Math.PI / 2 / 6.5 * SUN_MOON_PERIOD_MULTIPLIER;
                 break;
             default:
+                // calculate the current value for CYCLE mode
+                // if the fixed time property is set, then only use the fixed time instead of cycle
                 if (PROPERTY_FIXED_TIME == -1) {
                     game_time = GameBuilder.time_current / (1000.0);
                 } else {
@@ -161,12 +171,18 @@ public class SkyboxUtil {
                 break;
         }
 
+        // Rotate the sun, moon, big star, and clouds
         rotateSun(game_time / SUN_MOON_PERIOD_MULTIPLIER * 6.5, SUN_DISTANCE);
         rotateMoon(game_time / SUN_MOON_PERIOD_MULTIPLIER * 6.5, MOON_DISTANCE);
         rotateBigStar(game_time / BIG_PLANET_PERIOD_MULTIPLIER * 6.5, BIG_STAR_DISTANCE);
         rotateClouds();
     }
 
+    /**
+     * Main handler for sun updating. Takes in the current time and the distance that the sun should be drawn from the player
+     * @param time
+     * @param dist
+     */
     private void rotateSun(double time, double dist) {
         double sin = Math.sin(time);
         double sindist = sin * dist;
@@ -187,6 +203,7 @@ public class SkyboxUtil {
                 sin = 1;
             }
             if (SKY_COLOR == null) {
+                // Update the color of the sky based on the current position of the sun
                 AMBIENT_LIGHT.setColor(Color.rgb((int)(AMBIENT_LIGHT_COLOR_DEFAULT.getRed() * 255),(int)(AMBIENT_LIGHT_COLOR_DEFAULT.getGreen()*255),(int)(AMBIENT_LIGHT_COLOR_DEFAULT.getBlue()*255)));
                 SUN_LIGHT.setColor(Color.rgb((int) (sin * ((SKY_COLOR_SUNSET.getRed() * (1 - sin) * 255) + (SUN_COLOR.getRed() * sin * 255))), (int) (sin * ((SKY_COLOR_SUNSET.getGreen() * (1 - sin) * 255) + (SUN_COLOR.getGreen() * sin * 255))), (int) (sin * ((SKY_COLOR_SUNSET.getBlue() * (1 - sin) * 255) + (SUN_COLOR.getBlue() * sin * 255)))));
                 context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((SKY_COLOR_SUNSET.getRed() * (1 - sin) * 255) + (SKY_COLOR_DAY.getRed() * sin * 255)), (int) ((SKY_COLOR_SUNSET.getGreen() * (1 - sin) * 255) + (SKY_COLOR_DAY.getGreen() * sin * 255)), (int) ((SKY_COLOR_SUNSET.getBlue() * (1 - sin) * 255) + (SKY_COLOR_DAY.getBlue() * sin * 255))));
@@ -208,13 +225,16 @@ public class SkyboxUtil {
         SUN_OBJECT.setTranslateY(sindist);
         SUN_OBJECT.setTranslateZ(cosdist + context.context.getComponents().getPlayer().getPositionZ());
 
+        // rotate the sun around it's axis
         SUN_ROTATE.setAngle(SUN_ROTATE.getAngle() + PROPERTY_SUN_ROTATION_SPD);
     }
 
     private void rotateClouds() {
+        // translate the clouds to follow the player position
         CLOUDS_OBJECT.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
         CLOUDS_OBJECT.setTranslateZ(context.context.getComponents().getPlayer().getPositionZ());
 
+        // rotate the clouds around the two axes
         CLOUDS_ROTATE_Z.setAngle(CLOUDS_ROTATE_Z.getAngle() + CLOUDS_ROTATE_SPEED);
         CLOUDS_ROTATE_Y.setAngle(CLOUDS_ROTATE_Y.getAngle() + CLOUDS_ROTATE_SPEED);
     }
@@ -224,13 +244,18 @@ public class SkyboxUtil {
         double sindist = sin * dist;
         double cos = Math.cos(time);
         double cosdist = cos * dist;
+        // translate the big star to follow the player position
         BIG_STAR_OBJECT.setTranslateX(sindist + context.context.getComponents().getPlayer().getPositionX());
         BIG_STAR_OBJECT.setTranslateY(sindist);
         BIG_STAR_OBJECT.setTranslateZ(cosdist + context.context.getComponents().getPlayer().getPositionZ());
         BIG_STAR_ROTATE.setAngle(BIG_STAR_ROTATE.getAngle() + BIG_STAR_ROTATE_SPEED);
     }
 
-
+    /**
+     * Main handler for moon updating
+     * @param time
+     * @param dist
+     */
     private void rotateMoon(double time, double dist) {
         double sin = Math.sin(time);
         double sindist = sin * dist;
@@ -264,8 +289,8 @@ public class SkyboxUtil {
         MOON_OBJECT.setTranslateX(context.context.getComponents().getPlayer().getPositionX());
         MOON_OBJECT.setTranslateZ(-cosdist + context.context.getComponents().getPlayer().getPositionZ());
 
+        // rotate the moon on it's axis
         MOON_ROTATE.setAngle(SUN_ROTATE.getAngle() + PROPERTY_MOON_ROTATION_SPD);
-
     }
 
     public double getSunScale() {

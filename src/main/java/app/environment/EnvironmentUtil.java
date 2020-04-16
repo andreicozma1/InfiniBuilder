@@ -82,6 +82,7 @@ public class EnvironmentUtil {
 
         setSkyBox(new SkyboxUtil(this));
 
+        //
         setTerrainGenerateDistance(30);
         setTerrainHeightMultiplier(50);
         setTerrainVegetationMaxSize(20);
@@ -99,11 +100,17 @@ public class EnvironmentUtil {
         }
     }
 
+    /**
+     * Main function which handles the terrain generation at a specified distance around the player
+     * @param playerx
+     * @param playerz
+     */
     public void generateMap(double playerx, double playerz) {
         playerx = convertAbsoluteToTerrainPos(playerx);
         playerz = convertAbsoluteToTerrainPos(playerz);
         for (int i = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx); i <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx; i++) {
             for (int j = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerz); j <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerz; j++) {
+                // If the current map column hasn't been generated, generate it.
                 if (!MAP_GENERATED.containsKey(new Point2D(i, j))) {
                     generateMapColumn(i, j);
                 }
@@ -111,12 +118,20 @@ public class EnvironmentUtil {
         }
     }
 
+    /**
+     * Helper function for the generateMap function, taking an x and z coordinate
+     * This function uses the SimplexNoise algorithm to get a height for which to draw the column
+     * @param i
+     * @param j
+     */
     public void generateMapColumn(int i, int j) {
         // i and j are terrain coordinates not absolute coordinates
         TreeMap<Integer, Double> mapColumn = new TreeMap<>();
 
         double starting_y = getSimplexHeight2D(i, j);
 
+        // generate blocks from the value given by the simplex algorithms all the way down
+        // to the minimum map limit, which is 100 blocks down
         for (double k = starting_y; k <= 100; k++) {
             mapColumn.put((int) Math.floor(k), k);
         }
@@ -124,14 +139,22 @@ public class EnvironmentUtil {
         MAP_GENERATED.put(new Point2D(i, j), mapColumn);
     }
 
+    /**
+     * Main function which handles rendering the map blocks around the player
+     * @param playerx
+     * @param playerz
+     */
     public void renderMap(double playerx, double playerz) {
         playerx = convertAbsoluteToTerrainPos(playerx);
         playerz = convertAbsoluteToTerrainPos(playerz);
 
+        // Clear the group from rendering on the scene, such that each tick
+        // we only have the blocks we need on the screen
         GROUP_TERRAIN.getChildren().clear();
 
         for (int i = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx); i <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerx; i++) {
             for (int j = (int) (-PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerz); j <= PROPERTY_TERRAIN_GENERATE_DISTANCE / 2.0 + playerz; j++) {
+                // If the render map wasn't generated already, generate it.
                 if (MAP_GENERATED.containsKey(new Point2D(i, j))) {
                     generateRenderedMap(i, j);
                 }
@@ -139,18 +162,30 @@ public class EnvironmentUtil {
         }
     }
 
+    /**
+     * Helper function for renderMap function which handles logic for which objects should be rendered or not
+     * @param i
+     * @param j
+     */
     public void generateRenderedMap(int i, int j) {
+        // Get the instance of the TreeMap world column generated previously, which is a MultiMap
         TreeMap<Integer, Double> worldColumn = MAP_GENERATED.get(new Point2D(i, j));
 
 //      TODO -- START FROM PLAYER GOING UP AND DOWN FOR EFFICIENCY
+        // Start from the world's highest point and go down till reaching the lowest limit.
         for (int k = -100; k <= 100; k++) {
-
+            // check if the world column has an object at the current coordinate,
+            // in which case we need to determine whether to render or not
             if (worldColumn.containsKey(k)) {
+                // Determine which blocks sit next to the current block, in order
+                // to decide whether we should render our current block or not
                 Point2D left = new Point2D(i - 1, j);
                 Point2D right = new Point2D(i + 1, j);
                 Point2D forwards = new Point2D(i, j + 1);
                 Point2D backwards = new Point2D(i, j - 1);
 
+                // Basic logic: If all sides of the object are covered by another object, we don't need to render
+                // If one side is exposed by 'air' and therefore it could be visible by the player, we must render it.
                 if (!worldColumn.containsKey(k - 1) || !worldColumn.containsKey(k + 1) ||
                         (MAP_GENERATED.containsKey(left) && !MAP_GENERATED.get(left).containsKey(k - 1)) ||
                         (MAP_GENERATED.containsKey(right) && !MAP_GENERATED.get(right).containsKey(k - 1)) ||
@@ -165,33 +200,51 @@ public class EnvironmentUtil {
                         (MAP_GENERATED.containsKey(forwards) && !MAP_GENERATED.get(forwards).containsKey(k + 1)) ||
                         (MAP_GENERATED.containsKey(backwards) && !MAP_GENERATED.get(backwards).containsKey(k + 1))) {
 
+                    // if the current block has already been rendered, skip
+                    // otherwise, put it in the RENDEREING map.
                     if (!MAP_RENDERING.containsKey(new Point3D(i, k, j))) {
                         int x = i * getBlockDim();
                         int z = j * getBlockDim();
                         double pr = worldColumn.get(k);
                         double y = pr * getBlockDim();
                         if (k == worldColumn.firstKey()) {
+                            // Top layer of the terrain should have vegetation and possibility for water, so use the proper boolean values
                             MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, false, false));
                         } else {
+                            // all other layers of the terrain below that don't need to have vegetation or water
                             MAP_RENDERING.put(new Point3D(i, k, j), GENERATE_BLOCK(x, y, z, true, true));
                         }
                     } else {
+                        // if the current block is already in the RENDERING map, just add it to the screen
                         GROUP_TERRAIN.getChildren().add(MAP_RENDERING.get(new Point3D(i, k, j)));
                     }
 
                 } else {
+                    // once all blocks down in a current column that need to be rendered have been rendered, stop
                     break;
                 }
             }
         }
     }
 
+    /**
+     * Main Function which handles creating a single instance of a block that must be generated/rendered
+     * Takes in Absolute Coordinates X Y Z as well as whether it should remove vegetation or any water that should spawn below a specific level
+     * @param x
+     * @param y
+     * @param z
+     * @param removeExtra
+     * @param isDry
+     * @return
+     */
     public StructureBuilder GENERATE_BLOCK(double x, double y, double z, boolean removeExtra, boolean isDry) {
 
         double vegDens = 0;
+        // If removeExtra is set, we shouldn't generate any vegetation but the block
         if (removeExtra) {
             vegDens = 0;
         } else {
+            // otherwise, set the vegetation density to the global value set through the settings
             vegDens = PROPERTY_TERRAIN_VEGETATION_DENSITY_PERCENT;
         }
 
