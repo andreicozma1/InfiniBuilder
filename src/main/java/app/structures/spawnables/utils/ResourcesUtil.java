@@ -64,11 +64,18 @@ public class ResourcesUtil {
     Application context;
 
     // TODO - Rewrite this class so that all textures are automatically read in to a hash-map upon load of the game
+
+    /**
+     * This class is responsible for reading in all of our textures and saving them into a map structure
+     * in order to use them as materials
+     * @param app
+     */
     public ResourcesUtil(Application app) {
         Log.d(TAG, "CONSTRUCTOR");
 
         context = app;
         setupMaterials();
+        // after reading in all the materials, add them to a map
         MAP_ALL_MATERIALS = new HashMap<>() {
             {
                 put("Default", null);
@@ -138,6 +145,7 @@ public class ResourcesUtil {
         };
         Log.d(TAG, "Created MAP_ALL_MATERIALS");
         MAP_ALL_MATERIALS_SORTED = new ArrayList<>(MAP_ALL_MATERIALS.keySet());
+        // then also sort them alphabetically
         Collections.sort(MAP_ALL_MATERIALS_SORTED);
         Log.d(TAG, "Sorted MAP_ALL_MATERIALS_SORTED");
 
