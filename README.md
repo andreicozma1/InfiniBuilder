@@ -1,10 +1,10 @@
 # InfiniBuilder
 ![Game Screen Shot](/docs/img.png)
-![Game Screen Recording 1(https://youtu.be/4PrfSI-VXnw)]
-![Game Screen Recording 2(https://youtu.be/iRxEGaEeFj0)]
-![Game Screen Recording 3(https://youtu.be/jwQlcNfhsZA)]
-![Game Screen Recording 4(https://youtu.be/VD-9SN94J5o)]
-![Game Screen Recording 5(https://youtu.be/ASkL21km2gs)]
+![Game Screen Recording 1](https://youtu.be/4PrfSI-VXnw)
+![Game Screen Recording 2](https://youtu.be/iRxEGaEeFj0)
+![Game Screen Recording 3](https://youtu.be/jwQlcNfhsZA)
+![Game Screen Recording 4](https://youtu.be/VD-9SN94J5o)
+![Game Screen Recording 5](https://youtu.be/ASkL21km2gs)
 ### https://www.andreicozma.com/307
 #### CS307 Final Project  
 - Andrei Cozma & Hunter Price  
