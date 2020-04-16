@@ -41,6 +41,7 @@ public class PauseMenu extends HUDElement {
 
     /**
      * Constructor to initialize the variables and to draw it onto the hud menu group
+     *
      * @param elementTag
      * @param pos
      * @param context
@@ -68,17 +69,34 @@ public class PauseMenu extends HUDElement {
     }
 
     // getters
-    public boolean isPaused() { return isPaused; }
-    public double getWidth() { return width; }
-    public double getHeight() { return height; }
+    public boolean isPaused() {
+        return isPaused;
+    }
 
-    // setters
-    public void setHeight(double height) { this.height = height;}
-    public void setWidth(double width) { this.width = width;}
-    public void setCentered(boolean centered) { isCentered = centered; }
     public void setPaused(boolean paused) {
         isPaused = paused;
         update();
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    // setters
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public void setCentered(boolean centered) {
+        isCentered = centered;
     }
 
     /**
@@ -212,10 +230,10 @@ public class PauseMenu extends HUDElement {
             // add the interface builder to the pause menu group
             getMenuGroup().getChildren().add(pause.getGroup());
 
-        }else{
+        } else {
             // fixes the crosshair if the menu isnt displayed
-            if(!((Crosshair)context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()){
-                ((Crosshair)context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+            if (!((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()) {
+                ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
             }
         }
     }

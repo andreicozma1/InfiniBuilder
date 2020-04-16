@@ -1,15 +1,13 @@
 package app.GUI.menu;
 
-import app.GUI.HUD.HUDElements.PauseMenu;
+import app.GUI.HUD.HUDElements.Inventory;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
-import app.GUI.HUD.HUDElements.Inventory;
-import app.utils.Log;
-import app.utils.ResourcesUtil;
+import app.structures.spawnables.utils.Log;
+import app.structures.spawnables.utils.ResourcesUtil;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ScrollPane;
@@ -22,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
 import java.util.HashMap;
 
 /* -------------------------------------------------------------------------------------------------
@@ -72,14 +71,10 @@ import java.util.HashMap;
 */
 
 
-
-
 /**
  * Menu util builds and controls all of the non hud menus in the game.
  */
 public class MenuUtil {
-    // tag for log statements
-    private static final String TAG = "MenuUtil";
     // used to control the return state from the pause menu
     public static final String PAUSE = "PAUSE";
     // static strings to access any menu from the menuGroupHashMap
@@ -94,6 +89,8 @@ public class MenuUtil {
     public static final String GROUP_ABOUT = "GROUP_ABOUT";
     public static final String GROUP_GRAPHICS = "GROUP_GRAPHICS";
     public static final String GROUP_HUD = "GROUP_HUD";
+    // tag for log statements
+    private static final String TAG = "MenuUtil";
     // used for the design of the menus
     private final String singleArrow = ">";
     private final String doubleArrow = ">>";
@@ -165,6 +162,7 @@ public class MenuUtil {
 
     /**
      * Constructor inititializes all menus
+     *
      * @param ctx
      */
     public MenuUtil(GameBuilder ctx) {
@@ -265,16 +263,16 @@ public class MenuUtil {
             switch (keyEvent.getCode()) {
                 case ESCAPE:
                     // exit each menu until the main menu then close the game
-                    if(currentGroup == GROUP_MAIN_MENU) {
+                    if (currentGroup == GROUP_MAIN_MENU) {
                         context.getWindow().closeWindow();
-                    }else if(currentGroup==GROUP_CAMERA ||
-                            currentGroup==GROUP_ENVIRONMENT ||
-                            currentGroup==GROUP_SKYBOX ||
-                            currentGroup==GROUP_PLAYER ||
-                            currentGroup==GROUP_GRAPHICS ||
-                            currentGroup==GROUP_HUD){
+                    } else if (currentGroup == GROUP_CAMERA ||
+                            currentGroup == GROUP_ENVIRONMENT ||
+                            currentGroup == GROUP_SKYBOX ||
+                            currentGroup == GROUP_PLAYER ||
+                            currentGroup == GROUP_GRAPHICS ||
+                            currentGroup == GROUP_HUD) {
                         activateGroup(GROUP_SETTINGS);
-                    }else {
+                    } else {
                         if (settingsReturnState == PAUSE) {
                             context.getWindow().showScene(context.getWindow().getRootScene());
 
@@ -308,10 +306,14 @@ public class MenuUtil {
     }
 
 
-    public Scene getScene() { return SCENE_MENU; }
+    public Scene getScene() {
+        return SCENE_MENU;
+    }
 
     // sets where the setting smenu will return to
-    public void setSettingsReturnState(String state) { settingsReturnState = state; }
+    public void setSettingsReturnState(String state) {
+        settingsReturnState = state;
+    }
 
     //*****************************************************************************************************
     // MAIN MENU
@@ -463,7 +465,7 @@ public class MenuUtil {
 
     //*****************************************************************************************************
     // SET SEED MENU
-    public void buildSetSeedMenu(){
+    public void buildSetSeedMenu() {
         // draw black backdrop
         setSeedMenu.drawRectangle(0, 0, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight(), 0, 0, Color.BLACK);
 
@@ -494,7 +496,7 @@ public class MenuUtil {
         seedBox.setStyle("-fx-text-inner-color: GREEN;-fx-border-color: GREEN ;-fx-highlight-fill: null;-fx-highlight-text-fill: null;");
         seedBox.setPrefWidth(300);
         seedBox.setMaxWidth(300);
-        seedBox.setBackground(new Background(new BackgroundFill(Color.BLACK,new CornerRadii(0),new Insets(0))));
+        seedBox.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
         seedBox.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -519,7 +521,7 @@ public class MenuUtil {
         playerBox.setStyle("-fx-text-inner-color: GREEN;-fx-border-color: GREEN ;-fx-highlight-fill: null;-fx-highlight-text-fill: null;");
         playerBox.setPrefWidth(300);
         playerBox.setMaxWidth(300);
-        playerBox.setBackground(new Background(new BackgroundFill(Color.BLACK,new CornerRadii(0),new Insets(0))));
+        playerBox.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(0), new Insets(0))));
         playerBox.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -537,16 +539,15 @@ public class MenuUtil {
         startHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
-                        if(!seedBox.getText().equals("RANDOM")){
+                        if (!seedBox.getText().equals("RANDOM")) {
                             int i;
                             seed = 0;
                             char[] str = seedBox.getText().toCharArray();
-                            for( i = 0;i <str.length;i++){
-                                seed += (int)str[i]*(i+1);
+                            for (i = 0; i < str.length; i++) {
+                                seed += (int) str[i] * (i + 1);
                             }
                             context.getComponents().getEnvironment().reset(seed);
-                        }
-                        else context.getComponents().getEnvironment().reset((int)System.currentTimeMillis());
+                        } else context.getComponents().getEnvironment().reset((int) System.currentTimeMillis());
                         //TODO set player name
                         //context.getComponents().getPlayer().setPlayerName(playerBox.getText());
                         context.getWindow().showScene(context.getWindow().getRootScene());
@@ -1406,14 +1407,14 @@ public class MenuUtil {
         Text crouchToggleArrow = playerMenu.drawText(singleArrow, 50, 340, GREEN, options);
         Text crouchToggleText = playerMenu.drawText("./Crouch", 95, 340, Color.WHITE, options);
         Text crouchToggleMult;
-        if(is_crouch_toggle)crouchToggleMult = playerMenu.drawText("TOGGLE", 550, 340, Color.WHITE, options);
+        if (is_crouch_toggle) crouchToggleMult = playerMenu.drawText("TOGGLE", 550, 340, Color.WHITE, options);
         else crouchToggleMult = playerMenu.drawText("HOLD", 550, 340, Color.WHITE, options);
         Rectangle crouchToggleHitBox = playerMenu.drawRectangle(50, 320, 600, 30, 0, 0, Color.TRANSPARENT);
         crouchToggleHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         is_crouch_toggle = !is_crouch_toggle;
-                        if(is_crouch_toggle) crouchToggleMult.setText("TOGGLE");
+                        if (is_crouch_toggle) crouchToggleMult.setText("TOGGLE");
                         else crouchToggleMult.setText("HOLD");
                         context.getComponents().getPlayer().setCrouchToggle(is_crouch_toggle);
                     }
@@ -1914,16 +1915,16 @@ public class MenuUtil {
         Text extInvToggleArrow = hudMenu.drawText(singleArrow, 50, 140, GREEN, options);
         Text extInvToggleText = hudMenu.drawText("./Extended_Inventory", 95, 140, Color.WHITE, options);
         Text extInvToggleMult;
-        if(is_ext_inventory_toggle) extInvToggleMult = hudMenu.drawText("TOGGLE", 550, 140, Color.WHITE, options);
+        if (is_ext_inventory_toggle) extInvToggleMult = hudMenu.drawText("TOGGLE", 550, 140, Color.WHITE, options);
         else extInvToggleMult = hudMenu.drawText("HOLD", 550, 140, Color.WHITE, options);
         Rectangle extInvToggleHitBox = hudMenu.drawRectangle(50, 120, 600, 30, 0, 0, Color.TRANSPARENT);
         extInvToggleHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent me) {
                         is_ext_inventory_toggle = !is_ext_inventory_toggle;
-                        if(is_ext_inventory_toggle) extInvToggleMult.setText("TOGGLE");
+                        if (is_ext_inventory_toggle) extInvToggleMult.setText("TOGGLE");
                         else extInvToggleMult.setText("HOLD");
-                        ((Inventory)context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).setToggle(is_ext_inventory_toggle);
+                        ((Inventory) context.getComponents().getHUD().getElement(HUDUtil.INVENTORY)).setToggle(is_ext_inventory_toggle);
                     }
                 });
         extInvToggleHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
@@ -1946,7 +1947,7 @@ public class MenuUtil {
         // hud toggle
         Text showHudArrow = hudMenu.drawText(singleArrow, 50, 190, GREEN, options);
         Text showHudText = hudMenu.drawText("./Show_HUD", 95, 190, Color.WHITE, options);
-        Text showHudMult = hudMenu.drawText(String.valueOf( is_showing_hud), 550, 190, Color.WHITE, options);
+        Text showHudMult = hudMenu.drawText(String.valueOf(is_showing_hud), 550, 190, Color.WHITE, options);
         Rectangle showHudHitBox = hudMenu.drawRectangle(50, 170, 600, 30, 0, 0, Color.TRANSPARENT);
         showHudHitBox.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>() {
@@ -2027,14 +2028,14 @@ public class MenuUtil {
                 options);
 
         // DEVELOPERS
-        aboutMenu.drawText("Developers: Andrei Cozma, Hunter Price" ,
+        aboutMenu.drawText("Developers: Andrei Cozma, Hunter Price",
                 50,
                 155,
                 Color.WHITE,
                 options);
 
         // LINKS
-        aboutMenu.drawText("Links: " ,
+        aboutMenu.drawText("Links: ",
                 50,
                 190,
                 Color.WHITE,
@@ -2045,8 +2046,8 @@ public class MenuUtil {
         github.setText("GitHub,");
         github.setOnAction(e -> {
             try {
-                new ProcessBuilder("x-www-browser","https://github.com/andreicozma1/CS307FinalProject").start();
-            }catch(Exception exception){
+                new ProcessBuilder("x-www-browser", "https://github.com/andreicozma1/CS307FinalProject").start();
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         });
@@ -2061,8 +2062,8 @@ public class MenuUtil {
         trello.setText("Trello,");
         trello.setOnAction(e -> {
             try {
-                new ProcessBuilder("x-www-browser","https://trello.com/b/ghb9XDRV/cs307-final-project").start();
-            }catch(Exception exception){
+                new ProcessBuilder("x-www-browser", "https://trello.com/b/ghb9XDRV/cs307-final-project").start();
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         });
@@ -2077,8 +2078,8 @@ public class MenuUtil {
         youtube.setText("YouTube");
         youtube.setOnAction(e -> {
             try {
-                new ProcessBuilder("x-www-browser","https://www.youtube.com/watch?v=7EdvB0KIoCE").start();
-            }catch(Exception exception){
+                new ProcessBuilder("x-www-browser", "https://www.youtube.com/watch?v=7EdvB0KIoCE").start();
+            } catch (Exception exception) {
                 exception.printStackTrace();
             }
         });
@@ -2089,20 +2090,20 @@ public class MenuUtil {
         aboutMenu.addNode(youtube);
 
         // LANGUAGES
-        aboutMenu.drawText("Languages: Java" ,
+        aboutMenu.drawText("Languages: Java",
                 50,
                 225,
                 Color.WHITE,
                 options);
 
         //BUILD SYSTEM
-        aboutMenu.drawText("Build System: Maven" ,
+        aboutMenu.drawText("Build System: Maven",
                 50,
                 260,
                 Color.WHITE,
                 options);
         // LIBRARIES
-        aboutMenu.drawText("Libraries:\n-    JavaFX\n-    OpenSimplexNoise\n-    Apache Commons Collections 4\n-    Interactive Mesh" ,
+        aboutMenu.drawText("Libraries:\n-    JavaFX\n-    OpenSimplexNoise\n-    Apache Commons Collections 4\n-    Interactive Mesh",
                 50,
                 295,
                 Color.WHITE,

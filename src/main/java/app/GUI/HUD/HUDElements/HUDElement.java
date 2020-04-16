@@ -18,6 +18,7 @@ public class HUDElement {
 
     /**
      * Constructor to initalize the hudElements variables
+     *
      * @param elementTag
      * @param pos
      */
@@ -30,19 +31,42 @@ public class HUDElement {
     }
 
     // getters
-    public Group getGroup() { return group; }
-    public Group getMenuGroup() { return menuGroup; }
-    public String getElementTag() { return elementTag; }
-    public Point2D getPos() { return pos; }
+    public Group getGroup() {
+        return group;
+    }
 
     // setters
-    public void setGroup(Group group) { this.group = group; }
-    public void setMenuGroup(Group menuGroup) { this.menuGroup = menuGroup; }
-    public void setElementTag(String elementTag) { this.elementTag = elementTag; }
-    public void setPos(Point2D p) { this.pos = p; }
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Group getMenuGroup() {
+        return menuGroup;
+    }
+
+    public void setMenuGroup(Group menuGroup) {
+        this.menuGroup = menuGroup;
+    }
+
+    public String getElementTag() {
+        return elementTag;
+    }
+
+    public void setElementTag(String elementTag) {
+        this.elementTag = elementTag;
+    }
+
+    public Point2D getPos() {
+        return pos;
+    }
+
+    public void setPos(Point2D p) {
+        this.pos = p;
+    }
 
     /**
      * Allows the user to add a custom node to a hud element group
+     *
      * @param node
      */
     public void addNode(Node node) {

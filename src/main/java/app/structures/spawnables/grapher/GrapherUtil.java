@@ -1,14 +1,14 @@
 package app.structures.spawnables.grapher;
 
 import app.GameBuilder;
-import app.structures.StructureProperties;
+import app.structures.ObjectProperties;
+import app.structures.objects.BaseCube;
 import app.structures.objects.BaseCylinder;
 import app.structures.objects.BaseSphere;
-import app.structures.objects.BaseStructure;
+import app.structures.objects.BaseObject;
 import app.structures.spawnables.SpawnableStructureBuilder;
-import app.structures.objects.BaseCube;
-import app.utils.Log;
-import app.utils.ResourcesUtil;
+import app.structures.spawnables.utils.Log;
+import app.structures.spawnables.utils.ResourcesUtil;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
@@ -38,6 +38,7 @@ public class GrapherUtil extends SpawnableStructureBuilder {
 
     /**
      * Constructor takes in no functions and relies on the user adding functions on their own.
+     *
      * @param cellDim
      * @param xAxisSize
      * @param yAxisSize
@@ -61,6 +62,7 @@ public class GrapherUtil extends SpawnableStructureBuilder {
 
     /**
      * Constructor takes in a singular function to graph.
+     *
      * @param cellDim
      * @param xAxisSize
      * @param yAxisSize
@@ -87,17 +89,42 @@ public class GrapherUtil extends SpawnableStructureBuilder {
 
 
     // getters
-    public int getXAxisSize() { return xAxisSize; }
-    public int getYAxisSize() { return yAxisSize;}
-    public double getXAxisScale() { return xAxisScalePerBlock; }
-    public double getYAxisScale() { return yAxisScalePerBlock; }
-    public List<Function> getFunctions() { return functions; }
+    public int getXAxisSize() {
+        return xAxisSize;
+    }
 
     // setters
-    public void setXAxisSize(int xAxisSize) { this.xAxisSize = xAxisSize; }
-    public void setYAxisSize(int yAxisSize) { this.yAxisSize = yAxisSize; }
-    public void setXAxisScale(double xAxisScale) { this.xAxisScalePerBlock = xAxisScale; }
-    public void setYAxisScale(double yAxisScale) { this.yAxisScalePerBlock = yAxisScale; }
+    public void setXAxisSize(int xAxisSize) {
+        this.xAxisSize = xAxisSize;
+    }
+
+    public int getYAxisSize() {
+        return yAxisSize;
+    }
+
+    public void setYAxisSize(int yAxisSize) {
+        this.yAxisSize = yAxisSize;
+    }
+
+    public double getXAxisScale() {
+        return xAxisScalePerBlock;
+    }
+
+    public void setXAxisScale(double xAxisScale) {
+        this.xAxisScalePerBlock = xAxisScale;
+    }
+
+    public double getYAxisScale() {
+        return yAxisScalePerBlock;
+    }
+
+    public void setYAxisScale(double yAxisScale) {
+        this.yAxisScalePerBlock = yAxisScale;
+    }
+
+    public List<Function> getFunctions() {
+        return functions;
+    }
 
     // adds a function to the grapher
     public void addFunction(Function function) {
@@ -124,13 +151,13 @@ public class GrapherUtil extends SpawnableStructureBuilder {
         //this will draw the y axis of the graph
         currZ = startingZ - yAxisSize * cellDim;
         for (i = -yAxisSize; i < yAxisSize; i++) {
-            BaseStructure item;
-            switch (getProps().getPROPERTY_OBJECT_TYPE()){
-                case StructureProperties.OBJECT_TYPE_CYLINDER:
-                    item = new BaseCylinder("Grapher",cellDim/2,cellDim);
+            BaseObject item;
+            switch (getProps().getPROPERTY_OBJECT_TYPE()) {
+                case ObjectProperties.OBJECT_TYPE_CYLINDER:
+                    item = new BaseCylinder("Grapher", cellDim / 2, cellDim);
                     break;
-                case StructureProperties.OBJECT_TYPE_SPHERE:
-                    item = new BaseSphere("Grapher",(float)cellDim/2);
+                case ObjectProperties.OBJECT_TYPE_SPHERE:
+                    item = new BaseSphere("Grapher", (float) cellDim / 2);
                     break;
                 default:
                     item = new BaseCube("Grapher", cellDim, cellDim, cellDim);
@@ -146,13 +173,13 @@ public class GrapherUtil extends SpawnableStructureBuilder {
         for (i = -xAxisSize; i < xAxisSize; i++) {
             if (i != 0) {
                 // draw the correct base object into the environment
-                BaseStructure item;
-                switch (getProps().getPROPERTY_OBJECT_TYPE()){
-                    case StructureProperties.OBJECT_TYPE_CYLINDER:
-                        item = new BaseCylinder("Grapher",cellDim/2,cellDim);
+                BaseObject item;
+                switch (getProps().getPROPERTY_OBJECT_TYPE()) {
+                    case ObjectProperties.OBJECT_TYPE_CYLINDER:
+                        item = new BaseCylinder("Grapher", cellDim / 2, cellDim);
                         break;
-                    case StructureProperties.OBJECT_TYPE_SPHERE:
-                        item = new BaseSphere("Grapher",(float)cellDim/2);
+                    case ObjectProperties.OBJECT_TYPE_SPHERE:
+                        item = new BaseSphere("Grapher", (float) cellDim / 2);
                         break;
                     default:
                         item = new BaseCube("Grapher", cellDim, cellDim, cellDim);
@@ -168,15 +195,15 @@ public class GrapherUtil extends SpawnableStructureBuilder {
         for (i = 0; i < functions.size(); i++) {
             for (x = -xAxisSize * xAxisScalePerBlock; x <= xAxisSize * xAxisScalePerBlock; x += xAxisScalePerBlock) {
                 y = functions.get(i).compute(x);
-                Log.d(TAG,"F(" + x + ") = " + y);
+                Log.d(TAG, "F(" + x + ") = " + y);
                 // draw the correct base object into the environment
-                BaseStructure item;
-                switch (getProps().getPROPERTY_OBJECT_TYPE()){
-                    case StructureProperties.OBJECT_TYPE_CYLINDER:
-                        item = new BaseCylinder("Grapher",cellDim/2,cellDim);
+                BaseObject item;
+                switch (getProps().getPROPERTY_OBJECT_TYPE()) {
+                    case ObjectProperties.OBJECT_TYPE_CYLINDER:
+                        item = new BaseCylinder("Grapher", cellDim / 2, cellDim);
                         break;
-                    case StructureProperties.OBJECT_TYPE_SPHERE:
-                        item = new BaseSphere("Grapher",(float)cellDim/2);
+                    case ObjectProperties.OBJECT_TYPE_SPHERE:
+                        item = new BaseSphere("Grapher", (float) cellDim / 2);
                         break;
                     default:
                         item = new BaseCube("Grapher", cellDim, cellDim, cellDim);

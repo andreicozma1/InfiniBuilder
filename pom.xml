@@ -7,13 +7,16 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.andreicozma</groupId>
     <artifactId>infinibuilder</artifactId>
-    <version>1.0-public</version>
+
+<!--    Change this version number before a new release -->
+    <version>1.0.0-public</version>
     <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <weburl>www.andreicozma.com/307</weburl>
     </properties>
 
     <dependencies>
@@ -89,7 +92,7 @@
     </dependencies>
 
     <build>
-        <finalName>307Proj</finalName>
+        <finalName>InfiniBuilder</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -102,9 +105,11 @@
                 </configuration>
             </plugin>
 
-            <!-- This plugin install dependencies for JavaFX libraries-->
-            <!-- You can run mvn javafx:run to start the game -->
             <plugin>
+                <!-- This plugin install dependencies for JavaFX libraries-->
+                <!-- You can run mvn javafx:run to start the game -->
+                <!-- HOW TO RUN: -->
+                <!-- ./mvnw javafx:run -->
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.3</version>
@@ -113,7 +118,7 @@
                 </configuration>
             </plugin>
 
-            <!--This plugin includes all dependencies within the JAR file -->
+            <!-- This plugin includes all dependencies within the JAR file -->
             <!-- This creates a standalone executable package without the need of external libraries-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -139,8 +144,10 @@
                 </executions>
             </plugin>
 
-            <!-- Use mvn exec:java to run the class and start the program-->
             <plugin>
+                <!-- Use mvn exec:java to run the class and start the program-->
+                <!-- HOW TO RUN: -->
+                <!-- ./mvnw exec:java -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
@@ -148,8 +155,10 @@
                     <mainClass>app.GameLauncher</mainClass>
                 </configuration>
             </plugin>
-            <!-- Import local 3D Model Important Library-->
             <plugin>
+                <!-- Import local 3D Model Important Library-->
+                <!-- HOW DO RUN: -->
+                <!-- ./mvnw validate -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
                 <version>2.5.2</version>
@@ -165,6 +174,37 @@
                             <version>1.0</version>
                             <packaging>jar</packaging>
                             <file>${basedir}/lib/interactive-mesh/jim3dsModelImporterJFX.jar</file>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <!-- HOW TO RUN: -->
+                <!-- ./mvnw github-release:github-release-->
+                <groupId>com.ragedunicorn.tools.maven</groupId>
+                <artifactId>github-release-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <configuration>
+                            <owner>andreicozma1</owner>
+                            <repository>InfiniBuilder</repository>
+                            <server>github-oauth</server>
+                            <tagName>v${project.version}</tagName>
+                            <name>${project.build.finalName} - ${project.version}</name>
+                            <targetCommitish>master</targetCommitish>
+                            <body>Requires Java JDK ${maven.compiler.source}+.
+                                Download ${project.build.finalName}.jar and run execute.sh for the best performance.
+                                Visit ${weburl} for more information.
+                            </body>
+                            <!-- <releaseNotes>src/main/resources/release-notes-example.md</releaseNotes>-->
+                            <assets>
+                                <asset>target/${project.build.finalName}.jar</asset>
+                                <asset>docs/execute.sh</asset>
+                                <asset>docs/README.md</asset>
+                            </assets>
                         </configuration>
                     </execution>
                 </executions>

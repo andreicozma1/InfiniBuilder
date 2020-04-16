@@ -4,14 +4,14 @@ package app.structures.spawnables.path;
 import app.GameBuilder;
 import app.algorithms.Edge;
 import app.algorithms.GraphUtil;
-import app.structures.spawnables.SpawnableStructureBuilder;
-import app.structures.StructureProperties;
-import app.structures.spawnables.maze.MazeGenerator;
+import app.structures.ObjectProperties;
 import app.structures.objects.BaseCube;
 import app.structures.objects.BaseCylinder;
 import app.structures.objects.BaseSphere;
-import app.structures.objects.BaseStructure;
-import app.utils.Log;
+import app.structures.objects.BaseObject;
+import app.structures.spawnables.SpawnableStructureBuilder;
+import app.structures.spawnables.maze.MazeGenerator;
+import app.structures.spawnables.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Material;
@@ -145,13 +145,13 @@ public class PathUtil extends SpawnableStructureBuilder {
                 mj = j / pathWidth;
                 if (mi % 2 == 0 && mj % 2 == 0) {
                     // place down the correct base structure
-                    BaseStructure item;
-                    switch (getProps().getPROPERTY_OBJECT_TYPE()){
-                        case StructureProperties.OBJECT_TYPE_CYLINDER:
-                            item = new BaseCylinder("Path",cellDim/2,cellDim);
+                    BaseObject item;
+                    switch (getProps().getPROPERTY_OBJECT_TYPE()) {
+                        case ObjectProperties.OBJECT_TYPE_CYLINDER:
+                            item = new BaseCylinder("Path", cellDim / 2, cellDim);
                             break;
-                        case StructureProperties.OBJECT_TYPE_SPHERE:
-                            item = new BaseSphere("Path",(float)cellDim/2);
+                        case ObjectProperties.OBJECT_TYPE_SPHERE:
+                            item = new BaseSphere("Path", (float) cellDim / 2);
                             break;
                         default:
                             item = new BaseCube("Path", cellDim, cellDim, cellDim);
@@ -202,13 +202,13 @@ public class PathUtil extends SpawnableStructureBuilder {
             for (i = 0; i < pathWidth; i++) {
                 for (j = 0; j < pathWidth; j++) {
                     // place down the correct base structure
-                    BaseStructure item;
-                    switch (getProps().getPROPERTY_OBJECT_TYPE()){
-                        case StructureProperties.OBJECT_TYPE_CYLINDER:
-                            item = new BaseCylinder("Path",cellDim/2,cellDim);
+                    BaseObject item;
+                    switch (getProps().getPROPERTY_OBJECT_TYPE()) {
+                        case ObjectProperties.OBJECT_TYPE_CYLINDER:
+                            item = new BaseCylinder("Path", cellDim / 2, cellDim);
                             break;
-                        case StructureProperties.OBJECT_TYPE_SPHERE:
-                            item = new BaseSphere("Path",(float)cellDim/2);
+                        case ObjectProperties.OBJECT_TYPE_SPHERE:
+                            item = new BaseSphere("Path", (float) cellDim / 2);
                             break;
                         default:
                             item = new BaseCube("Path", cellDim, cellDim, cellDim);
@@ -234,20 +234,20 @@ public class PathUtil extends SpawnableStructureBuilder {
             currZ = startingZ + mj * cellDim;
             while (true) {
                 // place down the correct base structure
-                BaseStructure item;
-                switch (getProps().getPROPERTY_OBJECT_TYPE()){
-                    case StructureProperties.OBJECT_TYPE_CYLINDER:
-                        item = new BaseCylinder("Path",cellDim/2,cellDim);
+                BaseObject item;
+                switch (getProps().getPROPERTY_OBJECT_TYPE()) {
+                    case ObjectProperties.OBJECT_TYPE_CYLINDER:
+                        item = new BaseCylinder("Path", cellDim / 2, cellDim);
                         break;
-                    case StructureProperties.OBJECT_TYPE_SPHERE:
-                        item = new BaseSphere("Path",(float)cellDim/2);
+                    case ObjectProperties.OBJECT_TYPE_SPHERE:
+                        item = new BaseSphere("Path", (float) cellDim / 2);
                         break;
                     default:
                         item = new BaseCube("Path", cellDim, cellDim, cellDim);
                         break;
                 }
-                PhongMaterial shortestPathMaterial= new PhongMaterial();
-                Color interpColor = startColor.interpolate(endColor,((double)currIndex)/path.size());
+                PhongMaterial shortestPathMaterial = new PhongMaterial();
+                Color interpColor = startColor.interpolate(endColor, ((double) currIndex) / path.size());
                 shortestPathMaterial.setDiffuseColor(interpColor);
                 shortestPathMaterial.setSpecularColor(interpColor);
                 item.getShape().setMaterial(shortestPathMaterial);
@@ -267,27 +267,27 @@ public class PathUtil extends SpawnableStructureBuilder {
                 // change the coordinates to draw next block
                 //up
                 if (path.get(currIndex) == path.get(nextIndex) - pathCols) {
-                    Log.d(TAG,"up");
+                    Log.d(TAG, "up");
                     currZ += cellDim;
                     mi++;
 
                 }
                 //down
                 else if (path.get(currIndex) == path.get(nextIndex) + pathCols) {
-                    Log.d(TAG,"down");
+                    Log.d(TAG, "down");
                     currZ -= cellDim;
                     mi--;
 
                 }
                 //left
                 else if (path.get(currIndex) == path.get(nextIndex) - 1) {
-                    Log.d(TAG,"right");
+                    Log.d(TAG, "right");
                     currX += cellDim;
                     mj++;
                 }
                 //right
                 else if (path.get(currIndex) == path.get(nextIndex) + 1) {
-                    Log.d(TAG,"left");
+                    Log.d(TAG, "left");
                     currX -= cellDim;
                     mj--;
                 }

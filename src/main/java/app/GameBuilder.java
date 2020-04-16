@@ -7,7 +7,7 @@ import app.environment.EnvironmentUtil;
 import app.player.CameraUtil;
 import app.player.ControlsUtil;
 import app.player.PlayerUtil;
-import app.utils.Log;
+import app.structures.spawnables.utils.Log;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.*;
@@ -20,9 +20,8 @@ import javafx.stage.Stage;
 
 public class GameBuilder {
     private static final String TAG = "GameBuilder";
-
-    private final AnimationTimer GAME_ANIMATION_TIMER;
     public static long time_current = System.currentTimeMillis();
+    private final AnimationTimer GAME_ANIMATION_TIMER;
     private long TOTAL_RUNTIME = 0;
     private GameFX GAME_EFFECTS;
     private GameComponents GAME_COMPONENTS;
@@ -31,6 +30,7 @@ public class GameBuilder {
     /**
      * GameBuilder constructor takes in the primaryStage from MainExecution
      * as well as a width and a height corresponding to the size of the window to be drawn
+     *
      * @param stg
      * @param w
      * @param h
@@ -93,6 +93,7 @@ public class GameBuilder {
     /**
      * Getter for GameComponents
      * Used to be able to reference all connected classes from one main Context (GameBuilder)
+     *
      * @return
      */
     public GameComponents getComponents() {
@@ -102,6 +103,7 @@ public class GameBuilder {
     /**
      * Getter for GameFX
      * Used to be able to reference all effects applied to the game scene from the main context
+     *
      * @return
      */
     public GameFX getEffects() {
@@ -145,6 +147,7 @@ public class GameBuilder {
          * in order to be able to reference these subclasses from anywhere within the game.
          * It also initializes our Root Scene and Game Scene
          * (as well as the element groups partaining to each of them)
+         *
          * @param stg
          * @param w
          * @param h
@@ -173,6 +176,7 @@ public class GameBuilder {
         /**
          * Function used to be able to switch between scenes,
          * such as going from the Main Menu to the game, and vice-versa
+         *
          * @param NEXT_SCENE
          */
         public void showScene(Scene NEXT_SCENE) {
@@ -180,12 +184,12 @@ public class GameBuilder {
             GAME_ANIMATION_TIMER.stop();
 
             if (SCENE_CURRENT == ROOT_SCENE) {
-                Log.d(TAG,"Switched to Game Scene");
+                Log.d(TAG, "Switched to Game Scene");
                 getComponents().getEnvironment().getSkybox().resetLighting();
                 GAME_ANIMATION_TIMER.start();
             }
             if (SCENE_CURRENT == getComponents().getMenu().getScene()) {
-                Log.d(TAG,"Switched to Menu Scene");
+                Log.d(TAG, "Switched to Menu Scene");
                 showCursor(Cursor.DEFAULT);
             }
 
@@ -256,6 +260,7 @@ public class GameBuilder {
 
         /**
          * This function handles moving the host's mouse pointer to any arbitrary X and Y coordinate
+         *
          * @param screenX
          * @param screenY
          */
@@ -287,6 +292,7 @@ public class GameBuilder {
         /**
          * GameComponents constructor saves it's instance to GameBuilder,
          * such that it's components can be referenced anywhere based on the saved GameBuilder context
+         *
          * @param ctx
          */
         GameComponents(GameBuilder ctx) {
@@ -362,9 +368,8 @@ public class GameBuilder {
      * GameFX handles all game effects, such as motion blur, bloom, color adjust, sepia tone, etc.
      */
     public class GameFX {
-        GameBuilder context;
-
         public MotionBlur EFFECT_MOTION_BLUR;
+        GameBuilder context;
         boolean PROPERTY_IS_TRIPPY_MODE;
         private boolean EFFECT_MOTION_BLUR_ENABLED;
         private Bloom EFFECT_BLOOM;
@@ -374,6 +379,7 @@ public class GameBuilder {
         /**
          * GameFX Constructor saves an instance of itself to GameBuilder such that
          * it can be referenced from anywhere within the game.
+         *
          * @param ctx
          */
         GameFX(GameBuilder ctx) {
@@ -390,7 +396,7 @@ public class GameBuilder {
          * Each one of these must be an input of the other in order for the effects to be blended.
          */
         public void resetEffects() {
-            Log.d(TAG,"resetEffects()");
+            Log.d(TAG, "resetEffects()");
 
             EFFECT_MOTION_BLUR = new MotionBlur();
             EFFECT_BLOOM = new Bloom();
@@ -523,6 +529,7 @@ public class GameBuilder {
         /**
          * MotionBlurEnabled determines whether motion blur should appear at all within the game
          * This is a global boolean that disables or enables the motion blur completely
+         *
          * @return
          */
         public void setMotionBlurEnabled(boolean val) {
@@ -536,6 +543,7 @@ public class GameBuilder {
         /**
          * This setting determines the level intensity of the motion blur applied.
          * If motion blur is globally disabled, it does nothing.
+         *
          * @param val
          */
         public void setMotionBlur(double val) {

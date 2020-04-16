@@ -1,7 +1,7 @@
 package app.player;
 
 import app.GameBuilder;
-import app.utils.Log;
+import app.structures.spawnables.utils.Log;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
@@ -18,24 +18,41 @@ public class CameraUtil {
     private double ROTATION_X = 0;
     private double ROTATION_Y = 0;
 
+    /**
+     * CameraUtil constructor handles everything related to our perspectiveCamera
+     * This camera is used to be able to have a perspective-3D view of the objects in the scene
+     * @param ctx
+     */
     public CameraUtil(GameBuilder ctx) {
         Log.d(TAG, "CONSTRUCTOR");
 
         context = ctx;
+        // create a new perspective camera objects and set it up
         PERSPECTIVE_CAMERA = new PerspectiveCamera(true);
+        // having this initial value set to lower than the default below will create a nice 'zoom-in' effect when starting the game
         PERSPECTIVE_CAMERA.setFieldOfView(25); // initial value
+        // the nearest and farthest distances of objects that we should render
         PERSPECTIVE_CAMERA.setNearClip(.5);
         PERSPECTIVE_CAMERA.setFarClip(50000);
 
+        // set the defaults on settings
         setFOVdefault(45);
         setFOVrunningMultiplier(1.5);
         setFOVtiredMultiplier(0.8);
     }
 
+    /**
+     * Returns an instance of our perspective camera
+     * @return
+     */
     public PerspectiveCamera getCamera() {
         return PERSPECTIVE_CAMERA;
     }
 
+    /**
+     * Main update handler which handles the movement of the camera by the player coordinates
+     * for this reason, the playerUtil must be initialized first before this is used
+     */
     void update_handler() {
         PERSPECTIVE_CAMERA.getTransforms().clear();
 
@@ -57,8 +74,8 @@ public class CameraUtil {
         double newroty = ROTATION_Y + val;
 
         double upDownRot = newroty % 180; // mod the newroty value with 180 to keep the bounds within that range
-        // camera bounds (so that the player can't rotate more than 90deg up or 90deg down
 
+        // camera bounds (so that the player can't rotate more than 90deg up or 90deg down
         if (upDownRot < PROPERTY_ANGLE_BOUND_DOWN || upDownRot > PROPERTY_ANGLE_BOUND_UP) {
             return;
         }
@@ -115,8 +132,12 @@ public class CameraUtil {
         }
     }
 
+    /**
+     * Camera reset function which basically aligns it back to the axes
+     * This is used in case the camera gets stuck in a weird position
+     */
     public void reset() {
-        Log.d(TAG,"reset()");
+        Log.d(TAG, "reset()");
         setRotateX(0);
         setRotateY(0);
     }

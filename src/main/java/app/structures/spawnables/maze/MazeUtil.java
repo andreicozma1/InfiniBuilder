@@ -2,13 +2,13 @@ package app.structures.spawnables.maze;
 
 import app.GameBuilder;
 import app.algorithms.Edge;
-import app.structures.spawnables.SpawnableStructureBuilder;
-import app.structures.StructureProperties;
+import app.structures.ObjectProperties;
 import app.structures.objects.BaseCube;
 import app.structures.objects.BaseCylinder;
 import app.structures.objects.BaseSphere;
-import app.structures.objects.BaseStructure;
-import app.utils.Log;
+import app.structures.objects.BaseObject;
+import app.structures.spawnables.SpawnableStructureBuilder;
+import app.structures.spawnables.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 
@@ -18,13 +18,13 @@ public class MazeUtil extends SpawnableStructureBuilder {
     // global variables
     private static final String TAG = "MazeUtil";
     public static Long GENERATOR_RANDOM_SEED = null;
-    private int cellWidth;
     private final double cellDim;
-    private int mazeRows;
-    private int mazeCols;
     private final boolean isTrapped;
     private final Material mazeMaterial;
     private final int height;
+    private int cellWidth;
+    private int mazeRows;
+    private int mazeCols;
     private Long seed;
     private MazeGenerator mazeGenerator;
 
@@ -108,20 +108,54 @@ public class MazeUtil extends SpawnableStructureBuilder {
     }
 
     // getters
-    public int getCellWidth() { return cellWidth; }
-    public double getCellDim() { return cellDim; }
-    public int getMazeRows() { return mazeRows; }
-    public int getMazeCols() { return mazeCols; }
-    public boolean isTrapped() { return isTrapped; }
-    public Material getMazeMaterial() { return mazeMaterial; }
-    public int getHeight() { return height; }
-    public Long getSeed() { return seed; }
+    public int getCellWidth() {
+        return cellWidth;
+    }
 
     // setters
-    public void setCellWidth(int cellWidth) { this.cellWidth = cellWidth; }
-    public void setMazeRows(int mazeRows) { this.mazeRows = mazeRows; }
-    public void setMazeCols(int mazeCols) { this.mazeCols = mazeCols; }
-    public void setSeed(Long seed) { this.seed = seed; }
+    public void setCellWidth(int cellWidth) {
+        this.cellWidth = cellWidth;
+    }
+
+    public double getCellDim() {
+        return cellDim;
+    }
+
+    public int getMazeRows() {
+        return mazeRows;
+    }
+
+    public void setMazeRows(int mazeRows) {
+        this.mazeRows = mazeRows;
+    }
+
+    public int getMazeCols() {
+        return mazeCols;
+    }
+
+    public void setMazeCols(int mazeCols) {
+        this.mazeCols = mazeCols;
+    }
+
+    public boolean isTrapped() {
+        return isTrapped;
+    }
+
+    public Material getMazeMaterial() {
+        return mazeMaterial;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public Long getSeed() {
+        return seed;
+    }
+
+    public void setSeed(Long seed) {
+        this.seed = seed;
+    }
 
     // build will place the structure into the environment
     @Override
@@ -163,13 +197,13 @@ public class MazeUtil extends SpawnableStructureBuilder {
                     } else if (mi == mazeRows * 2 - 1 && mj == mazeCols * 2) {
 //                        context.getComponents().getEnvironment().clearSpot(new Point2D(currX, currZ));
                     } else if (mi == 0 || mi == mazeRows * 2 || mj == 0 || mj == mazeCols * 2 || (mi % 2 == 0 && mj % 2 == 0)) {
-                        BaseStructure item;
-                        switch (getProps().getPROPERTY_OBJECT_TYPE()){
-                            case StructureProperties.OBJECT_TYPE_CYLINDER:
-                                item = new BaseCylinder("Maze Wall",cellDim/2,cellDim);
+                        BaseObject item;
+                        switch (getProps().getPROPERTY_OBJECT_TYPE()) {
+                            case ObjectProperties.OBJECT_TYPE_CYLINDER:
+                                item = new BaseCylinder("Maze Wall", cellDim / 2, cellDim);
                                 break;
-                            case StructureProperties.OBJECT_TYPE_SPHERE:
-                                item = new BaseSphere("Maze Wall",(float)cellDim/2);
+                            case ObjectProperties.OBJECT_TYPE_SPHERE:
+                                item = new BaseSphere("Maze Wall", (float) cellDim / 2);
                                 break;
                             default:
                                 item = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
@@ -223,13 +257,13 @@ public class MazeUtil extends SpawnableStructureBuilder {
                 // loops here are for when the cells are thicker than one block
                 for (i = 0; i < cellWidth; i++) {
                     for (j = 0; j < cellWidth; j++) {
-                        BaseStructure item;
-                        switch (getProps().getPROPERTY_OBJECT_TYPE()){
-                            case StructureProperties.OBJECT_TYPE_CYLINDER:
-                                item = new BaseCylinder("Maze Wall",cellDim/2,cellDim);
+                        BaseObject item;
+                        switch (getProps().getPROPERTY_OBJECT_TYPE()) {
+                            case ObjectProperties.OBJECT_TYPE_CYLINDER:
+                                item = new BaseCylinder("Maze Wall", cellDim / 2, cellDim);
                                 break;
-                            case StructureProperties.OBJECT_TYPE_SPHERE:
-                                item = new BaseSphere("Maze Wall",(float)cellDim/2);
+                            case ObjectProperties.OBJECT_TYPE_SPHERE:
+                                item = new BaseSphere("Maze Wall", (float) cellDim / 2);
                                 break;
                             default:
                                 item = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);

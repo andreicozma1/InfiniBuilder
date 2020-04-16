@@ -1,17 +1,17 @@
 package app.structures.spawnables;
 
-import app.structures.SpawnableStructure;
-import app.structures.StructureProperties;
+import app.structures.ObjectProperties;
 
 public abstract class SpawnableStructureBuilder implements SpawnableStructure {
 
-    StructureProperties props;
+    ObjectProperties props;
+
     public SpawnableStructureBuilder() {
-        props = new StructureProperties();
+        props = new ObjectProperties();
     }
 
     @Override
-    public StructureProperties getProps() {
+    public ObjectProperties getProps() {
         return props;
     }
 }

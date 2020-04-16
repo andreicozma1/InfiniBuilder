@@ -12,6 +12,7 @@ public class Variable {
 
     /**
      * Constructor initializes the class variables
+     *
      * @param isAddition
      * @param constant
      * @param hasX
@@ -25,16 +26,38 @@ public class Variable {
     }
 
     // getters
-    public boolean isAddition() { return isAddition; }
-    public boolean isHasX() { return hasX; }
-    public double getConstant() { return constant; }
-    public double getExponent() { return exponent; }
+    public boolean isAddition() {
+        return isAddition;
+    }
 
     // setters
-    public void setAddition(boolean addition) { isAddition = addition; }
-    public void setConstant(double constant) { this.constant = constant; }
-    public void setHasX(boolean hasX) { this.hasX = hasX; }
-    public void setExponent(double exponent) { this.exponent = exponent; }
+    public void setAddition(boolean addition) {
+        isAddition = addition;
+    }
+
+    public boolean isHasX() {
+        return hasX;
+    }
+
+    public void setHasX(boolean hasX) {
+        this.hasX = hasX;
+    }
+
+    public double getConstant() {
+        return constant;
+    }
+
+    public void setConstant(double constant) {
+        this.constant = constant;
+    }
+
+    public double getExponent() {
+        return exponent;
+    }
+
+    public void setExponent(double exponent) {
+        this.exponent = exponent;
+    }
 
     // computes the value of the variable and adds it to the current total and returns the final value
     public double compute(double currentTotal, double x) {

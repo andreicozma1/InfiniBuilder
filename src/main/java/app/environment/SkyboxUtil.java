@@ -1,8 +1,8 @@
 package app.environment;
 
 import app.GameBuilder;
-import app.utils.Log;
-import app.utils.ResourcesUtil;
+import app.structures.spawnables.utils.Log;
+import app.structures.spawnables.utils.ResourcesUtil;
 import javafx.geometry.Point3D;
 import javafx.scene.AmbientLight;
 import javafx.scene.DepthTest;
@@ -20,6 +20,7 @@ public class SkyboxUtil {
     public static final int MODE_DAY = 1;
     public static final int MODE_NIGHT = 2;
     private static final String TAG = "SkyboxUtil";
+    public static double PROPERTY_PLANET_DIAMETER = 8000;
     private final EnvironmentUtil context;
     private final Group GROUP_SKYBOX;
     private final double SUN_OFFSET_RATIO = 0; // value between -1 and 1 (shifts sin up)
@@ -40,7 +41,6 @@ public class SkyboxUtil {
     private final Rotate CLOUDS_ROTATE_Y;
     private final Rotate CLOUDS_ROTATE_Z;
     private final double CLOUDS_HEIGHT;
-    public static double PROPERTY_PLANET_DIAMETER = 8000;
     // TODO - Add setter for fixed sky color as well as Settings option
     public Color SKY_COLOR = null;
     Color SUN_COLOR;
@@ -48,6 +48,7 @@ public class SkyboxUtil {
     Color SKY_COLOR_SUNSET;
     Color MOON_COLOR;
     Color SKY_COLOR_NIGHT;
+    Color AMBIENT_LIGHT_COLOR_DEFAULT;
     private AmbientLight AMBIENT_LIGHT = null;
     private int SUN_MOON_PERIOD_MULTIPLIER = 128;
     private int BIG_PLANET_PERIOD_MULTIPLIER = 128;
@@ -57,13 +58,9 @@ public class SkyboxUtil {
     private double SUN_DISTANCE;
     private double MOON_DISTANCE;
     private double BIG_STAR_DISTANCE;
-
-
     private double PROPERTY_FIXED_TIME = -1; // set as default to -1 to track whether the user set it manually
     private boolean PROPERTY_CLOUDS_ENABLED;
     private boolean PROPERTY_PLANETS_ENABLED;
-
-    Color AMBIENT_LIGHT_COLOR_DEFAULT;
 
     /**
      * Constructor for SkyboxUtil. This initializes all of our sky objects,
@@ -80,7 +77,7 @@ public class SkyboxUtil {
         MODE_CURR = MODE_CYCLE;
 
         // Set up the ambient light, which is the illumination to the world at all times
-        setDefaultAmbientColor(Color.rgb(100,100,100));
+        setDefaultAmbientColor(Color.rgb(100, 100, 100));
         AmbientLight amb = new AmbientLight();
         amb.setColor(AMBIENT_LIGHT_COLOR_DEFAULT);
         setAmbientLight(amb);
@@ -180,6 +177,7 @@ public class SkyboxUtil {
 
     /**
      * Main handler for sun updating. Takes in the current time and the distance that the sun should be drawn from the player
+     *
      * @param time
      * @param dist
      */
@@ -204,7 +202,7 @@ public class SkyboxUtil {
             }
             if (SKY_COLOR == null) {
                 // Update the color of the sky based on the current position of the sun
-                AMBIENT_LIGHT.setColor(Color.rgb((int)(AMBIENT_LIGHT_COLOR_DEFAULT.getRed() * 255),(int)(AMBIENT_LIGHT_COLOR_DEFAULT.getGreen()*255),(int)(AMBIENT_LIGHT_COLOR_DEFAULT.getBlue()*255)));
+                AMBIENT_LIGHT.setColor(Color.rgb((int) (AMBIENT_LIGHT_COLOR_DEFAULT.getRed() * 255), (int) (AMBIENT_LIGHT_COLOR_DEFAULT.getGreen() * 255), (int) (AMBIENT_LIGHT_COLOR_DEFAULT.getBlue() * 255)));
                 SUN_LIGHT.setColor(Color.rgb((int) (sin * ((SKY_COLOR_SUNSET.getRed() * (1 - sin) * 255) + (SUN_COLOR.getRed() * sin * 255))), (int) (sin * ((SKY_COLOR_SUNSET.getGreen() * (1 - sin) * 255) + (SUN_COLOR.getGreen() * sin * 255))), (int) (sin * ((SKY_COLOR_SUNSET.getBlue() * (1 - sin) * 255) + (SUN_COLOR.getBlue() * sin * 255)))));
                 context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((SKY_COLOR_SUNSET.getRed() * (1 - sin) * 255) + (SKY_COLOR_DAY.getRed() * sin * 255)), (int) ((SKY_COLOR_SUNSET.getGreen() * (1 - sin) * 255) + (SKY_COLOR_DAY.getGreen() * sin * 255)), (int) ((SKY_COLOR_SUNSET.getBlue() * (1 - sin) * 255) + (SKY_COLOR_DAY.getBlue() * sin * 255))));
             } else {
@@ -253,6 +251,7 @@ public class SkyboxUtil {
 
     /**
      * Main handler for moon updating
+     * This takes in a time and the distance at which to draw the object
      * @param time
      * @param dist
      */
@@ -268,7 +267,7 @@ public class SkyboxUtil {
         if (sin >= SUN_OFFSET_RATIO) {
             sin -= SUN_OFFSET_RATIO;
             if (SKY_COLOR == null) {
-                AMBIENT_LIGHT.setColor(Color.rgb((int)(AMBIENT_LIGHT_COLOR_DEFAULT.getRed() * 255 - 60 * sin),(int)(AMBIENT_LIGHT_COLOR_DEFAULT.getGreen()*255 - 60 * sin),(int)(AMBIENT_LIGHT_COLOR_DEFAULT.getBlue()*255 - 60 * sin)));
+                AMBIENT_LIGHT.setColor(Color.rgb((int) (AMBIENT_LIGHT_COLOR_DEFAULT.getRed() * 255 - 60 * sin), (int) (AMBIENT_LIGHT_COLOR_DEFAULT.getGreen() * 255 - 60 * sin), (int) (AMBIENT_LIGHT_COLOR_DEFAULT.getBlue() * 255 - 60 * sin)));
                 MOON_LIGHT.setColor(Color.rgb((int) (sin * ((SKY_COLOR_SUNSET.getRed() * (1 - sin) * 255) + (MOON_COLOR.getRed() * sin * 255))), (int) (sin * ((SKY_COLOR_SUNSET.getGreen() * (1 - sin) * 255) + (MOON_COLOR.getGreen() * sin * 255))), (int) (sin * (SKY_COLOR_SUNSET.getBlue() * (1 - sin) * 255) + (MOON_COLOR.getBlue() * sin * 255))));
                 context.context.getWindow().getGameSubscene().setFill(Color.rgb((int) ((SKY_COLOR_SUNSET.getRed() * (1 - sin) * 255) + (SKY_COLOR_NIGHT.getRed() * sin * 255)), (int) ((SKY_COLOR_SUNSET.getGreen() * (1 - sin) * 255) + (SKY_COLOR_NIGHT.getGreen() * sin * 255)), (int) ((SKY_COLOR_SUNSET.getBlue() * (1 - sin) * 255) + (SKY_COLOR_NIGHT.getBlue() * sin * 255))));
             } else {
@@ -377,6 +376,9 @@ public class SkyboxUtil {
         context.getWorldGroup().getChildren().add(AMBIENT_LIGHT);
     }
 
+    /**
+     * Function used to circumvent a bug where lighting would not appear back in the scene after restaring the game
+     */
     public void resetLighting() {
         if (context.getWorldGroup().getChildren().contains(AMBIENT_LIGHT)) {
             context.getWorldGroup().getChildren().remove(AMBIENT_LIGHT);
@@ -452,6 +454,9 @@ public class SkyboxUtil {
         MODE_CURR = mode_new;
     }
 
+    /**
+     * Function used to cycle the SkyBox modes from ControlsUtil
+     */
     public void cycleModes() {
         switch (getMode()) {
             case SkyboxUtil.MODE_CYCLE:

@@ -1,9 +1,9 @@
 package app.structures.objects;
 
-import app.structures.StructureBuilder;
+import app.structures.ObjectBuilder;
 import javafx.scene.shape.Shape3D;
 
-public class BaseStructure extends StructureBuilder {
+public class BaseObject extends ObjectBuilder {
     private Shape3D shape;
 
     public Shape3D getShape() {

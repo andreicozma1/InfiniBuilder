@@ -3,13 +3,13 @@ package app.environment;
 import app.GameBuilder;
 import app.algorithms.SimplexUtil;
 import app.player.AbsolutePoint3D;
-import app.structures.StructureBuilder;
+import app.structures.ObjectBuilder;
 import app.structures.objects.BaseCube;
 import app.structures.objects.BaseModel;
-import app.structures.objects.BaseStructure;
-import app.utils.Log;
-import app.utils.ResourcesUtil;
-import app.utils.TDModelUtil;
+import app.structures.objects.BaseObject;
+import app.structures.spawnables.utils.Log;
+import app.structures.spawnables.utils.ResourcesUtil;
+import app.structures.spawnables.utils.TDModelUtil;
 import javafx.geometry.Point2D;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -27,19 +27,11 @@ public class EnvironmentUtil {
     public static final double GRAVITY = .2;
     public static final double VELOCITY_TERMINAL = 25;
     public static final double WATER_DRAG_COEFFICIENT = .1;
-
-    private static final String TAG = "EnvironmentUtil";
-    public static Group GROUP_WORLD; // CONTAINS TERRAIN AND OTHER
-    public static Group GROUP_TERRAIN;
-    public static Group GROUP_OTHER;
-    public final Map<Point2D, TreeMap<Integer, Double>> MAP_GENERATED = new HashMap<>();
-    public final HashMap<Point3D, StructureBuilder> MAP_RENDERING = new HashMap();
-    public final double PROPERTY_WATER_LEVEL = 303;
-    private final TDModelUtil UTIL_MODEL;
-    private final int PROPERTY_BLOCK_DIM = 20;
     public static final double PROPERTY_DESERT_LEVEL_1 = 300;
+    public static final double PROPERTY_ICE_LEVEL = -700;
+    private static final String TAG = "EnvironmentUtil";
     private static final double PROPERTY_DESERT_LEVEL_2 = 290;
-    private  static final double PROPERTY_DESERT_LEVEL_3 = 125;
+    private static final double PROPERTY_DESERT_LEVEL_3 = 125;
     private static final double PROPERTY_PLAINS_LEVEL_1 = 100;
     private static final double PROPERTY_PLAINS_LEVEL_2 = 50;
     private static final double PROPERTY_PLAINS_LEVEL_3 = 0;
@@ -50,11 +42,18 @@ public class EnvironmentUtil {
     private static final double PROPERTY_PEAK_LEVEL_1 = -300;
     private static final double PROPERTY_PEAK_LEVEL_2 = -320;
     private static final double PROPERTY_SNOW_LEVEL = -500;
-    public static final double PROPERTY_ICE_LEVEL = -700;
+    public static Group GROUP_WORLD; // CONTAINS TERRAIN AND OTHER
+    public static Group GROUP_TERRAIN;
+    public static Group GROUP_OTHER;
+    public final Map<Point2D, TreeMap<Integer, Double>> MAP_GENERATED = new HashMap<>();
+    public final HashMap<Point3D, ObjectBuilder> MAP_RENDERING = new HashMap();
+    public final double PROPERTY_WATER_LEVEL = 303;
+    private final TDModelUtil UTIL_MODEL;
+    private final int PROPERTY_BLOCK_DIM = 20;
     public GameBuilder context;
     SimplexUtil UTIL_SIMPLEX_2;
     SimplexUtil UTIL_SIMPLEX_3;
-    private int SEED = (int)System.currentTimeMillis();
+    private int SEED = (int) System.currentTimeMillis();
     private double PROPERTY_VEGETATION_MAX_SIZE;
     private SkyboxUtil UTIL_SKYBOX;
     private SimplexUtil UTIL_SIMPLEX;
@@ -82,12 +81,13 @@ public class EnvironmentUtil {
 
         setSkyBox(new SkyboxUtil(this));
 
-        //
+        // set up settings defaults
         setTerrainGenerateDistance(30);
         setTerrainHeightMultiplier(50);
         setTerrainVegetationMaxSize(20);
         setVegetationDensityPercent(15);
 
+        // reset the seed with -1
         reset(-1);
     }
 
@@ -102,6 +102,7 @@ public class EnvironmentUtil {
 
     /**
      * Main function which handles the terrain generation at a specified distance around the player
+     *
      * @param playerx
      * @param playerz
      */
@@ -121,6 +122,7 @@ public class EnvironmentUtil {
     /**
      * Helper function for the generateMap function, taking an x and z coordinate
      * This function uses the SimplexNoise algorithm to get a height for which to draw the column
+     *
      * @param i
      * @param j
      */
@@ -141,6 +143,7 @@ public class EnvironmentUtil {
 
     /**
      * Main function which handles rendering the map blocks around the player
+     *
      * @param playerx
      * @param playerz
      */
@@ -164,6 +167,7 @@ public class EnvironmentUtil {
 
     /**
      * Helper function for renderMap function which handles logic for which objects should be rendered or not
+     *
      * @param i
      * @param j
      */
@@ -230,6 +234,7 @@ public class EnvironmentUtil {
     /**
      * Main Function which handles creating a single instance of a block that must be generated/rendered
      * Takes in Absolute Coordinates X Y Z as well as whether it should remove vegetation or any water that should spawn below a specific level
+     *
      * @param x
      * @param y
      * @param z
@@ -237,7 +242,7 @@ public class EnvironmentUtil {
      * @param isDry
      * @return
      */
-    public StructureBuilder GENERATE_BLOCK(double x, double y, double z, boolean removeExtra, boolean isDry) {
+    public ObjectBuilder GENERATE_BLOCK(double x, double y, double z, boolean removeExtra, boolean isDry) {
 
         double vegDens = 0;
         // If removeExtra is set, we shouldn't generate any vegetation but the block
@@ -248,21 +253,26 @@ public class EnvironmentUtil {
             vegDens = PROPERTY_TERRAIN_VEGETATION_DENSITY_PERCENT;
         }
 
-        BaseStructure b = new BaseStructure();
+        // create a new base structure to hold our block and any other extras it may have depending on the height
+        BaseObject b = new BaseObject();
 
+        // create a cube by using block_dim and add it to our structure above
         BaseCube box = new BaseCube("Terrain Base", getBlockDim());
         b.getChildren().add(box);
 
-        if(PROPERTY_TERRAIN_IS_SINGLE_MATERIAL!= null){
+        if (PROPERTY_TERRAIN_IS_SINGLE_MATERIAL != null) {
+            // if we have manually set a specific material in the settings, make all blocks from that material
             box.getShape().setMaterial(PROPERTY_TERRAIN_IS_SINGLE_MATERIAL);
             box.getProps().setPROPERTY_ITEM_TAG("");
-        } else{
+        } else {
             if ((y < PROPERTY_ICE_LEVEL)) {
                 box.getShape().setMaterial(ResourcesUtil.ice_02);
                 box.getProps().setPROPERTY_ITEM_TAG("ice_02");
+                // this level should have no vegetation
             } else if ((y < PROPERTY_SNOW_LEVEL)) {
                 box.getShape().setMaterial(ResourcesUtil.snow_01);
                 box.getProps().setPROPERTY_ITEM_TAG("snow_01");
+                // look for vetation that we could place at this level
                 if (Math.random() > 1 - vegDens / 5) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"peak", "rock"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -273,15 +283,16 @@ public class EnvironmentUtil {
             } else if (y < PROPERTY_PEAK_LEVEL_2) {
                 box.getShape().setMaterial(ResourcesUtil.stone);
                 box.getProps().setPROPERTY_ITEM_TAG("stone");
-
+                // this level should have no vegetation
             } else if (y < PROPERTY_PEAK_LEVEL_1) {
                 box.getShape().setMaterial(ResourcesUtil.stone);
                 box.getProps().setPROPERTY_ITEM_TAG("stone");
-
+                // this level should have no vegetation
             } else if (y < PROPERTY_HILLS_LEVEL_2) {
                 box.getShape().setMaterial(ResourcesUtil.grass_04);
                 box.getProps().setPROPERTY_ITEM_TAG("grass_04");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -293,6 +304,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.moss);
                 box.getProps().setPROPERTY_ITEM_TAG("moss");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"mountain", "rock", "flower", "wood"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -304,6 +316,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.grass_01);
                 box.getProps().setPROPERTY_ITEM_TAG("grass_01");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -315,6 +328,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.grass);
                 box.getProps().setPROPERTY_ITEM_TAG("grass");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -326,6 +340,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.grass_01);
                 box.getProps().setPROPERTY_ITEM_TAG("grass_01");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -337,6 +352,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.grass);
                 box.getProps().setPROPERTY_ITEM_TAG("grass");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -348,6 +364,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.grass_01);
                 box.getProps().setPROPERTY_ITEM_TAG("grass_01");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"plains", "rock", "veg", "flower", "grass"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -359,6 +376,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.sand_02);
                 box.getProps().setPROPERTY_ITEM_TAG("sand_02");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -370,6 +388,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.sand);
                 box.getProps().setPROPERTY_ITEM_TAG("sand");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -381,6 +400,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.sand_02);
                 box.getProps().setPROPERTY_ITEM_TAG("sand_02");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"desert", "cactus", "dead"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -392,6 +412,7 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.dirt);
                 box.getProps().setPROPERTY_ITEM_TAG("dirt");
 
+                // look for vegetation that we could place at this level
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"dirt", "rock", "moss"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -403,6 +424,8 @@ public class EnvironmentUtil {
                 box.getShape().setMaterial(ResourcesUtil.dirt);
                 box.getProps().setPROPERTY_ITEM_TAG("dirt");
 
+                // this is where we determine if we are low enough in the terrain to generate water.
+                // In this case, generate a water block part of our structure and add it to the terrain
                 if (PROPERTY_TERRAIN_HAS_WATER && !isDry) {
                     BaseCube water = new BaseCube("Water");
                     water.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -413,6 +436,7 @@ public class EnvironmentUtil {
                     b.getChildren().add(water);
                 }
 
+                // look for 3D models that we could also place underwater
                 if (Math.random() > 1 - vegDens) {
                     BaseModel tree = UTIL_MODEL.getRandomMatching(new String[]{"sea", "water", "rock", "moss"});
                     tree.getProps().setPROPERTY_DESTRUCTIBLE(true);
@@ -429,7 +453,7 @@ public class EnvironmentUtil {
     }
 
     public void reset(int seed) {
-        Log.d(TAG,"reset()");
+        Log.d(TAG, "reset()");
 
         UTIL_SIMPLEX = new SimplexUtil(100, .40, (int) seed);
         UTIL_SIMPLEX_2 = new SimplexUtil(2000, .65, (int) seed * 2);
@@ -453,14 +477,14 @@ public class EnvironmentUtil {
         return (int) Math.round((player_coord) / getBlockDim());
     }
 
-    public double getClosestGroundLevel(AbsolutePoint3D world_coords, boolean absolute) {
+    public double getClosestGroundLevel(AbsolutePoint3D world_coords, boolean getAbsolute) {
         // requires the getX() and getZ() from PlayerUtil
         Point2D pt = new Point2D(convertAbsoluteToTerrainPos(world_coords.getX()), convertAbsoluteToTerrainPos(world_coords.getZ()));
         if (MAP_GENERATED.containsKey(pt)) {
             int y = (int) Math.floor(world_coords.getY() / getBlockDim());
             for (int i = y; i <= LIMIT_MIN; i++) {
                 if (MAP_GENERATED.get(pt).containsKey(i)) {
-                    if (absolute) {
+                    if (getAbsolute) {
                         Double result = MAP_GENERATED.get(pt).get(i);
                         return result * getBlockDim();
                     } else {
@@ -475,7 +499,7 @@ public class EnvironmentUtil {
         }
     }
 
-    public void placeObject(AbsolutePoint3D pos, StructureBuilder str, boolean shouldStack) {
+    public void placeObject(AbsolutePoint3D pos, ObjectBuilder str, boolean shouldStack) {
         int xCurrent = convertAbsoluteToTerrainPos(pos.getX());
         int yCurrent = (int) Math.floor(pos.getY());
         int zCurrent = convertAbsoluteToTerrainPos(pos.getZ());
@@ -535,7 +559,7 @@ public class EnvironmentUtil {
     public void setTerrainHeightMultiplier(double mult) {
         try {
             if (mult >= 0) {
-                Log.d(TAG,"setTerrainHeightMultiplier() -> " + mult);
+                Log.d(TAG, "setTerrainHeightMultiplier() -> " + mult);
 
                 PROPERTY_TERRAIN_HEIGHT_MULTIPLIER = mult; // bound the value given from 0 to 100 to a value reasonable given by the terrain generator
                 reset(SEED);
@@ -563,8 +587,9 @@ public class EnvironmentUtil {
     public void setVegetationDensityPercent(double dens) {
         try {
             if (dens >= 0 && dens <= 100) {
-                Log.d(TAG,"setVegetationDensityPercent() -> " + dens);
-                PROPERTY_TERRAIN_VEGETATION_DENSITY_PERCENT = (dens / 100) / 6; // bound the value given from 0 to 100 to a reasonable max amount of trees
+                Log.d(TAG, "setVegetationDensityPercent() -> " + dens);
+                PROPERTY_TERRAIN_VEGETATION_DENSITY_PERCENT = (dens / 100) / 6;
+                // bound the value given from 0 to 100 to a reasonable max amount of trees
                 reset(SEED);
             } else {
                 throw new IndexOutOfBoundsException();
@@ -581,7 +606,7 @@ public class EnvironmentUtil {
     public void setTerrainGenerateDistance(double dist) {
         try {
             if (dist >= 0) {
-                Log.d(TAG,"setTerrainVegetationMaxSize() -> " + dist);
+                Log.d(TAG, "setTerrainVegetationMaxSize() -> " + dist);
                 PROPERTY_TERRAIN_GENERATE_DISTANCE = dist; // bound the value given
                 reset(SEED);
             } else {
@@ -599,7 +624,7 @@ public class EnvironmentUtil {
     public void setTerrainVegetationMaxSize(double val) {
         try {
             if (val >= 0) {
-                Log.d(TAG,"setTerrainVegetationMaxSize() -> " + val);
+                Log.d(TAG, "setTerrainVegetationMaxSize() -> " + val);
 
                 PROPERTY_VEGETATION_MAX_SIZE = val; // bound the value given
                 reset(SEED);
@@ -616,7 +641,7 @@ public class EnvironmentUtil {
     }
 
     public void setTerrainBlockType(Material mat) {
-        Log.d(TAG,"setTerrainBlockType() -> " + mat);
+        Log.d(TAG, "setTerrainBlockType() -> " + mat);
         PROPERTY_TERRAIN_IS_SINGLE_MATERIAL = mat;
         reset(SEED);
     }
@@ -626,7 +651,7 @@ public class EnvironmentUtil {
     }
 
     public void setTerrainShouldHaveWater(boolean val) {
-        Log.d(TAG,"setTerrainShouldHaveWater() -> " + val);
+        Log.d(TAG, "setTerrainShouldHaveWater() -> " + val);
         PROPERTY_TERRAIN_HAS_WATER = val;
         reset(SEED);
     }

@@ -24,11 +24,16 @@ public class InterfaceBuilder extends Parent {
     }
 
     // getters and setters
-    public Group getGroup() { return group; }
-    public void setGroup(Group Group) { this.group = group; }
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group Group) {
+        this.group = group;
+    }
 
     // this adds a custom node to the group
-    public Node addNode(Node n){
+    public Node addNode(Node n) {
         group.getChildren().add(n);
         return n;
     }

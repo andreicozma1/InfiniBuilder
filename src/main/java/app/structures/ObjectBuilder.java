@@ -5,28 +5,33 @@ import app.player.AbsolutePoint3D;
 import app.structures.objects.BaseCube;
 import app.structures.objects.BaseCylinder;
 import app.structures.objects.BaseSphere;
-import app.structures.objects.BaseStructure;
+import app.structures.objects.BaseObject;
 import javafx.scene.Group;
 
-public abstract class StructureBuilder extends Group implements Interactable {
+public abstract class ObjectBuilder extends Group implements Interactable {
 
-    private StructureProperties p;
+    private ObjectProperties p;
 
-    public StructureBuilder() {
-        p = new StructureProperties();
+    public ObjectBuilder() {
+        p = new ObjectProperties();
     }
 
-    public static BaseStructure resolve(BaseStructure orig) {
-        BaseStructure result = new BaseStructure();
+    /**
+     * Helper function used to clone different structures based on their object type.
+     * @param orig
+     * @return
+     */
+    public static BaseObject clone(BaseObject orig) {
+        BaseObject result = new BaseObject();
 
         switch (orig.getProps().getPROPERTY_OBJECT_TYPE()) {
-            case StructureProperties.OBJECT_TYPE_CUBE:
+            case ObjectProperties.OBJECT_TYPE_CUBE:
                 result = new BaseCube(orig);
                 break;
-            case StructureProperties.OBJECT_TYPE_SPHERE:
+            case ObjectProperties.OBJECT_TYPE_SPHERE:
                 result = new BaseSphere(orig);
                 break;
-            case StructureProperties.OBJECT_TYPE_CYLINDER:
+            case ObjectProperties.OBJECT_TYPE_CYLINDER:
                 result = new BaseCylinder(orig);
                 break;
         }
@@ -65,15 +70,21 @@ public abstract class StructureBuilder extends Group implements Interactable {
         return this.getBoundsInParent().getDepth();
     }
 
-    public StructureProperties getProps() {
+    public ObjectProperties getProps() {
         return p;
     }
 
-    public void setProps(StructureProperties pr) {
+    public void setProps(ObjectProperties pr) {
         p = pr;
     }
 
 
+    /**
+     * Defines default behavior for our interactable object we are creating
+     * @param e
+     * @param pos
+     * @param shouldStack
+     */
     @Override
     public void placeObject(EnvironmentUtil e, AbsolutePoint3D pos, boolean shouldStack) {
         // right click action usually
@@ -81,9 +92,12 @@ public abstract class StructureBuilder extends Group implements Interactable {
     }
 
     @Override
-    public void use() {
+    public void useObject() {
         // left click action usually
-
+        // TODO - make the default behavior be to destroy the block. This will get called from PlayerUtil using the ray tracing method used for shooting
+        // this means that we will need to define a different behavior for determining whether to shoot a block or to destroy the block
+        // What this implementation in this class will be is to take the item out of the MAP_GENERATED and MAP_RENDERED
+        // We may need to create a helper function in environmentuti for this.
     }
 }
 

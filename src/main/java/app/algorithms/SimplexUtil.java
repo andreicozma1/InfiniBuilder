@@ -47,6 +47,7 @@ public class SimplexUtil {
     /**
      * Primary getNoise function used in EnvironmentUtil to retrieve a Y terrain coordinate
      * based on two given axis coordinates. (In environment we use X and Z)
+     *
      * @param x
      * @param y
      * @return
@@ -67,6 +68,7 @@ public class SimplexUtil {
      * 3D variation of the noise algorithm.
      * Instead of returning a Y coordinate as a height map,
      * this function's output can be determined as a 'density' at a given 3D point in space.
+     *
      * @param x
      * @param y
      * @param z

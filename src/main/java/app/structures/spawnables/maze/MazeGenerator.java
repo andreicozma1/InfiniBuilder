@@ -2,7 +2,7 @@ package app.structures.spawnables.maze;
 
 import app.algorithms.DisjointSet;
 import app.algorithms.Edge;
-import app.utils.Log;
+import app.structures.spawnables.utils.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +24,7 @@ public class MazeGenerator {
 
     /**
      * Constructor takes in everything it needs to create a random maze.
+     *
      * @param r
      * @param c
      * @param seed
@@ -32,7 +33,7 @@ public class MazeGenerator {
         ran = new Random();
         this.cols = c;
         this.rows = r;
-        Log.d(TAG,String.valueOf(r * c));
+        Log.d(TAG, String.valueOf(r * c));
         this.seed = seed;
         ran.setSeed(this.seed);
         maze = new ArrayList<Edge>();
@@ -45,16 +46,38 @@ public class MazeGenerator {
     }
 
     // getters
-    public int getCols() { return cols; }
-    public int getRows() { return rows; }
-    public long getSeed() { return seed; }
-    public List<Edge> getWalls() { return maze; }
-    public List<Edge> getDeletedWalls() { return deletedEdges; }
+    public int getCols() {
+        return cols;
+    }
 
     // setters
-    public void setCols(int cols) { this.cols = cols; }
-    public void setRows(int rows) { this.rows = rows; }
-    public void setSeed(long seed) { this.seed = seed; }
+    public void setCols(int cols) {
+        this.cols = cols;
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public long getSeed() {
+        return seed;
+    }
+
+    public void setSeed(long seed) {
+        this.seed = seed;
+    }
+
+    public List<Edge> getWalls() {
+        return maze;
+    }
+
+    public List<Edge> getDeletedWalls() {
+        return deletedEdges;
+    }
 
     // this will create a new maze for the current class to hold
     public void resetMaze() {
@@ -106,14 +129,14 @@ public class MazeGenerator {
     // prints out the walls
     public void printWalls() {
         for (Edge w : maze) {
-            Log.d(TAG,"MAZE WALLS " + w.v1 + " " + w.v2);
+            Log.d(TAG, "MAZE WALLS " + w.v1 + " " + w.v2);
         }
     }
 
     // prints out the deleted walls
     public void printDeletedWalls() {
         for (Edge w : deletedEdges) {
-            Log.d(TAG,"MAZE WALLS " + w.v1 + " " + w.v2);
+            Log.d(TAG, "MAZE WALLS " + w.v1 + " " + w.v2);
         }
     }
 

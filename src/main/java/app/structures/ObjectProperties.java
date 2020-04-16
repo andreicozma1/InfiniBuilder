@@ -1,11 +1,11 @@
 package app.structures;
 
-public class StructureProperties {
+public class ObjectProperties {
     public static final String UNDEFINED_TAG = "Undefined";
     public static final String UNDEFINED_DESCRIPTION = "No description available";
 
     public static final int TYPE_OBJECT = 0;
-    public static final int TYPE_SPAWNABLE = 1;
+    public static final int TYPE_SPAWNABLE_STRUCTURE = 1;
     public static final int TYPE_WEAPON = 2;
 
     public static final int OBJECT_TYPE_CUBE = 0;
@@ -19,7 +19,11 @@ public class StructureProperties {
     private String PROPERTY_ITEM_DESCRIPTION;
     private boolean PROPERTY_DESTRUCTIBLE = false;
 
-    public StructureProperties(){
+    /**
+     * StructureProperties class can store different properties for our StructureBuilder class.
+     * These properties are used to determine different actions to perform based on the structure's property
+     */
+    public ObjectProperties() {
         PROPERTY_ITEM_TYPE = TYPE_OBJECT;
         PROPERTY_ITEM_TAG = UNDEFINED_TAG;
         PROPERTY_ITEM_DESCRIPTION = UNDEFINED_DESCRIPTION;

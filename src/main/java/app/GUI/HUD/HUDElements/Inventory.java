@@ -1,12 +1,9 @@
 package app.GUI.HUD.HUDElements;
 
-import app.GUI.HUD.HUDElements.HUDElement;
 import app.GUI.HUD.HUDUtil;
-import app.GameBuilder;
-import app.structures.StructureBuilder;
 import app.GUI.HUD.InventoryUtil;
-import app.structures.StructureProperties;
-import app.utils.Log;
+import app.GameBuilder;
+import app.structures.ObjectProperties;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -64,6 +61,7 @@ public class Inventory extends HUDElement {
 
     /**
      * Constructor initializes all values of the inventory that is shown on the HUD
+     *
      * @param elementTag
      * @param pos
      * @param inventoryUtil
@@ -102,34 +100,83 @@ public class Inventory extends HUDElement {
     }
 
     // getters
-    public InventoryUtil getInventoryUtil() { return inventoryUtil; }
-    public int getInventorySize() { return inventorySize; }
-    public int getSlotsDisplayed() { return slotsDisplayed; }
-    public double getBorderWidth() { return borderWidth; }
-    public double getSlotHeight() { return slotHeight; }
-    public double getSlotWidth() { return slotWidth; }
-    public double getTotalHeight() { return totalHeight; }
-    public double getTotalWidth() { return totalWidth; }
-    public Paint getPanelColor() { return panelColor; }
-    public Paint getSlotColor() { return slotColor; }
-    public Paint getSelectedItemColor() { return selectedItemColor; }
-    public Paint getEmptyItemColor() { return emptyItemColor; }
-    public Paint getBorderColor() { return borderColor; }
-    public boolean isVertical() { return isVertical; }
-    public boolean isToggle() { return isToggle; }
-    public boolean isDisplayNumbers() { return displayNumbers; }
-    public boolean isExtendedInventoryDisplayed() { return isExtendedInventoryDisplayed; }
-    public int getSelected() { return selected; }
+    public InventoryUtil getInventoryUtil() {
+        return inventoryUtil;
+    }
+
+    public int getInventorySize() {
+        return inventorySize;
+    }
+
+    public int getSlotsDisplayed() {
+        return slotsDisplayed;
+    }
+
+    public double getBorderWidth() {
+        return borderWidth;
+    }
+
+    public double getSlotHeight() {
+        return slotHeight;
+    }
+
+    public double getSlotWidth() {
+        return slotWidth;
+    }
+
+    public double getTotalHeight() {
+        return totalHeight;
+    }
+
+    public double getTotalWidth() {
+        return totalWidth;
+    }
+
+    public Paint getPanelColor() {
+        return panelColor;
+    }
 
     // setters
-    public void setPanelColor(Paint panelColor) { this.panelColor = panelColor; }
-    public void setSlotColor(Paint slotColor) { this.slotColor = slotColor; }
-    public void setSelectedItemColor(Paint selectedItemColor) { this.selectedItemColor = selectedItemColor; }
-    public void setEmptyItemColor(Paint emptyItemColor) { this.emptyItemColor = emptyItemColor; }
-    public void setBorderColor(Paint borderColor) { this.borderColor = borderColor; }
-    public void setToggle(boolean toggle) { isToggle = toggle; }
-    public void setDisplayNumbers(boolean displayNumbers) { this.displayNumbers = displayNumbers; }
-    public void setSelected(int selected) { this.selected = selected; }
+    public void setPanelColor(Paint panelColor) {
+        this.panelColor = panelColor;
+    }
+
+    public Paint getSlotColor() {
+        return slotColor;
+    }
+
+    public void setSlotColor(Paint slotColor) {
+        this.slotColor = slotColor;
+    }
+
+    public Paint getSelectedItemColor() {
+        return selectedItemColor;
+    }
+
+    public void setSelectedItemColor(Paint selectedItemColor) {
+        this.selectedItemColor = selectedItemColor;
+    }
+
+    public Paint getEmptyItemColor() {
+        return emptyItemColor;
+    }
+
+    public void setEmptyItemColor(Paint emptyItemColor) {
+        this.emptyItemColor = emptyItemColor;
+    }
+
+    public Paint getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(Paint borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    public boolean isVertical() {
+        return isVertical;
+    }
+
     public void setVertical(boolean vertical) {
         if (isVertical != vertical) {
             double tmp = totalWidth;
@@ -138,6 +185,35 @@ public class Inventory extends HUDElement {
             isVertical = vertical;
         }
     }
+
+    public boolean isToggle() {
+        return isToggle;
+    }
+
+    public void setToggle(boolean toggle) {
+        isToggle = toggle;
+    }
+
+    public boolean isDisplayNumbers() {
+        return displayNumbers;
+    }
+
+    public void setDisplayNumbers(boolean displayNumbers) {
+        this.displayNumbers = displayNumbers;
+    }
+
+    public boolean isExtendedInventoryDisplayed() {
+        return isExtendedInventoryDisplayed;
+    }
+
+    public int getSelected() {
+        return selected;
+    }
+
+    public void setSelected(int selected) {
+        this.selected = selected;
+    }
+
     public void toggleExtendedInventoryDisplayed() {
         isExtendedInventoryDisplayed = !isExtendedInventoryDisplayed;
         update();
@@ -146,6 +222,7 @@ public class Inventory extends HUDElement {
 
     /**
      * swap will swap the given indexes in the hudutil. This is used when the player wants to swap blocks in their inventory.
+     *
      * @param s1
      * @param s2
      */
@@ -156,6 +233,7 @@ public class Inventory extends HUDElement {
 
     /**
      * This will fix the inventory bar to the sides of the screen. It takes in the static Inventory variables.
+     *
      * @param edge
      */
     public void fixToEdge(String edge) {
@@ -236,7 +314,7 @@ public class Inventory extends HUDElement {
             getGroup().getChildren().add(slotBackdrop);
 
             // if there is an item at the current item in the inventory util
-            if (inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != StructureProperties.UNDEFINED_TAG) {
+            if (inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG() != ObjectProperties.UNDEFINED_TAG) {
                 // draw each item
                 Group item = inventoryUtil.getItem(i);
                 item.setTranslateX(currSlotX + (slotWidth / 2.0));
@@ -305,7 +383,7 @@ public class Inventory extends HUDElement {
 
 
                 // if there is an item at the current spot in the inventory
-                if (!inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG().equals(StructureProperties.UNDEFINED_TAG)) {
+                if (!inventoryUtil.getItem(i).getProps().getPROPERTY_ITEM_TAG().equals(ObjectProperties.UNDEFINED_TAG)) {
                     // draw each item
                     Group item = inventoryUtil.getItem(i);
                     item.setTranslateX(currSlotX + (slotWidth / 2.0));

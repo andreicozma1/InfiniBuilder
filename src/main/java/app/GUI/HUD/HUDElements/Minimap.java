@@ -1,7 +1,7 @@
 package app.GUI.HUD.HUDElements;
 
 import app.GameBuilder;
-import app.structures.StructureBuilder;
+import app.structures.ObjectBuilder;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -18,10 +18,11 @@ public class Minimap extends HUDElement {
     private double width;
     private double height;
     private boolean isDisplayed = true;
-    private StructureBuilder currItem;
+    private ObjectBuilder currItem;
 
     /**
      * Constructors to initialize variables and draw the minimap onto the hudgroup
+     *
      * @param elementTag
      * @param pos
      * @param context
@@ -43,13 +44,27 @@ public class Minimap extends HUDElement {
     }
 
     // getters
-    public boolean isDisplayed() { return isDisplayed; }
-    public double getHeight() { return height; }
-    public double getWidth() { return width; }
+    public boolean isDisplayed() {
+        return isDisplayed;
+    }
+
+    public double getHeight() {
+        return height;
+    }
 
     // setters
-    public void setHeight(double height) { this.height = height; }
-    public void setWidth(double width) { this.width = width; }
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
     public void toggleMinimap() {
         isDisplayed = !isDisplayed;
         update();

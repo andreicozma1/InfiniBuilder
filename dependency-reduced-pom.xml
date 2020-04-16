@@ -3,9 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.andreicozma</groupId>
   <artifactId>infinibuilder</artifactId>
-  <version>1.0-public</version>
+  <version>1.0.0-public</version>
   <build>
-    <finalName>307Proj</finalName>
+    <finalName>InfiniBuilder</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -70,10 +70,37 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>com.ragedunicorn.tools.maven</groupId>
+        <artifactId>github-release-maven-plugin</artifactId>
+        <version>1.0.2</version>
+        <executions>
+          <execution>
+            <id>default-cli</id>
+            <configuration>
+              <owner>andreicozma1</owner>
+              <repository>InfiniBuilder</repository>
+              <server>github-oauth</server>
+              <tagName>v${project.version}</tagName>
+              <name>${project.build.finalName} - ${project.version}</name>
+              <targetCommitish>master</targetCommitish>
+              <body>Requires Java JDK ${maven.compiler.source}+.
+                                Download ${project.build.finalName}.jar and run execute.sh for the best performance.
+                                Visit ${weburl} for more information.</body>
+              <assets>
+                <asset>target/${project.build.finalName}.jar</asset>
+                <asset>docs/execute.sh</asset>
+                <asset>docs/README.md</asset>
+              </assets>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <properties>
     <maven.compiler.target>11</maven.compiler.target>
+    <weburl>www.andreicozma.com/307</weburl>
     <maven.compiler.source>11</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

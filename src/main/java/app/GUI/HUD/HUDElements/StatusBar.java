@@ -1,12 +1,10 @@
 package app.GUI.HUD.HUDElements;
 
-import app.utils.Log;
+import app.structures.spawnables.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-
-import java.lang.annotation.Target;
 
 
 /**
@@ -14,6 +12,7 @@ import java.lang.annotation.Target;
  */
 public class StatusBar extends HUDElement {
 
+    private static final String TAG = "StatusBar";
     // global variables
     private double maxStatus;
     private double currStatus;
@@ -33,10 +32,10 @@ public class StatusBar extends HUDElement {
     private boolean isDefaultDirection = true;
     private boolean isColorInterpolated = false;
     private boolean isShowing = true;
-    private static final String TAG = "StatusBar";
 
     /**
      * Constructor to intialize variables and add the status bar group to the hud group
+     *
      * @param elementTag
      * @param pos
      * @param maxStatus
@@ -63,38 +62,8 @@ public class StatusBar extends HUDElement {
     }
 
     // getters
-    public double getMaxStatus() { return maxStatus; }
-    public double getCurrStatus() { return currStatus; }
-    public double getHeight() { return height; }
-    public double getWidth() { return width; }
-    public Color getInnerBarColor() { return innerBarColor; }
-    public Color getOuterBarColor() { return outerBarColor; }
-    public boolean getIsEmpty() { return isEmpty; }
-    public double getBorderWidth() { return borderWidth; }
-    public boolean getIsVertical() { return isVertical; }
-    public boolean isDefaultDirection() { return isDefaultDirection; }
-    public boolean isColorInterpolated() { return isColorInterpolated; }
-    public boolean isShowing() { return isShowing; }
-    public boolean isEmpty() { return isEmpty; }
-    public boolean isFull() { return maxStatus == currStatus; }
-
-    // setters
-    public void setArcWidth(double arcWidth) { this.arcWidth = arcWidth; }
-    public void setArcHeight(double arcHeight) { this.arcHeight = arcHeight; }
-    public void setBorderColor(Color borderColor) { this.borderColor = borderColor; }
-    public void setBorder(boolean state) { isBorder = state; }
-    public void setVertical(boolean vertical) { isVertical = vertical; }
-    public void toggleStatusBar() { isShowing = !isShowing; }
-    public void setDefaultDirection(boolean defaultDirection) { isDefaultDirection = defaultDirection; }
-    public void setBorderWidth(double borderWidth) { this.borderWidth = borderWidth; }
-    public void setOuterBarColor(Color outerBarColor) { this.outerBarColor = outerBarColor; }
-    public void setInnerBarColor(Color innerBarColor) { this.innerBarColor = innerBarColor; }
-    public void setWidth(double width) { this.width = width;}
-    public void setHeight(double height) { this.height = height; }
-    public void setColorInterpolation(Color fullColor, Color emptyColor) {
-        this.fullColor = fullColor;
-        this.emptyColor = emptyColor;
-        isColorInterpolated = true;
+    public double getMaxStatus() {
+        return maxStatus;
     }
 
     // set max status error checks to make sure currStatus is never larger than max status
@@ -105,14 +74,18 @@ public class StatusBar extends HUDElement {
         this.maxStatus = maxStatus;
     }
 
+    public double getCurrStatus() {
+        return currStatus;
+    }
+
     // set curr status ensures it never goes below zero
     public void setCurrStatus(double currStatus) {
         if (currStatus <= 0) {
-            Log.d(TAG,getElementTag() + " is empty");
+            Log.d(TAG, getElementTag() + " is empty");
             currStatus = 0;
             isEmpty = true;
         } else if (currStatus >= maxStatus) {
-            Log.d(TAG,getElementTag() + " is full");
+            Log.d(TAG, getElementTag() + " is full");
             currStatus = maxStatus;
             isEmpty = false;
         } else {
@@ -120,6 +93,109 @@ public class StatusBar extends HUDElement {
         }
         this.currStatus = currStatus;
         update();
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public Color getInnerBarColor() {
+        return innerBarColor;
+    }
+
+    public void setInnerBarColor(Color innerBarColor) {
+        this.innerBarColor = innerBarColor;
+    }
+
+    public Color getOuterBarColor() {
+        return outerBarColor;
+    }
+
+    public void setOuterBarColor(Color outerBarColor) {
+        this.outerBarColor = outerBarColor;
+    }
+
+    public boolean getIsEmpty() {
+        return isEmpty;
+    }
+
+    public double getBorderWidth() {
+        return borderWidth;
+    }
+
+    public void setBorderWidth(double borderWidth) {
+        this.borderWidth = borderWidth;
+    }
+
+    public boolean getIsVertical() {
+        return isVertical;
+    }
+
+    public boolean isDefaultDirection() {
+        return isDefaultDirection;
+    }
+
+    public void setDefaultDirection(boolean defaultDirection) {
+        isDefaultDirection = defaultDirection;
+    }
+
+    public boolean isColorInterpolated() {
+        return isColorInterpolated;
+    }
+
+    public boolean isShowing() {
+        return isShowing;
+    }
+
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
+    public boolean isFull() {
+        return maxStatus == currStatus;
+    }
+
+    // setters
+    public void setArcWidth(double arcWidth) {
+        this.arcWidth = arcWidth;
+    }
+
+    public void setArcHeight(double arcHeight) {
+        this.arcHeight = arcHeight;
+    }
+
+    public void setBorderColor(Color borderColor) {
+        this.borderColor = borderColor;
+    }
+
+    public void setBorder(boolean state) {
+        isBorder = state;
+    }
+
+    public void setVertical(boolean vertical) {
+        isVertical = vertical;
+    }
+
+    public void toggleStatusBar() {
+        isShowing = !isShowing;
+    }
+
+    public void setColorInterpolation(Color fullColor, Color emptyColor) {
+        this.fullColor = fullColor;
+        this.emptyColor = emptyColor;
+        isColorInterpolated = true;
     }
 
     /**
@@ -188,5 +264,7 @@ public class StatusBar extends HUDElement {
         }
     }
 
-    public void printStatus() { Log.d(TAG,"CurrStatus = " + currStatus + ", MaxStatus = " + maxStatus); }
+    public void printStatus() {
+        Log.d(TAG, "CurrStatus = " + currStatus + ", MaxStatus = " + maxStatus);
+    }
 }

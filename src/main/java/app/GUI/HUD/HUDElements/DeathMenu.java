@@ -8,7 +8,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -38,6 +37,7 @@ public class DeathMenu extends HUDElement {
 
     /**
      * Constructor to initialize the menu into the hud menu group.
+     *
      * @param elementTag
      * @param pos
      * @param context
@@ -65,18 +65,35 @@ public class DeathMenu extends HUDElement {
     }
 
     // setters
-    public void setCentered(boolean centered) { isCentered = centered; }
-    public void setHeight(double height) { this.height = height; }
-    public void setWidth(double width) { this.width = width; }
+    public void setCentered(boolean centered) {
+        isCentered = centered;
+    }
+
+    // getters
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
     public void setDead(boolean dead) {
         isDead = dead;
         update();
     }
-
-    // getters
-    public double getHeight() { return height; }
-    public double getWidth() { return width; }
-    public boolean isDead() { return isDead; }
 
     /**
      * Update will update the hud menu group to reflect the changes to the deathMenu.
@@ -156,7 +173,7 @@ public class DeathMenu extends HUDElement {
                             isDead = false;
                             context.getComponents().getPlayer().reset();
                             ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
-                            context.getComponents().getEnvironment().reset((int)System.currentTimeMillis());
+                            context.getComponents().getEnvironment().reset((int) System.currentTimeMillis());
                             update();
                         }
                     });
@@ -209,9 +226,9 @@ public class DeathMenu extends HUDElement {
             getMenuGroup().getChildren().add(pause.getGroup());
 
         }
-            if (isDead&&((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()) {
-                ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
-            }
+        if (isDead && ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).isShowing()) {
+            ((Crosshair) context.getComponents().getHUD().getElement(HUDUtil.CROSSHAIR)).toggleCrosshair();
+        }
 
     }
 }

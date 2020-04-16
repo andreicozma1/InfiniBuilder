@@ -1,10 +1,8 @@
 package app.GUI.HUD;
 
 import app.GUI.HUD.HUDElements.*;
-import app.GUI.menu.MenuUtil;
 import app.GameBuilder;
-import app.GUI.HUD.HUDElements.Inventory;
-import app.utils.Log;
+import app.structures.spawnables.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
@@ -47,25 +45,46 @@ public class HUDUtil {
 
     /**
      * Constructor initializes the hud util and sets up the scenes
+     *
      * @param ctx
      */
     public HUDUtil(GameBuilder ctx) {
         Log.d(TAG, "CONSTRUCTOR");
         context = ctx;
-        TotalHUDGroup.getChildren().addAll(MenuHUDGroup,HUDGroup);
+        TotalHUDGroup.getChildren().addAll(MenuHUDGroup, HUDGroup);
         subScene = new SubScene(TotalHUDGroup, ctx.getWindow().getWindowWidth(), ctx.getWindow().getWindowHeight());
     }
 
     //getters
-    public boolean isShowing(){ return isShown; }
-    public boolean isHUDToggle() { return isHUDToggle; }
-    public Group getHUDGroup() { return HUDGroup; }
-    public Group getMenuHUDGroup() { return MenuHUDGroup; }
-    public HUDElement getElement(String tag) { return elements.get(tag); }
-    public SubScene getSubScene() { return subScene; }
+    public boolean isShowing() {
+        return isShown;
+    }
+
+    public boolean isHUDToggle() {
+        return isHUDToggle;
+    }
 
     //setters
-    public void setHUDToggle(boolean HUDToggle) { isHUDToggle = HUDToggle; }
+    public void setHUDToggle(boolean HUDToggle) {
+        isHUDToggle = HUDToggle;
+    }
+
+    public Group getHUDGroup() {
+        return HUDGroup;
+    }
+
+    public Group getMenuHUDGroup() {
+        return MenuHUDGroup;
+    }
+
+    public HUDElement getElement(String tag) {
+        return elements.get(tag);
+    }
+
+    public SubScene getSubScene() {
+        return subScene;
+    }
+
     public void toggleHUD() {
         if (isShown) {
             HUDGroup.getChildren().clear();
@@ -80,6 +99,7 @@ public class HUDUtil {
         elements.put(element.getElementTag(), element);
         HUDGroup.getChildren().add(element.getGroup());
     }
+
     // adds a hud menu element to the hud menu group
     public void addMenuElement(HUDElement element) {
         elements.put(element.getElementTag(), element);

@@ -2,20 +2,20 @@ package app.structures.weapons;
 
 import app.environment.EnvironmentUtil;
 import app.player.AbsolutePoint3D;
-import app.structures.StructureBuilder;
-import app.structures.StructureProperties;
-import app.structures.objects.BaseStructure;
-import app.utils.Log;
+import app.structures.ObjectBuilder;
+import app.structures.ObjectProperties;
+import app.structures.objects.BaseObject;
+import app.structures.spawnables.utils.Log;
 import javafx.animation.AnimationTimer;
 
-public class Base_Projectile extends BaseStructure {
+public class Base_Projectile extends BaseObject {
     private static final String TAG = "ProjectileUtil";
 
     private final EnvironmentUtil context;
-    private final StructureBuilder object;
+    private final ObjectBuilder object;
     private double speed;
 
-    public Base_Projectile(EnvironmentUtil ctx, StructureBuilder obj) {
+    public Base_Projectile(EnvironmentUtil ctx, ObjectBuilder obj) {
         Log.d(TAG, "CONSTRUCTOR");
 
         context = ctx;
@@ -23,7 +23,7 @@ public class Base_Projectile extends BaseStructure {
 
         // Set default speed if not set by user
         setSpeed(5);
-        this.getProps().setPROPERTY_ITEM_TYPE(StructureProperties.TYPE_WEAPON);
+        this.getProps().setPROPERTY_ITEM_TYPE(ObjectProperties.TYPE_WEAPON);
     }
 
     public void setSpeed(double spd) {
