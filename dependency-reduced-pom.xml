@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>groupId</groupId>
-  <artifactId>307FinalProject</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <groupId>com.andreicozma</groupId>
+  <artifactId>infinibuilder</artifactId>
+  <version>1.0-public</version>
   <build>
     <finalName>307Proj</finalName>
     <plugins>
@@ -62,7 +62,7 @@
             </goals>
             <configuration>
               <groupId>com.interactivemesh.jfx.importer.obj</groupId>
-              <artifactId>example-app</artifactId>
+              <artifactId>model-importer</artifactId>
               <version>1.0</version>
               <packaging>jar</packaging>
               <file>${basedir}/lib/interactive-mesh/jim3dsModelImporterJFX.jar</file>

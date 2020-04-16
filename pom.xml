@@ -5,9 +5,9 @@
     <!-- Project configuration -->
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>groupId</groupId>
-    <artifactId>307FinalProject</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.andreicozma</groupId>
+    <artifactId>infinibuilder</artifactId>
+    <version>1.0-public</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -78,7 +78,7 @@
         </dependency>
         <dependency>
             <groupId>com.interactivemesh.jfx.importer.obj</groupId>
-            <artifactId>example-app</artifactId>
+            <artifactId>model-importer</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
@@ -161,7 +161,7 @@
                         </goals>
                         <configuration>
                             <groupId>com.interactivemesh.jfx.importer.obj</groupId>
-                            <artifactId>example-app</artifactId>
+                            <artifactId>model-importer</artifactId>
                             <version>1.0</version>
                             <packaging>jar</packaging>
                             <file>${basedir}/lib/interactive-mesh/jim3dsModelImporterJFX.jar</file>
