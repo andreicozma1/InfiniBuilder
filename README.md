@@ -2,6 +2,7 @@
 ![Game Screen Shot](/docs/img.png)
 
 - Andrei Cozma & Hunter Price  
+- Download Compiled .JAR: https://www.andreicozma.com/307  
 - Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 ## **INSTALLATION**
 #### 1. COMPILATION DEPENDENCIES:
