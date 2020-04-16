@@ -3,7 +3,7 @@
 
 - Andrei Cozma & Hunter Price  
 - Download Compiled .JAR: https://www.andreicozma.com/307  
-- Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
+- Feature List and Current Bug List on Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 ## **INSTALLATION**
 #### 1. COMPILATION DEPENDENCIES:
 - Java 11 - Check version using `java -version` or `./mvnw --version`
