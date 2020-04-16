@@ -1,8 +1,9 @@
 # InfiniBuilder
-### https://www.andreicozma.com/307
 ![Game Screen Shot](/docs/img.png)
+### https://www.andreicozma.com/307
 #### CS307 Final Project  
 - Andrei Cozma & Hunter Price  
+- Requirements: Java JDK 11+
 - Download Compiled .JAR: https://www.andreicozma.com/307  
 - Feature List and Current Bug List on Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
 ## **INSTALLATION FROM SOURCE**
