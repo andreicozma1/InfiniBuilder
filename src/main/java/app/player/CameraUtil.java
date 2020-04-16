@@ -76,11 +76,14 @@ public class CameraUtil {
         double upDownRot = newroty % 180; // mod the newroty value with 180 to keep the bounds within that range
 
         // camera bounds (so that the player can't rotate more than 90deg up or 90deg down
-        if (upDownRot < PROPERTY_ANGLE_BOUND_DOWN || upDownRot > PROPERTY_ANGLE_BOUND_UP) {
-            return;
+        if (upDownRot < PROPERTY_ANGLE_BOUND_DOWN){
+            ROTATION_Y = PROPERTY_ANGLE_BOUND_DOWN;
+        } else if (upDownRot > PROPERTY_ANGLE_BOUND_UP){
+            ROTATION_Y = PROPERTY_ANGLE_BOUND_UP;
+        } else{
+            ROTATION_Y = newroty;
         }
 
-        ROTATION_Y = newroty;
     }
 
     public int getFOVdefault() {
