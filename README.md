@@ -1,4 +1,5 @@
-# CS307 Final Project  
+# InfiniBuilder
+### CS307 Final Project  
 ![Game Screen Shot](/docs/img.png)
 
 - Andrei Cozma & Hunter Price  
