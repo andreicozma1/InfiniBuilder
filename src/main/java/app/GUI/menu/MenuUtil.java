@@ -552,7 +552,7 @@ public class MenuUtil {
                         context.getWindow().showScene(context.getWindow().getRootScene());
                         context.getComponents().getPlayer().reset();
                         context.getComponents().getPlayer().teleportRandom();
-                }
+                    }
                 });
         startHitBox.addEventHandler(MouseEvent.MOUSE_ENTERED,
                 new EventHandler<MouseEvent>() {
@@ -2020,7 +2020,7 @@ public class MenuUtil {
                 Color.WHITE,
                 title);
 
-        aboutMenu.drawText("*GAME TITLE*",
+        aboutMenu.drawText("INFIBUILDER",
                 50,
                 120,
                 Color.WHITE,
@@ -2074,10 +2074,10 @@ public class MenuUtil {
 
         // YOUTUBE LINK
         Hyperlink youtube = new Hyperlink();
-        youtube.setText("YouTube,");
+        youtube.setText("YouTube");
         youtube.setOnAction(e -> {
             try {
-                new ProcessBuilder("x-www-browser","https://www.youtube.com/").start();
+                new ProcessBuilder("x-www-browser","https://www.youtube.com/watch?v=7EdvB0KIoCE").start();
             }catch(Exception exception){
                 exception.printStackTrace();
             }
@@ -2087,22 +2087,6 @@ public class MenuUtil {
         youtube.setTranslateX(363);
         youtube.setTranslateY(160);
         aboutMenu.addNode(youtube);
-
-        // SCREENSHOTS LINK
-        Hyperlink screenShots = new Hyperlink();
-        screenShots.setText("Screenshots");
-        screenShots.setOnAction(e -> {
-            try {
-                new ProcessBuilder("x-www-browser","https://drive.google.com/").start();
-            }catch(Exception exception){
-                exception.printStackTrace();
-            }
-        });
-        screenShots.setBorder(Border.EMPTY);
-        screenShots.setFont(options);
-        screenShots.setTranslateX(487);
-        screenShots.setTranslateY(160);
-        aboutMenu.addNode(screenShots);
 
         // LANGUAGES
         aboutMenu.drawText("Languages: Java" ,
