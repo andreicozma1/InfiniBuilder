@@ -1,4 +1,5 @@
-# InfiniBuilder Public Release 1.0.  
+# InfiniBuilder
+### - Public Release 1.0.  
 - by Andrei Cozma & Hunter Price.  
 #### Website: www.andreicozma.com/307
 ## System Requirements:
