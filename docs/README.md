@@ -1,7 +1,7 @@
 # InfiniBuilder Public Release 1.0.  
 - by Andrei Cozma & Hunter Price.  
-####Website: www.andreicozma.com/307
-## ** System Requirements:
+#### Website: www.andreicozma.com/307
+## System Requirements:
 - Java 11+ (Download link on www.andreicozma.com/307)
 - Recommended 4GB of RAM
 
