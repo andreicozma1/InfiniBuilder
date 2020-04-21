@@ -1,4 +1,4 @@
-# InfiniBuilder Public Release.  
+# InfiniBuilder Public Release  
 - by Andrei Cozma & Hunter Price.  
 #### Website: www.andreicozma.com/307
 ## System Requirements:
