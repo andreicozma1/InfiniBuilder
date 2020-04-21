@@ -5,7 +5,7 @@
 - Developers: Andrei Cozma & Hunter Price  (CS307 Final Project)   
 - Execution Requirements: *Java JDK 11+*
 - Download Compiled .JAR: https://github.com/andreicozma1/InfiniBuilder/releases  
-## ABOUT:
+# ABOUT:
 ### Download & Feature Run-Trough Demo:
 - https://youtu.be/TODO
 ### Execution Instructions:
@@ -19,7 +19,7 @@
 - Falling and Swimming Physics Demo: https://youtu.be/jwQlcNfhsZA   
 - Maze Generation Demo - https://youtu.be/ASkL21km2gs   
 - Path Generation Demo - https://youtu.be/VD-9SN94J5o   
-## **BUILD FROM SOURCE**
+# **BUILD FROM SOURCE**
 #### 1. Compilation Dependencies:
 - Java 11 - Check version using `java -version` or `./mvnw --version`
 ```
@@ -41,7 +41,7 @@ https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 - Alternatively, double click the 307Proj.jar file generated in the 'target' folder
 ```
 
-## **DETAILED MANUAL INSTALLATIONS STEPS**
+# **DETAILED MANUAL INSTALLATIONS STEPS**
 ### Maven:
 - use the Maven Wrapper `./mvnw`  
 Otherwise install Maven (```sudo apt-get install maven```)
