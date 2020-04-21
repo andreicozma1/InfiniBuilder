@@ -1,7 +1,7 @@
 # InfiniBuilder
 ![Game Screen Shot](/docs/img.png)
 
-### https://www.andreicozma.com/307
+### Homepage: https://www.andreicozma.com/307
 #### CS307 Final Project  
 - Andrei Cozma & Hunter Price  
 - Requirements: *Java JDK 11+*
