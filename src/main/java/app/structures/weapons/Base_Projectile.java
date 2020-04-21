@@ -5,7 +5,7 @@ import app.player.AbsolutePoint3D;
 import app.structures.ObjectBuilder;
 import app.structures.ObjectProperties;
 import app.structures.objects.BaseObject;
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 import javafx.animation.AnimationTimer;
 
 public class Base_Projectile extends BaseObject {

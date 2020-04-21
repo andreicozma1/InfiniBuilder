@@ -7,7 +7,7 @@ import app.environment.EnvironmentUtil;
 import app.player.CameraUtil;
 import app.player.ControlsUtil;
 import app.player.PlayerUtil;
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.*;

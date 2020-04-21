@@ -1,8 +1,8 @@
 package app.environment;
 
 import app.GameBuilder;
-import app.structures.spawnables.utils.Log;
-import app.structures.spawnables.utils.ResourcesUtil;
+import app.utils.Log;
+import app.utils.ResourcesUtil;
 import javafx.geometry.Point3D;
 import javafx.scene.AmbientLight;
 import javafx.scene.DepthTest;

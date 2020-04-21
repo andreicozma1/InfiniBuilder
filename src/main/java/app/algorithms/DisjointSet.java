@@ -1,6 +1,6 @@
 package app.algorithms;
 
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 
 import java.util.ArrayList;
 

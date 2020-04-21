@@ -1,4 +1,4 @@
-package app.structures.spawnables.utils;
+package app.utils;
 
 import javafx.application.Application;
 import javafx.scene.image.Image;

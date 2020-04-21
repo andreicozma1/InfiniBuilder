@@ -1,5 +1,6 @@
 package app.GUI.HUD.HUDElements;
 
+import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -71,6 +72,7 @@ public class HUDElement {
      */
     public void addNode(Node node) {
         // adds the node to the added Group and adds the added group to the hudgroup
+        Log.d("FPS_COUNTER",node.toString());
         addedGroup.getChildren().add(node);
         group.getChildren().add(addedGroup);
     }

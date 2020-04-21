@@ -2,7 +2,7 @@ package app.structures.spawnables.maze;
 
 import app.algorithms.DisjointSet;
 import app.algorithms.Edge;
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,7 +3,7 @@ package app.player;
 import app.GUI.HUD.HUDElements.*;
 import app.GUI.HUD.HUDUtil;
 import app.GameBuilder;
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

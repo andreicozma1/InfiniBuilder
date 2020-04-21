@@ -1,6 +1,6 @@
 package app.GUI.HUD.HUDElements;
 
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;

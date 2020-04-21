@@ -1,4 +1,4 @@
-package app.structures.spawnables.utils;
+package app.utils;
 
 import app.GameBuilder;
 
@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 public class Log {
     // 0 1 2 3
-    public static boolean verbose = false;
+    public static boolean verbose = true;
 
     // error - prints if something goes wrong - important
     public static void e(String TAG, String message) {

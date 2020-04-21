@@ -2,11 +2,12 @@ package app.GUI.HUD;
 
 import app.GUI.HUD.HUDElements.*;
 import app.GameBuilder;
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.SubScene;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -248,5 +249,13 @@ public class HUDUtil {
         DeathMenu deathMenu = new DeathMenu(HUDUtil.DEATH, new Point2D(100, 200), context, 307, 205, context.getWindow().getWindowWidth(), context.getWindow().getWindowHeight());
         deathMenu.update();
         this.addMenuElement(deathMenu);
+
+        HUDElement fpsCounter = new HUDElement(HUDUtil.PLAYER_INFO, new Point2D(500,100));
+        Text t = new Text("I LIKE BITCHES W BIG TITTIES");
+        t.setX(500);
+        t.setY(100);
+        t.setFill(Color.RED);
+        fpsCounter.addNode(t);
+        this.addElement(fpsCounter);
     }
 }

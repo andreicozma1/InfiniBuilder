@@ -1,7 +1,7 @@
 package app.player;
 
 import app.GameBuilder;
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;

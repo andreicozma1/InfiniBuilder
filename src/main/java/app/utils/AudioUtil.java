@@ -1,4 +1,4 @@
-package app.structures.spawnables.utils;
+package app.utils;
 
 public class AudioUtil {
     /**

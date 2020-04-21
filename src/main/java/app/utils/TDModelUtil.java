@@ -1,4 +1,4 @@
-package app.structures.spawnables.utils;
+package app.utils;
 
 import app.structures.objects.BaseModel;
 import com.interactivemesh.jfx.importer.tds.TdsModelImporter;

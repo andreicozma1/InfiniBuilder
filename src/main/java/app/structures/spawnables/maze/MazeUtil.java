@@ -8,7 +8,7 @@ import app.structures.objects.BaseCylinder;
 import app.structures.objects.BaseSphere;
 import app.structures.objects.BaseObject;
 import app.structures.spawnables.SpawnableStructureBuilder;
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Material;
 

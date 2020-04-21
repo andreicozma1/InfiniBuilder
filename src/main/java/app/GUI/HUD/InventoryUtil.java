@@ -3,7 +3,7 @@ package app.GUI.HUD;
 import app.player.PlayerUtil;
 import app.structures.ObjectProperties;
 import app.structures.objects.BaseObject;
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;

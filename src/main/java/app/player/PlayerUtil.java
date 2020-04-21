@@ -12,7 +12,7 @@ import app.structures.ObjectBuilder;
 import app.structures.ObjectProperties;
 import app.structures.objects.BaseObject;
 import app.structures.weapons.Base_Projectile;
-import app.structures.spawnables.utils.Log;
+import app.utils.Log;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
