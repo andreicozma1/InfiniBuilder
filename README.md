@@ -2,8 +2,8 @@
 ![Game Screen Shot](/docs/img.png)
 
 ### Homepage: https://www.andreicozma.com/307
-- Andrei Cozma & Hunter Price  (CS307 Final Project)   
-- Requirements: *Java JDK 11+*
+- Developers: Andrei Cozma & Hunter Price  (CS307 Final Project)   
+- Execution Requirements: *Java JDK 11+*
 - Download Compiled .JAR: https://www.andreicozma.com/307  
 ## ABOUT:
 ### v0.1 Alpha -> v1.0.0 Public Relase
