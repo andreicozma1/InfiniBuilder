@@ -69,6 +69,11 @@ public class GameBuilder {
                     }
                     lastUpdate = now;
 
+
+                    if (getComponents().getEnvironment() != null) {
+                        getComponents().getEnvironment().update_handler();
+                    }
+
                     if(getInstantFPS() > 0){
                         if (((LoadingScreen)getComponents().getHUD().getElement(HUDUtil.LOADING_SCREEN)).isShown()){
                             ((LoadingScreen)getComponents().getHUD().getElement(HUDUtil.LOADING_SCREEN)).setShown(false);
@@ -93,11 +98,6 @@ public class GameBuilder {
                             ((LoadingScreen)getComponents().getHUD().getElement(HUDUtil.LOADING_SCREEN)).setShown(true);
                         }
                     }
-
-                    if (getComponents().getEnvironment() != null) {
-                        getComponents().getEnvironment().update_handler();
-                    }
-
                 }
             }
         };
