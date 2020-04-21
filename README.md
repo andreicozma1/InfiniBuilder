@@ -8,6 +8,8 @@
 ## ABOUT:
 ### Download & Feature Run-Trough Demo:
 - https://youtu.be/TODO
+### Execution Instructions:
+- Link: https://github.com/andreicozma1/InfiniBuilder/blob/master/docs/README.md
 ### v0.1 Alpha -> v1.0.0 Public Relase:
 - Full Feature List, Bug List, Developer Contributions, and Time Log are on our public Trello
 - Link: https://trello.com/b/ghb9XDRV/cs307-final-project  
