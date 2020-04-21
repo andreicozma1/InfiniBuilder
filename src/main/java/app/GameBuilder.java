@@ -1,6 +1,7 @@
 package app;
 
 import app.GUI.HUD.HUDElements.PauseMenu;
+import app.GUI.HUD.HUDElements.PlayerInfo;
 import app.GUI.HUD.HUDUtil;
 import app.GUI.menu.MenuUtil;
 import app.environment.EnvironmentUtil;
@@ -60,6 +61,7 @@ public class GameBuilder {
                     reading_frames++;
 
                     if (time_current - reading_last > 1000.0) {
+                        ((PlayerInfo) getComponents().UTIL_HUD.getElement(HUDUtil.PLAYER_INFO)).setFps(reading_frames);
                         Log.d(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + time_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
                         deltaT = 60.0 / reading_frames;
                         if (deltaT > 5) {
