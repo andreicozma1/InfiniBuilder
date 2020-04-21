@@ -2,8 +2,7 @@
 ![Game Screen Shot](/docs/img.png)
 
 ### Homepage: https://www.andreicozma.com/307
-#### CS307 Final Project  
-- Andrei Cozma & Hunter Price  
+- Andrei Cozma & Hunter Price  (CS307 Final Project)   
 - Requirements: *Java JDK 11+*
 - Download Compiled .JAR: https://www.andreicozma.com/307  
 ## ABOUT:
