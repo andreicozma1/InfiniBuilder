@@ -41,8 +41,8 @@ public class PlayerInfo extends HUDElement {
         Text fpsText = new Text("FPS: "+Integer.toString(fps));
         fpsText.setFont(Font.font("Monospaced", FontWeight.NORMAL, FontPosture.REGULAR, 25));
         fpsText.setFill(Color.RED);
-        fpsText.setX(getPos().getX());
-        fpsText.setY(getPos().getY());
+        fpsText.setX(context.getWindow().getWindowWidth()-130);
+        fpsText.setY(75);
         getGroup().getChildren().add(fpsText);
     }
 }
