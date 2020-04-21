@@ -1,16 +1,23 @@
 # InfiniBuilder
 ![Game Screen Shot](/docs/img.png)
-![Game Screen Recording 1](https://youtu.be/4PrfSI-VXnw)
-![Game Screen Recording 2](https://youtu.be/iRxEGaEeFj0)
-![Game Screen Recording 3](https://youtu.be/jwQlcNfhsZA)
-![Game Screen Recording 4](https://youtu.be/VD-9SN94J5o)
-![Game Screen Recording 5](https://youtu.be/ASkL21km2gs)
+
 ### https://www.andreicozma.com/307
 #### CS307 Final Project  
 - Andrei Cozma & Hunter Price  
 - Requirements: *Java JDK 11+*
 - Download Compiled .JAR: https://www.andreicozma.com/307  
-- Feature List and Current Bug List on Trello: https://trello.com/b/ghb9XDRV/cs307-final-project  
+## ABOUT:
+### v0.1 Alpha -> v1.0.0 Public Relase
+- Full Feature List, Bug List, Developer Contributions, and Time Log are on our public Trello
+- Link: https://trello.com/b/ghb9XDRV/cs307-final-project  
+## Download & Feature Run-Trough Demo
+- https://youtu.be/TODO
+## FEATURE CLIPS
+- https://youtu.be/4PrfSI-VXnw   
+- https://youtu.be/iRxEGaEeFj0   
+- https://youtu.be/jwQlcNfhsZA   
+- https://youtu.be/VD-9SN94J5o   
+- https://youtu.be/ASkL21km2gs   
 ## **INSTALLATION FROM SOURCE**
 #### 1. COMPILATION DEPENDENCIES:
 - Java 11 - Check version using `java -version` or `./mvnw --version`
