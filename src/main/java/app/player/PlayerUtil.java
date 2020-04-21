@@ -125,9 +125,6 @@ public class PlayerUtil {
     public void update_handler(double dt) {
         context.getComponents().getCamera().update_handler();
 
-        context.getComponents().getEnvironment().generateMap(getPositionX(), getPositionZ());
-        context.getComponents().getEnvironment().renderMap(getPositionX(), getPositionZ());
-
         // if player recently teleported randomly from ControlsUtil action, update the player's Y position to be above ground
         if (didTeleport && POSITION_Y == EnvironmentUtil.LIMIT_MAX) {
             POSITION_Y = context.getComponents().getEnvironment().getClosestGroundLevel(getPlayerPoint3D(), true) - getPlayerHeight();

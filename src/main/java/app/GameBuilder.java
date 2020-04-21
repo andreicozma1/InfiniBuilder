@@ -81,12 +81,13 @@ public class GameBuilder {
                         if (getComponents().getGameSceneControls() != null) {
                             getComponents().getGameSceneControls().update_handler(deltaT);
                         }
-                        if (getComponents().getEnvironment() != null) {
-                            getComponents().getEnvironment().update_handler();
-                        }
                         if (getComponents().getPlayer() != null) {
                             getComponents().getPlayer().update_handler(deltaT);
                         }
+                    }
+
+                    if (getComponents().getEnvironment() != null) {
+                        getComponents().getEnvironment().update_handler();
                     }
 
                 }
