@@ -4,9 +4,9 @@
 - *Homepage: https://www.andreicozma.com/307*
 - Developers: Andrei Cozma & Hunter Price  (CS307 Final Project)   
 - Execution Requirements: *Java JDK 11+*
-- Download Compiled .JAR: https://github.com/andreicozma1/InfiniBuilder/releases  
+- Download Compiled .JAR Executable: https://github.com/andreicozma1/InfiniBuilder/releases  
 # ABOUT:
-### Download & Feature Run-Trough Demo:
+### Download & Feature Run-Through Demo:
 - https://youtu.be/TODO
 ### Execution Instructions:
 - Link: https://github.com/andreicozma1/InfiniBuilder/blob/master/docs/README.md
