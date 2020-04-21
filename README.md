@@ -12,11 +12,11 @@
 ## Download & Feature Run-Trough Demo
 - https://youtu.be/TODO
 ## FEATURE CLIPS
-- https://youtu.be/4PrfSI-VXnw   
-- https://youtu.be/iRxEGaEeFj0   
-- https://youtu.be/jwQlcNfhsZA   
-- https://youtu.be/VD-9SN94J5o   
-- https://youtu.be/ASkL21km2gs   
+- Day-Night Cycle & Skybox Demo: https://youtu.be/4PrfSI-VXnw   
+- Infinite Terrain Generation Demo: https://youtu.be/iRxEGaEeFj0   
+- Falling and Swimming Physics Demo: https://youtu.be/jwQlcNfhsZA   
+- Maze Generation Demo - https://youtu.be/ASkL21km2gs   
+- Path Generation Demo - https://youtu.be/VD-9SN94J5o   
 ## **INSTALLATION FROM SOURCE**
 #### 1. COMPILATION DEPENDENCIES:
 - Java 11 - Check version using `java -version` or `./mvnw --version`
