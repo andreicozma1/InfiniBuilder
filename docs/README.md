@@ -14,6 +14,7 @@
 - Install Oracle Java JDK 11+ (Or OpenJDK 11+)
 - Double click on InfiniBuilder.jar to run without VM Options
 
+## Extra:
 ### ** For the best possible performance, run with Java VM Options:
 > java -jar -Xmx8192m -Xms2048m -Dprism.order=es2,es1,sw,j2d -Dprism.targetvram=2G -Dprism.maxTextureSize=1024 -Dprism.dirtyopts=true -Dquantum.multithreaded=true InfiniBuilder.jar
 
