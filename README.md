@@ -2,7 +2,7 @@
 
 - *Homepage: https://www.andreicozma.com/307*
 - Developers: Andrei Cozma & Hunter Price  (CS307 Final Project)   
-# ABOUT:
+# INFINIBUILDER:
 ### Download & Execution Instructions:
 - Feature Run-Through Demo: https://youtu.be/TODO
 - Execution Requirements: *Java JDK 11+*
