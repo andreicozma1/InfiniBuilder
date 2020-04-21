@@ -13,6 +13,7 @@
 - Full *Feature List, Bug List, Developer Contributions, and Time Log* are on our public Trello
 - Link: https://trello.com/b/ghb9XDRV/cs307-final-project  
 ### Feature Clips:
+- These are just a few of the features present in InfiniBuilder
 - Day-Night Cycle & Skybox Demo: https://youtu.be/4PrfSI-VXnw   
 - Infinite Terrain Generation Demo: https://youtu.be/iRxEGaEeFj0   
 - Falling and Swimming Physics Demo: https://youtu.be/jwQlcNfhsZA   
