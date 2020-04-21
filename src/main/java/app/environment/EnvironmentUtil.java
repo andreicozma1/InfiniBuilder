@@ -95,6 +95,9 @@ public class EnvironmentUtil {
      * Handler for the EnvironmentUtil class which contains instructions that must be executed every tick
      */
     public void update_handler() {
+        context.getComponents().getEnvironment().generateMap(context.getComponents().getPlayer().getPositionX(), context.getComponents().getPlayer().getPositionZ());
+        context.getComponents().getEnvironment().renderMap(context.getComponents().getPlayer().getPositionX(), context.getComponents().getPlayer().getPositionZ());
+
         if (UTIL_SKYBOX != null) {
             UTIL_SKYBOX.update_handler();
         }
