@@ -6,11 +6,11 @@
 - Execution Requirements: *Java JDK 11+*
 - Download Compiled .JAR: https://github.com/andreicozma1/InfiniBuilder/releases  
 ## ABOUT:
+### Download & Feature Run-Trough Demo:
+- https://youtu.be/TODO
 ### v0.1 Alpha -> v1.0.0 Public Relase:
 - Full Feature List, Bug List, Developer Contributions, and Time Log are on our public Trello
 - Link: https://trello.com/b/ghb9XDRV/cs307-final-project  
-### Download & Feature Run-Trough Demo:
-- https://youtu.be/TODO
 ### Feature Clips:
 - Day-Night Cycle & Skybox Demo: https://youtu.be/4PrfSI-VXnw   
 - Infinite Terrain Generation Demo: https://youtu.be/iRxEGaEeFj0   
