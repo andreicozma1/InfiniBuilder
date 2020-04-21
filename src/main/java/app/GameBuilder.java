@@ -73,7 +73,7 @@ public class GameBuilder {
                         if (((LoadingScreen)getComponents().getHUD().getElement(HUDUtil.LOADING_SCREEN)).isShown()){
                             ((LoadingScreen)getComponents().getHUD().getElement(HUDUtil.LOADING_SCREEN)).setShown(false);
                         }
-                        ((PlayerInfo) getComponents().UTIL_HUD.getElement(HUDUtil.PLAYER_INFO)).setFps((int)getInstantFPS());
+                        ((PlayerInfo) getComponents().UTIL_HUD.getElement(HUDUtil.PLAYER_INFO)).setFps((int)getAverageFPS());
                         deltaT = 60 / getAverageFPS();
 
                         if (GAME_EFFECTS.PROPERTY_IS_TRIPPY_MODE) {

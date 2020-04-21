@@ -1,17 +1,19 @@
-# InfiniBuilder Public Release.  
+# InfiniBuilder Public Release  
 - by Andrei Cozma & Hunter Price.  
 #### Website: www.andreicozma.com/307
 ## System Requirements:
 - Linux, MacOS, or Windows
-- Java 11+ (Download link on www.andreicozma.com/307)
+- *Java 11+ (Download link on www.andreicozma.com/307)*
 - Recommended 4GB of RAM
 
 ## Linux, MacOS:
 - Install Oracle Java JDK 11+ (Or OpenJDK 11+)
+- Ensure the files are set as executable: `chmod +x InfiniBuilder.jar execute.sh`
 - Run ./execute.sh to run with VM options
 - Alternatively, double click InfiniBuilder.jar to run without VM Options
 ## Windows:
 - Install Oracle Java JDK 11+ (Or OpenJDK 11+)
+- Ensure the .jar is set as executable
 - Double click on InfiniBuilder.jar to run without VM Options
 
 ## Extra:
