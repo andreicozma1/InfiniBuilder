@@ -3,7 +3,7 @@
 #### Website: www.andreicozma.com/307
 ## System Requirements:
 - Linux, MacOS, or Windows
-- Java 11+ (Download link on www.andreicozma.com/307)
+- *Java 11+ (Download link on www.andreicozma.com/307)*
 - Recommended 4GB of RAM
 
 ## Linux, MacOS:
