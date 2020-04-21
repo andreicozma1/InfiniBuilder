@@ -16,7 +16,8 @@
 - Infinite Terrain Generation Demo: https://youtu.be/iRxEGaEeFj0   
 - Falling and Swimming Physics Demo: https://youtu.be/jwQlcNfhsZA   
 - Maze Generation Demo - https://youtu.be/ASkL21km2gs   
-- Path Generation Demo - https://youtu.be/VD-9SN94J5o   
+- Path Generation Demo - https://youtu.be/VD-9SN94J5o
+
 # **BUILD FROM SOURCE**
 #### 1. Compilation Dependencies:
 - Java 11 - Check version using `java -version` or `./mvnw --version`
