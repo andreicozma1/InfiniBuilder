@@ -1,4 +1,3 @@
-# InfiniBuilder
 ![Game Screen Shot](/docs/img.png)
 
 - *Homepage: https://www.andreicozma.com/307*
