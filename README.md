@@ -9,7 +9,7 @@
 - Feature Run-Through Demo: https://youtu.be/TODO
 - Execution Instructions: https://github.com/andreicozma1/InfiniBuilder/blob/master/docs/README.md
 ### v0.1 Alpha -> v1.0.0 Public Relase:
-- Full Feature List, Bug List, Developer Contributions, and Time Log are on our public Trello
+- Full *Feature List, Bug List, Developer Contributions, and Time Log* are on our public Trello
 - Link: https://trello.com/b/ghb9XDRV/cs307-final-project  
 ### Feature Clips:
 - Day-Night Cycle & Skybox Demo: https://youtu.be/4PrfSI-VXnw   
