@@ -8,12 +8,12 @@
 
 ## Linux, MacOS:
 - Install Oracle Java JDK 11+ (Or OpenJDK 11+)
-- Ensure the files executable: `chmod +x InfiniBuilder.jar execute.sh`
+- Ensure the files are set as executable: `chmod +x InfiniBuilder.jar execute.sh`
 - Run ./execute.sh to run with VM options
 - Alternatively, double click InfiniBuilder.jar to run without VM Options
 ## Windows:
 - Install Oracle Java JDK 11+ (Or OpenJDK 11+)
-- Ensure the .jar is executable
+- Ensure the .jar is set as executable
 - Double click on InfiniBuilder.jar to run without VM Options
 
 ## Extra:
