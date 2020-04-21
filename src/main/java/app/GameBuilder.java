@@ -1,5 +1,6 @@
 package app;
 
+import app.GUI.HUD.HUDElements.LoadingScreen;
 import app.GUI.HUD.HUDElements.PauseMenu;
 import app.GUI.HUD.HUDElements.PlayerInfo;
 import app.GUI.HUD.HUDUtil;
@@ -69,6 +70,9 @@ public class GameBuilder {
                     lastUpdate = now;
 
                     if(getInstantFPS() > 0){
+                        if (((LoadingScreen)getComponents().getHUD().getElement(HUDUtil.LOADING_SCREEN)).isShown()){
+                            ((LoadingScreen)getComponents().getHUD().getElement(HUDUtil.LOADING_SCREEN)).setShown(false);
+                        }
                         ((PlayerInfo) getComponents().UTIL_HUD.getElement(HUDUtil.PLAYER_INFO)).setFps((int)getInstantFPS());
                         deltaT = 60 / getAverageFPS();
 
@@ -83,6 +87,10 @@ public class GameBuilder {
                         }
                         if (getComponents().getPlayer() != null) {
                             getComponents().getPlayer().update_handler(deltaT);
+                        }
+                    }else{
+                        if (!((LoadingScreen)getComponents().getHUD().getElement(HUDUtil.LOADING_SCREEN)).isShown()){
+                            ((LoadingScreen)getComponents().getHUD().getElement(HUDUtil.LOADING_SCREEN)).setShown(true);
                         }
                     }
 

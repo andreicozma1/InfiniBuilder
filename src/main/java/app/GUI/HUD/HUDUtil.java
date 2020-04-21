@@ -30,6 +30,7 @@ public class HUDUtil {
     public static final String PLAYER_INFO = "PLAYER_INFO";
     public static final String ITEM_INFO = "ITEM_INFO";
     public static final String MINIMAP = "MINIMAP";
+    public static final String LOADING_SCREEN = "LOADING_SCREEN";
     public static final String EDGE_BOTTOM = "edge_bottom";
     public static final String EDGE_TOP = "edge_top";
     public static final String EDGE_LEFT = "edge_left";
@@ -253,5 +254,9 @@ public class HUDUtil {
         PlayerInfo fpsCounter = new PlayerInfo(HUDUtil.PLAYER_INFO, new Point2D(830,75), context);
         fpsCounter.update();
         this.addElement(fpsCounter);
+        
+        LoadingScreen loadingScreen = new LoadingScreen(HUDUtil.LOADING_SCREEN,new Point2D(0,0),context);
+        loadingScreen.update();
+        this.addElement(loadingScreen);
     }
 }
