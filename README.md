@@ -11,14 +11,14 @@
 - Link: https://trello.com/b/ghb9XDRV/cs307-final-project  
 ### Download & Feature Run-Trough Demo
 - https://youtu.be/TODO
-### FEATURE CLIPS
+### Feature Clips
 - Day-Night Cycle & Skybox Demo: https://youtu.be/4PrfSI-VXnw   
 - Infinite Terrain Generation Demo: https://youtu.be/iRxEGaEeFj0   
 - Falling and Swimming Physics Demo: https://youtu.be/jwQlcNfhsZA   
 - Maze Generation Demo - https://youtu.be/ASkL21km2gs   
 - Path Generation Demo - https://youtu.be/VD-9SN94J5o   
 ## **INSTALLATION FROM SOURCE**
-#### 1. COMPILATION DEPENDENCIES:
+#### 1. Compilation Dependencies:
 - Java 11 - Check version using `java -version` or `./mvnw --version`
 ```
 > sudo add-apt-repository ppa:openjdk-r/ppa && sudo apt-get update && sudo apt-get install openjdk-11-jdk
@@ -27,31 +27,31 @@
 ```
 https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 ```
-#### 2. USE THE INSTALLATION SCRIPT:
+#### 2. Use the Installation Script:
 ```
 > ./install
 ```
 - This compiles and packages the program into a .JAR exacutable file in the `target` folder
 
-#### 3. EXECUTION:
+#### 3. Execution:
 ```
 > ./execute
 - Alternatively, double click the 307Proj.jar file generated in the 'target' folder
 ```
 
 ## **DETAILED MANUAL INSTALLATIONS STEPS**
-### MAVEN:
+### Maven:
 - use the Maven Wrapper `./mvnw`  
 Otherwise install Maven (```sudo apt-get install maven```)
 
-### INSTALL INCLUDED PROJECT DEPENDENCIES:   
+### Install Included Project Dependencies:   
 ```
 	> ./mvnw validate
 ```
 
-### COMPILATION & INSTALLATION:  
+### Compilation & Installation:  
 
-#### OPTION 1:  
+#### Option 1:  
 1. COMPILE  
 ```
 	> ./mvnw clean // delete compiled files, optional  
@@ -65,7 +65,7 @@ Otherwise install Maven (```sudo apt-get install maven```)
 (or)  
 	> ./mvnw exec:java  
 ```
-#### OPTION 2:  
+#### Option 2:  
 1. PACKAGE  
 ```
 	> ./mvnw clean // delete compiled files, optional  
@@ -77,7 +77,7 @@ Otherwise install Maven (```sudo apt-get install maven```)
 ```
 	> java -jar target/307Proj.jar  
 ```
-#### OPTION 3:  
+#### Option 3:  
 1. INSTALL  
 ```
 	> ./mvnw install // Compiles & Packages & Install into Local Repository  
