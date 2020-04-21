@@ -69,7 +69,7 @@ public class GameBuilder {
                     lastUpdate = now;
 
                     if(getInstantFPS() > 0){
-                        ((PlayerInfo) getComponents().UTIL_HUD.getElement(HUDUtil.PLAYER_INFO)).setFps((int)getInstantFPS());
+                        ((PlayerInfo) getComponents().UTIL_HUD.getElement(HUDUtil.PLAYER_INFO)).setFps((int)getAverageFPS());
                         deltaT = 60 / getAverageFPS();
 
                         if (GAME_EFFECTS.PROPERTY_IS_TRIPPY_MODE) {
