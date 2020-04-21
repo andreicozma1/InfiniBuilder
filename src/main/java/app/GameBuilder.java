@@ -23,10 +23,13 @@ public class GameBuilder {
     private static final String TAG = "GameBuilder";
     public static long time_current = System.currentTimeMillis();
     private final AnimationTimer GAME_ANIMATION_TIMER;
-    private long TOTAL_RUNTIME = 0;
     private GameFX GAME_EFFECTS;
     private GameComponents GAME_COMPONENTS;
     private GameWindow GAME_WINDOW;
+
+    private static long lastUpdate = 0;
+    private static int index = 0;
+    private static double[] frameRates = new double[100];
 
     /**
      * GameBuilder constructor takes in the primaryStage from MainExecution
@@ -49,8 +52,6 @@ public class GameBuilder {
         // Primary Game-Loop, which runs at 60FPS and is meant to handle
         // all operations that need to be calculated every tick
         GAME_ANIMATION_TIMER = new AnimationTimer() {
-            long reading_last = 0;
-            int reading_frames = 0;
             double deltaT = 0;
 
             @Override
@@ -58,38 +59,60 @@ public class GameBuilder {
                 time_current = System.currentTimeMillis();
                 if (!((PauseMenu) getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
 
-                    reading_frames++;
+                    if (lastUpdate > 0)
+                    {
+                        long nanosElapsed = now - lastUpdate;
+                        double frameRate = 1000000000.0 / nanosElapsed;
+                        index %= frameRates.length;
+                        frameRates[index++] = frameRate;
+                    }
+                    lastUpdate = now;
 
-                    if (time_current - reading_last > 1000.0) {
-                        ((PlayerInfo) getComponents().UTIL_HUD.getElement(HUDUtil.PLAYER_INFO)).setFps(reading_frames);
-                        Log.d(TAG, "HEARTBEAT -> " + TOTAL_RUNTIME + "(" + time_current + ") -> FPS: " + reading_frames + " -> DeltaT: " + deltaT);
-                        deltaT = 60.0 / reading_frames;
-                        if (deltaT > 5) {
-                            deltaT = 1;
+                    if(getInstantFPS() > 0){
+                        ((PlayerInfo) getComponents().UTIL_HUD.getElement(HUDUtil.PLAYER_INFO)).setFps((int)getInstantFPS());
+                        deltaT = 60 / getAverageFPS();
+
+                        if (GAME_EFFECTS.PROPERTY_IS_TRIPPY_MODE) {
+                            getEffects().EFFECT_COLOR_ADJUST.setHue(Math.sin(time_current / 1000.0));
+                            getEffects().EFFECT_COLOR_ADJUST.setContrast((Math.sin(time_current / 15000.0)) / 5);
+                            getEffects().EFFECT_BLOOM.setThreshold(Math.sin(time_current / 5000.0) / 2 + 1);
                         }
-                        reading_last = time_current;
-                        reading_frames = 0;
-                        TOTAL_RUNTIME++;
+
+                        if (getComponents().getGameSceneControls() != null) {
+                            getComponents().getGameSceneControls().update_handler(deltaT);
+                        }
+                        if (getComponents().getEnvironment() != null) {
+                            getComponents().getEnvironment().update_handler();
+                        }
+                        if (getComponents().getPlayer() != null) {
+                            getComponents().getPlayer().update_handler(deltaT);
+                        }
                     }
 
-                    if (GAME_EFFECTS.PROPERTY_IS_TRIPPY_MODE) {
-                        getEffects().EFFECT_COLOR_ADJUST.setHue(Math.sin(time_current / 1000.0));
-                        getEffects().EFFECT_COLOR_ADJUST.setContrast((Math.sin(time_current / 15000.0)) / 5);
-                        getEffects().EFFECT_BLOOM.setThreshold(Math.sin(time_current / 5000.0) / 2 + 1);
-                    }
-
-                    if (getComponents().getGameSceneControls() != null) {
-                        getComponents().getGameSceneControls().update_handler(deltaT);
-                    }
-                    if (getComponents().getEnvironment() != null) {
-                        getComponents().getEnvironment().update_handler();
-                    }
-                    if (getComponents().getPlayer() != null) {
-                        getComponents().getPlayer().update_handler(deltaT);
-                    }
                 }
             }
         };
+    }
+
+    public static double getInstantFPS()
+    {
+        return frameRates[index % frameRates.length];
+    }
+
+    /**
+     * Returns the average FPS for the last 100 frames rendered.
+     * @return
+     */
+    public static double getAverageFPS()
+    {
+        double total = 0.0d;
+
+        for (int i = 0; i < frameRates.length; i++)
+        {
+            total += frameRates[i];
+        }
+
+        return total / frameRates.length;
     }
 
     /**
