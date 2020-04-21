@@ -5,10 +5,9 @@
 - Execution Requirements: *Java JDK 11+*
 - Download Compiled .JAR Executable: https://github.com/andreicozma1/InfiniBuilder/releases  
 # ABOUT:
-### Download & Feature Run-Through Demo:
-- https://youtu.be/TODO
-### Execution Instructions:
-- Link: https://github.com/andreicozma1/InfiniBuilder/blob/master/docs/README.md
+### Download & Execution Instructions:
+- Feature Run-Through Demo: https://youtu.be/TODO
+- Execution Instructions: https://github.com/andreicozma1/InfiniBuilder/blob/master/docs/README.md
 ### v0.1 Alpha -> v1.0.0 Public Relase:
 - Full Feature List, Bug List, Developer Contributions, and Time Log are on our public Trello
 - Link: https://trello.com/b/ghb9XDRV/cs307-final-project  
