@@ -250,12 +250,8 @@ public class HUDUtil {
         deathMenu.update();
         this.addMenuElement(deathMenu);
 
-        HUDElement fpsCounter = new HUDElement(HUDUtil.PLAYER_INFO, new Point2D(500,100));
-        Text t = new Text("I LIKE BITCHES W BIG TITTIES");
-        t.setX(500);
-        t.setY(100);
-        t.setFill(Color.RED);
-        fpsCounter.addNode(t);
+        PlayerInfo fpsCounter = new PlayerInfo(HUDUtil.PLAYER_INFO, new Point2D(830,75), context);
+        fpsCounter.update();
         this.addElement(fpsCounter);
     }
 }

@@ -828,7 +828,7 @@ public class PlayerUtil {
         Log.d(TAG, "takeDamage() -> Took " + d + " damage");
         getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() - d);
 
-        if (getHealthBar().getCurrStatus() < 0) {
+        if (getHealthBar().getCurrStatus() == 0) {
             die();
         }
     }

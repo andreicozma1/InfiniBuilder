@@ -2,6 +2,11 @@ package app.GUI.HUD.HUDElements;
 
 import app.GameBuilder;
 import javafx.geometry.Point2D;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 /**
  * Player info is a hud element that will display the players information
@@ -9,7 +14,7 @@ import javafx.geometry.Point2D;
 public class PlayerInfo extends HUDElement {
     // global variables
     private final GameBuilder context;
-    private double fps;
+    private int fps=0;
 
     public PlayerInfo(String elementTag,
                       Point2D pos,
@@ -18,15 +23,23 @@ public class PlayerInfo extends HUDElement {
         this.context = context;
     }
 
-    // getters
+    // getter
+    public int getFps(){ return fps; }
 
     // setters
-    public void setFps(double fps){ this.fps = fps; }
+    public void setFps(int fps){ this.fps = fps; }
 
 
 
     @Override
     public void update() {
         getGroup().getChildren().clear();
+
+        Text fpsText = new Text("FPS: "+Integer.toString(fps));
+        fpsText.setFont(Font.font("Monospaced", FontWeight.NORMAL, FontPosture.REGULAR, 25));
+        fpsText.setFill(Color.RED);
+        fpsText.setX(getPos().getX());
+        fpsText.setY(getPos().getY());
+        getGroup().getChildren().add(fpsText);
     }
 }
