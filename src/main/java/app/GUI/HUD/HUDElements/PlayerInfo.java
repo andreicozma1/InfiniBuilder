@@ -27,7 +27,10 @@ public class PlayerInfo extends HUDElement {
     public int getFps(){ return fps; }
 
     // setters
-    public void setFps(int fps){ this.fps = fps; }
+    public void setFps(int fps){
+        this.fps = fps;
+        update();
+    }
 
 
 
