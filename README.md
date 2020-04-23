@@ -39,7 +39,7 @@ https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 #### 3. Execution:
 ```
 > ./execute
-- Alternatively, double click the 307Proj.jar file generated in the 'target' folder
+- Alternatively, run `java -jar target/InfiniBuilder.jar` or double click the InfiniBuilder.jar file generated in the 'target' folder
 ```
 
 # **BUILD FROM SOURCE (MANUAL)**
