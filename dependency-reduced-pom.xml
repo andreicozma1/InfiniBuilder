@@ -82,7 +82,7 @@
               <repository>InfiniBuilder</repository>
               <server>github-oauth</server>
               <tagName>v${project.version}</tagName>
-              <name>${project.build.finalName} - ${project.version}</name>
+              <name>${project.build.finalName} v${project.version}</name>
               <targetCommitish>master</targetCommitish>
               <body>Requires Java JDK ${maven.compiler.source}+.
                                 Download ${project.build.finalName}.jar and run execute.sh for the best performance.
