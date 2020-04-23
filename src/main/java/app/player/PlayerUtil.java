@@ -415,7 +415,7 @@ public class PlayerUtil {
             }
 
             // if the player is more than a block above the ground , set onGround = false;
-            if ((POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * 1.5) {
+            if (isOnGround && -(POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * 1.5) {
                 isOnGround = false;
             }
             // handle falling FOV increase
