@@ -42,7 +42,7 @@ https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 - Alternatively, double click the 307Proj.jar file generated in the 'target' folder
 ```
 
-# **DETAILED MANUAL BUILD STEPS**
+# **BUILD FROM SOURCE (MANUAL)**
 ### Maven:
 - use the Maven Wrapper `./mvnw`  
 Otherwise install Maven (```sudo apt-get install maven```)
