@@ -4,8 +4,8 @@
 - Developers: Andrei Cozma & Hunter Price  (CS307 Final Project)   
 # INFINIBUILDER:
 ### Download & Execution Instructions:
-- Feature Run-Through Demo: https://youtu.be/TODO
 - Execution Requirements: *Java JDK 11+*
+- Feature Run-Through Demo: https://youtu.be/TODO
 - Execution Instructions: https://github.com/andreicozma1/InfiniBuilder/blob/master/docs/README.md
 - Download the Latest Release: https://github.com/andreicozma1/InfiniBuilder/releases  
 ### Development Tracker:
