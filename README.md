@@ -1,6 +1,6 @@
 ![Game Screen Shot](/docs/img.png)
 
-- *Homepage: https://www.andreicozma.com/307*
+- *Homepage: www.andreicozma.com/307*
 - Developers: Andrei Cozma & Hunter Price  (CS307 Final Project)   
 # INFINIBUILDER:
 ### Download & Execution Instructions:
