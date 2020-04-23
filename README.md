@@ -64,8 +64,6 @@ Otherwise install Maven (```sudo apt-get install maven```)
 ```
 2. RUN 
 ```
-	> ./mvnw javafx:run  
-(or)  
 	> ./mvnw exec:java  
 ```
 #### Option 2:  
@@ -78,7 +76,9 @@ Otherwise install Maven (```sudo apt-get install maven```)
 ```
 2. RUN  
 ```
-	> java -jar target/307Proj.jar  
+	> java -jar target/InfiniBuilder.jar  
+(or)
+	> ./execute
 ```
 #### Option 3:  
 1. INSTALL  
@@ -89,7 +89,7 @@ Otherwise install Maven (```sudo apt-get install maven```)
 ```
 2. RUN with either of the Run options described above  
 
-#### MAVEN LIFECYCLE:  
+#### EXTRA: MAVEN LIFECYCLE  
 Usage: `> ./mvnw command`  
 1. process-resources
 2. compile
