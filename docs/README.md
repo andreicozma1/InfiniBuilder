@@ -1,6 +1,7 @@
-# InfiniBuilder Public Release  
+# InfiniBuilder Public Release  - Execution Instructions 
 - by Andrei Cozma & Hunter Price.  
 #### Website: www.andreicozma.com/307
+#### Installation Run-Through Video: https://youtu.be/ggAXd36MmdI
 ## System Requirements:
 - Linux, MacOS, or Windows
 - *Java 11+ (Download link on www.andreicozma.com/307)*
