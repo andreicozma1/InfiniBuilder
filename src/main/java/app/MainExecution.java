@@ -60,6 +60,7 @@ public class MainExecution extends Application {
         addMazes();
         addPaths();
         addGrapher();
+        addPyramid();
         addAllBlocks();
 
 //        PyramidUtil pyramid = new PyramidUtil(game.getComponents().getEnvironment().getBlockDim(), 10, ResourcesUtil.dirt);
@@ -154,6 +155,17 @@ public class MainExecution extends Application {
 
         // Add created structures to the player's inventory
         GAME.getComponents().getPlayer().getInventoryUtil().addItem(grapherItem, 99);
+    }
+
+    /**
+     * For future use
+     */
+    public void addPyramid(){
+//        double rad = GAME.getComponents().getEnvironment().getBlockDim() / 3.0;
+//        double height = GAME.getComponents().getEnvironment().getBlockDim();
+//        PyramidUtil pyramid = new PyramidUtil(20,10,ResourcesUtil.lava_01);
+//        SpawnableStructureItem item = new SpawnableStructureItem(pyramid, new BaseCylinder("Pyramid", ResourcesUtil.stone_path_02, rad, height));
+//        GAME.getComponents().getPlayer().getInventoryUtil().addItem(item, 99);
     }
 
     /**

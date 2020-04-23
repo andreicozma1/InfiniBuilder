@@ -1,7 +1,16 @@
 package app.structures.spawnables.pyramid;
 
 /*
-public class PyramidUtil implements SpawnableStructure {
+import app.GameBuilder;
+import app.player.AbsolutePoint2D;
+import app.player.AbsolutePoint3D;
+import app.structures.objects.BaseCube;
+import app.structures.spawnables.SpawnableStructureBuilder;
+import app.utils.Log;
+import javafx.geometry.Point2D;
+import javafx.scene.paint.Material;
+
+public class PyramidUtil extends SpawnableStructureBuilder {
 
     private static final String TAG = "PyramidUtil";
 
@@ -20,10 +29,11 @@ public class PyramidUtil implements SpawnableStructure {
     }
 
 
+
     @Override
-    public void build(GameBuilder context) {
+    public void build(GameBuilder gameBuilder) {
         int i, j, k;
-        Point2D pos = context.getComponents().getPlayer().getPoint2D();
+        Point2D pos = gameBuilder.getComponents().getPlayer().getPlayerPoint2D();
         double height;
         double startingX = pos.getX();
         double startingZ = pos.getY();
@@ -41,7 +51,8 @@ public class PyramidUtil implements SpawnableStructure {
             for (k = 0; k < baseSideSize; k++) {
                 double x_pos = startingX + j * cellDim;
                 double y_pos = startingZ + k * cellDim;
-                double new_height = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(x_pos, y_pos);
+                double hi = gameBuilder.getComponents().getEnvironment().getClosestGroundLevel(new AbsolutePoint2D(x_pos, y_pos),true);
+
                 if (new_height < min_height) {
                     min_height = new_height;
                 }
@@ -63,13 +74,13 @@ public class PyramidUtil implements SpawnableStructure {
                 for (k = i; k < baseSideSize - i; k++) {
                     double x_pos = startingX + j * cellDim;
                     double y_pos = startingZ + k * cellDim;
-                    double hi = context.getComponents().getEnvironment().getTerrainYfromPlayerXYZ(x_pos, y_pos);
+                    double hi = gameBuilder.getComponents().getEnvironment().getClosestGroundLevel(new AbsolutePoint2D(x_pos, y_pos),true);
 
                     Log.d(TAG,j + "  " + k + " CURRENT " + hi + "   DIFF " + (min_height - (i+1) * cellDim));
 
                     if(hi >  max_height - (i + 1) * cellDim) {
                         Log.d(TAG,"PLACED");
-                        Base_Cube cube = new Base_Cube("Maze Wall", cellDim, cellDim, cellDim);
+                        BaseCube cube = new BaseCube("Maze Wall", cellDim, cellDim, cellDim);
                         cube.getProps().setPROPERTY_DESTRUCTIBLE(false);
                         cube.getShape().setMaterial(pyramidMaterial);
                         block_map.put(new Point2D(x_pos, y_pos), cube);

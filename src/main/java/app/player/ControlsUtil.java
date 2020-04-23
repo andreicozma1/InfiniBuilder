@@ -312,10 +312,6 @@ public class ControlsUtil {
         return (DeathMenu) context.getComponents().getHUD().getElement(HUDUtil.DEATH);
     }
 
-    public Scene getControllerForScene(Scene scn) {
-        return scn;
-    }
-
     public void reset() {
         Log.d(TAG, "reset()");
         pressed.clear();

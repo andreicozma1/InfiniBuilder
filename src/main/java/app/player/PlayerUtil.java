@@ -247,7 +247,7 @@ public class PlayerUtil {
         }
 
         // STATUS BAR HANDLING
-        if (getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus() / 2 && getHungerBar().getCurrStatus() > getHungerBar().getMaxStatus() / 2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus()) {
+        if (getStaminaBar().getCurrStatus() > getStaminaBar().getMaxStatus() / 2 && getHungerBar().getCurrStatus() > getHungerBar().getMaxStatus() / 2 && getHealthBar().getCurrStatus() != getHealthBar().getMaxStatus() && getStaminaBar().getCurrStatus() != getStaminaBar().getMaxStatus()) {
             // Regenerate health if stamina > half
             getHealthBar().setCurrStatus(getHealthBar().getCurrStatus() + PROPERTY_STATUS_HEALTH_REGEN_SPD * dt);
         }
@@ -300,7 +300,6 @@ public class PlayerUtil {
                 // remove the item from the inventory
                 UTIL_INVENTORY.popCurrentItem();
                 // perform an animation (this also updates the holding group)
-                performPlaceAnimation();
 
                 // create projectile object based off the duplicate we created
                 Base_Projectile proj = new Base_Projectile(context.getComponents().getEnvironment(), duplicate);
@@ -308,9 +307,11 @@ public class PlayerUtil {
                 // TODO - make this shoot speed variable through a setter
                 proj.setSpeed(10);
                 proj.shoot();
+
+                performPlaceAnimation();
             } else {
                 // if attempting to shoot nothing, it hides the holding group
-                updateHoldingGroup(false);
+                updateHoldingGroup(true);
             }
         }
 
@@ -415,12 +416,13 @@ public class PlayerUtil {
             }
 
             // if the player is more than a block above the ground , set onGround = false;
-            if (isOnGround && -(POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * 1.5) {
+            if (-(POSITION_Y - ground_level) > context.getComponents().getEnvironment().getBlockDim() * 2) {
                 isOnGround = false;
             }
+
             // handle falling FOV increase
             if (!isOnGround && !isRunning && !isFlyMode && !isUnderWater) {
-                if (context.getComponents().getCamera().getCamera().getFieldOfView() < 100) {
+                if (context.getComponents().getCamera().getCamera().getFieldOfView() < context.getComponents().getCamera().getFOVdefault() * 2) {
                     context.getComponents().getCamera().getCamera().setFieldOfView(context.getComponents().getCamera().getFOVdefault() + val * 5);
                     if (context.getEffects().getMotionBlurEnabled()) {
                         context.getEffects().EFFECT_MOTION_BLUR.setRadius(context.getEffects().EFFECT_MOTION_BLUR.getRadius() + val / 2);
@@ -598,6 +600,7 @@ public class PlayerUtil {
         isOnGround = true;
         // reset our fall velocity
         speed_fall_initial = 0;
+        // reshows player holding item when on ground
     }
 
     public double getPositionX() {
@@ -909,10 +912,10 @@ public class PlayerUtil {
 
         if (!inventoryItem.getProps().getPROPERTY_ITEM_TAG().equals(ObjectProperties.UNDEFINED_TAG)) {
 
-
             if (ANIMATION_SWITCH != null) {
                 ANIMATION_SWITCH.stop();
             }
+
             ANIMATION_SWITCH = new AnimationTimer() {
                 long animation_start = -1;
                 boolean finished = false;
@@ -957,30 +960,33 @@ public class PlayerUtil {
     }
 
     public void performPlaceAnimation() {
-
-        if (ANIMATION_PLACE != null) {
-            ANIMATION_PLACE.stop();
-        }
-        ANIMATION_PLACE = new AnimationTimer() {
-            long animation_start = -1;
-
-            @Override
-            public void handle(long l) {
-                if (animation_start == -1) {
-                    animation_start = l;
-                }
-                double angle = (Math.cos((l - animation_start) / 150000000.0)) * 25;
-                GROUP_ROTATE_LEFT_RIGHT.setAngle(GROUP_ROTATE_LEFT_RIGHT.getAngle() + angle);
-                GROUP_ROTATE_UP_DOWN.setAngle(GROUP_ROTATE_UP_DOWN.getAngle() + angle);
-                if (angle <= -.01) {
-                    this.stop();
-                    animation_start = -1;
-                }
+        context.getComponents().getHUD().getElement(HUDUtil.INVENTORY).update();
+        BaseObject inventoryItem = UTIL_INVENTORY.getCurrentItem();
+        if (!inventoryItem.getProps().getPROPERTY_ITEM_TAG().equals(ObjectProperties.UNDEFINED_TAG)) {
+            if (ANIMATION_PLACE != null) {
+                ANIMATION_PLACE.stop();
             }
-        };
-        ANIMATION_PLACE.start();
+            ANIMATION_PLACE = new AnimationTimer() {
+                long animation_start = -1;
 
-        updateHoldingGroup(false);
+                @Override
+                public void handle(long l) {
+                    if (animation_start == -1) {
+                        animation_start = l;
+                    }
+                    double angle = (Math.cos((l - animation_start) / 150000000.0)) * 25;
+                    GROUP_ROTATE_LEFT_RIGHT.setAngle(GROUP_ROTATE_LEFT_RIGHT.getAngle() + angle);
+                    GROUP_ROTATE_UP_DOWN.setAngle(GROUP_ROTATE_UP_DOWN.getAngle() + angle);
+                    if (angle <= -.01) {
+                        this.stop();
+                        animation_start = -1;
+                    }
+                }
+            };
+            ANIMATION_PLACE.start();
+        } else{
+            HOLDING_GROUP.getChildren().clear();
+        }
     }
 
     /**

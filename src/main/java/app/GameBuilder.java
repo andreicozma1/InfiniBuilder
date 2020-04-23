@@ -58,6 +58,7 @@ public class GameBuilder {
             @Override
             public void handle(long now) {
                 time_current = System.currentTimeMillis();
+
                 if (!((PauseMenu) getComponents().getHUD().getElement(HUDUtil.PAUSE)).isPaused()) {
 
                     if (lastUpdate > 0)
