@@ -4,7 +4,7 @@
 #### Installation Run-Through Video: https://youtu.be/ggAXd36MmdI
 ## System Requirements:
 - Linux, MacOS, or Windows
-- *Java 11+ (Download link on www.andreicozma.com/307)*
+- *Java 11+ (Download link on the website)*
 - Recommended 4GB of RAM
 
 ## Linux, MacOS:
