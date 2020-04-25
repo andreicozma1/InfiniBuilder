@@ -24,7 +24,7 @@
 #### 1. Compilation Dependencies:
 - Java 11 - Check version using `java -version` or `./mvnw --version`
 ```
-> sudo add-apt-repository ppa:openjdk-r/ppa && sudo apt-get update && sudo apt-get install openjdk-11-jdk
+sudo add-apt-repository ppa:openjdk-r/ppa && sudo apt-get update && sudo apt-get install openjdk-11-jdk
 ```
 - Java 11 Download link for Windows/Mac/Linux
 ```
@@ -32,13 +32,13 @@ https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 ```
 #### 2. Use the Installation Script:
 ```
-> ./install
+./install
 ```
 - This compiles and packages the program into a .JAR exacutable file in the `target` folder
 
 #### 3. Execution:
 ```
-> ./execute
+./execute
 - Alternatively, run `java -jar target/InfiniBuilder.jar` or double click the InfiniBuilder.jar file generated in the 'target' folder
 ```
 
