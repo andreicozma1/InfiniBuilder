@@ -49,7 +49,7 @@ Otherwise install Maven (```sudo apt-get install maven```)
 
 ### Install Included Project Dependencies:   
 ```
-	> ./mvnw validate
+./mvnw validate
 ```
 
 ### Compilation & Installation:  
@@ -57,35 +57,35 @@ Otherwise install Maven (```sudo apt-get install maven```)
 #### Option 1:  
 1. COMPILE  
 ```
-	> ./mvnw clean // delete compiled files, optional  
-	> ./mvnw compile // compile source code  
+./mvnw clean // delete compiled files, optional  
+./mvnw compile // compile source code  
 (or)  
-	> ./mvnw clean compile // do both  
+./mvnw clean compile // do both  
 ```
 2. RUN 
 ```
-	> ./mvnw exec:java  
+./mvnw exec:java  
 ```
 #### Option 2:  
 1. PACKAGE  
 ```
-	> ./mvnw clean // delete compiled files, optional  
-	> ./mvnw package // Compiles & Packages JAR inside "target" folder  
+./mvnw clean // delete compiled files, optional  
+./mvnw package // Compiles & Packages JAR inside "target" folder  
 (or)  
-	> ./mvnw clean package // do both  
+./mvnw clean package // do both  
 ```
 2. RUN  
 ```
-	> java -jar target/InfiniBuilder.jar  
+java -jar target/InfiniBuilder.jar  
 (or)
-	> ./execute
+./execute
 ```
 #### Option 3:  
 1. INSTALL  
 ```
-	> ./mvnw install // Compiles & Packages & Install into Local Repository  
+./mvnw install // Compiles & Packages & Install into Local Repository  
 (or)  
-	> ./mvnw clean install // Cleans and Installs  
+./mvnw clean install // Cleans and Installs  
 ```
 2. RUN with either of the Run options described above  
 
